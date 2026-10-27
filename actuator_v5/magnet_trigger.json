@@ -1,0 +1,67 @@
+{
+  "thresholds_mT": {
+    "BOP": {
+      "min": 3.0,
+      "typ": 6.9,
+      "max": 12.0
+    },
+    "BRP": {
+      "min": 1.0,
+      "typ": 3.5,
+      "max": 5.0
+    },
+    "source": "TI DRV5033 datasheet, AJ option"
+  },
+  "cases": {
+    "nominal (N35, element 0.75 mm deep)": {
+      "br_T": 1.2,
+      "magnet_face_to_element_mm": 2.2,
+      "peak_mT": 97.8,
+      "reverse_lobe_peak_mT": -2.45,
+      "operate_offset_mm": {
+        "min": 4.25,
+        "typ": 3.85,
+        "max": 3.45
+      },
+      "release_offset_mm": {
+        "min": 4.65,
+        "typ": 4.25,
+        "max": 4.05
+      }
+    },
+    "weak (N35 low, element 1.0 mm deep)": {
+      "br_T": 1.15,
+      "magnet_face_to_element_mm": 2.45,
+      "peak_mT": 79.0,
+      "reverse_lobe_peak_mT": -1.89,
+      "operate_offset_mm": {
+        "min": 4.45,
+        "typ": 3.9,
+        "max": 3.45
+      },
+      "release_offset_mm": {
+        "min": 4.9,
+        "typ": 4.4,
+        "max": 4.2
+      }
+    },
+    "strong (N42, element 0.5 mm deep)": {
+      "br_T": 1.32,
+      "magnet_face_to_element_mm": 1.95,
+      "peak_mT": 128.1,
+      "reverse_lobe_peak_mT": -3.4,
+      "operate_offset_mm": {
+        "min": 7.45,
+        "typ": 3.75,
+        "max": 3.45
+      },
+      "release_offset_mm": {
+        "min": 4.4,
+        "typ": 4.1,
+        "max": 3.95
+      }
+    }
+  },
+  "design_hall_lead_mm": 3.799999999999997,
+  "note": "Offsets are the distance between magnet centre and Hall centre along the actuator axis at which the output switches. Operate = output goes low (direction blocked). Mount each Hall this far outboard of the wanted end position, then calibrate. Reverse lobe stays below BOP min in all cases, so no false trigger before the main lobe. Steel screw/nut not modelled."
+}

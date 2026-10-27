@@ -1,0 +1,9 @@
+wire_id,model_name,net,insulation_od_mm,model_centerline_mm,model_min_bend_radius_mm,note
+W1,HR_VCC,+5V (retract Hall),0.4,75.68,1.2,"Model tail only (8 mm past the jacket). Add vehicle routing and calibration allowance."
+W2,HR_GND,GND (retract Hall),0.4,75.68,1.2,"Model tail only (8 mm past the jacket). Add vehicle routing and calibration allowance."
+W3,HR_OUT,ALLOW_RET,0.4,75.68,1.2,"Model tail only (8 mm past the jacket). Add vehicle routing and calibration allowance."
+W4,HE_VCC,+5V (extend Hall),0.4,112.85,0.931,"Model tail only (8 mm past the jacket). Add vehicle routing and calibration allowance."
+W5,HE_GND,GND (extend Hall),0.4,112.81,0.931,"Model tail only (8 mm past the jacket). Add vehicle routing and calibration allowance."
+W6,HE_OUT,ALLOW_EXT,0.4,112.85,0.931,"Model tail only (8 mm past the jacket). Add vehicle routing and calibration allowance."
+W7,M1,MOTOR_A,0.7,53.91,1.0,"Model tail only (8 mm past the jacket). Add vehicle routing and calibration allowance."
+W8,M2,MOTOR_B,0.7,61.99,1.0,"Model tail only (8 mm past the jacket). Add vehicle routing and calibration allowance."

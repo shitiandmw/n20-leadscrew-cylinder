@@ -1,0 +1,271 @@
+{
+  "units": "mm",
+  "fixed_interferences": [],
+  "wire_interferences": [],
+  "wire_wire_interferences": [],
+  "motion": [
+    {
+      "travel_mm": -2.0,
+      "interferences": []
+    },
+    {
+      "travel_mm": 0.0,
+      "interferences": []
+    },
+    {
+      "travel_mm": 5.0,
+      "interferences": []
+    },
+    {
+      "travel_mm": 10.0,
+      "interferences": []
+    },
+    {
+      "travel_mm": 15.0,
+      "interferences": []
+    },
+    {
+      "travel_mm": 20.0,
+      "interferences": []
+    },
+    {
+      "travel_mm": 25.0,
+      "interferences": []
+    },
+    {
+      "travel_mm": 30.0,
+      "interferences": []
+    },
+    {
+      "travel_mm": 33.0,
+      "interferences": []
+    }
+  ],
+  "wire_terminal_contacts": [
+    {
+      "wire": "HR_VCC",
+      "wire_id": "W1",
+      "terminal": "Hall_retract_pin1_VCC",
+      "gap_mm": 0.0
+    },
+    {
+      "wire": "HR_GND",
+      "wire_id": "W2",
+      "terminal": "Hall_retract_pin2_GND",
+      "gap_mm": 0.0
+    },
+    {
+      "wire": "HR_OUT",
+      "wire_id": "W3",
+      "terminal": "Hall_retract_pin3_OUT",
+      "gap_mm": 0.0
+    },
+    {
+      "wire": "HE_VCC",
+      "wire_id": "W4",
+      "terminal": "Hall_extend_pin1_VCC",
+      "gap_mm": 0.0
+    },
+    {
+      "wire": "HE_GND",
+      "wire_id": "W5",
+      "terminal": "Hall_extend_pin2_GND",
+      "gap_mm": 0.0
+    },
+    {
+      "wire": "HE_OUT",
+      "wire_id": "W6",
+      "terminal": "Hall_extend_pin3_OUT",
+      "gap_mm": 0.0
+    },
+    {
+      "wire": "M1",
+      "wire_id": "W7",
+      "terminal": "motor_terminal_1",
+      "gap_mm": 0.0
+    },
+    {
+      "wire": "M2",
+      "wire_id": "W8",
+      "terminal": "motor_terminal_2",
+      "gap_mm": 0.0
+    }
+  ],
+  "sensor_reroutes": [
+    {
+      "offsets_mm": [
+        -3,
+        0
+      ],
+      "interferences": []
+    },
+    {
+      "offsets_mm": [
+        3,
+        0
+      ],
+      "interferences": []
+    },
+    {
+      "offsets_mm": [
+        0,
+        -3
+      ],
+      "interferences": []
+    },
+    {
+      "offsets_mm": [
+        0,
+        3
+      ],
+      "interferences": []
+    }
+  ],
+  "all_checks_pass": true,
+  "parts": {
+    "01_barrel": {
+      "watertight": true,
+      "winding_consistent": true,
+      "components": 1,
+      "zero_height_facets_removed": 0,
+      "print_extent_mm": [
+        20.99,
+        20.54,
+        76.0
+      ],
+      "volume_mm3": 17141.3,
+      "print_setup": "PETG yellow, rear face down, 0.2 mm, 4 walls, 30% gyroid"
+    },
+    "02_rear_cap": {
+      "watertight": true,
+      "winding_consistent": true,
+      "components": 1,
+      "zero_height_facets_removed": 0,
+      "print_extent_mm": [
+        23.0,
+        24.5,
+        25.0
+      ],
+      "volume_mm3": 4309.5,
+      "print_setup": "PETG black, collar opening down, 0.16 mm, 4 walls, 40% gyroid"
+    },
+    "03_head_collar": {
+      "watertight": true,
+      "winding_consistent": true,
+      "components": 1,
+      "zero_height_facets_removed": 0,
+      "print_extent_mm": [
+        23.0,
+        23.0,
+        10.0
+      ],
+      "volume_mm3": 1030.3,
+      "print_setup": "PETG black, nose down, 0.16 mm, 4 walls"
+    },
+    "04_pushrod": {
+      "watertight": true,
+      "winding_consistent": true,
+      "components": 1,
+      "zero_height_facets_removed": 0,
+      "print_extent_mm": [
+        9.0,
+        10.0,
+        65.0
+      ],
+      "volume_mm3": 3614.4,
+      "print_setup": "PETG silver, carrier down, 0.16 mm, 100% infill"
+    },
+    "05_rod_eye": {
+      "watertight": true,
+      "winding_consistent": true,
+      "components": 1,
+      "zero_height_facets_removed": 0,
+      "print_extent_mm": [
+        14.0,
+        14.0,
+        21.0
+      ],
+      "volume_mm3": 2277.2,
+      "print_setup": "PETG black, socket opening down, 0.16 mm, 100% infill"
+    },
+    "06_sensor_cover": {
+      "watertight": true,
+      "winding_consistent": true,
+      "components": 1,
+      "zero_height_facets_removed": 0,
+      "print_extent_mm": [
+        6.43,
+        76.6,
+        1.0
+      ],
+      "volume_mm3": 400.4,
+      "print_setup": "PETG black, flat inner face down, 0.12 mm"
+    },
+    "07_TPU_cable_boot": {
+      "watertight": true,
+      "winding_consistent": true,
+      "components": 1,
+      "zero_height_facets_removed": 0,
+      "print_extent_mm": [
+        7.62,
+        6.6,
+        6.6
+      ],
+      "volume_mm3": 90.8,
+      "print_setup": "TPU 95A, taper end down"
+    },
+    "08_fit_motor_step_and_channel": {
+      "watertight": true,
+      "winding_consistent": true,
+      "components": 1,
+      "zero_height_facets_removed": 0,
+      "print_extent_mm": [
+        20.99,
+        20.54,
+        20.0
+      ],
+      "volume_mm3": 4466.1,
+      "print_setup": "fit sample, as main part"
+    },
+    "09_fit_carrier": {
+      "watertight": true,
+      "winding_consistent": true,
+      "components": 1,
+      "zero_height_facets_removed": 0,
+      "print_extent_mm": [
+        9.0,
+        10.0,
+        14.0
+      ],
+      "volume_mm3": 872.3,
+      "print_setup": "fit sample, as main part"
+    },
+    "10_fit_front_lip": {
+      "watertight": true,
+      "winding_consistent": true,
+      "components": 1,
+      "zero_height_facets_removed": 0,
+      "print_extent_mm": [
+        20.99,
+        20.54,
+        10.0
+      ],
+      "volume_mm3": 2539.5,
+      "print_setup": "fit sample, as main part"
+    },
+    "11_fit_cover_strip": {
+      "watertight": true,
+      "winding_consistent": true,
+      "components": 1,
+      "zero_height_facets_removed": 0,
+      "print_extent_mm": [
+        6.43,
+        1.0,
+        20.0
+      ],
+      "volume_mm3": 104.6,
+      "print_setup": "fit sample, as main part"
+    }
+  },
+  "all_meshes_pass": true
+}

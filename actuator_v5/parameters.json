@@ -1,0 +1,65 @@
+{
+  "version": "5.0",
+  "screw_length_mm": 40.0,
+  "screw_pitch_mm": 0.5,
+  "screw_thread": "M3",
+  "stroke_mm": 30,
+  "overtravel_retract_mm": 2.0,
+  "overtravel_extend_mm": 3.0,
+  "mechanical_stop_retract_mm": -2.0,
+  "mechanical_stop_extend_mm": 33.0,
+  "rear_eye_z": -35.0,
+  "front_eye_z_retracted": 73.0,
+  "eye_centres_closed_mm": 108.0,
+  "eye_centres_open_mm": 138.0,
+  "barrel_od_mm": 21.0,
+  "cap_od_mm": 23.0,
+  "rod_d_mm": 9.0,
+  "eye_od_mm": 14.0,
+  "eye_thickness_mm": 10.4,
+  "eye_hole_mm": 3.2,
+  "barrel_z": [
+    -23.0,
+    53.0
+  ],
+  "lip_z": [
+    45.0,
+    53.0
+  ],
+  "carrier_z0": 2.0,
+  "carrier_length_mm": 10.0,
+  "rod_end_z_retracted": 67.0,
+  "rod_bore_end_z_retracted": 57.0,
+  "longest_screw_that_fits_mm": 56.5,
+  "magnet_end_positions_z": [
+    9.2,
+    39.2
+  ],
+  "sensor_centres_z": [
+    5.3999999999999995,
+    43.0
+  ],
+  "sensor_axial_adjustment_mm": 3,
+  "magnet_mm": [
+    4,
+    2
+  ],
+  "magnet_axis": "radial (Y)",
+  "sensor_model": "DRV5033AJQLPG",
+  "hall_wires": 6,
+  "motor_wires": 2,
+  "total_exit_wires": 8,
+  "sensor_wire_od_mm": 0.4,
+  "motor_wire_od_mm": 0.7,
+  "jacket_od_mm": 4.0,
+  "jacket_id_mm": 3.2,
+  "motor_dimension_chain_mm": {
+    "shaft_or_screw_from_front_face": 40.0,
+    "gearbox": 9,
+    "can_incl_end_cap": 15,
+    "rear_boss": 1.2,
+    "terminals_beyond_can": 2.5
+  },
+  "wire_routing": "Nominal dressed harness; trim after Hall calibration.",
+  "magnetic_verification": "Biot-Savart model of the magnet (magnet_trigger.py): typical switch-on about 3.9 mm before alignment, hence HALL_LEAD. Steel screw/nut not modelled; no physical trigger test yet - calibrate on the bench."
+}

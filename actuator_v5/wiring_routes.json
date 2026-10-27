@@ -1,0 +1,172 @@
+{
+  "wires": {
+    "HR_VCC": {
+      "wire_id": "W1",
+      "net": "+5V (retract Hall)",
+      "color": [
+        1,
+        0.12,
+        0.08
+      ],
+      "od_mm": 0.4,
+      "centerline_length_mm": 75.68,
+      "min_bend_radius_mm": 1.2,
+      "start_pin": {
+        "sensor": "retract",
+        "pin": 1
+      },
+      "note": "Nominal routing; trim after sensor calibration and keep a service loop."
+    },
+    "HR_GND": {
+      "wire_id": "W2",
+      "net": "GND (retract Hall)",
+      "color": [
+        0.07,
+        0.09,
+        0.1
+      ],
+      "od_mm": 0.4,
+      "centerline_length_mm": 75.68,
+      "min_bend_radius_mm": 1.2,
+      "start_pin": {
+        "sensor": "retract",
+        "pin": 2
+      },
+      "note": "Nominal routing; trim after sensor calibration and keep a service loop."
+    },
+    "HR_OUT": {
+      "wire_id": "W3",
+      "net": "ALLOW_RET",
+      "color": [
+        0.08,
+        0.65,
+        0.32
+      ],
+      "od_mm": 0.4,
+      "centerline_length_mm": 75.68,
+      "min_bend_radius_mm": 1.2,
+      "start_pin": {
+        "sensor": "retract",
+        "pin": 3
+      },
+      "note": "Nominal routing; trim after sensor calibration and keep a service loop."
+    },
+    "HE_VCC": {
+      "wire_id": "W4",
+      "net": "+5V (extend Hall)",
+      "color": [
+        1,
+        0.12,
+        0.08
+      ],
+      "od_mm": 0.4,
+      "centerline_length_mm": 112.85,
+      "min_bend_radius_mm": 0.931,
+      "start_pin": {
+        "sensor": "extend",
+        "pin": 1
+      },
+      "note": "Nominal routing; trim after sensor calibration and keep a service loop."
+    },
+    "HE_GND": {
+      "wire_id": "W5",
+      "net": "GND (extend Hall)",
+      "color": [
+        0.07,
+        0.09,
+        0.1
+      ],
+      "od_mm": 0.4,
+      "centerline_length_mm": 112.81,
+      "min_bend_radius_mm": 0.931,
+      "start_pin": {
+        "sensor": "extend",
+        "pin": 2
+      },
+      "note": "Nominal routing; trim after sensor calibration and keep a service loop."
+    },
+    "HE_OUT": {
+      "wire_id": "W6",
+      "net": "ALLOW_EXT",
+      "color": [
+        0.12,
+        0.38,
+        0.94
+      ],
+      "od_mm": 0.4,
+      "centerline_length_mm": 112.85,
+      "min_bend_radius_mm": 0.931,
+      "start_pin": {
+        "sensor": "extend",
+        "pin": 3
+      },
+      "note": "Nominal routing; trim after sensor calibration and keep a service loop."
+    },
+    "M1": {
+      "wire_id": "W7",
+      "net": "MOTOR_A",
+      "color": [
+        1,
+        0.42,
+        0.06
+      ],
+      "od_mm": 0.7,
+      "centerline_length_mm": 53.91,
+      "min_bend_radius_mm": 1.0,
+      "start_pin": {
+        "motor_terminal": 1
+      },
+      "note": "Nominal routing; trim after sensor calibration and keep a service loop."
+    },
+    "M2": {
+      "wire_id": "W8",
+      "net": "MOTOR_B",
+      "color": [
+        0.62,
+        0.2,
+        0.85
+      ],
+      "od_mm": 0.7,
+      "centerline_length_mm": 61.99,
+      "min_bend_radius_mm": 1.0,
+      "start_pin": {
+        "motor_terminal": 2
+      },
+      "note": "Nominal routing; trim after sensor calibration and keep a service loop."
+    }
+  },
+  "hall_modules": {
+    "Hall_retract": {
+      "z_centre": 5.3999999999999995,
+      "pins": {
+        "1": "VCC",
+        "2": "GND",
+        "3": "OUT"
+      },
+      "pin_x": {
+        "1": 1.27,
+        "2": 0.0,
+        "3": -1.27
+      },
+      "lead_tip_z": -0.22500000000000053,
+      "pullup": "4.7k 1206 across pins 1-3 (under the leads)",
+      "decoupling": "100nF 0603 across pins 1-2 (over the leads)"
+    },
+    "Hall_extend": {
+      "z_centre": 43.0,
+      "pins": {
+        "1": "VCC",
+        "2": "GND",
+        "3": "OUT"
+      },
+      "pin_x": {
+        "1": 1.27,
+        "2": 0.0,
+        "3": -1.27
+      },
+      "lead_tip_z": 37.375,
+      "pullup": "4.7k 1206 across pins 1-3 (under the leads)",
+      "decoupling": "100nF 0603 across pins 1-2 (over the leads)"
+    }
+  }
+}

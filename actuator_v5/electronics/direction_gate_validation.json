@@ -1,0 +1,134 @@
+{
+  "states": [
+    {
+      "cmd_extend": false,
+      "cmd_retract": false,
+      "allow_extend": false,
+      "allow_retract": false,
+      "AIN1": false,
+      "AIN2": false
+    },
+    {
+      "cmd_extend": false,
+      "cmd_retract": false,
+      "allow_extend": false,
+      "allow_retract": true,
+      "AIN1": false,
+      "AIN2": false
+    },
+    {
+      "cmd_extend": false,
+      "cmd_retract": false,
+      "allow_extend": true,
+      "allow_retract": false,
+      "AIN1": false,
+      "AIN2": false
+    },
+    {
+      "cmd_extend": false,
+      "cmd_retract": false,
+      "allow_extend": true,
+      "allow_retract": true,
+      "AIN1": false,
+      "AIN2": false
+    },
+    {
+      "cmd_extend": false,
+      "cmd_retract": true,
+      "allow_extend": false,
+      "allow_retract": false,
+      "AIN1": false,
+      "AIN2": false
+    },
+    {
+      "cmd_extend": false,
+      "cmd_retract": true,
+      "allow_extend": false,
+      "allow_retract": true,
+      "AIN1": false,
+      "AIN2": true
+    },
+    {
+      "cmd_extend": false,
+      "cmd_retract": true,
+      "allow_extend": true,
+      "allow_retract": false,
+      "AIN1": false,
+      "AIN2": false
+    },
+    {
+      "cmd_extend": false,
+      "cmd_retract": true,
+      "allow_extend": true,
+      "allow_retract": true,
+      "AIN1": false,
+      "AIN2": true
+    },
+    {
+      "cmd_extend": true,
+      "cmd_retract": false,
+      "allow_extend": false,
+      "allow_retract": false,
+      "AIN1": false,
+      "AIN2": false
+    },
+    {
+      "cmd_extend": true,
+      "cmd_retract": false,
+      "allow_extend": false,
+      "allow_retract": true,
+      "AIN1": false,
+      "AIN2": false
+    },
+    {
+      "cmd_extend": true,
+      "cmd_retract": false,
+      "allow_extend": true,
+      "allow_retract": false,
+      "AIN1": true,
+      "AIN2": false
+    },
+    {
+      "cmd_extend": true,
+      "cmd_retract": false,
+      "allow_extend": true,
+      "allow_retract": true,
+      "AIN1": true,
+      "AIN2": false
+    },
+    {
+      "cmd_extend": true,
+      "cmd_retract": true,
+      "allow_extend": false,
+      "allow_retract": false,
+      "AIN1": false,
+      "AIN2": false
+    },
+    {
+      "cmd_extend": true,
+      "cmd_retract": true,
+      "allow_extend": false,
+      "allow_retract": true,
+      "AIN1": false,
+      "AIN2": true
+    },
+    {
+      "cmd_extend": true,
+      "cmd_retract": true,
+      "allow_extend": true,
+      "allow_retract": false,
+      "AIN1": true,
+      "AIN2": false
+    },
+    {
+      "cmd_extend": true,
+      "cmd_retract": true,
+      "allow_extend": true,
+      "allow_retract": true,
+      "AIN1": true,
+      "AIN2": true
+    }
+  ],
+  "healthy_high_V": 4.545454545454546,
+  "broken_OUT_wire_V": 0.0
+}
