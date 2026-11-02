@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "scope": "R10 integrated rigid-body 150 g loaded cycle; four independent slides, 100 N each; 20x playback of 1080 seconds",
+  "file": "excavator_arm_dual/images/motion_simulation_r10.mp4",
+  "duration_seconds": 54.0,
+  "resolution": [
+    1280,
+    720
+  ],
+  "fps": 24.0,
+  "frames_decoded": 1296,
+  "chapters": 9,
+  "audio": false,
+  "html_sha256": "2dffb46ca672ece2287d397bb15f96f9c22f0dcb8d8b7183461b39b1f862ae89",
+  "motion_sha256": "f7e548ac3e5004d7009c02a63210833a1a37a4e0d4e9dbd89f72d5647e3dbdc6",
+  "sha256": "c67c1d879ce44fa69650df29505a94b3cfe05df7542e6298cc7fbf3a09372d94",
+  "bytes": 2256169,
+  "full_decode_errors": []
+}

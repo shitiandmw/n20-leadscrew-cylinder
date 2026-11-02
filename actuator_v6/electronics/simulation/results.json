@@ -1,0 +1,303 @@
+{
+  "assumptions": {
+    "motor": {
+      "VS": 6.0,
+      "Rm": 13.0,
+      "Lm": 0.0003,
+      "k": 0.0037,
+      "J": 3e-09,
+      "Tf": 0.00013,
+      "Tload": 0.0003,
+      "ratio": 100,
+      "pitch": 0.5,
+      "note": "N20 6 V 150 rpm, 1:100 assumed: 13 ohm winding (stall about 0.46 A), k = 3.7 mV/(rad/s); load 0.3 mN\u00b7m at the motor (about 0.08 A extra)."
+    },
+    "ptc": {
+      "R0": 2.0,
+      "Rth": 535.1,
+      "Cth": 0.00444,
+      "Tsw": 115.0,
+      "dT": 2.5,
+      "K": 20000.0,
+      "part": "Bourns MF-NSMF012-2 (1206)",
+      "hold_A": 0.12,
+      "trip_A": 0.29,
+      "note": "Slow corner: switches only at the 0.29 A trip current; Cth from 0.2 s at 1 A. Real parts trip somewhere between 0.12 and 0.29 A, and sooner when warm."
+    },
+    "ends_mm": {
+      "XTR": 0.0,
+      "XTE": 45.0,
+      "XSR": -2.0,
+      "XSE": 48.0,
+      "hyst": 0.4
+    },
+    "hall": "DRV5033-like: open drain, 50 \u00b5s power-on (output released), 2.7 mA supply"
+  },
+  "scenarios": {
+    "dc_extend_end": {
+      "title": "DC, extend into the end, hold, then reverse",
+      "measured": {
+        "vds_max": 7.275825,
+        "vds1_max": 5.996443,
+        "vcc_max": 5.367455,
+        "vm_max": 7.342185,
+        "vm_min": -5.324846,
+        "x_final": 44.72715,
+        "tptc_max": 28.56608,
+        "t_trip": 0.310446,
+        "x_at_rev": 45.00295,
+        "i_blocked": 1e-06,
+        "i_blocked_min": -5e-06,
+        "ibat_blocked": 0.002207,
+        "i_blocked_avg": 0.0,
+        "x_min_after": 44.72715
+      },
+      "stop_overshoot_mm": 0.0029,
+      "blocked_peak_current_mA": 0.0,
+      "creep_while_blocked_um": 0.275,
+      "supply_current_while_blocked_mA": 2.207,
+      "checks": {
+        "vds_max_below_25V": true,
+        "hall_vcc_below_36V": true,
+        "stops_within_0.05mm_of_trip": true,
+        "reverses_out_of_end": true,
+        "no_motor_current_while_blocked": true,
+        "no_creep_while_blocked": true
+      },
+      "pass": true
+    },
+    "dc_retract_end": {
+      "title": "DC, retract into the end, hold, then reverse",
+      "measured": {
+        "vds_max": 5.996436,
+        "vds1_max": 7.275825,
+        "vcc_max": 5.3659,
+        "vm_max": 5.324846,
+        "vm_min": -7.342144,
+        "x_final": 0.272849,
+        "tptc_max": 28.56608,
+        "t_trip": 0.310446,
+        "x_at_rev": -0.002952,
+        "i_blocked": 5e-06,
+        "i_blocked_min": -1e-06,
+        "ibat_blocked": 0.002207,
+        "i_blocked_avg": -0.0,
+        "x_min_after": 0.272849
+      },
+      "stop_overshoot_mm": 0.003,
+      "blocked_peak_current_mA": 0.0,
+      "creep_while_blocked_um": -0.275,
+      "supply_current_while_blocked_mA": 2.207,
+      "checks": {
+        "vds_max_below_25V": true,
+        "hall_vcc_below_36V": true,
+        "stops_within_0.05mm_of_trip": true,
+        "reverses_out_of_end": true,
+        "no_motor_current_while_blocked": true,
+        "no_creep_while_blocked": true
+      },
+      "pass": true
+    },
+    "pwm20k_brake": {
+      "title": "20 kHz PWM 50 %, slow decay (brake), extend into the end, then reverse",
+      "measured": {
+        "vds_max": 11.92548,
+        "vds1_max": 8.31821,
+        "vcc_max": 5.542556,
+        "vm_max": 6.003859,
+        "vm_min": -6.007185,
+        "x_final": 44.96952,
+        "tptc_max": 28.25567,
+        "t_trip": 0.148713,
+        "x_at_rev": 45.00019,
+        "i_blocked": 7.3e-05,
+        "i_blocked_min": -6.8e-05,
+        "ibat_blocked": 0.002519,
+        "i_blocked_avg": 0.0,
+        "x_min_after": 44.96952
+      },
+      "stop_overshoot_mm": 0.0002,
+      "blocked_peak_current_mA": 0.07,
+      "creep_while_blocked_um": 0.0,
+      "supply_current_while_blocked_mA": 2.519,
+      "checks": {
+        "vds_max_below_25V": true,
+        "hall_vcc_below_36V": true,
+        "stops_within_0.05mm_of_trip": true,
+        "reverses_out_of_end": true,
+        "no_motor_current_while_blocked": true,
+        "no_creep_while_blocked": true
+      },
+      "pass": true
+    },
+    "pwm1k_coast": {
+      "title": "1 kHz PWM 50 %, fast decay (coast), extend into the end, then reverse",
+      "measured": {
+        "vds_max": 14.21173,
+        "vds1_max": 5.995691,
+        "vcc_max": 5.377639,
+        "vm_max": 6.643343,
+        "vm_min": -8.21738,
+        "x_final": 44.91392,
+        "tptc_max": 28.21315,
+        "t_trip": 0.073053,
+        "x_at_rev": 45.00086,
+        "i_blocked": 9.4e-05,
+        "i_blocked_min": -6.3e-05,
+        "ibat_blocked": 0.002342,
+        "i_blocked_avg": 0.0,
+        "x_min_after": 44.91392
+      },
+      "stop_overshoot_mm": 0.0009,
+      "blocked_peak_current_mA": 0.09,
+      "creep_while_blocked_um": 0.0,
+      "supply_current_while_blocked_mA": 2.342,
+      "checks": {
+        "vds_max_below_25V": true,
+        "hall_vcc_below_36V": true,
+        "stops_within_0.05mm_of_trip": true,
+        "reverses_out_of_end": true,
+        "no_motor_current_while_blocked": true,
+        "no_creep_while_blocked": true
+      },
+      "pass": true
+    },
+    "pwm100_coast": {
+      "title": "100 Hz PWM 30 %, fast decay (coast), extend into the end, then reverse",
+      "measured": {
+        "vds_max": 6.510669,
+        "vds1_max": 6.000485,
+        "vcc_max": 5.367454,
+        "vm_max": 5.000836,
+        "vm_min": -5.000835,
+        "x_final": 44.95189,
+        "tptc_max": 28.5341,
+        "t_trip": 0.095094,
+        "x_at_rev": 45.00021,
+        "i_blocked": 0.012658,
+        "i_blocked_min": -0.008711,
+        "ibat_blocked": 0.001157,
+        "i_blocked_avg": 9e-06,
+        "x_min_after": 44.95189
+      },
+      "stop_overshoot_mm": 0.0002,
+      "blocked_peak_current_mA": 12.66,
+      "creep_while_blocked_um": 0.0,
+      "supply_current_while_blocked_mA": 1.157,
+      "checks": {
+        "vds_max_below_25V": true,
+        "hall_vcc_below_36V": true,
+        "stops_within_0.05mm_of_trip": true,
+        "reverses_out_of_end": true,
+        "no_motor_current_while_blocked": true,
+        "no_creep_while_blocked": true
+      },
+      "pass": true
+    },
+    "powerup_at_end": {
+      "title": "Already at the extend end: apply extend (blocked), then retract",
+      "measured": {
+        "vds_max": 5.995901,
+        "vds1_max": 5.996176,
+        "vcc_max": 5.367454,
+        "vm_max": 0.007783,
+        "vm_min": -5.324846,
+        "x_final": 45.34724,
+        "tptc_max": 26.23154,
+        "x_at_rev": 45.5,
+        "i_blocked": 1e-06,
+        "i_blocked_min": -5e-06,
+        "ibat_blocked": 0.002207,
+        "i_blocked_avg": 0.0,
+        "x_min_after": 45.34724
+      },
+      "blocked_peak_current_mA": 0.0,
+      "supply_current_while_blocked_mA": 2.207,
+      "creep_while_blocked_um": 0.0,
+      "checks": {
+        "vds_max_below_25V": true,
+        "hall_vcc_below_36V": true,
+        "stops_within_0.05mm_of_trip": true,
+        "reverses_out_of_end": true,
+        "no_motor_current_while_blocked": true,
+        "no_motion_when_powered_at_end": true
+      },
+      "pass": true
+    },
+    "mid_speed": {
+      "title": "Mid-stroke extend, with D4/D5",
+      "measured": {
+        "vds_max": 5.996512,
+        "vds1_max": -0.0,
+        "vcc_max": 5.365946,
+        "vm_max": 5.324846,
+        "vm_min": -0.005838,
+        "x_final": 20.32338,
+        "tptc_max": 27.33995,
+        "x_a": 20.1594,
+        "x_b": 20.32346,
+        "i_avg": 0.116217,
+        "vm_avg": 5.324846
+      },
+      "speed_mm_s": 0.8203,
+      "motor_current_mA": 116.2,
+      "motor_voltage_V": 5.325,
+      "checks": {
+        "vds_max_below_25V": true,
+        "hall_vcc_below_36V": true
+      },
+      "pass": true
+    },
+    "mid_speed_no_schottky": {
+      "title": "Mid-stroke extend, D4/D5 not fitted",
+      "measured": {
+        "vds_max": 5.741086,
+        "vds1_max": -0.0,
+        "vcc_max": 5.366304,
+        "vm_max": 4.983836,
+        "vm_min": -0.004416,
+        "x_final": 20.29448,
+        "tptc_max": 27.32705,
+        "x_a": 20.14516,
+        "x_b": 20.29455,
+        "i_avg": 0.116217,
+        "vm_avg": 4.983836
+      },
+      "speed_mm_s": 0.747,
+      "motor_current_mA": 116.2,
+      "motor_voltage_V": 4.984,
+      "checks": {
+        "vds_max_below_25V": true,
+        "hall_vcc_below_36V": true
+      },
+      "pass": true
+    },
+    "jam_mid_stroke": {
+      "title": "Rod jammed mid-stroke, extend held on: F1 trips",
+      "measured": {
+        "vds_max": 5.996532,
+        "vds1_max": -0.0,
+        "vcc_max": 5.365941,
+        "vm_max": 4.603408,
+        "vm_min": -0.005728,
+        "x_final": 20.00049,
+        "tptc_max": 101.716,
+        "t_ptc_trip": 1.60759,
+        "i_stall": 0.354033,
+        "i_after": 0.026909
+      },
+      "stall_current_mA": 354.0,
+      "ptc_trip_time_s": 1.61,
+      "current_after_trip_mA": 26.91,
+      "checks": {
+        "vds_max_below_25V": true,
+        "hall_vcc_below_36V": true,
+        "ptc_trips_within_10s": true,
+        "current_after_trip_below_30mA": true
+      },
+      "pass": true
+    }
+  },
+  "schottky_speed_gain_percent": 9.8,
+  "all_pass": true
+}

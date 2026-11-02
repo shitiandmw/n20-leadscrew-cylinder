@@ -1,0 +1,38 @@
+{
+  "video": {
+    "size": [
+      1280,
+      720
+    ],
+    "fps": 25.0,
+    "frames": 676,
+    "duration_s": 27.04,
+    "codec": "h264",
+    "decoded_all_frames": true,
+    "forward_reverse_image_difference": 4.278481652384092
+  },
+  "pdf": {
+    "pages": [
+      {
+        "page": 1,
+        "width": 1311,
+        "height": 890,
+        "extracted_characters": 1047
+      },
+      {
+        "page": 2,
+        "width": 1311,
+        "height": 890,
+        "extracted_characters": 929
+      },
+      {
+        "page": 3,
+        "width": 1311,
+        "height": 890,
+        "extracted_characters": 1180
+      }
+    ]
+  },
+  "scope": "File decode and motion image checks; visual inspection required separately.",
+  "pass": true
+}

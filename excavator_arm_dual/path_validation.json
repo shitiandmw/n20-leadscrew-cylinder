@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "sampled_poses": 14,
+  "sample_times_seconds": [
+    0,
+    7.0,
+    11,
+    14.5,
+    18,
+    20.5,
+    23,
+    28.0,
+    33,
+    36.5,
+    40,
+    42.0,
+    44,
+    47.5
+  ],
+  "exact_intersections": 1311,
+  "maximum_overlap_mm3": 0.0,
+  "failures": [],
+  "motion_sha256": "f7e548ac3e5004d7009c02a63210833a1a37a4e0d4e9dbd89f72d5647e3dbdc6",
+  "geometry": "R10 paired-drive STEP solids, R10 hardware and U60 exteriors",
+  "scope": "Sampled endpoint/midpoint clearance, not continuous proof; no soil, chassis or force qualification.",
+  "elapsed_s": 222.4448881149292
+}

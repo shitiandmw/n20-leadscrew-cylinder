@@ -1,0 +1,5 @@
+variant,wire_id,net,colour,insulation_od_mm,model_centerline_mm,cut_length_mm,from,to
+U60,W1,A,red,0.8,65.1,52 + your lead (knot 31 mm from the pad),board pad J_A,"through the rear-cap slot (knot inside the body) and the cable clamp, in the 3 mm sleeve, to the driver"
+U60,W2,B,black,0.8,65.1,52 + your lead (knot 31 mm from the pad),board pad J_B,"through the rear-cap slot (knot inside the body) and the cable clamp, in the 3 mm sleeve, to the driver"
+U60,W3,MOT+,orange,0.8,35.6,44.0,board pad J_M+,"motor terminal 2 (+)"
+U60,W4,MOT-,purple,0.8,35.6,44.0,board pad J_M-,"motor terminal 1 (-)"

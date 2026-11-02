@@ -1,0 +1,42 @@
+{
+  "phases": [
+    {
+      "interval_s": [
+        2,
+        5.5
+      ],
+      "all_passive_wheel_mean_rad_s": [
+        2.1043450408501014,
+        4.263374746748765,
+        8.678388143648233e-05,
+        4.370106092832074,
+        5.3274753979305345,
+        5.324415328087285
+      ],
+      "upper_surface_speed_mm_s": [
+        79.91213096895802,
+        79.86622992130927
+      ]
+    },
+    {
+      "interval_s": [
+        8,
+        11.5
+      ],
+      "all_passive_wheel_mean_rad_s": [
+        -2.10388745747824,
+        -4.352518077598903,
+        1.9495674915706983e-12,
+        -4.398331738641621,
+        -5.183484211117085,
+        -5.28799373428758
+      ],
+      "upper_surface_speed_mm_s": [
+        -77.75226316675626,
+        -79.3199060143137
+      ]
+    }
+  ],
+  "scope": "Both upper rollers turn in both directions in the unloaded simulation. This checks contact-driven rolling, not loaded support strength. The middle lower roller is unloaded and may remain stationary.",
+  "pass": true
+}

@@ -1,0 +1,25 @@
+{
+  "new_simulation": false,
+  "source_revision": "J6",
+  "fixed_frame_unloaded": true,
+  "reason": "J8 changes fixed axle support only. All moving wheel shapes, axes, link geometry and drive settings are unchanged. New fixed-bracket clearance checks are in motion_geometry_validation.json.",
+  "limits": "Generic +/-1.2 Nm servo at +/-20 rpm; no motor electrical, vehicle traction, structural stiffness or load sharing model.",
+  "source_files": {
+    "demo_trace.json": "29173126f8215b0e1ae0fca924b384534217cb9ccb3d2a983a5b5f4525d28e71",
+    "demo_samples.json": "a9a7cb5175229a6f585b8975d519f47566b80c394f6c56e76cd924f8e411c90f",
+    "demo_report.json": "6fae8a845ebcf38852cff4da09ef05a7fe21b564c4918f0fbc2595dae9d76776",
+    "upper_roller_checks.json": "26432d0faaf51d7c0a54934af8cc6fd01984139467fbe5e698f3ae2dfd857a02"
+  },
+  "historical_moving_input_files": {
+    "track_wheel_jgy370/J6/source/j6_parts.py": "77d6b9b1330eb8d951e94369fb8a9a17bca414d3c6d6fc5a8b5c347e94608300",
+    "track_wheel/source/tw_parts.py": "0bb01b2c7013a2f2296e3f7176afe62635e563270b250936c40febc0deb9b3e4",
+    "track_wheel/source/tw_design.py": "8d054fca0a88cee16d00f3675e15206d71bb03cf8eec6c2765fe778809764503"
+  },
+  "moving_input_files": {
+    "track_wheel_jgy370/source/support/j6_parts.py": "81ee0823c0ddfe8cf391d9e71e410a3857c2fa9b8b3abe9da2d6882499f8515f",
+    "track_wheel/source/tw_parts.py": "0bb01b2c7013a2f2296e3f7176afe62635e563270b250936c40febc0deb9b3e4",
+    "track_wheel/source/tw_design.py": "8d054fca0a88cee16d00f3675e15206d71bb03cf8eec6c2765fe778809764503"
+  },
+  "cleanup_note": "J1-J7 release folders removed. Retained source is under track_wheel_jgy370/source/support; only import/path declarations changed in j6_parts.py. Historical input hashes are preserved above. Playback files are unchanged.",
+  "layout_note": "The J8 directory contents were promoted to track_wheel_jgy370/. Only file locations and build paths changed; saved playback and geometry function bodies are unchanged."
+}

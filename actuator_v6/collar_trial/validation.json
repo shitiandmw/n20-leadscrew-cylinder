@@ -1,0 +1,106 @@
+{
+  "status": "CAD trial; not load-tested or cleared against the excavator arm",
+  "checks": {
+    "valid_01_body": true,
+    "valid_02_front_cap": true,
+    "valid_03_rear_cap": true,
+    "valid_06_cable_clamp": true,
+    "valid_M2_nut_rear_1": true,
+    "valid_M2_nut_rear_2": true,
+    "valid_M2_nut_front_1": true,
+    "valid_M2_nut_front_2": true,
+    "valid_M2x8_front_cap_1": true,
+    "valid_M2x10_rear_cap_1": true,
+    "valid_M2x8_front_cap_2": true,
+    "valid_M2x10_rear_cap_2": true,
+    "no_new_assembly_intersections": true,
+    "nuts_insert_from_side_with_caps_removed": true,
+    "caps_slide_over_reinforced_bands": true,
+    "rod_clears_at_seven_stroke_positions": true,
+    "no_added_material_inside_original_body_envelope": true,
+    "watertight_01_body": true,
+    "watertight_02_front_cap": true,
+    "watertight_03_rear_cap": true,
+    "watertight_06_cable_clamp": true,
+    "watertight_fit_sample": true
+  },
+  "all_passed": true,
+  "overlaps": [],
+  "nut_insertion_max_overlap_mm3": 0,
+  "cap_sweep_overlap_mm3": {
+    "02_front_cap": 0,
+    "03_rear_cap": 0
+  },
+  "stroke_checks": [
+    {
+      "travel_mm": 0,
+      "overlap_mm3": 0
+    },
+    {
+      "travel_mm": 10,
+      "overlap_mm3": 0
+    },
+    {
+      "travel_mm": 20,
+      "overlap_mm3": 0
+    },
+    {
+      "travel_mm": 30,
+      "overlap_mm3": 0
+    },
+    {
+      "travel_mm": 40,
+      "overlap_mm3": 0
+    },
+    {
+      "travel_mm": 50,
+      "overlap_mm3": 0
+    },
+    {
+      "travel_mm": 60,
+      "overlap_mm3": 0
+    }
+  ],
+  "added_material_inside_original_envelope_mm3": 0,
+  "dimensions": {
+    "original_body_section_mm": [
+      16.1,
+      14.7
+    ],
+    "collar_section_mm": [
+      22.5,
+      23.1
+    ],
+    "reinforced_band_mm": [
+      20.1,
+      20.7
+    ],
+    "collar_overlap_mm": 8.0,
+    "taper_length_mm": 5.0,
+    "skirt_radial_clearance_mm": 0.2,
+    "skirt_wall_mm": 1.0,
+    "nut_af_mm": 4.0,
+    "nut_thickness_mm": 1.6,
+    "pocket_af_mm": 4.2,
+    "pocket_thickness_mm": 1.9,
+    "nut_bearing_shoulder_mm": 2.4,
+    "nut_to_pcb_slot_ligament_mm": 1.0,
+    "screw_centres_xy_mm": [
+      [
+        8.0,
+        7.2
+      ],
+      [
+        8.0,
+        -7.2
+      ]
+    ],
+    "stroke_mm": 60,
+    "pin_centres_mm": [
+      140,
+      200
+    ],
+    "front_screw_tip_beyond_nut_mm": 0.5,
+    "rear_screw_tip_beyond_nut_mm": 1.8
+  }
+}

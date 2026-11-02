@@ -1,0 +1,215 @@
+{
+  "parts": [
+    {
+      "name": "TW01_motor_housing",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Stationary gearmotor housing. \u00d837.3 bore, \u00d845 6809 seat, \u00d840 61808 seat on the end wall, \u00d812.15 bushing locator. 2 M3 heat-set inserts in the rear pillars.",
+      "print_orientation": "End-wall spigot on the bed. Tree supports under the flange ring only (8.5 mm overhang); the rail face of the flange is cleaned flat after printing.",
+      "volume_mm3": 45653.3,
+      "solid_mass_g": 58.0,
+      "print_bounds_mm": [
+        62.0,
+        53.97,
+        70.4
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "TW02_sprocket_hub",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Rotating 12-tooth bushing sprocket and hub drum; 6809 and 61808 outer-ring seats; 6 M3 \u00d7 5.7 heat-set inserts for the cap.",
+      "print_orientation": "Outboard face (cap side) on the bed. No supports; the 3 mm 61808 shoulder bridges.",
+      "volume_mm3": 67425.5,
+      "solid_mass_g": 85.6,
+      "print_bounds_mm": [
+        81.64,
+        81.64,
+        36.5
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "TW03_hub_cap",
+      "quantity": 1,
+      "material": "PETG or PA (tough)",
+      "note": "Rotating cap with the 21-tooth internal ring gear (m1.5, generated at 7.0 mm). Print in tough PETG or PA, solid infill around the teeth.",
+      "print_orientation": "End plate on the bed. No supports. Ring teeth print as vertical walls; 100 % infill around the teeth.",
+      "volume_mm3": 33206.7,
+      "solid_mass_g": 42.2,
+      "print_bounds_mm": [
+        65.59,
+        65.59,
+        18.5
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "TW04_bearing_retainer",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Clamps the 61808 inner ring; held by the six M3 \u00d7 10 gearbox face screws.",
+      "print_orientation": "Clamp face on the bed, counterbores up. No supports.",
+      "volume_mm3": 3733.3,
+      "solid_mass_g": 4.7,
+      "print_bounds_mm": [
+        42.79,
+        42.8,
+        3.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "TW05_motor_rear_cap",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Dust cap over the motor terminals; grommet hole; two M3 \u00d7 8 into the housing pillar inserts.",
+      "print_orientation": "Closed end and both ears on the bed. No supports.",
+      "volume_mm3": 5570.3,
+      "solid_mass_g": 7.1,
+      "print_bounds_mm": [
+        60.0,
+        44.99,
+        8.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "TW06_track_frame",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Right-hand rail. Mirror for the left (TW06_track_frame_left). Final-drive boss with 4 heat-set inserts; recoil channel; M6 captive nut.",
+      "print_orientation": "Outboard face on the bed, placed diagonally on a 256 mm bed. No supports; the channel roof bridges 31 mm.",
+      "volume_mm3": 146475.7,
+      "solid_mass_g": 186.0,
+      "print_bounds_mm": [
+        287.99,
+        66.0,
+        30.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true,
+      "mirrored": "TW06_track_frame_left (left-hand track)"
+    },
+    {
+      "name": "TW07_idler_yoke",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Sliding idler yoke; \u00d88 axle bore; spring spigot.",
+      "print_orientation": "Front face on the bed. No supports; 4.3 mm nose overhangs.",
+      "volume_mm3": 15592.3,
+      "solid_mass_g": 19.8,
+      "print_bounds_mm": [
+        30.4,
+        28.0,
+        33.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "TW08_spring_seat",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Sliding spring seat pushed by the M6 adjuster; spigot is the recoil stop.",
+      "print_orientation": "Seat face on the bed, spigot up. No supports.",
+      "volume_mm3": 1747.5,
+      "solid_mass_g": 2.2,
+      "print_bounds_mm": [
+        18.2,
+        18.2,
+        13.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "TW09_channel_nose",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Front stop of the yoke channel; two M3 \u00d7 40 through bolts with captive nuts.",
+      "print_orientation": "Flat on the bed, bolt holes vertical. No supports.",
+      "volume_mm3": 6641.5,
+      "solid_mass_g": 8.4,
+      "print_bounds_mm": [
+        12.0,
+        19.6,
+        30.6
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "05_track_shoe",
+      "quantity": 34,
+      "material": "PETG",
+      "note": "Unchanged Track R4 part",
+      "print_orientation": "Unchanged Track R4 orientation.",
+      "volume_mm3": 5106.1,
+      "solid_mass_g": 6.5,
+      "print_bounds_mm": [
+        28.0,
+        54.0,
+        11.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "07_idler_wheel",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Unchanged Track R4 part",
+      "print_orientation": "Unchanged Track R4 orientation.",
+      "volume_mm3": 138539.7,
+      "solid_mass_g": 175.9,
+      "print_bounds_mm": [
+        70.46,
+        70.47,
+        46.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "08_road_roller",
+      "quantity": 3,
+      "material": "PETG",
+      "note": "Unchanged Track R4 part",
+      "print_orientation": "Unchanged Track R4 orientation.",
+      "volume_mm3": 21947.8,
+      "solid_mass_g": 27.9,
+      "print_bounds_mm": [
+        39.99,
+        40.0,
+        46.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "24_return_roller",
+      "quantity": 2,
+      "material": "PETG",
+      "note": "Track R5 carrier: \u00d833 rims (R4: \u00d828) stand 0.5 mm above the straight top run, so they keep carrying the sprung track. Two 608 bearings.",
+      "print_orientation": "Unchanged Track R4 orientation.",
+      "volume_mm3": 19347.1,
+      "solid_mass_g": 24.6,
+      "print_bounds_mm": [
+        36.99,
+        37.0,
+        46.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    }
+  ],
+  "assembly_solids": 284,
+  "elapsed_seconds": 102.1
+}

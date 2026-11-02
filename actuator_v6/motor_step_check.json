@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "variants": {
+    "S": {
+      "valid": true,
+      "solids": 169,
+      "bytes": 47043915
+    },
+    "U60": {
+      "valid": true,
+      "solids": 169,
+      "bytes": 47265853
+    },
+    "L": {
+      "valid": true,
+      "solids": 169,
+      "bytes": 47556779
+    }
+  }
+}

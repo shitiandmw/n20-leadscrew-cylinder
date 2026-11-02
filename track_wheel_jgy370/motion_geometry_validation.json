@@ -1,0 +1,409 @@
+{
+  "motion_samples": [
+    {
+      "t": 0.0,
+      "stationary_clearance": {
+        "pairs_tested": 23,
+        "hits": [],
+        "seconds": 1.9
+      },
+      "upper_roller_contact": {
+        "pairs_tested": 6,
+        "hits": [],
+        "seconds": 0.2
+      }
+    },
+    {
+      "t": 1.5,
+      "stationary_clearance": {
+        "pairs_tested": 21,
+        "hits": [],
+        "seconds": 1.7
+      },
+      "upper_roller_contact": {
+        "pairs_tested": 6,
+        "hits": [],
+        "seconds": 0.1
+      }
+    },
+    {
+      "t": 2.0,
+      "stationary_clearance": {
+        "pairs_tested": 21,
+        "hits": [],
+        "seconds": 1.8
+      },
+      "upper_roller_contact": {
+        "pairs_tested": 6,
+        "hits": [],
+        "seconds": 0.1
+      }
+    },
+    {
+      "t": 2.5,
+      "stationary_clearance": {
+        "pairs_tested": 21,
+        "hits": [],
+        "seconds": 1.8
+      },
+      "upper_roller_contact": {
+        "pairs_tested": 6,
+        "hits": [],
+        "seconds": 0.1
+      }
+    },
+    {
+      "t": 3.0,
+      "stationary_clearance": {
+        "pairs_tested": 21,
+        "hits": [],
+        "seconds": 1.7
+      },
+      "upper_roller_contact": {
+        "pairs_tested": 6,
+        "hits": [],
+        "seconds": 0.1
+      }
+    },
+    {
+      "t": 4.0,
+      "stationary_clearance": {
+        "pairs_tested": 21,
+        "hits": [],
+        "seconds": 1.8
+      },
+      "upper_roller_contact": {
+        "pairs_tested": 6,
+        "hits": [],
+        "seconds": 0.1
+      }
+    },
+    {
+      "t": 5.0,
+      "stationary_clearance": {
+        "pairs_tested": 21,
+        "hits": [],
+        "seconds": 1.7
+      },
+      "upper_roller_contact": {
+        "pairs_tested": 6,
+        "hits": [],
+        "seconds": 0.1
+      }
+    },
+    {
+      "t": 6.0,
+      "stationary_clearance": {
+        "pairs_tested": 21,
+        "hits": [],
+        "seconds": 1.7
+      },
+      "upper_roller_contact": {
+        "pairs_tested": 6,
+        "hits": [],
+        "seconds": 0.1
+      }
+    },
+    {
+      "t": 7.0,
+      "stationary_clearance": {
+        "pairs_tested": 21,
+        "hits": [],
+        "seconds": 1.6
+      },
+      "upper_roller_contact": {
+        "pairs_tested": 6,
+        "hits": [],
+        "seconds": 0.1
+      }
+    },
+    {
+      "t": 8.0,
+      "stationary_clearance": {
+        "pairs_tested": 22,
+        "hits": [],
+        "seconds": 1.7
+      },
+      "upper_roller_contact": {
+        "pairs_tested": 6,
+        "hits": [],
+        "seconds": 0.1
+      }
+    },
+    {
+      "t": 9.0,
+      "stationary_clearance": {
+        "pairs_tested": 22,
+        "hits": [],
+        "seconds": 1.8
+      },
+      "upper_roller_contact": {
+        "pairs_tested": 6,
+        "hits": [],
+        "seconds": 0.1
+      }
+    },
+    {
+      "t": 10.0,
+      "stationary_clearance": {
+        "pairs_tested": 22,
+        "hits": [],
+        "seconds": 1.8
+      },
+      "upper_roller_contact": {
+        "pairs_tested": 6,
+        "hits": [],
+        "seconds": 0.1
+      }
+    },
+    {
+      "t": 11.5,
+      "stationary_clearance": {
+        "pairs_tested": 22,
+        "hits": [],
+        "seconds": 1.8
+      },
+      "upper_roller_contact": {
+        "pairs_tested": 6,
+        "hits": [],
+        "seconds": 0.1
+      }
+    },
+    {
+      "t": 12.5,
+      "stationary_clearance": {
+        "pairs_tested": 26,
+        "hits": [],
+        "seconds": 2.1
+      },
+      "upper_roller_contact": {
+        "pairs_tested": 8,
+        "hits": [],
+        "seconds": 0.1
+      }
+    },
+    {
+      "t": 13.5,
+      "stationary_clearance": {
+        "pairs_tested": 21,
+        "hits": [],
+        "seconds": 1.7
+      },
+      "upper_roller_contact": {
+        "pairs_tested": 6,
+        "hits": [],
+        "seconds": 0.1
+      }
+    }
+  ],
+  "roller_service": [
+    {
+      "wheel": "roller0",
+      "samples": [
+        {
+          "withdrawal_mm": 0,
+          "pairs_tested": 9,
+          "hits": [],
+          "seconds": 0.3
+        },
+        {
+          "withdrawal_mm": 1,
+          "pairs_tested": 8,
+          "hits": [],
+          "seconds": 0.2
+        },
+        {
+          "withdrawal_mm": 5,
+          "pairs_tested": 8,
+          "hits": [],
+          "seconds": 0.2
+        },
+        {
+          "withdrawal_mm": 15,
+          "pairs_tested": 6,
+          "hits": [],
+          "seconds": 0.2
+        },
+        {
+          "withdrawal_mm": 35,
+          "pairs_tested": 5,
+          "hits": [],
+          "seconds": 0.0
+        },
+        {
+          "withdrawal_mm": 65,
+          "pairs_tested": 0,
+          "hits": [],
+          "seconds": 0.0
+        }
+      ]
+    },
+    {
+      "wheel": "roller1",
+      "samples": [
+        {
+          "withdrawal_mm": 0,
+          "pairs_tested": 9,
+          "hits": [],
+          "seconds": 0.2
+        },
+        {
+          "withdrawal_mm": 1,
+          "pairs_tested": 8,
+          "hits": [],
+          "seconds": 0.1
+        },
+        {
+          "withdrawal_mm": 5,
+          "pairs_tested": 8,
+          "hits": [],
+          "seconds": 0.1
+        },
+        {
+          "withdrawal_mm": 15,
+          "pairs_tested": 6,
+          "hits": [],
+          "seconds": 0.1
+        },
+        {
+          "withdrawal_mm": 35,
+          "pairs_tested": 6,
+          "hits": [],
+          "seconds": 0.0
+        },
+        {
+          "withdrawal_mm": 65,
+          "pairs_tested": 0,
+          "hits": [],
+          "seconds": 0.0
+        }
+      ]
+    },
+    {
+      "wheel": "roller2",
+      "samples": [
+        {
+          "withdrawal_mm": 0,
+          "pairs_tested": 8,
+          "hits": [],
+          "seconds": 0.1
+        },
+        {
+          "withdrawal_mm": 1,
+          "pairs_tested": 7,
+          "hits": [],
+          "seconds": 0.1
+        },
+        {
+          "withdrawal_mm": 5,
+          "pairs_tested": 7,
+          "hits": [],
+          "seconds": 0.1
+        },
+        {
+          "withdrawal_mm": 15,
+          "pairs_tested": 5,
+          "hits": [],
+          "seconds": 0.0
+        },
+        {
+          "withdrawal_mm": 35,
+          "pairs_tested": 5,
+          "hits": [],
+          "seconds": 0.0
+        },
+        {
+          "withdrawal_mm": 65,
+          "pairs_tested": 0,
+          "hits": [],
+          "seconds": 0.0
+        }
+      ]
+    },
+    {
+      "wheel": "return0",
+      "samples": [
+        {
+          "withdrawal_mm": 0,
+          "pairs_tested": 9,
+          "hits": [],
+          "seconds": 0.2
+        },
+        {
+          "withdrawal_mm": 1,
+          "pairs_tested": 8,
+          "hits": [],
+          "seconds": 0.1
+        },
+        {
+          "withdrawal_mm": 5,
+          "pairs_tested": 8,
+          "hits": [],
+          "seconds": 0.1
+        },
+        {
+          "withdrawal_mm": 15,
+          "pairs_tested": 6,
+          "hits": [],
+          "seconds": 0.1
+        },
+        {
+          "withdrawal_mm": 35,
+          "pairs_tested": 6,
+          "hits": [],
+          "seconds": 0.1
+        },
+        {
+          "withdrawal_mm": 65,
+          "pairs_tested": 0,
+          "hits": [],
+          "seconds": 0.0
+        }
+      ]
+    },
+    {
+      "wheel": "return1",
+      "samples": [
+        {
+          "withdrawal_mm": 0,
+          "pairs_tested": 9,
+          "hits": [],
+          "seconds": 0.2
+        },
+        {
+          "withdrawal_mm": 1,
+          "pairs_tested": 8,
+          "hits": [],
+          "seconds": 0.1
+        },
+        {
+          "withdrawal_mm": 5,
+          "pairs_tested": 8,
+          "hits": [],
+          "seconds": 0.1
+        },
+        {
+          "withdrawal_mm": 15,
+          "pairs_tested": 6,
+          "hits": [],
+          "seconds": 0.1
+        },
+        {
+          "withdrawal_mm": 35,
+          "pairs_tested": 6,
+          "hits": [],
+          "seconds": 0.1
+        },
+        {
+          "withdrawal_mm": 65,
+          "pairs_tested": 0,
+          "hits": [],
+          "seconds": 0.0
+        }
+      ]
+    }
+  ],
+  "elapsed_s": 152.7,
+  "scope": "15 sampled poses from the unchanged J6 moving-geometry trace. Stationary interference limit 0.01 mm3; moving roller/chain contact overlap allowance 0.5 mm3. Six wheel withdrawal positions with chain, housing, outer plate and eight outer screws removed. Not a continuous sweep or load/strength proof.",
+  "pass": true
+}

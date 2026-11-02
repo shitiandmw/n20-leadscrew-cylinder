@@ -1,0 +1,503 @@
+{
+  "retrieved_utc": "2026-11-01T05:37:52.484224+00:00",
+  "project_url": "https://www.printables.com/model/833291-diy-rc-excavator",
+  "public_metadata_endpoint": "https://api.printables.com/graphql/",
+  "description_html": "<p>This is a fully functional RC excavator that takes advantage of the wonderous capabilties of 3D printers. It uses micro robotic development parts such as an ESP32 development board that can be programmed via the Arduino IDE, this model specifically can then be connected to a ps3 controller.&nbsp;</p><p>If you'd like to support the channel and fund the development of these mini DIY RC projects consider becoming a ProfessorBoots Workshop member which will give you access to the PCB files for this model as well as a step by step guide on sourcing the PCB's/Electronics and uploading the code to the development board. As well as pretty much everything else you may need to know in order to build your very own 3D Printed Mini Excavator.</p><p>ProfessorBoots Workshop: <a href=\"https://professorboots.com/products/professorboots-workshop-pass\">https://professorboots.com/products/professorboots-workshop-pass</a></p><p>Youtube Video:&nbsp;</p><figure class=\"media\"><oembed url=\"https://youtu.be/bLtUqkhdQGQ\"></oembed></figure>",
+  "id": "833291",
+  "name": "DIY RC Excavator",
+  "images": [
+    {
+      "id": "2994826",
+      "filePath": "media/prints/833291/images/6422242_f3aab04b-820d-407f-a082-a4c06beceec6_23be2072-1b50-452c-90cc-063bf4aab420/smoll-thumbnail.png"
+    },
+    {
+      "id": "2996682",
+      "filePath": "media/prints/833291/images/6426503_66cc8982-2a3c-4f09-8bc5-d17bf75e5f37_a0c16970-5018-4dac-bf28-2e55026fd76b/extra.jpg"
+    },
+    {
+      "id": "2996683",
+      "filePath": "media/prints/833291/images/6426502_b4473463-b9c2-4abc-aa69-e60e63a79bab_c66e60d2-5e18-40c8-8574-e854b5cafc34/extra-2.jpg"
+    },
+    {
+      "id": "2996684",
+      "filePath": "media/prints/833291/images/6426499_9649f8fb-728a-4289-9e55-d7ad4376c5fc_35669324-a742-42bb-a3d2-ac6f2e2a271c/obstacle-course-2.jpg"
+    },
+    {
+      "id": "2996685",
+      "filePath": "media/prints/833291/images/6426501_ddf5ab9b-bd0a-4fb9-ad36-31b1936833ba_a07ed89d-3623-49be-b21c-03f5e12e900d/extra-3.jpg"
+    },
+    {
+      "id": "2996686",
+      "filePath": "media/prints/833291/images/6426500_f349c530-f008-4b46-a74d-e73ffafa1cf9_e9743779-94c9-4ec8-be31-fd18f5acfa64/extra-4.jpg"
+    }
+  ],
+  "stls": [
+    {
+      "id": "3696126",
+      "name": "1.) Main Color Print Group.stl",
+      "fileSize": 1636984
+    },
+    {
+      "id": "3696124",
+      "name": "2.) Secondary Color Print Group.stl",
+      "fileSize": 2128784
+    },
+    {
+      "id": "3955785",
+      "name": "3.) Secondary Color Print Group Pt2.stl",
+      "fileSize": 2513384
+    },
+    {
+      "id": "3523783",
+      "name": "4.) TPU Print Group(Print Tracks Seperate).stl",
+      "fileSize": 330284
+    },
+    {
+      "id": "3547016",
+      "name": "Track.stl",
+      "fileSize": 466484
+    },
+    {
+      "id": "3523841",
+      "name": "1.) Drive Gear.stl",
+      "fileSize": 327684
+    },
+    {
+      "id": "3523829",
+      "name": "2.) Front Drive Gear(No Motor).stl",
+      "fileSize": 59984
+    },
+    {
+      "id": "3523837",
+      "name": "3.) Left Track Support.stl",
+      "fileSize": 258184
+    },
+    {
+      "id": "3523835",
+      "name": "4.) Right Track Support.stl",
+      "fileSize": 258384
+    },
+    {
+      "id": "3523811",
+      "name": "5.) Track Motor Lock.stl",
+      "fileSize": 14284
+    },
+    {
+      "id": "3523821",
+      "name": "6.) Lower Track Roller.stl",
+      "fileSize": 129884
+    },
+    {
+      "id": "3523812",
+      "name": "7.) Upper Track Roller.stl",
+      "fileSize": 125284
+    },
+    {
+      "id": "3696147",
+      "name": "8.) Lower Frame.stl",
+      "fileSize": 330984
+    },
+    {
+      "id": "3547397",
+      "name": "9.) Main Boom Holder.stl",
+      "fileSize": 172284
+    },
+    {
+      "id": "3523831",
+      "name": "10.) Pinion Gear for Excavator rotation.stl",
+      "fileSize": 132284
+    },
+    {
+      "id": "3523843",
+      "name": "10.5.) Swivel Lock.stl",
+      "fileSize": 112784
+    },
+    {
+      "id": "3523827",
+      "name": "11.) Lower body.stl",
+      "fileSize": 300384
+    },
+    {
+      "id": "3523840",
+      "name": "12.) Motor Holder.stl",
+      "fileSize": 69584
+    },
+    {
+      "id": "3523817",
+      "name": "13.) Motor Holder Lock.stl",
+      "fileSize": 28384
+    },
+    {
+      "id": "3523819",
+      "name": "14.) Main Boom Push Rod.stl",
+      "fileSize": 79584
+    },
+    {
+      "id": "3523838",
+      "name": "15.) Dipper and Bucket Push rod.stl",
+      "fileSize": 88984
+    },
+    {
+      "id": "3523813",
+      "name": "16.) Thumb Push Rod.stl",
+      "fileSize": 44384
+    },
+    {
+      "id": "3523814",
+      "name": "17.) Main Boom.stl",
+      "fileSize": 254184
+    },
+    {
+      "id": "3696148",
+      "name": "18.) Dipper.stl",
+      "fileSize": 211984
+    },
+    {
+      "id": "3523815",
+      "name": "19.) Attacher.stl",
+      "fileSize": 159784
+    },
+    {
+      "id": "3523822",
+      "name": "20.) Bucket.stl",
+      "fileSize": 58084
+    },
+    {
+      "id": "3523823",
+      "name": "21.) Bucket Swing Arm.stl",
+      "fileSize": 76184
+    },
+    {
+      "id": "3696146",
+      "name": "22.) Bucket Push Link.stl",
+      "fileSize": 89284
+    },
+    {
+      "id": "3523839",
+      "name": "23.) Thumb.stl",
+      "fileSize": 51084
+    },
+    {
+      "id": "3523820",
+      "name": "24.) Cab.stl",
+      "fileSize": 289584
+    },
+    {
+      "id": "3523834",
+      "name": "25.) Main Boom Rotator Cuff.stl",
+      "fileSize": 80484
+    },
+    {
+      "id": "3523836",
+      "name": "26.) Rear Cover Swivel.stl",
+      "fileSize": 64084
+    },
+    {
+      "id": "3523833",
+      "name": "27.) Rear Cover.stl",
+      "fileSize": 759884
+    },
+    {
+      "id": "3523818",
+      "name": "28.) Step.stl",
+      "fileSize": 46884
+    },
+    {
+      "id": "3523830",
+      "name": "29.) Engine Cover.stl",
+      "fileSize": 57784
+    },
+    {
+      "id": "3523826",
+      "name": "30.) Exhaust.stl",
+      "fileSize": 88784
+    },
+    {
+      "id": "3523842",
+      "name": "31.) Guardrail.stl",
+      "fileSize": 61884
+    },
+    {
+      "id": "3523825",
+      "name": "32.) Step Mat.stl",
+      "fileSize": 95984
+    },
+    {
+      "id": "3523832",
+      "name": "33.) Rear Cover Mat.stl",
+      "fileSize": 83884
+    },
+    {
+      "id": "3523828",
+      "name": "34.) Track.stl",
+      "fileSize": 466484
+    },
+    {
+      "id": "3523879",
+      "name": "1.) Drive Gear.step",
+      "fileSize": 263874
+    },
+    {
+      "id": "3523851",
+      "name": "2.) Front Drive Gear(No Motor).step",
+      "fileSize": 241056
+    },
+    {
+      "id": "3523856",
+      "name": "3.) Left Track Support.step",
+      "fileSize": 358251
+    },
+    {
+      "id": "3523876",
+      "name": "4.) Right Track Support.step",
+      "fileSize": 357899
+    },
+    {
+      "id": "3523850",
+      "name": "5.) Track Motor Lock.step",
+      "fileSize": 39527
+    },
+    {
+      "id": "3523855",
+      "name": "6.) Lower Track Roller.step",
+      "fileSize": 38064
+    },
+    {
+      "id": "3523846",
+      "name": "7.) Upper Track Roller.step",
+      "fileSize": 38516
+    },
+    {
+      "id": "3696134",
+      "name": "8.) Lower Frame.step",
+      "fileSize": 836901
+    },
+    {
+      "id": "3547398",
+      "name": "9.) Main Boom Holder.step",
+      "fileSize": 208298
+    },
+    {
+      "id": "3523871",
+      "name": "10.) Pinion Gear for Excavator rotation.step",
+      "fileSize": 177852
+    },
+    {
+      "id": "3523847",
+      "name": "10.5.) Swivel Lock.step",
+      "fileSize": 51294
+    },
+    {
+      "id": "3523859",
+      "name": "11.) Lower body.step",
+      "fileSize": 345071
+    },
+    {
+      "id": "3523863",
+      "name": "12.) Motor Holder.step",
+      "fileSize": 101142
+    },
+    {
+      "id": "3523853",
+      "name": "13.) Motor Holder Lock.step",
+      "fileSize": 63487
+    },
+    {
+      "id": "3523866",
+      "name": "14.) Main Boom Push Rod.step",
+      "fileSize": 234770
+    },
+    {
+      "id": "3523858",
+      "name": "15.) Dipper and Bucket Push rod.step",
+      "fileSize": 272899
+    },
+    {
+      "id": "3523852",
+      "name": "16.) Thumb Push Rod.step",
+      "fileSize": 116709
+    },
+    {
+      "id": "3523865",
+      "name": "17.) Main Boom.step",
+      "fileSize": 894906
+    },
+    {
+      "id": "3696135",
+      "name": "18.) Dipper.step",
+      "fileSize": 419640
+    },
+    {
+      "id": "3523870",
+      "name": "20.) Bucket.step",
+      "fileSize": 197123
+    },
+    {
+      "id": "3523867",
+      "name": "19.) Attacher.step",
+      "fileSize": 188186
+    },
+    {
+      "id": "3523873",
+      "name": "21.) Bucket Swing Arm.step",
+      "fileSize": 71630
+    },
+    {
+      "id": "3696133",
+      "name": "22.) Bucket Push Link.step",
+      "fileSize": 81493
+    },
+    {
+      "id": "3523849",
+      "name": "23.) Thumb.step",
+      "fileSize": 133147
+    },
+    {
+      "id": "3523864",
+      "name": "24.) Cab.step",
+      "fileSize": 1451786
+    },
+    {
+      "id": "3523878",
+      "name": "25.) Main Boom Rotator Cuff.step",
+      "fileSize": 49903
+    },
+    {
+      "id": "3523848",
+      "name": "26.) Rear Cover Swivel.step",
+      "fileSize": 50728
+    },
+    {
+      "id": "3523882",
+      "name": "27.) Rear Cover.step",
+      "fileSize": 2550905
+    },
+    {
+      "id": "3523860",
+      "name": "28.) Step.step",
+      "fileSize": 93007
+    },
+    {
+      "id": "3523854",
+      "name": "29.) Engine Cover.step",
+      "fileSize": 335186
+    },
+    {
+      "id": "3523868",
+      "name": "30.) Exhaust.step",
+      "fileSize": 41456
+    },
+    {
+      "id": "3523862",
+      "name": "31.) Guardrail.step",
+      "fileSize": 225749
+    },
+    {
+      "id": "3523861",
+      "name": "32.) Step Mat.step",
+      "fileSize": 761491
+    },
+    {
+      "id": "3523857",
+      "name": "33.) Rear Cover Mat.step",
+      "fileSize": 625702
+    },
+    {
+      "id": "3523883",
+      "name": "34.) Track.step",
+      "fileSize": 4842375
+    },
+    {
+      "id": "3686587",
+      "name": "Push Blade Assembly.stl",
+      "fileSize": 363884
+    },
+    {
+      "id": "3686586",
+      "name": "1.) Push blade.stl",
+      "fileSize": 115684
+    },
+    {
+      "id": "3686585",
+      "name": "2.) Push Blade Chassis Mount.stl",
+      "fileSize": 49584
+    },
+    {
+      "id": "3686584",
+      "name": "3.) Motor holder push blade.stl",
+      "fileSize": 70084
+    },
+    {
+      "id": "3686582",
+      "name": "4.) Motor Holder Lock.stl",
+      "fileSize": 28384
+    },
+    {
+      "id": "3703191",
+      "name": "5.) Push Blade Push Rod.stl",
+      "fileSize": 51184
+    },
+    {
+      "id": "3686580",
+      "name": "Claw Assembly.stl",
+      "fileSize": 928384
+    },
+    {
+      "id": "3686579",
+      "name": "1.) Rotating claw Attacher.stl",
+      "fileSize": 246184
+    },
+    {
+      "id": "3686578",
+      "name": "2.) Pinion Gear for Claw Rotation Motor.stl",
+      "fileSize": 116584
+    },
+    {
+      "id": "3686574",
+      "name": "3.) Output Gear for Claw Rotation.stl",
+      "fileSize": 140484
+    },
+    {
+      "id": "3686575",
+      "name": "4.) Rotating Claw Servo Holder.stl",
+      "fileSize": 145684
+    },
+    {
+      "id": "3686577",
+      "name": "5.) Claw Arm left.stl",
+      "fileSize": 131184
+    },
+    {
+      "id": "3686576",
+      "name": "7.) Claw Servo Push Link.stl",
+      "fileSize": 39284
+    },
+    {
+      "id": "3686573",
+      "name": "6.) Claw Arm Right.stl",
+      "fileSize": 109484
+    },
+    {
+      "id": "3686571",
+      "name": "1.) Lower Body with Slip Ring.stl",
+      "fileSize": 302084
+    },
+    {
+      "id": "3686570",
+      "name": "2.) Swivel Lock with Slip Ring.stl",
+      "fileSize": 109284
+    },
+    {
+      "id": "3686590",
+      "name": "Boom LED Holder(Print 2).stl",
+      "fileSize": 76584
+    }
+  ],
+  "license": {
+    "name": "Creative Commons — Attribution  — Noncommercial  —  Share Alike"
+  },
+  "user": {
+    "id": "823077",
+    "publicUsername": "ProfessorBoots"
+  }
+}

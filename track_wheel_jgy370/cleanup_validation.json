@@ -1,0 +1,227 @@
+{
+  "pass": true,
+  "geometry_matches_saved_step": [
+    {
+      "part": "J01_bearing_carrier_motor_mount",
+      "symmetric_difference_mm3": 0.0
+    },
+    {
+      "part": "J03_hex_drive_cap",
+      "symmetric_difference_mm3": 0.0
+    },
+    {
+      "part": "J04_bearing_retainer",
+      "symmetric_difference_mm3": 0.0
+    },
+    {
+      "part": "J10_torque_spindle",
+      "symmetric_difference_mm3": 0.0
+    },
+    {
+      "part": "J313_chassis_docking_beam",
+      "symmetric_difference_mm3": 0.0
+    },
+    {
+      "part": "J402_motor_mount_plate",
+      "symmetric_difference_mm3": 0.0
+    },
+    {
+      "part": "J624_compact_return_roller",
+      "symmetric_difference_mm3": 0.0
+    },
+    {
+      "part": "J711_one_piece_track_housing",
+      "symmetric_difference_mm3": 0.0
+    },
+    {
+      "part": "J721_supported_roller_axle",
+      "symmetric_difference_mm3": 0.0
+    },
+    {
+      "part": "J722_bracket_cross_tie",
+      "symmetric_difference_mm3": 0.0
+    },
+    {
+      "part": "J723_roller_end_spacer",
+      "symmetric_difference_mm3": 0.0
+    },
+    {
+      "part": "J806_continuous_support_frame",
+      "symmetric_difference_mm3": 0.0
+    },
+    {
+      "part": "J815_inner_continuous_side_plate",
+      "symmetric_difference_mm3": 0.0
+    },
+    {
+      "part": "J816_outer_continuous_side_plate",
+      "symmetric_difference_mm3": 0.0
+    }
+  ],
+  "unit_instances": 318,
+  "bounds_mm": [
+    [
+      -154.32050807568876,
+      -73.0,
+      0.0
+    ],
+    [
+      154.12000555995357,
+      28.00000000000009,
+      91.14101615137754
+    ]
+  ],
+  "saved_geometry_media_and_playback_unchanged": true,
+  "removed_paths": [
+    {
+      "path": "track_wheel_yvzd",
+      "bytes": 418166
+    },
+    {
+      "path": "output/track_wheel_motor_study",
+      "bytes": 450067
+    },
+    {
+      "path": "track_wheel_jgy370/J2",
+      "bytes": 64817909
+    },
+    {
+      "path": "track_wheel_jgy370/J3",
+      "bytes": 96827871
+    },
+    {
+      "path": "track_wheel_jgy370/J4",
+      "bytes": 96052544
+    },
+    {
+      "path": "track_wheel_jgy370/J5",
+      "bytes": 98506554
+    },
+    {
+      "path": "track_wheel_jgy370/J6",
+      "bytes": 101037114
+    },
+    {
+      "path": "track_wheel_jgy370/J7",
+      "bytes": 146008206
+    },
+    {
+      "path": "track_wheel_jgy370/source",
+      "bytes": 3394525
+    },
+    {
+      "path": "track_wheel_jgy370/step",
+      "bytes": 23151826
+    },
+    {
+      "path": "track_wheel_jgy370/stl",
+      "bytes": 2799124
+    },
+    {
+      "path": "track_wheel_jgy370/images",
+      "bytes": 1066385
+    },
+    {
+      "path": "track_wheel_jgy370/references",
+      "bytes": 1015765
+    },
+    {
+      "path": "track_wheel_jgy370/reviews",
+      "bytes": 3220
+    },
+    {
+      "path": "track_wheel_jgy370/3D_preview.html",
+      "bytes": 10223428
+    },
+    {
+      "path": "track_wheel_jgy370/ASSEMBLY.md",
+      "bytes": 6071
+    },
+    {
+      "path": "track_wheel_jgy370/BOM.md",
+      "bytes": 2937
+    },
+    {
+      "path": "track_wheel_jgy370/J1_design_review.pdf",
+      "bytes": 214018
+    },
+    {
+      "path": "track_wheel_jgy370/browser_validation.json",
+      "bytes": 676
+    },
+    {
+      "path": "track_wheel_jgy370/packaging_report.json",
+      "bytes": 15110
+    },
+    {
+      "path": "track_wheel_jgy370/structure_validation.json",
+      "bytes": 7892
+    },
+    {
+      "path": "output/jgy370_study",
+      "bytes": 22608506
+    },
+    {
+      "path": "output/jgy370_structure",
+      "bytes": 46695552
+    },
+    {
+      "path": "output/track_layout_review",
+      "bytes": 631830
+    },
+    {
+      "path": "output/jgy370_J2",
+      "bytes": 49378312
+    },
+    {
+      "path": "output/jgy370_J3",
+      "bytes": 104782120
+    },
+    {
+      "path": "output/jgy370_J4",
+      "bytes": 104967033
+    },
+    {
+      "path": "output/jgy370_J5",
+      "bytes": 107757800
+    },
+    {
+      "path": "output/jgy370_J6",
+      "bytes": 112550886
+    },
+    {
+      "path": "output/jgy370_J7",
+      "bytes": 165018453
+    },
+    {
+      "path": "output/.j4_render_cache",
+      "bytes": 99959815
+    },
+    {
+      "path": "output/.j5_render_cache",
+      "bytes": 97547754
+    },
+    {
+      "path": "output/.j6_render_cache",
+      "bytes": 199805356
+    },
+    {
+      "path": "output/.j7_render_cache",
+      "bytes": 74936523
+    },
+    {
+      "path": "output/.j8_render_cache",
+      "bytes": 73173078
+    },
+    {
+      "path": "track_wheel_jgy370/J8/PRIOR_HANDOFF_ARCHIVE.md",
+      "bytes": 6979
+    },
+    {
+      "path": "track_wheel_jgy370/J8/initial_geometry_check.json",
+      "bytes": 59
+    }
+  ],
+  "removed_bytes": 1905839464,
+  "elapsed_s": 141.8
+}

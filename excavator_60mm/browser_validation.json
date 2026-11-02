@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "track_motion": {
+    "sampled_times": 156,
+    "max_rendered_hinge_gap_mm": 0.020682657903420647,
+    "max_rigid_pitch_error_mm": 1.2789769243681803e-13,
+    "max_rendered_pin_offset_mm": 0.000007168434428594326,
+    "max_recorded_pose_error_mm": 0.00003324247300854072,
+    "max_wheel_angle_error_rad": 0.0000018396091405747939,
+    "max_idler_carriage_error_mm": 7.105427357601002e-15,
+    "max_pinion_angle_error_rad": 0,
+    "max_spring_to_yoke_error_mm": 0.0000020819977919472876
+  },
+  "arm_and_slew_cases": 375,
+  "unrestricted_lowering_cases": 45,
+  "low_boom_slew_cases": 9,
+  "max_equation_difference_mm": 2.5579538487363607e-13,
+  "max_rendered_pin_difference_mm": 3.3748910047500876e-13,
+  "max_gear_ratio_error_rad": 0,
+  "checks": [
+    "offline rendering",
+    "full boom stroke at every slew angle and full slew with boom lowered",
+    "independent stroke and slew endpoint limits",
+    "all actuator endpoints after slew",
+    "opposed 96:20 gear rotation",
+    "sliders",
+    "camera presets",
+    "mechanism cutaway",
+    "two visible 18650 cells and removable hood hatch",
+    "track visibility",
+    "recorded loaded track poses and rigid pin closure",
+    "wheel phase and idler carriage take-up",
+    "ground travel",
+    "track timeline, playback speed, pause, end-stop and reset",
+    "animation pause/reset",
+    "390 px mobile layout",
+    "no network requests or browser errors"
+  ],
+  "track_revision": 5,
+  "track_trace_sha256": "ec71f7bd228256e264d6c0de24ca85e123d7aa77b5c1698bf712145a885f8e89",
+  "preview_sha256": "64276deb03c9ca61a19dfbbce241cb5b34536c2d59f24cd0c8db5dc4d6f0c0fe"
+}

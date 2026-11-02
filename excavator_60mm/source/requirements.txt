@@ -1,0 +1,9 @@
+cadquery==2.8.0
+numpy==2.4.6
+trimesh==5.2.0
+shapely==2.2.0
+scipy==1.17.1
+matplotlib==3.11.2
+reportlab==5.1.0
+pillow==13.0.0
+mujoco==3.3.7

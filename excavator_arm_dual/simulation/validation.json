@@ -1,0 +1,117 @@
+{
+  "status": "PASS",
+  "meaning": "Numerical and behavioral validation passes; this is not a payload or strength qualification",
+  "revision": 10,
+  "checks": [
+    "hold: current target motion",
+    "hold: no numerical warnings",
+    "hold: pin closure below 0.1 mm",
+    "hold: bounded force",
+    "unloaded: current target motion",
+    "unloaded: no numerical warnings",
+    "unloaded: pin closure below 0.1 mm",
+    "unloaded: bounded force",
+    "payload_150g: current target motion",
+    "payload_150g: no numerical warnings",
+    "payload_150g: pin closure below 0.1 mm",
+    "payload_150g: bounded force",
+    "underpowered_20N: current target motion",
+    "underpowered_20N: no numerical warnings",
+    "underpowered_20N: pin closure below 0.1 mm",
+    "underpowered_20N: bounded force",
+    "gravity_unpowered: current target motion",
+    "gravity_unpowered: no numerical warnings",
+    "gravity_unpowered: pin closure below 0.1 mm",
+    "gravity_unpowered: bounded force",
+    "zero_gravity: current target motion",
+    "zero_gravity: no numerical warnings",
+    "zero_gravity: pin closure below 0.1 mm",
+    "zero_gravity: bounded force",
+    "gravity_unpowered_half_step: current target motion",
+    "gravity_unpowered_half_step: no numerical warnings",
+    "gravity_unpowered_half_step: pin closure below 0.1 mm",
+    "gravity_unpowered_half_step: bounded force",
+    "sync_bias_0p5mm: current target motion",
+    "sync_bias_0p5mm: no numerical warnings",
+    "sync_bias_0p5mm: pin closure below 0.1 mm",
+    "sync_bias_0p5mm: bounded force",
+    "Loaded initial pose holds",
+    "Unloaded motion tracks within 1 mm stroke",
+    "150 g cycle tracks within 1 mm on all four drives",
+    "Nominal paired boom strokes remain aligned",
+    "Symmetric nominal drives share force",
+    "Nominal opposed lateral motor moments cancel",
+    "0.5 mm feedback bias produces unequal opposing motor loads",
+    "20 N cannot hold initial loaded arm",
+    "No gravity and no drive leaves pose stationary",
+    "Unpowered backdrivable arm falls under gravity",
+    "Gravity endpoint converges within 0.15 mm at half timestep",
+    "54 CAD / MuJoCo configurations agree",
+    "Four independent drives are placed at their specified Y planes",
+    "Independent virtual-work forces match MuJoCo generalized gravity",
+    "Unloaded actual tip follows target within 5 mm",
+    "Unloaded actual dumping remains above mounting plane",
+    "Loaded actual tip follows target within 5 mm",
+    "Loaded actual dumping remains above mounting plane",
+    "Loaded quasistatic equal-share demands stay below each 100 N assumption"
+  ],
+  "unloaded_cycle_status": "TRACKS",
+  "loaded_150g_at_100N_each_status": "TRACKS",
+  "forward_pose_cases": 54,
+  "max_tip_pose_discrepancy_mm": 3.2242845892245147e-10,
+  "max_side_pin_position_error_mm": 1.4210854715202004e-14,
+  "max_gravity_discrepancy_N": 6.654870787770051e-08,
+  "gravity_half_step_endpoint_difference_mm": 0.004594015093942384,
+  "actual_path": {
+    "unloaded": {
+      "max_tip_deviation_mm": 0.14054485341485382,
+      "cut_max_height_error_mm": 0.026900000000011914,
+      "dump_min_tip_z_mm": 145.2431,
+      "lift_max_absolute_bucket_angle_error_deg": 0.029489868153802945
+    },
+    "payload_150g": {
+      "max_tip_deviation_mm": 0.16893405433185266,
+      "cut_max_height_error_mm": 0.039800000000013824,
+      "dump_min_tip_z_mm": 145.2191,
+      "lift_max_absolute_bucket_angle_error_deg": 0.04331426411709316
+    }
+  },
+  "gravity_loads_on_path": {
+    "unloaded": {
+      "payload_kg": 0.0,
+      "max_absolute_axis_gravity_thrust_N": [
+        97.62440831479618,
+        11.496706711522364,
+        2.102809588011567
+      ],
+      "equal_share_per_drive_N": [
+        48.81220415739809,
+        48.81220415739809,
+        11.496706711522364,
+        2.102809588011567
+      ]
+    },
+    "payload_150g": {
+      "payload_kg": 0.15,
+      "max_absolute_axis_gravity_thrust_N": [
+        116.48526698722351,
+        17.515841785220587,
+        6.143604130759428
+      ],
+      "equal_share_per_drive_N": [
+        58.242633493611756,
+        58.242633493611756,
+        17.515841785220587,
+        6.143604130759428
+      ]
+    }
+  },
+  "motion_sha256": "f7e548ac3e5004d7009c02a63210833a1a37a4e0d4e9dbd89f72d5647e3dbdc6",
+  "source_sha256": {
+    "check_physics.py": "23ba24e22dfc3c362b97708ff6eafe8122f2b50773627434c113e45a9a310dfd",
+    "physics_model.py": "bca176fc2ef62dd6f01aca9bda1231a2c6d124f0848435d219c48a9e0b07bb89",
+    "simulate_arm.py": "8dc2229e27d13b0131a111eadb79ec0525662b4def2b8cab14659c1808182333",
+    "kinematics.py": "1434f75dcb63e3ce31a241d561ffc8180ed4d5cf3635c9338d32499a22c5a9b7"
+  },
+  "scope": "Fixed-base 3D rigid-body inertias and four independently integrated drives. Two symmetric boom slides close separately onto the same rigid boom. Ideal hinge axes, assumed force-speed law and ideal stroke feedback. No soil, chassis stability or elastic twist/stress. Unpowered tests assume backdrivable slides."
+}

@@ -1,0 +1,94 @@
+{
+  "name": "hold",
+  "revision": 10,
+  "payload_kg": 0.15,
+  "drive_names": [
+    "boom0",
+    "boom1",
+    "stick0",
+    "bucket0"
+  ],
+  "force_limit_N_per_drive": 100.0,
+  "no_load_speed_mm_s": 1.25,
+  "timestep_s": 0.002,
+  "duration_s": 3.0,
+  "powered": true,
+  "gravity": true,
+  "boom1_sensor_bias_mm": 0.0,
+  "peak_motor_force_N": [
+    39.97014231352768,
+    39.97014231352768,
+    11.459133533173365,
+    0.6048442780039648
+  ],
+  "maximum_tracking_error_mm": [
+    5.973863626343445e-05,
+    5.973863626343445e-05,
+    4.66588169004134e-05,
+    5.598213614899095e-06
+  ],
+  "final_tracking_error_mm": [
+    3.0052206400482673e-05,
+    3.0052206400482673e-05,
+    4.66588169004134e-05,
+    5.598213614899095e-06
+  ],
+  "peak_slide_speed_mm_s": [
+    0.006610899801974047,
+    0.006610899801974047,
+    0.002737836422095826,
+    8.503818689310954e-05
+  ],
+  "minimum_strokes_mm": [
+    31.09056867439887,
+    31.09056867439887,
+    21.095395175254026,
+    44.53900345932751
+  ],
+  "maximum_strokes_mm": [
+    31.090628413035134,
+    31.090628413035134,
+    21.095441834070925,
+    44.53900996038227
+  ],
+  "maximum_pin_closure_error_mm": 0.010334063302493491,
+  "tooth_z_range_mm": [
+    29.91047846303575,
+    30.000000000233243
+  ],
+  "seconds_at_force_or_speed_limit": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "peak_boom_force_difference_N": 0.0,
+  "peak_boom_stroke_difference_mm": 0.0,
+  "peak_net_eccentric_motor_moment_Nm": 0.0,
+  "peak_projected_boom_torsion_Nm": 0.0,
+  "side_load_scope": "Net moment of the two simulated motor forces at lateral offsets; not FEA stress or elastic twist",
+  "motion_sha256": "f7e548ac3e5004d7009c02a63210833a1a37a4e0d4e9dbd89f72d5647e3dbdc6",
+  "presentation_time_scale": 20.0,
+  "final_drive_strokes_mm": [
+    31.09059872660527,
+    31.09059872660527,
+    21.095395175254026,
+    44.53900996038227
+  ],
+  "final_tip_mm": [
+    359.9697566718175,
+    0.0,
+    29.91047846303575
+  ],
+  "wall_seconds": 1.52,
+  "warnings": {
+    "INERTIA": 0,
+    "CONTACTFULL": 0,
+    "CNSTRFULL": 0,
+    "VGEOMFULL": 0,
+    "BADQPOS": 0,
+    "BADQVEL": 0,
+    "BADQACC": 0,
+    "BADCTRL": 0
+  }
+}

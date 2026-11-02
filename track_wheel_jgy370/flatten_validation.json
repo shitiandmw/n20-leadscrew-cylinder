@@ -1,0 +1,31 @@
+{
+  "pass": true,
+  "layout": "Current design directly in track_wheel_jgy370/",
+  "old_nested_directory_removed": true,
+  "files_moved": 124,
+  "unchanged_file_count": 116,
+  "intentionally_updated_files": [
+    "README.md",
+    "simulation/motion_provenance.json",
+    "source/build_viewer.py",
+    "source/export_video.cjs",
+    "source/j8_parts.py",
+    "source/package_j8.py",
+    "source/reuse_motion.py",
+    "source/support/support_paths.py"
+  ],
+  "geometry_function_bodies_unchanged": true,
+  "imports_and_paths_pass": true,
+  "viewer_rebuild_byte_identical": true,
+  "motion_provenance_pass": true,
+  "python_syntax_pass": true,
+  "viewer_browser": {
+    "pass": true,
+    "views_checked": 12,
+    "forward_rpm": 20.099706577050153,
+    "reverse_rpm": -19.92911586015784,
+    "page_errors": [],
+    "network_requests": []
+  },
+  "node_syntax_pass": true
+}

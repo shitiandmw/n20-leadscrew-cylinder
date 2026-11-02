@@ -1,0 +1,2041 @@
+{
+  "status": "FAIL",
+  "failures": [
+    "arm or slew interference"
+  ],
+  "assembly": {
+    "exact_intersections": 732,
+    "collisions": []
+  },
+  "motion": {
+    "arm_grid_configurations": 125,
+    "arm_chassis_slew_angles": 11,
+    "upper_slew_samples": 61,
+    "exact_cross_system_intersections": 2106,
+    "maximum_intersection_mm3": 1310.5451253331348,
+    "collisions": [
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "02_track_rail_L",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": -150,
+        "volume_mm3": 3.6219557621476857
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L32",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": -150,
+        "volume_mm3": 30.84712852085037
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "06_drive_sprocket_L",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": -120,
+        "volume_mm3": 1310.545125333131
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L31",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": -120,
+        "volume_mm3": 17.775870881442323
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L32",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": -120,
+        "volume_mm3": 490.6011689995271
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L33",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": -120,
+        "volume_mm3": 134.95293765860603
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L32",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": -120,
+        "volume_mm3": 3.33231391655951
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_L32_0",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": -120,
+        "volume_mm3": 4.5595909223000195
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L33",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": -120,
+        "volume_mm3": 49.48008429396699
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "07_idler_wheel_L",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": -60,
+        "volume_mm3": 1302.04023984091
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L12",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": -60,
+        "volume_mm3": 108.01664349610584
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L13",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": -60,
+        "volume_mm3": 516.0855385738587
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L14",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": -60,
+        "volume_mm3": 8.346527779641798
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L13",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": -60,
+        "volume_mm3": 49.480084294042825
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L14",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": -60,
+        "volume_mm3": 3.3323139166550653
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_L14_0",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": -60,
+        "volume_mm3": 4.55959092230021
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "02_track_rail_L",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": -30,
+        "volume_mm3": 3.6219557621477114
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L13",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": -30,
+        "volume_mm3": 30.847128520850735
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "02_track_rail_R",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": 30,
+        "volume_mm3": 3.621955762147728
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R13",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": 30,
+        "volume_mm3": 30.847128520850774
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "07_idler_wheel_R",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": 60,
+        "volume_mm3": 1302.0402398409115
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R12",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": 60,
+        "volume_mm3": 108.01664349609494
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R13",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": 60,
+        "volume_mm3": 516.0855385738555
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R14",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": 60,
+        "volume_mm3": 8.346527779641754
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R13",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": 60,
+        "volume_mm3": 49.48008429400181
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R14",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": 60,
+        "volume_mm3": 3.332313916574197
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_R14_1",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": 60,
+        "volume_mm3": 4.559590922300203
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "06_drive_sprocket_R",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": 120,
+        "volume_mm3": 1310.5451253331348
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R31",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": 120,
+        "volume_mm3": 17.775870881441737
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R32",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": 120,
+        "volume_mm3": 490.6011689995379
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R33",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": 120,
+        "volume_mm3": 134.9529376586069
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R32",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": 120,
+        "volume_mm3": 3.3323139165023776
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_R32_1",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": 120,
+        "volume_mm3": 4.559590922300001
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R33",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": 120,
+        "volume_mm3": 49.48008429400706
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "02_track_rail_R",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": 150,
+        "volume_mm3": 3.621955762147695
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R32",
+        "strokes": [
+          0,
+          60,
+          0
+        ],
+        "slew": 150,
+        "volume_mm3": 30.847128520850156
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "06_drive_sprocket_L",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -120,
+        "volume_mm3": 546.2732453347896
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L00",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -120,
+        "volume_mm3": 760.7796737410786
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L01",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -120,
+        "volume_mm3": 521.771897743433
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L02",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -120,
+        "volume_mm3": 5.528131726040393
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L31",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -120,
+        "volume_mm3": 7.584525363157338
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L32",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -120,
+        "volume_mm3": 490.5926544249176
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L33",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -120,
+        "volume_mm3": 487.5270344376779
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L00",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -120,
+        "volume_mm3": 53.820339081786564
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L01",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -120,
+        "volume_mm3": 53.43807482321388
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_L01_0",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -120,
+        "volume_mm3": 2.4871909099130383
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L02",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -120,
+        "volume_mm3": 0.5626896432393313
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_L02_0",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -120,
+        "volume_mm3": 1.3708548517996735
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L32",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -120,
+        "volume_mm3": 3.33231391655952
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_L32_0",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -120,
+        "volume_mm3": 4.559590922299933
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L33",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -120,
+        "volume_mm3": 49.48008429402771
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "07_idler_wheel_L",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -60,
+        "volume_mm3": 261.4512946814355
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L09",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -60,
+        "volume_mm3": 5.528131726040241
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L10",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -60,
+        "volume_mm3": 705.74835961483
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L11",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -60,
+        "volume_mm3": 579.2896064580098
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L12",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -60,
+        "volume_mm3": 507.87785604149656
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L13",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -60,
+        "volume_mm3": 517.1926108053623
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L10",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -60,
+        "volume_mm3": 0.5626896432512778
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_L10_0",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -60,
+        "volume_mm3": 1.370854851799631
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L11",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -60,
+        "volume_mm3": 53.43807509626564
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_L11_0",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -60,
+        "volume_mm3": 2.4871909099498692
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L12",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -60,
+        "volume_mm3": 53.82033894245551
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L13",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -60,
+        "volume_mm3": 49.48008429404261
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L14",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -60,
+        "volume_mm3": 3.332313916655035
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_L14_0",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": -60,
+        "volume_mm3": 4.55959092230027
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "07_idler_wheel_R",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 60,
+        "volume_mm3": 261.45129468117295
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R09",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 60,
+        "volume_mm3": 5.528131726040298
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R10",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 60,
+        "volume_mm3": 705.7483594164731
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R11",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 60,
+        "volume_mm3": 579.2896064716168
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R12",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 60,
+        "volume_mm3": 507.8778560414779
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R13",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 60,
+        "volume_mm3": 517.1926108053583
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R10",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 60,
+        "volume_mm3": 0.5626896432207456
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_R10_1",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 60,
+        "volume_mm3": 1.370854851799596
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R11",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 60,
+        "volume_mm3": 53.43807488407577
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_R11_1",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 60,
+        "volume_mm3": 2.4871909099498866
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R12",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 60,
+        "volume_mm3": 53.82033898709722
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R13",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 60,
+        "volume_mm3": 49.48008429400163
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R14",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 60,
+        "volume_mm3": 3.3323139165741633
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_R14_1",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 60,
+        "volume_mm3": 4.559590922300246
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "06_drive_sprocket_R",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 120,
+        "volume_mm3": 546.2732453347911
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R00",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 120,
+        "volume_mm3": 760.7796737903508
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R01",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 120,
+        "volume_mm3": 521.7718977433726
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R02",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 120,
+        "volume_mm3": 5.528131726040383
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R31",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 120,
+        "volume_mm3": 7.584525363158161
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R32",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 120,
+        "volume_mm3": 490.59265442493444
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R33",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 120,
+        "volume_mm3": 487.52703443782156
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R00",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 120,
+        "volume_mm3": 53.820338849358166
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R01",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 120,
+        "volume_mm3": 53.43807469017346
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_R01_1",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 120,
+        "volume_mm3": 2.4871909099131115
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R02",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 120,
+        "volume_mm3": 0.5626896432184475
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_R02_1",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 120,
+        "volume_mm3": 1.3708548517996386
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R32",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 120,
+        "volume_mm3": 3.332313916503008
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_R32_1",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 120,
+        "volume_mm3": 4.55959092229993
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R33",
+        "strokes": [
+          0,
+          60,
+          15
+        ],
+        "slew": 120,
+        "volume_mm3": 49.48008429403216
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "06_drive_sprocket_L",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -120,
+        "volume_mm3": 35.28851588602117
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L00",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -120,
+        "volume_mm3": 1137.5025810880104
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L01",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -120,
+        "volume_mm3": 203.53870715703067
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L31",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -120,
+        "volume_mm3": 6.209002092010994
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L32",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -120,
+        "volume_mm3": 536.047204332206
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L33",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -120,
+        "volume_mm3": 784.5317033891249
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L00",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -120,
+        "volume_mm3": 55.20861978210403
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L01",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -120,
+        "volume_mm3": 40.93697714739162
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_L01_0",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -120,
+        "volume_mm3": 12.723450247039143
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L32",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -120,
+        "volume_mm3": 3.332313916552153
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_L32_0",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -120,
+        "volume_mm3": 4.559583046214717
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L33",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -120,
+        "volume_mm3": 47.536907384455596
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L10",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -60,
+        "volume_mm3": 295.90323556931236
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L11",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -60,
+        "volume_mm3": 840.686559120947
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L12",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -60,
+        "volume_mm3": 871.7324011071954
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L13",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -60,
+        "volume_mm3": 566.4778697805953
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L11",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -60,
+        "volume_mm3": 40.93697717767003
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_L11_0",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -60,
+        "volume_mm3": 12.723450247039143
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L12",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -60,
+        "volume_mm3": 55.20861980158162
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L13",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -60,
+        "volume_mm3": 47.536907389148276
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L14",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -60,
+        "volume_mm3": 3.3323139166425553
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_L14_0",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": -60,
+        "volume_mm3": 4.559583045548293
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R10",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 60,
+        "volume_mm3": 295.9032354580637
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R11",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 60,
+        "volume_mm3": 840.6865591209421
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R12",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 60,
+        "volume_mm3": 871.73240109693
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R13",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 60,
+        "volume_mm3": 566.4778697805842
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R11",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 60,
+        "volume_mm3": 40.93697712302786
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_R11_1",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 60,
+        "volume_mm3": 12.723450247039143
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R12",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 60,
+        "volume_mm3": 55.20861975499891
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R13",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 60,
+        "volume_mm3": 47.53690751753831
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R14",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 60,
+        "volume_mm3": 3.332313916576905
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_R14_1",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 60,
+        "volume_mm3": 4.5595830455483615
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "06_drive_sprocket_R",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 120,
+        "volume_mm3": 35.28851588602164
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R00",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 120,
+        "volume_mm3": 1137.5025810176783
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R01",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 120,
+        "volume_mm3": 203.53870715703215
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R31",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 120,
+        "volume_mm3": 6.209002092012315
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R32",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 120,
+        "volume_mm3": 536.0472043322142
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R33",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 120,
+        "volume_mm3": 784.5317033993592
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R00",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 120,
+        "volume_mm3": 55.20861978608327
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R01",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 120,
+        "volume_mm3": 40.9369771443631
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_R01_1",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 120,
+        "volume_mm3": 12.723450247039143
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R32",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 120,
+        "volume_mm3": 3.332313916504136
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_R32_1",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 120,
+        "volume_mm3": 4.559583046214731
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R33",
+        "strokes": [
+          0,
+          60,
+          30
+        ],
+        "slew": 120,
+        "volume_mm3": 47.53690737414679
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L00",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": -120,
+        "volume_mm3": 819.1221711818845
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L01",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": -120,
+        "volume_mm3": 46.301677592695455
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L32",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": -120,
+        "volume_mm3": 371.3463966088798
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L33",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": -120,
+        "volume_mm3": 1204.490323890023
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L00",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": -120,
+        "volume_mm3": 49.70910588809044
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L01",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": -120,
+        "volume_mm3": 18.373827682963984
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_L01_0",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": -120,
+        "volume_mm3": 7.824015889140927
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L33",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": -120,
+        "volume_mm3": 48.42166330859938
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_L33_0",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": -120,
+        "volume_mm3": 1.295629357565693
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L10",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": -60,
+        "volume_mm3": 72.54806638697877
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L11",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": -60,
+        "volume_mm3": 836.4650851712712
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L12",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": -60,
+        "volume_mm3": 1286.901905946004
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_L13",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": -60,
+        "volume_mm3": 202.21666070146142
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L11",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": -60,
+        "volume_mm3": 18.373827578303647
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_L11_0",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": -60,
+        "volume_mm3": 7.8240158891746
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L12",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": -60,
+        "volume_mm3": 49.70910586714425
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_L13",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": -60,
+        "volume_mm3": 48.42166313440811
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_L13_0",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": -60,
+        "volume_mm3": 1.2956293575657019
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R10",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": 60,
+        "volume_mm3": 72.54806638692925
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R11",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": 60,
+        "volume_mm3": 836.4650848843985
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R12",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": 60,
+        "volume_mm3": 1286.9019060331066
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R13",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": 60,
+        "volume_mm3": 202.21666070146196
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R11",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": 60,
+        "volume_mm3": 18.373827645633092
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_R11_1",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": 60,
+        "volume_mm3": 7.824015889174671
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R12",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": 60,
+        "volume_mm3": 49.7091058656735
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R13",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": 60,
+        "volume_mm3": 48.42166326911724
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_R13_1",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": 60,
+        "volume_mm3": 1.2956293575656712
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R00",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": 120,
+        "volume_mm3": 819.1221712190313
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R01",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": 120,
+        "volume_mm3": 46.30167759269597
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R32",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": 120,
+        "volume_mm3": 371.3463966088335
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "shoe_R33",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": 120,
+        "volume_mm3": 1204.490324324345
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R00",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": 120,
+        "volume_mm3": 49.709105904843234
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R01",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": 120,
+        "volume_mm3": 18.37382757611892
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_R01_1",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": 120,
+        "volume_mm3": 7.8240158891406
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "track_pin_R33",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": 120,
+        "volume_mm3": 48.42166309500057
+      },
+      {
+        "part": "06_inward_digging_bucket",
+        "obstacle": "pin_clip_R33_1",
+        "strokes": [
+          0,
+          60,
+          45
+        ],
+        "slew": 120,
+        "volume_mm3": 1.2956293575656643
+      }
+    ],
+    "gear_mesh_samples": 61,
+    "maximum_gear_intersection_mm3": 0,
+    "idler_guide_collisions": [],
+    "mechanical_stop_contact_deg": [
+      -160.75,
+      160.75
+    ]
+  },
+  "loads": {
+    "nominal_mass_kg": 10.714967053555139,
+    "base_mass_kg": 4.871015917760658,
+    "upper_without_arm_kg": 4.2021753987836945,
+    "arm_mass_kg": 1.6417757370107864,
+    "nominal_payload_study_kg": 0.15,
+    "stability_configurations": 18954,
+    "support_half_extents_mm": [
+      119.4,
+      173
+    ],
+    "uncertainty": {
+      "arm_mass_factor": 1.2,
+      "base_mass_factor": 0.9,
+      "slope_deg": 5
+    },
+    "worst_stability": {
+      "margin_mm": 69.00152921351841,
+      "strokes_mm": [
+        7.5,
+        0.0,
+        0.0
+      ],
+      "slew_deg": -150.0,
+      "payload_kg": 0.15,
+      "cg_mm": [
+        -39.9056348812564,
+        -15.187250752550565,
+        119.93366320101622
+      ],
+      "tooth_height_mm": 81.50445807160186
+    },
+    "max_overturning_moment_Nm": 3.9684372247309057,
+    "slew_bearing_couple_reaction_N": 99.21093061827264,
+    "slew_spindle_bending_MPa": 5.05277120532645,
+    "static_actuator_thrust_N_per_cylinder": [
+      42.44721237933735,
+      45.57420873885221,
+      16.403045501656166
+    ],
+    "actuator_force_worst_strokes_mm": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        45.0,
+        0.0,
+        7.5
+      ],
+      [
+        0.0,
+        15.0,
+        60.0
+      ]
+    ],
+    "actuator_selection_thrust_N_with_2x_margin": [
+      84.8944247586747,
+      91.14841747770441,
+      32.80609100331233
+    ],
+    "drive": {
+      "mass_including_payload_kg": 10.864967053555139,
+      "grade_deg": 10,
+      "friction_coefficient": 0.3,
+      "rolling_coefficient": 0.04,
+      "grade_torque_Nm_each": 0.5160768962203565,
+      "skid_turn_torque_Nm_each": 0.5318457713927118,
+      "required_continuous_motor_torque_Nm": 1.2,
+      "traction_margin": 1.3867895674293986,
+      "speed_at_30_rpm_m_s": 0.12138181919129551,
+      "torque_limit_tractive_force_N": 26.399542600457117
+    },
+    "slew": {
+      "available_output_torque_Nm": 1.26,
+      "output_rpm": 2.0833333333333335,
+      "conservative_Lewis_tooth_stress_MPa": 3.6458333333333335,
+      "assumed_printed_tooth_allowable_MPa": 8
+    },
+    "track_pin": {
+      "worst_force_with_pretension_N": 53.39954260045712,
+      "bending_MPa": 87.63208311024384,
+      "assumed_steel_yield_MPa": 200
+    },
+    "assumptions": "PETG at 1.27 g/cm\u00b3 on exact solid volume; steel 7.85. Motor masses 250/90 g, battery 250 g, bearings 12/70 g, U60 internals 35 g each. 1.507 kg steel ballast. Mass, friction, gearbox thrust and printed strength must be measured. No soil digging load or dynamic arm load included in actuator thrust."
+  },
+  "track": {
+    "links": 34,
+    "max_pitch_error_mm": 1.7763568394002505e-14,
+    "articulation_samples": 41,
+    "articulation_range_deg": [
+      -32,
+      8
+    ],
+    "max_articulation_intersection_mm3": 0,
+    "chordal_speed_variation_fraction": 0.03407417371093169,
+    "required_polygonal_take_up_mm": 0.6256542322449263
+  },
+  "elapsed_seconds": 408.8049523830414,
+  "scope": "Sampled exact CAD intersections and quasi-static mechanics, not FEA, continuous collision proof or physical certification."
+}

@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "sampled_poses": 18,
+  "exact_intersections": 1411,
+  "trace_sha256": "ec71f7bd228256e264d6c0de24ca85e123d7aa77b5c1698bf712145a885f8e89",
+  "maximum_overlap_mm3": {
+    "adjacent": 0,
+    "idler": 0.16514070266460246,
+    "road2": 0.0447521847597203,
+    "road1": 0.06983224464867105,
+    "road0": 0.055353253134622624,
+    "sprocket": 0,
+    "hub_cap": 0,
+    "return0": 0,
+    "return1": 0
+  },
+  "contact_volume_tolerance_mm3": 0.5,
+  "max_floor_penetration_mm": 0.0016426710831804426,
+  "floor_contact_tolerance_mm": 0.1,
+  "failures": [],
+  "elapsed_seconds": 190.64101338386536,
+  "scope": "Actual CAD shoes, steel bushings, pins and clips against adjacent links, the R5 sprocket hub and hub cap, idler and rollers at 18 poses per test across forward/reverse tooth periods. Wheel bearing holes retained. No rail/frame sweep or continuous collision proof. 0.5 mm3 contact-volume tolerance covers numerical soft contact and sprocket mesh approximation."
+}

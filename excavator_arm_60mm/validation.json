@@ -1,0 +1,92 @@
+{
+  "status": "PASS",
+  "revision": 4,
+  "reference": "Cat 320 Reach boom/R2.9B1 stick, 1:15, four identical 60 mm actuators",
+  "failures": [],
+  "units": "mm",
+  "nominal_strokes_mm": [
+    60.0,
+    60.0,
+    60.0
+  ],
+  "actuator_closed_mm": [
+    140.0,
+    140.0,
+    140.0
+  ],
+  "closure_samples": 461,
+  "max_pin_closure_error_mm": 9.947598300641403e-14,
+  "nominal_angles_deg": {
+    "boom": [
+      2.000000005118323,
+      69.00000000457858
+    ],
+    "stick_relative_to_boom": [
+      -48.92128692509265,
+      -143.862346285175
+    ],
+    "bucket_relative_to_stick": [
+      131.1064616306699,
+      12.862247539212058
+    ]
+  },
+  "guard_transmission_degrees_per_mm": {
+    "boom": [
+      1.0013737843089558,
+      1.637876669196998
+    ],
+    "stick": [
+      -2.931930837722093,
+      -1.4045799027536068
+    ],
+    "bucket": [
+      -6.634641923623436,
+      -1.508406002037504
+    ]
+  },
+  "guard_effective_moment_arm_mm": {
+    "boom": [
+      34.98174227072465,
+      57.21717545523914
+    ],
+    "stick": [
+      19.541995594137948,
+      40.792111150641475
+    ],
+    "bucket": [
+      8.635851063653314,
+      37.98432214913565
+    ]
+  },
+  "four_bar_guard_transmission_angle_deg": [
+    33.15599068827381,
+    89.90477994030589
+  ],
+  "bucket_faces_machine_in_reference_pose": true,
+  "bucket_lip_rises_during_reference_curl": true,
+  "factory_dimensions_mm": {
+    "boom": 5700,
+    "stick": 2900,
+    "bucket_width": 1200,
+    "bucket_tip_radius": 1570
+  },
+  "model_scale": 15.0,
+  "solid_collision_poses": 134,
+  "exact_boolean_pairs": 1021,
+  "cached_pairs": 17038,
+  "maximum_intersection_mm3": 0,
+  "collision_volume_tolerance_mm3": 0.02,
+  "collisions": [],
+  "tooth_envelope_samples": 9261,
+  "tooth_x_range_mm": [
+    82.14630092013077,
+    606.7529634924856
+  ],
+  "tooth_z_range_mm": [
+    -195.35323971873322,
+    524.6750502727376
+  ],
+  "below_mounting_plane_samples": 2783,
+  "scope": "134 sampled configurations: 5^3 nominal combinations, eight reserve corners and the reference pose. External structures, pin/spacer/collar envelopes and regenerated V6 exteriors. Below-Z=0 poses represent the reference excavator digging below its mounting plane; solid-floor operation requires restricting those poses or a clear recess. This is not a continuous collision proof or a payload/physical-fit test.",
+  "elapsed_seconds": 262.8
+}

@@ -1,0 +1,25 @@
+{
+  "name": "arm60-sand-lab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "build": "vite build",
+    "test": "node --test test/*.test.js",
+    "test:browser": "node test/browser.js",
+    "export:model": "python3 scripts/export_model.py"
+  },
+  "dependencies": {
+    "qrcode": "1.5.4",
+    "three": "0.180.0",
+    "ws": "8.22.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "vite": "7.3.7"
+  }
+}

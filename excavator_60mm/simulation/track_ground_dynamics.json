@@ -1,0 +1,149 @@
+{
+  "status": "PASS",
+  "engine": "MuJoCo 3.3.7 Newton",
+  "wheel_checks": {
+    "mean_vertical_support_N": [
+      -2.1054457316397204,
+      -2.12988470762252,
+      19.44618393189468,
+      20.62668394310135,
+      19.644190246527288,
+      -0.32368005661190014,
+      -0.34522139858998074
+    ],
+    "forward_rad_s": [
+      1.547373157593207,
+      1.5546847987895938,
+      3.2772530881866158,
+      3.2790405997719207,
+      3.274946043068042,
+      3.5757234216892817,
+      3.5789345168763327
+    ],
+    "reverse_rad_s": [
+      -1.5476431501813837,
+      -1.554780064774587,
+      -3.2718396251521558,
+      -3.2751134862269504,
+      -3.2711722628480957,
+      -3.4784532401251607,
+      -3.568711341786661
+    ],
+    "order": [
+      "drive",
+      "idler",
+      "road0",
+      "road1",
+      "road2",
+      "carrier0",
+      "carrier1"
+    ],
+    "rotation_required": [
+      "idler",
+      "road0",
+      "road1",
+      "road2"
+    ],
+    "carrier_lift_mm": {
+      "minimum": [
+        -0.004153224838930214,
+        -0.0005294133280671076
+      ],
+      "maximum": [
+        0.08757611503533269,
+        0.026613587021856233
+      ],
+      "mean": [
+        0.021282154275876052,
+        0.018709626013693234
+      ],
+      "allowed": 1.0
+    }
+  },
+  "guide_contacts": {
+    "left": 0,
+    "right": 0
+  },
+  "guide_contacts_by_wheel": {},
+  "lateral_test_force_N": 0,
+  "time_step_s": 0.0005,
+  "steps": 68000,
+  "links": 34,
+  "hinge_constraints": 68,
+  "drive_angle_rad": -2.320295449733506,
+  "target_speed_rad_s": 1.6,
+  "final_speed_rad_s": 0.0021729472645278165,
+  "max_hinge_error_mm": 0.006183374315463412,
+  "max_lateral_drift_mm": 0.0018816187375044772,
+  "marker_excursion_mm": 162.50658006492603,
+  "contact_observations": 144402,
+  "contact_convex_pieces": 114,
+  "contact_geometry_verified": true,
+  "torque_limit_Nm": 1.205847887735849,
+  "idler_travel_mm": [
+    -0.20050251573520228,
+    0.49381275093644056
+  ],
+  "idler_travel_limits_mm": [
+    -4.200000000000003,
+    4.0
+  ],
+  "idler_spring": "Associated/Lee Spring C-600-072-1500, music wire",
+  "idler_spring_N_per_mm": 6.285302660629922,
+  "idler_preload_N": 77.31236537707835,
+  "drive_armature_kg_m2": 0.103359375,
+  "initial_hinge_error_mm": 3.1031676915590914e-14,
+  "elapsed_seconds": 396.7850239276886,
+  "forward_mean_speed_rad_s": 1.5473520834250645,
+  "reverse_mean_speed_rad_s": -1.5476508090837031,
+  "peak_angle_rad": 21.60157527864759,
+  "total_rotation_rad": 45.52782672334984,
+  "marker_path_mm": 1730.2623190169313,
+  "expected_pitch_travel_mm": 1739.03488110058,
+  "chain_travel_ratio": 0.9949554996400666,
+  "minimum_forward_circuits": 1.1187893182991626,
+  "minimum_reverse_circuits": 1.2017192948229904,
+  "peak_applied_torque_Nm": 0.2962306643168606,
+  "checks": {
+    "all_links_complete_forward_circuit": true,
+    "all_links_complete_reverse_circuit": true,
+    "forward_speed": true,
+    "reverse_speed": true,
+    "controlled_stop": true,
+    "hinge_closure": true,
+    "lateral_guidance": true,
+    "idler_limits": true,
+    "pitch_travel": true,
+    "contacts": true,
+    "solver_stable": true,
+    "torque_limit": true,
+    "carriers_bracket_return_run": true,
+    "contacting_free_wheels_rotate_forward": true,
+    "contacting_free_wheels_rotate_reverse": true,
+    "each_road_roller_carries_load": true,
+    "road_rollers_carry_primary_load": true,
+    "ground_contacts": true,
+    "forward_traction": true,
+    "reverse_traction": true,
+    "ground_support": true,
+    "chassis_stop": true
+  },
+  "loaded": {
+    "total_supported_mass_kg": 6.016403898629847,
+    "forward_speed_m_s": 0.05922613055417156,
+    "reverse_speed_m_s": -0.05921578482569463,
+    "pitch_speed_m_s": 0.06111549814728781,
+    "mean_ground_normal_N": 59.0042257174898,
+    "weight_N": 59.02092224555881,
+    "ground_contact_observations": 44139,
+    "final_speed_m_s": 8.60434984121411e-05,
+    "max_travel_m": 0.8264124478698842,
+    "final_position_m": [
+      -0.0888885858239181,
+      0.0,
+      1.779907147590334e-06
+    ],
+    "rolling_resistance_coefficient": 0.04
+  },
+  "scope": "Half-machine mass on a planar carriage free in X/Z, rigid floor and actual shoe contact; pitch/roll/yaw guided. R5 track wheel: speed servo clipped at the 1.0 A driver torque with the reflected rotor inertia, steel-bushing sprocket on the hub drum, recoil idler on the C-600-072-1500 spring with its preload and hard stop, rollers with outer guide flanges, 34 free shoes and 68 hinge point constraints. Simplified rigid shoe contacts and ideal bearings; rail/frame collisions, soil, wear, printed elasticity and motor heating are not modeled."
+}

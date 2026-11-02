@@ -1,0 +1,97 @@
+{
+  "status": "PASS",
+  "failures": [],
+  "travel": {
+    "forward": {
+      "final_speed_m_s": 0.0,
+      "final_yaw_rate_rad_s": 0.0,
+      "position_m": [
+        0.23831254496243026,
+        0.0
+      ],
+      "yaw_rad": 0.0,
+      "max_motor_torque_Nm": 0.6841179970606107,
+      "motor_work_J": 1.122404795993758,
+      "steady_speed_m_s": 0.07952783262203555,
+      "steady_yaw_rad_s": 0.0,
+      "stop_distance_after_3s_m": 0.0008328071428689299
+    },
+    "reverse": {
+      "final_speed_m_s": 0.0,
+      "final_yaw_rate_rad_s": 0.0,
+      "position_m": [
+        -0.23831254496243026,
+        0.0
+      ],
+      "yaw_rad": 0.0,
+      "max_motor_torque_Nm": 0.6841179970606107,
+      "motor_work_J": 1.122404795993758,
+      "steady_speed_m_s": -0.07952783262203555,
+      "steady_yaw_rad_s": 0.0,
+      "stop_distance_after_3s_m": 0.0008328071428689299
+    },
+    "pivot": {
+      "final_speed_m_s": 0.0,
+      "final_yaw_rate_rad_s": 4.4e-323,
+      "position_m": [
+        0.0,
+        0.0
+      ],
+      "yaw_rad": 0.8502848766836569,
+      "max_motor_torque_Nm": 0.6841179970606107,
+      "motor_work_J": 2.4715511466054263,
+      "steady_speed_m_s": 0.0,
+      "steady_yaw_rad_s": 0.28405245857076805,
+      "stop_distance_after_3s_m": 0.0
+    },
+    "grade_10deg": {
+      "final_speed_m_s": -0.001882530946519172,
+      "final_yaw_rate_rad_s": 0.0,
+      "position_m": [
+        0.22574461485030203,
+        0.0
+      ],
+      "yaw_rad": 0.0,
+      "max_motor_torque_Nm": 0.6737247074804723,
+      "motor_work_J": 5.697841523164552,
+      "steady_speed_m_s": 0.07748523078702861,
+      "steady_yaw_rad_s": 0.0,
+      "stop_distance_after_3s_m": 0.0032281446656754476
+    },
+    "power_loss_on_grade": {
+      "final_speed_m_s": -2.586003376967754,
+      "final_yaw_rate_rad_s": 0.0,
+      "position_m": [
+        -2.3097596406052716,
+        0.0
+      ],
+      "yaw_rad": 0.0,
+      "max_motor_torque_Nm": 0.6737247074804723,
+      "motor_work_J": 5.7904775429441795,
+      "steady_speed_m_s": 0.07748523078702861,
+      "steady_yaw_rad_s": 0.0,
+      "stop_distance_after_3s_m": 2.515525624598458
+    }
+  },
+  "slew": {
+    "peak_angle_deg": 149.47334826477282,
+    "final_speed_deg_s": -4.0978986194737185e-117,
+    "commanded_speed_limit_deg_s": 6,
+    "model_inertia_kg_m2": 0.5,
+    "assumed_breakaway_friction_Nm": 0.12,
+    "available_torque_Nm": 1.26,
+    "holding_torque_on_5deg_slope_Nm": 0.37549360667621573
+  },
+  "hub_bearings": {
+    "conservative_sprocket_radial_load_N": 238.00807065132403,
+    "idler_stop_force_N": 116.15239316844095,
+    "drive_pull_N": 31.209639884268405,
+    "mesh_force_N": 81.4753345470171,
+    "bearing": "61808-2RS1 (fixed) under the sprocket; 6809-2RS floating",
+    "static_rating_C0_N": 3450.0,
+    "static_safety": 14.495306779130885,
+    "housing_tube_bending_MPa": 1.5124179538585005,
+    "scope": "Quasi-static upper bound for the in-hub final drive (track_wheel/validation.json has the full load cases). Whole half-machine weight on the sprocket, idler on its recoil stop at +10 % spring rate, drive at the 1.0 A limit, mesh force carried by the same bearing."
+  },
+  "scope": "Reduced rigid-body differential traction with force/current saturation, Coulomb scrub and rolling loss. Flat floor is the operating assumption; grade cases test the model and reveal power-off rollback. Slew assumes a raised boom clear of the tracks, ideal gears and 0.50 kg m\u00b2 equivalent inertia. Motor performance assumes a maintained regulated 12 V rail within the commissioned power budget. Not full terrain contact, motor thermal analysis or firmware validation."
+}

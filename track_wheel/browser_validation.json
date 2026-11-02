@@ -1,0 +1,81 @@
+{
+ "views": {
+  "unit": {
+   "section": false,
+   "image": "images/unit.png"
+  },
+  "drive": {
+   "section": true,
+   "image": "images/final_drive_section.png"
+  },
+  "recoil": {
+   "section": true,
+   "image": "images/recoil_section.png"
+  },
+  "exploded": {
+   "section": false,
+   "image": "images/exploded.png"
+  },
+  "gear": {
+   "section": true,
+   "image": "images/gear_stage.png"
+  }
+ },
+ "playback": {
+  "fixture": {
+   "frame60": {
+    "t": 1.2000000476837158,
+    "speed": 2.434310049888838,
+    "current": 0.4189000129699707,
+    "recoil": -0.6656154105086856,
+    "spring": 73.12878687860896,
+    "pin": 37.77000045776367
+   }
+  },
+  "reverse_wall": {
+   "frame60": {
+    "t": 1.2000000476837158,
+    "speed": -1.5556615188379537,
+    "current": -1,
+    "recoil": -0.6348346480746798,
+    "spring": 73.32225328663164,
+    "pin": 34.06999969482422
+   }
+  },
+  "debris": {
+   "frame60": {
+    "t": 1.2000000476837158,
+    "speed": -1.924606462303231,
+    "current": -0.5210999846458435,
+    "recoil": 2.5990744820217557,
+    "spring": 93.64835094626216,
+    "pin": 83.55999755859375
+   }
+  },
+  "obstacle": {
+   "frame60": {
+    "t": 1.2000000476837158,
+    "speed": 2.9819339226216375,
+    "current": 0.18639999628067017,
+    "recoil": -0.47909855932193324,
+    "spring": 74.30110173962537,
+    "pin": 52.83000183105469
+   }
+  },
+  "debris_peak": {
+   "frame": 66,
+   "readouts": {
+    "t": 1.3200000524520874,
+    "speed": -1.9655725295488546,
+    "current": -0.43160000443458557,
+    "recoil": 3.201862930355496,
+    "spring": 97.4370587843712,
+    "pin": 105.7699966430664
+   }
+  }
+ },
+ "status": "PASS",
+ "page_errors": [],
+ "network_requests": [],
+ "render_calls": 30
+}

@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "revision": 4,
+  "unchanged_reference_and_actuator_files": 282,
+  "retained_r3_structural_stls": [
+    "03_box_stick.stl",
+    "04_rocker_left.stl",
+    "04_rocker_right.stl",
+    "05_bucket_link_left.stl",
+    "05_bucket_link_right.stl",
+    "06_inward_digging_bucket.stl"
+  ],
+  "previous_r3_zip_sha256": "b95ea1d50eab7e44c3b78739cea79b48744797eae54101b98ec2720d34714758",
+  "repository_head": "99b5bae"
+}

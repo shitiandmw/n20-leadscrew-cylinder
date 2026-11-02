@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Track wheel R5 / in-hub gearmotor and recoil idler</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f1f2ef;color:#203038;font:14px Arial,sans-serif}
+header{height:78px;background:#fff;border-bottom:1px solid #d5dbd7;padding:14px 26px;display:flex;justify-content:space-between;align-items:center}
+h1{font-size:23px;font-weight:500;letter-spacing:-.5px;margin:4px 0}.kicker{font-size:10px;letter-spacing:2px;color:#69776c}header span{font-size:11px;color:#52514e}
+main{display:flex;height:calc(100vh - 78px)}#stage{position:relative;flex:1;min-width:0}#stage canvas{display:block;width:100%;height:100%}
+.bar{position:absolute;top:12px;left:12px;display:flex;flex-wrap:wrap;gap:6px;z-index:2}.bar button{border:1px solid #c9d0cb;background:#fff;border-radius:16px;padding:6px 12px;font-size:12px;cursor:pointer;color:#203038}
+.bar button.active{background:#203038;color:#fff;border-color:#203038}.caption{position:absolute;left:14px;bottom:12px;right:14px;font-size:12px;color:#52514e;background:rgba(255,255,255,.85);padding:8px 10px;border-radius:6px;z-index:2}
+aside{width:360px;background:#fff;border-left:1px solid #d5dbd7;padding:18px 20px;overflow:auto}h2{font-size:15px;margin:16px 0 6px}aside p{margin:4px 0 10px;line-height:1.4;color:#33434b}
+label{display:block;margin:6px 0;font-size:13px}.buttons{display:flex;gap:8px;margin:8px 0}.buttons button{flex:1;border:1px solid #c9d0cb;background:#f7f8f6;border-radius:6px;padding:7px;cursor:pointer}
+select,input[type=range]{width:100%}.metric{display:flex;justify-content:space-between;border-bottom:1px solid #eceeea;padding:5px 0;font-size:13px}.metric b{font-weight:600;color:#0b0b0b}
+small{color:#69776c;display:block;line-height:1.4}.legend{display:grid;grid-template-columns:14px 1fr;gap:4px 8px;align-items:center;font-size:12px;margin-top:6px}.sw{width:12px;height:12px;border-radius:3px}
+</style></head><body>
+<header><div><div class="kicker">EXCAVATOR 60 MM / TRACK WHEEL R5</div><h1>In-hub gearmotor final drive · recoil-spring idler</h1></div><span>Pololu 37D 150:1 inside the sprocket hub · 1.75:1 internal ring stage · C-600-072-1500 recoil spring</span></header>
+<main><section id="stage" aria-label="Track wheel unit"><div class="bar">
+<button data-view="unit" class="active">Unit</button><button data-view="drive">Final drive section</button><button data-view="recoil">Recoil section</button><button data-view="exploded">Exploded</button><button data-view="gear">Gear stage</button></div>
+<div class="caption" id="caption"></div></section>
+<aside><h2>How it works</h2><p>The gearmotor sits inside the sprocket hub, bolted to a stationary housing on the track frame. Its offset output shaft drives a 21-tooth internal ring in the hub cap through a 12-tooth steel pinion. The hub turns on a 61808 bearing under the sprocket and a 6809 near the frame, so chain tension never loads the motor.</p>
+<p>The front idler rides on a yoke that slides in a closed channel. A preloaded recoil spring pushes it forward to keep the chain tight. If a stone gets caught, the idler can recoil 4 mm before it reaches a hard stop.</p>
+<label><input id="xray" type="checkbox"> X-ray printed parts</label><label><input id="chain" type="checkbox" checked> Show chain</label>
+<h2>Simulation playback</h2><select id="case" aria-label="Simulation case"></select><small id="caseNote"></small>
+<input id="time" aria-label="Simulation time" type="range" min="0" max="1" step="0.001" value="0">
+<div class="buttons"><button id="play">Play</button><button id="reset">Assembly pose</button></div>
+<div class="metric"><span>Time</span><b id="mT">—</b></div><div class="metric"><span>Sprocket speed</span><b id="mW">—</b></div>
+<div class="metric"><span>Motor current (limit 1.0 A)</span><b id="mI">—</b></div><div class="metric"><span>Idler recoil from assembly</span><b id="mX">—</b></div>
+<div class="metric"><span>Spring force</span><b id="mF">—</b></div><div class="metric"><span>Highest pin force in chain</span><b id="mP">—</b></div>
+<h2>Colours</h2><div class="legend"><span class="sw" style="background:#e89912"></span>Printed, yellow PETG (housing, cap, yoke)<span class="sw" style="background:#21292f"></span>Printed, dark PETG (hub, frame, retainer)<span class="sw" style="background:#b3b8bc"></span>Gearmotor gearbox<span class="sw" style="background:#4d5154"></span>Motor can<span class="sw" style="background:#a1afba"></span>Steel: bearings, pinion, axles, spring<span class="sw" style="background:#c79e47"></span>Brass heat-set inserts</div>
+<small style="margin-top:12px">The section views cut the CAD solids with a clipping plane. The playback replays recorded MuJoCo runs: the chain, idler, spring and wheels follow the simulation, and the motor current comes from the DC motor model. The unit frame is fixed and the ground moves past it.</small>
+<small id="valid"></small></aside></main>
+<script>__THREE__</script><script>__ORBIT__</script><script>
+'use strict';const DATA=__DATA__,V=DATA.config;
+const state={view:'unit',xray:false,chain:true,playing:false,caseName:null,frame:-1,renderCalls:0,readouts:{}};let needsRender=true;
+const stage=document.getElementById('stage'),scene=new THREE.Scene();scene.background=new THREE.Color('#edf1eb');
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputEncoding=THREE.sRGBEncoding;renderer.localClippingEnabled=true;stage.prepend(renderer.domElement);
+const camera=new THREE.PerspectiveCamera(32,1,1,5000);camera.up.set(0,0,1);const controls=new THREE.OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.addEventListener('change',()=>needsRender=true);
+scene.add(new THREE.HemisphereLight(0xffffff,0x8d978f,.75));const sun=new THREE.DirectionalLight(0xffffff,.75);sun.position.set(300,400,600);scene.add(sun);const fill=new THREE.DirectionalLight(0xffffff,.35);fill.position.set(-400,-300,200);scene.add(fill);
+const b64=(s,T)=>{const bin=atob(s),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return new T(u.buffer)};
+const planes=[];const clipPlane=new THREE.Plane(new THREE.Vector3(0,0,-1),0);
+function geometry(p){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(b64(p.v,Float32Array),3));g.setIndex(new THREE.BufferAttribute(b64(p.t,p.wide?Uint32Array:Uint16Array),1));g.computeVertexNormals();return g}
+const col=c=>new THREE.Color().setRGB(c[0],c[1],c[2]);
+// Motion groups: pivots so that rotations happen about the real axes.
+function pivot(x,z){const o=new THREE.Group(),i=new THREE.Group();o.position.set(x,0,z);i.position.set(-x,0,-z);o.add(i);scene.add(o);return {outer:o,inner:i}}
+const G={frame:{inner:scene},adjuster:{inner:scene},drive:pivot(V.drive[0],V.drive[1]),pinion:pivot(V.pinion[0],V.pinion[1])};
+const slide=new THREE.Group();scene.add(slide);G.idler_slide={outer:slide,inner:slide};
+const idl=new THREE.Group(),idlIn=new THREE.Group();idl.position.set(V.idler[0],0,V.idler[1]);idlIn.position.set(-V.idler[0],0,-V.idler[1]);idl.add(idlIn);slide.add(idl);G.idler={outer:idl,inner:idlIn};
+const springG=new THREE.Group(),springIn=new THREE.Group();springG.position.set(V.spring.seat_front,0,0);springIn.position.set(-V.spring.seat_front,0,0);springG.add(springIn);scene.add(springG);G.spring={outer:springG,inner:springIn};
+V.rollers.forEach((r,i)=>{G[i<3?'roller'+i:'return'+(i-3)]=pivot(r[0],r[1])});G.track={inner:new THREE.Group()};scene.add(G.track.inner);
+const meshes=[],byName={};
+for(const p of DATA.meshes){const g=geometry(p),steel=p.kind==='hardware';
+ const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:col(p.color),metalness:steel?.35:.05,roughness:steel?.45:.7,clippingPlanes:planes,clipShadows:true}));
+ const cap=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:col(p.color).multiplyScalar(.55),side:THREE.BackSide,clippingPlanes:planes}));cap.visible=false;
+ const holder=new THREE.Group();holder.add(m);holder.add(cap);holder.userData={name:p.name,group:p.group,kind:p.kind,mesh:m,cap};
+ (G[p.group]||G.frame).inner.add(holder);meshes.push(holder);byName[p.name]=holder}
+// Dynamic chain links for playback.
+const linkParts=DATA.link.map(p=>({g:geometry(p),c:col(p.color)}));const links=[];
+for(let i=0;i<V.poses.length;i++){const L=new THREE.Group();for(const lp of linkParts)L.add(new THREE.Mesh(lp.g,new THREE.MeshStandardMaterial({color:lp.c,metalness:.2,roughness:.65,clippingPlanes:planes})));L.visible=false;scene.add(L);links.push(L)}
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(2400,400),new THREE.MeshStandardMaterial({color:'#c9cdc4',roughness:1,transparent:true,opacity:.85}));floor.visible=false;scene.add(floor);
+const rod=new THREE.Mesh(new THREE.CylinderGeometry(1,1,120,24),new THREE.MeshStandardMaterial({color:'#8a6f4c'}));rod.visible=false;scene.add(rod);
+const stone=new THREE.Mesh(new THREE.BoxGeometry(1,1,1),new THREE.MeshStandardMaterial({color:'#7d756b',roughness:.95}));stone.visible=false;scene.add(stone);
+// Exploded offsets (mm): final drive along Y, recoil parts along X.
+function explodeOffset(n,g){
+ if(n==='TW03_hub_cap'||n.startsWith('cap_screw'))return [0,85,0];if(n.startsWith('hub_pinion')||n.startsWith('pinion_set'))return [0,62,0];
+ if(n==='TW04_bearing_retainer'||n.startsWith('face_screw'))return [0,46,0];if(n.startsWith('bearing_61808'))return [0,30,0];
+ if(n==='TW02_sprocket_hub'||n.startsWith('cap_insert')||n.startsWith('bearing_6809-2RS_outer'))return [0,16,0];
+ if(n.startsWith('gearmotor'))return [0,-80,0];if(n==='TW05_motor_rear_cap'||n.startsWith('rear_cap_screw'))return [0,-125,0];
+ if(n==='TW01_motor_housing'||n.startsWith('pillar_insert')||n.startsWith('flange_screw')||n.startsWith('bearing_6809-2RS_inner')||n.startsWith('bearing_6809-2RS_seals'))return [0,-28,0];
+ if(g==='idler_slide'||g==='idler')return [28,0,0];if(n==='TW09_channel_nose')return [48,0,0];if(n.startsWith('nose_bolt'))return [48,0,30];if(n.startsWith('nose_nut'))return [48,0,-14];
+ if(n==='TW08_spring_seat')return [-14,0,0];if(n.startsWith('adjuster_M6'))return [-34,0,0];if(n.startsWith('adjuster_lock'))return [-22,0,0];
+ return null}
+const VIEWS={
+ unit:{pos:[-330,520,300],target:[0,0,40],plane:null,caption:'Right-hand track unit, outboard side. The hub cap with its fill and drain plugs covers the in-hub final drive at the rear; the recoil idler is at the front. Orbit to see the motor and rear cap inboard.'},
+ drive:{pos:[-110,-22,330],target:[-110,-18,46],plane:[[0,0,-1],V.drive[1]],caption:'Horizontal section through the drive axis. The gearbox sits in the stationary housing. Its offset shaft carries the steel pinion, which meshes with the ring gear in the rotating hub cap. The 61808 (under the sprocket) and the 6809 carry the hub on the housing.'},
+ recoil:{pos:[96,-330,52],target:[96,-44,46],plane:[[0,1,0],-V.spy],caption:'Vertical section through the spring axis. The M6 adjuster and its captive nut sit in the rear wall and push the spring seat. The recoil spring pushes the idler yoke forward. The yoke body stops against the end of the channel after 4.0 mm of recoil.'},
+ exploded:{pos:[150,-560,320],target:[0,-20,40],plane:null,caption:'Exploded view: final-drive parts along the axle (motor and rear cap inboard, then hub, bearing, retainer, pinion and cap outboard) and recoil parts along the channel.'},
+ gear:{pos:[-104,140,70],target:[-104,10,46],plane:[[0,-1,0],V.gear_y],caption:'Gear stage, cut at mid-face: a 12-tooth m1.5 pinion on the 37D shaft (7.0 mm offset) drives the 21-tooth internal ring (1.75:1). Backlash is 0.10–0.30 mm across ±0.1 mm of centre distance.'}};
+function setView(v){state.view=v;const d=VIEWS[v];camera.position.set(...d.pos);controls.target.set(...d.target);controls.update();
+ planes.length=0;if(d.plane){clipPlane.normal.set(...d.plane[0]);clipPlane.constant=d.plane[1];planes.push(clipPlane)}
+ for(const h of meshes){h.userData.cap.visible=!!d.plane;const o=v==='exploded'?explodeOffset(h.userData.name,h.userData.group):null;h.position.set(...(o||[0,0,0]));
+  if(v==='exploded'&&h.userData.group==='track')h.visible=false;else h.visible=h.userData.group==='track'?state.chain&&state.frame<0:true}
+ for(const L of links)L.visible=state.frame>=0&&state.chain&&v!=='exploded';
+ document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===v));document.getElementById('caption').textContent=d.caption;needsRender=true}
+function setXray(on){state.xray=on;for(const h of meshes){const m=h.userData.mesh.material;const printed=h.userData.kind==='printed';m.transparent=on&&printed;m.opacity=on&&printed?.18:1;m.depthWrite=!(on&&printed)}needsRender=true}
+// Playback
+const traces=DATA.traces,decoded={};const caseSel=document.getElementById('case');
+for(const [n,t] of Object.entries(traces)){const o=document.createElement('option');o.value=n;o.textContent=n.replace('_',' ')+' ('+t.status+')';caseSel.appendChild(o)}
+function trace(n){if(!decoded[n])decoded[n]=b64(traces[n].frames,Float32Array);return decoded[n]}
+const q=new THREE.Quaternion();
+function setFrame(n,k){const T=traces[n],a=trace(n),s=T.stride,o=k*s;state.caseName=n;state.frame=k;
+ const t=a[o],th=a[o+1],idler=a[o+2],fx=a[o+3],fz=a[o+5],wh=a.slice(o+6,o+12),cur=a[o+12],pmax=a[o+13];
+ G.drive.outer.rotation.y=th;G.pinion.outer.rotation.y=th*V.ratio;const shift=idler-V.assembly_offset;slide.position.x=shift;idl.rotation.y=wh[0];
+ springG.scale.x=(V.spring.length+shift)/V.spring.length;['roller0','roller1','roller2','return0','return1'].forEach((g,i)=>G[g].outer.rotation.y=wh[i+1]);
+ for(const h of meshes)if(h.userData.group==='track')h.visible=false;
+ for(let i=0;i<links.length;i++){const b=o+17+7*i;links[i].position.set(a[b],a[b+1],a[b+2]);q.set(a[b+4],a[b+5],a[b+6],a[b+3]);links[i].quaternion.copy(q);links[i].visible=state.chain&&state.view!=='exploded'}
+ floor.visible=T.ground;floor.position.set(0,0,-fz);
+ rod.visible=!!T.bump;if(T.bump){const r=T.bump[1]*1000;rod.scale.set(r,1,r);rod.position.set(T.bump[0]*1000-fx,0,r-fz)}
+ const sx=a[o+14];stone.visible=!isNaN(sx);if(T.stone&&!isNaN(sx)){stone.scale.set(2*T.stone[1],2*T.stone[2],2*T.stone[3]);stone.position.set(sx-fx,a[o+15],a[o+16]-fz)}
+ const prev=Math.max(0,k-1),dt=a[o]-a[prev*s]||1e-9,w=k>0?(th-a[prev*s+1])/dt:0;
+ const force=T.spring.k*(T.spring.springref_mm-idler);
+ state.readouts={t,speed:w,current:cur,recoil:-shift,spring:force,pin:pmax};
+ document.getElementById('mT').textContent=t.toFixed(2)+' s';document.getElementById('mW').textContent=w.toFixed(2)+' rad/s';
+ document.getElementById('mI').textContent=cur.toFixed(2)+' A';document.getElementById('mX').textContent=(-shift).toFixed(2)+' mm';
+ document.getElementById('mF').textContent=force.toFixed(1)+' N';document.getElementById('mP').textContent=pmax.toFixed(1)+' N';
+ document.getElementById('time').value=k/(T.count-1);needsRender=true}
+function resetPose(){state.frame=-1;state.playing=false;G.drive.outer.rotation.y=0;G.pinion.outer.rotation.y=0;slide.position.x=0;idl.rotation.y=0;springG.scale.x=1;
+ for(const g of ['roller0','roller1','roller2','return0','return1'])G[g].outer.rotation.y=0;for(const L of links)L.visible=false;floor.visible=rod.visible=stone.visible=false;
+ for(const h of meshes)if(h.userData.group==='track')h.visible=state.chain&&state.view!=='exploded';document.getElementById('play').textContent='Play';needsRender=true}
+caseSel.onchange=()=>{document.getElementById('caseNote').textContent=traces[caseSel.value].note;setFrame(caseSel.value,0)};
+document.getElementById('time').oninput=e=>{const T=traces[caseSel.value];setFrame(caseSel.value,Math.round(e.target.value*(T.count-1)))};
+let t0=0,k0=0;document.getElementById('play').onclick=()=>{state.playing=!state.playing;if(state.frame<0||state.caseName!==caseSel.value)setFrame(caseSel.value,0);document.getElementById('play').textContent=state.playing?'Pause':'Play';t0=performance.now();k0=state.frame};
+document.getElementById('reset').onclick=resetPose;document.getElementById('xray').onchange=e=>setXray(e.target.checked);
+document.getElementById('chain').onchange=e=>{state.chain=e.target.checked;if(state.frame>=0)setFrame(state.caseName,state.frame);else resetPose()};
+document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>setView(b.dataset.view));
+document.getElementById('caseNote').textContent=traces[caseSel.value].note;
+document.getElementById('valid').textContent=DATA.validation.all_checks_pass?'CAD validation: all checks pass (validation.json).':'CAD validation: see validation.json.';
+function resize(){const w=stage.clientWidth,h=stage.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();needsRender=true}
+addEventListener('resize',resize);resize();setView('unit');
+function loop(now){requestAnimationFrame(loop);controls.update();
+ if(state.playing){const T=traces[state.caseName],a=trace(state.caseName),dtf=a[T.stride]-a[0];const k=k0+Math.floor((now-t0)/1000/dtf);
+  if(k>=T.count){setFrame(state.caseName,T.count-1);state.playing=false;document.getElementById('play').textContent='Play'}else if(k!==state.frame)setFrame(state.caseName,k)}
+ if(needsRender){renderer.render(scene,camera);state.renderCalls++;needsRender=false}}
+requestAnimationFrame(loop);
+window.trackWheelState=()=>({view:state.view,xray:state.xray,chain:state.chain,playing:state.playing,caseName:state.caseName,frame:state.frame,renderCalls:state.renderCalls,
+ readouts:state.readouts,meshes:meshes.length,section:planes.length>0,cases:Object.keys(traces),
+ visibleTrack:meshes.filter(h=>h.userData.group==='track'&&h.visible).length,visibleLinks:links.filter(l=>l.visible).length});
+window.setTrackWheelFrame=(n,k)=>{caseSel.value=n;setFrame(n,k);renderer.render(scene,camera);state.renderCalls++};
+window.setTrackWheelView=v=>{setView(v);renderer.render(scene,camera);state.renderCalls++};
+window.trackWheelPeak=n=>{const T=traces[n],a=trace(n);let best=[0,-1e9];for(let k=0;k<T.count;k++){const r=V.assembly_offset-a[k*T.stride+2];if(r>best[1])best=[k,r]}return {frame:best[0],recoil:best[1]}};
+</script></body></html>

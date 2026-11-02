@@ -1,0 +1,310 @@
+{
+  "ADJUST_NOMINAL": 3.5,
+  "ADJUST_RANGE": [
+    0.0,
+    4.0
+  ],
+  "ASSEMBLY_YOKE_SHIFT": -0.2005,
+  "BEARINGS": {
+    "inboard": {
+      "model": "6809-2RS",
+      "d": 45.0,
+      "D": 58.0,
+      "B": 7.0,
+      "C_kN": [
+        5.35,
+        6.63
+      ],
+      "C0_kN": [
+        4.3,
+        6.1
+      ],
+      "mass_kg": 0.042,
+      "shoulder_d_max": 47.5,
+      "housing_shoulder_D_min": 55.5,
+      "role": "floating; carries radial load only",
+      "source": "Distributor listings for 6809-2RS / SKF 6809-2RZ / NTN 6809; lowest rating used"
+    },
+    "outboard": {
+      "model": "61808-2RS1",
+      "d": 40.0,
+      "D": 52.0,
+      "B": 7.0,
+      "C_kN": [
+        4.94,
+        4.94
+      ],
+      "C0_kN": [
+        3.45,
+        3.45
+      ],
+      "mass_kg": 0.032,
+      "shoulder_d_max": 42.8,
+      "housing_shoulder_D_min": 50.0,
+      "role": "fixed; locates the hub both ways",
+      "source": "SKF 61808-2RS1 distributor listings (RS 207-6965, Exact Industrial Supply)"
+    }
+  },
+  "BOSS_D": 66.0,
+  "BRIDGE_UNDERSIDE_Z": 70.0,
+  "BUTTON_M3": {
+    "head_d": 5.7,
+    "head_h": 1.65
+  },
+  "CAP_END_PLATE": 3.0,
+  "CAP_LIP": [
+    50.0,
+    51.9
+  ],
+  "CAP_M3": {
+    "head_d": 5.5,
+    "head_h": 3.0
+  },
+  "CAP_SCREW_LENGTH": 20.0,
+  "CAP_SCREW_R": 29.8,
+  "CAP_Y": [
+    3.5,
+    22.0
+  ],
+  "CENTRE_DISTANCE": 7.0,
+  "CHANNEL_Y": [
+    -54.0,
+    -34.0
+  ],
+  "CHANNEL_Z": 15.5,
+  "DRIVE_CURRENT_LIMIT_A": 1.0,
+  "DRIVE_X": -110.0,
+  "END_WALL": [
+    -3.5,
+    3.4000000000000004
+  ],
+  "END_WALL_SEAT_D": 40.0,
+  "FACE_SCREW_LENGTH": 10.0,
+  "FACE_Y": -3.5,
+  "FLANGE_D": 62.0,
+  "FLANGE_FLAT_Z": 69.3,
+  "FLANGE_SCREWS": [
+    45,
+    135,
+    225,
+    315
+  ],
+  "FLANGE_SCREW_LENGTH": 10.0,
+  "FLANGE_SCREW_R": 27.0,
+  "FLANGE_Y": [
+    -48.0,
+    -42.0
+  ],
+  "FORWARD_TRAVEL": 4.0,
+  "FRAME_Y": [
+    -42.0,
+    -30.0
+  ],
+  "GEARMOTOR": {
+    "model": "Pololu 37D metal gearmotor 150:1, 12 V (#2829)",
+    "drawing": "https://www.pololu.com/file/0J1735/37d-metal-gearmotors-dimension-diagram.pdf",
+    "specs": "https://www.pololu.com/product/2829/specs",
+    "gearbox_diameter": 36.8,
+    "gearbox_length": 26.5,
+    "motor_diameter": 34.8,
+    "motor_length": 30.7,
+    "rear_boss_diameter": 7.8,
+    "rear_boss_length": 1.6,
+    "terminal_projection": 5.0,
+    "shaft_diameter": 6.0,
+    "shaft_flat": 5.4,
+    "shaft_length": 22.0,
+    "bushing_diameter": 12.0,
+    "bushing_length": 6.0,
+    "shaft_offset": 7.0,
+    "face_screws": 6,
+    "face_screw_circle": 31.0,
+    "face_screw_max_depth": 3.0,
+    "mass_kg": 0.195,
+    "ratio": 150.0,
+    "no_load_rpm": 67.0,
+    "no_load_A": 0.2,
+    "stall_kgcm": 49.0,
+    "stall_A": 5.5,
+    "max_eff_rpm": 58.0,
+    "max_eff_kgcm": 6.5,
+    "max_eff_A": 0.72,
+    "max_eff": 0.44,
+    "continuous_limit_kgcm": 10.0,
+    "instantaneous_limit_kgcm": 25.0,
+    "voltage": 12.0
+  },
+  "GEARMOTOR_DIAMETER_TOL": 0.2,
+  "GEAR_BACKLASH": 0.22,
+  "GEAR_MODULE": 1.5,
+  "HEX_M6": {
+    "af": 10.0,
+    "head_h": 4.0
+  },
+  "HUB_INSERT_R": 29.8,
+  "HUB_OD": 65.6,
+  "HUB_RATIO": 1.75,
+  "HUB_RIB_BORE": 46.0,
+  "HUB_STAGE_EFFICIENCY": 0.95,
+  "HUB_Y": [
+    -29.5,
+    7.0
+  ],
+  "IDLER_AXLE_Y": [
+    -63.0,
+    26.0
+  ],
+  "IDLER_X": 110.0,
+  "INBOARD_BEARING_Y": [
+    -26.5,
+    -19.5
+  ],
+  "INCH": 25.4,
+  "INSERT_M3": {
+    "hole_d": 4.0,
+    "length": 5.7,
+    "od": 4.6
+  },
+  "KGCM": 0.0980665,
+  "LBF": 4.448222,
+  "NOSE_BLOCK_X": [
+    128.0,
+    140.0
+  ],
+  "NOSE_HALF_Z": 7.9,
+  "NOSE_X": [
+    102.0,
+    118.0
+  ],
+  "NUT_M3": {
+    "af": 5.5,
+    "h": 2.4
+  },
+  "NUT_M6": {
+    "af": 10.0,
+    "h": 5.2
+  },
+  "OUTBOARD_BEARING_Y": [
+    -3.5,
+    3.5
+  ],
+  "PINION_ANGLE": 0.0,
+  "PINION_FACE": 11.0,
+  "PINION_SPEC": "Steel spur gear, module 1.5, 12 teeth, 20 deg, ISO 53 profile, face 11 mm, bore 6 H7 with M3 set screw on the motor D-flat. No hub (full face on the shaft).",
+  "PINION_TEETH": 12,
+  "PINION_Y": [
+    7.5,
+    18.5
+  ],
+  "PRELOAD_TARGET_N": 77.0,
+  "PRESSURE_ANGLE": 20.0,
+  "REAR_CAP_EAR_Y": [
+    -70.0,
+    -67.0
+  ],
+  "REAR_CAP_SCREWS": [
+    0,
+    180
+  ],
+  "REAR_CAP_SCREW_LENGTH": 8.0,
+  "REAR_CAP_SCREW_R": 26.5,
+  "REAR_CAP_Y": [
+    -70.0,
+    -62.0
+  ],
+  "REAR_PILLAR_HALF": 4.0,
+  "REAR_PILLAR_R": [
+    22.6,
+    30.0
+  ],
+  "REAR_WALL_X": [
+    60.5,
+    66.5
+  ],
+  "RETAINER_D": 42.8,
+  "RETAINER_Y": [
+    3.5,
+    6.5
+  ],
+  "RING_BODY_R": 20.5,
+  "RING_TEETH": 21,
+  "RING_Y": [
+    7.2,
+    19.0
+  ],
+  "ROTOR_INERTIA": 1.5e-06,
+  "SCREW_PHASES": [
+    30,
+    90,
+    150,
+    210,
+    270,
+    330
+  ],
+  "SEAT_BLOCK": 4.0,
+  "SEAT_D": 18.2,
+  "SEAT_SPIGOT": 9.0,
+  "SLOT_HALF_Z": 8.2,
+  "SPIGOT_D": 10.0,
+  "SPRING": {
+    "model": "Associated/Lee Spring C-600-072-1500, music wire",
+    "source": "https://taylorspring.com/spring/associatedlee-spring-c-600-072-1500-compression-spring-music-wire/",
+    "od": 15.239999999999998,
+    "wire": 1.8287999999999998,
+    "free_length": 38.099999999999994,
+    "rate_N_mm": 6.285302660629922,
+    "max_load_N": 117.78891856000001,
+    "solid_length": 17.018,
+    "rate_tolerance": 0.1,
+    "id": 11.5824,
+    "coils": 9.305555555555557
+  },
+  "SPRING_AXIS": [
+    -44.0,
+    null
+  ],
+  "SPRING_BORE_D": 18.6,
+  "SPRING_BORE_X": [
+    66.5,
+    95.8
+  ],
+  "SPROCKET_PITCH_R": 38.63703305156273,
+  "TUBE_BORE": 37.3,
+  "TUBE_INBOARD_Y": -62.0,
+  "TUBE_OD": 45.0,
+  "WALL": 4.0,
+  "YOKE_HALF": [
+    9.7,
+    15.2
+  ],
+  "YOKE_SPIGOT": 9.0,
+  "YOKE_STOP_X": 95.8,
+  "YOKE_X": [
+    100.0,
+    124.0
+  ],
+  "drive_rating": {
+    "sprocket_no_load_rad_s": 4.0092706245812595,
+    "sprocket_no_load_rpm": 38.285714285714285,
+    "sprocket_stall_Nm": 7.988742256249999,
+    "sprocket_continuous_Nm": 1.6303555625,
+    "sprocket_instantaneous_Nm": 4.075888906249999,
+    "torque_per_amp_Nm": 1.5073098596698111,
+    "continuous_current_A": 1.2816326530612245,
+    "instantaneous_current_A": 2.904081632653061
+  },
+  "spring_assembled": {
+    "length": 25.799499999999995,
+    "force": 77.31236537707835
+  },
+  "spring_at_recoil_stop": {
+    "length": 21.799999999999997,
+    "force": 102.45043336826771
+  },
+  "recoil_travel_mm": 3.9994999999999976,
+  "forward_travel_mm": 4.200500000000005,
+  "drive_force_limit": {
+    "torque_Nm": 1.205847887735849,
+    "chain_pull_N": 31.209639884268405
+  }
+}

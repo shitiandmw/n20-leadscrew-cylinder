@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Two-wire leadscrew actuator V6 · 3D preview and schematic</title>
+<style>
+:root{--ink:#22313a;--muted:#66757b;--accent:#c4570f;--line:#dadfdc;--paper:#f3f3ef;--sel:#e08a00;--flow:#d63c1e;--net:#1f5f8b}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--paper);color:var(--ink)}
+button,input,select{font:inherit}button{cursor:pointer}
+header{height:58px;padding:0 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid var(--line);letter-spacing:.06em;font-size:12px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700;white-space:nowrap}.mark{width:26px;height:26px;display:grid;place-items:center;background:var(--ink);color:#f39a45;font-size:15px}
+.tag{border:1px solid #bdc7c4;padding:6px 10px;border-radius:3px;color:var(--muted);white-space:nowrap}
+.seg{display:flex;border:1px solid var(--line);border-radius:5px;background:#fafbf8;padding:3px}
+.seg button{background:transparent;border:0;padding:7px 12px;border-radius:3px;font-size:12px;color:var(--muted);letter-spacing:0;white-space:nowrap}
+.seg button.active{background:var(--ink);color:#fff}
+main{display:grid;grid-template-columns:270px minmax(0,1fr) minmax(430px,36vw);height:calc(100vh - 58px)}
+aside{padding:26px 22px 18px 24px;border-right:1px solid var(--line);display:flex;flex-direction:column;overflow:auto;min-height:0}
+.eyebrow{font-size:11px;letter-spacing:.16em;color:var(--accent);font-weight:700}
+h1{font-size:25px;line-height:1.2;letter-spacing:-.02em;margin:12px 0 12px;font-weight:650}
+.intro{font-size:12.5px;line-height:1.7;color:var(--muted);margin:0 0 16px}
+.spec{padding:10px 0;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted)}
+.spec b{font-size:14.5px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;text-align:right}
+.legend{margin-top:14px;font-size:12px;line-height:1.6;color:var(--muted)}.legend strong{color:var(--ink);font-weight:600;display:block;margin:10px 0 3px}
+.item{display:flex;gap:9px;align-items:center;margin:3px 0}.sw{height:9px;width:9px;border-radius:50%;flex:none}.wsw{height:4px;width:16px;border-radius:2px;flex:none}
+.note{font-size:11px;line-height:1.65;color:var(--muted);margin-top:auto;padding-top:18px}
+.workspace{display:flex;flex-direction:column;position:relative;min-width:0;min-height:0;overflow:hidden;border-right:1px solid var(--line)}
+.viewbar{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 0;gap:10px;flex-shrink:0}
+.viewbar .seg{flex-wrap:wrap;min-width:0}
+.reset{font-size:12px;background:none;color:var(--muted);border:0;padding:8px;flex-shrink:0;white-space:nowrap}
+.canvas-wrap{position:relative;flex:1;min-height:0}canvas{position:absolute;inset:0;display:block;width:100%;height:100%;touch-action:none}
+.canvas-label{position:absolute;left:20px;top:14px;pointer-events:none;font-size:11px;color:#6f7d83;line-height:1.8;letter-spacing:.04em}
+.hint{position:absolute;bottom:10px;right:18px;font-size:11px;color:#6f7d83;pointer-events:none}
+.error{position:absolute;inset:30px;display:none;place-items:center;background:var(--paper);font-size:15px;text-align:center}
+#labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.plabel{position:absolute;transform:translate(-50%,-50%);font-size:10.5px;font-weight:600;padding:1px 5px;border-radius:9px;background:rgba(255,255,255,.86);border:1px solid #c9d0cd;color:var(--ink);pointer-events:auto;cursor:pointer;white-space:nowrap}
+.plabel.on{background:var(--sel);border-color:var(--sel);color:#fff}
+.controls{border-top:1px solid var(--line);margin:0 18px;padding:12px 0 12px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:10px 18px;flex-shrink:0}
+.readouts{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.readouts b{font-size:20px;color:var(--ink);font-weight:600;margin-right:3px;font-variant-numeric:tabular-nums}.readouts .small b{font-size:15px}
+input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
+.range-ends{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:4px}
+.drive{display:grid;grid-template-columns:1fr 70px 1fr;gap:6px;align-content:start}
+.drive button{background:var(--ink);border:0;color:#fff;border-radius:4px;padding:10px 6px;font-size:12px;line-height:1.3}
+.drive button small{display:block;opacity:.7;font-size:10.5px}
+.drive button.active{background:var(--accent)}
+.drive .opts{grid-column:1/-1;display:flex;gap:8px;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted)}
+.drive .opts select,.drive .opts button{background:none;border:1px solid var(--line);border-radius:3px;padding:4px 6px;color:var(--muted);font-size:11px}
+.status{grid-column:1/-1;font-size:12px;color:var(--ink);min-height:18px;line-height:1.5}
+.signals{grid-column:1/-1;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--muted)}
+.signal{display:flex;align-items:center;gap:6px}.led{width:9px;height:9px;border-radius:50%;background:#b8c0bd}
+.led.ok{background:#2fa35a;box-shadow:0 0 0 2px #2fa35a22}.led.low{background:var(--sel);box-shadow:0 0 0 2px #e08a0033}.led.bad{background:#c8471d;box-shadow:0 0 0 2px #c8471d33}
+.schem{display:flex;flex-direction:column;min-width:0;min-height:0;background:#fff}
+.schem-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px 8px;gap:10px}
+.schem-head b{display:block;font-size:13px;font-weight:600;margin-top:3px}
+.zoom{display:flex;gap:4px}.zoom button{background:#fafbf8;border:1px solid var(--line);border-radius:4px;padding:5px 9px;font-size:12px;color:var(--muted)}
+.schem-view{flex:1;min-height:0;position:relative;overflow:hidden;cursor:grab;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.schem-view.dragging{cursor:grabbing}
+.schem-view svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+#sch-overlay .net{stroke:transparent;stroke-width:9;fill:none;cursor:pointer;stroke-linecap:round}
+#sch-overlay .net:hover{stroke:rgba(31,95,139,.16)}
+#sch-overlay .net.on{stroke:rgba(224,138,0,.5)}
+#sch-overlay .net.flow{stroke:rgba(214,60,30,.55);stroke-dasharray:5 7;animation:flow .7s linear infinite}
+#sch-overlay .net.on.flow{stroke:rgba(224,138,0,.7)}
+@keyframes flow{to{stroke-dashoffset:-24}}
+#sch-overlay .part{fill:rgba(0,0,0,0);stroke:transparent;stroke-width:1.2;cursor:pointer}
+#sch-overlay .part:hover{fill:rgba(31,95,139,.06);stroke:rgba(31,95,139,.35)}
+#sch-overlay .part.flow{fill:rgba(214,60,30,.07);stroke:rgba(214,60,30,.45)}
+#sch-overlay .part.off{fill:rgba(200,71,29,.12);stroke:#c8471d;stroke-dasharray:4 3}
+#sch-overlay .part.trig{fill:rgba(224,138,0,.12);stroke:var(--sel)}
+#sch-overlay .part.on{fill:rgba(224,138,0,.18);stroke:var(--sel);stroke-width:2}
+.card{padding:12px 16px 14px;font-size:12px;line-height:1.55;color:var(--muted);min-height:150px;max-height:34vh;overflow:auto}
+.card h2{font-size:15px;color:var(--ink);margin:0 0 2px;font-weight:650}
+.card .role{margin:0 0 8px}
+.card table{border-collapse:collapse;width:100%}.card td{padding:3px 0;border-top:1px solid #eef0ee;vertical-align:top}.card td:first-child{width:92px;color:var(--muted)}.card td:last-child{color:var(--ink)}
+.chip{display:inline-block;margin:1px 4px 1px 0;padding:0 7px;border-radius:9px;border:1px solid #c9d6de;background:#eef4f8;color:var(--net);cursor:pointer;font-size:11.5px}
+.chip:hover{border-color:var(--net)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #d5863d;outline-offset:2px}
+.plabel.printed{font-size:11px;padding:2px 7px}.plabel.printed small{font-weight:500;color:var(--muted);margin-left:4px}.plabel.printed.on small{color:#fff}
+.asm{border-top:1px solid var(--line);margin:0 18px;padding:12px 0 12px;flex-shrink:0;display:none;flex-direction:column;gap:9px}
+body.asm-on .asm{display:flex}body.asm-on .controls,body.print-on .controls{display:none}
+.asm-bar{display:flex;align-items:center;gap:8px}
+.asm-bar button{background:var(--ink);color:#fff;border:0;border-radius:4px;padding:8px 0;font-size:13px;width:44px}
+.asm-bar #asm-play{background:var(--accent);width:56px}
+.asm-bar input[type=range]{flex:1;min-width:60px}
+.asm-clock{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.asm-bar select{background:none;border:1px solid var(--line);border-radius:3px;padding:4px 6px;color:var(--muted);font-size:11px}
+.asm-steps{display:flex;gap:2px}
+.asm-steps button{min-width:0;height:24px;border:0;border-radius:2px;background:#e2e5e1;color:var(--muted);font-size:10.5px;padding:0 2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.asm-steps button.done{background:#efcfae;color:#7a4a1c}.asm-steps button.on{background:var(--accent);color:#fff}
+.asm-caption{position:absolute;left:18px;bottom:32px;max-width:min(600px,72%);background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:6px;padding:10px 14px;font-size:12.5px;line-height:1.55;color:var(--ink);display:none;pointer-events:none}
+.asm-caption b{display:block;font-size:13.5px;margin-bottom:3px;color:var(--accent)}
+body.asm-on .asm-caption{display:block}
+body.record header,body.record aside,body.record .schem,body.record .controls,body.record .asm,body.record .viewbar,body.record .hint{display:none!important}
+body.record main{display:block;height:100vh}body.record .workspace{height:100vh;border:0}
+body.record .asm-caption{font-size:16px;max-width:700px;left:28px;bottom:26px;padding:12px 18px}body.record .asm-caption b{font-size:18px}
+body.record .canvas-label{font-size:13px;left:28px;top:20px}
+@media(max-width:1500px){main{grid-template-columns:minmax(0,1fr) minmax(400px,40vw)}aside{display:none}}
+@media(max-width:980px){header{padding:0 12px;height:auto;flex-wrap:wrap;gap:8px;padding:10px 12px}.tag{display:none}main{grid-template-columns:1fr;height:auto}
+.workspace{height:720px;border-right:0}.schem{height:640px}.controls{grid-template-columns:1fr;margin:0 12px}.viewbar{padding:12px 10px 0}.seg button{padding:7px 8px}}
+</style></head><body>
+<header><div class="brand"><span class="mark">⇆</span> TWO-WIRE LINEAR ACTUATOR</div>
+<div class="seg" role="group" aria-label="Screw length">__VARIANTS__</div>
+<span class="tag">V6 · general purpose · 2 wires · printable</span></header>
+<main><aside><div class="eyebrow">N20 LEADSCREW ACTUATOR</div>
+<h1>Two wires in, end stops built in</h1>
+<p class="intro">The unmodified N20 gearmotor with its own M3 leadscrew sits in a square printed body held by screws. A small board in the side slot carries two Hall switches that see the magnet through a 1 mm printed partition: the rod stops by itself at both ends, and reversing the polarity always drives it back out.</p>
+<div class="specs"><div class="spec"><span>Stroke</span><b id="spec-stroke">–</b></div><div class="spec"><span>Pin centres</span><b id="spec-pins">–</b></div><div class="spec"><span>Body section</span><b id="spec-body">–</b></div><div class="spec"><span>Speed (6 V)</span><b id="spec-speed">–</b></div><div class="spec"><span>Thrust (est.)</span><b id="spec-force">–</b></div></div>
+<div class="legend"><strong>Two wires</strong>
+<div class="item"><span class="wsw" style="background:#d7261e"></span>W1 red · A (A+ extends)</div>
+<div class="item"><span class="wsw" style="background:#222"></span>W2 black · B (B+ retracts)</div>
+<strong>Inside</strong>
+<div class="item"><span class="wsw" style="background:#f07c12"></span>W3 orange · board to motor +</div>
+<div class="item"><span class="wsw" style="background:#8e3bc9"></span>W4 purple · board to motor −</div>
+<div class="item"><span class="sw" style="background:#ee6c17"></span>01 body (printed)</div>
+<div class="item"><span class="sw" style="background:#1d1f22"></span>02 · 03 caps, 05 rod eye (printed)</div>
+<div class="item"><span class="sw" style="background:#4d5054"></span>06 cable clamp (printed)</div>
+<div class="item"><span class="sw" style="background:#cdd0d4"></span>04 rod with nut carrier (printed)</div>
+<div class="item"><span class="sw" style="background:#0b5a2e"></span>end-stop board with 15 parts</div></div>
+<p class="note"><b>Printed parts</b> lays the six printed parts out as they sit on the print bed; click one for its print settings. <b>Assembly</b> plays the build order screw by screw, with the screwdrivers.<br><br>Geometry comes straight from the exported CAD. The end stops follow the magnet model (typical switch points); the modelled stop position varies by <span id="spread">–</span> from unit to unit. Currents come from the circuit simulation. Schematic: electronics/schematic.pdf.</p></aside>
+<section class="workspace"><div class="viewbar"><div class="seg" role="group" aria-label="Display mode">
+<button data-mode="exterior" class="active" aria-pressed="true">Exterior</button><button data-mode="section" aria-pressed="false">Cutaway</button><button data-mode="internal" aria-pressed="false">Internals</button><button data-mode="board" aria-pressed="false">Circuit board</button><button data-mode="core" aria-pressed="false">Core part</button><button data-mode="gears" aria-pressed="false">Motor gears</button><button data-mode="printed" aria-pressed="false">Printed parts</button><button data-mode="assembly" aria-pressed="false">Assembly ▶</button></div>
+<button class="reset" id="reset">Reset view ↺</button></div>
+<div class="canvas-wrap" id="stage"><canvas aria-label="Rotatable 3D model of the actuator"></canvas><div id="labels"></div><div class="canvas-label" id="view-label"></div><div class="asm-caption" id="asm-caption"><b id="asm-title"></b><span id="asm-text"></span></div><div class="hint">Drag to rotate · scroll to zoom · right-drag to pan · click a part</div>
+<div class="error" id="error">This browser cannot start WebGL.<br>The PNG renders in the images folder show the same model.</div></div>
+<div class="controls"><div><div class="readouts"><span>Rod out <b id="travel-value">0.0</b>mm</span><span class="small">Pin centres <b id="length-value">–</b>mm</span><span class="small">Motor <b id="current-value">0</b>mA</span></div>
+<input id="travel" aria-label="Rod travel in millimetres" type="range" min="-2" max="42" step="0.05" value="0"><div class="range-ends"><span>retracted · 0 mm</span><span id="range-max">extended</span></div></div>
+<div class="drive"><button id="drive-ext">A+ &nbsp;B−<small>extend</small></button><button id="drive-off">Off<small>open</small></button><button id="drive-ret">B+ &nbsp;A−<small>retract</small></button>
+<div class="opts"><label>Playback <select id="speed"><option value="0.02">0.02× · gears</option><option value="0.1">0.1×</option><option value="1">1×</option><option value="5">5×</option><option value="10" selected>10×</option><option value="25">25×</option></select></label><button id="jam">Jam the rod</button></div></div>
+<div class="signals"><span class="signal"><span class="led" id="led-u1"></span><span id="sig-u1"></span></span><span class="signal"><span class="led" id="led-u2"></span><span id="sig-u2"></span></span><span class="signal"><span class="led" id="led-f1"></span><span id="sig-f1"></span></span></div>
+<div class="status" id="status"></div></div>
+<div class="asm" id="asm"><div class="asm-bar"><button id="asm-prev" aria-label="Previous step">⏮</button><button id="asm-play" aria-label="Play">▶</button><button id="asm-next" aria-label="Next step">⏭</button>
+<input id="asm-time" type="range" min="0" max="100" step="0.01" value="0" aria-label="Animation time"><span class="asm-clock" id="asm-clock">0:00 / 0:00</span>
+<select id="asm-speed" aria-label="Playback speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></div>
+<div class="asm-steps" id="asm-steps" role="group" aria-label="Assembly steps"></div></div>
+</section>
+<section class="schem"><div class="schem-head"><div><div class="eyebrow">SCHEMATIC · LINKED TO THE 3D BOARD</div><b>Click a part, a wire or a net</b></div>
+<div class="zoom"><button id="zin" aria-label="Zoom in">+</button><button id="zout" aria-label="Zoom out">−</button><button id="zfit">Fit</button></div></div>
+<div class="schem-view" id="schem">__SCHEMATIC__</div>
+<div class="card" id="card"></div></section></main>
+<script>__THREE__</script><script>__ORBIT__</script>
+<script id="geometry-data" type="application/json">__GEOMETRY__</script>
+<script id="scene-data" type="application/json">__SCENES__</script>
+<script id="parameter-data" type="application/json">__PARAMETERS__</script>
+<script id="circuit-data" type="application/json">__CIRCUIT__</script>
+<script id="assembly-data" type="application/json">__ASSEMBLY__</script>
+<script>__BEHAVIOR__</script></body></html>

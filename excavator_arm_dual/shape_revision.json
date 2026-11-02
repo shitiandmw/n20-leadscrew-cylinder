@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "revision": 10,
+  "stations": [
+    {
+      "x_mm": 0,
+      "r9_vertical_section_mm": 40.94629729460257,
+      "r10_vertical_section_mm": 41.20540957253958
+    },
+    {
+      "x_mm": 75,
+      "r9_vertical_section_mm": 45.285438508248056,
+      "r10_vertical_section_mm": 58.32394557722262
+    },
+    {
+      "x_mm": 142,
+      "r9_vertical_section_mm": 47.81634308727501,
+      "r10_vertical_section_mm": 76.6824353444513
+    },
+    {
+      "x_mm": 205,
+      "r9_vertical_section_mm": 41.43612199494093,
+      "r10_vertical_section_mm": 48.945618255239815
+    },
+    {
+      "x_mm": 300,
+      "r9_vertical_section_mm": 37.33139666697494,
+      "r10_vertical_section_mm": 39.447843962156284
+    },
+    {
+      "x_mm": 380,
+      "r9_vertical_section_mm": 33.052025337595815,
+      "r10_vertical_section_mm": 33.0169367356486
+    }
+  ],
+  "boom_half_width_mm": 24,
+  "nominal_wall_mm": 4,
+  "paired_boom_y_mm": [
+    -50.0,
+    50.0
+  ],
+  "actuator_count": 4,
+  "reference": "User photograph establishes topology and silhouette; no measured CAT 390D dimensions claimed",
+  "scope": "Vertical side-profile depth measured in boom-local X/Z, excluding added clevises; not wall-thickness or strength verification",
+  "source_sha256": "1434f75dcb63e3ce31a241d561ffc8180ed4d5cf3635c9338d32499a22c5a9b7"
+}

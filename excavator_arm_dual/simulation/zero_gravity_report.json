@@ -1,0 +1,94 @@
+{
+  "name": "zero_gravity",
+  "revision": 10,
+  "payload_kg": 0.0,
+  "drive_names": [
+    "boom0",
+    "boom1",
+    "stick0",
+    "bucket0"
+  ],
+  "force_limit_N_per_drive": 100.0,
+  "no_load_speed_mm_s": 1.25,
+  "timestep_s": 0.001,
+  "duration_s": 4.0,
+  "powered": false,
+  "gravity": false,
+  "boom1_sensor_bias_mm": 0.0,
+  "peak_motor_force_N": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "maximum_tracking_error_mm": [
+    3.469446951953614e-15,
+    3.469446951953614e-15,
+    0.0,
+    6.938893903907228e-15
+  ],
+  "final_tracking_error_mm": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "peak_slide_speed_mm_s": [
+    8.029696203938846e-13,
+    8.029696203938846e-13,
+    2.2518978272113473e-13,
+    1.1950993987784028e-12
+  ],
+  "minimum_strokes_mm": [
+    31.09056867439887,
+    31.09056867439887,
+    21.095441834070925,
+    44.539004362168654
+  ],
+  "maximum_strokes_mm": [
+    31.09056867439887,
+    31.09056867439887,
+    21.095441834070925,
+    44.539004362168654
+  ],
+  "maximum_pin_closure_error_mm": 6.689845190718109e-10,
+  "tooth_z_range_mm": [
+    30.000000000233243,
+    30.00000000056992
+  ],
+  "seconds_at_force_or_speed_limit": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "peak_boom_force_difference_N": 0.0,
+  "peak_boom_stroke_difference_mm": 0.0,
+  "peak_net_eccentric_motor_moment_Nm": 0.0,
+  "peak_projected_boom_torsion_Nm": 0.0,
+  "side_load_scope": "Net moment of the two simulated motor forces at lateral offsets; not FEA stress or elastic twist",
+  "motion_sha256": "f7e548ac3e5004d7009c02a63210833a1a37a4e0d4e9dbd89f72d5647e3dbdc6",
+  "presentation_time_scale": 20.0,
+  "final_drive_strokes_mm": [
+    31.09056867439887,
+    31.09056867439887,
+    21.095441834070925,
+    44.539004362168654
+  ],
+  "final_tip_mm": [
+    359.99999999952666,
+    0.0,
+    30.000000000569834
+  ],
+  "wall_seconds": 1.42,
+  "warnings": {
+    "INERTIA": 0,
+    "CONTACTFULL": 0,
+    "CNSTRFULL": 0,
+    "VGEOMFULL": 0,
+    "BADQPOS": 0,
+    "BADQVEL": 0,
+    "BADQACC": 0,
+    "BADCTRL": 0
+  }
+}

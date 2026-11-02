@@ -1,0 +1,157 @@
+{
+ "checked": "2026-10-30",
+ "variants": {
+  "S": {
+   "printed_labels": 6,
+   "print_card": true,
+   "steps": [
+    "body",
+    "board",
+    "motor",
+    "motor_screws",
+    "motor_wires",
+    "rear_cap",
+    "sleeve_clamp",
+    "rear_screws",
+    "magnet_nut",
+    "rod",
+    "front_cap",
+    "front_screws",
+    "rod_eye",
+    "done"
+   ],
+   "duration_s": 102.5,
+   "motor_screw_driver": [
+    "tool_PH0_blade",
+    "tool_PH0_handle"
+   ],
+   "rear_screw_driver": [
+    "tool_PH1_blade",
+    "tool_PH1_handle"
+   ],
+   "board_step_wires": [
+    "W1",
+    "W2",
+    "W3",
+    "W4"
+   ],
+   "first_step_parts": [
+    "01_body"
+   ],
+   "end_tools": 0,
+   "end_tubes": [
+    "cable_sleeve",
+    "W1",
+    "W2",
+    "W3",
+    "W4"
+   ],
+   "end_missing": [],
+   "end_extra": [],
+   "extend_stops": true,
+   "pass": true
+  },
+  "U60": {
+   "printed_labels": 6,
+   "print_card": true,
+   "steps": [
+    "body",
+    "board",
+    "motor",
+    "motor_screws",
+    "motor_wires",
+    "rear_cap",
+    "sleeve_clamp",
+    "rear_screws",
+    "magnet_nut",
+    "rod",
+    "front_cap",
+    "front_screws",
+    "rod_eye",
+    "done"
+   ],
+   "duration_s": 102.5,
+   "motor_screw_driver": [
+    "tool_PH0_blade",
+    "tool_PH0_handle"
+   ],
+   "rear_screw_driver": [
+    "tool_PH1_blade",
+    "tool_PH1_handle"
+   ],
+   "board_step_wires": [
+    "W1",
+    "W2",
+    "W3",
+    "W4"
+   ],
+   "first_step_parts": [
+    "01_body"
+   ],
+   "end_tools": 0,
+   "end_tubes": [
+    "cable_sleeve",
+    "W1",
+    "W2",
+    "W3",
+    "W4"
+   ],
+   "end_missing": [],
+   "end_extra": [],
+   "extend_stops": true,
+   "pass": true
+  },
+  "L": {
+   "printed_labels": 6,
+   "print_card": true,
+   "steps": [
+    "body",
+    "board",
+    "motor",
+    "motor_screws",
+    "motor_wires",
+    "rear_cap",
+    "sleeve_clamp",
+    "rear_screws",
+    "magnet_nut",
+    "rod",
+    "front_cap",
+    "front_screws",
+    "rod_eye",
+    "done"
+   ],
+   "duration_s": 102.5,
+   "motor_screw_driver": [
+    "tool_PH0_blade",
+    "tool_PH0_handle"
+   ],
+   "rear_screw_driver": [
+    "tool_PH1_blade",
+    "tool_PH1_handle"
+   ],
+   "board_step_wires": [
+    "W1",
+    "W2",
+    "W3",
+    "W4"
+   ],
+   "first_step_parts": [
+    "01_body"
+   ],
+   "end_tools": 0,
+   "end_tubes": [
+    "cable_sleeve",
+    "W1",
+    "W2",
+    "W3",
+    "W4"
+   ],
+   "end_missing": [],
+   "end_extra": [],
+   "extend_stops": true,
+   "pass": true
+  }
+ },
+ "errors": [],
+ "pass": true
+}

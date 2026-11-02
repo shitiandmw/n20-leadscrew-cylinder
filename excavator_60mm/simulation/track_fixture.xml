@@ -1,0 +1,2086 @@
+<mujoco model="arm60_track_fixture"><compiler angle="radian" autolimits="true"/>
+<option timestep=".0005" gravity="0 0 -9.81" integrator="implicitfast" solver="Newton" iterations="100" tolerance="1e-10" cone="elliptic" jacobian="sparse"/>
+<default><geom contype="1" conaffinity="11" friction=".2 .001 .00001" condim="3" margin=".00002" solref=".002 1" solimp=".99 .999 .0001"/><joint armature=".00000001"/></default>
+<asset><mesh name="tooth0" file="contact_meshes_si/000.obj"/>
+<mesh name="tooth1" file="contact_meshes_si/001.obj"/>
+<mesh name="tooth2" file="contact_meshes_si/002.obj"/>
+<mesh name="tooth3" file="contact_meshes_si/003.obj"/>
+<mesh name="tooth4" file="contact_meshes_si/004.obj"/>
+<mesh name="tooth5" file="contact_meshes_si/005.obj"/>
+<mesh name="tooth6" file="contact_meshes_si/006.obj"/>
+<mesh name="tooth7" file="contact_meshes_si/007.obj"/>
+<mesh name="tooth8" file="contact_meshes_si/008.obj"/>
+<mesh name="tooth9" file="contact_meshes_si/009.obj"/>
+<mesh name="tooth10" file="contact_meshes_si/010.obj"/>
+<mesh name="tooth11" file="contact_meshes_si/011.obj"/>
+<mesh name="tooth12" file="contact_meshes_si/012.obj"/>
+<mesh name="tooth13" file="contact_meshes_si/013.obj"/>
+<mesh name="tooth14" file="contact_meshes_si/014.obj"/>
+<mesh name="tooth15" file="contact_meshes_si/015.obj"/>
+<mesh name="tooth16" file="contact_meshes_si/016.obj"/>
+<mesh name="tooth17" file="contact_meshes_si/017.obj"/>
+<mesh name="tooth18" file="contact_meshes_si/018.obj"/>
+<mesh name="tooth19" file="contact_meshes_si/019.obj"/>
+<mesh name="tooth20" file="contact_meshes_si/020.obj"/>
+<mesh name="tooth21" file="contact_meshes_si/021.obj"/>
+<mesh name="tooth22" file="contact_meshes_si/022.obj"/>
+<mesh name="tooth23" file="contact_meshes_si/023.obj"/>
+<mesh name="tooth24" file="contact_meshes_si/024.obj"/>
+<mesh name="tooth25" file="contact_meshes_si/025.obj"/>
+<mesh name="tooth26" file="contact_meshes_si/026.obj"/>
+<mesh name="tooth27" file="contact_meshes_si/027.obj"/>
+<mesh name="tooth28" file="contact_meshes_si/028.obj"/>
+<mesh name="tooth29" file="contact_meshes_si/029.obj"/>
+<mesh name="tooth30" file="contact_meshes_si/030.obj"/>
+<mesh name="tooth31" file="contact_meshes_si/031.obj"/>
+<mesh name="tooth32" file="contact_meshes_si/032.obj"/>
+<mesh name="tooth33" file="contact_meshes_si/033.obj"/>
+<mesh name="tooth34" file="contact_meshes_si/034.obj"/>
+<mesh name="tooth35" file="contact_meshes_si/035.obj"/>
+<mesh name="tooth36" file="contact_meshes_si/036.obj"/>
+<mesh name="tooth37" file="contact_meshes_si/037.obj"/>
+<mesh name="tooth38" file="contact_meshes_si/038.obj"/>
+<mesh name="tooth39" file="contact_meshes_si/039.obj"/>
+<mesh name="tooth40" file="contact_meshes_si/040.obj"/>
+<mesh name="tooth41" file="contact_meshes_si/041.obj"/>
+<mesh name="tooth42" file="contact_meshes_si/042.obj"/>
+<mesh name="tooth43" file="contact_meshes_si/043.obj"/>
+<mesh name="tooth44" file="contact_meshes_si/044.obj"/>
+<mesh name="tooth45" file="contact_meshes_si/045.obj"/>
+<mesh name="tooth46" file="contact_meshes_si/046.obj"/>
+<mesh name="tooth47" file="contact_meshes_si/047.obj"/>
+<mesh name="tooth48" file="contact_meshes_si/048.obj"/>
+<mesh name="tooth49" file="contact_meshes_si/049.obj"/>
+<mesh name="tooth50" file="contact_meshes_si/050.obj"/>
+<mesh name="tooth51" file="contact_meshes_si/051.obj"/>
+<mesh name="tooth52" file="contact_meshes_si/052.obj"/>
+<mesh name="tooth53" file="contact_meshes_si/053.obj"/>
+<mesh name="tooth54" file="contact_meshes_si/054.obj"/>
+<mesh name="tooth55" file="contact_meshes_si/055.obj"/>
+<mesh name="tooth56" file="contact_meshes_si/056.obj"/>
+<mesh name="tooth57" file="contact_meshes_si/057.obj"/>
+<mesh name="tooth58" file="contact_meshes_si/058.obj"/>
+<mesh name="tooth59" file="contact_meshes_si/059.obj"/>
+<mesh name="tooth60" file="contact_meshes_si/060.obj"/>
+<mesh name="tooth61" file="contact_meshes_si/061.obj"/>
+<mesh name="tooth62" file="contact_meshes_si/062.obj"/>
+<mesh name="tooth63" file="contact_meshes_si/063.obj"/>
+<mesh name="tooth64" file="contact_meshes_si/064.obj"/>
+<mesh name="tooth65" file="contact_meshes_si/065.obj"/>
+<mesh name="tooth66" file="contact_meshes_si/066.obj"/>
+<mesh name="tooth67" file="contact_meshes_si/067.obj"/>
+<mesh name="tooth68" file="contact_meshes_si/068.obj"/>
+<mesh name="tooth69" file="contact_meshes_si/069.obj"/>
+<mesh name="tooth70" file="contact_meshes_si/070.obj"/>
+<mesh name="tooth71" file="contact_meshes_si/071.obj"/>
+<mesh name="tooth72" file="contact_meshes_si/072.obj"/>
+<mesh name="tooth73" file="contact_meshes_si/073.obj"/>
+<mesh name="tooth74" file="contact_meshes_si/074.obj"/>
+<mesh name="tooth75" file="contact_meshes_si/075.obj"/>
+<mesh name="tooth76" file="contact_meshes_si/076.obj"/>
+<mesh name="tooth77" file="contact_meshes_si/077.obj"/>
+<mesh name="tooth78" file="contact_meshes_si/078.obj"/>
+<mesh name="tooth79" file="contact_meshes_si/079.obj"/>
+<mesh name="tooth80" file="contact_meshes_si/080.obj"/>
+<mesh name="tooth81" file="contact_meshes_si/081.obj"/>
+<mesh name="tooth82" file="contact_meshes_si/082.obj"/>
+<mesh name="tooth83" file="contact_meshes_si/083.obj"/>
+<mesh name="tooth84" file="contact_meshes_si/084.obj"/>
+<mesh name="tooth85" file="contact_meshes_si/085.obj"/>
+<mesh name="tooth86" file="contact_meshes_si/086.obj"/>
+<mesh name="tooth87" file="contact_meshes_si/087.obj"/>
+<mesh name="tooth88" file="contact_meshes_si/088.obj"/>
+<mesh name="tooth89" file="contact_meshes_si/089.obj"/>
+<mesh name="tooth90" file="contact_meshes_si/090.obj"/>
+<mesh name="tooth91" file="contact_meshes_si/091.obj"/>
+<mesh name="tooth92" file="contact_meshes_si/092.obj"/>
+<mesh name="tooth93" file="contact_meshes_si/093.obj"/>
+<mesh name="tooth94" file="contact_meshes_si/094.obj"/>
+<mesh name="tooth95" file="contact_meshes_si/095.obj"/>
+<mesh name="tooth96" file="contact_meshes_si/096.obj"/>
+<mesh name="tooth97" file="contact_meshes_si/097.obj"/>
+<mesh name="tooth98" file="contact_meshes_si/098.obj"/>
+<mesh name="tooth99" file="contact_meshes_si/099.obj"/>
+<mesh name="tooth100" file="contact_meshes_si/100.obj"/>
+<mesh name="tooth101" file="contact_meshes_si/101.obj"/>
+<mesh name="tooth102" file="contact_meshes_si/102.obj"/>
+<mesh name="tooth103" file="contact_meshes_si/103.obj"/>
+<mesh name="tooth104" file="contact_meshes_si/104.obj"/>
+<mesh name="tooth105" file="contact_meshes_si/105.obj"/>
+<mesh name="tooth106" file="contact_meshes_si/106.obj"/>
+<mesh name="tooth107" file="contact_meshes_si/107.obj"/>
+<mesh name="tooth108" file="contact_meshes_si/108.obj"/>
+<mesh name="tooth109" file="contact_meshes_si/109.obj"/>
+<mesh name="tooth110" file="contact_meshes_si/110.obj"/>
+<mesh name="tooth111" file="contact_meshes_si/111.obj"/>
+<mesh name="tooth112" file="contact_meshes_si/112.obj"/>
+<mesh name="tooth113" file="contact_meshes_si/113.obj"/>
+<mesh name="rail0" file="shoe_contact_meshes_si/0_00.obj"/>
+<mesh name="rail1" file="shoe_contact_meshes_si/0_01.obj"/>
+<mesh name="rail2" file="shoe_contact_meshes_si/0_02.obj"/>
+<mesh name="rail3" file="shoe_contact_meshes_si/0_03.obj"/>
+<mesh name="rail4" file="shoe_contact_meshes_si/0_04.obj"/>
+<mesh name="rail5" file="shoe_contact_meshes_si/0_05.obj"/>
+<mesh name="rail6" file="shoe_contact_meshes_si/0_06.obj"/>
+<mesh name="rail7" file="shoe_contact_meshes_si/0_07.obj"/>
+<mesh name="rail8" file="shoe_contact_meshes_si/0_08.obj"/>
+<mesh name="rail9" file="shoe_contact_meshes_si/0_09.obj"/>
+<mesh name="rail10" file="shoe_contact_meshes_si/0_10.obj"/>
+<mesh name="rail11" file="shoe_contact_meshes_si/0_11.obj"/>
+<mesh name="rail12" file="shoe_contact_meshes_si/0_12.obj"/>
+<mesh name="rail13" file="shoe_contact_meshes_si/0_13.obj"/>
+<mesh name="rail14" file="shoe_contact_meshes_si/0_14.obj"/>
+<mesh name="rail15" file="shoe_contact_meshes_si/0_15.obj"/>
+<mesh name="rail16" file="shoe_contact_meshes_si/0_16.obj"/>
+<mesh name="rail17" file="shoe_contact_meshes_si/0_17.obj"/>
+<mesh name="rail18" file="shoe_contact_meshes_si/0_18.obj"/>
+<mesh name="rail19" file="shoe_contact_meshes_si/0_19.obj"/>
+<mesh name="rail20" file="shoe_contact_meshes_si/1_00.obj"/>
+<mesh name="rail21" file="shoe_contact_meshes_si/1_01.obj"/>
+<mesh name="rail22" file="shoe_contact_meshes_si/1_02.obj"/>
+<mesh name="rail23" file="shoe_contact_meshes_si/1_03.obj"/>
+<mesh name="rail24" file="shoe_contact_meshes_si/1_04.obj"/>
+<mesh name="rail25" file="shoe_contact_meshes_si/1_05.obj"/>
+<mesh name="rail26" file="shoe_contact_meshes_si/1_06.obj"/>
+<mesh name="rail27" file="shoe_contact_meshes_si/1_07.obj"/>
+<mesh name="rail28" file="shoe_contact_meshes_si/1_08.obj"/>
+<mesh name="rail29" file="shoe_contact_meshes_si/1_09.obj"/>
+<mesh name="rail30" file="shoe_contact_meshes_si/1_10.obj"/>
+<mesh name="rail31" file="shoe_contact_meshes_si/1_11.obj"/>
+<mesh name="rail32" file="shoe_contact_meshes_si/1_12.obj"/>
+<mesh name="rail33" file="shoe_contact_meshes_si/1_13.obj"/>
+<mesh name="rail34" file="shoe_contact_meshes_si/1_14.obj"/>
+<mesh name="rail35" file="shoe_contact_meshes_si/1_15.obj"/>
+<mesh name="rail36" file="shoe_contact_meshes_si/1_16.obj"/>
+<mesh name="rail37" file="shoe_contact_meshes_si/1_17.obj"/>
+<mesh name="rail38" file="shoe_contact_meshes_si/1_18.obj"/>
+<mesh name="rail39" file="shoe_contact_meshes_si/1_19.obj"/></asset><worldbody><body name="frame"><body name="drive" pos="-.110 0 0.04632050807568877">
+<joint name="drive" type="hinge" axis="0 1 0" damping=".0001" armature="0.103359"/>
+<inertial pos="1.4895696418398094e-06 -0.003750042153946887 9.625758495536324e-07" mass="0.21202872315759516" fullinertia="0.00013197379871116507 0.00017635030378796332 0.00013196762219963915 -5.4305926857436646e-09 -4.692032873955878e-09 -3.501813893247503e-09"/><geom type="mesh" mesh="tooth0" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth1" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth2" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth3" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth4" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth5" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth6" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth7" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth8" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth9" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth10" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth11" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth12" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth13" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth14" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth15" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth16" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth17" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth18" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth19" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth20" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth21" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth22" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth23" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth24" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth25" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth26" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth27" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth28" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth29" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth30" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth31" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth32" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth33" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth34" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth35" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth36" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth37" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth38" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth39" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth40" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth41" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth42" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth43" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth44" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth45" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth46" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth47" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth48" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth49" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth50" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth51" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth52" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth53" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth54" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth55" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth56" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth57" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth58" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth59" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth60" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth61" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth62" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth63" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth64" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth65" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth66" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth67" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth68" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth69" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth70" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth71" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth72" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth73" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth74" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth75" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth76" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth77" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth78" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth79" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth80" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth81" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth82" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth83" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth84" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth85" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth86" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth87" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth88" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth89" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth90" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth91" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth92" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth93" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth94" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth95" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth96" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth97" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth98" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth99" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth100" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth101" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth102" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth103" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth104" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth105" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth106" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth107" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth108" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth109" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth110" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth111" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth112" contype="2" conaffinity="5"/>
+<geom type="mesh" mesh="tooth113" contype="2" conaffinity="5"/>
+<geom name="hub_drum" type="cylinder" fromto="0 -0.029500000000000002 0 0 -.007 0" size="0.032799999999999996" contype="2" conaffinity="5"/>
+<geom name="hub_cap" type="cylinder" fromto="0 .007 0 0 0.022 0" size="0.032799999999999996" contype="2" conaffinity="5"/></body>
+<body name="slider" pos=".110 0 0.04632050807568877">
+<joint name="slide" type="slide" axis="1 0 0" limited="true" range="-0.0042 0.004" stiffness="6285.3"
+ springref="0.0121" damping="5" frictionloss=".5" solreflimit=".001 1" solimplimit=".99 .999 .0001"/>
+<inertial pos="0.0002712889754936778 -0.02187180211910247 2.6848927167919847e-20" mass="0.08454074883506221" fullinertia="6.626348214998377e-05 3.836008899427416e-06 6.599827912313783e-05 5.075096240113655e-07 1.159307105198601e-23 1.0722512592135135e-23"/>
+<body name="idler"><joint name="idler_spin" type="hinge" axis="0 1 0" damping=".0001"/>
+<inertial pos="4.537522359481767e-18 0.0 -3.8314607184564714e-19" mass="0.19994539595230063" fullinertia="8.470364129066416e-05 0.00010402751739654077 8.470364129066532e-05 7.891747679102404e-22 7.135122005661925e-21 -1.5684325959129148e-23"/>
+<geom type="cylinder" fromto="0 -.007 0 0 .007 0" size="0.035237033051562734" contype="2" conaffinity="5"/>
+<geom type="cylinder" fromto="0 -.020 0 0 -.015 0" size="0.033170508075688776" contype="2" conaffinity="5"/>
+<geom type="cylinder" fromto="0 .015 0 0 .020 0" size="0.033170508075688776" contype="2" conaffinity="5"/>
+<geom type="cylinder" fromto="0 -.015 0 0 .015 0" size=".028" contype="2" conaffinity="5"/>
+<geom name="idler_guide_left" type="cylinder" fromto="0 -0.023 0 0 -0.0216 0" size="0.03517050807568877" contype="2" conaffinity="5"/>
+<geom name="idler_guide_right" type="cylinder" fromto="0 0.0216 0 0 0.023 0" size="0.03517050807568877" contype="2" conaffinity="5"/>
+</body></body><body name="roller0" pos="-0.052000000000000005 0 0.029"><joint name="roller_spin0" type="hinge" axis="0 1 0" damping=".00002"/>
+<inertial pos="-2.1439742372664574e-18 5.35060411505368e-19 7.3950557012583765e-19" mass="0.05187372307650247" fullinertia="1.5806830402929448e-05 6.3235433754779875e-06 1.5806830402929512e-05 -9.046665250330944e-23 -2.1702105625193647e-22 2.8019793400110776e-24"/>
+<geom type="cylinder" fromto="0 -.020 0 0 .020 0" size=".013" contype="2" conaffinity="5"/>
+<geom type="cylinder" fromto="0 -0.0216 0 0 -.015 0" size="0.018000000000000002" contype="2" conaffinity="5"/>
+<geom type="cylinder" fromto="0 .015 0 0 0.0216 0" size="0.018000000000000002" contype="2" conaffinity="5"/>
+<geom name="roller0_guide_left" type="cylinder" fromto="0 -0.023 0 0 -0.0216 0" size="0.02" contype="2" conaffinity="5"/>
+<geom name="roller0_guide_right" type="cylinder" fromto="0 0.0216 0 0 0.023 0" size="0.02" contype="2" conaffinity="5"/></body><body name="roller1" pos="0.0 0 0.029"><joint name="roller_spin1" type="hinge" axis="0 1 0" damping=".00002"/>
+<inertial pos="-2.1439742372664574e-18 5.35060411505368e-19 7.3950557012583765e-19" mass="0.05187372307650247" fullinertia="1.5806830402929448e-05 6.3235433754779875e-06 1.5806830402929512e-05 -9.046665250330944e-23 -2.1702105625193647e-22 2.8019793400110776e-24"/>
+<geom type="cylinder" fromto="0 -.020 0 0 .020 0" size=".013" contype="2" conaffinity="5"/>
+<geom type="cylinder" fromto="0 -0.0216 0 0 -.015 0" size="0.018000000000000002" contype="2" conaffinity="5"/>
+<geom type="cylinder" fromto="0 .015 0 0 0.0216 0" size="0.018000000000000002" contype="2" conaffinity="5"/>
+<geom name="roller1_guide_left" type="cylinder" fromto="0 -0.023 0 0 -0.0216 0" size="0.02" contype="2" conaffinity="5"/>
+<geom name="roller1_guide_right" type="cylinder" fromto="0 0.0216 0 0 0.023 0" size="0.02" contype="2" conaffinity="5"/></body><body name="roller2" pos="0.052000000000000005 0 0.029"><joint name="roller_spin2" type="hinge" axis="0 1 0" damping=".00002"/>
+<inertial pos="-2.1439742372664574e-18 5.35060411505368e-19 7.3950557012583765e-19" mass="0.05187372307650247" fullinertia="1.5806830402929448e-05 6.3235433754779875e-06 1.5806830402929512e-05 -9.046665250330944e-23 -2.1702105625193647e-22 2.8019793400110776e-24"/>
+<geom type="cylinder" fromto="0 -.020 0 0 .020 0" size=".013" contype="2" conaffinity="5"/>
+<geom type="cylinder" fromto="0 -0.0216 0 0 -.015 0" size="0.018000000000000002" contype="2" conaffinity="5"/>
+<geom type="cylinder" fromto="0 .015 0 0 0.0216 0" size="0.018000000000000002" contype="2" conaffinity="5"/>
+<geom name="roller2_guide_left" type="cylinder" fromto="0 -0.023 0 0 -0.0216 0" size="0.02" contype="2" conaffinity="5"/>
+<geom name="roller2_guide_right" type="cylinder" fromto="0 0.0216 0 0 0.023 0" size="0.02" contype="2" conaffinity="5"/></body><body name="roller3" pos="-0.03 0 0.06364101615137754"><joint name="roller_spin3" type="hinge" axis="0 1 0" damping=".00002"/>
+<inertial pos="1.1346839182755607e-18 0.0 1.2616459159492424e-19" mass="0.048570764338384774" fullinertia="1.4051376773120786e-05 5.277053613440987e-06 1.4051376773120847e-05 -1.6439038186341292e-22 4.859086615282681e-22 -9.156894667099651e-25"/>
+<geom type="cylinder" fromto="0 -.020 0 0 .020 0" size=".013" contype="2" conaffinity="5"/>
+<geom type="cylinder" fromto="0 -0.0216 0 0 -.015 0" size="0.0165" contype="2" conaffinity="5"/>
+<geom type="cylinder" fromto="0 .015 0 0 0.0216 0" size="0.0165" contype="2" conaffinity="5"/>
+<geom name="roller3_guide_left" type="cylinder" fromto="0 -0.023 0 0 -0.0216 0" size="0.0185" contype="2" conaffinity="5"/>
+<geom name="roller3_guide_right" type="cylinder" fromto="0 0.0216 0 0 0.023 0" size="0.0185" contype="2" conaffinity="5"/></body><body name="roller4" pos="0.03 0 0.06364101615137754"><joint name="roller_spin4" type="hinge" axis="0 1 0" damping=".00002"/>
+<inertial pos="1.1346839182755607e-18 0.0 1.2616459159492424e-19" mass="0.048570764338384774" fullinertia="1.4051376773120786e-05 5.277053613440987e-06 1.4051376773120847e-05 -1.6439038186341292e-22 4.859086615282681e-22 -9.156894667099651e-25"/>
+<geom type="cylinder" fromto="0 -.020 0 0 .020 0" size=".013" contype="2" conaffinity="5"/>
+<geom type="cylinder" fromto="0 -0.0216 0 0 -.015 0" size="0.0165" contype="2" conaffinity="5"/>
+<geom type="cylinder" fromto="0 .015 0 0 0.0216 0" size="0.0165" contype="2" conaffinity="5"/>
+<geom name="roller4_guide_left" type="cylinder" fromto="0 -0.023 0 0 -0.0216 0" size="0.0185" contype="2" conaffinity="5"/>
+<geom name="roller4_guide_right" type="cylinder" fromto="0 0.0216 0 0 0.023 0" size="0.0185" contype="2" conaffinity="5"/></body></body><body name="shoe0" pos="-0.11 0 0.08364101615137755" quat="6.123233995736766e-17 0 -1.0 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front0_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front0_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear0_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear0_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe1" pos="-0.0900031254884339 0 0.08389101615137755" quat="0.012500976829627197 0 0.9999218597362022 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front1_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front1_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear1_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear1_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe2" pos="-0.07000625097686779 0 0.08414101615137755" quat="6.123233995736766e-17 0 -1.0 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front2_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front2_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear2_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear2_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe3" pos="-0.05000625097686779 0 0.08414101615137755" quat="6.123233995736766e-17 0 -1.0 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front3_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front3_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear3_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear3_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe4" pos="-0.03000625097686779 0 0.08414101615137755" quat="6.123233995736766e-17 0 -1.0 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front4_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front4_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear4_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear4_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe5" pos="-0.010053251117367695 0 0.0831726186106996" quat="0.04847687103140226 0 -0.9988243053585575 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front5_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front5_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear5_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear5_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe6" pos="0.009852748601632499 0 0.0831726186106996" quat="0.04847687103140226 0 0.9988243053585575 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front6_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front6_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear6_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear6_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe7" pos="0.029805748461132594 0 0.08414101615137755" quat="6.123233995736766e-17 0 -1.0 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front7_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front7_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear7_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear7_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe8" pos="0.049805748461132594 0 0.08414101615137755" quat="6.123233995736766e-17 0 -1.0 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front8_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front8_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear8_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear8_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe9" pos="0.06980574846113259 0 0.08414101615137755" quat="6.123233995736766e-17 0 -1.0 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front9_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front9_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear9_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear9_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe10" pos="0.0898026229726987 0 0.08389101615137755" quat="0.012500976829627197 0 -0.9999218597362022 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front10_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front10_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear10_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear10_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe11" pos="0.1097994974842648 0 0.08364101615137755" quat="6.123233995736766e-17 0 -1.0 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front11_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front11_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear11_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear11_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe12" pos="0.12845975152210917 0 0.07864101615137754" quat="0.25881904510252096 0 -0.9659258262890682 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front12_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front12_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear12_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear12_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe13" pos="0.14212000555995358 0 0.06498076211353317" quat="0.4999999999999999 0 -0.8660254037844387 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front13_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front13_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear13_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear13_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe14" pos="0.14712000555995358 0 0.04632050807568877" quat="0.7071067811865476 0 -0.7071067811865475 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front14_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front14_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear14_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear14_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe15" pos="0.14212000555995358 0 0.027660254037844386" quat="0.8660254037844387 0 -0.49999999999999994 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front15_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front15_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear15_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear15_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe16" pos="0.12845975152210917 0 0.014" quat="0.9659258262890682 0 -0.2588190451025209 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front16_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front16_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear16_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear16_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe17" pos="0.1097994974842648 0 0.009000000000000001" quat="1.0 0 -0.0 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front17_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front17_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear17_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear17_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe18" pos="0.0898496231131986 0 0.008" quat="0.9987460731103327 0 -0.05006277505981887 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front18_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front18_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear18_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear18_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe19" pos="0.06989974874213241 0 0.007" quat="1.0 0 -0.0 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front19_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front19_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear19_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear19_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe20" pos="0.049899748742132405 0 0.007" quat="1.0 0 -0.0 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front20_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front20_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear20_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear20_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe21" pos="0.029899748742132404 0 0.007" quat="1.0 0 -0.0 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front21_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front21_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear21_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear21_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe22" pos="0.009899748742132402 0 0.007" quat="1.0 0 -0.0 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front22_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front22_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear22_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear22_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe23" pos="-0.010100251257867598 0 0.007" quat="1.0 0 -0.0 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front23_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front23_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear23_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear23_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe24" pos="-0.030100251257867597 0 0.007" quat="1.0 0 -0.0 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front24_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front24_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear24_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear24_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe25" pos="-0.0501002512578676 0 0.007" quat="1.0 0 -0.0 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front25_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front25_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear25_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear25_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe26" pos="-0.0701002512578676 0 0.007" quat="1.0 0 -0.0 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front26_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front26_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear26_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear26_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe27" pos="-0.0900501256289338 0 0.008" quat="0.9987460731103327 0 0.05006277505981887 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front27_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front27_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear27_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear27_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe28" pos="-0.11 0 0.009000000000000001" quat="1.0 0 -0.0 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front28_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front28_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear28_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear28_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe29" pos="-0.1286602540378444 0 0.014" quat="0.9659258262890683 0 0.2588190451025205 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front29_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front29_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear29_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear29_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe30" pos="-0.1423205080756888 0 0.027660254037844386" quat="0.8660254037844384 0 0.5000000000000006 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front30_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front30_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear30_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear30_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe31" pos="-0.14732050807568878 0 0.04632050807568878" quat="0.7071067811865476 0 0.7071067811865475 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front31_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front31_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear31_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear31_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe32" pos="-0.14232050807568877 0 0.06498076211353317" quat="0.4999999999999999 0 0.8660254037844387 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front32_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front32_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear32_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear32_1" pos="-0.01 0.018 0" size=".0002"/></body><body name="shoe33" pos="-0.12866025403784437 0 0.07864101615137754" quat="0.25881904510252096 0 0.9659258262890682 0"><freejoint/><inertial pos="0.00472976938607257 5.18021082380662e-19 -0.0012843855129049762" mass="0.01255781522446367" fullinertia="2.768317501020218e-06 6.827195688775649e-07 3.2701874399438546e-06 0.0 -7.350974297800608e-08 -1.3877787807814456e-23"/>
+<geom type="box" pos="0 0 -.005" size=".0094 0.027 .001"/>
+<geom type="mesh" mesh="rail0"/>
+<geom type="mesh" mesh="rail1"/>
+<geom type="mesh" mesh="rail2"/>
+<geom type="mesh" mesh="rail3"/>
+<geom type="mesh" mesh="rail4"/>
+<geom type="mesh" mesh="rail5"/>
+<geom type="mesh" mesh="rail6"/>
+<geom type="mesh" mesh="rail7"/>
+<geom type="mesh" mesh="rail8"/>
+<geom type="mesh" mesh="rail9"/>
+<geom type="mesh" mesh="rail10"/>
+<geom type="mesh" mesh="rail11"/>
+<geom type="mesh" mesh="rail12"/>
+<geom type="mesh" mesh="rail13"/>
+<geom type="mesh" mesh="rail14"/>
+<geom type="mesh" mesh="rail15"/>
+<geom type="mesh" mesh="rail16"/>
+<geom type="mesh" mesh="rail17"/>
+<geom type="mesh" mesh="rail18"/>
+<geom type="mesh" mesh="rail19"/>
+<geom type="mesh" mesh="rail20"/>
+<geom type="mesh" mesh="rail21"/>
+<geom type="mesh" mesh="rail22"/>
+<geom type="mesh" mesh="rail23"/>
+<geom type="mesh" mesh="rail24"/>
+<geom type="mesh" mesh="rail25"/>
+<geom type="mesh" mesh="rail26"/>
+<geom type="mesh" mesh="rail27"/>
+<geom type="mesh" mesh="rail28"/>
+<geom type="mesh" mesh="rail29"/>
+<geom type="mesh" mesh="rail30"/>
+<geom type="mesh" mesh="rail31"/>
+<geom type="mesh" mesh="rail32"/>
+<geom type="mesh" mesh="rail33"/>
+<geom type="mesh" mesh="rail34"/>
+<geom type="mesh" mesh="rail35"/>
+<geom type="mesh" mesh="rail36"/>
+<geom type="mesh" mesh="rail37"/>
+<geom type="mesh" mesh="rail38"/>
+<geom type="mesh" mesh="rail39"/>
+<geom type="box" pos="-0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.0 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="box" pos="0.006 0 -.0065" size=".001 0.027 .0005"/>
+<geom type="cylinder" fromto="0.01 -0.0137 0 0.01 -0.0087 0" size=".004"/>
+<geom type="cylinder" fromto="0.01 0.0087 0 0.01 0.0137 0" size=".004"/>
+<geom type="cylinder" fromto=".01 -0.028 0 .01 0.028 0" size=".0015" contype="4" conaffinity="2"/>
+<geom type="cylinder" fromto=".01 -0.0085 0 .01 0.0085 0" size="0.003" contype="4" conaffinity="2"/>
+<site name="front33_-1" pos="0.01 -0.018 0" size=".0002"/>
+<site name="front33_1" pos="0.01 0.018 0" size=".0002"/>
+<site name="rear33_-1" pos="-0.01 -0.018 0" size=".0002"/>
+<site name="rear33_1" pos="-0.01 0.018 0" size=".0002"/></body></worldbody><equality><connect site1="rear0_-1" site2="front1_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear0_1" site2="front1_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear1_-1" site2="front2_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear1_1" site2="front2_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear2_-1" site2="front3_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear2_1" site2="front3_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear3_-1" site2="front4_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear3_1" site2="front4_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear4_-1" site2="front5_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear4_1" site2="front5_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear5_-1" site2="front6_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear5_1" site2="front6_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear6_-1" site2="front7_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear6_1" site2="front7_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear7_-1" site2="front8_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear7_1" site2="front8_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear8_-1" site2="front9_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear8_1" site2="front9_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear9_-1" site2="front10_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear9_1" site2="front10_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear10_-1" site2="front11_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear10_1" site2="front11_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear11_-1" site2="front12_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear11_1" site2="front12_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear12_-1" site2="front13_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear12_1" site2="front13_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear13_-1" site2="front14_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear13_1" site2="front14_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear14_-1" site2="front15_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear14_1" site2="front15_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear15_-1" site2="front16_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear15_1" site2="front16_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear16_-1" site2="front17_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear16_1" site2="front17_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear17_-1" site2="front18_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear17_1" site2="front18_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear18_-1" site2="front19_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear18_1" site2="front19_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear19_-1" site2="front20_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear19_1" site2="front20_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear20_-1" site2="front21_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear20_1" site2="front21_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear21_-1" site2="front22_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear21_1" site2="front22_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear22_-1" site2="front23_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear22_1" site2="front23_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear23_-1" site2="front24_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear23_1" site2="front24_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear24_-1" site2="front25_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear24_1" site2="front25_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear25_-1" site2="front26_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear25_1" site2="front26_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear26_-1" site2="front27_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear26_1" site2="front27_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear27_-1" site2="front28_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear27_1" site2="front28_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear28_-1" site2="front29_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear28_1" site2="front29_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear29_-1" site2="front30_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear29_1" site2="front30_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear30_-1" site2="front31_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear30_1" site2="front31_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear31_-1" site2="front32_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear31_1" site2="front32_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear32_-1" site2="front33_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear32_1" site2="front33_1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear33_-1" site2="front0_-1" solref=".001 1" solimp=".9999 .99999 .0001"/><connect site1="rear33_1" site2="front0_1" solref=".001 1" solimp=".9999 .99999 .0001"/></equality>
+<actuator><velocity name="drive_motor" joint="drive" kv="2" forcelimited="true" forcerange="-1.20585 1.20585"/></actuator></mujoco>

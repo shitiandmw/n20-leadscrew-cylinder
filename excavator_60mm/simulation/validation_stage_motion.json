@@ -1,0 +1,34 @@
+{
+  "scene_sha256": "8e2b0aa1bc835337a16244ca10dd15b51b5c0ef7ae7006567ffb15498f2ac308",
+  "seconds": 369.3,
+  "result": {
+    "arm_grid_configurations": 125,
+    "arm_chassis_slew_angles": 11,
+    "upper_slew_samples": 61,
+    "exact_cross_system_intersections": 1763,
+    "maximum_intersection_mm3": 3641.486728718015,
+    "collisions": [],
+    "gear_mesh_samples": 61,
+    "maximum_gear_intersection_mm3": 0,
+    "idler_guide_collisions": [],
+    "mechanical_stop_contact_deg": [
+      -160.75,
+      160.75
+    ],
+    "collision_reference_envelope": {
+      "boom_threshold_mm": 15,
+      "low_boom_slew_deg": 20,
+      "boundary_configurations": 666,
+      "boundary_collisions": [],
+      "negative_control_collision_mm3": 11102.07476651214,
+      "negative_control_outside_reference_envelope": true,
+      "negative_control_strokes_mm": [
+        0,
+        60,
+        0
+      ],
+      "negative_control_slew_deg": 120,
+      "description": "CAD reference samples use boom stroke >=15 mm or slew within \u00b120\u00b0. This is not an operating restriction. The preview permits full 0\u201360 mm stroke and \u00b1150\u00b0 slew independently; operators manage track clearance."
+    }
+  }
+}

@@ -1,0 +1,16 @@
+services:
+  sand-lab:
+    build: .
+    ports:
+      - "${PORT:-8080}:8080"
+    environment:
+      PORT: 8080
+      MAX_ROOMS: 4
+      # Set to your LAN address or HTTPS domain when accessed behind a proxy.
+      PUBLIC_URL: ${PUBLIC_URL:-}
+    init: true
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 768m

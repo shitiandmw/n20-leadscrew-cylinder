@@ -1,0 +1,138 @@
+{
+  "pass": true,
+  "kind": "preview",
+  "width": 1280,
+  "height": 720,
+  "fps": 25,
+  "frame_count": 4,
+  "duration_s": null,
+  "chapters": [
+    {
+      "view": "bracket",
+      "seconds": 4,
+      "title": "The same continuous frame layout on both sides.",
+      "text": "Broad continuous plates follow your reference. Both sides locate all five small-wheel axles.",
+      "detail": "Current axle positions suit 30 mm upper and 36 mm lower rollers. Cross ties hold the side plates 48 mm apart.",
+      "note": "The drive keeps its independent bearings. The idler retains its sliding yoke. Nominal CAD; no load rating established."
+    },
+    {
+      "view": "exploded",
+      "seconds": 6,
+      "title": "A full-length removable side plate",
+      "text": "Remove five M5 axle screws and three M4 tie screws, then slide the outer plate outboard.",
+      "detail": "A broad uninterrupted web joins the wheel mounts. Drive access and the idler travel slot are built into the plate.",
+      "note": "For wheel service, open and remove the chain first. Remove the one-piece housing for access to the rear axle heads."
+    },
+    {
+      "view": "unit",
+      "seconds": 3.5,
+      "title": "Original package retained",
+      "text": "The bracket fits the existing track size and motor location. The motor-to-idler protection remains one piece.",
+      "detail": "54 mm shoes. 220 mm nominal wheel centres. Original motor holes and chassis pads.",
+      "note": "Actual X-chassis and left motor fit remain unverified. The thin housing is separate from the load-bearing bracket."
+    },
+    {
+      "view": "run",
+      "seconds": 13.5,
+      "title": "Forward and reverse demonstration",
+      "text": "The continuous J8 side frames surround the retained wheels and moving track.",
+      "detail": "Reused J6 unloaded motion trace. Generic +/-20 rpm target; nominal chain speed 80 mm/s.",
+      "note": "Digital demonstration, not a new dynamics run or physical footage. Structural strength, vehicle traction and motor heating are not tested here."
+    }
+  ],
+  "samples": [
+    {
+      "chapter": 1,
+      "frame": -1,
+      "view": "top",
+      "plateTravel": 0,
+      "outerScrewTravel": 0,
+      "innerPlateVisible": true,
+      "outerPlateVisible": true,
+      "bracketMeshCount": 16,
+      "coverVisible": false,
+      "meshes": 51,
+      "links": 34,
+      "lift": 0,
+      "coverTravel": 0,
+      "lid": false,
+      "chain": true,
+      "pair": false,
+      "drive": 0,
+      "motion": null
+    },
+    {
+      "chapter": 2,
+      "frame": -1,
+      "view": "exploded",
+      "plateTravel": 60,
+      "outerScrewTravel": 95,
+      "innerPlateVisible": true,
+      "outerPlateVisible": true,
+      "bracketMeshCount": 16,
+      "coverVisible": false,
+      "meshes": 51,
+      "links": 34,
+      "lift": 0,
+      "coverTravel": 0,
+      "lid": false,
+      "chain": true,
+      "pair": false,
+      "drive": 0,
+      "motion": null
+    },
+    {
+      "chapter": 3,
+      "frame": -1,
+      "view": "unit",
+      "plateTravel": 0,
+      "outerScrewTravel": 0,
+      "innerPlateVisible": true,
+      "outerPlateVisible": true,
+      "bracketMeshCount": 16,
+      "coverVisible": true,
+      "meshes": 51,
+      "links": 34,
+      "lift": 0,
+      "coverTravel": 0,
+      "lid": true,
+      "chain": true,
+      "pair": false,
+      "drive": 0,
+      "motion": null
+    },
+    {
+      "chapter": 4,
+      "frame": 150,
+      "view": "run",
+      "plateTravel": 0,
+      "outerScrewTravel": 0,
+      "innerPlateVisible": true,
+      "outerPlateVisible": true,
+      "bracketMeshCount": 16,
+      "coverVisible": true,
+      "meshes": 51,
+      "links": 34,
+      "lift": 0,
+      "coverTravel": 0,
+      "lid": true,
+      "chain": true,
+      "pair": false,
+      "drive": 4.185371437844014,
+      "motion": {
+        "t": 3,
+        "rpm": 20.099706577050153,
+        "angle": 4.185371437844014,
+        "shoe0": [
+          50.1177,
+          0.0003,
+          83.9404
+        ]
+      }
+    }
+  ],
+  "page_errors": [],
+  "network_requests": [],
+  "render_batches": 4,
+  "checkpoint_key": "a93be09848c046f2"
+}

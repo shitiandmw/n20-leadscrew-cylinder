@@ -1,0 +1,43 @@
+{
+  "scope": "Unloaded fixed-frame digital chain motion; generic +/-1.2 Nm servo, NOT measured JGY motor performance or whole-vehicle dynamics.",
+  "selected_speed_assumption": "20 rpm is a demonstration target; motor voltage and ratio remain unselected.",
+  "upper_roller_running_diameter_mm": 30,
+  "upper_roller_axis_z_mm": 65.14101615137754,
+  "fresh_J6_simulation": true,
+  "dt_s": 0.0005,
+  "duration_s": 13.500000000005008,
+  "frames": 676,
+  "forward_rpm": 19.996947379699268,
+  "reverse_rpm": -19.994679317294686,
+  "max_abs_torque_Nm": 0.31147217748528616,
+  "max_joint_error_mm": 0.005706974478339376,
+  "phase_error_mm": [
+    -0.09088191540803336,
+    0.0992644784372203
+  ],
+  "idler_absolute_range_mm": [
+    -0.20050251573520228,
+    0.4938504139915574
+  ],
+  "solver_warnings": 0,
+  "finite": true,
+  "drive_inertia_from_J1_direct_drive_CAD": {
+    "mass_kg": 0.28254467216658485,
+    "centre_m": [
+      1.052743419705377e-06,
+      -0.004048146053924489,
+      5.420276589510626e-07
+    ],
+    "fullinertia_kg_m2": [
+      0.00015938089500562211,
+      0.00017832517594450575,
+      0.0001593632081829812,
+      -5.209483088451586e-09,
+      -5.117383982082109e-09,
+      -3.7294395186056066e-09
+    ]
+  },
+  "rotor_inertia": "Not modeled; no verified motor rotor/gear inertia supplied.",
+  "elapsed_s": 175.7,
+  "playback_checks_pass": true
+}

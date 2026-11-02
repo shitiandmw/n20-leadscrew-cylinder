@@ -1,0 +1,167 @@
+{
+  "B": {
+    "variant": "B",
+    "screw_length_mm": 100.0,
+    "stroke_mm": 85.0,
+    "nut_front_z": 9.3,
+    "nut_margin_on_screw_mm": 2.2,
+    "magnet_end_z": [
+      11.0,
+      96.0
+    ],
+    "hall_z": [
+      5.7,
+      101.3
+    ],
+    "pcb_z": [
+      2.0,
+      103.6
+    ],
+    "pcb_length": 101.6,
+    "body_z": [
+      -27.5,
+      104.0
+    ],
+    "front_cap_z": [
+      104.0,
+      110.0
+    ],
+    "carrier_front_max_z": 103.0,
+    "rod_end_z": 122.0,
+    "rod_bore_end_z": 112.0,
+    "eye_front_z": 127.5,
+    "rear_eye_z": -37.5,
+    "pin_centres_closed": 165.0,
+    "pin_centres_open": 250.0,
+    "body_section": [
+      16.1,
+      14.7
+    ],
+    "partition_thickness_mm": 1.0,
+    "partition_x_mm": [
+      5.15,
+      6.15
+    ],
+    "partition_z_mm": [
+      2.0,
+      104.0
+    ],
+    "partition_component_gap_mm": 0.3,
+    "carrier_partition_gap_mm": 0.15,
+    "magnet_diameter_mm": 3.0,
+    "magnet_length_mm": 2.0,
+    "role": "boom",
+    "quantity": 2,
+    "screw_pitch_mm": 0.5
+  },
+  "T": {
+    "variant": "T",
+    "screw_length_mm": 120.0,
+    "stroke_mm": 105.0,
+    "nut_front_z": 9.3,
+    "nut_margin_on_screw_mm": 2.2,
+    "magnet_end_z": [
+      11.0,
+      116.0
+    ],
+    "hall_z": [
+      5.7,
+      121.3
+    ],
+    "pcb_z": [
+      2.0,
+      123.6
+    ],
+    "pcb_length": 121.6,
+    "body_z": [
+      -27.5,
+      124.0
+    ],
+    "front_cap_z": [
+      124.0,
+      130.0
+    ],
+    "carrier_front_max_z": 123.0,
+    "rod_end_z": 142.0,
+    "rod_bore_end_z": 132.0,
+    "eye_front_z": 147.5,
+    "rear_eye_z": -37.5,
+    "pin_centres_closed": 185.0,
+    "pin_centres_open": 290.0,
+    "body_section": [
+      16.1,
+      14.7
+    ],
+    "partition_thickness_mm": 1.0,
+    "partition_x_mm": [
+      5.15,
+      6.15
+    ],
+    "partition_z_mm": [
+      2.0,
+      124.0
+    ],
+    "partition_component_gap_mm": 0.3,
+    "carrier_partition_gap_mm": 0.15,
+    "magnet_diameter_mm": 3.0,
+    "magnet_length_mm": 2.0,
+    "role": "stick",
+    "quantity": 1,
+    "screw_pitch_mm": 0.5
+  },
+  "K": {
+    "variant": "K",
+    "screw_length_mm": 75.0,
+    "stroke_mm": 60.0,
+    "nut_front_z": 9.3,
+    "nut_margin_on_screw_mm": 2.2,
+    "magnet_end_z": [
+      11.0,
+      71.0
+    ],
+    "hall_z": [
+      5.7,
+      76.3
+    ],
+    "pcb_z": [
+      2.0,
+      78.6
+    ],
+    "pcb_length": 76.6,
+    "body_z": [
+      -27.5,
+      79.0
+    ],
+    "front_cap_z": [
+      79.0,
+      85.0
+    ],
+    "carrier_front_max_z": 78.0,
+    "rod_end_z": 97.0,
+    "rod_bore_end_z": 87.0,
+    "eye_front_z": 102.5,
+    "rear_eye_z": -37.5,
+    "pin_centres_closed": 140.0,
+    "pin_centres_open": 200.0,
+    "body_section": [
+      16.1,
+      14.7
+    ],
+    "partition_thickness_mm": 1.0,
+    "partition_x_mm": [
+      5.15,
+      6.15
+    ],
+    "partition_z_mm": [
+      2.0,
+      79.0
+    ],
+    "partition_component_gap_mm": 0.3,
+    "carrier_partition_gap_mm": 0.15,
+    "magnet_diameter_mm": 3.0,
+    "magnet_length_mm": 2.0,
+    "role": "bucket",
+    "quantity": 1,
+    "screw_pitch_mm": 0.5
+  }
+}

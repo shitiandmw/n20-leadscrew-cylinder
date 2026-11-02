@@ -1,0 +1,834 @@
+{
+  "revision": 10,
+  "scope": "Dual independent boom drives with deeper boomerang section; 150 g tracks at assumed 100 N each; ideal feedback, no structural or soil qualification",
+  "files": {
+    "actuator_v6/ASSEMBLY.md": {
+      "bytes": 9007,
+      "sha256": "f0f9413823e2b5be19750cfffa8e38e5e22e048fe7f0c2dccd84815656ab591b"
+    },
+    "actuator_v6/BOM.md": {
+      "bytes": 5954,
+      "sha256": "69a155c320edd837a7c11a1549b58b86bd7d41acacc2684cbab9f1188820c5ee"
+    },
+    "actuator_v6/electronics/netlist.csv": {
+      "bytes": 382,
+      "sha256": "e5b0702d4986672ebd7dc2cc8e094ad797958eb5ead49d73e98df9438b6f34db"
+    },
+    "actuator_v6/electronics/pcb/V6-L/actuator_v6_L.DRL": {
+      "bytes": 385,
+      "sha256": "c12d4e05d6f5c03f890f43860fdbc52a41139858f08488e10549389ed75cfbf8"
+    },
+    "actuator_v6/electronics/pcb/V6-L/actuator_v6_L.GBL": {
+      "bytes": 1304,
+      "sha256": "468b4b7cce6924ed712ac979f5973947ab7c7ac29f48ab566cbbab60d0252b1d"
+    },
+    "actuator_v6/electronics/pcb/V6-L/actuator_v6_L.GBO": {
+      "bytes": 24380,
+      "sha256": "060800a1ecbb5b17934b9f30dbde1338eeebf8cafe232e2d018695c179496270"
+    },
+    "actuator_v6/electronics/pcb/V6-L/actuator_v6_L.GBS": {
+      "bytes": 156,
+      "sha256": "57f692fe4a23055b0987365a3102cad82eb53400627ef8da02364ea6bb2854bf"
+    },
+    "actuator_v6/electronics/pcb/V6-L/actuator_v6_L.GKO": {
+      "bytes": 247,
+      "sha256": "738d3d3f880cbf46ec01b0b6a6a8c2937b1d2b168deed8573d6c97a07b9005a1"
+    },
+    "actuator_v6/electronics/pcb/V6-L/actuator_v6_L.GTL": {
+      "bytes": 3576,
+      "sha256": "fac12a5111dbff1492c02ec9d37fd1bc027f045b05c3d4e6e321b2a41b0c08f8"
+    },
+    "actuator_v6/electronics/pcb/V6-L/actuator_v6_L.GTO": {
+      "bytes": 12657,
+      "sha256": "ff2f8aab01d1bb2464b21bd370f630818805ac2d27fa14d6dffff8e96dace697"
+    },
+    "actuator_v6/electronics/pcb/V6-L/actuator_v6_L.GTP": {
+      "bytes": 1073,
+      "sha256": "2342b3b426fa42fd1e268bd1e80d76f7fdd701b55228a64837cc51aef0fee7ad"
+    },
+    "actuator_v6/electronics/pcb/V6-L/actuator_v6_L.GTS": {
+      "bytes": 1191,
+      "sha256": "874371821822a6fcc697f6526ac1c304ac90f57b3e5cf868ef045a9101303beb"
+    },
+    "actuator_v6/electronics/pcb/V6-L/actuator_v6_L.kicad_pcb": {
+      "bytes": 32244,
+      "sha256": "c935144f9360ae9e1e833b57b55681d330bc8249dcb07ec869c09b2d9308d19c"
+    },
+    "actuator_v6/electronics/pcb/V6-L/actuator_v6_L.kicad_pro": {
+      "bytes": 531,
+      "sha256": "fc41b33415b49f3bbd85099fb869b8b4ac9238b2ce8b483a4a1285c30adcb00e"
+    },
+    "actuator_v6/electronics/pcb/V6-L/actuator_v6_L_BOM_JLCPCB.csv": {
+      "bytes": 618,
+      "sha256": "fef93b7ddc019fd4f6f37f8653ee0070287303bc0fa4971e5398a361be016b32"
+    },
+    "actuator_v6/electronics/pcb/V6-L/actuator_v6_L_CPL_JLCPCB.csv": {
+      "bytes": 455,
+      "sha256": "53234c229544eefaaa555dd6fb01427013af6d283ce79251b22af204d34d0d57"
+    },
+    "actuator_v6/electronics/pcb/V6-L/board_L_layout.png": {
+      "bytes": 74485,
+      "sha256": "7a0b474c93641640f5025347afc7e181cb067c0e72777336be048c22d2435954"
+    },
+    "actuator_v6/electronics/pcb/V6-L/check_L.json": {
+      "bytes": 1563,
+      "sha256": "8bf6e07a9b9bc62b1fba5ccf4becc04aec991a538dc918aa8304a7033ec870c2"
+    },
+    "actuator_v6/electronics/pcb/V6-S/actuator_v6_S.DRL": {
+      "bytes": 385,
+      "sha256": "19468388564a1dc6a329d61f45911553413372898e588a4f3ae0e7c7e5fecfc2"
+    },
+    "actuator_v6/electronics/pcb/V6-S/actuator_v6_S.GBL": {
+      "bytes": 1304,
+      "sha256": "ca56293e794c23dd60d2046c03a5ad50622460e921b5771f5eb19f53eb2c9695"
+    },
+    "actuator_v6/electronics/pcb/V6-S/actuator_v6_S.GBO": {
+      "bytes": 25392,
+      "sha256": "59267308d4bb02e3c626aeabf675516ee363f972ab7aeb398a301695d804be7e"
+    },
+    "actuator_v6/electronics/pcb/V6-S/actuator_v6_S.GBS": {
+      "bytes": 156,
+      "sha256": "57f692fe4a23055b0987365a3102cad82eb53400627ef8da02364ea6bb2854bf"
+    },
+    "actuator_v6/electronics/pcb/V6-S/actuator_v6_S.GKO": {
+      "bytes": 245,
+      "sha256": "6767909ad656b2328385f26fa164aeb894464e93a9563da436a0c164aca22d6e"
+    },
+    "actuator_v6/electronics/pcb/V6-S/actuator_v6_S.GTL": {
+      "bytes": 3574,
+      "sha256": "b811b735de83169d73bf01440fe3d857403262d3eed4f35189f1f053c965fdad"
+    },
+    "actuator_v6/electronics/pcb/V6-S/actuator_v6_S.GTO": {
+      "bytes": 13669,
+      "sha256": "1e1c06494725308976951e73552df204cf187e491822b61bc6c1b08abf3e61a1"
+    },
+    "actuator_v6/electronics/pcb/V6-S/actuator_v6_S.GTP": {
+      "bytes": 1071,
+      "sha256": "b5fb49fd58059d0c810a213ea116643340c272a6f3ba0431f731401bcb07c522"
+    },
+    "actuator_v6/electronics/pcb/V6-S/actuator_v6_S.GTS": {
+      "bytes": 1189,
+      "sha256": "dba58168184ab1ee248386c628ad0efeebb108c45d79640518d19b424c3b466a"
+    },
+    "actuator_v6/electronics/pcb/V6-S/actuator_v6_S.kicad_pcb": {
+      "bytes": 32274,
+      "sha256": "6e57012703bc6234dee5684409061cef4bc31d9ed2fd8d1b9f6fbadd861f5157"
+    },
+    "actuator_v6/electronics/pcb/V6-S/actuator_v6_S.kicad_pro": {
+      "bytes": 531,
+      "sha256": "3a2dd651365c460757c7e5dbcba8f403ad4d70d9647190af42b1dccdf7606401"
+    },
+    "actuator_v6/electronics/pcb/V6-S/actuator_v6_S_BOM_JLCPCB.csv": {
+      "bytes": 618,
+      "sha256": "fef93b7ddc019fd4f6f37f8653ee0070287303bc0fa4971e5398a361be016b32"
+    },
+    "actuator_v6/electronics/pcb/V6-S/actuator_v6_S_CPL_JLCPCB.csv": {
+      "bytes": 455,
+      "sha256": "f73129b0474b03763e59ea34431a95f115a3047f19b09a8add5e7b098700f27e"
+    },
+    "actuator_v6/electronics/pcb/V6-S/board_S_layout.png": {
+      "bytes": 66992,
+      "sha256": "bff77e6c49ca084cdca589c60686c74fe4cf279d196f6a8332550645eb255e67"
+    },
+    "actuator_v6/electronics/pcb/V6-S/check_S.json": {
+      "bytes": 1559,
+      "sha256": "33773a6c00f865d661a8e0af7f270735455e0071e4b08b7e6b5df959d5cec25d"
+    },
+    "actuator_v6/electronics/pcb/V6-U60/actuator_v6_U60.DRL": {
+      "bytes": 385,
+      "sha256": "0c6c1be642686443194fdb4133aa7e8710c96c2c5a98369cf4b33bd51d4aacac"
+    },
+    "actuator_v6/electronics/pcb/V6-U60/actuator_v6_U60.GBL": {
+      "bytes": 1304,
+      "sha256": "89de5905e5e9e77d9635a4f1001affc4b643528f8903d643b707e4bb97668802"
+    },
+    "actuator_v6/electronics/pcb/V6-U60/actuator_v6_U60.GBO": {
+      "bytes": 27114,
+      "sha256": "55f79effaf7bb2c95e2b57c2263589e6251f0b73ba4db9e4a36cfeb7d99b880d"
+    },
+    "actuator_v6/electronics/pcb/V6-U60/actuator_v6_U60.GBS": {
+      "bytes": 156,
+      "sha256": "57f692fe4a23055b0987365a3102cad82eb53400627ef8da02364ea6bb2854bf"
+    },
+    "actuator_v6/electronics/pcb/V6-U60/actuator_v6_U60.GKO": {
+      "bytes": 245,
+      "sha256": "b2122b3265e0b105e175ae523d2b7fb78f12c01079177714aed84b2bc53a9137"
+    },
+    "actuator_v6/electronics/pcb/V6-U60/actuator_v6_U60.GTL": {
+      "bytes": 3574,
+      "sha256": "645e2517c47c655c2600aa01d13cb86c008811ad0c7c5796c9ae32ecfd73c33a"
+    },
+    "actuator_v6/electronics/pcb/V6-U60/actuator_v6_U60.GTO": {
+      "bytes": 15391,
+      "sha256": "b6ff35c0461d17446a68eab484c27a6ba82757e3c55c2b560d921d8c34e20011"
+    },
+    "actuator_v6/electronics/pcb/V6-U60/actuator_v6_U60.GTP": {
+      "bytes": 1071,
+      "sha256": "70c3ab4946595fb14d1d8635ba8177addb5a93e87f38dfb10d3288b09c2d6b98"
+    },
+    "actuator_v6/electronics/pcb/V6-U60/actuator_v6_U60.GTS": {
+      "bytes": 1189,
+      "sha256": "0051c513f476b5872a9fec4e70093e1bdb62d6c20d060355edfef59195370230"
+    },
+    "actuator_v6/electronics/pcb/V6-U60/actuator_v6_U60.kicad_pcb": {
+      "bytes": 32254,
+      "sha256": "dedf8e33f6001c818318560a48a79f6c214e6dc8aee0ad2b6570428a0f075cc5"
+    },
+    "actuator_v6/electronics/pcb/V6-U60/actuator_v6_U60.kicad_pro": {
+      "bytes": 533,
+      "sha256": "30f44ae938362bdf93c512680a5617de8f46d55a74b341239a59b6b6012da9a3"
+    },
+    "actuator_v6/electronics/pcb/V6-U60/actuator_v6_U60_BOM_JLCPCB.csv": {
+      "bytes": 618,
+      "sha256": "fef93b7ddc019fd4f6f37f8653ee0070287303bc0fa4971e5398a361be016b32"
+    },
+    "actuator_v6/electronics/pcb/V6-U60/actuator_v6_U60_CPL_JLCPCB.csv": {
+      "bytes": 455,
+      "sha256": "6279c4d866d5c610681fd689493f9820985fcbe863ccf633dbd385b591991ba3"
+    },
+    "actuator_v6/electronics/pcb/V6-U60/board_U60_layout.png": {
+      "bytes": 71443,
+      "sha256": "260c88cb4f31cad7367209832bbcb7c5e22283cde3bcfe3ea49fd7a58b5d4fac"
+    },
+    "actuator_v6/electronics/pcb/V6-U60/check_U60.json": {
+      "bytes": 1563,
+      "sha256": "0ce51d157f6256dd1a7cb205e39ca1526f5609ac117d8f18f0525e3f3055dd13"
+    },
+    "actuator_v6/electronics/pcb/actuator_v6_L_gerbers.zip": {
+      "bytes": 13764,
+      "sha256": "e5497ca319dbf5532669c61cd3ef252f72647d970590df8d38891d8524d6bd1e"
+    },
+    "actuator_v6/electronics/pcb/actuator_v6_S_gerbers.zip": {
+      "bytes": 14551,
+      "sha256": "7886afda129e2060e99a97145c88837e220f9053bb5e206a000eca38c674745e"
+    },
+    "actuator_v6/electronics/pcb/actuator_v6_U60_gerbers.zip": {
+      "bytes": 15217,
+      "sha256": "f8bf9a4ccac250f77e8a953153ab6b61d47f63731bfab80473ab7d9eb089d0e0"
+    },
+    "actuator_v6/electronics/pcb/route_L.json": {
+      "bytes": 3644,
+      "sha256": "5a60fa4a31047e95b27da5ddca6ed0141fb1f70bfc6f5f16ac719979c2d67d8a"
+    },
+    "actuator_v6/electronics/pcb/route_S.json": {
+      "bytes": 3606,
+      "sha256": "7ab0723313647d71b43a576004fd7dab3d3ce505cb42de1952b3f41278153f78"
+    },
+    "actuator_v6/electronics/pcb/route_U60.json": {
+      "bytes": 3647,
+      "sha256": "2f685d8cd215ba6ecd96a15739b7e7c09d5c44cd3b3d03225263879f48e5042d"
+    },
+    "actuator_v6/electronics/schematic.pdf": {
+      "bytes": 50790,
+      "sha256": "6256d2ec40f87509b8094b1075e5e1f382f42ea048c7906a8fad67b41f200c4f"
+    },
+    "actuator_v6/electronics/schematic.png": {
+      "bytes": 376670,
+      "sha256": "654be64a032e0c09e88edc8bd23796e222d56695cd82e103616c2468398eb2ad"
+    },
+    "actuator_v6/electronics/schematic.svg": {
+      "bytes": 253993,
+      "sha256": "957b9581889a3f6b637e50ce34f9886749babdf08c91fe437062de564dafb5be"
+    },
+    "actuator_v6/electronics/simulation/dc_extend_end.png": {
+      "bytes": 80063,
+      "sha256": "294c0b2f62c37efe42194928136c08f7cbccd6b75aad5f527bfc265d68cd88a8"
+    },
+    "actuator_v6/electronics/simulation/dc_retract_end.png": {
+      "bytes": 78265,
+      "sha256": "e1389bafcca7899e8b662de42a4ab568c14b8ab89c60ebe920f1b54fe1faee6a"
+    },
+    "actuator_v6/electronics/simulation/jam_mid_stroke.png": {
+      "bytes": 82568,
+      "sha256": "7897ee0fc936e68b85c600c5f0ca78dc80ff115bf3f4d71e2f91eee705013e58"
+    },
+    "actuator_v6/electronics/simulation/mid_speed.png": {
+      "bytes": 71198,
+      "sha256": "de27a2b16985e92a743cd0deaf41b7a35cd249a303847f25b04cfdb1a90fe065"
+    },
+    "actuator_v6/electronics/simulation/mid_speed_no_schottky.png": {
+      "bytes": 71231,
+      "sha256": "4e679f24ef4a7ef72d0bc072cddce99b6da91270b903e6c8d222e0d70f3cebbe"
+    },
+    "actuator_v6/electronics/simulation/powerup_at_end.png": {
+      "bytes": 75822,
+      "sha256": "9281147ea15a0612ffabad5646fdf2a36928ee41c4c9c5a53bcd4cb566be97f8"
+    },
+    "actuator_v6/electronics/simulation/pwm100_coast.png": {
+      "bytes": 194463,
+      "sha256": "4ec810c731e12cc8d633b303a534e3547b45749a4fa66831f75c5db80cc5b461"
+    },
+    "actuator_v6/electronics/simulation/pwm1k_coast.png": {
+      "bytes": 133040,
+      "sha256": "07add31a837d6e4ae868f39d7cfd43732a9f047f2bb42aa505fc2f8112d2ec0e"
+    },
+    "actuator_v6/electronics/simulation/pwm20k_brake.png": {
+      "bytes": 170262,
+      "sha256": "30c610331a3572c5d2ed5366b0cd7558ec7f088aa3901164c4e4b47afebc80e4"
+    },
+    "actuator_v6/electronics/simulation/results.json": {
+      "bytes": 8991,
+      "sha256": "add2743f3bf29ec9ad1dd7440ea933a24b3681d7caf72627a7564ef2114fa820"
+    },
+    "actuator_v6/images/assembly_motor_screws_S.png": {
+      "bytes": 246090,
+      "sha256": "2148bfae12e3d111e3a49e3998100f913ed038997fe74142f882ab090957512c"
+    },
+    "actuator_v6/images/assembly_motor_screws_reach_S.png": {
+      "bytes": 166551,
+      "sha256": "e818695ea5ca9e6658618a01ad1c89ea39799c97211c495da16a993802613d92"
+    },
+    "actuator_v6/images/board_in_body_S.png": {
+      "bytes": 1469429,
+      "sha256": "f5789a8db64b66619828893d3705650decf9c78ba1d11ba889aa34607e239207"
+    },
+    "actuator_v6/images/core_part.png": {
+      "bytes": 1508689,
+      "sha256": "67e26a2d6cc4f0a9ab61b1994a3e04a89d7584cc500e475aff7eaac296048922"
+    },
+    "actuator_v6/images/cutaway_S.png": {
+      "bytes": 1579731,
+      "sha256": "f999468e0c3f846ef236349f04a58e134e4cfd037d136993b174ae45f41ad195"
+    },
+    "actuator_v6/images/detail_rear_end_S.png": {
+      "bytes": 1464985,
+      "sha256": "5771951d5eabfc120faf24f499b6d4a50ae791239074780757c571738a32eda8"
+    },
+    "actuator_v6/images/hero_S.png": {
+      "bytes": 1434186,
+      "sha256": "a844170c0e83465ba447ca8f6d5c24d926c615ddb3a13436530f599b6c50df4b"
+    },
+    "actuator_v6/images/internals_S.png": {
+      "bytes": 1538961,
+      "sha256": "a585f3da02a78043c0299ff92c61dee0cbeff0c3714088f819dfdf9d2c4dfd75"
+    },
+    "actuator_v6/images/stroke_extended_S.png": {
+      "bytes": 1402747,
+      "sha256": "d6e40b475a9fa79e5ceda3ac86c049dcb60cb3c12f7184b9a3be4e52e8b0a066"
+    },
+    "actuator_v6/images/stroke_extended_U60.png": {
+      "bytes": 1394022,
+      "sha256": "18f508cf968b3ef1c800b5ba37e1cb3b837b589dc818d00d45f37cff1436b06c"
+    },
+    "actuator_v6/images/stroke_retracted_S.png": {
+      "bytes": 1400114,
+      "sha256": "58a5555693c199a5c159264e2be9fde54c04a8c093b70072c6319260c80ca9fc"
+    },
+    "actuator_v6/images/stroke_retracted_U60.png": {
+      "bytes": 1390776,
+      "sha256": "71754d076813d2a1de930d4ebea3aaa6d2e4ff85efe74fc101dfd26004f86c32"
+    },
+    "actuator_v6/source/assembly.py": {
+      "bytes": 16006,
+      "sha256": "108d7ed1aa8ef75f545d623e9cfdd9de8f3def385e80531a570b1d4a6af25f05"
+    },
+    "actuator_v6/source/board.py": {
+      "bytes": 15897,
+      "sha256": "84679015587b4eacc700daaaa8bce05ddbb88cdb0c9fcde4678a5aea28207040"
+    },
+    "actuator_v6/source/build_preview.py": {
+      "bytes": 1785,
+      "sha256": "42f89c9148cecd577e1a3c541216aac575ef278dc0d1ad0742fe1956c0792a68"
+    },
+    "actuator_v6/source/build_schematic.py": {
+      "bytes": 25790,
+      "sha256": "aef4be2cea9154a9505c38c61bd4ff22127c32528e401cd3f393dcd5228cd9c7"
+    },
+    "actuator_v6/source/build_v6.py": {
+      "bytes": 33207,
+      "sha256": "ed9b3a3ae8700a826aa029e7c9628a46a9258f0f48e48cd157075cf1d446b05e"
+    },
+    "actuator_v6/source/build_viewer.py": {
+      "bytes": 12558,
+      "sha256": "933fe5b788bf4be043fb457ca121c0521f889c14c1635913c729e48816f22778"
+    },
+    "actuator_v6/source/cad_utils.py": {
+      "bytes": 2304,
+      "sha256": "d4d98d22bc4a979b310677f2bbae1e702cc39b750ea850ddcf296645c2bef01b"
+    },
+    "actuator_v6/source/check_motor.py": {
+      "bytes": 8717,
+      "sha256": "25dbf391304a20f482e0edef82553445f4562724cd15901763a3d403c4325839"
+    },
+    "actuator_v6/source/check_motor_step.py": {
+      "bytes": 1206,
+      "sha256": "05c4c7cf30ede34ca877dd9b9b249847bbed99951066738e653ae0c62afa3e36"
+    },
+    "actuator_v6/source/design_v6.py": {
+      "bytes": 23019,
+      "sha256": "98bab8e8d1d565808b4549de7b5f335447959e8eb3a3ce30304161c41680237b"
+    },
+    "actuator_v6/source/gear_spec.py": {
+      "bytes": 5280,
+      "sha256": "3faba5d70b58ceef0b864fbcba82211ffaea36f6edef6987b50bdc002856024a"
+    },
+    "actuator_v6/source/layout.py": {
+      "bytes": 7347,
+      "sha256": "d1813d9293e1df3baa5862af0b2bb2037fc34f4c7b6dd8ef56e46efb84305270"
+    },
+    "actuator_v6/source/magnet_field.py": {
+      "bytes": 3041,
+      "sha256": "7512431f681f433bb894c4c28116290d807157e7c586430e60f34f68c9da16f3"
+    },
+    "actuator_v6/source/magnet_trigger.py": {
+      "bytes": 7010,
+      "sha256": "b287342b7701ad296169869ee937289d1597e90ee5b429cffad35a4c20d97f20"
+    },
+    "actuator_v6/source/n20_geartrain.py": {
+      "bytes": 4262,
+      "sha256": "7ff6e4747cacd979909d8ddb2981280a8d3457be643896461249c556524cb485"
+    },
+    "actuator_v6/source/n20_screw_motor.py": {
+      "bytes": 2669,
+      "sha256": "34cd6f3e8bb7f4b8b76db5c6cb1feaa78a18b47fedc5f266fe05f3fc7229deef"
+    },
+    "actuator_v6/source/pcb_export.py": {
+      "bytes": 23828,
+      "sha256": "f6bbc80539b8f44d2b18b822842d7d4c62041f18d0c71297e268373c883b3d3f"
+    },
+    "actuator_v6/source/render_v6.py": {
+      "bytes": 9949,
+      "sha256": "aa36d1acbca729ab6b0a7752e1e0e8ef3286beca7b8096f505bf12ca81b50a53"
+    },
+    "actuator_v6/source/router.py": {
+      "bytes": 8033,
+      "sha256": "ebd4f8f88404d0b061ea43fa8680ddebbcc6c7573bada22609a8823a5ea49335"
+    },
+    "actuator_v6/source/simulate_circuit.py": {
+      "bytes": 18547,
+      "sha256": "cc5c770ac494516e77da71d63d79af31826845e9402f130a2a537b81dc7fa3a1"
+    },
+    "actuator_v6/source/vendor/OrbitControls.js": {
+      "bytes": 26375,
+      "sha256": "02bb4ade710f3e607329e37a21f098bc3ac70eb6e33daf8a65e79f4db785e7b2"
+    },
+    "actuator_v6/source/vendor/THREE_LICENSE.txt": {
+      "bytes": 1081,
+      "sha256": "7dddf7c5b8fd10ee654db8857d75d104b5557889aa5a91fc4ca545ea7c07062f"
+    },
+    "actuator_v6/source/vendor/three.min.js": {
+      "bytes": 603445,
+      "sha256": "9274bbcec8d96168626c732b5d31c775aa8cfb7eaa0599bec0c175908a2c1ce2"
+    },
+    "actuator_v6/source/wire_geometry.py": {
+      "bytes": 4036,
+      "sha256": "653c7b1ac022d0a4833afd38e5debc2372820cb38d96e95f9f3905d042fc97fd"
+    },
+    "actuator_v6/stl/V6-U60/01_body.stl": {
+      "bytes": 392084,
+      "sha256": "bcdae32b0da6d7ea5de67d7ff82a1ed06d0f7908d3808f3b9cf76000fc0d9b4f"
+    },
+    "actuator_v6/stl/V6-U60/02_front_cap.stl": {
+      "bytes": 184584,
+      "sha256": "158479db2889116a3a32c7c11476a7ad5bac28e02d740a44b75768bccebcd837"
+    },
+    "actuator_v6/stl/V6-U60/03_rear_cap.stl": {
+      "bytes": 247684,
+      "sha256": "bc7148f7952dd6bec25c3bd0d44fa10059c9f3efac2667c97b7072af0d47057f"
+    },
+    "actuator_v6/stl/V6-U60/04_rod.stl": {
+      "bytes": 184284,
+      "sha256": "614f26ead1610c88f566bb636e1bf0a796d4ed37b0f89eebcc6941682e4fe863"
+    },
+    "actuator_v6/stl/V6-U60/05_rod_eye.stl": {
+      "bytes": 269184,
+      "sha256": "abe7a4e3602791174aa28a8f47276bfff7ac14eb1cf820371f4971d7f276a368"
+    },
+    "actuator_v6/stl/V6-U60/06_cable_clamp.stl": {
+      "bytes": 164884,
+      "sha256": "8af7f50642cd4c181f92b7d597891cc2489b848625d3a86117273da71c7c8c27"
+    },
+    "actuator_v6/wire_lengths_U60.csv": {
+      "bytes": 596,
+      "sha256": "d3f736cd99a04089abcdae2706ca31365e12a3c5bbc1af698fbc764edcac7ad7"
+    },
+    "excavator_arm_dual/3D_preview.html": {
+      "bytes": 14619919,
+      "sha256": "2dffb46ca672ece2287d397bb15f96f9c22f0dcb8d8b7183461b39b1f862ae89"
+    },
+    "excavator_arm_dual/ASSEMBLY.md": {
+      "bytes": 3249,
+      "sha256": "7c6c56e307c6117bd32d1dfb228014051521f517257417fba785103284bc885d"
+    },
+    "excavator_arm_dual/HANDOFF.md": {
+      "bytes": 7620,
+      "sha256": "113243ad0102a9b741156676c7f00c4fa52e06ac3b7e5a048b1e28448e6fe76f"
+    },
+    "excavator_arm_dual/README.md": {
+      "bytes": 7927,
+      "sha256": "877d44b20a39d0125e3b4970ec35481a8c3dad46786980530026bccf86253501"
+    },
+    "excavator_arm_dual/browser_validation.json": {
+      "bytes": 6833,
+      "sha256": "f00862ededa8672f11c924dac72908c2e82378463a41a27ecacff5eb46c29187"
+    },
+    "excavator_arm_dual/images/boom_shape_comparison.png": {
+      "bytes": 178148,
+      "sha256": "c8f79529098f298cd90a5654633fbb63dbda3abb56cd39599b18841c0344ef13"
+    },
+    "excavator_arm_dual/images/cut_preview.png": {
+      "bytes": 77136,
+      "sha256": "11293591a891929351367a17efcb49af13f4290f801de058ec3ad748caa20564"
+    },
+    "excavator_arm_dual/images/dump_preview.png": {
+      "bytes": 78233,
+      "sha256": "19e374efb82287b8f3255467adaa2c245bb93d0a115943ea80c614096368d497"
+    },
+    "excavator_arm_dual/images/front_preview.png": {
+      "bytes": 86471,
+      "sha256": "c835d2350dcaf51dc7231e96075879f082ad55128d9934d3e169f72764ead3cc"
+    },
+    "excavator_arm_dual/images/mobile_preview.png": {
+      "bytes": 63410,
+      "sha256": "e6d6be24f14f101059c40fb4ccfeca34d6e9d1a271f2ad9940b3ee32b90c487c"
+    },
+    "excavator_arm_dual/images/motion_simulation_r10.mp4": {
+      "bytes": 2256169,
+      "sha256": "c67c1d879ce44fa69650df29505a94b3cfe05df7542e6298cc7fbf3a09372d94"
+    },
+    "excavator_arm_dual/images/oblique_preview.png": {
+      "bytes": 86653,
+      "sha256": "fe51fddb01f2c09698c02080052e8b9495b7b0f136238239954b80790e4cc063"
+    },
+    "excavator_arm_dual/images/simulation_results.png": {
+      "bytes": 298897,
+      "sha256": "24ba607184c1bc81bbd3c65e5043b1b6edf4c43cbaf69c221e97a2afd494d258"
+    },
+    "excavator_arm_dual/images/structure_reference.png": {
+      "bytes": 1507073,
+      "sha256": "c8e9d33456f6284fe073f48a1ec1ac3bab40887e7dc99829b1b9c91f160733c6"
+    },
+    "excavator_arm_dual/images/video_contact_sheet.jpg": {
+      "bytes": 337190,
+      "sha256": "83e60c6c94e5be28b5dca6489a7407759533f9fc562468bf1daf574660f5d128"
+    },
+    "excavator_arm_dual/motion.json": {
+      "bytes": 563827,
+      "sha256": "f7e548ac3e5004d7009c02a63210833a1a37a4e0d4e9dbd89f72d5647e3dbdc6"
+    },
+    "excavator_arm_dual/motion_validation.json": {
+      "bytes": 1327,
+      "sha256": "626ba076b39a89a7836b361bb5f6569d4cd6225beb45f843adeaeb08fab91978"
+    },
+    "excavator_arm_dual/parameters.json": {
+      "bytes": 2586,
+      "sha256": "5efe7933f515c0971b24ccaec198d10962adb6de798761e427c03f56721dbc32"
+    },
+    "excavator_arm_dual/path_validation.json": {
+      "bytes": 594,
+      "sha256": "0604be4e25d22bfde1b0f77ceda75b23038e25dcccab5f54124c9578e070e3ca"
+    },
+    "excavator_arm_dual/references/user_structure.png": {
+      "bytes": 1924382,
+      "sha256": "0c933f9c6a22c91c6b24c42db3f61855c9cfcf5beec9bd29badc8cfbf2ee62d7"
+    },
+    "excavator_arm_dual/shape_revision.json": {
+      "bytes": 1326,
+      "sha256": "67f7dbdd537b270f1b3d14306f41d273e76d918df38c4bb0fdbefeaf99b92b9a"
+    },
+    "excavator_arm_dual/simulation/arm_r10.xml": {
+      "bytes": 7662,
+      "sha256": "d9fabe12aa9191984d6bfd417e6d148b75ff73b112f438cfe532998285ddc00a"
+    },
+    "excavator_arm_dual/simulation/gravity_unpowered.xml": {
+      "bytes": 7662,
+      "sha256": "2776a4c0ccf1b4bb2591355d2ae5ebce40a1406bb26a1b8dcb7bec9d6824adbe"
+    },
+    "excavator_arm_dual/simulation/gravity_unpowered_half_step.xml": {
+      "bytes": 7663,
+      "sha256": "a0beeddf52ef66beca4eef85aa4476f7592fdc040b3ed2038afda0c0075d283e"
+    },
+    "excavator_arm_dual/simulation/gravity_unpowered_half_step_report.json": {
+      "bytes": 2089,
+      "sha256": "2ea3131eff637de1a25aa2a53a4964c24b00a79af6f557af7ee2b9e4b1d81522"
+    },
+    "excavator_arm_dual/simulation/gravity_unpowered_report.json": {
+      "bytes": 2083,
+      "sha256": "96f6dea9076059eb00ab2f1244b86934c6e964badda45f4ef0bdffdaa3bd41f3"
+    },
+    "excavator_arm_dual/simulation/gravity_unpowered_trace.json.gz": {
+      "bytes": 12389,
+      "sha256": "3c06ef187659dd26f73cb82f9ef21f8abda009b07b0dff8ac87d93b755aed146"
+    },
+    "excavator_arm_dual/simulation/hold.xml": {
+      "bytes": 7784,
+      "sha256": "a1c661e7125f01f9610e70d2688cfe2cc84c3240519f421cc0f9d5112ec31a4d"
+    },
+    "excavator_arm_dual/simulation/hold_report.json": {
+      "bytes": 2137,
+      "sha256": "326148434cb657ceeea9f0e9c5f45ed71f4eb414ddd6432a2f86387f35b63b26"
+    },
+    "excavator_arm_dual/simulation/hold_trace.json.gz": {
+      "bytes": 6809,
+      "sha256": "c7f78fa80f7d247306ca1a5dd9ba98b230f6c0fb664024111e6c612d404f849a"
+    },
+    "excavator_arm_dual/simulation/mass_properties.json": {
+      "bytes": 84346,
+      "sha256": "997714782799c44ac25869c9a7a2970293d11161af5effcbd68ba6d3091482d7"
+    },
+    "excavator_arm_dual/simulation/payload_150g.xml": {
+      "bytes": 7784,
+      "sha256": "a1c661e7125f01f9610e70d2688cfe2cc84c3240519f421cc0f9d5112ec31a4d"
+    },
+    "excavator_arm_dual/simulation/payload_150g_report.json": {
+      "bytes": 2130,
+      "sha256": "0f8a1e471956db2624abdf25c04b2d0527b0af64c3b07ccc9b338ee44fab8707"
+    },
+    "excavator_arm_dual/simulation/payload_150g_trace.json.gz": {
+      "bytes": 2619302,
+      "sha256": "58bd58907acd740d01986e103df4557d57832db0f591fe5fb9bb78d0670a4bde"
+    },
+    "excavator_arm_dual/simulation/sync_bias_0p5mm.xml": {
+      "bytes": 7784,
+      "sha256": "a1c661e7125f01f9610e70d2688cfe2cc84c3240519f421cc0f9d5112ec31a4d"
+    },
+    "excavator_arm_dual/simulation/sync_bias_0p5mm_report.json": {
+      "bytes": 2208,
+      "sha256": "47b342030f534d40d49edcc7b7f08a65553f7d802f2bf93dddcd1177284586b4"
+    },
+    "excavator_arm_dual/simulation/sync_bias_0p5mm_trace.json.gz": {
+      "bytes": 13965,
+      "sha256": "753d394e328dfff7213a2cde3ca26220dda2ed1ce5336b2845b7c99b143c4dbe"
+    },
+    "excavator_arm_dual/simulation/underpowered_20N.xml": {
+      "bytes": 7772,
+      "sha256": "71434937a24fdff99614483a86110bc4fb2c3ecb8d764681ffdca4f3f52d38b1"
+    },
+    "excavator_arm_dual/simulation/underpowered_20N_report.json": {
+      "bytes": 2153,
+      "sha256": "77e0fc7494e4b4f3eb12f362d5fae00a1a80fc0862a2963c1562fadec0bbe203"
+    },
+    "excavator_arm_dual/simulation/underpowered_20N_trace.json.gz": {
+      "bytes": 22999,
+      "sha256": "6f19235f4a50038b3e5a8673660c0e2000cbd0ce139933823889a8ba6a5983a1"
+    },
+    "excavator_arm_dual/simulation/unloaded.xml": {
+      "bytes": 7662,
+      "sha256": "d9fabe12aa9191984d6bfd417e6d148b75ff73b112f438cfe532998285ddc00a"
+    },
+    "excavator_arm_dual/simulation/unloaded_report.json": {
+      "bytes": 2138,
+      "sha256": "23b97ae5485d830a06fcf1d8f9948ea25ffc9298384329d2d26138c6f7cc9f3f"
+    },
+    "excavator_arm_dual/simulation/unloaded_trace.json.gz": {
+      "bytes": 2616410,
+      "sha256": "328265e5c825dfea40ba441754add216fd2d3b60106b6e41199a809e8707ea97"
+    },
+    "excavator_arm_dual/simulation/validation.json": {
+      "bytes": 4990,
+      "sha256": "8d02c868d243d7243b5b70ebcbb5d40afaf705b76bb12f5ad2dd121aedf15b9e"
+    },
+    "excavator_arm_dual/simulation/zero_gravity.xml": {
+      "bytes": 7662,
+      "sha256": "2776a4c0ccf1b4bb2591355d2ae5ebce40a1406bb26a1b8dcb7bec9d6824adbe"
+    },
+    "excavator_arm_dual/simulation/zero_gravity_report.json": {
+      "bytes": 2007,
+      "sha256": "b9dee9bdb0933abca1cacecadef4c970e584552cebe70af155d36879f6e8fe69"
+    },
+    "excavator_arm_dual/source/build_arm.py": {
+      "bytes": 12778,
+      "sha256": "a3cb8e6fe05d1f454a6d8a9d4ff428f86f31715bb62dfa115d511fa31a7a3aa7"
+    },
+    "excavator_arm_dual/source/build_figures.py": {
+      "bytes": 5709,
+      "sha256": "45df18fbc6fc553667632c4b2bc94a0aace2c11f895593237e96ae061c33d0a4"
+    },
+    "excavator_arm_dual/source/build_motion.py": {
+      "bytes": 6025,
+      "sha256": "83facb788d0f3d57e70adb180b49313e9d4fb6d89498cf333c66caf8f6d56eac"
+    },
+    "excavator_arm_dual/source/build_viewer.py": {
+      "bytes": 2101,
+      "sha256": "99e5212a47fc7478127a3c44d532906250a9dd79ac657383308fde77ffcced11"
+    },
+    "excavator_arm_dual/source/cad_common.py": {
+      "bytes": 1805,
+      "sha256": "ed913b360d34112d4962607192a3fbb027ec187331e3adfeeafa520e7d481a0c"
+    },
+    "excavator_arm_dual/source/check_path.py": {
+      "bytes": 2802,
+      "sha256": "98a93c62f700efd08f47939d6931ae489d6e483ec36272f8813747cd031990af"
+    },
+    "excavator_arm_dual/source/check_physics.py": {
+      "bytes": 6820,
+      "sha256": "23ba24e22dfc3c362b97708ff6eafe8122f2b50773627434c113e45a9a310dfd"
+    },
+    "excavator_arm_dual/source/check_shape.py": {
+      "bytes": 1927,
+      "sha256": "4abf0c3447f0eda390ff983de3b0f692f393e8c5ffc5b954fa64bb22b1ac3bd4"
+    },
+    "excavator_arm_dual/source/encode_motion.py": {
+      "bytes": 4129,
+      "sha256": "c09db3a0b9de4cd43c5238112888bbf421301ea671a72d5d56c502741a797094"
+    },
+    "excavator_arm_dual/source/export_report.json": {
+      "bytes": 3260,
+      "sha256": "7b9f1199f15c6c1f5ff83a019ad75a6dec7f596cc46aa536e3e7f032afbeee77"
+    },
+    "excavator_arm_dual/source/kinematic_cases.json": {
+      "bytes": 71234,
+      "sha256": "ea2d9547fb1600fa40ba941bbe8259e34ce8802d5ee3f0d774c538e8da6fb425"
+    },
+    "excavator_arm_dual/source/kinematics.py": {
+      "bytes": 6218,
+      "sha256": "1434f75dcb63e3ce31a241d561ffc8180ed4d5cf3635c9338d32499a22c5a9b7"
+    },
+    "excavator_arm_dual/source/motion_ui.js": {
+      "bytes": 9441,
+      "sha256": "7bf6fb1642a3129799f5f843faf9b6948687d0e5d0bf977b29d84691ba0c1d94"
+    },
+    "excavator_arm_dual/source/package_delivery.py": {
+      "bytes": 4205,
+      "sha256": "883c473af590c682211348155c25449fadd9a2e14c67cc9206a5a3aec851d6ac"
+    },
+    "excavator_arm_dual/source/physics_model.py": {
+      "bytes": 8048,
+      "sha256": "bca176fc2ef62dd6f01aca9bda1231a2c6d124f0848435d219c48a9e0b07bb89"
+    },
+    "excavator_arm_dual/source/physics_replay.js": {
+      "bytes": 5704,
+      "sha256": "8571ad3fee447f396fa5ac66628d4fda71a49d9a3b33259b5108ea41be8b1b68"
+    },
+    "excavator_arm_dual/source/render_motion.cjs": {
+      "bytes": 7513,
+      "sha256": "66e72f03e3c4920fe6c032c6851cd128049f0c0ca2ca3aa40e2773ba7a6f515e"
+    },
+    "excavator_arm_dual/source/requirements.txt": {
+      "bytes": 162,
+      "sha256": "c7a2c20c15d58d211cda9e6ad1d5e7d4dd524cb55e0e0a2709b5859ff1c31464"
+    },
+    "excavator_arm_dual/source/scene.json.gz": {
+      "bytes": 1096060,
+      "sha256": "0744699cd81b9bba1148a5a87b01d54b099bde167e49e0bb7b4c0caf83978096"
+    },
+    "excavator_arm_dual/source/simulate_arm.py": {
+      "bytes": 10870,
+      "sha256": "8dc2229e27d13b0131a111eadb79ec0525662b4def2b8cab14659c1808182333"
+    },
+    "excavator_arm_dual/source/validate_arm.py": {
+      "bytes": 6413,
+      "sha256": "757623ce5c98d7674d143718c67fdfcf0619a00f60f923485b6346f85ba8b31a"
+    },
+    "excavator_arm_dual/source/viewer_template.html": {
+      "bytes": 21644,
+      "sha256": "bfe3917f707a375084179455d4f3b44025cbeb087d5e698ad24b6ca0c3414001"
+    },
+    "excavator_arm_dual/step/01_fixed_pivot_base.step": {
+      "bytes": 1792258,
+      "sha256": "af1280c822f8c23c648a18e58ff429d9e108791a65182b76a87bdc8e808d3a8f"
+    },
+    "excavator_arm_dual/step/02_bent_box_boom.step": {
+      "bytes": 5758202,
+      "sha256": "5d3263e546cb9526058de743d9097511eb70fac2dc9a5cacb08694cb67badf60"
+    },
+    "excavator_arm_dual/step/03_box_stick.step": {
+      "bytes": 3154611,
+      "sha256": "8ca6ce6d9ffaa06b88979e16783994759b3b6f747803aece18779547a63f8160"
+    },
+    "excavator_arm_dual/step/04_rocker_left.step": {
+      "bytes": 508314,
+      "sha256": "bd49d10cc9a00f29e2f98a621f4edba876e166a41e72b3ddb97be02ac6fd8adc"
+    },
+    "excavator_arm_dual/step/04_rocker_right.step": {
+      "bytes": 509108,
+      "sha256": "f8dcacaeef4bacf1adc941534ba3644b39814394895d3efd617dfe368c7438b3"
+    },
+    "excavator_arm_dual/step/05_bucket_link_left.step": {
+      "bytes": 508248,
+      "sha256": "60c6393b13851572d4a40b7c615630496638a206c66c38ab332e3d6c305b3cb8"
+    },
+    "excavator_arm_dual/step/05_bucket_link_right.step": {
+      "bytes": 509042,
+      "sha256": "3fb2d1c36f450f1109c0dd600401b2fe1484d644b40ecea1e55c7d235c592800"
+    },
+    "excavator_arm_dual/step/06_inward_digging_bucket.step": {
+      "bytes": 1533767,
+      "sha256": "c633c115f4af646945b195ae8c41988012efb262f26cfff341d36c7807e4197b"
+    },
+    "excavator_arm_dual/step/07_replaceable_tooth_01.step": {
+      "bytes": 125153,
+      "sha256": "74dd2210254707a4bcfdd77b28ef6865bbf7b4e98c0666ee1d4836679e79e4c5"
+    },
+    "excavator_arm_dual/step/07_replaceable_tooth_02.step": {
+      "bytes": 125136,
+      "sha256": "a6388639d2338a9b272ea1d134213b8178ee343e38a4f2c250d76dc417230214"
+    },
+    "excavator_arm_dual/step/07_replaceable_tooth_03.step": {
+      "bytes": 124744,
+      "sha256": "481f4bc51a43cbf8ea7ab4d71fff271ee37451bdbc445eca08a5da8440cc7831"
+    },
+    "excavator_arm_dual/step/07_replaceable_tooth_04.step": {
+      "bytes": 124863,
+      "sha256": "67809c60d20afd87a5bdf9d28245befa79cf66adc2a6321d278609cc95f9b429"
+    },
+    "excavator_arm_dual/step/07_replaceable_tooth_05.step": {
+      "bytes": 124879,
+      "sha256": "7c374936b1b3816dfeaf3a2e7006215fa8c487229d2b2cf30dc125f403eadba8"
+    },
+    "excavator_arm_dual/step/excavator_arm_assembly.step": {
+      "bytes": 20889448,
+      "sha256": "055b6040e6c14842c122d3995cdfe0d3f95692241b0e1c5247cb5cfa6202595d"
+    },
+    "excavator_arm_dual/stl/01_fixed_pivot_base.stl": {
+      "bytes": 300284,
+      "sha256": "3cf7b4a478ca4efe39caa60d7bbb8788d38fe0640ed9a849e35985d696a729de"
+    },
+    "excavator_arm_dual/stl/02_bent_box_boom.stl": {
+      "bytes": 509484,
+      "sha256": "52423bb8192141ae4f88d1d7dd760f1ae093eabd578a830c5389ea310eaa1611"
+    },
+    "excavator_arm_dual/stl/03_box_stick.stl": {
+      "bytes": 353484,
+      "sha256": "760f2e0e3233a9f000344c79f2ebe84e4e93510d30fe644ce2b547b23c51709c"
+    },
+    "excavator_arm_dual/stl/04_rocker_left.stl": {
+      "bytes": 68284,
+      "sha256": "51f8938833b70f128b573b04f753094c1685b609d2762957a19298c6eb65af57"
+    },
+    "excavator_arm_dual/stl/04_rocker_right.stl": {
+      "bytes": 68284,
+      "sha256": "268214e2af50c2019caba3e8ca7214278574bc184c287e61e80fa0704ed9d1d6"
+    },
+    "excavator_arm_dual/stl/05_bucket_link_left.stl": {
+      "bytes": 68284,
+      "sha256": "1021c1003a6dee2cff1eadf69d8957f7d8de75f619237d6bd79a73cf5ffb6914"
+    },
+    "excavator_arm_dual/stl/05_bucket_link_right.stl": {
+      "bytes": 68284,
+      "sha256": "1fb71b231a2aeebf6ff69456de7177ea68ed355574de36fbd18e5fa6bee4f1f9"
+    },
+    "excavator_arm_dual/stl/06_inward_digging_bucket.stl": {
+      "bytes": 264684,
+      "sha256": "885412d4ca3a68550c2df8a5cfb45296396499f6eff2ff63397fdaf2059c811c"
+    },
+    "excavator_arm_dual/stl/07_replaceable_tooth_01.stl": {
+      "bytes": 73884,
+      "sha256": "25314e197be58228190f911358be9a8b365b8328f81829929dc8c8c817fb1bb7"
+    },
+    "excavator_arm_dual/stl/07_replaceable_tooth_02.stl": {
+      "bytes": 73884,
+      "sha256": "c470ec9cd8c5b98541a8aba1b8d936991fb293b44385419430c5847823b56802"
+    },
+    "excavator_arm_dual/stl/07_replaceable_tooth_03.stl": {
+      "bytes": 73884,
+      "sha256": "2da6dc38a4a353c2b114e741f0b71025d111bd042af7ed18efef6b83ef3fd348"
+    },
+    "excavator_arm_dual/stl/07_replaceable_tooth_04.stl": {
+      "bytes": 73884,
+      "sha256": "0d5ce2f502708ceeb0812d1f2750726a979d38f1a259eba6d7178f0617a1c318"
+    },
+    "excavator_arm_dual/stl/07_replaceable_tooth_05.stl": {
+      "bytes": 73884,
+      "sha256": "02527bf94e35f10a69bac4e9e8c929755828bfd78f605d27b0085d054a793a01"
+    },
+    "excavator_arm_dual/validation.json": {
+      "bytes": 2422,
+      "sha256": "bae4ae460d76848a86058a936b933750dde3be9e43114c549baf991a28d68286"
+    },
+    "excavator_arm_dual/video_validation.json": {
+      "bytes": 659,
+      "sha256": "a7da32b13bd08dccac75375b82d2f8e069f1ee280cf8f81d24f7877c24952454"
+    }
+  }
+}

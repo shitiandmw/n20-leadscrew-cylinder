@@ -1,0 +1,9 @@
+cadquery==2.8.0
+numpy>=2,<3
+trimesh>=4
+shapely>=2
+matplotlib>=3.8
+reportlab>=4
+pillow>=10
+pygerber>=2
+kiutils>=1.4

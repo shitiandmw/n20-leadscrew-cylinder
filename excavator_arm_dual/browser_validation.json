@@ -1,0 +1,306 @@
+{
+  "status": "PASS",
+  "html_sha256": "2dffb46ca672ece2287d397bb15f96f9c22f0dcb8d8b7183461b39b1f862ae89",
+  "comparisons": [
+    {
+      "name": "unloaded",
+      "cases": 109,
+      "tip_error_mm": 0,
+      "body_pose_error": 7.105427357601002e-15,
+      "side_error_mm": 0
+    },
+    {
+      "name": "payload_150g",
+      "cases": 109,
+      "tip_error_mm": 0,
+      "body_pose_error": 7.105427357601002e-15,
+      "side_error_mm": 0
+    }
+  ],
+  "kinematics": {
+    "cases": 125,
+    "error_mm": 6.042538309847401e-13
+  },
+  "framed": [
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "name": "unloaded",
+      "view": "side",
+      "bounds": {
+        "xmin": -0.4275629168533926,
+        "xmax": 0.3144994742342037,
+        "ymin": -0.8027910484124186,
+        "ymax": 0.7908711894681999
+      },
+      "overflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "name": "unloaded",
+      "view": "oblique",
+      "bounds": {
+        "xmin": -0.4261805983067506,
+        "xmax": 0.30486207681518024,
+        "ymin": -0.8237507405314916,
+        "ymax": 0.8194313395868927
+      },
+      "overflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "name": "unloaded",
+      "view": "front",
+      "bounds": {
+        "xmin": -0.132579721867523,
+        "xmax": 0.09928240835590313,
+        "ymin": -0.8297787020057451,
+        "ymax": 0.8122591593654043
+      },
+      "overflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "name": "payload_150g",
+      "view": "side",
+      "bounds": {
+        "xmin": -0.4275597649509204,
+        "xmax": 0.314494412873604,
+        "ymin": -0.8028191071854873,
+        "ymax": 0.7908570014758236
+      },
+      "overflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "name": "payload_150g",
+      "view": "oblique",
+      "bounds": {
+        "xmin": -0.4261776827344982,
+        "xmax": 0.3048573949563176,
+        "ymin": -0.8237447974983593,
+        "ymax": 0.81941333400302
+      },
+      "overflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "name": "payload_150g",
+      "view": "front",
+      "bounds": {
+        "xmin": -0.132579721867523,
+        "xmax": 0.09928245290457223,
+        "ymin": -0.8297721690507244,
+        "ymax": 0.8122407119541649
+      },
+      "overflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "name": "kinematic",
+      "view": "side",
+      "bounds": {
+        "xmin": -0.4275768105766048,
+        "xmax": 0.31453297291414095,
+        "ymin": -0.8027538289144259,
+        "ymax": 0.790933723798818
+      },
+      "overflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "name": "kinematic",
+      "view": "oblique",
+      "bounds": {
+        "xmin": -0.4261934502760729,
+        "xmax": 0.30489306375801173,
+        "ymin": -0.8238255406662925,
+        "ymax": 0.819510708224749
+      },
+      "overflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "name": "kinematic",
+      "view": "front",
+      "bounds": {
+        "xmin": -0.132579721867523,
+        "xmax": 0.09928254607282443,
+        "ymin": -0.8298573435458929,
+        "ymax": 0.812340475202121
+      },
+      "overflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "unloaded",
+      "view": "side",
+      "bounds": {
+        "xmin": -0.7821440797833398,
+        "xmax": 0.5753162684864017,
+        "ymin": -0.8027910484124186,
+        "ymax": 0.7908711894681999
+      },
+      "overflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "unloaded",
+      "view": "oblique",
+      "bounds": {
+        "xmin": -0.7796153940039753,
+        "xmax": 0.5576865044477372,
+        "ymin": -0.8237507405314916,
+        "ymax": 0.8194313395868927
+      },
+      "overflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "unloaded",
+      "view": "front",
+      "bounds": {
+        "xmin": -0.2425290886336653,
+        "xmax": 0.18161806101820605,
+        "ymin": -0.8297787020057451,
+        "ymax": 0.8122591593654043
+      },
+      "overflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "payload_150g",
+      "view": "side",
+      "bounds": {
+        "xmin": -0.7821383139842925,
+        "xmax": 0.57530700970115,
+        "ymin": -0.8028191071854873,
+        "ymax": 0.7908570014758236
+      },
+      "overflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "payload_150g",
+      "view": "oblique",
+      "bounds": {
+        "xmin": -0.7796100605255877,
+        "xmax": 0.5576779398878853,
+        "ymin": -0.8237447974983593,
+        "ymax": 0.81941333400302
+      },
+      "overflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "payload_150g",
+      "view": "front",
+      "bounds": {
+        "xmin": -0.2425290886336653,
+        "xmax": 0.18161814251142358,
+        "ymin": -0.8297721690507244,
+        "ymax": 0.8122407119541649
+      },
+      "overflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "kinematic",
+      "view": "side",
+      "bounds": {
+        "xmin": -0.7821694956763656,
+        "xmax": 0.5753775478751435,
+        "ymin": -0.8027538289144259,
+        "ymax": 0.790933723798818
+      },
+      "overflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "kinematic",
+      "view": "oblique",
+      "bounds": {
+        "xmin": -0.7796389042087261,
+        "xmax": 0.5577431890967816,
+        "ymin": -0.8238255406662925,
+        "ymax": 0.819510708224749
+      },
+      "overflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "kinematic",
+      "view": "front",
+      "bounds": {
+        "xmin": -0.2425290886336653,
+        "xmax": 0.18161831294481248,
+        "ymin": -0.8298573435458929,
+        "ymax": 0.812340475202121
+      },
+      "overflow": false
+    }
+  ],
+  "checks": [
+    "Actual integrated body states",
+    "Two independently replayed boom drives at Y=-50/+50 mm",
+    "All three modes and views",
+    "Desktop/mobile framing",
+    "Playback/pause and phase selection",
+    "Offline; no errors or network"
+  ],
+  "errors": [],
+  "network": []
+}

@@ -1,0 +1,444 @@
+{
+  "design_cases_pass": true,
+  "design_cases": [
+    "fixture",
+    "reverse_wall",
+    "obstacle",
+    "debris",
+    "debris_5mm",
+    "lateral"
+  ],
+  "negative_controls": [
+    "reverse_wall_r4spring",
+    "lateral_r4spring"
+  ],
+  "cases": {
+    "fixture": {
+      "case": "fixture",
+      "note": "Stand test, no floor: run-in both ways at 3 rad/s with \u00b15 N side pulls on the chain.",
+      "spring": "R5 recoil spring C-600-072-1500",
+      "spring_rate_N_mm": 6.285302660629922,
+      "assembled_spring_force_N": 77.31,
+      "engine": "MuJoCo 3.3.7 Newton",
+      "time_step_s": 0.0005,
+      "duration_s": 12.0,
+      "elapsed_s": 189.3,
+      "supported_mass_kg": null,
+      "max_abs_current_A": 0.6444,
+      "max_abs_torque_Nm": 0.6698,
+      "idler_travel_mm": [
+        -0.201,
+        0.492
+      ],
+      "recoil_stop_mm": -4.2,
+      "forward_stop_mm": 4.0,
+      "max_chain_tension_N": 44.17,
+      "min_seated_bushings": 15,
+      "max_hub_contact_N": 0.0,
+      "max_lateral_drift_mm": 0.257,
+      "slip_mm": [
+        -0.09,
+        0.1
+      ],
+      "tooth_skips": 0,
+      "solver_warnings": 0,
+      "finite": true,
+      "forward_mean_speed_rad_s": 2.999,
+      "top_strand_N": 36.77,
+      "bottom_rear_strand_N": 36.32,
+      "reverse_mean_speed_rad_s": -2.999,
+      "checks": {
+        "finite_and_stable": true,
+        "current_within_limit": true,
+        "no_tooth_skip": true,
+        "chain_on_sprocket": true,
+        "no_derailment": true,
+        "tracks_speed_forward": true,
+        "tracks_speed_reverse": true
+      },
+      "status": "PASS"
+    },
+    "reverse_wall": {
+      "case": "reverse_wall",
+      "note": "Half machine reverses into a wall 12 mm behind it; the drive stalls at the 1.0 A limit.",
+      "spring": "R5 recoil spring C-600-072-1500",
+      "spring_rate_N_mm": 6.285302660629922,
+      "assembled_spring_force_N": 77.31,
+      "engine": "MuJoCo 3.3.7 Newton",
+      "time_step_s": 0.0005,
+      "duration_s": 6.0,
+      "elapsed_s": 115.5,
+      "supported_mass_kg": 6.006,
+      "max_abs_current_A": 1.0,
+      "max_abs_torque_Nm": 1.2058,
+      "idler_travel_mm": [
+        -0.201,
+        0.513
+      ],
+      "recoil_stop_mm": -4.2,
+      "forward_stop_mm": 4.0,
+      "max_chain_tension_N": 123.76,
+      "min_seated_bushings": 6,
+      "max_hub_contact_N": 0.0,
+      "max_lateral_drift_mm": 0.001,
+      "slip_mm": [
+        -0.06,
+        0.33
+      ],
+      "tooth_skips": 0,
+      "solver_warnings": 0,
+      "finite": true,
+      "sliding_phase": {
+        "window_s": [
+          1.0,
+          4.5
+        ],
+        "min_bottom_rear_strand_N": 0.02,
+        "mean_bottom_rear_strand_N": 4.72,
+        "max_tension_N": 123.76
+      },
+      "stall": {
+        "window_s": [
+          4.5,
+          6.0
+        ],
+        "speed_rad_s": -0.0319,
+        "current_A": -1.0,
+        "torque_Nm": -1.206,
+        "top_strand_N": 36.77,
+        "bottom_rear_strand_N": 5.09,
+        "min_bottom_rear_strand_N": 4.47,
+        "bottom_front_strand_N": 36.3,
+        "idler_mm": 0.475,
+        "spring_N": 73.07,
+        "predicted_slack_strand_N": 5.32,
+        "p05_bottom_rear_strand_N": 4.81
+      },
+      "checks": {
+        "finite_and_stable": true,
+        "current_within_limit": true,
+        "no_tooth_skip": true,
+        "chain_on_sprocket": true,
+        "no_derailment": true,
+        "slack_strand_stays_tight": true,
+        "drive_stalled_at_limit": true
+      },
+      "status": "PASS"
+    },
+    "reverse_wall_r4spring": {
+      "case": "reverse_wall_r4spring",
+      "note": "Negative control: the Track R4 idler spring (15.8 N assembled) in the same test.",
+      "spring": "Track R4 idler spring (negative control)",
+      "spring_rate_N_mm": 4.0,
+      "assembled_spring_force_N": 15.8,
+      "engine": "MuJoCo 3.3.7 Newton",
+      "time_step_s": 0.0005,
+      "duration_s": 6.0,
+      "elapsed_s": 113.0,
+      "supported_mass_kg": 6.006,
+      "max_abs_current_A": 1.0,
+      "max_abs_torque_Nm": 1.2058,
+      "idler_travel_mm": [
+        -0.449,
+        0.471
+      ],
+      "recoil_stop_mm": -3.0,
+      "forward_stop_mm": 6.0,
+      "max_chain_tension_N": 278.12,
+      "min_seated_bushings": 3,
+      "max_hub_contact_N": 0.0,
+      "max_lateral_drift_mm": 0.013,
+      "slip_mm": [
+        -0.09,
+        0.69
+      ],
+      "tooth_skips": 0,
+      "solver_warnings": 0,
+      "finite": true,
+      "sliding_phase": {
+        "window_s": [
+          1.0,
+          4.5
+        ],
+        "min_bottom_rear_strand_N": 0.04,
+        "mean_bottom_rear_strand_N": 16.68,
+        "max_tension_N": 278.12
+      },
+      "stall": {
+        "window_s": [
+          4.5,
+          6.0
+        ],
+        "speed_rad_s": -3.0002,
+        "current_A": -0.85,
+        "torque_Nm": -0.98,
+        "top_strand_N": 7.99,
+        "bottom_rear_strand_N": 18.54,
+        "min_bottom_rear_strand_N": 0.1,
+        "bottom_front_strand_N": 7.73,
+        "idler_mm": -0.023,
+        "spring_N": 15.09,
+        "predicted_slack_strand_N": -17.82,
+        "p05_bottom_rear_strand_N": 0.28
+      },
+      "checks": {
+        "finite_and_stable": true,
+        "current_within_limit": true,
+        "no_tooth_skip": true,
+        "chain_on_sprocket": true,
+        "no_derailment": true,
+        "slack_strand_stays_tight": false,
+        "drive_stalled_at_limit": false
+      },
+      "status": "FAIL"
+    },
+    "obstacle": {
+      "case": "obstacle",
+      "note": "Half machine drives over a \u00d86 mm rod lying across its path, 60 mm ahead of the idler.",
+      "spring": "R5 recoil spring C-600-072-1500",
+      "spring_rate_N_mm": 6.285302660629922,
+      "assembled_spring_force_N": 77.31,
+      "engine": "MuJoCo 3.3.7 Newton",
+      "time_step_s": 0.0005,
+      "duration_s": 5.0,
+      "elapsed_s": 78.7,
+      "supported_mass_kg": 6.006,
+      "max_abs_current_A": 1.0,
+      "max_abs_torque_Nm": 1.2058,
+      "idler_travel_mm": [
+        -0.201,
+        0.492
+      ],
+      "recoil_stop_mm": -4.2,
+      "forward_stop_mm": 4.0,
+      "max_chain_tension_N": 220.85,
+      "min_seated_bushings": 8,
+      "max_hub_contact_N": 0.0,
+      "max_lateral_drift_mm": 0.002,
+      "slip_mm": [
+        -0.1,
+        0.43
+      ],
+      "tooth_skips": 0,
+      "solver_warnings": 0,
+      "finite": true,
+      "bump": {
+        "x_m": 0.17,
+        "rod_diameter_m": 0.006
+      },
+      "max_recoil_mm": 0.0,
+      "travel_m": 0.4776,
+      "checks": {
+        "finite_and_stable": true,
+        "current_within_limit": true,
+        "no_tooth_skip": true,
+        "chain_on_sprocket": true,
+        "no_derailment": true,
+        "recoil_within_stop": true,
+        "crossed_bump": true
+      },
+      "status": "PASS"
+    },
+    "debris": {
+      "case": "debris",
+      "note": "Stand test in reverse: a 7 \u00d7 4 \u00d7 40 mm stone lying across the shoe rails of the lower run is carried round the idler.",
+      "spring": "R5 recoil spring C-600-072-1500",
+      "spring_rate_N_mm": 6.285302660629922,
+      "assembled_spring_force_N": 77.31,
+      "engine": "MuJoCo 3.3.7 Newton",
+      "time_step_s": 0.0005,
+      "duration_s": 2.8,
+      "elapsed_s": 38.0,
+      "supported_mass_kg": null,
+      "max_abs_current_A": 0.6101,
+      "max_abs_torque_Nm": 0.6181,
+      "idler_travel_mm": [
+        -3.416,
+        0.481
+      ],
+      "recoil_stop_mm": -4.2,
+      "forward_stop_mm": 4.0,
+      "max_chain_tension_N": 158.51,
+      "min_seated_bushings": 16,
+      "max_hub_contact_N": 0.0,
+      "max_lateral_drift_mm": 0.004,
+      "slip_mm": [
+        -0.37,
+        0.78
+      ],
+      "tooth_skips": 0,
+      "solver_warnings": 0,
+      "finite": true,
+      "max_recoil_mm": 3.215,
+      "peak_spring_N": 97.52,
+      "stone_final_mm": [
+        91.93,
+        -0.0,
+        78.64
+      ],
+      "stone_max_height_mm": 83.52,
+      "pin_bending_at_peak_MPa": 260.1,
+      "peak_current_while_jammed_A": 0.534,
+      "checks": {
+        "finite_and_stable": true,
+        "current_within_limit": true,
+        "no_tooth_skip": true,
+        "chain_on_sprocket": true,
+        "no_derailment": true,
+        "idler_recoils": true,
+        "stop_holds": true,
+        "stone_passed_round_idler": true,
+        "passes_on_spring_alone": true
+      },
+      "status": "PASS"
+    },
+    "debris_5mm": {
+      "case": "debris_5mm",
+      "note": "Beyond the recoil capacity: a 7 \u00d7 5 \u00d7 40 mm stone puts the idler on its stop.",
+      "spring": "R5 recoil spring C-600-072-1500",
+      "spring_rate_N_mm": 6.285302660629922,
+      "assembled_spring_force_N": 77.31,
+      "engine": "MuJoCo 3.3.7 Newton",
+      "time_step_s": 0.0005,
+      "duration_s": 2.8,
+      "elapsed_s": 37.5,
+      "supported_mass_kg": null,
+      "max_abs_current_A": 0.6375,
+      "max_abs_torque_Nm": 0.6594,
+      "idler_travel_mm": [
+        -4.201,
+        0.472
+      ],
+      "recoil_stop_mm": -4.2,
+      "forward_stop_mm": 4.0,
+      "max_chain_tension_N": 189.9,
+      "min_seated_bushings": 16,
+      "max_hub_contact_N": 0.0,
+      "max_lateral_drift_mm": 0.011,
+      "slip_mm": [
+        -0.46,
+        0.87
+      ],
+      "tooth_skips": 0,
+      "solver_warnings": 0,
+      "finite": true,
+      "max_recoil_mm": 4.0,
+      "peak_spring_N": 102.46,
+      "stone_final_mm": [
+        91.76,
+        0.02,
+        79.12
+      ],
+      "stone_max_height_mm": 84.24,
+      "pin_bending_at_peak_MPa": 311.6,
+      "peak_current_while_jammed_A": 0.556,
+      "checks": {
+        "finite_and_stable": true,
+        "current_within_limit": true,
+        "no_tooth_skip": true,
+        "chain_on_sprocket": true,
+        "no_derailment": true,
+        "idler_recoils": true,
+        "stop_holds": true,
+        "stone_passed_round_idler": true
+      },
+      "status": "PASS"
+    },
+    "lateral": {
+      "case": "lateral",
+      "note": "Stand test with \u00b120 N side pulls on the chain while running.",
+      "spring": "R5 recoil spring C-600-072-1500",
+      "spring_rate_N_mm": 6.285302660629922,
+      "assembled_spring_force_N": 77.31,
+      "engine": "MuJoCo 3.3.7 Newton",
+      "time_step_s": 0.0005,
+      "duration_s": 6.0,
+      "elapsed_s": 93.0,
+      "supported_mass_kg": null,
+      "max_abs_current_A": 0.5036,
+      "max_abs_torque_Nm": 0.5977,
+      "idler_travel_mm": [
+        -0.201,
+        0.492
+      ],
+      "recoil_stop_mm": -4.2,
+      "forward_stop_mm": 4.0,
+      "max_chain_tension_N": 44.17,
+      "min_seated_bushings": 15,
+      "max_hub_contact_N": 0.0,
+      "max_lateral_drift_mm": 0.6,
+      "slip_mm": [
+        -0.1,
+        0.07
+      ],
+      "tooth_skips": 0,
+      "solver_warnings": 0,
+      "finite": true,
+      "forward_mean_speed_rad_s": 2.997,
+      "top_strand_N": 36.81,
+      "bottom_rear_strand_N": 36.49,
+      "checks": {
+        "finite_and_stable": true,
+        "current_within_limit": true,
+        "no_tooth_skip": true,
+        "chain_on_sprocket": true,
+        "no_derailment": true
+      },
+      "status": "PASS"
+    },
+    "lateral_r4spring": {
+      "case": "lateral_r4spring",
+      "note": "Negative control: the Track R4 idler spring with the same \u00b120 N side pulls.",
+      "spring": "Track R4 idler spring (negative control)",
+      "spring_rate_N_mm": 4.0,
+      "assembled_spring_force_N": 15.8,
+      "engine": "MuJoCo 3.3.7 Newton",
+      "time_step_s": 0.0005,
+      "duration_s": 6.0,
+      "elapsed_s": 79.7,
+      "supported_mass_kg": null,
+      "max_abs_current_A": 0.4964,
+      "max_abs_torque_Nm": 0.5968,
+      "idler_travel_mm": [
+        -0.201,
+        0.376
+      ],
+      "recoil_stop_mm": -3.0,
+      "forward_stop_mm": 6.0,
+      "max_chain_tension_N": 25.85,
+      "min_seated_bushings": 3,
+      "max_hub_contact_N": 0.0,
+      "max_lateral_drift_mm": 1.68,
+      "slip_mm": [
+        -0.08,
+        0.25
+      ],
+      "tooth_skips": 0,
+      "solver_warnings": 0,
+      "finite": true,
+      "forward_mean_speed_rad_s": 2.996,
+      "top_strand_N": 7.68,
+      "bottom_rear_strand_N": 7.52,
+      "checks": {
+        "finite_and_stable": true,
+        "current_within_limit": true,
+        "no_tooth_skip": true,
+        "chain_on_sprocket": true,
+        "no_derailment": true
+      },
+      "status": "PASS"
+    }
+  },
+  "motor": {
+    "R_ohm": 2.1818181818181817,
+    "ke_V_s_rad": 2.8842244503871837,
+    "kt_Nm_A": 1.5073098596698111,
+    "i0_A": 0.2,
+    "i_limit_A": 1.0,
+    "voltage": 12.0,
+    "reflected_inertia_kg_m2": 0.103359375,
+    "total_ratio": 262.5,
+    "model": "Pololu 37D metal gearmotor 150:1, 12 V (#2829)",
+    "rotor_inertia_kg_m2_estimate": 1.5e-06
+  }
+}

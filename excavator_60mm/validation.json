@@ -1,0 +1,157 @@
+{
+  "status": "PASS",
+  "failures": [],
+  "assembly": {
+    "exact_intersections": 1829,
+    "collisions": []
+  },
+  "motion": {
+    "arm_grid_configurations": 125,
+    "arm_chassis_slew_angles": 11,
+    "upper_slew_samples": 61,
+    "exact_cross_system_intersections": 1763,
+    "maximum_intersection_mm3": 3641.486728718015,
+    "collisions": [],
+    "gear_mesh_samples": 61,
+    "maximum_gear_intersection_mm3": 0,
+    "idler_guide_collisions": [],
+    "mechanical_stop_contact_deg": [
+      -160.75,
+      160.75
+    ],
+    "collision_reference_envelope": {
+      "boom_threshold_mm": 15,
+      "low_boom_slew_deg": 20,
+      "boundary_configurations": 666,
+      "boundary_collisions": [],
+      "negative_control_collision_mm3": 11102.07476651214,
+      "negative_control_outside_reference_envelope": true,
+      "negative_control_strokes_mm": [
+        0,
+        60,
+        0
+      ],
+      "negative_control_slew_deg": 120,
+      "description": "CAD reference samples use boom stroke >=15 mm or slew within \u00b120\u00b0. This is not an operating restriction. The preview permits full 0\u201360 mm stroke and \u00b1150\u00b0 slew independently; operators manage track clearance."
+    }
+  },
+  "loads": {
+    "nominal_mass_kg": 11.88280779725969,
+    "base_mass_kg": 5.433889261555894,
+    "upper_without_arm_kg": 4.80714279869301,
+    "arm_mass_kg": 1.6417757370107864,
+    "nominal_payload_study_kg": 0.15,
+    "stability_configurations": 18954,
+    "support_half_extents_mm": [
+      79.29974874213241,
+      197.0
+    ],
+    "uncertainty": {
+      "arm_mass_factor": 1.2,
+      "base_mass_factor": 0.9,
+      "slope_deg": 5
+    },
+    "worst_stability": {
+      "margin_mm": 44.48241869952909,
+      "strokes_mm": [
+        7.5,
+        0.0,
+        0.0
+      ],
+      "slew_deg": 150.0,
+      "payload_kg": 0.15,
+      "cg_mm": [
+        -24.421425211258807,
+        10.799162809096165,
+        118.8257359567971
+      ],
+      "tooth_height_mm": 81.50445807160186
+    },
+    "max_overturning_moment_Nm": 2.931460379104861,
+    "slew_bearing_couple_reaction_N": 73.28650947762152,
+    "slew_spindle_bending_MPa": 3.7324512785006396,
+    "static_actuator_thrust_N_per_cylinder": [
+      42.44721237933735,
+      45.57420873885221,
+      16.403045501656166
+    ],
+    "actuator_force_worst_strokes_mm": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        45.0,
+        0.0,
+        7.5
+      ],
+      [
+        0.0,
+        15.0,
+        60.0
+      ]
+    ],
+    "actuator_selection_thrust_N_with_2x_margin": [
+      84.8944247586747,
+      91.14841747770441,
+      32.80609100331233
+    ],
+    "drive": {
+      "mass_including_payload_kg": 12.032807797259691,
+      "grade_deg": 10,
+      "friction_coefficient": 0.3,
+      "rolling_coefficient": 0.04,
+      "grade_torque_Nm_each": 0.5715483599919386,
+      "skid_turn_torque_Nm_each": 0.38888902116054325,
+      "required_continuous_motor_torque_Nm": 1.2,
+      "traction_margin": 1.3867895674293986,
+      "torque_at_current_limit_Nm": 1.205847887735849,
+      "gearmotor_continuous_rating_Nm": 1.6303555625,
+      "no_load_speed_m_s": 0.1549063216346057,
+      "torque_limit_tractive_force_N": 31.209639884268405
+    },
+    "slew": {
+      "available_output_torque_Nm": 1.26,
+      "output_rpm": 2.0833333333333335,
+      "conservative_Lewis_tooth_stress_MPa": 3.6458333333333335,
+      "assumed_printed_tooth_allowable_MPa": 8
+    },
+    "track_pin": {
+      "worst_force_with_pretension_N": 84.00618223355974,
+      "bending_MPa": 137.85954681946242,
+      "assumed_steel_yield_MPa": 400,
+      "material": "silver steel"
+    },
+    "assumptions": "PETG at 1.27 g/cm\u00b3 on exact solid volume; steel 7.85; PET glazing 1.38. Drive gearmotors 195 g each (Pololu 37D 150:1, in the sprocket hubs), slew motor 90 g, hub bearings 42/32 g, two 18650 cells 48 g each (Panasonic NCR18650B maximum 48.5 g) plus pads and nickel strip, BMS/converters 72 g, bearings 12/70 g, U60 internals 35 g each. 1.527 kg steel ballast plate inside the counterweight. Mass, friction, gearbox thrust and printed strength must be measured. No soil digging load or dynamic arm load included in actuator thrust."
+  },
+  "undercarriage": {
+    "track_shoe_width_mm": 54.0,
+    "track_centres_mm": 340.0,
+    "track_outer_width_mm": 394.0,
+    "aligned_platform_width_mm": 308.0000000000001,
+    "aligned_outboard_margin_mm": [
+      43.0,
+      42.999999999999886
+    ],
+    "side_guide_clearance_mm": 0.6,
+    "bushing_diameter_mm": 6.0,
+    "end_wheel_rise_mm": 2.0,
+    "idler_assembly_offset_mm": -0.20050251573520228,
+    "sprocket_tooth_tip_clearance_mm": 0.5
+  },
+  "track": {
+    "links": 34,
+    "max_pitch_error_mm": 1.7763568394002505e-14,
+    "articulation_samples": 41,
+    "articulation_range_deg": [
+      -32,
+      8
+    ],
+    "max_articulation_intersection_mm3": 0,
+    "chordal_speed_variation_fraction": 0.03407417371093169,
+    "required_polygonal_take_up_mm": 0.6256542322449263
+  },
+  "elapsed_seconds": 120.98529171943665,
+  "scope": "Sampled exact CAD intersections within the collision reference envelope and quasi-static mechanics, not FEA, continuous collision proof or physical certification. This PASS applies to that sampled subset, not the full independent motion range. Low-boom sideways poses can collide with tracks; operators manage clearance. The preview does not enforce the reference envelope."
+}

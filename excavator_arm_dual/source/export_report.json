@@ -1,0 +1,162 @@
+{
+  "parts": [
+    {
+      "name": "01_fixed_pivot_base",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 355546.81,
+      "print_bounds_mm": [
+        132.0,
+        164.0,
+        104.0
+      ]
+    },
+    {
+      "name": "02_bent_box_boom",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 429212.72,
+      "print_bounds_mm": [
+        414.0,
+        134.0,
+        132.0
+      ]
+    },
+    {
+      "name": "03_box_stick",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 134300.41,
+      "print_bounds_mm": [
+        259.33,
+        63.0,
+        32.0
+      ]
+    },
+    {
+      "name": "04_rocker_left",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 5194.75,
+      "print_bounds_mm": [
+        66.0,
+        14.0,
+        6.0
+      ]
+    },
+    {
+      "name": "04_rocker_right",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 5194.75,
+      "print_bounds_mm": [
+        66.0,
+        14.0,
+        6.0
+      ]
+    },
+    {
+      "name": "05_bucket_link_left",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 4807.97,
+      "print_bounds_mm": [
+        78.0,
+        13.0,
+        5.0
+      ]
+    },
+    {
+      "name": "05_bucket_link_right",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 4807.97,
+      "print_bounds_mm": [
+        78.0,
+        13.0,
+        5.0
+      ]
+    },
+    {
+      "name": "07_replaceable_tooth_01",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 353.74,
+      "print_bounds_mm": [
+        20.2,
+        6.0,
+        6.8
+      ]
+    },
+    {
+      "name": "07_replaceable_tooth_02",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 353.74,
+      "print_bounds_mm": [
+        20.2,
+        6.0,
+        6.8
+      ]
+    },
+    {
+      "name": "07_replaceable_tooth_03",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 353.74,
+      "print_bounds_mm": [
+        20.2,
+        6.0,
+        6.8
+      ]
+    },
+    {
+      "name": "07_replaceable_tooth_04",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 353.74,
+      "print_bounds_mm": [
+        20.2,
+        6.0,
+        6.8
+      ]
+    },
+    {
+      "name": "07_replaceable_tooth_05",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 353.74,
+      "print_bounds_mm": [
+        20.2,
+        6.0,
+        6.8
+      ]
+    },
+    {
+      "name": "06_inward_digging_bucket",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 118338.28,
+      "print_bounds_mm": [
+        116.3,
+        94.6,
+        80.0
+      ]
+    }
+  ],
+  "assembly_solids": 114,
+  "build_seconds": 63.8
+}

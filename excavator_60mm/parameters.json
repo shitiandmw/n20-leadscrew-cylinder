@@ -1,0 +1,314 @@
+{
+  "revision": 3,
+  "units": "mm",
+  "track_pitch": 20.0,
+  "sprocket_teeth": 12,
+  "pitch_radius": 38.63703305156273,
+  "wheel_centres": 220.0,
+  "axle_z": 46.32050807568877,
+  "end_wheel_rise_mm": 2.0,
+  "idler_assembly_offset_mm": -0.20050251573520228,
+  "return_roller_z_mm": 63.64101615137754,
+  "return_roller_r_mm": 16.5,
+  "carrier_lift_mm": 0.5,
+  "ground_support_half_length_mm": 79.29974874213241,
+  "track_centres": 340.0,
+  "track_links_per_side": 34,
+  "track_pin_diameter": 3,
+  "track_pin_length": 56.0,
+  "track_pin_clip_y_mm": 26.5,
+  "shoe_width": 54.0,
+  "idler_travel_mm": [
+    -3.9994999999999976,
+    4.200500000000005
+  ],
+  "idler_tension_adjustment_mm": [
+    0.0,
+    4.0
+  ],
+  "track_revision": 5,
+  "grouser_centres_mm": [
+    -6.0,
+    0.0,
+    6.0
+  ],
+  "track_bushing_od_mm": 6.0,
+  "track_bushing_id_mm": 3.1,
+  "track_bushing_length_mm": 17.0,
+  "track_outer_width_mm": 394.0,
+  "frame_lateral_shift_mm": 16.0,
+  "guide_clearance_per_side_mm": 0.6,
+  "guide_flange_height_mm": 2.0,
+  "guide_inner_y_mm": 21.6,
+  "guide_outer_y_mm": 23.0,
+  "sprocket_tip_radius_mm": 40.82050807568877,
+  "idler_guide_radius_mm": 35.23703305156273,
+  "grouser_height_mm": 1,
+  "grouser_width_mm": 2,
+  "idler_rail_radius_mm": 33.17050807568877,
+  "road_roller_x_mm": [
+    -52.0,
+    0.0,
+    52.0
+  ],
+  "return_roller_x_mm": [
+    -30.0,
+    30.0
+  ],
+  "track_reference": "Berco sprockets, rollers, track chains and idlers; Cat 320 technical specifications pages 2, 3, 4 and 20; references/TRACK_SYSTEM.md",
+  "arm_offset": [
+    45.0,
+    0.0,
+    134.0
+  ],
+  "arm": {
+    "scale": 15.0,
+    "boom": 380.0,
+    "stick": 193.33333333333334,
+    "bucket_width": 80.0,
+    "tip_radius": 104.66666666666667,
+    "tip": [
+      -83.2,
+      -63.504890450351226
+    ],
+    "origin": [
+      0.0,
+      88.0
+    ],
+    "ground_cyl": [
+      47.27671302,
+      55.77085044
+    ],
+    "boom_lift": [
+      150.0,
+      60.0
+    ],
+    "stick_cyl": [
+      230.0,
+      88.0
+    ],
+    "stick_tail": [
+      -40.0,
+      8.0
+    ],
+    "bucket_cyl": [
+      -13.333333333333314,
+      36.0
+    ],
+    "rocker_pivot": [
+      143.66666666666669,
+      16.0
+    ],
+    "rocker": 52.0,
+    "coupler": 65.0,
+    "horn": 35.0,
+    "horn_datum": -0.3490658503988659,
+    "horn_point": [
+      32.88924172750679,
+      -11.970705016398405
+    ],
+    "actuators": {
+      "boom": {
+        "variant": "U60",
+        "screw": 75.0,
+        "closed": 140.0,
+        "stroke": 60.0,
+        "quantity": 2,
+        "y": [
+          -42.0,
+          42.0
+        ]
+      },
+      "stick": {
+        "variant": "U60",
+        "screw": 75.0,
+        "closed": 140.0,
+        "stroke": 60.0,
+        "quantity": 1,
+        "y": [
+          0.0
+        ]
+      },
+      "bucket": {
+        "variant": "U60",
+        "screw": 75.0,
+        "closed": 140.0,
+        "stroke": 60.0,
+        "quantity": 1,
+        "y": [
+          0.0
+        ]
+      }
+    },
+    "closed": [
+      140.0,
+      140.0,
+      140.0
+    ],
+    "strokes": [
+      60.0,
+      60.0,
+      60.0
+    ],
+    "default": [
+      28.6219775729748,
+      41.99635707040585,
+      16.64955496957367
+    ],
+    "pitch": 0.5
+  },
+  "cab_size_mm": [
+    120.0,
+    70.0,
+    118.0
+  ],
+  "cab_reference": "Cat 320 specifications page 4, drawing estimate at 1:15",
+  "deck_top_mm": 134.0,
+  "skirt_bottom_mm": 92,
+  "slew_lowered_mm": 48.0,
+  "upper_body": {
+    "revision": 3,
+    "layout": "Cat 320: cab front-left, tank housing and stepped toolbox front-right, engine hood, curved counterweight",
+    "cab_side": "left",
+    "cab_x_mm": [
+      -22.0,
+      98.0
+    ],
+    "tail_swing_radius_mm": 189.0,
+    "deck_half_width_mm": 154.0,
+    "deck_front_x_mm": 104.0,
+    "deck_nose_mm": [
+      138.0,
+      86.0
+    ],
+    "deck_rim_bottom_z_mm": 112.0,
+    "counterweight_front_x_mm": -109.5673308974897,
+    "hood_top_z_mm": 206.0,
+    "hood_nose_top_z_mm": 182.0,
+    "toolbox_top_z_mm": 171.0,
+    "reference": "Cat 320 technical specifications page 4: 2,830 mm tail swing radius; product images for component layout"
+  },
+  "battery": {
+    "cells": 2,
+    "type": "18650",
+    "arrangement": "2S1P welded side-by-side pack",
+    "nominal_voltage": 7.2,
+    "full_voltage": 8.4,
+    "operational_voltage_range": [
+      6.2,
+      8.4
+    ],
+    "cell_diameter_range_mm": [
+      18.0,
+      18.6
+    ],
+    "cell_length_range_mm": [
+      64.7,
+      65.3
+    ],
+    "cell_datasheets": [
+      {
+        "model": "Samsung INR18650-25R",
+        "source": "Samsung SDI specification, Mar. 2013",
+        "diameter_mm": [
+          18.26,
+          18.4
+        ],
+        "length_mm": [
+          64.7,
+          65.0
+        ],
+        "max_mass_g": 45.0
+      },
+      {
+        "model": "LG INR18650HG2",
+        "source": "LG Chem product specification BCY-PS-HG2-Rev0, 2014-10-13",
+        "diameter_mm": [
+          18.0,
+          18.5
+        ],
+        "length_mm": [
+          64.8,
+          65.2
+        ],
+        "max_mass_g": 47.0
+      },
+      {
+        "model": "Panasonic NCR18650B",
+        "source": "Panasonic NCR18650B data sheet, 2012 (maxima only)",
+        "diameter_mm": [
+          null,
+          18.5
+        ],
+        "length_mm": [
+          null,
+          65.3
+        ],
+        "max_mass_g": 48.5
+      }
+    ],
+    "cradle_groove_diameter_mm": 19.7,
+    "cradle_groove_pitch_mm": 19.3,
+    "cradle_inner_length_mm": 69.0,
+    "mounting": "Fitted cradle on the equipment tray inside the engine hood, under the removable hatch",
+    "regulated_rails_V": [
+      12,
+      6
+    ],
+    "combined_output_budget_W": 36,
+    "minimum_cell_continuous_A": 15,
+    "minimum_BMS_continuous_A": 10
+  },
+  "ballast_plate_mm": [
+    54.0326691025103,
+    150.0,
+    24.0
+  ],
+  "slew_soft_limit_deg": 150.0,
+  "slew_gear_teeth": [
+    96,
+    20
+  ],
+  "slew_module": 1.5,
+  "slew_pressure_angle_deg": 20,
+  "slew_centre_distance": 87.2,
+  "slew_bearing": "2 x 6004, 20 x 42 x 12",
+  "slew_bearing_separation": 40,
+  "drive_bearing": "Per side: 61808-2RS1 (40 x 52 x 7, fixed) + 6809-2RS (45 x 58 x 7, floating) in the sprocket hub",
+  "ballast_kg": 1.5269632288369408,
+  "drive_motor": {
+    "voltage": 12,
+    "rpm": 38.3,
+    "required_continuous_torque_Nm": 1.2,
+    "model": "Pololu 37D metal gearmotor 150:1, 12 V (#2829) inside the sprocket hub, 1.75:1 internal ring stage",
+    "current_limit_A": 1.0,
+    "sprocket_torque_at_limit_Nm": 1.206,
+    "body_diameter": 36.8
+  },
+  "track_wheel": {
+    "revision": "R5",
+    "folder": "track_wheel/",
+    "spring": "Associated/Lee Spring C-600-072-1500, music wire",
+    "spring_rate_N_mm": 6.285302660629922,
+    "assembled_spring_length_mm": 25.799499999999995,
+    "preload_N": 77.31236537707835,
+    "spring_seat_x_mm": 74.0,
+    "recoil_travel_mm": 3.9994999999999976,
+    "forward_travel_mm": 4.200500000000005,
+    "hub_ratio": 1.75,
+    "pinion_x_mm": -103.0,
+    "pinion_z_mm": 46.32050807568877,
+    "spring_length_nominal_mm": 26.0,
+    "yoke_rear_x_mm": 100.0,
+    "hub_cap_face_y_mm": 22.0
+  },
+  "slew_motor": {
+    "voltage": 12,
+    "rpm": 10,
+    "required_continuous_torque_Nm": 0.35,
+    "shaft": "4 mm D",
+    "body_diameter": 25
+  },
+  "normal_drive_speed_limit_m_s": 0.1,
+  "nominal_floor_slope_deg": 0
+}

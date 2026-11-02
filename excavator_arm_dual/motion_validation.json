@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "scope": "Kinematic task constraints only. No new forward dynamics, soil or load claim.",
+  "geometry_baseline": "R10 deeper tapered boomerang section; two symmetric boom drives; retained R9 pivot coordinates",
+  "root_xz_mm": [
+    0.0,
+    88.0
+  ],
+  "boom_actuation": "Extension raises; retraction lowers",
+  "samples": 2593,
+  "max_tool_pose_error_mm": 2.2417144733379925e-12,
+  "max_tool_angle_error_deg": 1.1704441227785741e-12,
+  "browser_interpolation_error_mm": 0.002588164598153088,
+  "browser_interpolation_angle_error_deg": 0.0014167921160153176,
+  "stroke_ranges_mm": [
+    [
+      3.7242549434324133,
+      50.85547153627837
+    ],
+    [
+      2.807287479865181,
+      41.61159338128758
+    ],
+    [
+      7.806955590658973,
+      58.56936183651169
+    ]
+  ],
+  "checks": [
+    "Constant-X lowering",
+    "90 mm inward horizontal cut at Z=-240 mm",
+    "Curl at fixed wrist",
+    "Lift with bucket absolute angle held at -30 degrees",
+    "Dump at fixed wrist with tip Z>140 mm",
+    "Return above mounting plane and close the cycle"
+  ],
+  "dump_min_tip_z_mm": 145.33334112154012,
+  "source_sha256": {
+    "build_motion.py": "83facb788d0f3d57e70adb180b49313e9d4fb6d89498cf333c66caf8f6d56eac",
+    "kinematics.py": "1434f75dcb63e3ce31a241d561ffc8180ed4d5cf3635c9338d32499a22c5a9b7"
+  }
+}

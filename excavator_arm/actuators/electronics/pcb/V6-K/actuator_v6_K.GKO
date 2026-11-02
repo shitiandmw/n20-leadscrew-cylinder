@@ -1,0 +1,15 @@
+%TF.GenerationSoftware,actuator_v6,pcb_export.py,6.1*%
+%TF.FileFunction,Profile,NP*%
+%TF.FilePolarity,Positive*%
+%FSLAX46Y46*%
+%MOMM*%
+%LPD*%
+G01*
+%ADD10C,0.0500*%
+D10*
+X0Y0D02*
+X76600000Y0D01*
+X76600000Y8000000D01*
+X0Y8000000D01*
+X0Y0D01*
+M02*

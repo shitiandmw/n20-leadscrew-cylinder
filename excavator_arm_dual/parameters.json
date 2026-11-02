@@ -1,0 +1,185 @@
+{
+  "revision": 10,
+  "drives": [
+    {
+      "name": "boom0",
+      "role": "boom",
+      "axis": 0,
+      "y": -50.0,
+      "a": "A",
+      "b": "B"
+    },
+    {
+      "name": "boom1",
+      "role": "boom",
+      "axis": 0,
+      "y": 50.0,
+      "a": "A",
+      "b": "B"
+    },
+    {
+      "name": "stick0",
+      "role": "stick",
+      "axis": 1,
+      "y": 0.0,
+      "a": "C",
+      "b": "D"
+    },
+    {
+      "name": "bucket0",
+      "role": "bucket",
+      "axis": 2,
+      "y": 0.0,
+      "a": "F",
+      "b": "R"
+    }
+  ],
+  "boom_profile_points": [
+    [
+      0,
+      0
+    ],
+    [
+      75,
+      52
+    ],
+    [
+      142,
+      78
+    ],
+    [
+      205,
+      57
+    ],
+    [
+      380.0,
+      0
+    ]
+  ],
+  "boom_profile_radii": [
+    18,
+    25,
+    38,
+    22,
+    16
+  ],
+  "boom_side_y_mm": [
+    -50.0,
+    50.0
+  ],
+  "boom_angles_deg": [
+    -20.0,
+    69.0
+  ],
+  "deep_reach_strokes": [
+    0.0,
+    9.0,
+    0.0
+  ],
+  "teeth": {
+    "count": 5,
+    "centres": [
+      -32.0,
+      -16.0,
+      0.0,
+      16.0,
+      32.0
+    ],
+    "clearance": 0.2,
+    "fastener": "M1.6 x 4 countersunk screw + captive M1.6 nut in adapter"
+  },
+  "scale": 15.0,
+  "boom": 380.0,
+  "stick": 193.33333333333334,
+  "bucket_width": 80.0,
+  "tip_radius": 104.66666666666667,
+  "tip": [
+    -83.2,
+    -63.504890450351226
+  ],
+  "origin": [
+    0.0,
+    88.0
+  ],
+  "ground_cyl": [
+    33.563763365707146,
+    61.29276801550101
+  ],
+  "boom_lift": [
+    170.0,
+    40.0
+  ],
+  "stick_cyl": [
+    230.0,
+    88.0
+  ],
+  "stick_tail": [
+    -40.0,
+    8.0
+  ],
+  "bucket_cyl": [
+    -13.333333333333314,
+    36.0
+  ],
+  "rocker_pivot": [
+    143.66666666666669,
+    16.0
+  ],
+  "rocker": 52.0,
+  "coupler": 65.0,
+  "horn": 35.0,
+  "horn_datum": -0.3490658503988659,
+  "horn_point": [
+    32.88924172750679,
+    -11.970705016398405
+  ],
+  "actuators": {
+    "boom": {
+      "variant": "U60",
+      "screw": 75.0,
+      "closed": 140.0,
+      "stroke": 60.0,
+      "quantity": 2,
+      "y": [
+        -50.0,
+        50.0
+      ]
+    },
+    "stick": {
+      "variant": "U60",
+      "screw": 75.0,
+      "closed": 140.0,
+      "stroke": 60.0,
+      "quantity": 1,
+      "y": [
+        0.0
+      ]
+    },
+    "bucket": {
+      "variant": "U60",
+      "screw": 75.0,
+      "closed": 140.0,
+      "stroke": 60.0,
+      "quantity": 1,
+      "y": [
+        0.0
+      ]
+    }
+  },
+  "closed": [
+    140.0,
+    140.0,
+    140.0
+  ],
+  "strokes": [
+    60.0,
+    60.0,
+    60.0
+  ],
+  "default": [
+    34.4969928674503,
+    41.99635707040585,
+    16.64955496957367
+  ],
+  "pitch": 0.5
+}

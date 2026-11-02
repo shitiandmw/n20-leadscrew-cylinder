@@ -1,0 +1,722 @@
+{
+  "status": "PASS",
+  "failures": [],
+  "layout": {
+    "cab_side": "left",
+    "cab_box_mm": [
+      [
+        -22.0,
+        98.0
+      ],
+      [
+        84.0,
+        154.0
+      ],
+      [
+        134.0,
+        252.0
+      ]
+    ],
+    "tail_swing_radius_mm": 189.0,
+    "measured_max_radius_mm": 189.00000000000003,
+    "hood_top_z_mm": 206.0,
+    "reference": "Cat 320 technical specifications page 4: 2,830 mm tail swing radius = 188.7 mm at 1:15"
+  },
+  "cab_envelope_mm": [
+    120.0,
+    70.0,
+    118.0
+  ],
+  "cab_drawing_estimate_mm": [
+    120.139470013947,
+    67.58011049723757,
+    117.08507670850767
+  ],
+  "cab_roof_z_mm": 252.0,
+  "deck_top_z_mm": 134.0,
+  "lowered_deck_mm": 48.0,
+  "visible_bridge_to_skirt_gap_mm": 12.0,
+  "cell_fit": {
+    "datasheets": [
+      {
+        "model": "Samsung INR18650-25R",
+        "source": "Samsung SDI specification, Mar. 2013",
+        "diameter_mm": [
+          18.26,
+          18.4
+        ],
+        "length_mm": [
+          64.7,
+          65.0
+        ],
+        "max_mass_g": 45.0
+      },
+      {
+        "model": "LG INR18650HG2",
+        "source": "LG Chem product specification BCY-PS-HG2-Rev0, 2014-10-13",
+        "diameter_mm": [
+          18.0,
+          18.5
+        ],
+        "length_mm": [
+          64.8,
+          65.2
+        ],
+        "max_mass_g": 47.0
+      },
+      {
+        "model": "Panasonic NCR18650B",
+        "source": "Panasonic NCR18650B data sheet, 2012 (maxima only)",
+        "diameter_mm": [
+          null,
+          18.5
+        ],
+        "length_mm": [
+          null,
+          65.3
+        ],
+        "max_mass_g": 48.5
+      }
+    ],
+    "design_range": {
+      "diameter_mm": [
+        18.0,
+        18.6
+      ],
+      "length_mm": [
+        64.7,
+        65.3
+      ]
+    },
+    "pack_build_up": {
+      "arrangement": "two cells side by side, opposite polarity, welded series strip",
+      "separator_mm": 0.5,
+      "nickel_strip_mm": 0.15,
+      "wrap_wall_mm": [
+        0.12,
+        0.25
+      ],
+      "end_insulation_per_end_mm": [
+        0.3,
+        1.0
+      ]
+    },
+    "cradle": {
+      "groove_diameter_mm": 19.7,
+      "groove_pitch_mm": 19.3,
+      "inner_length_mm": 69.0,
+      "groove_centre_z_mm": 181.35,
+      "retainer_underside_z_mm": 191.95,
+      "end_pad": {
+        "free_mm": 4.0,
+        "minimum_compressed_mm": 1.2
+      },
+      "top_pad": {
+        "free_mm": 3.0,
+        "minimum_compressed_mm": 1.0
+      }
+    },
+    "cases": 16,
+    "minimum_radial_clearance_mm": 0.1999999999999993,
+    "pack_width_range_mm": [
+      36.74,
+      38.2
+    ],
+    "pack_length_range_mm": [
+      65.6,
+      67.6
+    ],
+    "pack_height_range_mm": [
+      18.24,
+      19.1
+    ],
+    "end_pad_compressed_range_mm": [
+      1.4000000000000057,
+      3.4000000000000057
+    ],
+    "top_pad_compressed_range_mm": [
+      1.3328427124745872,
+      2.0906553856308676
+    ],
+    "cad_extremes": [
+      {
+        "cell_diameter_mm": 18.6,
+        "wrap_mm": 0.25,
+        "pack_length_mm": 67.6,
+        "cradle_intersection_mm3": 0
+      },
+      {
+        "cell_diameter_mm": 18.0,
+        "wrap_mm": 0.12,
+        "pack_length_mm": 67.6,
+        "cradle_intersection_mm3": 0
+      }
+    ],
+    "modelled_cell": {
+      "diameter_mm": 18.3,
+      "length_mm": 65.0
+    },
+    "failures": [],
+    "scope": "Flat-top unprotected 18650 cells only. Button-top or protected cells (about 67-70 mm) do not fit this cradle."
+  },
+  "fasteners": [
+    {
+      "name": "Counterweight bolt",
+      "xy": [
+        -145.0,
+        95.0
+      ],
+      "size": "M4",
+      "head_seat_z": 206.0,
+      "length": 80,
+      "kind": "countersunk",
+      "tip_z_mm": 126.0,
+      "nut_z_mm": [
+        126.8,
+        130.0
+      ],
+      "engaged_mm": 3.200000000000003,
+      "ok": true
+    },
+    {
+      "name": "Counterweight bolt",
+      "xy": [
+        -145.0,
+        -95.0
+      ],
+      "size": "M4",
+      "head_seat_z": 206.0,
+      "length": 80,
+      "kind": "countersunk",
+      "tip_z_mm": 126.0,
+      "nut_z_mm": [
+        126.8,
+        130.0
+      ],
+      "engaged_mm": 3.200000000000003,
+      "ok": true
+    },
+    {
+      "name": "Counterweight bolt",
+      "xy": [
+        -122.0,
+        125.0
+      ],
+      "size": "M4",
+      "head_seat_z": 206.0,
+      "length": 80,
+      "kind": "countersunk",
+      "tip_z_mm": 126.0,
+      "nut_z_mm": [
+        126.8,
+        130.0
+      ],
+      "engaged_mm": 3.200000000000003,
+      "ok": true
+    },
+    {
+      "name": "Counterweight bolt",
+      "xy": [
+        -122.0,
+        -125.0
+      ],
+      "size": "M4",
+      "head_seat_z": 206.0,
+      "length": 80,
+      "kind": "countersunk",
+      "tip_z_mm": 126.0,
+      "nut_z_mm": [
+        126.8,
+        130.0
+      ],
+      "engaged_mm": 3.200000000000003,
+      "ok": true
+    },
+    {
+      "name": "Engine hood bolt",
+      "xy": [
+        -104.0,
+        140.0
+      ],
+      "size": "M3",
+      "head_seat_z": 206.0,
+      "length": 80,
+      "kind": "countersunk",
+      "tip_z_mm": 126.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Engine hood bolt",
+      "xy": [
+        -104.0,
+        -140.0
+      ],
+      "size": "M3",
+      "head_seat_z": 206.0,
+      "length": 80,
+      "kind": "countersunk",
+      "tip_z_mm": 126.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Engine hood bolt",
+      "xy": [
+        -30.0,
+        140.0
+      ],
+      "size": "M3",
+      "head_seat_z": 206.0,
+      "length": 80,
+      "kind": "countersunk",
+      "tip_z_mm": 126.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Engine hood bolt",
+      "xy": [
+        -30.0,
+        -140.0
+      ],
+      "size": "M3",
+      "head_seat_z": 206.0,
+      "length": 80,
+      "kind": "countersunk",
+      "tip_z_mm": 126.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Tank housing bolt",
+      "xy": [
+        -14.0,
+        -100.0
+      ],
+      "size": "M3",
+      "head_seat_z": 206.0,
+      "length": 80,
+      "kind": "countersunk",
+      "tip_z_mm": 126.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Tank housing bolt",
+      "xy": [
+        42.0,
+        -140.0
+      ],
+      "size": "M3",
+      "head_seat_z": 206.0,
+      "length": 80,
+      "kind": "countersunk",
+      "tip_z_mm": 126.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Toolbox bolt",
+      "xy": [
+        58.0,
+        -142.0
+      ],
+      "size": "M3",
+      "head_seat_z": 171.0,
+      "length": 45,
+      "kind": "countersunk",
+      "tip_z_mm": 126.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Toolbox bolt",
+      "xy": [
+        76.0,
+        -96.0
+      ],
+      "size": "M3",
+      "head_seat_z": 171.0,
+      "length": 45,
+      "kind": "countersunk",
+      "tip_z_mm": 126.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Equipment tray leg screw",
+      "xy": [
+        -100.0,
+        96.0
+      ],
+      "size": "M3",
+      "head_seat_z": 170.0,
+      "length": 45,
+      "kind": "countersunk",
+      "tip_z_mm": 125.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Equipment tray leg screw",
+      "xy": [
+        -100.0,
+        -96.0
+      ],
+      "size": "M3",
+      "head_seat_z": 170.0,
+      "length": 45,
+      "kind": "countersunk",
+      "tip_z_mm": 125.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Equipment tray leg screw",
+      "xy": [
+        -31.0,
+        96.0
+      ],
+      "size": "M3",
+      "head_seat_z": 170.0,
+      "length": 45,
+      "kind": "countersunk",
+      "tip_z_mm": 125.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Equipment tray leg screw",
+      "xy": [
+        -31.0,
+        -96.0
+      ],
+      "size": "M3",
+      "head_seat_z": 170.0,
+      "length": 45,
+      "kind": "countersunk",
+      "tip_z_mm": 125.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Cab tie rod",
+      "xy": [
+        -17.0,
+        149
+      ],
+      "size": "M3",
+      "head_seat_z": 255.0,
+      "length": 130,
+      "kind": "M3 threaded rod, nut and washer on the roof",
+      "tip_z_mm": 125.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Cab tie rod",
+      "xy": [
+        82.0,
+        149
+      ],
+      "size": "M3",
+      "head_seat_z": 255.0,
+      "length": 130,
+      "kind": "M3 threaded rod, nut and washer on the roof",
+      "tip_z_mm": 125.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Cab tie rod",
+      "xy": [
+        -17.0,
+        89
+      ],
+      "size": "M3",
+      "head_seat_z": 255.0,
+      "length": 130,
+      "kind": "M3 threaded rod, nut and washer on the roof",
+      "tip_z_mm": 125.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Cab tie rod",
+      "xy": [
+        82.0,
+        89
+      ],
+      "size": "M3",
+      "head_seat_z": 255.0,
+      "length": 130,
+      "kind": "M3 threaded rod, nut and washer on the roof",
+      "tip_z_mm": 125.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Seat bolt",
+      "xy": [
+        13.0,
+        136
+      ],
+      "size": "M3",
+      "head_seat_z": 159.0,
+      "length": 35,
+      "kind": "socket head",
+      "tip_z_mm": 124.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Seat bolt",
+      "xy": [
+        13.0,
+        106
+      ],
+      "size": "M3",
+      "head_seat_z": 159.0,
+      "length": 35,
+      "kind": "socket head",
+      "tip_z_mm": 124.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Seat bolt",
+      "xy": [
+        33.0,
+        136
+      ],
+      "size": "M3",
+      "head_seat_z": 159.0,
+      "length": 35,
+      "kind": "socket head",
+      "tip_z_mm": 124.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Seat bolt",
+      "xy": [
+        33.0,
+        106
+      ],
+      "size": "M3",
+      "head_seat_z": 159.0,
+      "length": 35,
+      "kind": "socket head",
+      "tip_z_mm": 124.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Console bolt",
+      "xy": [
+        48.0,
+        144
+      ],
+      "size": "M3",
+      "head_seat_z": 170.0,
+      "length": 45,
+      "kind": "socket head in a 3 mm counterbore",
+      "tip_z_mm": 125.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Console bolt",
+      "xy": [
+        48.0,
+        94
+      ],
+      "size": "M3",
+      "head_seat_z": 170.0,
+      "length": 45,
+      "kind": "socket head in a 3 mm counterbore",
+      "tip_z_mm": 125.0,
+      "nut_z_mm": [
+        126.6,
+        129.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Hood hatch screw",
+      "size": "M3",
+      "length": 12,
+      "head_seat_z": 208.4,
+      "count": 4,
+      "tip_z_mm": 196.4,
+      "nut_z_mm": [
+        196.6,
+        199.0
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Battery retainer screw",
+      "size": "M3",
+      "length": 20,
+      "head_seat_z": 194.95,
+      "count": 2,
+      "tip_z_mm": 174.95,
+      "nut_z_mm": [
+        177.54999999999998,
+        179.95
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    },
+    {
+      "name": "Cell cradle screw",
+      "size": "M3",
+      "length": 8,
+      "head_seat_z": 173.0,
+      "count": 2,
+      "tip_z_mm": 165.0,
+      "nut_z_mm": [
+        166.2,
+        168.6
+      ],
+      "engaged_mm": 2.4000000000000057,
+      "ok": true
+    }
+  ],
+  "battery_service": {
+    "lifts_mm": [
+      0,
+      1,
+      5,
+      10,
+      20,
+      40,
+      80
+    ],
+    "exact_intersections": 65,
+    "collisions": [],
+    "hatch_opening_mm": [
+      -101.0,
+      -35.0,
+      -89.0,
+      89.0
+    ],
+    "pack_to_opening_margin_mm": 14.449999999999989,
+    "procedure": "Switch off and unplug the pack; remove the four hatch screws and the two retainer screws, then lift the welded pack straight out of the cradle. The tray, BMS and converters stay in place."
+  },
+  "power": {
+    "arrangement": "2S1P",
+    "cells": 2,
+    "nominal_V": 7.2,
+    "full_V": 8.4,
+    "controller_cutoff_V": 6.2,
+    "rails_V": [
+      12,
+      6
+    ],
+    "combined_output_budget_W": 36.0,
+    "assumed_min_converter_efficiency": 0.85,
+    "maximum_calculated_pack_current_A": 6.83111954459203,
+    "pack_controller_limit_A": 8,
+    "minimum_BMS_continuous_A": 10,
+    "minimum_cell_continuous_A": 15,
+    "main_fuse_A": 10,
+    "boost_12V_max_output_W": 30,
+    "buckboost_6V_max_output_W": 18,
+    "voltage_samples": 23,
+    "simultaneous_rail_limits_require_combined_budget": true,
+    "nominal_capacity_assumption_Ah": 3,
+    "estimated_minutes_at_36W": 24.48,
+    "charging": "Lift the pack out; use a matching 8.4 V CC/CV 2S balance/protection-compatible charger.",
+    "scope": "Analytic budget with assumed 85% efficiency and 80% usable nominal energy. Actual cell sag, converter cooling, motor current and runtime need measurement. Motor torque assumptions only hold while regulated rails and measured current limits support them."
+  },
+  "scope": "CAD envelope, fit and removal checks plus an analytic battery power budget; no physical fit or electrical commissioning claimed."
+}

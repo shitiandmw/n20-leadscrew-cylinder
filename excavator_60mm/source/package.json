@@ -1,0 +1,6 @@
+{
+  "name": "arm60-excavator-viewer-check",
+  "private": true,
+  "scripts": {"test": "node check_viewer.cjs"},
+  "devDependencies": {"playwright": "1.64.1"}
+}

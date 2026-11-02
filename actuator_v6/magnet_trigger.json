@@ -1,0 +1,54 @@
+{
+  "magnet": {
+    "d": 3.0,
+    "l": 2.0,
+    "axis": "Z (along the travel)",
+    "grade": "N35",
+    "x": 3.3,
+    "y": 0.0,
+    "dz": 6.0,
+    "br_T": {
+      "N35 low": 1.17,
+      "nominal": 1.2,
+      "N42 high": 1.32
+    }
+  },
+  "hall_element_x_mm": 7.0,
+  "magnet_face_to_element_mm": 2.2,
+  "thresholds_mT": {
+    "BOP": {
+      "min": 3.0,
+      "typ": 6.9,
+      "max": 12.0
+    },
+    "BRP": {
+      "min": 1.0,
+      "typ": 3.5,
+      "max": 5.0
+    },
+    "source": "TI DRV5033 datasheet SLIS151, AJ option, -40..125 \u00b0C"
+  },
+  "peak_field_mT": 24.1,
+  "nominal_operate_offset_mm": {
+    "min": 7.225,
+    "typ": 5.274999999999999,
+    "max": 4.049999999999999
+  },
+  "nominal_release_offset_mm": {
+    "min": 10.2,
+    "typ": 6.875,
+    "max": 6.025
+  },
+  "hall_lead_used_mm": 5.3,
+  "stop_position_spread_mm": {
+    "earliest": -2.15,
+    "latest": 1.65,
+    "note": "relative to the nominal end position, all corners: BOP 3-12 mT, N35-N42, gap \u00b10.35 mm, carrier 0.3 mm off-centre in Y"
+  },
+  "overtravel_mm": 3.0,
+  "margin_latest_stop_to_hard_stop_mm": 1.35,
+  "corners_evaluated": 54,
+  "partition_thickness_mm": 1.0,
+  "partition_material": "Unfilled, non-magnetic PETG; permeability approximated as air",
+  "note": "Offsets are magnet centre to Hall centre along the axis. U1 sits HALL_LEAD behind the magnet's retract end position, U2 HALL_LEAD in front of its extend end position. The same unit repeats its stop point; the spread is unit-to-unit. Steel leadscrew and motor not modelled."
+}

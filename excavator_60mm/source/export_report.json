@@ -1,0 +1,525 @@
+{
+  "parts": [
+    {
+      "name": "01_chassis_bridge",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "",
+      "volume_mm3": 596626.0223009848,
+      "bounds_mm": [
+        290.0,
+        252.0,
+        10.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "TW01_motor_housing",
+      "quantity": 2,
+      "material": "PETG",
+      "note": "Stationary gearmotor housing. \u00d837.3 bore, \u00d845 6809 seat, \u00d840 61808 seat on the end wall, \u00d812.15 bushing locator. 2 M3 heat-set inserts in the rear pillars.",
+      "volume_mm3": 45653.26895299697,
+      "bounds_mm": [
+        61.99965286254883,
+        53.9658203125,
+        70.4000015258789
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "TW02_sprocket_hub",
+      "quantity": 2,
+      "material": "PETG",
+      "note": "Rotating 12-tooth bushing sprocket and hub drum; 6809 and 61808 outer-ring seats; 6 M3 \u00d7 5.7 heat-set inserts for the cap.",
+      "volume_mm3": 67425.49329033347,
+      "bounds_mm": [
+        81.6410140991211,
+        81.6410140991211,
+        36.5
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "TW03_hub_cap",
+      "quantity": 2,
+      "material": "PETG or PA (tough)",
+      "note": "Rotating cap with the 21-tooth internal ring gear (m1.5, generated at 7.0 mm). Print in tough PETG or PA, solid infill around the teeth.",
+      "volume_mm3": 33206.65705713835,
+      "bounds_mm": [
+        65.58531951904297,
+        65.59265899658203,
+        18.5
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "TW04_bearing_retainer",
+      "quantity": 2,
+      "material": "PETG",
+      "note": "Clamps the 61808 inner ring; held by the six M3 \u00d7 10 gearbox face screws.",
+      "volume_mm3": 3733.286497152202,
+      "bounds_mm": [
+        42.790422439575195,
+        42.79521179199219,
+        3.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "TW05_motor_rear_cap",
+      "quantity": 2,
+      "material": "PETG",
+      "note": "Dust cap over the motor terminals; grommet hole; two M3 \u00d7 8 into the housing pillar inserts.",
+      "volume_mm3": 5570.289044262356,
+      "bounds_mm": [
+        60.0,
+        44.994964599609375,
+        8.000000000000002
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "TW06_track_frame",
+      "quantity": 2,
+      "material": "PETG",
+      "note": "Right-hand rail. Mirror for the left (TW06_track_frame_left). Final-drive boss with 4 heat-set inserts; recoil channel; M6 captive nut. Right-hand; the left rail is the mirror image (TW06_track_frame_left).",
+      "volume_mm3": 146475.7390700283,
+      "bounds_mm": [
+        287.98646545410156,
+        66.0,
+        30.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true,
+      "mirrored_stl": "TW06_track_frame_left.stl"
+    },
+    {
+      "name": "TW07_idler_yoke",
+      "quantity": 2,
+      "material": "PETG",
+      "note": "Sliding idler yoke; \u00d88 axle bore; spring spigot.",
+      "volume_mm3": 15592.339089043518,
+      "bounds_mm": [
+        30.399999618530273,
+        28.0,
+        33.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "TW08_spring_seat",
+      "quantity": 2,
+      "material": "PETG",
+      "note": "Sliding spring seat pushed by the M6 adjuster; spigot is the recoil stop.",
+      "volume_mm3": 1747.4794976327862,
+      "bounds_mm": [
+        18.19796371459961,
+        18.195927619934082,
+        13.000000000000002
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "TW09_channel_nose",
+      "quantity": 2,
+      "material": "PETG",
+      "note": "Front stop of the yoke channel; two M3 \u00d7 40 through bolts with captive nuts.",
+      "volume_mm3": 6641.472790544877,
+      "bounds_mm": [
+        12.0,
+        19.600000381469727,
+        30.600000381469727
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "05_track_shoe",
+      "quantity": 68,
+      "material": "PETG",
+      "note": "Triple grouser, 1 mm relief; \u00d83 steel pin, 3.2 mm running bores; never print the pins.",
+      "volume_mm3": 5106.09079863486,
+      "bounds_mm": [
+        27.99745273590088,
+        54.0,
+        11.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "07_idler_wheel",
+      "quantity": 2,
+      "material": "PETG",
+      "note": "Twin rail rims, outer guide flanges and bushing clearance; two 608 bearings; non-driven 8 mm steel axle.",
+      "volume_mm3": 138539.68185220522,
+      "bounds_mm": [
+        70.45829772949219,
+        70.46617889404297,
+        46.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "08_road_roller",
+      "quantity": 6,
+      "material": "PETG",
+      "note": "Two 608 bearings; twin running surfaces and outer guide flanges, 0.6 mm lateral clearance per side.",
+      "volume_mm3": 21947.81344606494,
+      "bounds_mm": [
+        39.99104881286621,
+        39.99552536010742,
+        46.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "10_slew_bearing_housing",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "2 x 6004 bearings, 40 mm centre separation; ream seats after coupon.",
+      "volume_mm3": 171944.70663848033,
+      "bounds_mm": [
+        103.97672653198242,
+        103.98836517333984,
+        70.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "11_slew_top_cap",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "",
+      "volume_mm3": 9895.262876570989,
+      "bounds_mm": [
+        63.98567771911621,
+        63.99283981323242,
+        4.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "12_slew_bottom_cap",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "",
+      "volume_mm3": 9895.262876570989,
+      "bounds_mm": [
+        63.98567771911621,
+        63.99283981323242,
+        4.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "13_slew_ring_gear",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "",
+      "volume_mm3": 114594.20342189925,
+      "bounds_mm": [
+        146.99642944335938,
+        146.99642944335938,
+        10.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "14_slew_pinion",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Three M3 bolts to 4 mm steel clamp hub; 87.2 mm shaft spacing.",
+      "volume_mm3": 5940.021734179278,
+      "bounds_mm": [
+        32.989200592041016,
+        32.989200592041016,
+        10.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "15_slew_motor_mount",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Body saddle plus steel straps, slots permit .2 mm mesh adjustment.",
+      "volume_mm3": 55262.46185261069,
+      "bounds_mm": [
+        68.0,
+        50.0,
+        65.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "17_slew_stop_tab",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "",
+      "volume_mm3": 1187.1256817927558,
+      "bounds_mm": [
+        20.0,
+        10.0,
+        7.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "22_fit_coupon",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "608 / 6004 / 8 mm axle / 3 mm pin / \u00d819.7 18650 cradle groove. Print first; tune hole compensation.",
+      "volume_mm3": 48485.980809135406,
+      "bounds_mm": [
+        140.0,
+        50.0,
+        10.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "24_return_roller",
+      "quantity": 4,
+      "material": "PETG",
+      "note": "Track R5 carrier: \u00d833 rims 0.5 mm above the straight top run so it keeps carrying the sprung track; outer flanges with 0.6 mm side clearance; two 608 bearings.",
+      "volume_mm3": 19347.05853416124,
+      "bounds_mm": [
+        36.99172019958496,
+        36.9958610534668,
+        46.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "26_slew_skirt",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Removable rotating cover, bottom Z92, 12 mm above bridge; M3 captive nuts. Does not carry slew loads.",
+      "volume_mm3": 105613.58701947148,
+      "bounds_mm": [
+        262.9847869873047,
+        269.99554443359375,
+        32.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "16_upper_deck",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "R3 Cat 320 plan: 189 mm tail arc, boom-foot nose, perimeter rim; all shells bolt into captive nuts.",
+      "volume_mm3": 906745.1041545598,
+      "bounds_mm": [
+        326.9983825683594,
+        308.0,
+        22.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "18_counterweight",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Curved 189 mm tail-radius shell; clamps the steel ballast plate with internal ribs; four M4 \u00d7 80 into deck nuts.",
+      "volume_mm3": 232472.63735265785,
+      "bounds_mm": [
+        79.43267059326172,
+        308.0,
+        71.99999999999997
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "19_engine_hood",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Hood shell with service opening, side louvres and valve-cover nose; four M3 \u00d7 80 countersunk into deck nuts.",
+      "volume_mm3": 137144.10688014535,
+      "bounds_mm": [
+        107.267333984375,
+        308.0,
+        72.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "29_hood_hatch",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Battery service hatch; four M3 \u00d7 12 countersunk into nuts captured in the hood bosses.",
+      "volume_mm3": 35987.68839950569,
+      "bounds_mm": [
+        80.0,
+        192.0,
+        2.3999999953674376
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "30_tank_housing",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Front-right tank housing; reserved controller bay inside; two M3 \u00d7 80 countersunk.",
+      "volume_mm3": 50258.31378352207,
+      "bounds_mm": [
+        71.69999694824219,
+        66.0,
+        72.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "31_toolbox_step",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Front-right toolbox with access step and tread grooves; two M3 \u00d7 45 countersunk.",
+      "volume_mm3": 24090.711267541075,
+      "bounds_mm": [
+        53.70000076293945,
+        66.0,
+        37.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "32_exhaust_stack",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Decorative stack; fit before the hood with an M3 \u00d7 8 from inside.",
+      "volume_mm3": 591.1339842303435,
+      "bounds_mm": [
+        11.997314453125,
+        11.9986572265625,
+        18.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "23_equipment_tray",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Fixed tray for the cell cradle, BMS and converters; legs bolt to the deck with four M3 \u00d7 45.",
+      "volume_mm3": 67883.18138730456,
+      "bounds_mm": [
+        79.0,
+        200.39906311035156,
+        36.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "33_cell_cradle",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Two \u00d819.7 grooves at 19.3 mm pitch, 69 mm between end walls; fits datasheet 18650 cells \u00d818.0-18.6 \u00d7 64.7-65.3 as a welded 2S1P pack.",
+      "volume_mm3": 20602.33755265943,
+      "bounds_mm": [
+        59.99808311462402,
+        89.0,
+        22.200000762939453
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "25_battery_retainer",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Clamp bar over a 3 mm closed-cell foam pad; two M3 \u00d7 20 into side-loaded nuts.",
+      "volume_mm3": 2754.3477850336776,
+      "bounds_mm": [
+        59.0,
+        16.0,
+        3.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "20_cab_frame",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "120 x 70 x 118 mm cab; Cat 320 drawing proportions, now front-left beside the boom foot.",
+      "volume_mm3": 122621.44121662529,
+      "bounds_mm": [
+        120.0,
+        70.0,
+        114.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "21_cab_roof",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "",
+      "volume_mm3": 33454.732755697994,
+      "bounds_mm": [
+        120.0,
+        70.0,
+        4.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "27_operator_seat",
+      "quantity": 1,
+      "material": "PETG",
+      "note": "Scale interior; M3 through bolts into deck nuts.",
+      "volume_mm3": 50477.34696741453,
+      "bounds_mm": [
+        43.0,
+        42.0,
+        60.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    },
+    {
+      "name": "28_operator_console",
+      "quantity": 2,
+      "material": "PETG",
+      "note": "Second console sits 50 mm inboard; decorative joystick.",
+      "volume_mm3": 9443.627882591229,
+      "bounds_mm": [
+        34.0,
+        8.0,
+        51.0
+      ],
+      "watertight": true,
+      "step_roundtrip": true
+    }
+  ],
+  "assembly_solids": 728,
+  "elapsed_seconds": 290.56421089172363
+}

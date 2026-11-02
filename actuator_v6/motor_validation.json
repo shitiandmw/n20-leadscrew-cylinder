@@ -1,0 +1,217 @@
+{
+  "scope": "V6 motor replacement only",
+  "failures": [],
+  "solids": {
+    "motor_can": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_end_cap": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_rear_boss": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_terminal_1": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_terminal_2": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_bushing_compound_a_rear": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_bushing_compound_b_rear": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_bushing_input_front": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_bushing_compound_a_middle": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_bushing_compound_b_middle": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_bushing_output_rear": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_bushing_compound_a_front": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_bushing_compound_b_front": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_gearbox_frame": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_front_bushing": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_bushing_input_rear": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_gear_1": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_gear_2": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_gear_3": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_gear_4": {
+      "valid": true,
+      "count": 1
+    },
+    "motor_leadscrew_M3": {
+      "valid": true,
+      "count": 1
+    }
+  },
+  "rest_pose": {
+    "pairs": 210,
+    "collisions": [],
+    "tolerance_mm3": 1e-07
+  },
+  "keyed_output": {
+    "gap_mm": 0.0,
+    "fused_solids": 1,
+    "overlap_mm3": 0.0
+  },
+  "continuous_support_clearance": {
+    "input": {
+      "outside_envelope_mm3": 0.0,
+      "collisions": {},
+      "minimum_clearance_mm": 0.014999999999995997
+    },
+    "compound_a": {
+      "outside_envelope_mm3": 0.0,
+      "collisions": {},
+      "minimum_clearance_mm": 0.014999999999996814
+    },
+    "compound_b": {
+      "outside_envelope_mm3": 0.0,
+      "collisions": {},
+      "minimum_clearance_mm": 0.014999999999996499
+    },
+    "output": {
+      "outside_envelope_mm3": 0.0,
+      "collisions": {},
+      "minimum_clearance_mm": 0.024999999999990256
+    }
+  },
+  "variants": {
+    "S": {
+      "parts": 21,
+      "bounds_mm": [
+        [
+          -5.0,
+          -6.0,
+          -26.5
+        ],
+        [
+          5.0,
+          6.0,
+          55.0
+        ]
+      ],
+      "envelope_pass": true,
+      "same_gears": true,
+      "watertight": true
+    },
+    "U60": {
+      "parts": 21,
+      "bounds_mm": [
+        [
+          -5.0,
+          -6.0,
+          -26.5
+        ],
+        [
+          5.0,
+          6.0,
+          75.0
+        ]
+      ],
+      "envelope_pass": true,
+      "same_gears": true,
+      "watertight": true
+    },
+    "L": {
+      "parts": 21,
+      "bounds_mm": [
+        [
+          -5.0,
+          -6.0,
+          -26.5
+        ],
+        [
+          5.0,
+          6.0,
+          100.0
+        ]
+      ],
+      "envelope_pass": true,
+      "same_gears": true,
+      "watertight": true
+    }
+  },
+  "delivered_mesh_contacts": [
+    {
+      "stage": "stage_1",
+      "samples": 2049,
+      "max_overlap_area_mm2": 9.194926614795157e-08,
+      "max_flank_gap_mm": 8.761275816633207e-05,
+      "face_overlap_mm": 0.8999999999999995,
+      "pass_": true
+    },
+    {
+      "stage": "stage_2",
+      "samples": 2049,
+      "max_overlap_area_mm2": 4.8468989584567965e-08,
+      "max_flank_gap_mm": 7.596514593399932e-05,
+      "face_overlap_mm": 0.8999999999999995,
+      "pass_": true
+    },
+    {
+      "stage": "stage_3",
+      "samples": 2049,
+      "max_overlap_area_mm2": 6.527631449785011e-08,
+      "max_flank_gap_mm": 0.00010186384663146515,
+      "face_overlap_mm": 1.1,
+      "pass_": true
+    }
+  ],
+  "all_moving_pairs": {
+    "samples": 257,
+    "axial_intervals": 20,
+    "pair_checks": 13878,
+    "max_overlap_area_mm2": 1.557262003229372e-07,
+    "tolerance_mm2": 2e-06
+  },
+  "passed": true,
+  "limitations": [
+    "Illustrative 27:1 gearbox; commercial tooth counts are unknown.",
+    "Prescribed gear motion; no load, backlash reversal or manufacturing fit simulation.",
+    "The existing V6 pitch-ring thread is retained above Z=0.7 mm."
+  ]
+}

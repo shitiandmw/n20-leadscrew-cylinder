@@ -1,0 +1,114 @@
+# Tracked arm60 bill of materials
+
+Motor and hub dimensions are procurement interfaces, not verified catalog part numbers. Inspect the supplier drawing before ordering. Fastener lengths include a starting allowance; confirm washer, head and nut stacks during trial assembly.
+
+| Item | Qty | Specification / file | Notes |
+|---|---:|---|---|
+| Printed 01_chassis_bridge | 1 | stl/01_chassis_bridge.stl |  |
+| Printed 02_track_rail | 1 | stl/02_track_rail.stl | Mirror about Y=0 for the left rail. |
+| Printed 02_track_rail_left | 1 | stl/02_track_rail_left.stl | Already mirrored |
+| Printed 03_idler_carriage | 1 | stl/03_idler_carriage.stl | Mirror left; sprung M5 tension stud, shoulder bolts guide without clamping the slide. |
+| Printed 03_idler_carriage_left | 1 | stl/03_idler_carriage_left.stl | Already mirrored |
+| Printed 04_drive_bearing_cover | 4 | stl/04_drive_bearing_cover.stl |  |
+| Printed 05_track_shoe | 68 | stl/05_track_shoe.stl | Triple grouser, 1 mm relief; Ø3 steel pin, 3.2 mm running bores; never print the pins. |
+| Printed 06_drive_sprocket | 2 | stl/06_drive_sprocket.stl | 12 bushing pockets, six open web windows; bolts to purchased 8 mm clamp hub; no printed set-screw torque joint. |
+| Printed 07_idler_wheel | 2 | stl/07_idler_wheel.stl | Twin rail rims, outer guide flanges and bushing clearance; two 608 bearings; non-driven 8 mm steel axle. |
+| Printed 08_road_roller | 6 | stl/08_road_roller.stl | Two 608 bearings; twin running surfaces and outer guide flanges, 0.6 mm lateral clearance per side. |
+| Printed 09_drive_motor_saddle | 2 | stl/09_drive_motor_saddle.stl | Mirror Y; steel strap below motor closes clamp, M4 through bolts to bridge. |
+| Printed 10_slew_bearing_housing | 1 | stl/10_slew_bearing_housing.stl | 2 x 6004 bearings, 40 mm centre separation; ream seats after coupon. |
+| Printed 11_slew_top_cap | 1 | stl/11_slew_top_cap.stl |  |
+| Printed 12_slew_bottom_cap | 1 | stl/12_slew_bottom_cap.stl |  |
+| Printed 13_slew_ring_gear | 1 | stl/13_slew_ring_gear.stl |  |
+| Printed 14_slew_pinion | 1 | stl/14_slew_pinion.stl | Three M3 bolts to 4 mm steel clamp hub; 87.2 mm shaft spacing. |
+| Printed 15_slew_motor_mount | 1 | stl/15_slew_motor_mount.stl | Body saddle plus steel straps, slots permit .2 mm mesh adjustment. |
+| Printed 17_slew_stop_tab | 1 | stl/17_slew_stop_tab.stl |  |
+| Printed 22_fit_coupon | 1 | stl/22_fit_coupon.stl | 608 / 6004 / 8 mm axle / 3 mm pin / Ø19.7 18650 cradle groove. Print first; tune hole compensation. |
+| Printed 24_return_roller | 4 | stl/24_return_roller.stl | Supports and guides the upper return run; outer flanges with 0.6 mm side clearance; two 608 bearings. |
+| Printed 26_slew_skirt | 1 | stl/26_slew_skirt.stl | Removable rotating cover, bottom Z92, 12 mm above bridge; M3 captive nuts. Does not carry slew loads. |
+| Printed 16_upper_deck | 1 | stl/16_upper_deck.stl | R3 Cat 320 plan: 189 mm tail arc, boom-foot nose, perimeter rim; all shells bolt into captive nuts. |
+| Printed 18_counterweight | 1 | stl/18_counterweight.stl | Curved 189 mm tail-radius shell; clamps the steel ballast plate with internal ribs; four M4 × 80 into deck nuts. |
+| Printed 19_engine_hood | 1 | stl/19_engine_hood.stl | Hood shell with service opening, side louvres and valve-cover nose; four M3 × 80 countersunk into deck nuts. |
+| Printed 29_hood_hatch | 1 | stl/29_hood_hatch.stl | Battery service hatch; four M3 × 12 countersunk into nuts captured in the hood bosses. |
+| Printed 30_tank_housing | 1 | stl/30_tank_housing.stl | Front-right tank housing; reserved controller bay inside; two M3 × 80 countersunk. |
+| Printed 31_toolbox_step | 1 | stl/31_toolbox_step.stl | Front-right toolbox with access step and tread grooves; two M3 × 45 countersunk. |
+| Printed 32_exhaust_stack | 1 | stl/32_exhaust_stack.stl | Decorative stack; fit before the hood with an M3 × 8 from inside. |
+| Printed 23_equipment_tray | 1 | stl/23_equipment_tray.stl | Fixed tray for the cell cradle, BMS and converters; legs bolt to the deck with four M3 × 45. |
+| Printed 33_cell_cradle | 1 | stl/33_cell_cradle.stl | Two Ø19.7 grooves at 19.3 mm pitch, 69 mm between end walls; fits datasheet 18650 cells Ø18.0-18.6 × 64.7-65.3 as a welded 2S1P pack. |
+| Printed 25_battery_retainer | 1 | stl/25_battery_retainer.stl | Clamp bar over a 3 mm closed-cell foam pad; two M3 × 20 into side-loaded nuts. |
+| Printed 20_cab_frame | 1 | stl/20_cab_frame.stl | 120 x 70 x 118 mm cab; Cat 320 drawing proportions, now front-left beside the boom foot. |
+| Printed 21_cab_roof | 1 | stl/21_cab_roof.stl |  |
+| Printed 27_operator_seat | 1 | stl/27_operator_seat.stl | Scale interior; M3 through bolts into deck nuts. |
+| Printed 28_operator_console | 2 | stl/28_operator_console.stl | Second console sits 50 mm inboard; decorative joystick. |
+| Steel track pins | 68 | Ø3 × 56; clip grooves at ±26.5 from centre | Cut/groove to actual retaining-clip specification; smooth running surfaces |
+| Steel track bushings | 68 | Ø6 OD × Ø3.1 ID × 17 | Captured replaceable sleeves; deburr and check free fit on Ø3 pins |
+| Track pin retaining clips | 136 | For Ø3 shaft; nominal Ø6 envelope | Supplier groove dimensions govern |
+| 608 bearings | 28 | 8 × 22 × 7, sealed | 4 drive + 4 idler + 12 road + 8 return; rated static capacity at least 1000 N |
+| 6004 bearings | 2 | 20 × 42 × 12, sealed | Slew pair; choose reputable rated bearings |
+| Drive shafts | 2 | Ground steel Ø8 × 92 | One per side; never load motor output shaft radially |
+| Free wheel shafts | 12 | Ground steel Ø8 × 79 | Idler, road and return rollers |
+| Ø8 shaft collars | 26 | Split clamp, Ø16 × 5 envelope | 24 free-wheel retainers + 2 drive inner retainers |
+| Drive clamp hubs | 2 | Ø8 bore; Ø34 flange; 4 × M4 on Ø24; 14 mm axial envelope | Metal split clamp; match the provided STEP interface |
+| Flexible drive couplings | 2 | Clamping Ø6 to Ø8; Ø16 × 20 | Ten millimetres bore engagement on each side |
+| Drive gearmotors | 2 | 12 V, 30 rpm, >=1.2 N m continuous; Ø37 × 59 body; Ø6 D × 14 shaft | Confirm dimensions, continuous torque, current and thermal limits before purchase |
+| Motor retaining straps | 2 | Formed steel to saddle envelope; 14 mm wide | M4 through-fastened; no printed motor shaft bearing |
+| Slew gearmotor | 1 | 12 V, 10 rpm, >=0.35 N m continuous; Ø25 × 51 body; Ø4 shaft | Verify shaft interface and body length; saddle-clamped |
+| Slew motor straps | 2 | Formed steel strap, matching 25 mm body | M4 fasteners through mount at Z=54/84 |
+| Slew pinion clamp hub | 1 | Ø4 bore, Ø24 × 7; 3 × M3 tapped on Ø18 | Metal; match/machine interface |
+| Slew spindle | 1 | Ground steel Ø20 × 90 | Z=34 to 124 |
+| Slew lower collar | 1 | Ø20 bore, OD30 × 10 | Split clamp |
+| Slew deck clamp flange | 1 | Ø20 bore, OD70 × 10; 4 × M5 tapped on Ø50 at 45° | Metal split clamp; cable hole Ø8 at (-10,25) |
+| Slew inner spacer | 1 | Steel OD26 / ID20.1 × 28 | Faces parallel; shim final stack |
+| Slew top spacer | 1 | Steel OD28 / ID20.1 × 18 | Contacts upper inner race only |
+| Slew outer spacers | 2 | Steel OD42 / ID35: one ×12, one ×6 | Contacts outer races only |
+| Gear stand-offs | 6 | Metal OD10 / ID4.4 × 8 | Ø112 pitch circle |
+| Mechanical stop posts | 2 | Steel Ø8 × 44 with M5 mounting ends | Centres radius120, azimuth ±15° |
+| Ballast plate | 1 | Steel 54 × 150 × 24, about 1.53 kg | Inside the counterweight, clamped by its ribs through a 1 mm rubber pad; do not substitute printed plastic |
+| Ballast rubber pad | 1 | 1 mm rubber strip, 50 × 16 mm | Between the ballast plate and the counterweight pressing rib |
+| 18650 cells | 2 | Flat-top, unprotected; datasheet envelope Ø18.0–18.6 × 64.7–65.3; >=15 A continuous each | Matched pair, e.g. Samsung INR18650-25R or LG INR18650HG2. Panasonic NCR18650B fits but is not a 15 A cell. Button-top or protected cells (67–70 mm) do not fit |
+| Welded 2S1P pack build | 1 | 0.15 mm pure nickel strip (one series link, two terminal tabs), 0.5 mm separator, 0.3–1 mm end insulators, 0.12–0.25 mm PVC wrap | Spot-welded, never soldered to the cans. Finished pack at most 38.2 × 19.1 × 67.6 mm with leads leaving the -Y end |
+| Closed-cell foam pads | 3 | Two Ø17 × 4 mm end pads at the +Y end; one 3 mm top pad, 31 × 16 mm | End pads never below 1.2 mm, top pad never below 1 mm across the datasheet range |
+| 2S balancing/protection BMS | 1 | >=10 A continuous; envelope 30 × 29 × 6 mm | Verify actual supplier dimensions; use insulating adapter plate |
+| 12 V boost converter | 1 | >=30 W continuous; envelope 60 × 32 × 21 mm | Verify cooling at 6.2 V input; shared output budget 36 W |
+| 6 V buck-boost converter | 1 | >=18 W continuous; envelope 37 × 32 × 16 mm | Maintains 6 V near pack cutoff; shared output budget 36 W |
+| Pack fuse / master stop / connector | 1 | 10 A fuse; suitable 8 A wiring/connector; accessible stop | External 8.4 V charger for the removable 2S pack |
+| Insulating module adapters and spacers | 3 | Match purchased board holes to the two M3 holes per board in the equipment tray | Ø5 × 3 mm insulating standoffs shown; maximum module envelopes; choose actual hardware before printing |
+| 0.8 mm PET glazing | 4 | Cut from glazing/*.svg or cab_glazing_*.step | Inside-face adhesive strips; SVG templates are 1:1 |
+| Track tension springs | 2 | About 4 N/mm; OD9; free length15.75; 12 mm at nominal X110 / 11.799 mm assembled; 15 / 15.8 N preload | Example: 1 mm wire, ~5 active turns; measure rate and coil-bind reserve |
+| Tension studs / nuts / washers | 2 | M5 × 43 studs, 4 nuts, 2 OD10 washers | Stud and captive nut move with carriage |
+| Idler guide shoulder bolts | 4 | M4; 0.3 mm slide clearance after tightening | Use shoulder/spacer stack, washers and locking nuts |
+| Drive inner spacers | 2 | Steel OD12 / ID8.1 × 17 | Between drive bearing inner races |
+| Drive outer spacers | 2 | Steel OD12 / ID8.1 × 9 | Bearing to drive hub |
+| Roller inner spacers | 10 | Steel OD12 / ID8.1 × 26 | Road and return rollers |
+| Roller inboard spacers | 10 | Steel OD12 / ID8.1 × 10 | Rail to road/return roller |
+| Idler inner spacers | 2 | Steel OD12 / ID8.1 × 6 | Between idler bearing inner races |
+| 1 mm washers | 10 | Steel OD12 / ID8.1 × 1 | Road and return outboard |
+| Idler inboard spacers | 2 | Steel OD12 / ID8.1 × 20 | Rail to wheel |
+| Idler outboard spacers | 2 | Steel OD12 / ID8.1 × 11 | Wheel to retaining collar |
+| Frame and housing fasteners | 10 | M5 × 25, washers, locking nuts | 6 rail/bridge + 4 slew housing; verify stack before ordering |
+| Arm mounting fasteners | 4 | M6 × 25, washers, M6 nyloc nuts in underside deck pockets | Existing arm60 hole pattern |
+| Bearing cap tie fasteners | 4 | M3 × 85, washers, locking nuts | Through both slew caps; do not thread plastic |
+| Drive bearing cover fasteners | 4 | M3 × 45, washers, locking nuts | Two through each pair of covers |
+| Drive hub fasteners | 8 | M4 × 25, washers, locking nuts | Four per sprocket; choose head height to clear link ears |
+| Deck flange fasteners | 4 | M5 × 20 countersunk, into tapped metal flange | Heads flush with deck; thread-lock metal threads |
+| Ring gear fasteners | 6 | M4 × 30 countersunk, M4 nyloc nuts in gear pockets | Heads flush with deck; 10 mm gear + 8 mm spacer + 10 mm deck |
+| Pinion fasteners | 3 | M3 × 16 with 1 mm washers into tapped hub | About 5 mm thread engagement; keep heads below Z=124 |
+| Drive saddle bolts | 4 | M4 × 45, washers, locking nuts | Saddles/formed straps to bridge |
+| Slew motor mount bolts | 4 | M4 × 25, washers, locking nuts | Mount feet to bridge |
+| Slew motor strap bolts | 4 | M4 × 50, washers, locking nuts | Verify actual strap thickness |
+| Counterweight bolts | 4 | M4 × 80 countersunk, M4 nuts in deck pockets | Through the counterweight bolt tubes; heads flush with the top |
+| Engine hood bolts | 4 | M3 × 80 countersunk, M3 nuts in deck pockets | Through the hood bolt tubes |
+| Tank housing bolts | 2 | M3 × 80 countersunk, M3 nuts in deck pockets | Through the housing bolt tubes |
+| Toolbox bolts | 2 | M3 × 45 countersunk, M3 nuts in deck pockets | Through the toolbox bolt tubes |
+| Equipment tray screws | 4 | M3 × 45 countersunk, M3 nuts in deck pockets | Through the four tray legs |
+| Exhaust stack screw | 1 | M3 × 8 and M3 nut | From inside the hood top into the nut in the stack base; fit before the hood |
+| Hood hatch screws | 4 | M3 × 12 countersunk, M3 nuts | Nuts captured in the four hood bosses |
+| Battery retainer screws | 2 | M3 × 20, M3 nuts | Nuts slide into side slots in the cradle posts |
+| Cell cradle screws | 2 | M3 × 8, M3 nuts | Cradle tabs to the tray; nuts in tray underside pockets |
+| Cab tie rods | 4 | M3 threaded rod cut to 130, washer and nut on the roof | Through roof, corner posts and deck into the deck nuts; lower ends at Z125, above the Z124 deck underside |
+| Slew skirt bolts | 6 | M3 × 25 countersunk, thin M3 nuts | Six bosses at radius130 and 30° phase |
+| Seat bolts | 4 | M3 × 35, M3 nuts in deck pockets | Seat through cab floor and deck; tips end flush with the deck underside |
+| Console bolts | 2 | M3 × 45 socket head in a 3 mm counterbore, M3 nuts in deck pockets | One per console; decorative controls |
+| Stop tab bolts | 2 | M4 × 25 countersunk, washers, locking nuts | Tab to upper deck |
+| Arm60 assembly hardware | 1 | Use existing arm60 shaft/spacer/collar BOM | No scaling or substitutions; includes Ø3 × 126 shared lift pin |
+| V6-U60 actuators | 4 | 75 mm M3 screw; 60 mm stroke; 140–200 mm pin spacing | Build from actuator_v6 BOM, PCB and assembly guide |
+| Control and electrical set | 1 | Current-limited H-bridges, 6 V regulator, fuse/stop, slew feedback/NC limits, boom feedback, flexible harness | Requirements in ASSEMBLY.md; not supplied as commissioned electronics |

@@ -1,0 +1,94 @@
+{
+  "name": "gravity_unpowered_half_step",
+  "revision": 10,
+  "payload_kg": 0.0,
+  "drive_names": [
+    "boom0",
+    "boom1",
+    "stick0",
+    "bucket0"
+  ],
+  "force_limit_N_per_drive": 100.0,
+  "no_load_speed_mm_s": 1.25,
+  "timestep_s": 0.0005,
+  "duration_s": 4.0,
+  "powered": false,
+  "gravity": true,
+  "boom1_sensor_bias_mm": 0.0,
+  "peak_motor_force_N": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "maximum_tracking_error_mm": [
+    31.11711524473907,
+    31.11711524473907,
+    7.187593328363943,
+    0.21230476356818434
+  ],
+  "final_tracking_error_mm": [
+    31.090583280436864,
+    31.090583280436864,
+    7.187593328363943,
+    0.017285746864860452
+  ],
+  "peak_slide_speed_mm_s": [
+    20.076469105512057,
+    20.076469105512057,
+    2.568653037917827,
+    0.33740653837869594
+  ],
+  "minimum_strokes_mm": [
+    -0.026546570340202226,
+    -0.026546570340202226,
+    21.095441834070925,
+    44.539004362168654
+  ],
+  "maximum_strokes_mm": [
+    31.09056867439887,
+    31.09056867439887,
+    28.28303516243487,
+    44.75130912573684
+  ],
+  "maximum_pin_closure_error_mm": 0.03963052108919426,
+  "tooth_z_range_mm": [
+    -189.3555445668257,
+    30.000000000233243
+  ],
+  "seconds_at_force_or_speed_limit": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "peak_boom_force_difference_N": 0.0,
+  "peak_boom_stroke_difference_mm": 0.0,
+  "peak_net_eccentric_motor_moment_Nm": 0.0,
+  "peak_projected_boom_torsion_Nm": 0.0,
+  "side_load_scope": "Net moment of the two simulated motor forces at lateral offsets; not FEA stress or elastic twist",
+  "motion_sha256": "f7e548ac3e5004d7009c02a63210833a1a37a4e0d4e9dbd89f72d5647e3dbdc6",
+  "presentation_time_scale": 20.0,
+  "final_drive_strokes_mm": [
+    -1.4606037994286239e-05,
+    -1.4606037994286239e-05,
+    28.28303516243487,
+    44.55629010903352
+  ],
+  "final_tip_mm": [
+    178.19883949001343,
+    0.0,
+    -183.49803643001266
+  ],
+  "wall_seconds": 3.52,
+  "warnings": {
+    "INERTIA": 0,
+    "CONTACTFULL": 0,
+    "CNSTRFULL": 0,
+    "VGEOMFULL": 0,
+    "BADQPOS": 0,
+    "BADQVEL": 0,
+    "BADQACC": 0,
+    "BADCTRL": 0
+  }
+}

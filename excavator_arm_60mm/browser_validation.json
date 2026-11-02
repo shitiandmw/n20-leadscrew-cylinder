@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "revision": 4,
+  "cross_language_cases": 125,
+  "max_pin_position_difference_mm": 2.5579538487363607e-13,
+  "max_rendered_cylinder_pin_difference_mm": 3.0611117876642906e-13,
+  "cylinder_instances": 4,
+  "checks": [
+    "offline rendering",
+    "all three stroke maxima are 60 mm",
+    "four physical cylinder transforms match pin equations",
+    "paired boom cylinders equal in length",
+    "Python/JavaScript agreement",
+    "orthographic side view",
+    "linkage overlay",
+    "resized actuator internals",
+    "animation/pause",
+    "reference pose reset",
+    "390 px mobile layout",
+    "no page errors or network requests"
+  ]
+}

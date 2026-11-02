@@ -1,0 +1,12 @@
+{
+  "checks": {
+    "loaded_offline": true,
+    "original_toggle": true,
+    "full_stroke": true,
+    "nut_detail": true,
+    "mobile_no_horizontal_overflow": true,
+    "no_browser_errors": true
+  },
+  "all_passed": true,
+  "errors": []
+}

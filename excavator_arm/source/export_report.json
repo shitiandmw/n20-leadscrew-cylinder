@@ -1,0 +1,102 @@
+{
+  "parts": [
+    {
+      "name": "01_fixed_pivot_base",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 517302.08,
+      "print_bounds_mm": [
+        165.0,
+        164.0,
+        126.0
+      ]
+    },
+    {
+      "name": "02_bent_box_boom",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 383861.03,
+      "print_bounds_mm": [
+        509.0,
+        141.0,
+        110.0
+      ]
+    },
+    {
+      "name": "03_box_stick",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 166547.57,
+      "print_bounds_mm": [
+        329.67,
+        63.0,
+        32.0
+      ]
+    },
+    {
+      "name": "04_rocker_left",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 5194.75,
+      "print_bounds_mm": [
+        66.0,
+        14.0,
+        6.0
+      ]
+    },
+    {
+      "name": "04_rocker_right",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 5194.75,
+      "print_bounds_mm": [
+        66.0,
+        14.0,
+        6.0
+      ]
+    },
+    {
+      "name": "05_bucket_link_left",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 4807.97,
+      "print_bounds_mm": [
+        78.0,
+        13.0,
+        5.0
+      ]
+    },
+    {
+      "name": "05_bucket_link_right",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 4807.97,
+      "print_bounds_mm": [
+        78.0,
+        13.0,
+        5.0
+      ]
+    },
+    {
+      "name": "06_inward_digging_bucket",
+      "watertight": true,
+      "single_solid": true,
+      "step_roundtrip_valid": true,
+      "volume_mm3": 181070.74,
+      "print_bounds_mm": [
+        162.0,
+        115.0,
+        100.0
+      ]
+    }
+  ],
+  "assembly_solids": 95,
+  "build_seconds": 49.4
+}

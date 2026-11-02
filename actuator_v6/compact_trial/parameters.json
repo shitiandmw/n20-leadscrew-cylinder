@@ -1,0 +1,309 @@
+{
+  "U60": {
+    "variant": "U60",
+    "screw_length_mm": 75.0,
+    "stroke_mm": 60.0,
+    "nut_front_z": 9.3,
+    "nut_margin_on_screw_mm": 2.2,
+    "magnet_end_z": [
+      11.0,
+      71.0
+    ],
+    "hall_z": [
+      5.7,
+      76.3
+    ],
+    "pcb_z": [
+      2.0,
+      78.6
+    ],
+    "pcb_length": 76.6,
+    "body_z": [
+      -27.5,
+      79.0
+    ],
+    "front_cap_z": [
+      79.0,
+      85.0
+    ],
+    "carrier_front_max_z": 78.0,
+    "rod_end_z": 97.0,
+    "rod_bore_end_z": 87.0,
+    "eye_front_z": 102.5,
+    "rear_eye_z": -37.5,
+    "pin_centres_closed": 140.0,
+    "pin_centres_open": 200.0,
+    "body_section": [
+      16.1,
+      14.7
+    ],
+    "partition_thickness_mm": 1.0,
+    "partition_x_mm": [
+      5.15,
+      6.15
+    ],
+    "partition_z_mm": [
+      2.0,
+      79.0
+    ],
+    "partition_component_gap_mm": 0.3,
+    "carrier_partition_gap_mm": 0.15,
+    "magnet_diameter_mm": 3.0,
+    "magnet_length_mm": 2.0,
+    "overtravel_mm": 3.0,
+    "mechanical_stop_retract_mm": -3.0,
+    "mechanical_stop_extend_mm": 63.0,
+    "hall_operate_mm": 5.274999999999999,
+    "hall_release_mm": 6.875,
+    "hall_lead_mm": 5.3,
+    "stop_spread_mm": [
+      -2.15,
+      1.65
+    ],
+    "rod_d_mm": 8.0,
+    "pin_d_mm": 3.0,
+    "wire_od_mm": 0.8,
+    "board_t_mm": 0.8,
+    "supply": "2 wires: A+ / B- extends, B+ / A- retracts; 6 V nominal, 7 V max",
+    "buckling": {
+      "rod_free_length_extended_mm": 77.5,
+      "euler_pinned_pinned_N": 561.0,
+      "e_assumed_MPa": 1800.0
+    },
+    "mechanics": {
+      "screw_pitch_mm": 0.5,
+      "gear_ratio_assumed": 100,
+      "eta_gearbox_assumed": 0.55,
+      "eta_leadscrew_assumed": 0.25,
+      "self_locking": true,
+      "speed_no_load_mm_s": 1.25,
+      "speed_simulated_mm_s": 0.8203,
+      "thrust_at_fuse_hold_N": 51.0,
+      "thrust_at_stall_N": 201.0,
+      "note": "Estimates. Stall thrust lasts only until F1 trips (about 1.6 s in the simulation)."
+    },
+    "geartrain": {
+      "schema": "n20.geartrain.v1",
+      "model_status": "illustrative_not_commercial_replica",
+      "units": "mm",
+      "angles": "radians",
+      "front_face_z_mm": 0.0,
+      "gearbox_envelope_mm": [
+        [
+          -5,
+          -6,
+          -9
+        ],
+        [
+          5,
+          6,
+          0
+        ]
+      ],
+      "output_diameter_mm": 3.0,
+      "screw_pitch_mm": 0.5,
+      "screw_length_mm": 75.0,
+      "total_reduction": 27.0,
+      "signed_input_per_output": -27.0,
+      "gear": {
+        "module_mm": 0.09,
+        "pressure_angle_deg": 20.0,
+        "pinion_teeth": 18,
+        "wheel_teeth": 54,
+        "profile_shift": 0.0,
+        "addendum_modules": 1.0,
+        "dedendum_modules": 1.25,
+        "tooth_thinning_mm": 0.004,
+        "circular_backlash_mm": 0.008,
+        "root_transition": "radial relief below base circle; not a generated cutting fillet"
+      },
+      "bodies": {
+        "input": {
+          "axis_origin_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "axis_direction": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "angle_per_output_rad": -27.0,
+          "initial_phase_rad": 0.110335394335218,
+          "phase_baked_into_geometry": true
+        },
+        "compound_a": {
+          "axis_origin_mm": [
+            -1.6199999999999999,
+            2.805922308261581,
+            0.0
+          ],
+          "axis_direction": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "angle_per_output_rad": 9.0,
+          "initial_phase_rad": 0.01975308641975909,
+          "phase_baked_into_geometry": true
+        },
+        "compound_b": {
+          "axis_origin_mm": [
+            1.6199999999999999,
+            2.805922308261581,
+            0.0
+          ],
+          "axis_direction": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "angle_per_output_rad": -3.0,
+          "initial_phase_rad": 0.16959465359449277,
+          "phase_baked_into_geometry": true
+        },
+        "output": {
+          "axis_origin_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "axis_direction": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "angle_per_output_rad": 1.0,
+          "initial_phase_rad": 0.0,
+          "phase_baked_into_geometry": true
+        }
+      },
+      "parts": {
+        "motor_gear_1": {
+          "body": "input",
+          "axis_origin_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "axis_direction": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "angle_per_output_rad": -27.0,
+          "initial_phase_rad": 0.110335394335218,
+          "phase_baked_into_geometry": true
+        },
+        "motor_gear_2": {
+          "body": "compound_a",
+          "axis_origin_mm": [
+            -1.6199999999999999,
+            2.805922308261581,
+            0.0
+          ],
+          "axis_direction": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "angle_per_output_rad": 9.0,
+          "initial_phase_rad": 0.01975308641975909,
+          "phase_baked_into_geometry": true
+        },
+        "motor_gear_3": {
+          "body": "compound_b",
+          "axis_origin_mm": [
+            1.6199999999999999,
+            2.805922308261581,
+            0.0
+          ],
+          "axis_direction": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "angle_per_output_rad": -3.0,
+          "initial_phase_rad": 0.16959465359449277,
+          "phase_baked_into_geometry": true
+        },
+        "motor_gear_4": {
+          "body": "output",
+          "axis_origin_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "axis_direction": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "angle_per_output_rad": 1.0,
+          "initial_phase_rad": 0.0,
+          "phase_baked_into_geometry": true
+        },
+        "motor_leadscrew_M3": {
+          "body": "output",
+          "axis_origin_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "axis_direction": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "angle_per_output_rad": 1.0,
+          "initial_phase_rad": 0.0,
+          "phase_baked_into_geometry": true
+        }
+      },
+      "stages": [
+        {
+          "id": "stage_1",
+          "driver": "input",
+          "driven": "compound_a",
+          "zmin": -7.85,
+          "zmax": -6.95,
+          "driver_teeth": 18,
+          "driven_teeth": 54,
+          "centre_distance_mm": 3.2399999999999998,
+          "face_overlap_mm": 0.8999999999999995
+        },
+        {
+          "id": "stage_2",
+          "driver": "compound_a",
+          "driven": "compound_b",
+          "zmin": -5.85,
+          "zmax": -4.95,
+          "driver_teeth": 18,
+          "driven_teeth": 54,
+          "centre_distance_mm": 3.2399999999999998,
+          "face_overlap_mm": 0.8999999999999995
+        },
+        {
+          "id": "stage_3",
+          "driver": "compound_b",
+          "driven": "output",
+          "zmin": -3.85,
+          "zmax": -2.75,
+          "driver_teeth": 18,
+          "driven_teeth": 54,
+          "centre_distance_mm": 3.2399999999999998,
+          "face_overlap_mm": 1.1
+        }
+      ],
+      "animation": {
+        "input": "output_angle_rad",
+        "absolute": "phase + ratio * output_angle",
+        "exported_mesh_transform": "rotate by ratio * output_angle about axis_origin only; phase already baked",
+        "v6_mapping": "CAD (x,y,z) -> viewer (z-CENTRE,y,-x)",
+        "v6_output_angle": "-travel_mm / screw_pitch_mm * 2*pi",
+        "simulation": "prescribed rigid kinematics, no torque/stress/contact dynamics"
+      }
+    }
+  }
+}
