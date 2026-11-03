@@ -1,0 +1,603 @@
+{
+ "revision": "X1",
+ "reference": {
+  "machine": "Caterpillar 320 (07H) technical specifications, p. 2 and p. 4",
+  "file": "excavator_arm_60mm/references/cat320_specifications.pdf",
+  "values_mm": {
+   "track_length": 4450,
+   "length_to_centre_of_rollers": 3650,
+   "track_gauge": 2380,
+   "undercarriage_width_790_shoes": 3170,
+   "shoe_width": 790,
+   "ground_clearance": 470,
+   "counterweight_clearance": 1050,
+   "tail_swing_radius": 2830,
+   "upperframe_width": 2780,
+   "track_rollers_per_side": 8,
+   "carrier_rollers_per_side": 2
+  },
+  "scale": 15
+ },
+ "slewing_ring": {
+  "model": "THK RU66 cross-roller ring",
+  "source": "THK catalogue A18-20/21 (track_wheel_jgy370/X1/references/thk_ru66/)",
+  "d": 35.0,
+  "D": 95.0,
+  "dp": 66.0,
+  "B": 15.0,
+  "ds_max": 59.0,
+  "Dh_min": 74.0,
+  "C_kN": 17.5,
+  "C0_kN": 22.3,
+  "mass_kg": 0.62,
+  "inner_pcd": 45.0,
+  "inner_holes": "8 x M4 tapped through",
+  "outer_pcd": 83.0,
+  "outer_holes": "8 x 4.5 drilled through, 8 counterbore depth 4.4"
+ },
+ "turntable_interface": {
+  "swing_centre": [
+   0,
+   0
+  ],
+  "outer_ring_to_x_frame": "8 x M4 x 16 ISO 4762 from above into heat-set inserts, PCD 83",
+  "inner_ring_reserved_for_turntable": "8 x M4 tapped through, PCD 45; turntable flange within Ø59 (ds max)",
+  "seat_z": 85.0,
+  "turntable_face_z": 100.0,
+  "cable_passage_d": 25.0,
+  "relief": "Ø75 x 2.5 under the inner ring: turntable screw tips may protrude up to 2 mm below it",
+  "swing_envelope": "R 189.0 above Z 100.0 (Cat 320 tail swing radius 2830 mm at 1:15)"
+ },
+ "key_numbers": {
+  "track_gauge": 340.0,
+  "overall_width": 410.0,
+  "track_length": 308.6,
+  "sprocket_to_idler": 219.9,
+  "shoe_width": 70.0,
+  "track_top": 92.4,
+  "ground_clearance": 31.0,
+  "seat_z": 85.0,
+  "turntable_face_z": 100.0,
+  "reserve_radius": 189.0,
+  "x_frame_width": 248.0,
+  "x_frame_length": 188.0
+ },
+ "parts": [
+  {
+   "name": "X101_X_frame",
+   "quantity": 1,
+   "material": "PETG or PA12, 4 walls, 30 % infill",
+   "note": "Carbody under the slewing ring, four legs in an X and a rail along each track (3 x M4 into the J9 chassis bosses). Flat top = RU66 seat with 8 M4 inserts; Ø25 cable passage at the swing centre.",
+   "print_orientation": "upside down: the flat top (slewing-ring seat) on the bed; no supports",
+   "volume_mm3": 444409.0,
+   "solid_PETG_mass_g": 564.4,
+   "bed_contact_mm2": 19251,
+   "print_bounds_mm": [
+    188.0,
+    248.0,
+    51.0
+   ],
+   "stl_watertight": true,
+   "stl_components": 1,
+   "step_roundtrip": true,
+   "solids": 1
+  },
+  {
+   "name": "X102_belly_cover",
+   "quantity": 1,
+   "material": "PETG, 3 walls",
+   "note": "Round guard under the carbody, 4 x M3 x 8 countersunk into inserts.",
+   "print_orientation": "flat, countersinks up",
+   "volume_mm3": 33762.6,
+   "solid_PETG_mass_g": 42.9,
+   "bed_contact_mm2": 11178,
+   "print_bounds_mm": [
+    120.0,
+    120.0,
+    3.0
+   ],
+   "stl_watertight": true,
+   "stl_components": 1,
+   "step_roundtrip": true,
+   "solids": 1
+  },
+  {
+   "name": "J901_H_frame_right",
+   "quantity": 1,
+   "material": "PETG or PA12, 3 walls, 30 % infill; supports under the inner wall",
+   "note": "Mirror image of J9 J901_H_frame for the right track. Two 6 mm walls joined by an 18 mm web. Motor seat, 6800ZZ seat, 7 roller holes, yoke grooves, 3 chassis bosses; motor rim and 4 housing standoffs on the inner wall.",
+   "print_orientation": "mirror of J9 J901: outer wall face on the bed; support under the inner wall overhangs",
+   "volume_mm3": 254865.4,
+   "solid_PETG_mass_g": 323.7,
+   "bed_contact_mm2": 13587,
+   "print_bounds_mm": [
+    274.9,
+    63.6,
+    76.0
+   ],
+   "stl_watertight": true,
+   "stl_components": 1,
+   "step_roundtrip": true,
+   "solids": 1
+  },
+  {
+   "name": "J909_housing_right",
+   "quantity": 1,
+   "material": "PETG, 3 walls; skirt inner face on the bed, supports inside the motor pod",
+   "note": "Mirror image of J9 J909_housing for the right track. Inboard skirt and motor pod in one piece: drum on the sprocket axis, gearbox shoulder, motor tube, nose with cable port. 4 x M3 x 8 into inserts in the frame standoffs.",
+   "print_orientation": "mirror of J9 J909: skirt inner face on the bed; supports inside the motor pod only",
+   "volume_mm3": 56149.8,
+   "solid_PETG_mass_g": 71.3,
+   "bed_contact_mm2": 13283,
+   "print_bounds_mm": [
+    286.9,
+    67.0,
+    27.0
+   ],
+   "stl_watertight": true,
+   "stl_components": 1,
+   "step_roundtrip": true,
+   "solids": 1
+  }
+ ],
+ "assembly_solids": 594,
+ "static": {
+  "pairs_tested": 126,
+  "hits": [],
+  "seconds": 8.7
+ },
+ "turntable_reserve": {
+  "pairs_tested": 2,
+  "hits": [],
+  "seconds": 0.6
+ },
+ "assembly_paths": {
+  "track_slide_on_L": [
+   {
+    "dy": 40,
+    "pairs_tested": 0,
+    "hits": [],
+    "seconds": 0.3
+   },
+   {
+    "dy": 20,
+    "pairs_tested": 0,
+    "hits": [],
+    "seconds": 0.3
+   },
+   {
+    "dy": 10,
+    "pairs_tested": 1,
+    "hits": [],
+    "seconds": 0.4
+   },
+   {
+    "dy": 4,
+    "pairs_tested": 4,
+    "hits": [],
+    "seconds": 0.7
+   },
+   {
+    "dy": 1,
+    "pairs_tested": 4,
+    "hits": [],
+    "seconds": 0.6
+   }
+  ],
+  "track_slide_on_R": [
+   {
+    "dy": 40,
+    "pairs_tested": 0,
+    "hits": [],
+    "seconds": 0.3
+   },
+   {
+    "dy": 20,
+    "pairs_tested": 0,
+    "hits": [],
+    "seconds": 0.3
+   },
+   {
+    "dy": 10,
+    "pairs_tested": 1,
+    "hits": [],
+    "seconds": 0.4
+   },
+   {
+    "dy": 4,
+    "pairs_tested": 4,
+    "hits": [],
+    "seconds": 0.6
+   },
+   {
+    "dy": 1,
+    "pairs_tested": 4,
+    "hits": [],
+    "seconds": 0.6
+   }
+  ],
+  "bearing_lowering": [
+   {
+    "dz": 40,
+    "pairs_tested": 0,
+    "hits": [],
+    "seconds": 0.5
+   },
+   {
+    "dz": 15,
+    "pairs_tested": 0,
+    "hits": [],
+    "seconds": 0.5
+   },
+   {
+    "dz": 5,
+    "pairs_tested": 0,
+    "hits": [],
+    "seconds": 0.5
+   },
+   {
+    "dz": 1,
+    "pairs_tested": 0,
+    "hits": [],
+    "seconds": 0.5
+   }
+  ],
+  "cover_from_below": [
+   {
+    "dz": 20,
+    "pairs_tested": 0,
+    "hits": [],
+    "seconds": 0.6
+   },
+   {
+    "dz": 5,
+    "pairs_tested": 0,
+    "hits": [],
+    "seconds": 0.5
+   },
+   {
+    "dz": 1,
+    "pairs_tested": 0,
+    "hits": [],
+    "seconds": 0.5
+   }
+  ]
+ },
+ "tool_access": {
+  "chassis_screw_key_L": [
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.8
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.8
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.8
+   }
+  ],
+  "chassis_screw_insertion_L": [
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.8
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.7
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.8
+   }
+  ],
+  "housing_screw_key_L": [
+   {
+    "pairs_tested": 4,
+    "hits": [],
+    "seconds": 1.0
+   },
+   {
+    "pairs_tested": 4,
+    "hits": [],
+    "seconds": 0.9
+   },
+   {
+    "pairs_tested": 4,
+    "hits": [],
+    "seconds": 0.9
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.9
+   }
+  ],
+  "road_roller_bolt_withdrawal_L": [
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.9
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.8
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.9
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.9
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.9
+   }
+  ],
+  "support_roller_bolt_key_L": [
+   {
+    "pairs_tested": 4,
+    "hits": [],
+    "seconds": 0.9
+   },
+   {
+    "pairs_tested": 4,
+    "hits": [],
+    "seconds": 0.9
+   }
+  ],
+  "support_roller_bolt_withdrawal_L": [
+   {
+    "pairs_tested": 4,
+    "hits": [
+     {
+      "a": "X101_X_frame",
+      "b": "tool",
+      "volume_mm3": 818.9076
+     }
+    ],
+    "seconds": 1.0
+   },
+   {
+    "pairs_tested": 4,
+    "hits": [
+     {
+      "a": "X101_X_frame",
+      "b": "tool",
+      "volume_mm3": 818.9075
+     }
+    ],
+    "seconds": 1.0
+   }
+  ],
+  "chassis_screw_key_R": [
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.8
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.7
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.8
+   }
+  ],
+  "chassis_screw_insertion_R": [
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.7
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.7
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.7
+   }
+  ],
+  "housing_screw_key_R": [
+   {
+    "pairs_tested": 4,
+    "hits": [],
+    "seconds": 0.9
+   },
+   {
+    "pairs_tested": 4,
+    "hits": [],
+    "seconds": 0.9
+   },
+   {
+    "pairs_tested": 4,
+    "hits": [],
+    "seconds": 0.9
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.8
+   }
+  ],
+  "road_roller_bolt_withdrawal_R": [
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 1.0
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.9
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.8
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.8
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.8
+   }
+  ],
+  "support_roller_bolt_key_R": [
+   {
+    "pairs_tested": 4,
+    "hits": [],
+    "seconds": 0.9
+   },
+   {
+    "pairs_tested": 4,
+    "hits": [],
+    "seconds": 0.9
+   }
+  ],
+  "support_roller_bolt_withdrawal_R": [
+   {
+    "pairs_tested": 4,
+    "hits": [
+     {
+      "a": "X101_X_frame",
+      "b": "tool",
+      "volume_mm3": 818.9076
+     }
+    ],
+    "seconds": 0.9
+   },
+   {
+    "pairs_tested": 4,
+    "hits": [
+     {
+      "a": "X101_X_frame",
+      "b": "tool",
+      "volume_mm3": 818.9075
+     }
+    ],
+    "seconds": 0.9
+   }
+  ],
+  "seat_screw_key": [
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.6
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.5
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.5
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.5
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.6
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.5
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.6
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.6
+   }
+  ],
+  "cover_screw_key": [
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.5
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.5
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.6
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.6
+   }
+  ]
+ },
+ "known_service_limits": {
+  "support_roller_bolt_withdrawal_hits": {
+   "support_roller_bolt_withdrawal_L": [
+    1,
+    1
+   ],
+   "support_roller_bolt_withdrawal_R": [
+    1,
+    1
+   ]
+  },
+  "note": "The X-frame legs cross the inboard withdrawal path of the two support-roller bolts on each side. To change a support roller, unbolt that track from the X-frame (3 screws) first. Their heads stay reachable with a key."
+ },
+ "clearances_mm": {
+  "X-frame to track L motor pod and skirt (J909)": 1.506,
+  "X-frame to track L motor (gearbox, can, terminal space)": 5.406,
+  "X-frame to track L chain and shoes": 11.049,
+  "turntable reserve to track L chain (top of track)": 7.64,
+  "X-frame to track R motor pod and skirt (J909)": 1.506,
+  "X-frame to track R motor (gearbox, can, terminal space)": 5.406,
+  "X-frame to track R chain and shoes": 11.049,
+  "turntable reserve to track R chain (top of track)": 7.64,
+  "turntable reserve to X-frame": 15.0,
+  "turntable reserve to RU66 bolt heads (8 x M4 in the counterbores)": 0.4,
+  "RU66 inner ring to X-frame (relief)": 1.0,
+  "RU66 outer ring to X-frame (seat, contact by design)": 0.0,
+  "ground clearance under the carbody (Cat 320 at 1:15: 31.3)": 31.0,
+  "cable route L to X-frame (Ø5 path through the Ø10 hole)": 2.28,
+  "cable route R to X-frame (Ø5 path through the Ø10 hole)": 2.28
+ },
+ "scope": "Nominal CAD with exact solid intersections: static fit, track slide-on, bearing and cover fitting, tool access and the reserved turntable envelope. J9 internals as validated in J9 (the right track is its mirror). Not a load, print-tolerance or powered test.",
+ "elapsed_s": 201.1,
+ "pass": true
+}

@@ -1,0 +1,27 @@
+{
+ "pass": true,
+ "views": {
+  "iso": "images/X1_iso.png",
+  "rear": "images/X1_rear.png",
+  "front": "images/X1_front.png",
+  "top": "images/X1_top.png",
+  "seat": "images/X1_seat.png",
+  "under": "images/X1_under.png",
+  "frame": "images/X1_frame.png",
+  "exploded": "images/X1_exploded.png"
+ },
+ "state": {
+  "view": "iso",
+  "phase": 0.5,
+  "exploded": false,
+  "chains": [
+   true,
+   true
+  ],
+  "meshes": 253,
+  "links": 68
+ },
+ "run_phase_after_0_7s": 0.9973999998855608,
+ "errors": [],
+ "network": []
+}

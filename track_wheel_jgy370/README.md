@@ -1,5 +1,9 @@
 # JGY-370 track module — J8 continuous side frames
 
+> **J9 (2026-11-02):** a simplified revision with one printed H-frame, a flat ground run, 70 mm shoes and 5 road + 2 support rollers is in [`J9/`](J9/README.md). On 2026-11-03 its motor was chosen (JGY-370-1260 12 V 200:1, 30 rpm), the sprocket moved onto a bought Pololu #1999 hub, and the housing gained a closed motor pod. J8 below is unchanged.
+
+> **X1 (2026-11-03):** a crawler chassis made of two J9 tracks on a printed X-frame in the Cat 320 lower-frame layout is in [`X1/`](X1/README.md). The turntable is not built. Its mounting is reserved: a THK RU66 slewing-ring seat, a Ø25 cable passage and the swing envelope.
+
 J8 follows the user's latest reference photo: a broad continuous side plate with wheel mounting points along its edge. The outer side now uses this full-length frame layout. The inner metal cheek has the same broad web and matching small-wheel axle positions, with the necessary drive clearance on the motor side.
 
 The plates retain J7's double-sided support for all three lower and both upper rollers. Two 4 mm 6061-T6 aluminum plates and three steel cross ties surround the wheels; five 8 mm steel through-axles locate in both sides. The inner faces remain 48 mm apart, with 1 mm beside each small-wheel flange. The outer plate removes as one complete piece after its eight flush screws.

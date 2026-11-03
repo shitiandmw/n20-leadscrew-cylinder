@@ -1,0 +1,23 @@
+{
+ "pass": true,
+ "views": {
+  "iso": "images/J9_iso.png",
+  "outboard": "images/J9_outboard.png",
+  "inboard": "images/J9_inboard.png",
+  "pod": "images/J9_pod.png",
+  "top": "images/J9_top.png",
+  "frame": "images/J9_frame.png",
+  "exploded": "images/J9_exploded.png"
+ },
+ "state": {
+  "view": "outboard",
+  "phase": 0.5,
+  "exploded": false,
+  "track": true,
+  "meshes": 108,
+  "links": 34
+ },
+ "run_phase_after_0_7s": 1.2477200002288824,
+ "errors": [],
+ "network": []
+}

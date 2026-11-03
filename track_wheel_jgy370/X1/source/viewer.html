@@ -1,0 +1,80 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>X1 crawler chassis - two J9 tracks on an X-frame</title><style>
+*{box-sizing:border-box}body{margin:0;background:#eef1ef;color:#203a42;font:14px/1.55 system-ui,sans-serif}
+header{background:#18333c;color:#fff;padding:12px 24px}h1{font-size:22px;margin:0}header p{margin:2px 0 0;opacity:.85}
+main{display:flex;height:calc(100vh - 74px)}#stage{flex:1;position:relative;min-width:0}#stage canvas{display:block}
+aside{width:350px;overflow:auto;padding:14px 18px;background:#fbfcfb;border-left:1px solid #d5dcd9}
+.views button,#run{margin:0 6px 6px 0;padding:6px 10px;border:1px solid #9fb2b3;background:#fff;border-radius:4px;cursor:pointer;font:inherit}
+.views button.on,#run.on{background:#18333c;color:#fff;border-color:#18333c}label{display:block;margin:4px 0}
+.metric{display:flex;justify-content:space-between;border-bottom:1px solid #e3e8e6;padding:3px 0}.metric b{white-space:nowrap;margin-left:8px}
+#caption{position:absolute;left:14px;bottom:12px;right:14px;background:rgba(255,255,255,.88);padding:8px 12px;border-radius:4px;max-width:780px}
+#part{margin-top:10px;min-height:40px;color:#40585e}h2{font-size:15px;margin:14px 0 6px}small{color:#5b6f73}
+</style></head><body><header><h1>X1 / crawler chassis &ndash; two J9 tracks on an X-frame</h1><p>Cat 320 lower-frame layout &middot; 340 mm track gauge &middot; THK RU66 slewing-ring seat reserved for the turntable (turntable not built)</p></header>
+<main><div id="stage"><div id="caption"></div></div><aside>
+<div class="views"><button data-view="iso">3/4 front</button><button data-view="rear">3/4 rear</button><button data-view="front">Front</button><button data-view="top">Top</button><button data-view="seat">Turntable seat</button><button data-view="under">Underside</button><button data-view="frame">X-frame only</button><button data-view="exploded">Exploded</button></div>
+<label><input id="track" type="checkbox" checked> Show track chains</label><label><input id="modules" type="checkbox" checked> Show track modules</label><label><input id="reserve" type="checkbox" checked> Show turntable reserve (RU66 ring and swing circle)</label><label><input id="cover" type="checkbox" checked> Show belly cover</label><label><input id="ground" type="checkbox" checked> Show ground plane</label>
+<p><button id="run">Run tracks</button> <small>chain advance is a geometric preview, not a simulation</small></p>
+<h2>Key dimensions / mm</h2><div id="metrics"></div>
+<h2>Part</h2><div id="part"><small>Click a part to identify it.</small></div>
+<p><small>Nominal CAD. The turntable (upper structure) is not built: only its slewing-ring seat, cable passage and swing envelope are reserved. Print fits, the chassis joints and the bearing need checking on real parts (see README).</small></p>
+</aside></main>
+<script>__THREE__</script><script>__ORBIT__</script><script>
+'use strict';const DATA=__DATA__,V=DATA.j9,K=DATA.config.key,TY=DATA.config.track_y;const stage=document.getElementById('stage'),scene=new THREE.Scene();scene.background=new THREE.Color('#eef1ef');
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.outputEncoding=THREE.sRGBEncoding;renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));stage.prepend(renderer.domElement);
+const camera=new THREE.PerspectiveCamera(30,1,1,8000);camera.up.set(0,0,1);const controls=new THREE.OrbitControls(camera,renderer.domElement);let dirty=true;controls.addEventListener('change',()=>dirty=true);
+scene.add(new THREE.HemisphereLight(0xffffff,0x8a9696,.8));for(const [p,i] of [[[420,-300,700],.85],[[-420,420,380],.55],[[300,500,-160],.3]]){const l=new THREE.DirectionalLight(0xffffff,i);l.position.set(...p);scene.add(l)}
+const decode=(s,T)=>{const b=atob(s),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new T(u.buffer)};
+function geometry(p){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(decode(p.v,Float32Array),3));g.setIndex(new THREE.BufferAttribute(decode(p.t,p.wide?Uint32Array:Uint16Array),1));g.computeVertexNormals();return g}
+function mat(c,kind,opacity=1){return new THREE.MeshStandardMaterial({color:new THREE.Color(...c),metalness:kind==='printed'?.05:.35,roughness:.6,transparent:opacity<1,opacity,depthWrite:opacity>=1,side:opacity<1?THREE.DoubleSide:THREE.FrontSide})}
+const root=new THREE.Group();scene.add(root);const meshes=[],tracks=[];
+const modGeo=DATA.module.map(p=>({p,g:geometry(p),m:mat(p.color,p.kind)})),linkGeo=DATA.link.map(p=>({g:geometry(p),m:mat(p.color,'printed')}));
+const MIRRORED=['J901_H_frame','J909_housing'];
+function buildTrack(side){const g=new THREE.Group();g.position.set(0,side*TY,0);if(side<0)g.scale.set(1,-1,1);root.add(g);const label=side>0?'left':'right',groups={};
+ function pivot(name,x,z){const o=new THREE.Group(),i=new THREE.Group();o.position.set(x,0,z);i.position.set(-x,0,-z);o.add(i);g.add(o);groups[name]={o,i}}
+ pivot('drive',...V.drive);pivot('idler',...V.idler);for(const [n,[x,z]] of Object.entries(V.rollers))pivot(n,x,z);
+ for(const q of modGeo){const m=new THREE.Mesh(q.g,q.m);const mir=side<0&&MIRRORED.includes(q.p.name)?' &ndash; mirrored print':'';m.userData={name:`${q.p.name} (${label} track${mir})`,group:'module',j9group:q.p.group};(groups[q.p.group]?groups[q.p.group].i:g).add(m);meshes.push(m)}
+ const chain=new THREE.Group();g.add(chain);const shoes=[],pins=[];
+ for(let j=0;j<V.pins.length;j++){const s=new THREE.Mesh(linkGeo[0].g,linkGeo[0].m);s.userData={name:`J910_track_shoe_70 (${label} track, link ${j})`,group:'track'};chain.add(s);shoes.push(s);
+  const q=new THREE.Mesh(linkGeo[1].g,linkGeo[1].m);q.userData={name:`track pin, bushing and clips (${label} track)`,group:'track'};chain.add(q);pins.push(q)}
+ tracks.push({side,g,groups,chain,shoes,pins})}
+buildTrack(1);buildTrack(-1);
+function explodeOffset(p){const n=p.name;if(n==='X102_belly_cover')return [0,0,-40];if(n.startsWith('cover_screw'))return [0,0,-62];if(n.startsWith('RU66'))return [0,0,45];if(n.startsWith('seat_screw'))return [0,0,80];
+ if(n.startsWith('chassis_screw'))return [0,n.includes('_L')?-34:34,0];return [0,0,0]}
+for(const p of DATA.chassis){const op=p.group==='reserve'?.14:(p.group==='cable'?.5:1);const m=new THREE.Mesh(geometry(p),mat(p.color,p.kind,op));m.userData={name:p.name.replace('RESERVED_turntable_swing_envelope','reserved turntable swing circle (R 189 above Z 100)'),group:p.group,explode:explodeOffset(p)};
+ if(op<1)m.renderOrder=2;root.add(m);meshes.push(m)}
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(560,560),new THREE.MeshBasicMaterial({color:'#b7c4bd',transparent:true,opacity:.45,side:THREE.DoubleSide}));ground.position.set(0,0,-.05);scene.add(ground);
+const P=V.pins,N=P.length,C=[V.drive,V.idler],R=V.pitch_r;
+function onCircle(p,c){return Math.abs(Math.hypot(p[0]-c[0],p[1]-c[1])-R)<1e-4}
+function interp(a,b,f){for(const c of C){if(onCircle(a,c)&&onCircle(b,c)){let ta=Math.atan2(a[1]-c[1],a[0]-c[0]),tb=Math.atan2(b[1]-c[1],b[0]-c[0]);if(tb<ta)tb+=2*Math.PI;const t=ta+(tb-ta)*f;return [c[0]+R*Math.cos(t),c[1]+R*Math.sin(t)]}}return [a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f]}
+let phase=0;
+function setPhase(t){phase=t;const k=Math.floor(t),f=t-k,q=[];for(let j=0;j<N;j++)q.push(interp(P[(j+k)%N],P[(j+k+1)%N],f));
+ for(const tr of tracks){for(let j=0;j<N;j++){const a=q[j],b=q[(j+1)%N],ang=Math.atan2(b[1]-a[1],b[0]-a[0]);tr.shoes[j].position.set((a[0]+b[0])/2,0,(a[1]+b[1])/2);tr.shoes[j].rotation.set(0,-ang,0);tr.pins[j].position.set(a[0],0,a[1])}
+  const w=-t*Math.PI/6;tr.groups.drive.o.rotation.y=w;tr.groups.idler.o.rotation.y=w;for(const g of Object.keys(V.rollers))tr.groups[g].o.rotation.y=-t*V.pitch/V.roller_r}dirty=true}
+let exploded=false;function setExploded(on){exploded=on;for(const tr of tracks)tr.g.position.set(0,tr.side*(TY+(on?70:0)),0);
+ for(const m of meshes){const e=m.userData.explode;if(e)m.position.set(on?e[0]:0,on?e[1]:0,on?e[2]:0)}if(on)setPhase(0);dirty=true}
+const ui={};for(const k of ['track','modules','reserve','cover','ground'])ui[k]=document.getElementById(k);
+function visible(){for(const tr of tracks){tr.chain.visible=ui.track.checked&&ui.modules.checked}ground.visible=ui.ground.checked;
+ for(const m of meshes){const g=m.userData.group;m.visible=!(g==='module'&&!ui.modules.checked)&&!(g==='reserve'&&(!ui.reserve.checked||exploded))&&!((g==='bearing')&&!ui.reserve.checked)&&!((g==='cover')&&!ui.cover.checked)}dirty=true}
+for(const k in ui)ui[k].addEventListener('change',visible);
+const views={iso:{pos:[520,470,380],target:[0,0,45],cap:'Front-left 3/4 view. Two J9 tracks on 340 mm centres, joined by a printed X-frame in the Cat 320 lower-frame layout: a round carbody under the slewing ring, four legs in an X and a mounting rail along each track. The turntable is not built; its RU66 slewing ring and swing circle are shown as a reserve.'},
+ rear:{pos:[-560,-430,330],target:[-20,0,45],cap:'Rear 3/4 view. Both final-drive motor pods sit at the rear, as on the Cat 320. The rear legs of the X pass above them; the rails step up over the pods. Each motor\'s leads leave its pod\'s nose port and enter the carbody through a side hole.'},
+ front:{pos:[760,0,70],target:[0,0,55],cap:'Front view. Ground clearance under the carbody 31 mm (Cat 320: 470 mm, 31.3 at 1:15). Slewing-ring seat at Z 85; turntable mounting face Z 100, 7.6 mm above the top of the tracks.'},
+ top:{pos:[-1,0,920],target:[0,0,40],cap:'Top view, front to the top of the screen. Track length 308.6, overall width 410 (70 mm shoes on 340 mm centres). The X-frame is 248 wide between the tracks\' boss faces; its legs meet the rails at X = +-76.'},
+ seat:{pos:[170,190,230],target:[0,0,88],cap:'Turntable seat at the swing centre. The THK RU66 outer ring (Ø95 x 15) bolts to the X-frame with 8 x M4 x 16 from above into heat-set inserts on PCD 83. Its inner ring (8 x M4 tapped, PCD 45) is reserved for the turntable. A Ø75 relief clears the inner ring; the Ø25 passage at the centre takes the motor leads up to the turntable.',hide:['reserve_env']},
+ under:{pos:[330,-420,-260],target:[0,0,40],cap:'Underside. The carbody is closed by a round belly cover (4 x M3 countersunk), like the Cat 320 centre guard. The X-frame\'s underside rises from the carbody to the legs.'},
+ frame:{pos:[330,380,300],target:[0,0,60],cap:'X-frame only (tracks hidden): carbody with the slewing-ring seat, four legs, two rails with 3 x M4 each into the J9 chassis bosses, and access holes for the J9 support-roller and housing screws.',hide:['modules']},
+ exploded:{pos:[560,560,420],target:[0,0,50],cap:'Exploded: each track slides off sideways (its fitting direction) after its three chassis screws; the RU66 ring lifts off after its 8 seat screws; the belly cover drops away below.',explode:true}};
+let view='iso';function setView(v){view=v;const s=views[v];camera.position.set(...s.pos);controls.target.set(...s.target);controls.update();
+ document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('on',b.dataset.view===v));
+ ui.track.checked=true;ui.modules.checked=!(s.hide||[]).includes('modules');ui.reserve.checked=true;ui.cover.checked=true;setExploded(!!s.explode);visible();
+ if((s.hide||[]).includes('reserve_env'))for(const m of meshes)if(m.userData.group==='reserve')m.visible=false;document.getElementById('caption').textContent=s.cap;dirty=true}
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
+let playing=false,last=0;const runBtn=document.getElementById('run');runBtn.addEventListener('click',()=>{playing=!playing;runBtn.classList.toggle('on',playing);runBtn.textContent=playing?'Stop':'Run tracks';if(playing&&exploded)setView('iso');last=performance.now()});
+document.getElementById('metrics').innerHTML=[['Track gauge (centres)',K.track_gauge],['Overall width / track length',`${K.overall_width} / ${K.track_length}`],['Shoe width',K.shoe_width],['Sprocket to idler centres',K.sprocket_to_idler],['Top of track',K.track_top],['Ground clearance (carbody)',K.ground_clearance],['Slewing-ring seat / turntable face (Z)',`${K.seat_z} / ${K.turntable_face_z}`],['Slewing ring','THK RU66, Ø35 / Ø95 x 15'],['Reserved swing radius',K.reserve_radius],['X-frame (width x length)',`${K.x_frame_width} x ${K.x_frame_length}`]].map(([a,b])=>`<div class="metric"><span>${a}</span><b>${b}</b></div>`).join('');
+const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();renderer.domElement.addEventListener('click',e=>{const r=renderer.domElement.getBoundingClientRect();mouse.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);ray.setFromCamera(mouse,camera);
+ const pick=[...meshes.filter(m=>m.userData.group!=='reserve'),...tracks.flatMap(t=>[...t.shoes,...t.pins])].filter(m=>{let o=m;while(o){if(!o.visible)return false;o=o.parent}return true});
+ const hit=ray.intersectObjects(pick,false)[0];document.getElementById('part').innerHTML=hit?`<b>${hit.object.userData.name}</b><br><small>group: ${hit.object.userData.group}</small>`:'<small>Click a part to identify it.</small>'});
+function resize(){const w=stage.clientWidth,h=stage.clientHeight;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();dirty=true}window.addEventListener('resize',resize);
+function render(){renderer.render(scene,camera);dirty=false}
+function loop(now){if(playing){setPhase((phase+(now-last)/1000*1.2)%N)}last=now;if(dirty)render();requestAnimationFrame(loop)}
+window.x1={setView,setPhase,render,state:()=>({view,phase,exploded,chains:tracks.map(t=>t.chain.visible),meshes:meshes.length,links:tracks.reduce((a,t)=>a+t.shoes.length,0)})};
+resize();setPhase(0);setView('iso');requestAnimationFrame(loop);</script></body></html>

@@ -1,0 +1,862 @@
+{
+ "revision": "J9",
+ "design": {
+  "links": 34,
+  "link_error_mm": 1.7763568394002505e-14,
+  "path_apex_h": 3.718915278219712,
+  "idler_x": 109.89889799949836,
+  "idler_phase_deg": 0.15513147291205326,
+  "carrier_z": [
+   70.14101615137753,
+   70.14461923043008
+  ],
+  "top_lift": 3.499999999999986,
+  "top_pin_max_z": 85.35993142959725,
+  "track_top_z": 92.35993142959725,
+  "ground_pins_x": [
+   -120.0,
+   80.0
+  ],
+  "lowest_pin_z": 6.9730612788366955,
+  "spring_preload_N": 77.30921577382675,
+  "spring_at_recoil_N": 103.70748457464565,
+  "spring_solid": 17.018
+ },
+ "parts": [
+  {
+   "name": "J901_H_frame",
+   "quantity": 1,
+   "material": "PETG or PA12, 3 walls, 30 % infill; supports under the inner wall",
+   "note": "Two 6 mm walls joined by an 18 mm web. Motor seat, 6800ZZ seat, 7 roller holes, yoke grooves, 3 chassis bosses; motor rim and 4 housing standoffs on the inner wall.",
+   "print_orientation": "outer wall face on the bed; support under the inner wall overhangs",
+   "volume_mm3": 254865.4,
+   "solid_PETG_mass_g": 323.7,
+   "print_bounds_mm": [
+    274.9,
+    63.6,
+    76.0
+   ],
+   "stl_watertight": true,
+   "stl_components": 1,
+   "step_roundtrip": true,
+   "solids": 1
+  },
+  {
+   "name": "J902_sprocket",
+   "quantity": 1,
+   "material": "PETG or PA12, 5 walls, 50 % infill; outer disc face on the bed",
+   "note": "Unchanged 12-tooth 20 mm pitch form. \u00d825.8 recess for the Pololu hub flange, 3 x M3 counterbored holes; \u00d810 socket for the journal plug.",
+   "print_orientation": "outer disc face on the bed, hub up; no supports",
+   "volume_mm3": 84746.0,
+   "solid_PETG_mass_g": 107.6,
+   "print_bounds_mm": [
+    81.6,
+    81.6,
+    23.3
+   ],
+   "stl_watertight": true,
+   "stl_components": 1,
+   "step_roundtrip": true,
+   "solids": 1
+  },
+  {
+   "name": "J903_journal_plug",
+   "quantity": 1,
+   "material": "PETG or PA12, 100 % infill, standing on its end",
+   "note": "\u00d89.95 journal in the 6800ZZ. The M3 x 50 screw clamps it and the sprocket to the motor shaft.",
+   "print_orientation": "standing on its end",
+   "volume_mm3": 1819.9,
+   "solid_PETG_mass_g": 2.3,
+   "print_bounds_mm": [
+    9.9,
+    9.9,
+    26.5
+   ],
+   "stl_watertight": true,
+   "stl_components": 1,
+   "step_roundtrip": true,
+   "solids": 1
+  },
+  {
+   "name": "J904_roller",
+   "quantity": 7,
+   "material": "PETG, 4 walls, 40 % infill, on its side",
+   "note": "Road and support roller: \u00d822 tread, \u00d826 guide flanges, 46 wide, two 624ZZ seats.",
+   "print_orientation": "on a flange face; no supports",
+   "volume_mm3": 15563.1,
+   "solid_PETG_mass_g": 19.8,
+   "print_bounds_mm": [
+    26.0,
+    26.0,
+    46.0
+   ],
+   "stl_watertight": true,
+   "stl_components": 1,
+   "step_roundtrip": true,
+   "solids": 1
+  },
+  {
+   "name": "J906_idler_wheel",
+   "quantity": 1,
+   "material": "As J8 07_idler_wheel",
+   "note": "Unchanged J8/R5 07_idler_wheel: \u00d870.5 centre drum, rails, guide flanges, two 608 seats.",
+   "print_orientation": "as J8 07_idler_wheel",
+   "volume_mm3": 138539.7,
+   "solid_PETG_mass_g": 175.9,
+   "print_bounds_mm": [
+    70.5,
+    70.5,
+    46.0
+   ],
+   "stl_watertight": true,
+   "stl_components": 1,
+   "step_roundtrip": true,
+   "solids": 1
+  },
+  {
+   "name": "J907_idler_spacer",
+   "quantity": 2,
+   "material": "PETG, 100 % infill",
+   "note": "\u00d811 x 13.9 tube between the yoke arm and the 608 inner ring; locates the idler.",
+   "print_orientation": "standing on its end",
+   "volume_mm3": 586.9,
+   "solid_PETG_mass_g": 0.7,
+   "print_bounds_mm": [
+    11.0,
+    11.0,
+    13.9
+   ],
+   "stl_watertight": true,
+   "stl_components": 1,
+   "step_roundtrip": true,
+   "solids": 1
+  },
+  {
+   "name": "J908_U_yoke",
+   "quantity": 1,
+   "material": "PETG or PA12, 4 walls, 50 % infill, base on the bed",
+   "note": "Arms slide in the wall grooves; carries the \u00d88 idler pin; spring pilot on the back.",
+   "print_orientation": "upside down, flat top face on the bed",
+   "volume_mm3": 11051.6,
+   "solid_PETG_mass_g": 14.0,
+   "print_bounds_mm": [
+    60.1,
+    54.0,
+    16.0
+   ],
+   "stl_watertight": true,
+   "stl_components": 1,
+   "step_roundtrip": true,
+   "solids": 1
+  },
+  {
+   "name": "J909_housing",
+   "quantity": 1,
+   "material": "PETG, 3 walls; skirt inner face on the bed, supports inside the motor pod",
+   "note": "Inboard skirt and motor pod in one piece: drum on the sprocket axis, gearbox shoulder, motor tube, nose with cable port. 4 x M3 x 8 into inserts in the frame standoffs.",
+   "print_orientation": "skirt inner face on the bed; supports inside the motor pod only",
+   "volume_mm3": 56149.8,
+   "solid_PETG_mass_g": 71.3,
+   "print_bounds_mm": [
+    286.9,
+    67.0,
+    27.0
+   ],
+   "stl_watertight": true,
+   "stl_components": 1,
+   "step_roundtrip": true,
+   "solids": 1
+  },
+  {
+   "name": "J910_track_shoe_70",
+   "quantity": 34,
+   "material": "PETG or PA12, as the R4 shoe",
+   "note": "R4 shoe and link plates; shoe plate and grousers widened to 70 mm.",
+   "print_orientation": "grousers on the bed, as the R4 shoe",
+   "volume_mm3": 5803.7,
+   "solid_PETG_mass_g": 7.4,
+   "print_bounds_mm": [
+    28.0,
+    70.0,
+    11.0
+   ],
+   "stl_watertight": true,
+   "stl_components": 1,
+   "step_roundtrip": true,
+   "solids": 1
+  }
+ ],
+ "assembly_solids": 280,
+ "static": {
+  "pairs_tested": 449,
+  "hits": [],
+  "seconds": 31.2
+ },
+ "drive_rotation_no_chain": [
+  {
+   "angle_deg": 0,
+   "pairs_tested": 21,
+   "hits": [],
+   "seconds": 2.3
+  },
+  {
+   "angle_deg": 5,
+   "pairs_tested": 21,
+   "hits": [],
+   "seconds": 2.3
+  },
+  {
+   "angle_deg": 10,
+   "pairs_tested": 21,
+   "hits": [],
+   "seconds": 2.3
+  },
+  {
+   "angle_deg": 15,
+   "pairs_tested": 21,
+   "hits": [],
+   "seconds": 2.4
+  },
+  {
+   "angle_deg": 20,
+   "pairs_tested": 21,
+   "hits": [],
+   "seconds": 2.3
+  },
+  {
+   "angle_deg": 25,
+   "pairs_tested": 21,
+   "hits": [],
+   "seconds": 2.4
+  }
+ ],
+ "idler_travel": [
+  {
+   "idler_x": 107.799,
+   "pairs_tested": 11,
+   "hits": [],
+   "seconds": 2.0
+  },
+  {
+   "idler_x": 105.699,
+   "pairs_tested": 12,
+   "hits": [],
+   "seconds": 2.0
+  },
+  {
+   "idler_x": 105.399,
+   "expect": "stop: arms meet the groove ends",
+   "stop_hits": [
+    "J901_H_frame"
+   ]
+  }
+ ],
+ "spring_at_recoil": {
+  "pairs_tested": 2,
+  "hits": [],
+  "seconds": 0.8
+ },
+ "chain_phases_vs_fixed_parts": [
+  {
+   "fraction_of_pitch": 0.25,
+   "pairs_tested": 22,
+   "hits": [],
+   "seconds": 3.6
+  },
+  {
+   "fraction_of_pitch": 0.5,
+   "pairs_tested": 22,
+   "hits": [],
+   "seconds": 3.7
+  },
+  {
+   "fraction_of_pitch": 0.75,
+   "pairs_tested": 22,
+   "hits": [],
+   "seconds": 3.7
+  }
+ ],
+ "assembly_and_access": {
+  "motor_screw_key_before_sprocket": [
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.3
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.3
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.3
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.3
+   }
+  ],
+  "sprocket_radial_entry": [
+   {
+    "dx": -150,
+    "pairs_tested": 0,
+    "hits": [],
+    "seconds": 0.1
+   },
+   {
+    "dx": -110,
+    "pairs_tested": 0,
+    "hits": [],
+    "seconds": 0.1
+   },
+   {
+    "dx": -80,
+    "pairs_tested": 0,
+    "hits": [],
+    "seconds": 0.1
+   },
+   {
+    "dx": -60,
+    "pairs_tested": 1,
+    "hits": [],
+    "seconds": 0.5
+   },
+   {
+    "dx": -40,
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.8
+   },
+   {
+    "dx": -25,
+    "pairs_tested": 7,
+    "hits": [],
+    "seconds": 1.4
+   },
+   {
+    "dx": -12,
+    "pairs_tested": 7,
+    "hits": [],
+    "seconds": 1.5
+   },
+   {
+    "dx": -5,
+    "pairs_tested": 7,
+    "hits": [],
+    "seconds": 1.4
+   },
+   {
+    "dx": 0,
+    "pairs_tested": 7,
+    "hits": [],
+    "seconds": 1.5
+   }
+  ],
+  "sprocket_slide_onto_shaft": [
+   {
+    "dy": 9.6,
+    "pairs_tested": 7,
+    "hits": [],
+    "seconds": 1.4
+   },
+   {
+    "dy": 7,
+    "pairs_tested": 9,
+    "hits": [],
+    "seconds": 1.5
+   },
+   {
+    "dy": 4,
+    "pairs_tested": 9,
+    "hits": [],
+    "seconds": 1.4
+   },
+   {
+    "dy": 2,
+    "pairs_tested": 10,
+    "hits": [],
+    "seconds": 1.5
+   },
+   {
+    "dy": 0,
+    "pairs_tested": 13,
+    "hits": [],
+    "seconds": 1.6
+   }
+  ],
+  "plug_insertion": [
+   {
+    "dy": 40,
+    "pairs_tested": 4,
+    "hits": [],
+    "seconds": 0.4
+   },
+   {
+    "dy": 20,
+    "pairs_tested": 9,
+    "hits": [],
+    "seconds": 0.6
+   },
+   {
+    "dy": 10,
+    "pairs_tested": 9,
+    "hits": [],
+    "seconds": 0.7
+   },
+   {
+    "dy": 3,
+    "pairs_tested": 13,
+    "hits": [],
+    "seconds": 0.8
+   },
+   {
+    "dy": 0,
+    "pairs_tested": 14,
+    "hits": [],
+    "seconds": 0.8
+   }
+  ],
+  "yoke_insertion": [
+   {
+    "dx": 60,
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.5
+   },
+   {
+    "dx": 40,
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.5
+   },
+   {
+    "dx": 20,
+    "pairs_tested": 11,
+    "hits": [],
+    "seconds": 1.9
+   },
+   {
+    "dx": 8,
+    "pairs_tested": 11,
+    "hits": [],
+    "seconds": 1.9
+   },
+   {
+    "dx": 0,
+    "pairs_tested": 11,
+    "hits": [],
+    "seconds": 1.9
+   }
+  ],
+  "housing_screw_driver": [
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.5
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.5
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.5
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.5
+   }
+  ],
+  "roller_bolt_through_skirt": [
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.5
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.5
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.6
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.6
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.5
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.6
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.5
+   }
+  ],
+  "nyloc_socket": [
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.2
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.2
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.3
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.3
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.3
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.3
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 0.3
+   }
+  ],
+  "plug_screw_key": {
+   "pairs_tested": 1,
+   "hits": [],
+   "seconds": 0.2
+  },
+  "hub_set_screw_key": [
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.3
+   },
+   {
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.3
+   }
+  ],
+  "housing_fitting": [
+   {
+    "dy": 40,
+    "pairs_tested": 0,
+    "hits": [],
+    "seconds": 0.2
+   },
+   {
+    "dy": 25,
+    "pairs_tested": 0,
+    "hits": [],
+    "seconds": 0.2
+   },
+   {
+    "dy": 15,
+    "pairs_tested": 3,
+    "hits": [],
+    "seconds": 0.6
+   },
+   {
+    "dy": 8,
+    "pairs_tested": 7,
+    "hits": [],
+    "seconds": 1.2
+   },
+   {
+    "dy": 4,
+    "pairs_tested": 7,
+    "hits": [],
+    "seconds": 1.2
+   },
+   {
+    "dy": 1.5,
+    "pairs_tested": 7,
+    "hits": [],
+    "seconds": 1.3
+   }
+  ]
+ },
+ "clearances_mm": {
+  "track pins and clips to H-frame": 3.5,
+  "track shoes to housing": 7.836,
+  "road rollers to H-frame (walls 1.0 by design)": 1.0,
+  "road roller flanges to web underside": 2.0,
+  "support roller flanges to web top": 2.141,
+  "support rollers to H-frame (walls)": 1.0,
+  "hub boss end to inner wall (1.0 by design)": 1.0,
+  "sprocket to H-frame (tooth tips to the web end)": 3.179,
+  "hub and hub screw tips to motor screw heads": 2.501,
+  "idler wheel to U-yoke": 1.0,
+  "end road roller to sprocket": 4.773,
+  "end road roller to idler at full recoil": 4.492,
+  "spring envelope to rollers": 3.701,
+  "U-yoke base to road roller": 2.073,
+  "housing pod to motor": 0.8,
+  "frame rim (behind the skirt) to motor": 0.8,
+  "housing skirt cutouts to chassis bosses (0.5 by design)": 0.5,
+  "motor pod to rear chassis boss": 2.379,
+  "road roller tread to ground-run link faces": 0.0,
+  "support roller tread to top-run link faces": 0.0,
+  "sprocket bottom chord to ground line (pin line)": 0.0,
+  "idler rail to ground-run link faces": 0.151
+ },
+ "motor_selection": {
+  "chosen": {
+   "listing": "12V \u7535\u673a (motor only) + \u6bcf\u5206\u949f/30\u8f6c 6KG.CM",
+   "model": "JGY-370-1260",
+   "voltage_V": 12,
+   "ratio": 200,
+   "no_load_rpm": 30.0,
+   "rated_rpm": 22.0,
+   "track_mm_s_no_load": 120,
+   "track_mm_s_rated_load": 88,
+   "rated_Nm": 0.588,
+   "stall_Nm": 1.961,
+   "rated_A": 0.2,
+   "stall_A": 1.3,
+   "track_pull_rated_N": 15.2,
+   "track_pull_stall_N": 50.8,
+   "old_printed_D_flat_MPa_rated": 71,
+   "old_printed_D_flat_MPa_stall": 235
+  },
+  "basis": [
+   "12 V: the only voltage the vendor tables (ZENG WHCD JGY-370-1260/-1285) document; the 60 mm excavator has a regulated 12 V travel rail.",
+   "Motor only: J9 bolts the gearbox face to the inner wall; the L-bracket and the one-way speed controller are not used.",
+   "Speed: Cat 320 top travel speed 5.7 km/h is 106 mm/s at 1:15; this option gives 88-120 mm/s (rated load to no load).",
+   "Pull: the 50.8 N stall pull is just inside the 51.9 N the spring idler holds in reverse at its recoil stop; 340:1 and slower exceed it.",
+   "Every useful ratio needs the metal hub: the old printed D-bore was over PETG yield already at the chosen rated torque."
+  ],
+  "reverse_pull_before_idler_moves_N": 38.7,
+  "reverse_pull_at_recoil_stop_N": 51.9,
+  "track_mm_s_per_rpm": 4.0,
+  "pitch_radius_mm": 38.637,
+  "options": [
+   {
+    "listing": "375 rpm, 1.2 kg cm",
+    "vendor_row": null
+   },
+   {
+    "listing": "210 rpm, 1.7 kg cm",
+    "model": "JGY-370-1285",
+    "ratio": 40,
+    "no_load_rpm": 210.0,
+    "rated_rpm": 160.0,
+    "track_mm_s_no_load": 840,
+    "track_mm_s_rated_load": 640,
+    "rated_Nm": 0.167,
+    "stall_Nm": 0.628,
+    "rated_A": 0.3,
+    "stall_A": 1.6,
+    "track_pull_rated_N": 4.3,
+    "track_pull_stall_N": 16.2,
+    "old_printed_D_flat_MPa_rated": 20,
+    "old_printed_D_flat_MPa_stall": 75
+   },
+   {
+    "listing": "150 rpm, 1.2 kg cm",
+    "model": "JGY-370-1260",
+    "ratio": 40,
+    "no_load_rpm": 150.0,
+    "rated_rpm": 100.0,
+    "track_mm_s_no_load": 600,
+    "track_mm_s_rated_load": 400,
+    "rated_Nm": 0.118,
+    "stall_Nm": 0.392,
+    "rated_A": 0.2,
+    "stall_A": 1.3,
+    "track_pull_rated_N": 3.0,
+    "track_pull_stall_N": 10.2,
+    "old_printed_D_flat_MPa_rated": 14,
+    "old_printed_D_flat_MPa_stall": 47
+   },
+   {
+    "listing": "90 rpm, 2 kg cm",
+    "model": "JGY-370-1260",
+    "ratio": 65,
+    "no_load_rpm": 90.0,
+    "rated_rpm": 70.0,
+    "track_mm_s_no_load": 360,
+    "track_mm_s_rated_load": 280,
+    "rated_Nm": 0.196,
+    "stall_Nm": 0.588,
+    "rated_A": 0.2,
+    "stall_A": 1.3,
+    "track_pull_rated_N": 5.1,
+    "track_pull_stall_N": 15.2,
+    "old_printed_D_flat_MPa_rated": 24,
+    "old_printed_D_flat_MPa_stall": 71
+   },
+   {
+    "listing": "68 rpm, 2.8 kg cm",
+    "model": "JGY-370-1260",
+    "ratio": 87,
+    "no_load_rpm": 68.0,
+    "rated_rpm": 51.0,
+    "track_mm_s_no_load": 272,
+    "track_mm_s_rated_load": 204,
+    "rated_Nm": 0.275,
+    "stall_Nm": 0.785,
+    "rated_A": 0.2,
+    "stall_A": 1.3,
+    "track_pull_rated_N": 7.1,
+    "track_pull_stall_N": 20.3,
+    "old_printed_D_flat_MPa_rated": 33,
+    "old_printed_D_flat_MPa_stall": 94
+   },
+   {
+    "listing": "40 rpm, 4.5 kg cm",
+    "model": "JGY-370-1260",
+    "ratio": 150,
+    "no_load_rpm": 40.0,
+    "rated_rpm": 30.0,
+    "track_mm_s_no_load": 160,
+    "track_mm_s_rated_load": 120,
+    "rated_Nm": 0.441,
+    "stall_Nm": 1.471,
+    "rated_A": 0.2,
+    "stall_A": 1.3,
+    "track_pull_rated_N": 11.4,
+    "track_pull_stall_N": 38.1,
+    "old_printed_D_flat_MPa_rated": 53,
+    "old_printed_D_flat_MPa_stall": 176
+   },
+   {
+    "listing": "30 rpm, 6 kg cm",
+    "model": "JGY-370-1260",
+    "ratio": 200,
+    "no_load_rpm": 30.0,
+    "rated_rpm": 22.0,
+    "track_mm_s_no_load": 120,
+    "track_mm_s_rated_load": 88,
+    "rated_Nm": 0.588,
+    "stall_Nm": 1.961,
+    "rated_A": 0.2,
+    "stall_A": 1.3,
+    "track_pull_rated_N": 15.2,
+    "track_pull_stall_N": 50.8,
+    "old_printed_D_flat_MPa_rated": 71,
+    "old_printed_D_flat_MPa_stall": 235
+   },
+   {
+    "listing": "18 rpm, 12 kg cm",
+    "model": "JGY-370-1260",
+    "ratio": 340,
+    "no_load_rpm": 18.0,
+    "rated_rpm": 13.0,
+    "track_mm_s_no_load": 72,
+    "track_mm_s_rated_load": 52,
+    "rated_Nm": 1.177,
+    "stall_Nm": 3.334,
+    "rated_A": 0.2,
+    "stall_A": 1.3,
+    "track_pull_rated_N": 30.5,
+    "track_pull_stall_N": 86.3,
+    "old_printed_D_flat_MPa_rated": 141,
+    "old_printed_D_flat_MPa_stall": 400
+   },
+   {
+    "listing": "6 rpm, 25 kg cm",
+    "model": "JGY-370-1260",
+    "ratio": 1000,
+    "no_load_rpm": 6.0,
+    "rated_rpm": 4.0,
+    "track_mm_s_no_load": 24,
+    "track_mm_s_rated_load": 16,
+    "rated_Nm": 2.452,
+    "stall_Nm": 8.924,
+    "rated_A": 0.2,
+    "stall_A": 1.3,
+    "track_pull_rated_N": 63.5,
+    "track_pull_stall_N": 231.0,
+    "old_printed_D_flat_MPa_rated": 294,
+    "old_printed_D_flat_MPa_stall": 1070
+   }
+  ],
+  "note": "12 V vendor ratings. Pull = torque / sprocket pitch radius. A 12 V motor run from 2S (7.4 V) gives about 60 % of these speeds and stall values. No vehicle load rating is implied."
+ },
+ "drive_hub": {
+  "part": "Pololu #1999 universal aluminium mounting hub for 6 mm shaft, M3 holes (sold in pairs with 4 set screws)",
+  "sources": [
+   "https://www.pololu.com/file/0J667/1999-6mm-m3-hub-dimensions.pdf",
+   "https://www.pololu.com/file/0J1153/pololu-universal-aluminum-mounting-hub-for-6mm-shaft-m3-holes.step"
+  ],
+  "vendor_step_check": {
+   "file": "track_wheel_jgy370/references/pololu_1999/pololu-universal-aluminum-mounting-hub-for-6mm-shaft-m3-holes.step",
+   "vendor_volume_mm3": 2522.1,
+   "model_volume_mm3": 2538.4,
+   "bbox_max_deviation_mm": 0.0001,
+   "vendor_not_in_model_mm3": 0.03,
+   "model_not_in_vendor_mm3": 16.31,
+   "note": "Model has sharp edges where the vendor STEP has chamfers, so only model-not-in-vendor volume is expected. A misplaced hole or set screw would show up in both directions.",
+   "ok": true
+  },
+  "shaft_engagement_mm": 8.6,
+  "boss_end_to_wall_face_mm": 1.0,
+  "set_screws": [
+   {
+    "length_mm": 8.0,
+    "centre_from_shaft_tip_mm": 1.9,
+    "on_flat": true
+   },
+   {
+    "length_mm": 3.0,
+    "centre_from_shaft_tip_mm": 6.5,
+    "on_flat": true
+   }
+  ],
+  "sprocket_screws": {
+   "count": 3,
+   "size": "ISO 4762 M3 x 25",
+   "pitch_circle_mm": 19.05,
+   "thread_in_hub_mm": 5.0,
+   "force_per_screw_N": {
+    "rated": 20.6,
+    "stall": 68.6
+   },
+   "printed_hole_bearing_MPa": {
+    "rated": 2.3,
+    "stall": 7.6
+   },
+   "note": "Chosen motor at rated and stall torque. Bearing on the printed hole wall over the first 3 mm next to the hub; clamping friction ignored."
+  },
+  "old_printed_D_bore": {
+   "engagement_mm": 9.1,
+   "flat_width_mm": 3.32,
+   "formula": "p = 12 T / (L w^2): elastic, linear pressure over the loaded half of the flat",
+   "rated_MPa": 71,
+   "stall_MPa": 235,
+   "correction": "The 2026-11-02 table used 6T/(L w^2), which understated the pressure by a factor of 2."
+  },
+  "open": "Pololu publishes no torque rating for the set screws on a D flat. Mark them and check after the first runs."
+ },
+ "pass": true,
+ "scope": "Nominal CAD with exact solid intersections; sampled drive rotation, idler recoil, chain phases (conveyor approximation on the wraps), assembly paths and tool access. Not a load, fatigue, print-tolerance or powered test.",
+ "elapsed_s": 233.0
+}
