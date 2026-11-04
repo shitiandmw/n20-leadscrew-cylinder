@@ -168,8 +168,7 @@ button[hidden],
   font: 10px var(--mono);
   color: #80867d;
 }
-.connection i,
-.live-indicator i {
+.connection i {
   width: 6px;
   height: 6px;
   border-radius: 50%;
@@ -364,16 +363,14 @@ h1 span {
 .telemetry > div:last-child {
   border: 0;
 }
-.telemetry > div > span,
-.remote-telemetry > div > span {
+.telemetry > div > span {
   font: 8px var(--mono);
   color: #7e8678;
   letter-spacing: 1px;
   display: block;
   white-space: nowrap;
 }
-.telemetry strong,
-.remote-telemetry strong {
+.telemetry strong {
   font-size: 30px;
   font-weight: 450;
   letter-spacing: -1px;
@@ -381,8 +378,7 @@ h1 span {
   margin: 7px 0 12px;
   font-variant-numeric: tabular-nums;
 }
-.telemetry small,
-.remote-telemetry small {
+.telemetry small {
   font: 10px var(--mono);
   letter-spacing: 0;
   margin-left: 7px;
@@ -576,7 +572,10 @@ h1 span {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(
+    calc(-50% + var(--x, 0) * var(--reach, 0px)),
+    calc(-50% + var(--y, 0) * var(--reach, 0px))
+  );
   width: 44%;
   aspect-ratio: 1;
   background: linear-gradient(135deg, #4b5a49, #2b3d30);
@@ -850,6 +849,20 @@ footer b {
     transform: rotate(360deg);
   }
 }
+.contact-banner {
+  position: absolute;
+  bottom: 75px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #45503ee8;
+  color: white;
+  padding: 11px 17px;
+  border-radius: 4px;
+  font: 10px var(--mono);
+  letter-spacing: 1px;
+  white-space: nowrap;
+  pointer-events: none;
+}
 .stop-banner {
   position: absolute;
   bottom: 75px;
@@ -986,357 +999,6 @@ dialog .pair-hint {
   font-size: 10px;
   padding-top: 10px;
   overflow-wrap: anywhere;
-}
-.remote {
-  background: #202b25;
-  color: #e8ecdf;
-  --ink: #e6eddf;
-  --paper: #2a352d;
-  --line: #3a463a;
-  --muted: #9aab8e;
-}
-.remote-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 22px;
-  border-bottom: 1px solid #3a4539;
-  max-width: 700px;
-  margin: auto;
-}
-.remote .brand {
-  font-size: 18px;
-}
-.remote .brand-icon {
-  background: #e1b04c;
-  color: #293a2e;
-  width: 37px;
-  height: 37px;
-}
-.remote .brand small {
-  color: #8c9a7e;
-  font-size: 6px;
-}
-.remote .connection {
-  font-size: 9px;
-}
-.remote .connection.online {
-  color: #adc594;
-}
-.remote-main {
-  max-width: 600px;
-  margin: auto;
-  padding: 22px 22px max(25px, env(safe-area-inset-bottom));
-}
-.remote-machine {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.remote-machine .eyebrow {
-  font-size: 8px;
-  color: #929d85;
-}
-.room-display {
-  font: 9px var(--mono);
-  letter-spacing: 1.3px;
-  color: #819073;
-  margin-top: 10px;
-}
-.room-display strong {
-  font-size: 15px;
-  color: #cdd8bd;
-  letter-spacing: 2px;
-  margin-left: 8px;
-}
-.live-indicator {
-  font: 8px var(--mono);
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  background: #2e3c2f;
-  color: #9ab17e;
-  padding: 7px 9px;
-  border-radius: 3px;
-}
-.live-indicator i {
-  background: #9ab17e;
-  width: 4px;
-  height: 4px;
-}
-.remote-telemetry {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  padding: 20px 0 18px;
-  margin-top: 18px;
-  border-top: 1px solid #3a4539;
-  border-bottom: 1px solid #3a4539;
-}
-.remote-telemetry > div {
-  border-right: 1px solid #3a4539;
-  padding: 0 15px;
-}
-.remote-telemetry > div:first-child {
-  padding-left: 0;
-}
-.remote-telemetry > div:last-child {
-  border: 0;
-}
-.remote-telemetry strong {
-  font-size: 26px;
-  margin: 9px 0 0;
-}
-.remote-telemetry small {
-  font-size: 9px;
-  color: #99a68c;
-  margin-left: 5px;
-}
-.remote-telemetry > div > span {
-  font-size: 7px;
-  color: #99a78b;
-}
-.remote .operator-panel {
-  border: 0;
-  padding: 24px 0 0;
-  background: transparent;
-}
-.remote .operator-heading .eyebrow {
-  display: none;
-}
-.remote .operator-heading h2 {
-  font-size: 23px;
-  margin-top: 0;
-  color: #e2e8d7;
-}
-.remote .mode-tag {
-  color: #9eac8f;
-}
-.remote .ownership {
-  font-size: 11px;
-  border: 0;
-  padding: 0;
-  margin-top: 17px;
-  color: #9aaa8c;
-}
-.remote .ownership.owned > span {
-  color: #b7ca9c;
-}
-.remote .button.small {
-  border-color: #59694b;
-  color: #d0ddb8;
-  font-size: 11px;
-}
-.remote .joysticks {
-  gap: 24px;
-  margin-top: 29px;
-}
-.remote .stick-label {
-  font-size: 8px;
-  color: #b3c1a2;
-  margin-bottom: 13px;
-}
-.remote .pad-top,
-.remote .pad-bottom {
-  color: #8a9c78;
-  font-size: 7px;
-}
-.remote .joystick {
-  background: radial-gradient(
-    circle at 50% 45%,
-    #2b362e 0%,
-    #29352c 65%,
-    #3b4838 66%,
-    #29372d 69%,
-    #344230 100%
-  );
-  border-color: #47553d;
-  box-shadow: inset 0 4px 16px #101b1666;
-  max-width: 205px;
-}
-.remote .cross {
-  background: #758563;
-  opacity: 0.25;
-}
-.remote .knob {
-  background: linear-gradient(135deg, #d7b25c, #a78036);
-  border: 1px solid #c6a24b;
-  box-shadow:
-    0 6px 16px #111c1666,
-    inset 0 1px 1px #f9e4a880;
-}
-.remote .knob:after {
-  border-color: #8e6c2e44;
-  background: radial-gradient(circle, #6b572e66 1px, transparent 1px);
-  background-size: 4px 4px;
-}
-.remote .control-tip {
-  color: #879877;
-  font-size: 10px;
-  margin: 19px 0 22px;
-}
-.remote .track-heading > span:last-child {
-  color: #829173;
-}
-.remote .track-controls {
-  gap: 24px;
-}
-.remote .track-controls > div {
-  grid-template-columns: 1fr 43px 43px;
-  gap: 6px;
-}
-.remote .track-controls > div > span {
-  font-size: 8px;
-  color: #a6b594;
-}
-.remote .hold {
-  background: #34412f;
-  border-color: #4a583e;
-  color: #cbd5ba;
-  height: 43px;
-  min-width: 43px;
-}
-.remote .hold.pressed {
-  background: #d2aa52;
-  color: #283724;
-}
-.remote .speed-control {
-  margin: 25px 0 22px;
-}
-.remote .speed-control label {
-  color: #a8b696;
-  font-size: 12px;
-}
-.remote .speed-control output {
-  color: #d5b568;
-  font-size: 12px;
-}
-.remote input[type="range"] {
-  accent-color: #dab05c;
-  height: 6px;
-}
-.remote .estop {
-  background: #452f27;
-  border-color: #80513d;
-  color: #dfa88a;
-  height: 50px;
-  font-size: 10px;
-}
-.remote .estop kbd {
-  display: none;
-}
-.remote .estop > .stop-icon {
-  margin-left: 0;
-  background: #cd8b6433;
-}
-.remote .estop.engaged {
-  background: #ad563a;
-  color: #fff;
-}
-.remote .keyboard-help {
-  font-size: 11px;
-  border-color: #3b4737;
-  margin-top: 23px;
-  padding-top: 17px;
-}
-.remote .resume {
-  border-color: #64764c;
-  color: #ccddb2;
-}
-.remote-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid #3b4737;
-  margin-top: 20px;
-  padding-top: 16px;
-  gap: 14px;
-}
-.remote-bottom > span {
-  font-size: 9px;
-  color: #829674;
-}
-.text-button {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  background: none;
-  font-size: 10px;
-  color: #aaba98;
-  padding: 0;
-}
-.text-button svg {
-  width: 13px;
-  height: 13px;
-}
-.remote-note {
-  font-size: 9px;
-  color: #718365;
-  line-height: 1.7;
-  margin-top: 15px;
-  text-align: center;
-}
-.join-page {
-  max-width: 390px;
-  margin: 0 auto;
-  padding: 40px 22px;
-}
-.join-page .brand {
-  margin-bottom: 65px;
-}
-.join-art {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  font: 8px var(--mono);
-  letter-spacing: 1.3px;
-  color: #818c76;
-}
-.join-art svg {
-  width: 27px;
-  height: 27px;
-}
-.join-page h1 {
-  font-size: 44px;
-  margin: 25px 0 18px;
-  line-height: 1.1;
-  letter-spacing: -1.6px;
-}
-.join-page p {
-  font-size: 13px;
-  line-height: 1.8;
-  color: #7e8b74;
-}
-.join-page form {
-  margin-top: 30px;
-}
-.join-page label {
-  display: block;
-  font: 9px var(--mono);
-  letter-spacing: 1.3px;
-  color: #8c967e;
-}
-.join-page input {
-  width: 100%;
-  padding: 17px;
-  border: 1px solid #c8d0bc;
-  background: #f9fbf3;
-  border-radius: 5px;
-  margin: 10px 0 14px;
-  font: 25px var(--mono);
-  letter-spacing: 8px;
-  text-transform: uppercase;
-  color: #344c2c;
-}
-.join-page form .button {
-  width: 100%;
-  padding: 16px;
-  justify-content: space-between;
-}
-.join-page > a {
-  display: block;
-  font-size: 11px;
-  color: #7e8b72;
-  margin-top: 25px;
 }
 @media (min-width: 1600px) {
   .workbench {
@@ -1583,18 +1245,6 @@ dialog .pair-hint {
   .scene-bottom > span {
     font-size: 7px;
   }
-  .remote .joysticks {
-    gap: 24px;
-  }
-  .remote .operator-panel {
-    padding: 24px 0 0;
-  }
-  .remote .joystick {
-    max-width: 205px;
-  }
-  .remote .hold {
-    height: 43px;
-  }
 }
 @media (max-width: 420px) {
   .page-heading h1 {
@@ -1626,31 +1276,6 @@ dialog .pair-hint {
     font-size: 9px;
     gap: 5px;
   }
-  .remote-main {
-    padding: 20px 18px 25px;
-  }
-  .remote-header {
-    padding: 18px;
-  }
-  .remote .track-controls {
-    gap: 18px;
-  }
-  .remote .track-controls > div {
-    grid-template-columns: 1fr 39px 39px;
-    gap: 5px;
-  }
-  .remote .hold {
-    min-width: 39px;
-  }
-  .remote .joysticks {
-    gap: 24px;
-  }
-  .remote .joystick {
-    max-width: 155px;
-  }
-  .remote .control-tip {
-    margin-bottom: 20px;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -1678,29 +1303,4 @@ dialog .pair-hint {
   font-size: 8px;
   color: #67765c;
   font-variant-numeric: tabular-nums;
-}
-.remote .joint-readouts {
-  font-size: 8px;
-  margin-top: 14px;
-}
-.remote .joint-readouts output {
-  color: #c6b272;
-  font-size: 9px;
-}
-.remote .control-tip {
-  margin: 12px 0 17px;
-}
-@media (max-width: 420px) {
-  .remote .joystick {
-    max-width: 145px;
-  }
-  .remote .joysticks {
-    margin-top: 22px;
-  }
-  .remote .track-heading {
-    padding-top: 13px;
-  }
-  .remote .speed-control {
-    margin: 20px 0 18px;
-  }
 }

@@ -22,7 +22,8 @@ export class SimulationRunner {
       this.worker.on("message", ({ motionVersion, ...frame }) => {
         this.busy = false;
         if (!this.initialized) {
-          this.initialPositions = frame.positions;
+          this.initialTerrain = frame.terrain;
+          this.initialVersions = frame.tileVersions;
           this.reset();
           this.resetVersion = 0;
           this.initialized = true;
@@ -30,13 +31,21 @@ export class SimulationRunner {
           resolve();
           return;
         }
-        // Neither a reset nor a stop may be overwritten by an older step.
-        if (
-          frame.resetVersion !== this.resetVersion ||
-          motionVersion !== this.motionVersion
-        )
-          return;
-        Object.assign(this, frame);
+        // Frames computed before a reset are discarded entirely.
+        if (frame.resetVersion !== this.resetVersion) return;
+        // The sand always mirrors the worker, including a step that a stop
+        // invalidated: only that step's machine motion is discarded.
+        this.grains = frame.grains;
+        this.count = frame.count;
+        this.stats = frame.stats;
+        if (frame.terrain) {
+          this.terrain = frame.terrain;
+          this.tileVersions = frame.tileVersions;
+        }
+        if (motionVersion !== this.motionVersion) return;
+        this.machine = frame.machine;
+        this.tick = frame.tick;
+        this.stepMs = frame.stepMs;
         onStep();
       });
       const fail = (error) => {
@@ -59,9 +68,19 @@ export class SimulationRunner {
     this.speed = 0.65;
     this.estop = false;
     this.tick = 0;
-    this.stats = { carried: 0, deposited: 0, active: 0 };
-    this.positions = this.initialPositions;
-    this.count = this.positions.length / 3;
+    this.stats = {
+      carried: 0,
+      load: 0,
+      deposited: 0,
+      grains: 0,
+      active: 0,
+      blocked: false,
+    };
+    // The worker rebuilds exactly this bed; clients receive it immediately.
+    this.grains = new Int16Array(0);
+    this.count = 0;
+    this.terrain = this.initialTerrain;
+    this.tileVersions = this.initialVersions;
     this.stepMs = 0;
   }
 

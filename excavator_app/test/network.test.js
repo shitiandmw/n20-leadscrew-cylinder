@@ -4,7 +4,8 @@ import { once } from "node:events";
 import { setTimeout as delay } from "node:timers/promises";
 import WebSocket from "ws";
 import { createApplication } from "../server/index.js";
-import { neutral } from "../shared/world.js";
+import { neutral, SAND } from "../shared/world.js";
+import { decodeFrame, applyTiles, TILE_COUNT } from "../shared/protocol.js";
 
 async function waitFor(check, timeout = 5000) {
   const start = Date.now();
@@ -19,7 +20,11 @@ async function connect(url, options) {
   ws.on("message", (buffer, binary) => {
     if (binary) {
       client.binary++;
-      client.positions = new Float32Array(Uint8Array.from(buffer).buffer);
+      const frame = decodeFrame(Uint8Array.from(buffer));
+      client.frame = frame;
+      client.terrain ??= new Uint16Array(SAND.nx * SAND.ny);
+      client.tiles = (client.tiles || 0) + frame.tiles.length;
+      applyTiles(client.terrain, frame.tiles);
     } else {
       const message = JSON.parse(buffer);
       client.messages.push(message);
@@ -41,7 +46,11 @@ test("room lookup distinguishes expired links and full rooms without creating ro
     const missing = await fetch(`${origin}/api/rooms/BD7727`);
     assert.equal(missing.status, 404);
     assert.equal((await missing.json()).code, "ROOM_NOT_FOUND");
-    assert.equal(app.rooms.size, 0, "a stale phone link must not create a room");
+    assert.equal(
+      app.rooms.size,
+      0,
+      "a stale phone link must not create a room",
+    );
     const { room } = await (
       await fetch(`${origin}/api/rooms`, { method: "POST" })
     ).json();
@@ -51,14 +60,24 @@ test("room lookup distinguishes expired links and full rooms without creating ro
     assert.equal(response.headers.get("cache-control"), "no-store");
     assert.deepEqual(await response.json(), { room, clients: 0, capacity: 8 });
     const socket = `${origin.replace("http", "ws")}/ws?room=${room}&role=remote`;
-    const foreign = new WebSocket(socket, { origin: "https://elsewhere.invalid" });
+    const foreign = new WebSocket(socket, {
+      origin: "https://elsewhere.invalid",
+    });
     foreign.on("error", () => {});
     const [request, rejection] = await once(foreign, "unexpected-response");
-    assert.equal(rejection.statusCode, 403, "cross-origin sockets stay forbidden");
+    assert.equal(
+      rejection.statusCode,
+      403,
+      "cross-origin sockets stay forbidden",
+    );
     request.destroy();
     foreign.terminate();
     for (let i = 0; i < 8; i++) await connect(socket, { origin });
-    assert.deepEqual(await (await lookup()).json(), { room, clients: 8, capacity: 8 });
+    assert.deepEqual(await (await lookup()).json(), {
+      room,
+      clients: 8,
+      capacity: 8,
+    });
     assert.equal(app.rooms.size, 1);
   } finally {
     await app.close();
@@ -175,7 +194,15 @@ test(
       observer.send({ type: "claim" });
       await waitFor(() => viewer.state.owner === observer.id);
       assert.ok(viewer.binary > 0);
-      assert.equal(viewer.positions.length, 1876 * 3);
+      // The first frame delivers the whole sand bed; later frames carry only
+      // changed tiles together with the machine pose of the same tick.
+      assert.ok(viewer.tiles >= TILE_COUNT);
+      assert.ok(viewer.terrain.some((height) => height > 1000));
+      assert.equal(viewer.frame.grains.length % 4, 0);
+      assert.equal(
+        viewer.frame.machine.heading,
+        Math.fround(viewer.state.machine.heading),
+      );
       assert.equal(observer.binary, 0, "phones receive telemetry only");
       observer.send({ type: "release" });
       await waitFor(() => viewer.state.owner === null);

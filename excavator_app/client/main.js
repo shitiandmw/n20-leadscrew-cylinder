@@ -1,11 +1,26 @@
 import "./style.css";
+import "./remote.css";
 import QRCode from "qrcode";
-import { AXES, neutral } from "../shared/world.js";
+import { AXES, neutral, SAND, BUCKET } from "../shared/world.js";
+import { decodeFrame, applyTiles } from "../shared/protocol.js";
 import { createInputSender } from "./input-sender.js";
+import {
+  remoteFace,
+  joinFace,
+  createDisplay,
+  createHaptics,
+} from "./remote-face.js";
 
 const remote = location.pathname === "/remote",
   app = document.querySelector("#app");
 const $ = (selector) => document.querySelector(selector);
+// A joystick stops moving this close to centre (fraction of full deflection).
+const DEAD_ZONE = 0.12;
+if (remote) {
+  document.body.classList.add("remote");
+  // Blend the phone's browser bars into the controller's shell.
+  document.querySelector('meta[name="theme-color"]').content = "#313433";
+}
 const icons = {
   arrow: '<path d="M5 12h14m-6-6 6 6-6 6"/>',
   phone:
@@ -23,7 +38,7 @@ const connection = `<span class="connection" role="status"><i></i><span id="conn
 const connectionHelp = `<div id="connection-help" role="alert" hidden><p id="connection-message"></p><div><button id="retry-connection" class="button small">Retry connection</button><a class="button small" href="${remote ? "/remote" : "/"}">${remote ? "Enter room code" : "Open a new sandbox"}</a></div></div>`;
 
 function controls() {
-  return `<div class="operator-heading"><div><span class="eyebrow">OPERATOR STATION</span><h2>${remote ? "Make your move." : "You’re in the driver’s seat."}</h2></div><span class="mode-tag">ISO</span></div>
+  return `<div class="operator-heading"><div><span class="eyebrow">OPERATOR STATION</span><h2>You’re in the driver’s seat.</h2></div><span class="mode-tag">ISO</span></div>
   <div class="ownership"><span id="operator-status">Waiting for connection</span><button id="claim" class="button small" disabled>Take control</button></div>
   <div class="joysticks">
     <div class="joystick-group"><div class="stick-label"><b>01</b> STICK / SLEW</div><span class="pad-top">STICK OUT</span><div class="joystick" id="left-stick" role="group" aria-label="Left joystick: stick and slew"><span class="cross horizontal"></span><span class="cross vertical"></span><span class="pad-left">L</span><span class="pad-right">R</span><div class="knob"></div><span class="pad-dot"></span></div><span class="pad-bottom">STICK IN</span></div>
@@ -34,9 +49,9 @@ function controls() {
   <div class="track-heading"><span class="eyebrow">TRACK DRIVE</span><span>Hold to travel</span></div>
   <div class="track-controls"><div><span>LEFT TRACK</span><button class="hold" data-axis="leftTrack" data-value="1" aria-label="Left track forward">↑</button><button class="hold" data-axis="leftTrack" data-value="-1" aria-label="Left track reverse">↓</button></div><div><span>RIGHT TRACK</span><button class="hold" data-axis="rightTrack" data-value="1" aria-label="Right track forward">↑</button><button class="hold" data-axis="rightTrack" data-value="-1" aria-label="Right track reverse">↓</button></div></div>
   <div class="speed-control"><label for="speed">Movement speed</label><output id="speed-value">65%</output><input id="speed" type="range" min="20" max="100" step="5" value="65"></div>
-  <button id="estop" class="estop"><span class="stop-icon"></span><span>EMERGENCY STOP</span><kbd>SPACE</kbd></button>
+  <button id="estop" class="estop" data-estop><span class="stop-icon"></span><span>EMERGENCY STOP</span><kbd>SPACE</kbd></button>
   <button id="resume" class="button resume" hidden>Resume operation</button>
-  <details class="keyboard-help"><summary>${remote ? "Button controls & guide" : "Keyboard & button controls"} <span>↗</span></summary><p>W/S · stick out/in &nbsp; A/D · slew<br>↑/↓ · boom lower/raise &nbsp; ←/→ · curl/open<br>Q/Z · left track &nbsp; E/C · right track</p><div class="accessible-controls">${[
+  <details class="keyboard-help"><summary>Keyboard & button controls <span>↗</span></summary><p>W/S · stick out/in &nbsp; A/D · slew<br>↑/↓ · boom lower/raise &nbsp; ←/→ · curl/open<br>Q/Z · left track &nbsp; E/C · right track</p><div class="accessible-controls">${[
     ["boom", "Boom"],
     ["stick", "Stick"],
     ["bucket", "Bucket"],
@@ -50,7 +65,7 @@ function controls() {
 }
 
 if (remote && !new URLSearchParams(location.search).get("room")) {
-  app.innerHTML = `<div class="join-page">${brand}<div class="join-art">${icon("phone")}<span>YOUR PHONE. THE CONTROLS.</span></div><h1>Let’s move<br>some earth.</h1><p>Enter the six-character room code shown on your simulator.</p><form id="join"><label for="room-code">ROOM CODE</label><input id="room-code" placeholder="A1B2C3" maxlength="6" minlength="6" pattern="[a-fA-F0-9]{6}" required autocomplete="off" autocapitalize="characters"><button class="button primary">Connect to excavator ${icon("arrow")}</button></form><a href="/">Open a new sandbox ↗</a></div>`;
+  app.innerHTML = joinFace();
   $("#join").onsubmit = (event) => {
     event.preventDefault();
     location.href =
@@ -72,21 +87,16 @@ function fatal(message) {
 }
 
 async function start() {
-  document.body.classList.toggle("remote", remote);
   app.innerHTML = remote
-    ? `
-    <header class="remote-header">${brand}${connection}</header>${connectionHelp}
-    <main class="remote-main"><div class="remote-machine"><div><span class="eyebrow">ARM60 / TRACKED EXCAVATOR</span><div class="room-display">ROOM <strong id="room-label">———</strong></div></div><div class="live-indicator"><i></i> LIVE</div></div>
-    <section class="remote-telemetry"><div><span>BOOM</span><strong id="boom-value">10.0<small>mm</small></strong></div><div><span>BUCKET LOAD</span><strong id="load-value">0<small>grains</small></strong></div><div><span>LATENCY</span><strong id="latency-value">—<small>ms</small></strong></div></section>
-    <section class="operator-panel">${controls()}</section><div class="remote-bottom"><span id="remote-status">Connected to your live sandbox</span><button id="reset" class="text-button">Reset sand ${icon("rotate")}</button></div><p class="remote-note">Keep this page open while operating. Switching apps releases the controls.</p></main><div id="toast" role="status" hidden></div>`
+    ? remoteFace({ connection, connectionHelp })
     : `
     <header class="site-header">${brand}<nav><span class="nav-selected">Sandbox</span><a id="remote-link" href="/remote" target="_blank" rel="noopener">Remote control ↗</a></nav><div class="header-actions">${connection}<button class="button primary" data-pair>${icon("phone")} Pair your phone</button></div></header>${connectionHelp}
     <main class="workspace"><section class="page-heading"><div><span class="eyebrow">THE DIGITAL DIG SITE <span class="eyebrow-dash">/</span> 001</span><h1>Small machine. <span>Real motion.</span></h1></div><div class="session-info"><span>SESSION</span><strong id="room-label">———</strong><button class="icon-button" data-pair aria-label="Show pairing code">${icon("link")}</button></div></section>
-    <div class="workbench"><section class="simulation" aria-label="Excavator sandbox"><div id="stage"><div class="scene-top"><span class="scene-tag"><i></i> LIVE SIMULATION</span><span class="scene-scale">1:15 SCALE <span>·</span> ARM60 / R4</span></div><div id="loading"><span class="loader"></span>Preparing your dig site…</div><div class="view-buttons" role="group" aria-label="Camera views"><button data-view="orbit" class="active">Orbit</button><button data-view="side">Side</button><button data-view="top">Top</button><button data-view="bucket">Bucket</button></div><div class="scene-bottom"><span>DRAG TO ORBIT <b>·</b> SCROLL TO ZOOM</span><button id="fullscreen" class="icon-button" aria-label="Toggle full screen">${icon("expand")}</button></div><div class="stop-banner" hidden>EMERGENCY STOP ENGAGED</div></div>
-    <div class="telemetry"><div><span>BUCKET LOAD</span><strong id="load-value">0<small>grains</small></strong><div class="meter"><i id="load-meter"></i></div></div><div><span>BOOM STROKE</span><strong id="boom-value">10.0<small>mm</small></strong><div class="meter"><i id="boom-meter"></i></div></div><div><span>SLEW ANGLE</span><strong id="slew-value">0<small>°</small></strong><div class="meter"><i id="slew-meter"></i></div></div><div><span>POUR ZONE</span><strong id="deposited-value">0<small>grains</small></strong><span class="metric-note">Material deposited</span></div></div>
+    <div class="workbench"><section class="simulation" aria-label="Excavator sandbox"><div id="stage"><div class="scene-top"><span class="scene-tag"><i></i> LIVE SIMULATION</span><span class="scene-scale">1:15 SCALE <span>·</span> ARM60 / R4</span></div><div id="loading"><span class="loader"></span>Preparing your dig site…</div><div class="view-buttons" role="group" aria-label="Camera views"><button data-view="orbit" class="active">Orbit</button><button data-view="side">Side</button><button data-view="top">Top</button><button data-view="bucket">Bucket</button></div><div class="scene-bottom"><span>DRAG TO ORBIT <b>·</b> SCROLL TO ZOOM</span><button id="fullscreen" class="icon-button" aria-label="Toggle full screen">${icon("expand")}</button></div><div class="stop-banner" hidden>EMERGENCY STOP ENGAGED</div><div class="contact-banner" hidden>BUCKET ON CONCRETE · RAISE THE BOOM</div></div>
+    <div class="telemetry"><div><span>BUCKET LOAD</span><strong id="load-value">0<small>cm³</small></strong><div class="meter"><i id="load-meter"></i></div></div><div><span>BOOM STROKE</span><strong id="boom-value">10.0<small>mm</small></strong><div class="meter"><i id="boom-meter"></i></div></div><div><span>SLEW ANGLE</span><strong id="slew-value">0<small>°</small></strong><div class="meter"><i id="slew-meter"></i></div></div><div><span>POUR ZONE</span><strong id="deposited-value">0<small>cm³</small></strong><span class="metric-note">Sand deposited</span></div></div>
     <div class="below-scene"><div><span class="number-chip">01</span><div><strong>Dig. Lift. Swing. Repeat.</strong><p>Lower into the sand, crowd the stick, then curl the bucket. Lift and swing toward the marked pour zone.</p></div></div><button id="reset" class="button">${icon("rotate")} Reset sandbox</button></div></section>
     <aside class="sidebar"><section class="operator-panel">${controls()}</section><button class="phone-card" data-pair><span class="phone-card-icon">${icon("phone")}</span><span><strong>A pocket-sized cockpit.</strong><small>Scan, connect, and dig from your phone.</small></span>${icon("arrow")}</button></aside></div>
-    <footer><span><i class="footer-dot"></i><span id="particle-count">1,876</span> sand particles <b>·</b> Live granular fluid</span><span><span id="performance">30 Hz physics</span><b>·</b><span id="latency-value">— ms</span> <b>·</b> WebSocket</span></footer></main>
+    <footer><span><i class="footer-dot"></i>${(SAND.nx * SAND.ny).toLocaleString("en-US")}-cell sand bed <b>·</b> <span id="particle-count">0</span> loose grains <b>·</b> Granular physics</span><span><span id="performance">30 Hz physics</span><b>·</b><span id="latency-value">— ms</span> <b>·</b> WebSocket</span></footer></main>
     <dialog id="pair-dialog"><button class="dialog-close icon-button" aria-label="Close pairing dialog">×</button><span class="eyebrow">TAKE THE CONTROLS WITH YOU</span><h2>Your phone.<br>Your excavator.</h2><p>Connect both devices to the same network, then scan to open the remote.</p><div class="qr-wrap"><canvas id="qr"></canvas></div><div class="pair-room">ROOM <strong id="pair-code"></strong></div><label for="pair-base">Server address reachable from your phone</label><input id="pair-base" type="url"><p class="pair-hint">Use your computer’s LAN address or public HTTPS domain. localhost only works on this device.</p><div class="pair-actions"><button class="button primary" id="copy-link">Copy remote link</button><a class="button" id="open-remote" target="_blank" rel="noopener">Open remote ↗</a></div><p id="pair-feedback" role="status"></p></dialog><div id="toast" role="status" hidden></div>`;
 
   let room = new URLSearchParams(location.search).get("room")?.toUpperCase();
@@ -101,6 +111,7 @@ async function start() {
     url.searchParams.set("room", room);
     history.replaceState(null, "", url);
     $("#room-label").textContent = room;
+    if ($("#sheet-room")) $("#sheet-room").textContent = room;
     if ($("#remote-link")) $("#remote-link").href = `/remote?room=${room}`;
     refreshPairing();
   }
@@ -109,7 +120,9 @@ async function start() {
     id,
     state,
     scene,
-    positions,
+    sandFrame,
+    sandBed = new Uint16Array(SAND.nx * SAND.ny),
+    sandBedReady = false,
     retry = 0,
     reconnectTimer,
     toastTimer,
@@ -120,6 +133,10 @@ async function start() {
   let axes = neutral();
   const keyState = new Set(),
     pointerSources = new Map();
+  const estops = document.querySelectorAll("[data-estop]");
+  const display = remote ? createDisplay() : null,
+    haptics = remote ? createHaptics() : { pulse() {} },
+    settingsSheet = $("#settings-sheet");
   const send = (data) => {
     if (ws?.readyState === WebSocket.OPEN) ws.send(JSON.stringify(data));
   };
@@ -172,9 +189,6 @@ async function start() {
     axes = neutral();
     keyState.clear();
     pointerSources.clear();
-    document.querySelectorAll(".knob").forEach((el) => {
-      el.style.transform = "translate(-50%, -50%)";
-    });
     document
       .querySelectorAll(".joystick")
       .forEach((el) => el.dispatchEvent(new Event("controlsreset")));
@@ -220,28 +234,51 @@ async function start() {
   ]) {
     const pad = $("#" + name + "-stick"),
       knob = pad.querySelector(".knob");
-    let pointer = null;
+    let pointer = null,
+      grabX = 0,
+      grabY = 0,
+      pushed = false,
+      atStop = false;
+    // The stylesheet draws the stick from --x/--y, each -1..1 of its travel.
+    function tilt(x, y) {
+      pad.style.setProperty("--x", x);
+      pad.style.setProperty("--y", y);
+      pad.classList.toggle("held", pointer !== null);
+      pad.dataset.h = Math.abs(x) < DEAD_ZONE ? "" : x < 0 ? "w" : "e";
+      pad.dataset.v = Math.abs(y) < DEAD_ZONE ? "" : y < 0 ? "n" : "s";
+    }
+    function letGo() {
+      pointer = null;
+      pushed = atStop = false;
+      tilt(0, 0);
+    }
     pad.addEventListener("controlsreset", () => {
       if (pointer !== null && pad.hasPointerCapture(pointer))
         pad.releasePointerCapture(pointer);
-      pointer = null;
+      letGo();
     });
     function move(event) {
       if (pointer !== event.pointerId || !controlsAvailable()) return;
       const rect = pad.getBoundingClientRect(),
-        radius = rect.width * 0.32;
-      let x = (event.clientX - rect.left - rect.width / 2) / radius,
-        y = (event.clientY - rect.top - rect.height / 2) / radius;
+        radius = rect.width * (remote ? 0.24 : 0.32);
+      let x = (event.clientX - rect.left - rect.width / 2 - grabX) / radius,
+        y = (event.clientY - rect.top - rect.height / 2 - grabY) / radius;
       const length = Math.hypot(x, y);
       if (length > 1) {
         x /= length;
         y /= length;
       }
-      knob.style.transform = `translate(calc(-50% + ${x * radius}px), calc(-50% + ${y * radius}px))`;
+      pad.style.setProperty("--reach", radius + "px");
+      tilt(x, y);
+      const offCentre = Math.abs(x) >= DEAD_ZONE || Math.abs(y) >= DEAD_ZONE;
+      if (offCentre && !pushed) haptics.pulse(8);
+      if (length >= 1 && !atStop) haptics.pulse(14);
+      pushed = offCentre;
+      atStop = length >= 1;
       pointerSources.set(name, {
         [horizontal]:
-          (Math.abs(x) < 0.12 ? 0 : x) * (name === "right" ? -1 : 1),
-        [vertical]: Math.abs(y) < 0.12 ? 0 : y,
+          (Math.abs(x) < DEAD_ZONE ? 0 : x) * (name === "right" ? -1 : 1),
+        [vertical]: Math.abs(y) < DEAD_ZONE ? 0 : y,
       });
       gatherAxes();
     }
@@ -250,15 +287,22 @@ async function start() {
       if (!beginInput()) return;
       pointer = event.pointerId;
       pad.setPointerCapture(pointer);
+      // A thumb landing on the cap grabs it where it is, so a press alone never
+      // moves the machine. Pressing beside the cap jumps the stick to the thumb.
+      const rect = pad.getBoundingClientRect(),
+        fromCentreX = event.clientX - rect.left - rect.width / 2,
+        fromCentreY = event.clientY - rect.top - rect.height / 2,
+        onCap = Math.hypot(fromCentreX, fromCentreY) <= knob.offsetWidth / 2;
+      grabX = onCap ? fromCentreX : 0;
+      grabY = onCap ? fromCentreY : 0;
       move(event);
       event.preventDefault();
     });
     pad.addEventListener("pointermove", move);
     const end = (event) => {
       if (event.pointerId !== pointer) return;
-      pointer = null;
+      letGo();
       pointerSources.delete(name);
-      knob.style.transform = "translate(-50%, -50%)";
       gatherAxes();
     };
     for (const event of ["pointerup", "pointercancel", "lostpointercapture"])
@@ -271,6 +315,7 @@ async function start() {
       pointerSources.set(name, {
         [button.dataset.axis]: +button.dataset.value,
       });
+      if (!button.classList.contains("pressed")) haptics.pulse(10);
       button.classList.add("pressed");
       gatherAxes();
     };
@@ -304,7 +349,8 @@ async function start() {
   window.addEventListener("keydown", (event) => {
     if (
       ["INPUT", "TEXTAREA"].includes(event.target.tagName) ||
-      $("#pair-dialog")?.open
+      $("#pair-dialog")?.open ||
+      settingsSheet?.open
     )
       return;
     if (event.code === "Space") {
@@ -347,15 +393,24 @@ async function start() {
       claimPending = false;
     } else requestControl();
   };
+  function showSpeed() {
+    setReadout("#speed-value", Math.round(speed * 100) + "%");
+    display?.speed(speed);
+  }
   $("#speed").oninput = (event) => {
     speed = +event.target.value / 100;
-    $("#speed-value").textContent = Math.round(speed * 100) + "%";
+    showSpeed();
+    haptics.pulse(5);
     inputSender.schedule();
   };
-  $("#estop").onclick = () => {
-    clearInputs();
-    send({ type: "estop" });
-  };
+  estops.forEach((button) => {
+    button.onclick = () => {
+      clearInputs();
+      send({ type: "estop" });
+      haptics.pulse([30, 40, 30]);
+      settingsSheet?.close();
+    };
+  });
   $("#resume").onclick = () => {
     clearInputs();
     send({ type: "resume" });
@@ -364,8 +419,10 @@ async function start() {
     if (!isOwner()) return toast("Take control before resetting the sandbox.");
     clearInputs();
     send({ type: "reset" });
+    settingsSheet?.close();
     toast("Sandbox reset. Ready for a fresh dig.");
   };
+  if (remote) setupSettings(settingsSheet, clearInputs, haptics);
 
   let controlMode;
   function setReadout(selector, value) {
@@ -374,7 +431,8 @@ async function start() {
   }
   function updateUI(next) {
     const ownedBefore = isOwner(),
-      stoppedBefore = state?.estop;
+      stoppedBefore = state?.estop,
+      blockedBefore = state?.stats.blocked;
     state = next;
     if (
       (ownedBefore && !isOwner()) ||
@@ -382,6 +440,8 @@ async function start() {
       (claimPending && state.owner && !isOwner())
     )
       clearInputs();
+    // A stop from any device brings the operator back to the controls.
+    if (!stoppedBefore && state.estop) settingsSheet?.close();
     if (state.owner) claimPending = false;
     // Only send the current, still-held input after the server grants control.
     if (!ownedBefore && isOwner()) inputSender.flush();
@@ -396,7 +456,9 @@ async function start() {
         ? "You have control"
         : state.owner
           ? "Another operator is driving"
-          : "Move a control to start";
+          : state.estop
+            ? "Take control to resume"
+            : "Move a control to start";
       $(".ownership").classList.toggle("owned", owner);
       document.querySelectorAll(".hold").forEach((el) => {
         el.disabled = !controlsAvailable();
@@ -406,35 +468,48 @@ async function start() {
         .querySelectorAll(".joystick")
         .forEach((el) => el.classList.toggle("disabled", !controlsAvailable()));
       $("#reset").disabled = !owner || !live;
-      $("#resume").hidden = !state.estop;
+      // The remote has one key for both: an operator stopped by the E-stop
+      // needs Resume, and anyone else needs to take control first.
+      const resumeKey = state.estop && (owner || !remote);
+      $("#resume").hidden = !resumeKey;
       $("#resume").disabled = !owner;
-      $("#estop").classList.toggle("engaged", state.estop);
+      if (remote) $("#claim").hidden = resumeKey;
+      estops.forEach((el) => el.classList.toggle("engaged", state.estop));
       if ($(".stop-banner")) $(".stop-banner").hidden = !state.estop;
     }
-    setReadout(
-      "#boom-value",
-      state.machine.strokes[0].toFixed(1) + "<small>mm</small>",
-    );
-    setReadout("#load-value", state.stats.carried + "<small>grains</small>");
-    setReadout("#stick-value", state.machine.strokes[1].toFixed(1) + " mm");
-    setReadout("#bucket-value", state.machine.strokes[2].toFixed(1) + " mm");
     if (!owner) {
       speed = state.speed;
       $("#speed").value = speed * 100;
-      setReadout("#speed-value", Math.round(speed * 100) + "%");
+      showSpeed();
     }
-    if (!remote) {
+    if (remote) {
+      const blocked = state.stats.blocked && !state.estop;
+      display.machine(state.machine, state.stats);
+      display.flags(state.estop, blocked);
+      if (blocked && !blockedBefore) haptics.pulse(40);
+    } else {
+      setReadout(
+        "#boom-value",
+        state.machine.strokes[0].toFixed(1) + "<small>mm</small>",
+      );
+      setReadout(
+        "#load-value",
+        Math.round(state.stats.load) + "<small>cm³</small>",
+      );
+      setReadout("#stick-value", state.machine.strokes[1].toFixed(1) + " mm");
+      setReadout("#bucket-value", state.machine.strokes[2].toFixed(1) + " mm");
       setReadout(
         "#slew-value",
         state.machine.slew.toFixed(0) + "<small>°</small>",
       );
       setReadout(
         "#deposited-value",
-        state.stats.deposited + "<small>grains</small>",
+        Math.round(state.stats.deposited) + "<small>cm³</small>",
       );
-      setReadout("#particle-count", state.count.toLocaleString());
+      setReadout("#particle-count", state.count.toLocaleString("en-US"));
       $("#load-meter").style.width =
-        Math.min(100, state.stats.carried * 2) + "%";
+        Math.min(100, (state.stats.load / BUCKET.ratedLoad) * 100) + "%";
+      $(".contact-banner").hidden = !state.stats.blocked || state.estop;
       $("#boom-meter").style.width =
         (state.machine.strokes[0] / 60) * 100 + "%";
       $("#slew-meter").style.width = (state.machine.slew + 150) / 3 + "%";
@@ -448,8 +523,15 @@ async function start() {
   }
   function disableControls() {
     $("#claim").disabled = true;
-    $("#estop").disabled = true;
+    estops.forEach((el) => {
+      el.disabled = true;
+    });
     $("#resume").disabled = true;
+    if (remote) {
+      $("#claim").hidden = false;
+      $("#resume").hidden = true;
+      display.latency(null);
+    }
     $("#reset").disabled = true;
     $("#operator-status").textContent = "Waiting for connection";
     $(".ownership").classList.remove("owned");
@@ -513,7 +595,9 @@ async function start() {
         setRoom(result.room);
         if (previousRoom) {
           state = null;
-          positions = null;
+          sandFrame = null;
+          sandBed.fill(0);
+          sandBedReady = false;
           toast(
             "The previous room ended. A new sandbox is ready; pair your phone again.",
           );
@@ -535,12 +619,18 @@ async function start() {
       retry = 0;
       $(".connection").classList.add("online");
       $("#connection-text").textContent = "Connected";
-      $("#estop").disabled = false;
+      estops.forEach((el) => {
+        el.disabled = false;
+      });
     };
     ws.onmessage = (event) => {
       if (typeof event.data !== "string") {
-        positions = new Float32Array(event.data);
-        scene?.setSand(positions);
+        // Machine pose, loose grains and changed sand-bed tiles of one tick.
+        const frame = decodeFrame(event.data);
+        applyTiles(sandBed, frame.tiles);
+        if (frame.tiles.length) sandBedReady = true;
+        if (scene) scene.pushFrame(frame);
+        else sandFrame = frame;
         return;
       }
       const message = JSON.parse(event.data);
@@ -558,9 +648,8 @@ async function start() {
       }
       if (message.type === "pong") {
         const ms = Math.round(performance.now() - message.at);
-        $("#latency-value").innerHTML = remote
-          ? `${ms}<small>ms</small>`
-          : `${ms} ms`;
+        if (remote) display.latency(ms);
+        else $("#latency-value").textContent = `${ms} ms`;
       }
     };
     ws.onclose = () => {
@@ -614,7 +703,9 @@ async function start() {
         if (message) $("#loading").textContent = message;
       });
       if (state) scene.setState(state);
-      if (positions) scene.setSand(positions);
+      // Frames that arrived while the CAD model loaded are already in sandBed.
+      if (sandBedReady) scene.setTerrain(sandBed);
+      if (sandFrame) scene.pushFrame({ ...sandFrame, tiles: [] });
       document.querySelectorAll("[data-view]").forEach((button) => {
         button.onclick = () => {
           scene.view(button.dataset.view);
@@ -629,6 +720,51 @@ async function start() {
           " Try a browser with WebGL enabled. The phone remote still works.",
       );
     }
+  }
+}
+
+// The remote's settings sheet. It is modal, so opening it stops this operator's
+// movement first; it carries its own emergency stop for the same reason.
+function setupSettings(sheet, clearInputs, haptics) {
+  $("#settings").onclick = () => {
+    clearInputs();
+    sheet.showModal();
+  };
+  $("#settings-close").onclick = () => sheet.close();
+  // A tap outside the panel lands on the dialog element itself.
+  sheet.addEventListener("click", (event) => {
+    if (event.target === sheet) sheet.close();
+  });
+  // Touch browsers need a touch listener before they show :active presses.
+  document.addEventListener("touchstart", () => {}, { passive: true });
+  document.querySelectorAll(".rc-key, .rc-estop").forEach((key) => {
+    key.addEventListener("pointerdown", () => {
+      if (!key.disabled) haptics.pulse(10);
+    });
+  });
+  if (haptics.supported) {
+    $("#haptics-row").hidden = false;
+    $("#haptics").checked = haptics.enabled;
+    $("#haptics").onchange = (event) => {
+      haptics.set(event.target.checked);
+      haptics.pulse(20);
+    };
+  }
+  if (document.documentElement.requestFullscreen) {
+    const toggle = $("#fullscreen-toggle");
+    $("#fullscreen-row").hidden = false;
+    toggle.onchange = () => {
+      const request = toggle.checked
+        ? document.documentElement.requestFullscreen()
+        : document.exitFullscreen();
+      // A refused request leaves the switch showing the real state.
+      request.catch(() => {
+        toggle.checked = !!document.fullscreenElement;
+      });
+    };
+    document.addEventListener("fullscreenchange", () => {
+      toggle.checked = !!document.fullscreenElement;
+    });
   }
 }
 

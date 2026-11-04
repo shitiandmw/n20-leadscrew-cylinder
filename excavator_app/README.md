@@ -1,6 +1,6 @@
 # Sand / Lab
 
-A Docker-deployable excavator sandbox with a phone remote. The desktop renders the existing **ARM60 / Track R4 model, including all 644 CAD meshes**. A Node.js server simulates the excavator and 1,876 sand particles; browsers exchange controls and live state over WebSocket.
+A Docker-deployable excavator sandbox with a phone remote. The desktop renders the existing **ARM60 / Track R4 model, including all 644 CAD meshes**. A Node.js server simulates the excavator and a deformable sand pit, with a sand bed that slumps to its angle of repose and free grains wherever sand is cut, carried or poured. Browsers exchange controls and live state over WebSocket.
 
 ![Desktop sandbox](docs/desktop.png)
 
@@ -43,7 +43,7 @@ Move a joystick, hold a drive button, or press a movement key to take control wh
 | Right track forward / reverse | Right track drive          | E / C    |
 | Emergency stop                | Latch all drive inputs off | Space    |
 
-The expandable control guide also provides keyboard-focusable buttons: hold Enter to operate them. Movement speed scales every axis. The current stick and bucket strokes are shown beneath the joysticks; boom stroke and bucket load appear in the telemetry.
+The expandable control guide also provides keyboard-focusable buttons: hold Enter to operate them. Movement speed scales every axis. The current stick and bucket strokes are shown beneath the joysticks; boom stroke, bucket load and the sand delivered to the pour zone (both in cm³ of loose sand) appear in the telemetry. The bucket cannot be driven into the concrete apron, ramp or pit floor: the blocked motion stops and the simulator shows **BUCKET ON CONCRETE · RAISE THE BOOM** until you change the command.
 
 **A first scoop from the reset pose:**
 
@@ -54,11 +54,26 @@ The expandable control guide also provides keyboard-focusable buttons: hold Ente
 5. Swing approximately **+45°** toward the outlined pour zone.
 6. Open the bucket toward **0 mm** and watch the grains fall.
 
-The deterministic physics test runs this cycle, collects 21 grains, carries them through the lift and swing, and deposits 19 in the receiving zone. The remaining grains land outside the marked zone; no grains are created or removed. Counts describe simulation particles, not real payload capacity.
+The deterministic physics test runs this cycle at full speed: the bucket scoops about 260 cm³ (its struck capacity is about 300 cm³), still carries about 240 cm³ after the lift and swing, and about 268 cm³ arrives in the pour zone, including the heap riding above the mouth. No sand is created or removed. A bucket held still while open or tilted slowly loses its heap: the sand above the mouth runs off at the angle of repose, as real sand does.
 
 **Emergency stop** is available to every connected client. The current operator must explicitly select **Resume operation** to clear it. Resetting the sandbox does not clear a latched stop. Input becomes neutral after 350 ms without a valid control packet, on socket disconnect, on touch cancellation, and when the page loses focus. Changing apps releases ownership; use a control after returning to reclaim it if the slot is free. An operator lease expires after five seconds without input. Reconnection starts with neutral controls and does not displace an existing operator.
 
-![Phone remote](docs/remote.png)
+## Phone remote
+
+<img src="docs/remote.png" width="280" alt="The phone remote: emergency stop, LCD, track rockers, control and settings keys, and two joysticks"> <img src="docs/remote-settings.png" width="280" alt="The remote's settings sheet">
+
+<img src="docs/remote-landscape.png" width="570" alt="The phone remote held sideways, with the sticks at the sides and the instruments between them">
+
+`/remote` is drawn as a hand-held radio controller. It fills one screen with no scrolling, upright or on its side, and appears as a controller on a dark surface on a tablet or computer.
+
+- **Emergency stop.** The red mushroom on the yellow collar. It latches and lights up, and the control key becomes **Resume**.
+- **LCD.** Boom, stick, bucket and slew; bucket load as a bar and in cm³; speed; link quality and ping; room code; and who has control. It also carries messages and the warning when the bucket is on the concrete.
+- **Track rockers.** One for each track, tipping on a centre pivot. Push the top end to drive forward and the bottom end to reverse.
+- **Control key.** **Release** or **Take control**.
+- **Settings key.** Opens a sheet with movement speed, **Reset sand**, haptic feedback, full screen, the room code and a way to change it, the control guide, and hold-to-move buttons for keyboard and screen-reader users. Opening it stops this operator's movement, and the sheet has its own emergency stop because the face cannot be reached underneath it.
+- **Joysticks.** A thumb landing on the cap grabs it where it is, so a press alone moves nothing; pressing beside the cap jumps the stick to the thumb. The rubber boot flexes as the stick tilts, the legend for the pushed direction lights up, and the stick springs back on release.
+
+Haptic pulses mark key presses, leaving a stick's centre, reaching its stop and the bucket meeting the concrete. They use the browser's Vibration API, which Safari on iPhone does not offer, so that setting is hidden there. Full screen is hidden where the browser has no Fullscreen API, including on iPhone.
 
 ## Simulation and model
 
@@ -66,18 +81,21 @@ The deterministic physics test runs this cycle, collects 21 grains, carries them
 
 The shared linkage solver retains all 0–60 mm actuator travel and independent ±150° slew. Rendering moves the boom, stick, bucket, four cylinders, linkage, slew gearing, track shoes and wheels. The crawler uses differential-drive kinematics across the entire map, including a ramp between the raised apron and sand pit. Both tracks together drive forward or backward; opposing tracks turn in place. Its rotated footprint stays inside the outer walls. The chassis remains level at the highest terrain beneath its footprint, and the bucket collision height follows the chassis. This is a simplified terrain model without suspension or tipping. It does not replay or rerun the original MuJoCo track experiment. Track articulation is interpolated along the original chain poses, so the animation is a visual approximation between those poses.
 
-The sand uses **3D position-based granular fluid physics**:
+The sand uses the **hybrid model common in excavation simulators**:
 
-- Gravity in model millimetres, finite-size particle contacts, double-density pressure relaxation, tangential friction, and static-friction sleep.
-- A spatial hash for neighbouring grains; four 1/120 s substeps and five contact passes per 1/30 s simulation tick.
-- Moving colliders derived from the actual bucket shell profile and cheek plates. The mouth is open. Grains enter, remain physically contained, and spill through it under gravity; they are never attached to the bucket or replaced by a fill animation.
-- Pit floor, boundary walls, apron and ramp contacts, a fixed particle count, and measured receiving-zone counts. Fully settled sand sleeps until controls or motion disturb it.
+- **Sand bed.** Most of the sand is a 155 × 114 height field of 10 mm cells (sand thickness over the concrete). Any slope steeper than dry sand's **34° angle of repose** avalanches downhill, so cut faces cave in, tipped loads form cones and nothing stays implausibly steep. The initial stockpiles are dumped just below that angle and stay put.
+- **Cutting.** Each column of sand the bucket occupies is checked against how the sand entered the bucket's region. Sand met by the teeth or the open mouth is scooped into the cavity as free grains. Sand met by the closed back, floor or cheek plates is bulldozed ahead of the bucket into a berm. Sand lying on top of a buried bucket becomes grains that slide off or fall in. The tracks press loose sand aside and the lower frame keeps its ground clearance.
+- **Free grains.** Moving sand is up to 6,000 grains of 4 mm radius, solved with position-based granular dynamics: gravity, grain contacts with Coulomb static and kinetic friction (about 32° internal friction), height-scaled mass for stable heaps, and friction against the bucket and the bed. Four 1/120 s substeps and three solver iterations run per 1/30 s tick. A grain that comes to rest on the bed, clear of the bucket, merges back into the bed.
+- **Leak-proof bucket.** The bucket's shell, tooth row and cheek plates use the actual CAD plate surfaces (4 mm top plate, 6 mm back and floor). Every wall is two-sided, and each grain remembers which side it is on. A grain's membership of the cavity can change only along a path through the open mouth; any other change is rolled back. Fast grains or a fast bucket therefore cannot tunnel through the shell. Grains are never attached to the bucket or replaced by a fill animation.
+- **Conservation.** The bed and the grains exchange exact volumes (each grain stands for 447 mm³ of loose sand), so the total sand volume is constant to floating-point rounding.
 
-This is an interactive approximation of coarse sand flow, not a calibrated soil, water, load, traction, or structural engineering model. It uses 6 mm-radius proxy grains, a simplified bucket collider without individual teeth, and kinematic machinery. There is no two-way soil force feedback, deformable terrain under the tracks, self-collision protection, water phase, or rigid-body vehicle tipping. The full independent boom/slew travel intentionally preserves the original model's operator-managed clearance. At high CPU load the fixed-step simulation runs slower than real time instead of increasing the step size.
+**Rendering.** The browser draws the bed as a deformable mesh with a fine grain texture. Freshly cut or dumped sand looks damp and dries over about a minute, and thin sand breaks up into scattered grains at the edges. Free grains are drawn at their physical radius, so they touch but never cut the bucket plates. Each binary frame carries the machine pose and the sand of the same tick. The browser plays frames back about 60 ms late and interpolates both together, so the bucket and its load always move as one.
+
+This is an interactive approximation of dry sand, not a calibrated soil, load, traction or structural engineering model. Grains are 4 mm clumps (6 cm at full scale), the bed is one height per 10 mm cell (no overhangs or tunnels), and the machinery is kinematic. There is no two-way soil force feedback, water phase, rigid-body vehicle tipping or arm self-collision. Joints start and stop instantly instead of following hydraulic acceleration. The full independent boom/slew travel intentionally preserves the original model's operator-managed clearance. Only the concrete stops the bucket. At high CPU load the fixed-step simulation runs slower than real time instead of increasing the step size.
 
 The simulator needs WebGL2. The phone remote uses only HTML controls and telemetry; it does not download Three.js or the CAD asset. On touch devices the 3D simulator caps pixel ratio at 1 and disables shadows and antialiasing to reduce GPU cost while retaining all CAD parts. Rendering is skipped for an unchanged scene, and hidden tabs also skip scene updates. Software-only graphics can be slow; a hardware-accelerated browser is recommended for the 776,942-triangle assembly.
 
-Control starts, reversals and stops send immediately. Continuous pointer motion is coalesced at 30 Hz, with a 100 ms heartbeat while holding controls. Each room runs physics in its own worker, leaving the HTTP/WebSocket thread free to process input, pings, ownership and watchdogs. Only one physics step per room can be in flight; slower hardware does not build a queue of old inputs. Machine state is published after each completed step (up to 30 Hz), with sand at up to 15 Hz for simulator clients only. Congested sockets skip snapshots until they can accept fresh state. Worker resources are released on room expiry and server shutdown.
+Control starts, reversals and stops send immediately. Continuous pointer motion is coalesced at 30 Hz, with a 100 ms heartbeat while holding controls. Each room runs physics in its own worker, leaving the HTTP/WebSocket thread free to process input, pings, ownership and watchdogs. Only one physics step per room can be in flight; slower hardware does not build a queue of old inputs. Machine state is published as JSON after each completed step (up to 30 Hz). Simulator clients also receive one binary frame per step: the machine pose, free grains (Int16, 0.1 mm) and only the 16 × 16-cell bed tiles that changed (Uint16, 0.01 mm). The first frame on a connection carries the whole bed. The server tracks which tile versions each client holds, so a congested socket can skip frames and later catch up on every change. Phones receive telemetry only. Worker resources are released on room expiry and server shutdown.
 
 ## Configuration and hosting
 
@@ -126,9 +144,18 @@ bash scripts/check_docker.sh
 npm audit --include=dev
 ```
 
-The browser test starts a temporary server and always closes it. `BROWSER_PATH` can select an existing Chromium executable. Screenshots are written to `test-results/`.
+The browser test starts a temporary server and always closes it. `BROWSER_PATH` can select an existing Chromium executable. Screenshots are written to `test-results/`. `node scripts/capture_docs.mjs` digs two scoops in a temporary server and rewrites the README screenshots in `docs/`.
 
-Checks cover all 125 original CAD kinematic poses, bucket contacts and its open mouth, stable sand, a complete physical scoop/lift/swing/pour cycle, conservation, independent slew/boom travel, whole-map driving and ramp heights, WebSocket ownership and validation, stale-input/disconnect stops, a latched E-stop, worker reset and cleanup, four-room phone round trips, immediate/coalesced input, touch/multitouch/cancel, reconnect, keyboard controls, QR links, camera views, and desktop/mobile layouts and graphics settings. The Docker smoke test runs the actual server inside a non-root, read-only container and checks HTTP, model delivery and WebSocket operation.
+Checks cover:
+- **Kinematics:** all 125 original CAD poses.
+- **Bucket:** grains fired at 2.5 m/s through every wall and cheek in both directions, and the open mouth.
+- **Bed:** it rests below the angle of repose, and a tall heap avalanches back to it.
+- **Full cycle:** a complete scoop/lift/swing/pour, instrumented so that every grain crossing must pass through the mouth (none crosses a wall), grain surfaces stay outside the CAD plates, and total sand volume is conserved. Aggressive dig/sweep/shake motions are checked the same way.
+- **Machine:** the hard floor stop, independent slew/boom travel, whole-map driving and ramp heights, track plowing, and the bulldozing fallback when the grain pool is full.
+- **Network:** WebSocket ownership and validation, binary frames and full-bed delivery, stale-input/disconnect stops, a latched E-stop, worker reset and cleanup, four-room phone round trips, and immediate/coalesced input.
+- **Browser:** touch/multitouch/cancel, reconnect, keyboard controls, QR links, camera views, and desktop/mobile layouts and graphics settings.
+- **Phone remote:** fits one screen at ten phone sizes in both orientations, with thumb-sized, non-overlapping controls; cap grab and spring return, rockers, haptics and their setting, the settings sheet and touch fader, emergency stops from the sheet and from another device, reset and the floor warning.
+- **Docker:** the smoke test runs the actual server inside a non-root, read-only container and checks HTTP, model delivery and WebSocket operation.
 
 ## Files
 
@@ -136,10 +163,14 @@ Checks cover all 125 original CAD kinematic poses, bucket contacts and its open 
 | ---------------------------- | ------------------------------------------------------------------ |
 | `server/index.js`            | HTTP, WebSocket rooms, operator leases, watchdogs and snapshots    |
 | `server/simulation-runner.js`, `server/physics-worker.js` | Isolated room physics, bounded work, reset synchronization and cleanup |
-| `server/physics.js`          | Granular fluid solver, machine motion and bucket contacts          |
+| `server/physics.js`          | Machine motion, cutting, granular grain solver and bucket contacts |
+| `server/terrain.js`          | Sand bed height field, angle-of-repose avalanching, stockpiles     |
+| `server/bucket.js`           | Bucket frame, CAD plate surfaces and mouth-crossing tests          |
+| `shared/protocol.js`         | Binary frame format: machine pose, grains and sand-bed tiles       |
 | `shared/`                    | Original configuration and kinematics; simulation dimensions       |
 | `client/main.js`             | Simulator and remote interfaces, pairing, touch and keyboard input |
-| `client/scene.js`            | Three.js model assembly, sand instances, cameras and track motion  |
+| `client/remote-face.js`, `client/remote.css` | The phone remote's faceplate, segment LCD, haptics and settings sheet |
+| `client/scene.js`            | Three.js model, sand bed mesh, grains, synced playback and cameras |
 | `public/model.json.gz`       | Original CAD meshes and provenance                                 |
 | `test/`                      | Numerical, network and browser checks                              |
 | `Dockerfile`, `compose.yaml` | Production deployment                                              |

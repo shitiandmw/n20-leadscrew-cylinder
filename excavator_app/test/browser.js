@@ -4,6 +4,7 @@ import { mkdir } from "node:fs/promises";
 import { createApplication } from "../server/index.js";
 import { checkControlClaims } from "./control-claims.js";
 import { checkRoomRecovery } from "./room-recovery.js";
+import { checkRemoteFace } from "./remote-ui.js";
 
 // This is a finite test: its HTTP server and browser are always closed.
 const app = createApplication();
@@ -24,6 +25,7 @@ try {
   });
   await checkRoomRecovery(browser);
   await checkControlClaims(browser, app, origin);
+  await checkRemoteFace(browser, app, origin);
   await mkdir("test-results", { recursive: true });
   const desktop = await browser.newContext({
     viewport: { width: 1440, height: 1050 },
@@ -31,6 +33,9 @@ try {
   });
   const page = await desktop.newPage();
   page.on("pageerror", (error) => errors.push(error.message));
+  page.on("console", (message) => {
+    if (message.type() === "error") errors.push(message.text());
+  });
   page.setDefaultTimeout(30000);
   await page.goto(origin);
   await page.waitForFunction(
@@ -119,7 +124,7 @@ try {
       body: document.body.scrollHeight,
     })),
   );
-  await phone.screenshot({ path: "test-results/remote.png", fullPage: true });
+  await phone.screenshot({ path: "test-results/remote.png" });
   const before = await phone.evaluate(
     () => window.sandLab.getState().machine.strokes[0],
   );
@@ -189,6 +194,7 @@ try {
     type: "touchCancel",
     touchPoints: [],
   });
+  await phone.getByRole("button", { name: "Settings" }).click();
   await phone.getByRole("button", { name: "Reset sand" }).click();
   await phone.waitForFunction(
     () =>

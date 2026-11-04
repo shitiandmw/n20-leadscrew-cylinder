@@ -1,23 +1,34 @@
 import { parentPort } from "node:worker_threads";
 import { SandSimulation } from "./physics.js";
+import { CELLS } from "./terrain.js";
+import { TILE_COUNT } from "../shared/protocol.js";
 
 const simulation = new SandSimulation();
-let resetVersion = 0;
+// The quantised bed and its per-tile versions persist across resets, so every
+// change (including a reset) carries a version no client has seen.
+const terrain = new Uint16Array(CELLS),
+  versions = new Uint32Array(TILE_COUNT);
+let resetVersion = 0,
+  version = 0;
 function publish(stepMs = 0, motionVersion = 0) {
-  const positions = simulation.positions.slice();
-  parentPort.postMessage(
-    {
+  const grains = simulation.packGrains(),
+    message = {
       machine: simulation.machine,
       tick: simulation.tick,
-      count: simulation.count,
+      count: simulation.grains,
       stats: simulation.stats,
-      positions,
+      grains,
       stepMs,
       resetVersion,
       motionVersion,
     },
-    [positions.buffer],
-  );
+    transfer = [grains.buffer];
+  if (simulation.terrain.quantize(terrain, versions, ++version)) {
+    message.terrain = terrain.slice();
+    message.tileVersions = versions.slice();
+    transfer.push(message.terrain.buffer, message.tileVersions.buffer);
+  }
+  parentPort.postMessage(message, transfer);
 }
 publish();
 parentPort.on("message", (command) => {

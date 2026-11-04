@@ -8,6 +8,7 @@ import { gunzipSync } from "node:zlib";
 import { WebSocketServer, WebSocket } from "ws";
 import { SimulationRunner } from "./simulation-runner.js";
 import { AXES } from "../shared/world.js";
+import { encodeFrame, TILE_COUNT } from "../shared/protocol.js";
 
 const ROOT = fileURLToPath(new URL("../dist/", import.meta.url));
 const send = (ws, message) => {
@@ -211,22 +212,27 @@ export function createApplication({
   }
   function publishFrame(room) {
     room.stepMs = room.simulation.stepMs;
-    // Machine telemetry arrives every completed tick; sand needs only 15 Hz.
     broadcast(room);
-    if (++room.frame % 2 !== 0) return;
-    const positions = room.simulation.positions;
-    const packet = Buffer.from(
-      positions.buffer,
-      positions.byteOffset,
-      positions.byteLength,
-    );
-    for (const [ws, client] of room.clients)
+    // Simulators get the machine pose, loose grains and changed sand-bed tiles
+    // of the same tick. Each client tracks which tile versions it holds, so a
+    // congested socket can skip frames and later catch up on every change.
+    const s = room.simulation,
+      frame = { tick: s.tick, machine: s.machine, grains: s.grains };
+    room.frame++;
+    for (const [ws, client] of room.clients) {
       if (
-        client.role === "simulator" &&
-        ws.readyState === WebSocket.OPEN &&
-        ws.bufferedAmount === 0
+        client.role !== "simulator" ||
+        ws.readyState !== WebSocket.OPEN ||
+        ws.bufferedAmount !== 0
       )
-        ws.send(packet);
+        continue;
+      client.tiles ??= new Uint32Array(TILE_COUNT);
+      const tiles = [];
+      for (let t = 0; t < TILE_COUNT; t++)
+        if (client.tiles[t] !== s.tileVersions[t]) tiles.push(t);
+      ws.send(encodeFrame({ ...frame, terrain: s.terrain, tiles }));
+      for (const t of tiles) client.tiles[t] = s.tileVersions[t];
+    }
   }
   function release(room) {
     room.owner = null;

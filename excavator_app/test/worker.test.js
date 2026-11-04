@@ -34,7 +34,9 @@ test("worker coalesces steps, discards pre-reset frames, and preserves a latched
     await next;
     assert.equal(s.machine.strokes[0], 10);
     assert.equal(s.estop, true);
-    assert.equal(s.positions.length, 1876 * 3);
+    assert.equal(s.terrain.length, 155 * 114);
+    assert.equal(s.grains.length % 4, 0);
+    assert.equal(s.tileVersions.length, 80);
   } finally {
     await s.close();
   }

@@ -1,3 +1,68 @@
+# Phone remote redesign — 2026-11-04 (task 0c4a82fb)
+
+**Status: built and passing every test, but not deployed.** The container on port 8080 still serves the previous remote; rebuilding it needs the user's OK (see Next steps). The change is in `excavator_app/`, left for the workspace auto-commit. The shared handoff tools and the workspace service tools were unavailable again, so this file is the handoff.
+
+## User request
+- "Rebuild the style of the mobile phone remote control so that it looks like a clean remote control with a realistic feel, and add a separate settings button."
+
+## What changed
+- `client/remote-face.js` (new): faceplate markup, the SVG seven-segment LCD and haptics.
+- `client/remote.css` (new): the hardware look. The old `.remote` rules are gone from `client/style.css`. The desktop simulator looks the same as before.
+- **Face:** emergency stop, LCD, two track rockers, a control key (Release / Take control, or Resume while stopped), a separate Settings key and two joysticks. It fills one screen with no scrolling, upright or sideways.
+- **Settings sheet:** speed fader, Reset sand, haptics, full screen, room code and Change room, control guide, hold-to-move buttons. It is modal, so opening it stops held input. It has its own emergency stop, because the face is inert underneath, and it closes if anyone hits a stop.
+- **Feel:** the thumb cap is grabbed where it lands, so a press alone moves nothing. The boot flexes, the stick springs back, the pushed legend lights up, and rockers tip on a pivot. Haptic pulses need the Vibration API, so iPhone gets none and the setting is hidden there.
+- **`client/main.js`:** joysticks are now drawn from CSS variables `--x`, `--y` and `--reach`, on both the remote and the desktop. New LCD status "Take control to resume" for a latched stop with a free operator slot. The remote shows the floor-stop warning too.
+- **`index.html`:** inline favicon, which removes the `/favicon.ico` 404 that failed my check of the deployed container.
+
+## Verification
+- `npm test`: 18/18. `npm run test:browser`: all four PASS lines, including new `test/remote-ui.js`. `bash scripts/check_docker.sh`: PASS.
+- `test/remote-ui.js` covers: 10 phone sizes (390x844 down to 320x454, 844x390 down to 568x320) with no scrolling, controls on screen, no overlaps and thumb-sized targets; cap grab, rockers, haptics and their setting, touch fader, stops from the sheet and from another device, reset, floor warning; and no browser console errors.
+- All looks were reviewed from screenshots in emulated mobile Chromium with software rendering. **Not tried on a physical phone**, so real haptics, Safari on iPhone, frame rate and thumb comfort are unconfirmed.
+
+## Next steps
+1. Ask the user before rebuilding the container: `cd excavator_app && docker compose up --build -d`. It restarts the service and drops open rooms. The earlier OK covered the sand-physics rebuild only.
+2. Try the remote on a real phone and adjust stick size, throw (24 % of the stick's width) and haptic strength if needed.
+
+---
+
+# Sand physics upgrade — 2026-11-03/04 (task 0c4a82fb)
+
+**Status: complete, verified and deployed on 2026-11-04.** Auto-committed as `26d0e00`. The shared task-handoff tools (get/update_task_handoff) and the workspace service tools were unavailable in this session, so this file is the handoff and no long-running service was started.
+
+## User request
+- "The sand isn't realistic enough, the physics seems off, and sand sometimes clips through the bucket and ends up outside."
+
+## Root causes found (measured before changing anything)
+- Clipping was mainly a **render desync**: the browser drew sand at 15 Hz with exponential smoothing while the bucket moved at 30 Hz unsmoothed. Loaded grains were drawn up to 13.5 mm into the plates (10–23 % of loaded-grain frames). Server-side grains never crossed a wall in 4 aggressive scenarios.
+- The old model was 1,876 × 6 mm balls with a liquid (double-density) pressure term, already 23 ms of the 33 ms tick, and the bucket could be driven ~25–60 mm into the concrete.
+
+## What changed
+- `server/terrain.js`: sand bed as a 155 × 114 height field (10 mm cells, Float64), angle-of-repose avalanching (34°), exact volume bookkeeping, stockpiles built once.
+- `server/bucket.js`: bucket frame, wall segments with CAD-measured plate surfaces (4 mm top, 6 mm back/floor), mouth-crossing tests.
+- `server/physics.js`: hybrid model — cutting turns sand entering via the mouth into free grains (4 mm PBD grains with Coulomb friction), closed walls/cheeks bulldoze, overburden becomes grains; resting grains rejoin the bed. Bucket collision uses side memory: cavity membership can only change through the mouth (rollback otherwise). Hard floor stop for the bucket (boom/slew stay independent; no interlock). Tracks plow sand aside.
+- `shared/protocol.js` + server/runner/worker: one binary frame per tick with machine pose, grains (Int16) and changed bed tiles; per-client tile versions so skipped frames catch up.
+- `client/scene.js`, `client/main.js`: deformable sand mesh (grain texture, damp-looking fresh cuts, dithered edges), instanced grains at physical radius, delayed interpolated playback of pose + sand from the same tick, cm³ load/pour readouts, "bucket on concrete" banner.
+- Tests, `scripts/check_docker.sh` (now also checks binary sand frames), new `scripts/capture_docs.mjs`, README and screenshots updated.
+
+## Verification (final code)
+- `npm test`: 18/18 pass (re-run 2026-11-04, and again from the extracted zip after `npm run build`). Scoop ≈ 261 cm³, 242 cm³ after lift + 45° swing, 268 cm³ deposited, 0 wall crossings, grain surfaces > −0.25 mm from CAD plates, volume drift < 1e-9.
+- `npm run build`, `npm run test:browser` (all PASS), `bash scripts/check_docker.sh` (PASS, no test containers left).
+- Render-sync replay: worst drawn grain-to-plate overlap 0.8 mm, none > 1 mm.
+- Tick time after warm-up: p50 5.6 ms, p99 13.7 ms (budget 33 ms).
+
+## Deliverable
+- `output/arm60-sand-lab.zip` (gitignored download copy, refreshed with the remote redesign): 7,486,710 bytes, 42 files under `arm60-sand-lab/` — source, lockfile, CAD asset, Docker files, tests, scripts, docs, screenshots; no node_modules/dist/test-results. SHA-256 `52167d904b67147968992af168f92dcf1a6a74327742f0145d3c574ad35f0da8` (`output/arm60-sand-lab.sha256`). The source of truth is the tracked `excavator_app/`.
+
+## Open / next
+- Done with the user's OK: `excavator_app-sand-lab-1` (port 8080) was rebuilt from this worktree with the new physics. Its server and shared code matched the repo by checksum. A real scoop on it carried 260 cm³ after lifting and 237 cm³ after the swing, and put 250 cm³ in the pour zone. The previous image is still on disk as `170edb8ca0f6`.
+- Optional: hydraulic acceleration ramps (would change stop semantics), finer bed cells / overhangs.
+
+---
+
+# Earlier history (2026-10-30)
+
+The notes below describe the first release and a rebase. Where they describe the sand model (1,876 fluid grains), test counts or the old 26-file zip, they are superseded by the section above.
+
 The Docker excavator application is complete in `excavator_app/`. Its original release passed physics, network, browser (including reconnect), dependency audit and container checks. The standalone source package is at `output/arm60-sand-lab.zip`. The current task integrates this application commit with the upstream R3 upper-body changes; see the rebase note below.
 
 ## Rebase integration — 2026-10-30
