@@ -1,0 +1,85 @@
+{
+ "scenario": "hold",
+ "payload_kg": 0.15,
+ "feedback_bias_mm": null,
+ "poses": {
+  "boom": {
+   "strokes_mm": [
+    60.0,
+    15.0,
+    35.0
+   ],
+   "mujoco_force_N": {
+    "boom_L": 39.48,
+    "boom_R": 39.48,
+    "stick": -18.26,
+    "bucket": -4.69
+   },
+   "virtual_work_N": {
+    "boom_each": 39.48,
+    "stick": -18.26,
+    "bucket": -4.69
+   },
+   "boom_pair_sum_N": 78.96,
+   "stroke_error_mm": [
+    -0.0,
+    -0.0,
+    0.0,
+    0.0
+   ],
+   "residual_boom_moment_Nm": -0.0
+  },
+  "stick": {
+   "strokes_mm": [
+    0.0,
+    60.0,
+    45.0
+   ],
+   "mujoco_force_N": {
+    "boom_L": 21.16,
+    "boom_R": 21.16,
+    "stick": 27.55,
+    "bucket": 5.97
+   },
+   "virtual_work_N": {
+    "boom_each": 21.16,
+    "stick": 27.53,
+    "bucket": 5.97
+   },
+   "boom_pair_sum_N": 42.32,
+   "stroke_error_mm": [
+    -0.0,
+    -0.0,
+    -0.0,
+    -0.0
+   ],
+   "residual_boom_moment_Nm": -0.0
+  },
+  "bucket": {
+   "strokes_mm": [
+    40.0,
+    55.0,
+    60.0
+   ],
+   "mujoco_force_N": {
+    "boom_L": 27.67,
+    "boom_R": 27.67,
+    "stick": 4.84,
+    "bucket": 16.61
+   },
+   "virtual_work_N": {
+    "boom_each": 27.67,
+    "stick": 4.83,
+    "bucket": 16.6
+   },
+   "boom_pair_sum_N": 55.34,
+   "stroke_error_mm": [
+    -0.0,
+    -0.0,
+    -0.0,
+    -0.0
+   ],
+   "residual_boom_moment_Nm": -0.0
+  }
+ }
+}

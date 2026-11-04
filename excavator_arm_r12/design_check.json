@@ -1,0 +1,433 @@
+{
+ "status": "PASS",
+ "scope": "2.5D side-view sweep with lateral (Y) bands incl. pin collars; design stage, not a 3D CAD check",
+ "poses_grid": 343,
+ "poses_fine": 732,
+ "clearance_required_mm": 1.0,
+ "hits": [],
+ "n_hits": 0,
+ "closest_pairs": [
+  [
+   "cyl.stick.socket",
+   "stick.head_bridge",
+   1.1,
+   [
+    12.0,
+    60.0,
+    0.0
+   ]
+  ],
+  [
+   "bucket.shell",
+   "h_link.plate",
+   2.02,
+   [
+    0.0,
+    60.0,
+    8.0
+   ]
+  ],
+  [
+   "cyl.stick.rod",
+   "stick.head_bridge",
+   2.1,
+   [
+    6.0,
+    60.0,
+    0.0
+   ]
+  ],
+  [
+   "cyl.bucket.socket",
+   "stick.box",
+   2.1,
+   [
+    0.0,
+    1.0,
+    60.0
+   ]
+  ],
+  [
+   "boom.nose",
+   "cyl.stick.rod",
+   2.34,
+   [
+    2.0,
+    60.0,
+    0.0
+   ]
+  ],
+  [
+   "bucket.torque_tube",
+   "stick.box",
+   2.55,
+   [
+    40.0,
+    0.0,
+    20.0
+   ]
+  ],
+  [
+   "cyl.boom.body",
+   "foot.flange",
+   2.83,
+   [
+    0.0,
+    0.0,
+    0.0
+   ]
+  ],
+  [
+   "boom.nose",
+   "cyl.stick.body",
+   3.05,
+   [
+    5.0,
+    60.0,
+    0.0
+   ]
+  ],
+  [
+   "cyl.bucket.rod",
+   "stick.box",
+   3.1,
+   [
+    0.0,
+    1.0,
+    60.0
+   ]
+  ],
+  [
+   "bucket.shell",
+   "pin.Q",
+   3.52,
+   [
+    0.0,
+    42.0,
+    0.0
+   ]
+  ],
+  [
+   "h_link.r_tube",
+   "stick.box",
+   3.8,
+   [
+    0.0,
+    55.0,
+    60.0
+   ]
+  ],
+  [
+   "boom.nose",
+   "stick.head_bridge",
+   4.0,
+   [
+    60.0,
+    1.0,
+    0.0
+   ]
+  ],
+  [
+   "cyl.bucket.body",
+   "stick.box",
+   4.03,
+   [
+    33.0,
+    60.0,
+    60.0
+   ]
+  ],
+  [
+   "h_link.plate",
+   "pin.H",
+   4.17,
+   [
+    37.0,
+    60.0,
+    60.0
+   ]
+  ],
+  [
+   "cyl.bucket.body",
+   "stick.head_bridge",
+   4.69,
+   [
+    5.0,
+    0.0,
+    60.0
+   ]
+  ],
+  [
+   "boom.main",
+   "cyl.stick.body",
+   4.79,
+   [
+    60.0,
+    60.0,
+    0.0
+   ]
+  ]
+ ],
+ "joint_ranges_deg": {
+  "boom": [
+   -35.0,
+   50.0
+  ],
+  "stick": [
+   -35.0,
+   -125.0
+  ],
+  "bucket": [
+   23.62,
+   -130.72
+  ]
+ },
+ "hold_force_per_drive_N_150g": {
+  "boom": 36.5,
+  "stick": 26.0,
+  "bucket": 16.6
+ },
+ "worst_pose": {
+  "boom": [
+   60.0,
+   15.0,
+   35.0
+  ],
+  "stick": [
+   0.0,
+   60.0,
+   45.0
+  ],
+  "bucket": [
+   40.0,
+   55.0,
+   60.0
+  ]
+ },
+ "hold_force_per_drive_N_unloaded": {
+  "boom": 25.2,
+  "stick": 12.6,
+  "bucket": 5.6
+ },
+ "thrust_continuous_N": 51.0,
+ "min_moment_arm_mm": {
+  "boom": 29.6,
+  "stick": 26.0,
+  "bucket": 7.4
+ },
+ "min_transmission_deg": {
+  "Q": 30.0,
+  "R": 30.2
+ },
+ "tip_force_at_51N": {
+  "bucket_min": 3.6,
+  "bucket_max": 15.32,
+  "stick_min": 7.25,
+  "stick_max": 14.57
+ },
+ "working_ranges_mm": {
+  "dig_depth": 361.0,
+  "reach_ground": 665.3,
+  "reach_max": 683.9,
+  "cut_height": 561.5,
+  "dump_height": 512.7
+ },
+ "dump_pose": [
+  60.0,
+  0.0,
+  0.0
+ ],
+ "cat320_1_15_mm": {
+  "dig_depth": 448.7,
+  "reach_ground": 658.0,
+  "cut_height": 630.0,
+  "load_height": 432.0,
+  "min_load_height": 144.0
+ },
+ "x1_track_limit": {
+  "stroke": 4.0,
+  "boom_deg": -29.1
+ },
+ "boom_sections": [
+  {
+   "x": 60.0,
+   "depth": 40.6,
+   "width": 40.0,
+   "M_Nmm": 2195.0,
+   "Z_mm3": 4507.0,
+   "sigma_MPa": 0.49
+  },
+  {
+   "x": 150.0,
+   "depth": 50.3,
+   "width": 40.0,
+   "M_Nmm": 5539.0,
+   "Z_mm3": 6085.0,
+   "sigma_MPa": 0.91
+  },
+  {
+   "x": 220.0,
+   "depth": 54.1,
+   "width": 40.0,
+   "M_Nmm": 1496.0,
+   "Z_mm3": 6749.0,
+   "sigma_MPa": 0.22
+  },
+  {
+   "x": 290.0,
+   "depth": 39.4,
+   "width": 40.0,
+   "M_Nmm": 1235.0,
+   "Z_mm3": 4327.0,
+   "sigma_MPa": 0.29
+  },
+  {
+   "x": 345.0,
+   "depth": 36.3,
+   "width": 21.0,
+   "M_Nmm": 475.0,
+   "Z_mm3": 2358.0,
+   "sigma_MPa": 0.2
+  }
+ ],
+ "stroke_study": [
+  {
+   "stroke": 40,
+   "screw": 55,
+   "closed": 120,
+   "open": 160,
+   "euler_N": 1019,
+   "boom_lever": null,
+   "boom_base": null,
+   "stick_real_tail_span": null,
+   "stick_real_tail_lever": null
+  },
+  {
+   "stroke": 55,
+   "screw": 70,
+   "closed": 135,
+   "open": 190,
+   "euler_N": 641,
+   "boom_lever": 25.8,
+   "boom_base": [
+    30.9,
+    -27.0
+   ],
+   "stick_real_tail_span": null,
+   "stick_real_tail_lever": null
+  },
+  {
+   "stroke": 60,
+   "screw": 75,
+   "closed": 140,
+   "open": 200,
+   "euler_N": 561,
+   "boom_lever": 29.7,
+   "boom_base": [
+    25.8,
+    -36.6
+   ],
+   "stick_real_tail_span": null,
+   "stick_real_tail_lever": null
+  },
+  {
+   "stroke": 65,
+   "screw": 80,
+   "closed": 145,
+   "open": 210,
+   "euler_N": 495,
+   "boom_lever": 27.1,
+   "boom_base": [
+    21.4,
+    -46.1
+   ],
+   "stick_real_tail_span": null,
+   "stick_real_tail_lever": null
+  },
+  {
+   "stroke": 70,
+   "screw": 85,
+   "closed": 150,
+   "open": 220,
+   "euler_N": 440,
+   "boom_lever": null,
+   "boom_base": null,
+   "stick_real_tail_span": null,
+   "stick_real_tail_lever": null
+  },
+  {
+   "stroke": 80,
+   "screw": 95,
+   "closed": 160,
+   "open": 240,
+   "euler_N": 354,
+   "boom_lever": null,
+   "boom_base": null,
+   "stick_real_tail_span": 95,
+   "stick_real_tail_lever": 33.3
+  },
+  {
+   "stroke": 85,
+   "screw": 100,
+   "closed": 165,
+   "open": 250,
+   "euler_N": 321,
+   "boom_lever": null,
+   "boom_base": null,
+   "stick_real_tail_span": null,
+   "stick_real_tail_lever": null
+  }
+ ],
+ "masses_kg": {
+  "boom": 0.2849,
+  "stick": 0.1506,
+  "bucket": 0.0808,
+  "payload": 0.15,
+  "side_link": 0.0025,
+  "h_link": 0.0079
+ },
+ "pins": {
+  "A_world": [
+   25.82,
+   -36.57
+  ],
+  "B_boom": [
+   154.78,
+   67.97
+  ],
+  "C_boom": [
+   235.42,
+   85.09
+  ],
+  "D_stick": [
+   -33.23,
+   27.29
+  ],
+  "F_stick": [
+   5.0,
+   47.0
+  ],
+  "J_stick": [
+   164.33,
+   2.11
+  ],
+  "H_stick": [
+   193.33,
+   0.0
+  ],
+  "Q_bucket": [
+   0.0,
+   29.3
+  ],
+  "T_bucket": [
+   104.667,
+   0.0
+  ]
+ },
+ "links": {
+  "side_link": 41.39,
+  "h_link": 38.67,
+  "ear_HQ": 29.3
+ },
+ "seconds": 59.0
+}

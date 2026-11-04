@@ -1,0 +1,18 @@
+{
+ "status": "PASS",
+ "file": "images/motion_simulation_r12.mp4",
+ "scope": "150 g dig cycle, MuJoCo trace replayed in 3D_preview.html at 20x",
+ "duration_s": 32.14,
+ "simulated_s": 642.75,
+ "resolution": [
+  1280,
+  720
+ ],
+ "fps": 24.0,
+ "frames_decoded": 771,
+ "chapters": 7,
+ "audio": false,
+ "size_mb": 7.06,
+ "html_sha256": "b1dab556cae27232e8b999cd5625539ce8cdbfeed03d68225e796c0e613aa011",
+ "mp4_sha256": "ba8fc696b63975954e672c1ee4f33b5b281ecce3a52d95398b06e8a63049de26"
+}

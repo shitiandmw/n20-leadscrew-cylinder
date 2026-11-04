@@ -1,0 +1,59 @@
+{
+ "scenario": "half_step",
+ "payload_kg": 0.15,
+ "timestep_s": 0.0005,
+ "simulated_s": 160.0,
+ "wall_s": 53.5,
+ "drive_model": {
+  "F_stall_N": 201.0,
+  "v_no_load_mm_s": 1.25,
+  "slide_armature_kg": 3216.0,
+  "force_clamp_N": 51.0,
+  "Kp_per_mm": 2.0,
+  "Ki_per_mm_s": 1.0
+ },
+ "feedback_bias_mm": {
+  "boom_L": 0.0,
+  "boom_R": 0.0,
+  "stick": 0.0,
+  "bucket": 0.0
+ },
+ "peak_force_N": {
+  "boom_L": 37.32,
+  "boom_R": 37.32,
+  "stick": 16.89,
+  "bucket": 4.05
+ },
+ "max_push_N": {
+  "boom_L": 37.32,
+  "boom_R": 37.32,
+  "stick": 0.0,
+  "bucket": 0.91
+ },
+ "max_pull_N": {
+  "boom_L": 0.0,
+  "boom_R": 0.0,
+  "stick": -16.89,
+  "bucket": -4.05
+ },
+ "time_at_force_clamp_s": 0.0,
+ "max_stroke_tracking_error_mm": 0.0633,
+ "max_pin_closure_error_mm": 0.01845,
+ "max_tip_vs_kinematics_mm": 0.3653,
+ "final_strokes_mm": [
+  10.0,
+  10.0,
+  12.001,
+  18.0
+ ],
+ "pass": true,
+ "compare_full_step": {
+  "peak_force_N": {
+   "boom_L": 37.32,
+   "boom_R": 37.32,
+   "stick": 16.89,
+   "bucket": 4.05
+  },
+  "max_peak_difference_N": 0.0
+ }
+}

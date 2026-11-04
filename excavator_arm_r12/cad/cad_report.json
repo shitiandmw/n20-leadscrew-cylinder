@@ -1,0 +1,268 @@
+{
+ "printed_parts": [
+  {
+   "name": "B01_boom_foot_bracket",
+   "body": "base",
+   "valid": true,
+   "volume_mm3": 73637.1,
+   "mass_g": 93.5,
+   "watertight": true,
+   "winding_consistent": true,
+   "single_shell": true,
+   "step_roundtrip_valid": true,
+   "print_bounds_mm": [
+    75.8,
+    100.0,
+    68.0
+   ]
+  },
+  {
+   "name": "B02_boom",
+   "body": "boom",
+   "valid": true,
+   "volume_mm3": 644806.3,
+   "mass_g": 283.8,
+   "watertight": true,
+   "winding_consistent": true,
+   "single_shell": true,
+   "step_roundtrip_valid": true,
+   "print_bounds_mm": [
+    408.0,
+    107.7,
+    40.0
+   ]
+  },
+  {
+   "name": "B03_stick",
+   "body": "stick",
+   "valid": true,
+   "volume_mm3": 211057.0,
+   "mass_g": 161.2,
+   "watertight": true,
+   "winding_consistent": true,
+   "single_shell": true,
+   "step_roundtrip_valid": true,
+   "print_bounds_mm": [
+    245.1,
+    69.0,
+    32.0
+   ]
+  },
+  {
+   "name": "B04_side_link_L",
+   "body": "side_link",
+   "valid": true,
+   "volume_mm3": 1904.5,
+   "mass_g": 2.4,
+   "watertight": true,
+   "winding_consistent": true,
+   "single_shell": true,
+   "step_roundtrip_valid": true,
+   "print_bounds_mm": [
+    51.4,
+    10.0,
+    4.0
+   ]
+  },
+  {
+   "name": "B04_side_link_R",
+   "body": "side_link",
+   "valid": true,
+   "volume_mm3": 1904.5,
+   "mass_g": 2.4,
+   "watertight": true,
+   "winding_consistent": true,
+   "single_shell": true,
+   "step_roundtrip_valid": true,
+   "print_bounds_mm": [
+    51.4,
+    10.0,
+    4.0
+   ]
+  },
+  {
+   "name": "B05_h_link_L",
+   "body": "h_link",
+   "valid": true,
+   "volume_mm3": 2954.2,
+   "mass_g": 3.8,
+   "watertight": true,
+   "winding_consistent": true,
+   "single_shell": true,
+   "step_roundtrip_valid": true,
+   "print_bounds_mm": [
+    48.7,
+    10.0,
+    21.9
+   ]
+  },
+  {
+   "name": "B05_h_link_R",
+   "body": "h_link",
+   "valid": true,
+   "volume_mm3": 2954.2,
+   "mass_g": 3.8,
+   "watertight": true,
+   "winding_consistent": true,
+   "single_shell": true,
+   "step_roundtrip_valid": true,
+   "print_bounds_mm": [
+    48.7,
+    10.0,
+    21.9
+   ]
+  },
+  {
+   "name": "B06_bucket",
+   "body": "bucket",
+   "valid": true,
+   "volume_mm3": 58974.5,
+   "mass_g": 74.9,
+   "watertight": true,
+   "winding_consistent": true,
+   "single_shell": true,
+   "step_roundtrip_valid": true,
+   "print_bounds_mm": [
+    100.3,
+    84.2,
+    80.0
+   ]
+  },
+  {
+   "name": "B08_B_pad_L",
+   "body": "boom",
+   "valid": true,
+   "volume_mm3": 1899.0,
+   "mass_g": 2.4,
+   "watertight": true,
+   "winding_consistent": true,
+   "single_shell": true,
+   "step_roundtrip_valid": true,
+   "print_bounds_mm": [
+    17.0,
+    17.0,
+    10.9
+   ]
+  },
+  {
+   "name": "B08_B_pad_R",
+   "body": "boom",
+   "valid": true,
+   "volume_mm3": 1899.0,
+   "mass_g": 2.4,
+   "watertight": true,
+   "winding_consistent": true,
+   "single_shell": true,
+   "step_roundtrip_valid": true,
+   "print_bounds_mm": [
+    17.0,
+    17.0,
+    10.9
+   ]
+  },
+  {
+   "name": "B07_tooth_1",
+   "body": "bucket",
+   "valid": true,
+   "volume_mm3": 916.1,
+   "mass_g": 1.2,
+   "watertight": true,
+   "winding_consistent": true,
+   "single_shell": true,
+   "step_roundtrip_valid": true,
+   "print_bounds_mm": [
+    23.4,
+    25.2,
+    6.8
+   ]
+  },
+  {
+   "name": "B07_tooth_2",
+   "body": "bucket",
+   "valid": true,
+   "volume_mm3": 916.1,
+   "mass_g": 1.2,
+   "watertight": true,
+   "winding_consistent": true,
+   "single_shell": true,
+   "step_roundtrip_valid": true,
+   "print_bounds_mm": [
+    23.4,
+    25.2,
+    6.8
+   ]
+  },
+  {
+   "name": "B07_tooth_3",
+   "body": "bucket",
+   "valid": true,
+   "volume_mm3": 916.1,
+   "mass_g": 1.2,
+   "watertight": true,
+   "winding_consistent": true,
+   "single_shell": true,
+   "step_roundtrip_valid": true,
+   "print_bounds_mm": [
+    23.4,
+    25.2,
+    6.8
+   ]
+  },
+  {
+   "name": "B07_tooth_4",
+   "body": "bucket",
+   "valid": true,
+   "volume_mm3": 916.1,
+   "mass_g": 1.2,
+   "watertight": true,
+   "winding_consistent": true,
+   "single_shell": true,
+   "step_roundtrip_valid": true,
+   "print_bounds_mm": [
+    23.4,
+    25.2,
+    6.8
+   ]
+  },
+  {
+   "name": "B07_tooth_5",
+   "body": "bucket",
+   "valid": true,
+   "volume_mm3": 916.1,
+   "mass_g": 1.2,
+   "watertight": true,
+   "winding_consistent": true,
+   "single_shell": true,
+   "step_roundtrip_valid": true,
+   "print_bounds_mm": [
+    23.4,
+    25.2,
+    6.8
+   ]
+  }
+ ],
+ "hardware_and_drive_parts": 78,
+ "assembly_solids": 93,
+ "reference_pose_strokes": [
+  40.0,
+  26.0,
+  30.0
+ ],
+ "masses_kg": {
+  "base": 0.116999,
+  "boom": 0.312245,
+  "stick": 0.190816,
+  "side_link": 0.010134,
+  "h_link": 0.007504,
+  "bucket": 0.085396,
+  "boom_L_barrel": 0.050692,
+  "boom_L_rod": 0.0076,
+  "boom_R_barrel": 0.050692,
+  "boom_R_rod": 0.0076,
+  "stick_barrel": 0.050692,
+  "stick_rod": 0.0076,
+  "bucket_barrel": 0.050692,
+  "bucket_rod": 0.0076
+ },
+ "build_seconds": 38.6
+}

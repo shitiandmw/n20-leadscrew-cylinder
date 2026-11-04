@@ -1,0 +1,121 @@
+{
+ "status": "PASS",
+ "html_sha256": "b1dab556cae27232e8b999cd5625539ce8cdbfeed03d68225e796c0e613aa011",
+ "html_mb": 5.59,
+ "triangles": 97650,
+ "kinematics": {
+  "cases": 125,
+  "max_origin_error_mm": 0.0002743640173559012,
+  "max_angle_error_rad": 0.0000012735069283564826,
+  "max_tip_error_mm": 0.0003472805567136231
+ },
+ "replay": [
+  {
+   "name": "payload_150g",
+   "frames": 67,
+   "max_body_pose_error": 0,
+   "max_tip_error_mm": 0
+  },
+  {
+   "name": "unloaded",
+   "frames": 67,
+   "max_body_pose_error": 0,
+   "max_tip_error_mm": 0
+  }
+ ],
+ "framed": [
+  {
+   "viewport": {
+    "width": 1280,
+    "height": 720
+   },
+   "view": "oblique",
+   "ndc_bounds": {
+    "x0": -0.4825367192559041,
+    "x1": 0.46927167651264656,
+    "y0": -0.8382447323535107,
+    "y1": 0.8600983250241176
+   },
+   "inside": true
+  },
+  {
+   "viewport": {
+    "width": 1280,
+    "height": 720
+   },
+   "view": "side",
+   "ndc_bounds": {
+    "x0": -0.3619200640784414,
+    "x1": 0.35683974990916245,
+    "y0": -0.6305509990141155,
+    "y1": 0.4385839563153186
+   },
+   "inside": true
+  },
+  {
+   "viewport": {
+    "width": 1280,
+    "height": 720
+   },
+   "view": "front",
+   "ndc_bounds": {
+    "x0": -0.050787489808723635,
+    "x1": 0.050787489808724,
+    "y0": -0.6305509990141166,
+    "y1": 0.43858395631531744
+   },
+   "inside": true
+  },
+  {
+   "viewport": {
+    "width": 390,
+    "height": 844
+   },
+   "view": "oblique",
+   "ndc_bounds": {
+    "x0": -0.8340724053276491,
+    "x1": 0.8111435676534838,
+    "y0": -0.8382447323535107,
+    "y1": 0.8600983250241176
+   },
+   "inside": true
+  },
+  {
+   "viewport": {
+    "width": 390,
+    "height": 844
+   },
+   "view": "side",
+   "ndc_bounds": {
+    "x0": -0.6255845956090914,
+    "x1": 0.6168031916456276,
+    "y0": -0.6305509990141155,
+    "y1": 0.4385839563153186
+   },
+   "inside": true
+  },
+  {
+   "viewport": {
+    "width": 390,
+    "height": 844
+   },
+   "view": "front",
+   "ndc_bounds": {
+    "x0": -0.08778698510371918,
+    "x1": 0.08778698510371982,
+    "y0": -0.6305509990141166,
+    "y1": 0.43858395631531744
+   },
+   "inside": true
+  }
+ ],
+ "checks": [
+  "page kinematics = poses_r12.body_poses on 125 grid poses",
+  "cycle modes place every body from the MuJoCo trace",
+  "all parts framed in oblique/side/front at desktop and mobile size over the whole cycle",
+  "mode, phase, play/pause, sliders, x-ray, pin labels",
+  "offline: no network requests, no page errors"
+ ],
+ "errors": [],
+ "network": []
+}

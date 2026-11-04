@@ -1,0 +1,447 @@
+{
+ "status": "PASS",
+ "method": "FCL mesh-mesh collision and distance on the CAD tessellation (chord <= 0.05 mm); all part pairs on different bodies",
+ "poses_grid": 125,
+ "poses_cycle": 322,
+ "parts": 93,
+ "part_pairs": 3771,
+ "penetrations": 0,
+ "hits": [],
+ "same_body_pairs": 507,
+ "same_body_overlaps": [],
+ "same_body_contacts": [
+  {
+   "a": "B02_boom",
+   "b": "B08_B_pad_L",
+   "body": "boom",
+   "max_depth_mm": -0.0
+  },
+  {
+   "a": "B02_boom",
+   "b": "B08_B_pad_R",
+   "body": "boom",
+   "max_depth_mm": -0.0
+  },
+  {
+   "a": "boom_L_V6_body",
+   "b": "boom_L_V6_front_cap",
+   "body": "boom_L_barrel",
+   "max_depth_mm": -0.0
+  },
+  {
+   "a": "boom_L_V6_body",
+   "b": "boom_L_V6_rear_cap",
+   "body": "boom_L_barrel",
+   "max_depth_mm": -0.0
+  },
+  {
+   "a": "boom_L_V6_rear_cap",
+   "b": "boom_L_V6_cable_clamp",
+   "body": "boom_L_barrel",
+   "max_depth_mm": -0.0
+  },
+  {
+   "a": "boom_L_V6_rod",
+   "b": "boom_L_V6_rod_eye",
+   "body": "boom_L_rod",
+   "max_depth_mm": -0.0
+  },
+  {
+   "a": "boom_R_V6_body",
+   "b": "boom_R_V6_front_cap",
+   "body": "boom_R_barrel",
+   "max_depth_mm": -0.0
+  },
+  {
+   "a": "boom_R_V6_body",
+   "b": "boom_R_V6_rear_cap",
+   "body": "boom_R_barrel",
+   "max_depth_mm": -0.0
+  },
+  {
+   "a": "boom_R_V6_rear_cap",
+   "b": "boom_R_V6_cable_clamp",
+   "body": "boom_R_barrel",
+   "max_depth_mm": -0.0
+  },
+  {
+   "a": "boom_R_V6_rod",
+   "b": "boom_R_V6_rod_eye",
+   "body": "boom_R_rod",
+   "max_depth_mm": -0.0
+  },
+  {
+   "a": "stick_V6_body",
+   "b": "stick_V6_front_cap",
+   "body": "stick_barrel",
+   "max_depth_mm": -0.0
+  },
+  {
+   "a": "stick_V6_body",
+   "b": "stick_V6_rear_cap",
+   "body": "stick_barrel",
+   "max_depth_mm": -0.0
+  },
+  {
+   "a": "stick_V6_rear_cap",
+   "b": "stick_V6_cable_clamp",
+   "body": "stick_barrel",
+   "max_depth_mm": -0.0
+  },
+  {
+   "a": "stick_V6_rod",
+   "b": "stick_V6_rod_eye",
+   "body": "stick_rod",
+   "max_depth_mm": -0.0
+  },
+  {
+   "a": "bucket_V6_body",
+   "b": "bucket_V6_front_cap",
+   "body": "bucket_barrel",
+   "max_depth_mm": -0.0
+  },
+  {
+   "a": "bucket_V6_body",
+   "b": "bucket_V6_rear_cap",
+   "body": "bucket_barrel",
+   "max_depth_mm": -0.0
+  },
+  {
+   "a": "bucket_V6_rear_cap",
+   "b": "bucket_V6_cable_clamp",
+   "body": "bucket_barrel",
+   "max_depth_mm": -0.0
+  },
+  {
+   "a": "bucket_V6_rod",
+   "b": "bucket_V6_rod_eye",
+   "body": "bucket_rod",
+   "max_depth_mm": -0.0
+  }
+ ],
+ "closest_inplane": [
+  {
+   "pair": "B03_stick | stick_V6_rod_eye",
+   "gap_mm": 1.097,
+   "pose": [
+    0.0,
+    60.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "B01_boom_foot_bracket | boom_L_V6_body",
+   "gap_mm": 1.318,
+   "pose": [
+    32.94,
+    8.32,
+    11.04
+   ]
+  },
+  {
+   "pair": "B01_boom_foot_bracket | boom_R_V6_body",
+   "gap_mm": 1.318,
+   "pose": [
+    32.94,
+    8.32,
+    11.04
+   ]
+  },
+  {
+   "pair": "B03_stick | bucket_V6_rod_eye",
+   "gap_mm": 2.106,
+   "pose": [
+    0.0,
+    0.0,
+    60.0
+   ]
+  },
+  {
+   "pair": "B03_stick | stick_V6_rod",
+   "gap_mm": 2.596,
+   "pose": [
+    0.0,
+    60.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "B02_boom | stick_V6_rod",
+   "gap_mm": 2.841,
+   "pose": [
+    0.0,
+    60.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "B02_boom | stick_V6_front_cap",
+   "gap_mm": 3.138,
+   "pose": [
+    0.0,
+    60.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "B03_stick | bucket_V6_body",
+   "gap_mm": 3.178,
+   "pose": [
+    0.0,
+    0.0,
+    15.0
+   ]
+  },
+  {
+   "pair": "B04_side_link_L | collar_H_L",
+   "gap_mm": 3.314,
+   "pose": [
+    36.89,
+    42.27,
+    59.24
+   ]
+  },
+  {
+   "pair": "B04_side_link_R | collar_H_R",
+   "gap_mm": 3.314,
+   "pose": [
+    36.89,
+    42.27,
+    59.24
+   ]
+  },
+  {
+   "pair": "B03_stick | bucket_V6_rod",
+   "gap_mm": 3.606,
+   "pose": [
+    0.0,
+    0.0,
+    60.0
+   ]
+  }
+ ],
+ "closest_lateral": [
+  {
+   "pair": "B02_boom | B03_stick",
+   "gap_mm": 0.5,
+   "pose": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "B03_stick | B06_bucket",
+   "gap_mm": 0.5,
+   "pose": [
+    0.0,
+    0.0,
+    15.0
+   ]
+  },
+  {
+   "pair": "B05_h_link_R | B06_bucket",
+   "gap_mm": 0.5,
+   "pose": [
+    0.0,
+    0.0,
+    60.0
+   ]
+  },
+  {
+   "pair": "B01_boom_foot_bracket | B02_boom",
+   "gap_mm": 0.5,
+   "pose": [
+    30.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "B02_boom | stick_V6_body",
+   "gap_mm": 0.65,
+   "pose": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "B02_boom | stick_V6_cable_clamp",
+   "gap_mm": 0.65,
+   "pose": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "B03_stick | bucket_V6_cable_clamp",
+   "gap_mm": 0.65,
+   "pose": [
+    11.82,
+    45.82,
+    56.74
+   ]
+  },
+  {
+   "pair": "B01_boom_foot_bracket | boom_L_V6_body",
+   "gap_mm": 1.15,
+   "pose": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "B01_boom_foot_bracket | boom_L_V6_rear_cap",
+   "gap_mm": 1.15,
+   "pose": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "B01_boom_foot_bracket | boom_L_V6_cable_clamp",
+   "gap_mm": 1.15,
+   "pose": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  }
+ ],
+ "closest_at_pins": [
+  {
+   "pair": "B02_boom | washer_O_L",
+   "gap_mm": 0.05,
+   "pose": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "B02_boom | washer_O_R",
+   "gap_mm": 0.05,
+   "pose": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "B03_stick | washer_E_L",
+   "gap_mm": 0.05,
+   "pose": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "B03_stick | washer_E_R",
+   "gap_mm": 0.05,
+   "pose": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "B06_bucket | washer_H_L",
+   "gap_mm": 0.05,
+   "pose": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "B06_bucket | washer_H_R",
+   "gap_mm": 0.05,
+   "pose": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "B02_boom | pin_O_d6x60",
+   "gap_mm": 0.095,
+   "pose": [
+    15.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "B03_stick | pin_E_d6x42",
+   "gap_mm": 0.095,
+   "pose": [
+    0.0,
+    30.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "B06_bucket | pin_H_d6x50",
+   "gap_mm": 0.095,
+   "pose": [
+    44.49,
+    36.75,
+    48.36
+   ]
+  },
+  {
+   "pair": "B04_side_link_L | pin_J_d3x68",
+   "gap_mm": 0.097,
+   "pose": [
+    45.0,
+    38.0,
+    50.0
+   ]
+  }
+ ],
+ "closest_inside_drives": [
+  {
+   "pair": "boom_L_V6_front_cap | boom_L_V6_rod",
+   "gap_mm": 0.145,
+   "pose": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "boom_R_V6_front_cap | boom_R_V6_rod",
+   "gap_mm": 0.145,
+   "pose": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "stick_V6_front_cap | stick_V6_rod",
+   "gap_mm": 0.145,
+   "pose": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "pair": "bucket_V6_front_cap | bucket_V6_rod",
+   "gap_mm": 0.145,
+   "pose": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  }
+ ],
+ "note": "Pairs are classed by where their closest points are (see check_cad.py). A pair is listed once, under the class of its overall closest points at its worst pose. The in-plane list therefore gives the side-view clearances that remain when no lateral face or pin fit is closer.",
+ "seconds": 31.2
+}

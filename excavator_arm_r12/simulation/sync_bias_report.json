@@ -1,0 +1,38 @@
+{
+ "scenario": "sync_bias_0p5mm",
+ "payload_kg": 0.15,
+ "feedback_bias_mm": [
+  0.5,
+  0,
+  0,
+  0
+ ],
+ "poses": {
+  "boom": {
+   "strokes_mm": [
+    60.0,
+    15.0,
+    35.0
+   ],
+   "mujoco_force_N": {
+    "boom_L": 27.91,
+    "boom_R": 51.0,
+    "stick": -18.24,
+    "bucket": -4.69
+   },
+   "virtual_work_N": {
+    "boom_each": 39.48,
+    "stick": -18.26,
+    "bucket": -4.69
+   },
+   "boom_pair_sum_N": 78.91,
+   "stroke_error_mm": [
+    -0.5,
+    -0.4901,
+    0.0,
+    0.0
+   ],
+   "residual_boom_moment_Nm": -0.7851
+  }
+ }
+}
