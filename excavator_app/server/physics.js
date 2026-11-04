@@ -7,12 +7,17 @@ import {
   POUR_ZONE,
   clamp,
   neutral,
-  groundHeight,
   crawlerExtent,
   initialMachine,
+  armFrame,
   cellX,
   cellY,
 } from "../shared/world.js";
+import {
+  WATER,
+  groundHeight,
+  crawlerHitsProp,
+} from "../shared/landscape.js";
 import { Terrain, initialTerrain, CELL_AREA } from "./terrain.js";
 import {
   BucketFrame,
@@ -27,37 +32,32 @@ import {
   firstCrossing,
   CROSS_MOUTH,
   CROSS_CHEEK,
-} from "./bucket.js";
+} from "../shared/bucket.js";
 
 export function bucketPose(machine) {
-  const s = solve(machine.strokes),
-    a = machine.heading + (machine.slew * Math.PI) / 180;
-  const reach = s.origins.bucket[0] + CONFIG.arm_offset[0];
-  return {
-    x: machine.x + Math.cos(a) * reach,
-    y: machine.y + Math.sin(a) * reach,
-    z: (machine.z ?? 0) + s.origins.bucket[1] + CONFIG.arm_offset[2],
-    yaw: a,
-    pitch: s.angles.bucket,
-  };
+  const s = solve(machine.strokes);
+  return armFrame(
+    machine,
+    s.origins.bucket[0] + CONFIG.arm_offset[0],
+    s.origins.bucket[1] + CONFIG.arm_offset[2],
+    s.angles.bucket,
+  );
 }
 export function toLocal(x, y, z, b) {
   const dx = x - b.x,
     dy = y - b.y,
     dz = z - b.z;
-  const forward = dx * Math.cos(b.yaw) + dy * Math.sin(b.yaw);
   return [
-    forward * Math.cos(b.pitch) + dz * Math.sin(b.pitch),
-    -dx * Math.sin(b.yaw) + dy * Math.cos(b.yaw),
-    -forward * Math.sin(b.pitch) + dz * Math.cos(b.pitch),
+    dx * b.ex[0] + dy * b.ex[1] + dz * b.ex[2],
+    dx * b.ey[0] + dy * b.ey[1] + dz * b.ey[2],
+    dx * b.ez[0] + dy * b.ez[1] + dz * b.ez[2],
   ];
 }
 export function toWorld(x, y, z, b) {
-  const f = x * Math.cos(b.pitch) - z * Math.sin(b.pitch);
   return [
-    b.x + f * Math.cos(b.yaw) - y * Math.sin(b.yaw),
-    b.y + f * Math.sin(b.yaw) + y * Math.cos(b.yaw),
-    b.z + x * Math.sin(b.pitch) + z * Math.cos(b.pitch),
+    b.x + x * b.ex[0] + y * b.ey[0] + z * b.ez[0],
+    b.y + x * b.ex[1] + y * b.ey[1] + z * b.ez[1],
+    b.z + x * b.ex[2] + y * b.ey[2] + z * b.ez[2],
   ];
 }
 export const insideProfile = insidePolygon;
@@ -66,6 +66,7 @@ const R = WORLD.radius,
   D = 2 * R,
   GRAIN = SAND.grainVolume,
   MAX = SAND.maxGrains,
+  BUDGET = SAND.grainBudget,
   SHELL = BUCKET.shellHalfThickness,
   // Centre-to-shell-centreline contact distance and lateral cheek limits.
   RR = R + SHELL,
@@ -89,9 +90,36 @@ const R = WORLD.radius,
   TRACK_HALF_LENGTH = CONFIG.wheel_centres / 2 + CONFIG.sprocket_tip_radius_mm,
   TRACK_Y = CONFIG.track_centres / 2,
   SHOE_HALF = CONFIG.shoe_width / 2,
-  BELLY_CLEARANCE = 40;
+  BELLY_CLEARANCE = 40,
+  // Full track speed (mm/s), about 12 km/h at 1:15: a game's travel speed.
+  TRACK_SPEED = 220,
+  // Loose sand gives this far under a shoe the first time it is driven over.
+  SHOE_SINK = 4,
+  // The crawler climbs up to this tilt, a little past the sand's repose, so a
+  // machine that dug itself into a pit can always drive out.
+  MAX_TILT = (37 * Math.PI) / 180,
+  // Deeper water than this above the track shoes stops the crawler.
+  WADE_DEPTH = 40,
+  // The chassis follows the ground with these time constant and rates.
+  TILT_TIME = 0.14,
+  RISE_RATE = 700,
+  FALL_RATE = 450,
+  // The rotating upper body (CAD bounds, above its slew ring).
+  UPPER_MIN_X = -145,
+  UPPER_MAX_X = 145,
+  UPPER_MIN_Y = -158,
+  UPPER_MAX_Y = 136,
+  UPPER_BOTTOM = 110;
 const { nx: NX, ny: NY, cell: CELL } = SAND;
 const FOOT = 48; // max cut footprint, in cells per side
+// A cell's cut class is only needed while the bucket stays over that cell, so
+// it lives in a small torus indexed by the low bits of the cell coordinates.
+const CUT_MASK = 127,
+  cutIndex = (i, j) => ((j & CUT_MASK) << 7) | (i & CUT_MASK);
+// Fourteen points along the tracks that the chassis rests on.
+const SAMPLE_U = [-130, -87, -43, 0, 43, 87, 130],
+  SAMPLE_SUM_U2 = SAMPLE_U.reduce((sum, u) => sum + u * u, 0) * 2,
+  SAMPLE_SUM_V2 = TRACK_Y * TRACK_Y * SAMPLE_U.length * 2;
 
 // Hybrid sand model used by excavation simulators: the bulk of the sand is a
 // height field that slumps to its angle of repose; material the bucket scoops,
@@ -123,7 +151,7 @@ export class SandSimulation {
     this.fill = new Int32Array(HASH);
     this.entries = new Int32Array(MAX);
     this.pairs = new Int32Array(MAX * 24);
-    this.cutClass = new Uint8Array(NX * NY);
+    this.cutClass = new Uint8Array((CUT_MASK + 1) * (CUT_MASK + 1));
     this.footLow = new Float64Array(FOOT * FOOT);
     this.frame = new BucketFrame();
     this.prevFrame = new BucketFrame();
@@ -136,6 +164,7 @@ export class SandSimulation {
     this.col = new Float64Array(4);
     this.surf = new Float64Array(3);
     this.normal = new Float64Array(3);
+    this.fit = { b: 0, c: 0, h: new Float64Array(2 * SAMPLE_U.length) };
     this.penetration = 0;
     this.reset();
   }
@@ -148,6 +177,8 @@ export class SandSimulation {
     this.tick = 0;
     this.resting = false;
     this.blocked = false;
+    this.obstacle = null;
+    this.chassisMoving = false;
     this.terrain.copyFrom(initialTerrain());
     this.cutClass.fill(0);
     this.alive.fill(0);
@@ -199,6 +230,11 @@ export class SandSimulation {
     return i;
   }
 
+  // How many more grains the solver can take on within its time budget.
+  spawnRoom() {
+    return Math.min(this.freeCount, BUDGET - this.grains);
+  }
+
   release(i) {
     this.alive[i] = 0;
     this.grains--;
@@ -206,7 +242,7 @@ export class SandSimulation {
     this.freeCount++;
   }
 
-  // Lowest clearance of the bucket shell and teeth above the concrete.
+  // Lowest clearance of the bucket shell and teeth above the hard ground.
   bucketClearance(machine) {
     const frame = this.testFrame.set(bucketPose(machine)),
       w = this.w3;
@@ -214,13 +250,96 @@ export class SandSimulation {
     for (const [x, z] of REGION)
       for (const y of [-BUCKET.outerHalfWidth, BUCKET.outerHalfWidth]) {
         frame.toWorld(x, y, z, w);
-        clearance = Math.min(clearance, w[2] - SHELL - groundHeight(w[0]));
+        clearance = Math.min(clearance, w[2] - SHELL - groundHeight(w[0], w[1]));
       }
     return clearance;
   }
 
-  // Kinematic machine. The bucket cannot be driven through the concrete
-  // apron, ramp or pit floor: a motion that would push it deeper stops.
+  // Surface under the fourteen track samples, and the plane z = a + b u + c v
+  // fitted to them by least squares (u along the heading, v across it).
+  fitFootprint(x, y, heading) {
+    const t = this.terrain,
+      fit = this.fit,
+      ch = Math.cos(heading),
+      sh = Math.sin(heading),
+      s = this.surf;
+    let sumU = 0,
+      sumV = 0,
+      n = 0;
+    for (const v of [-TRACK_Y, TRACK_Y])
+      for (const u of SAMPLE_U) {
+        const px = x + u * ch - v * sh,
+          py = y + u * sh + v * ch,
+          cell = t.cellAt(px, py),
+          sand = t.get(cell);
+        t.sample(px, py, s);
+        const height =
+          s[0] - (sand > 0.5 && !t.pressed(cell) ? Math.min(sand, SHOE_SINK) : 0);
+        fit.h[n++] = height;
+        sumU += u * height;
+        sumV += v * height;
+      }
+    fit.b = sumU / SAMPLE_SUM_U2;
+    fit.c = sumV / SAMPLE_SUM_V2;
+    return fit;
+  }
+
+  // Rest the chassis on the footprint: the tilt follows the fitted plane with
+  // a short lag, and the height is the lowest that clears every sample.
+  restChassis(dt, m) {
+    const fit = this.fitFootprint(m.x, m.y, m.heading),
+      k = 1 - Math.exp(-dt / TILT_TIME);
+    const before = [m.z, m.pitch, m.roll];
+    m.pitch += (Math.atan(fit.b) - m.pitch) * k;
+    m.roll += (Math.atan(fit.c * Math.cos(m.pitch)) - m.roll) * k;
+    if (Math.abs(m.pitch) < 1e-7) m.pitch = 0;
+    if (Math.abs(m.roll) < 1e-7) m.roll = 0;
+    const b = Math.tan(m.pitch),
+      c = Math.tan(m.roll) / Math.cos(m.pitch);
+    let target = -Infinity,
+      n = 0;
+    for (const v of [-TRACK_Y, TRACK_Y])
+      for (const u of SAMPLE_U)
+        target = Math.max(target, fit.h[n++] - b * u - c * v);
+    const change = target - m.z;
+    m.z =
+      change > 0
+        ? m.z + Math.min(change, RISE_RATE * dt)
+        : m.z + Math.max(change, -FALL_RATE * dt);
+    if (Math.abs(m.z - target) < 1e-7) m.z = target + 0;
+    this.chassisMoving =
+      Math.abs(m.z - before[0]) > 1e-4 ||
+      Math.abs(m.pitch - before[1]) > 1e-5 ||
+      Math.abs(m.roll - before[2]) > 1e-5;
+  }
+
+  // Why the crawler cannot stand here, or null if it can.
+  obstacleAt(m) {
+    const ch = Math.cos(m.heading),
+      sh = Math.sin(m.heading);
+    if (
+      crawlerHitsProp(
+        m.x,
+        m.y,
+        ch,
+        sh,
+        TRACK_HALF_LENGTH,
+        TRACK_Y + SHOE_HALF,
+      )
+    )
+      return "object";
+    const s = this.surf;
+    this.terrain.sample(m.x, m.y, s);
+    if (
+      s[0] < WATER.level - WADE_DEPTH &&
+      Math.hypot(m.x - WATER.x, m.y - WATER.y) < WATER.radius * 1.5
+    )
+      return "water";
+    return null;
+  }
+
+  // Kinematic machine riding on the ground and the sand. The bucket cannot be
+  // driven through the hard ground: a motion that would push it deeper stops.
   advanceMachine(dt) {
     const a = this.estop ? neutral() : this.axes,
       m = this.machine,
@@ -235,6 +354,7 @@ export class SandSimulation {
       clearance = next;
       return true;
     };
+    this.bodyMoved = false;
     for (const [i, key] of ["boom", "stick", "bucket"].entries()) {
       const old = m.strokes[i];
       m.strokes[i] = clamp(old + a[key] * 13 * speed * dt, 0, 60);
@@ -242,11 +362,25 @@ export class SandSimulation {
     }
     const slew = m.slew;
     m.slew = clamp(slew + a.slew * 30 * speed * dt, -150, 150);
-    if (m.slew !== slew && !accept()) m.slew = slew;
-    const l = a.leftTrack * 65 * speed,
-      r = a.rightTrack * 65 * speed;
-    if (!l && !r) return;
-    const before = { x: m.x, y: m.y, z: m.z, heading: m.heading };
+    if (m.slew !== slew) {
+      if (accept()) this.bodyMoved = true;
+      else m.slew = slew;
+    }
+    const l = a.leftTrack * TRACK_SPEED * speed,
+      r = a.rightTrack * TRACK_SPEED * speed;
+    this.drove = false;
+    if (!l && !r) {
+      this.restChassis(dt, m);
+      return;
+    }
+    const before = {
+      x: m.x,
+      y: m.y,
+      z: m.z,
+      heading: m.heading,
+      pitch: m.pitch,
+      roll: m.roll,
+    };
     m.heading += ((r - l) / CONFIG.track_centres) * dt;
     const extent = crawlerExtent(m.heading);
     m.x = clamp(
@@ -259,61 +393,122 @@ export class SandSimulation {
       WORLD.minY + extent.y,
       WORLD.maxY - extent.y,
     );
-    // A level chassis rests on the highest concrete under its footprint.
-    // The sandbox does not simulate suspension or vehicle tipping.
-    m.z = groundHeight(m.x - extent.x);
+    // Solid scenery and deep water stop the crawler, and so does a slope it
+    // cannot climb. A motion that makes things better is always allowed.
+    let obstacle = this.obstacleAt(m);
+    if (obstacle && this.obstacleAt(before) === obstacle) obstacle = null;
+    if (!obstacle) {
+      const fit = this.fitFootprint(m.x, m.y, m.heading),
+        tilt = Math.atan(Math.hypot(fit.b, fit.c));
+      if (tilt > MAX_TILT) {
+        const was = this.fitFootprint(before.x, before.y, before.heading);
+        if (tilt > Math.atan(Math.hypot(was.b, was.c))) obstacle = "steep";
+      }
+    }
+    if (obstacle) {
+      this.obstacle = obstacle;
+      Object.assign(m, before);
+      this.restChassis(dt, m);
+      return;
+    }
+    this.restChassis(dt, m);
     if (!accept()) {
       Object.assign(m, before);
       return;
     }
     m.tracks[0] += l * dt;
     m.tracks[1] += r * dt;
+    this.drove = true;
+    this.bodyMoved = true;
   }
 
-  // Heavy tracks displace loose sand: shoes press to the concrete and the
-  // lower frame keeps its ground clearance; sand is pushed out sideways.
-  plowCrawler() {
+  // Sand displaced by the machine goes off to the side of its tracks, spread
+  // over a band so it never stacks up in one column of cells.
+  displace(cell, excess, u, side, ch, sh) {
+    const t = this.terrain,
+      m = this.machine,
+      v = side * (TRACK_Y + SHOE_HALF + 8 + 36 * (this.random() + 0.5)),
+      along = u + 12 * this.random();
+    t.add(cell, -excess);
+    t.touch(cell);
+    t.deposit(
+      m.x + along * ch - v * sh,
+      m.y + along * sh + v * ch,
+      excess * CELL_AREA,
+    );
+  }
+
+  // Moving tracks press a shallow rut into loose sand; the lower frame and the
+  // upper body push aside whatever stands in their way. Nothing here runs while
+  // the machine stands still, so slumping sand can come to rest against it.
+  pressSand() {
     const m = this.machine,
       t = this.terrain,
-      c = Math.cos(m.heading),
-      s = Math.sin(m.heading),
-      extent = crawlerExtent(m.heading);
-    const i0 = clamp(
-        Math.floor((m.x - extent.x - WORLD.minX) / CELL),
-        0,
-        NX - 1,
-      ),
-      i1 = clamp(Math.floor((m.x + extent.x - WORLD.minX) / CELL), 0, NX - 1),
-      j0 = clamp(Math.floor((m.y - extent.y - WORLD.minY) / CELL), 0, NY - 1),
-      j1 = clamp(Math.floor((m.y + extent.y - WORLD.minY) / CELL), 0, NY - 1);
-    const outside = TRACK_Y + SHOE_HALF + 6;
+      ch = Math.cos(m.heading),
+      sh = Math.sin(m.heading),
+      b = Math.tan(m.pitch),
+      c = Math.tan(m.roll) / Math.cos(m.pitch);
+    if (this.drove) {
+      const extent = crawlerExtent(m.heading),
+        i0 = clamp(Math.floor((m.x - extent.x - WORLD.minX) / CELL), 0, NX - 1),
+        i1 = clamp(Math.floor((m.x + extent.x - WORLD.minX) / CELL), 0, NX - 1),
+        j0 = clamp(Math.floor((m.y - extent.y - WORLD.minY) / CELL), 0, NY - 1),
+        j1 = clamp(Math.floor((m.y + extent.y - WORLD.minY) / CELL), 0, NY - 1);
+      for (let j = j0; j <= j1; j++)
+        for (let i = i0; i <= i1; i++) {
+          const dx = cellX(i) - m.x,
+            dy = cellY(j) - m.y,
+            u = dx * ch + dy * sh,
+            v = -dx * sh + dy * ch;
+          if (
+            Math.abs(u) > TRACK_HALF_LENGTH ||
+            Math.abs(v) > TRACK_Y + SHOE_HALF
+          )
+            continue;
+          const cell = j * NX + i,
+            sand = t.get(cell);
+          if (sand < 0.01) continue;
+          const onShoe = Math.abs(Math.abs(v) - TRACK_Y) <= SHOE_HALF,
+            limit = m.z + b * u + c * v + (onShoe ? 0 : BELLY_CLEARANCE),
+            excess = Math.min(sand, t.surface(cell) - limit);
+          if (excess <= 0.01) continue;
+          if (onShoe) t.press(cell);
+          this.displace(cell, excess, u, v < 0 ? -1 : 1, ch, sh);
+        }
+    }
+    if (!this.bodyMoved) return;
+    // The upper body turns with the slew; its footprint is a rotated box.
+    const a = m.heading + (m.slew * Math.PI) / 180,
+      ca = Math.cos(a),
+      sa = Math.sin(a),
+      reach = Math.hypot(UPPER_MAX_X, UPPER_MIN_Y),
+      i0 = clamp(Math.floor((m.x - reach - WORLD.minX) / CELL), 0, NX - 1),
+      i1 = clamp(Math.floor((m.x + reach - WORLD.minX) / CELL), 0, NX - 1),
+      j0 = clamp(Math.floor((m.y - reach - WORLD.minY) / CELL), 0, NY - 1),
+      j1 = clamp(Math.floor((m.y + reach - WORLD.minY) / CELL), 0, NY - 1);
     for (let j = j0; j <= j1; j++)
       for (let i = i0; i <= i1; i++) {
-        const cell = j * NX + i;
-        if (t.h[cell] < 0.01) continue;
         const dx = cellX(i) - m.x,
           dy = cellY(j) - m.y,
-          u = dx * c + dy * s,
-          v = -dx * s + dy * c;
+          ux = dx * ca + dy * sa,
+          uy = -dx * sa + dy * ca;
         if (
-          Math.abs(u) > TRACK_HALF_LENGTH ||
-          Math.abs(v) > TRACK_Y + SHOE_HALF
+          ux < UPPER_MIN_X ||
+          ux > UPPER_MAX_X ||
+          uy < UPPER_MIN_Y ||
+          uy > UPPER_MAX_Y
         )
           continue;
-        const onShoe = Math.abs(Math.abs(v) - TRACK_Y) <= SHOE_HALF,
-          limit = m.z + (onShoe ? 0.5 : BELLY_CLEARANCE),
-          excess = Math.min(t.h[cell], t.surface(cell) - limit);
-        if (excess <= 0.01) continue;
-        // Out past the nearer edge of the track and crawler.
-        const side = v < 0 ? -1 : 1,
-          target = side * outside;
-        const tx = m.x + u * c - target * s,
-          ty = m.y + u * s + target * c,
-          destination = t.cellAt(tx, ty);
-        t.h[cell] -= excess;
-        t.h[destination] += excess;
-        t.touch(cell);
-        t.touch(destination);
+        const cell = j * NX + i,
+          sand = t.get(cell);
+        if (sand < 0.01) continue;
+        const u = dx * ch + dy * sh,
+          v = -dx * sh + dy * ch,
+          excess = Math.min(
+            sand,
+            t.surface(cell) - (m.z + b * u + c * v + UPPER_BOTTOM),
+          );
+        if (excess > 0.01) this.displace(cell, excess, u, v < 0 ? -1 : 1, ch, sh);
       }
   }
 
@@ -376,7 +571,7 @@ export class SandSimulation {
         highest = Math.max(highest, t.surface(j * NX + i));
     if (highest < lowest - SHELL) {
       for (let j = j0; j < j0 + fh; j++)
-        for (let i = i0; i < i0 + fw; i++) this.cutClass[j * NX + i] = 0;
+        for (let i = i0; i < i0 + fw; i++) this.cutClass[cutIndex(i, j)] = 0;
       return;
     }
     for (let fj = 0; fj < fh; fj++)
@@ -396,18 +591,19 @@ export class SandSimulation {
           cx = cellX(i),
           cy = cellY(j);
         if (Number.isNaN(this.footLow[fj * FOOT + fi])) {
-          this.cutClass[cell] = 0;
+          this.cutClass[cutIndex(i, j)] = 0;
           continue;
         }
         frame.column(cx, cy, col);
         const surface = t.surface(cell),
           low = col[0] - (col[2] ? 0 : SHELL),
           high = col[1] + (col[3] ? 0 : SHELL);
-        if (surface <= low + 0.05 || t.h[cell] <= 1e-9) {
-          this.cutClass[cell] = 0;
+        const sand = t.get(cell);
+        if (surface <= low + 0.05 || sand <= 1e-9) {
+          this.cutClass[cutIndex(i, j)] = 0;
           continue;
         }
-        const removable = Math.min(t.h[cell], surface - low),
+        const removable = Math.min(sand, surface - low),
           inside = Math.min(removable, Math.max(0, high - low)),
           above = removable - inside,
           top = low + inside;
@@ -415,21 +611,21 @@ export class SandSimulation {
         const middle = (low + top) / 2;
         frame.toLocal(cx, cy, middle, now);
         prev.toLocal(cx, cy, middle, before);
-        let type = this.cutClass[cell];
+        let type = this.cutClass[cutIndex(i, j)];
         const entered = this.regionEntry(before, now);
         if (entered) type = entered;
         if (!type) type = col[2] ? 1 : 2;
-        this.cutClass[cell] = type;
+        this.cutClass[cutIndex(i, j)] = type;
         if (inside > 0) {
-          if (type === 1 && this.freeCount) {
+          if (type === 1 && this.spawnRoom() > 0) {
             const n = Math.min(
-              this.freeCount,
+              this.spawnRoom(),
               10,
               Math.floor((inside * CELL_AREA) / GRAIN),
             );
             const spawned = n ? this.spawnInCavity(cx, cy, low, top, n, dt) : 0;
             if (spawned) {
-              t.h[cell] -= (spawned * GRAIN) / CELL_AREA;
+              t.add(cell, (-spawned * GRAIN) / CELL_AREA);
               t.touch(cell);
             }
           } else {
@@ -445,8 +641,8 @@ export class SandSimulation {
               length = Math.hypot(dx, dy);
             }
             if (length < 1e-6) {
-              dx = frame.cy;
-              dy = frame.sy;
+              dx = Math.cos(frame.yaw);
+              dy = Math.sin(frame.yaw);
               length = 1;
             }
             const target = this.pushTarget(
@@ -460,15 +656,24 @@ export class SandSimulation {
               fw,
               fh,
             );
-            t.h[cell] -= inside;
-            t.h[target] += inside;
+            // Sand flows ahead of and around a pushing bucket: spread it widely,
+            // so it forms a broad berm instead of a spike.
+            const side = 130 * this.random(),
+              ahead = 8 + 80 * (this.random() + 0.5) ** 2;
+            t.add(cell, -inside);
             t.touch(cell);
-            t.touch(target);
+            t.deposit(
+              cellX(target & (NX - 1)) + (dx / length) * ahead - (dy / length) * side,
+              cellY(Math.floor(target / NX)) +
+                (dy / length) * ahead +
+                (dx / length) * side,
+              inside * CELL_AREA,
+            );
           }
         }
         if (above > 0) {
           const n = Math.min(
-            this.freeCount,
+            this.spawnRoom(),
             10,
             Math.floor((above * CELL_AREA) / GRAIN),
           );
@@ -482,7 +687,7 @@ export class SandSimulation {
             if (this.spawn(x, y, z, 0, 0, 0, inCavity, now) >= 0) spawned++;
           }
           if (spawned) {
-            t.h[cell] -= (spawned * GRAIN) / CELL_AREA;
+            t.add(cell, (-spawned * GRAIN) / CELL_AREA);
             t.touch(cell);
           }
         }
@@ -721,7 +926,7 @@ export class SandSimulation {
     }
   }
 
-  // Grain against the sand bed (with friction) and the concrete underneath.
+  // Grain against the sand bed (with friction) and the hard ground underneath.
   collideBed(i) {
     const p = this.pos,
       q = this.prev,
@@ -758,7 +963,10 @@ export class SandSimulation {
   // on contact; the last contact normal and depth are kept for friction.
   wallPass(l, memory, side) {
     let contact = false;
-    if (Math.abs(l[1]) >= OUTER) return false;
+    // The shell only exists between the cheek plates. Past their outer faces
+    // nothing but the plates can touch a grain: treating the shell as wider
+    // would hold up a grain resting against a tilted cheek from outside.
+    if (Math.abs(l[1]) > BUCKET.outerHalfWidth) return false;
     for (const wall of ALL_WALLS) {
       const t =
         ((l[0] - wall.ax) * wall.dx + (l[2] - wall.az) * wall.dz) / wall.len2;
@@ -917,7 +1125,8 @@ export class SandSimulation {
       q = this.prev,
       v = this.vel,
       list = this.list,
-      g = WORLD.gravity;
+      g = WORLD.gravity,
+      stackBase = this.machine.z;
     let n = 0;
     for (let i = 0; i < MAX; i++) if (this.alive[i]) list[n++] = i;
     this.listCount = n;
@@ -936,7 +1145,7 @@ export class SandSimulation {
       if (this.touchAge[i] < 255) this.touchAge[i]++;
       // Inverse mass rises with height: lower grains are heavier, so an
       // upper grain takes most of a contact correction.
-      this.weight[i] = Math.exp(STACK * clamp(p[k + 2], -200, 900));
+      this.weight[i] = Math.exp(STACK * clamp(p[k + 2] - stackBase, -300, 900));
     }
     this.buildPairs();
     for (let iteration = 0; iteration < ITERATIONS; iteration++) {
@@ -1029,7 +1238,7 @@ export class SandSimulation {
   substep(dt) {
     this.prevFrame.copy(this.frame);
     this.advanceMachine(dt);
-    this.plowCrawler();
+    this.pressSand();
     this.bucket = bucketPose(this.machine);
     this.frame.set(this.bucket);
     this.cutTerrain(dt);
@@ -1041,17 +1250,21 @@ export class SandSimulation {
       this.estop || Object.values(this.axes).every((value) => value === 0);
     if (this.resting && idle) {
       this.tick++;
-      if (this.stats.blocked) this.stats = { ...this.stats, blocked: false };
+      if (this.stats.blocked || this.stats.obstacle)
+        this.stats = { ...this.stats, blocked: false, obstacle: null };
       return;
     }
     this.blocked = false;
+    this.obstacle = null;
     for (let i = 0; i < SUBSTEPS; i++) this.substep(dt / SUBSTEPS);
     this.terrain.relax(3, 0.5);
-    // Sand that slumped under the crawler is pushed out again.
-    this.plowCrawler();
     this.tick++;
     this.stats = this.measure();
-    this.resting = idle && !this.grains && !this.terrain.activeCount;
+    this.resting =
+      idle &&
+      !this.grains &&
+      !this.terrain.activeCount &&
+      !this.chassisMoving;
   }
 
   measure() {
@@ -1072,7 +1285,7 @@ export class SandSimulation {
         p[k] < z.maxX &&
         p[k + 1] > z.minY &&
         p[k + 1] < z.maxY &&
-        p[k + 2] < 0
+        p[k + 2] < 40
       )
         falling++;
     }
@@ -1084,22 +1297,31 @@ export class SandSimulation {
       grains: this.grains,
       active,
       blocked: this.blocked,
+      obstacle: this.obstacle,
     };
   }
 
-  // Free grains for the network: [slot, x, y, z] as Int16 (0.1 mm units).
-  packGrains() {
-    const out = new Int16Array(4 * this.grains),
+  // Free grains for the network: [slot, x, y, z] as Int16 in 0.1 mm units,
+  // relative to whole-millimetre origin, which is written to the given array.
+  packGrains(origin) {
+    const m = this.machine,
+      out = new Int16Array(4 * this.grains),
       scale = 1 / SAND.positionQuantum,
       p = this.pos;
+    origin[0] = Math.round(m.x);
+    origin[1] = Math.round(m.y);
+    origin[2] = Math.round(m.z);
     let o = 0;
     for (let i = 0; i < MAX && o < out.length; i++) {
       if (!this.alive[i]) continue;
       const k = 3 * i;
       out[o++] = i;
-      out[o++] = clamp(Math.round(p[k] * scale), -32767, 32767);
-      out[o++] = clamp(Math.round(p[k + 1] * scale), -32767, 32767);
-      out[o++] = clamp(Math.round(p[k + 2] * scale), -32767, 32767);
+      for (let d = 0; d < 3; d++)
+        out[o++] = clamp(
+          Math.round((p[k + d] - origin[d]) * scale),
+          -32767,
+          32767,
+        );
     }
     return out;
   }

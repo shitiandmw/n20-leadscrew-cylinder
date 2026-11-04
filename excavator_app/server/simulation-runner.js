@@ -1,5 +1,6 @@
 import { Worker } from "node:worker_threads";
 import { initialMachine, neutral } from "../shared/world.js";
+import { TILE_CELLS, TILE_COUNT } from "../shared/protocol.js";
 
 // One in-flight step per room: slow physics cannot block sockets or accumulate
 // a backlog of old control commands. Ownership and watchdogs stay on the server.
@@ -7,6 +8,9 @@ export class SimulationRunner {
   constructor(onStep, onFailure) {
     this.resetVersion = 0;
     this.motionVersion = 0;
+    // The latest quantised sand: tile index -> cells, each with a version.
+    this.tileData = new Map();
+    this.tileVersions = new Uint32Array(TILE_COUNT);
     this.worker = new Worker(new URL("./physics-worker.js", import.meta.url), {
       // A host launched from stdin (including the Docker smoke test) may use
       // --input-type, which Node does not permit for a worker loaded from a file.
@@ -21,27 +25,32 @@ export class SimulationRunner {
       this.rejectReady = reject;
       this.worker.on("message", ({ motionVersion, ...frame }) => {
         this.busy = false;
+        // Sand updates are never discarded, not even from before a reset: the
+        // worker only ever sends a tile again if it changes again.
+        if (frame.tileIndex)
+          frame.tileIndex.forEach((tile, k) => {
+            this.tileData.set(
+              tile,
+              frame.tileData.subarray(k * TILE_CELLS, (k + 1) * TILE_CELLS),
+            );
+            this.tileVersions[tile] = frame.tileVersion;
+          });
         if (!this.initialized) {
-          this.initialTerrain = frame.terrain;
-          this.initialVersions = frame.tileVersions;
           this.reset();
           this.resetVersion = 0;
           this.initialized = true;
-          Object.assign(this, frame);
+          this.origin = frame.origin;
           resolve();
           return;
         }
-        // Frames computed before a reset are discarded entirely.
+        // Frames computed before a reset are otherwise discarded entirely.
         if (frame.resetVersion !== this.resetVersion) return;
         // The sand always mirrors the worker, including a step that a stop
         // invalidated: only that step's machine motion is discarded.
         this.grains = frame.grains;
+        this.origin = frame.origin;
         this.count = frame.count;
         this.stats = frame.stats;
-        if (frame.terrain) {
-          this.terrain = frame.terrain;
-          this.tileVersions = frame.tileVersions;
-        }
         if (motionVersion !== this.motionVersion) return;
         this.machine = frame.machine;
         this.tick = frame.tick;
@@ -75,12 +84,10 @@ export class SimulationRunner {
       grains: 0,
       active: 0,
       blocked: false,
+      obstacle: null,
     };
-    // The worker rebuilds exactly this bed; clients receive it immediately.
     this.grains = new Int16Array(0);
     this.count = 0;
-    this.terrain = this.initialTerrain;
-    this.tileVersions = this.initialVersions;
     this.stepMs = 0;
   }
 

@@ -11,6 +11,7 @@
     "build": "vite build",
     "test": "node --test test/*.test.js",
     "test:browser": "node test/browser.js",
+    "test:sand": "node test/sand-visual.js",
     "export:model": "python3 scripts/export_model.py"
   },
   "dependencies": {

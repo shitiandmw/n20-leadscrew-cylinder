@@ -70,8 +70,11 @@ export async function checkRoomRecovery(browser) {
     await page.getByText("Room lookup unavailable. Retry connection.").waitFor();
     assert.equal(await page.evaluate(() => window.sandLab.getRoom()), room);
     assert.equal(roomCreates, 1);
+    await page.getByRole("button", { name: "Retry connection" }).waitFor();
     await page.unroute(`**/api/rooms/${room}`);
-    await page.getByRole("button", { name: "Retry connection" }).click();
+    // The app also retries by itself. A rendering-heavy page makes a pointer
+    // click slow enough to lose that race, so press the button straight away.
+    await page.evaluate(() => document.querySelector("#retry-connection").click());
     await page.waitForFunction(
       () => document.querySelector("#connection-text").textContent === "Connected",
     );

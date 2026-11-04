@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { SimulationRunner } from "../server/simulation-runner.js";
+import { TILE_COUNT } from "../shared/protocol.js";
 
 test("worker coalesces steps, discards pre-reset frames, and preserves a latched stop", async () => {
   let frames = 0;
@@ -34,9 +35,10 @@ test("worker coalesces steps, discards pre-reset frames, and preserves a latched
     await next;
     assert.equal(s.machine.strokes[0], 10);
     assert.equal(s.estop, true);
-    assert.equal(s.terrain.length, 155 * 114);
+    assert.ok(s.tileData.size > 1000, "the worker publishes the sand it holds");
+    assert.ok(s.tileData.size < TILE_COUNT / 10, "and only that sand");
     assert.equal(s.grains.length % 4, 0);
-    assert.equal(s.tileVersions.length, 80);
+    assert.equal(s.tileVersions.length, TILE_COUNT);
   } finally {
     await s.close();
   }

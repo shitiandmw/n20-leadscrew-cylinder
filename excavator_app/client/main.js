@@ -1,7 +1,7 @@
 import "./style.css";
 import "./remote.css";
 import QRCode from "qrcode";
-import { AXES, neutral, SAND, BUCKET } from "../shared/world.js";
+import { AXES, neutral, BUCKET } from "../shared/world.js";
 import { decodeFrame, applyTiles } from "../shared/protocol.js";
 import { createInputSender } from "./input-sender.js";
 import {
@@ -35,33 +35,54 @@ const icon = (name) =>
   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]}</svg>`;
 const brand = `<a class="brand" href="/" aria-label="Sand Lab home"><span class="brand-icon">${icon("shovel")}</span><span>SAND<span class="slash">/</span>LAB<small>REMOTE EARTHWORKS</small></span></a>`;
 const connection = `<span class="connection" role="status"><i></i><span id="connection-text">Connecting</span></span>`;
-const connectionHelp = `<div id="connection-help" role="alert" hidden><p id="connection-message"></p><div><button id="retry-connection" class="button small">Retry connection</button><a class="button small" href="${remote ? "/remote" : "/"}">${remote ? "Enter room code" : "Open a new sandbox"}</a></div></div>`;
+const connectionHelp = `<div id="connection-help" role="alert" hidden><p id="connection-message"></p><div><button id="retry-connection" class="button small">Retry connection</button><a class="button small" href="${remote ? "/remote" : "/"}">${remote ? "Enter room code" : "Open a new game"}</a></div></div>`;
 
-function controls() {
-  return `<div class="operator-heading"><div><span class="eyebrow">OPERATOR STATION</span><h2>You’re in the driver’s seat.</h2></div><span class="mode-tag">ISO</span></div>
-  <div class="ownership"><span id="operator-status">Waiting for connection</span><button id="claim" class="button small" disabled>Take control</button></div>
-  <div class="joysticks">
-    <div class="joystick-group"><div class="stick-label"><b>01</b> STICK / SLEW</div><span class="pad-top">STICK OUT</span><div class="joystick" id="left-stick" role="group" aria-label="Left joystick: stick and slew"><span class="cross horizontal"></span><span class="cross vertical"></span><span class="pad-left">L</span><span class="pad-right">R</span><div class="knob"></div><span class="pad-dot"></span></div><span class="pad-bottom">STICK IN</span></div>
-    <div class="joystick-group"><div class="stick-label"><b>02</b> BOOM / BUCKET</div><span class="pad-top">LOWER</span><div class="joystick" id="right-stick" role="group" aria-label="Right joystick: boom and bucket"><span class="cross horizontal"></span><span class="cross vertical"></span><span class="pad-left">CURL</span><span class="pad-right">OPEN</span><div class="knob"></div><span class="pad-dot"></span></div><span class="pad-bottom">RAISE</span></div>
-  </div>
-  <div class="joint-readouts"><span>STICK <output id="stick-value">0.0 mm</output></span><span>BUCKET <output id="bucket-value">0.0 mm</output></span></div>
-  <p class="control-tip">Hold to move. Curl past 50 mm before lifting.</p>
-  <div class="track-heading"><span class="eyebrow">TRACK DRIVE</span><span>Hold to travel</span></div>
-  <div class="track-controls"><div><span>LEFT TRACK</span><button class="hold" data-axis="leftTrack" data-value="1" aria-label="Left track forward">↑</button><button class="hold" data-axis="leftTrack" data-value="-1" aria-label="Left track reverse">↓</button></div><div><span>RIGHT TRACK</span><button class="hold" data-axis="rightTrack" data-value="1" aria-label="Right track forward">↑</button><button class="hold" data-axis="rightTrack" data-value="-1" aria-label="Right track reverse">↓</button></div></div>
-  <div class="speed-control"><label for="speed">Movement speed</label><output id="speed-value">65%</output><input id="speed" type="range" min="20" max="100" step="5" value="65"></div>
-  <button id="estop" class="estop" data-estop><span class="stop-icon"></span><span>EMERGENCY STOP</span><kbd>SPACE</kbd></button>
-  <button id="resume" class="button resume" hidden>Resume operation</button>
-  <details class="keyboard-help"><summary>Keyboard & button controls <span>↗</span></summary><p>W/S · stick out/in &nbsp; A/D · slew<br>↑/↓ · boom lower/raise &nbsp; ←/→ · curl/open<br>Q/Z · left track &nbsp; E/C · right track</p><div class="accessible-controls">${[
-    ["boom", "Boom"],
-    ["stick", "Stick"],
-    ["bucket", "Bucket"],
-    ["slew", "Slew"],
-  ]
-    .map(
-      ([axis, label]) =>
-        `<div><span>${label}</span><button class="hold" data-axis="${axis}" data-value="-1" aria-label="Decrease ${label}">−</button><button class="hold" data-axis="${axis}" data-value="1" aria-label="Increase ${label}">+</button></div>`,
-    )
-    .join("")}</div></details>`;
+// One stick of the on-screen controls, with the track rocker beside it.
+const stickPad = (id, label, top, bottom, left, right) =>
+  `<div class="joystick-group"><div class="stick-label">${label}</div><span class="pad-top">${top}</span><div class="joystick" id="${id}" role="group" aria-label="${label} joystick"><span class="cross horizontal"></span><span class="cross vertical"></span><span class="pad-left">${left}</span><span class="pad-right">${right}</span><div class="knob"></div></div><span class="pad-bottom">${bottom}</span></div>`;
+const trackPad = (axis, name) =>
+  `<div class="track-pad"><span>${name}<br>TRACK</span><button class="hold" data-axis="${axis}" data-value="1" aria-label="${name} track forward">↑</button><button class="hold" data-axis="${axis}" data-value="-1" aria-label="${name} track reverse">↓</button></div>`;
+const iconText = (name, text) => `${icon(name)}<span>${text}</span>`;
+
+// The game fills the window: the world behind, instruments over it.
+function gameScreen() {
+  return `<main class="game"><section id="stage" aria-label="Excavator in an open world">
+    <div id="loading"><span class="loader"></span>Preparing the valley…</div>
+    <div class="hud-top">
+      <div class="hud-identity">${brand}<div class="hud-session">${connection}<span class="session-code">ROOM <strong id="room-label">———</strong></span></div>${connectionHelp}<canvas id="minimap" width="360" height="360" role="img" aria-label="Map of the valley"></canvas></div>
+      <div class="hud-actions"><div class="view-buttons" role="group" aria-label="Camera views"><button data-view="chase" class="active">Chase</button><button data-view="orbit">Orbit</button><button data-view="side">Side</button><button data-view="top">Top</button><button data-view="bucket">Bucket</button></div><button id="fullscreen" class="icon-button" aria-label="Toggle full screen">${icon("expand")}</button><button class="button hud-button" data-pair aria-label="Pair your phone">${iconText("phone", "Pair your phone")}</button><button id="menu-toggle" class="button hud-button" aria-expanded="false" aria-controls="menu">Menu</button></div>
+    </div>
+    <div class="hud-messages"><div class="stop-banner" hidden>EMERGENCY STOP ENGAGED</div><div class="contact-banner" hidden>BUCKET ON HARD GROUND · RAISE THE BOOM</div><div class="obstacle-banner" hidden></div></div>
+    <aside id="menu" class="menu" hidden aria-label="Game menu">
+      <div class="menu-section"><span class="eyebrow">HOW TO PLAY</span><p>Drive with <kbd>I</kbd> <kbd>K</kbd> <kbd>J</kbd> <kbd>L</kbd>. The yard is straight ahead: lower the boom, crowd the stick, curl past 50 mm, lift, swing left to the pour zone and open the bucket. Everything else is yours to explore. The map shows where you are.</p><p class="key-table"><span><kbd>I</kbd> <kbd>K</kbd> drive</span><span><kbd>J</kbd> <kbd>L</kbd> turn</span><span><kbd>W</kbd> <kbd>S</kbd> stick</span><span><kbd>A</kbd> <kbd>D</kbd> slew</span><span><kbd>↑</kbd> <kbd>↓</kbd> boom down / up</span><span><kbd>←</kbd> <kbd>→</kbd> bucket</span><span><kbd>Q</kbd> <kbd>Z</kbd> left track</span><span><kbd>E</kbd> <kbd>C</kbd> right track</span></p></div>
+      <div class="speed-control menu-section"><label for="speed">Movement speed</label><output id="speed-value">65%</output><input id="speed" type="range" min="20" max="100" step="5" value="65"></div>
+      <div class="menu-section joint-readouts"><span>STICK <output id="stick-value">0.0 mm</output></span><span>BUCKET <output id="bucket-value">0.0 mm</output></span></div>
+      <details class="keyboard-help menu-section"><summary>Hold-to-move buttons <span>↗</span></summary><div class="accessible-controls">${[
+        ["boom", "Boom"],
+        ["stick", "Stick"],
+        ["bucket", "Bucket"],
+        ["slew", "Slew"],
+      ]
+        .map(
+          ([axis, label]) =>
+            `<div><span>${label}</span><button class="hold" data-axis="${axis}" data-value="-1" aria-label="Decrease ${label}">−</button><button class="hold" data-axis="${axis}" data-value="1" aria-label="Increase ${label}">+</button></div>`,
+        )
+        .join("")}</div></details>
+      <div class="menu-section menu-actions"><button id="reset" class="button">${iconText("rotate", "Reset world")}</button><a id="remote-link" class="button" href="/remote" target="_blank" rel="noopener">Remote control ↗</a></div>
+      <p class="menu-status"><span id="particle-count">0</span> loose grains · <span id="performance">30 Hz physics</span> · <span id="latency-value">— ms</span></p>
+    </aside>
+    <div class="hud-bottom">
+      <div class="control-cluster">${stickPad("left-stick", "STICK / SLEW", "STICK OUT", "STICK IN", "L", "R")}${trackPad("leftTrack", "Left")}</div>
+      <div class="hud-centre">
+        <div class="ownership"><span id="operator-status">Waiting for connection</span><button id="claim" class="button small" disabled>Take control</button></div>
+        <div class="telemetry"><div><span>BUCKET LOAD</span><strong id="load-value">0<small>cm³</small></strong><div class="meter"><i id="load-meter"></i></div></div><div><span>BOOM</span><strong id="boom-value">10.0<small>mm</small></strong><div class="meter"><i id="boom-meter"></i></div></div><div><span>SLEW</span><strong id="slew-value">0<small>°</small></strong><div class="meter"><i id="slew-meter"></i></div></div><div><span>DELIVERED</span><strong id="deposited-value">0<small>cm³</small></strong><div class="meter meter-empty"></div></div></div>
+        <button id="estop" class="estop" data-estop><span class="stop-icon"></span><span>EMERGENCY STOP</span><kbd>SPACE</kbd></button>
+        <button id="resume" class="button resume" hidden>Resume operation</button>
+      </div>
+      <div class="control-cluster control-cluster-right">${trackPad("rightTrack", "Right")}${stickPad("right-stick", "BOOM / BUCKET", "LOWER", "RAISE", "CURL", "OPEN")}</div>
+    </div>
+  </section></main>
+  <dialog id="pair-dialog"><button class="dialog-close icon-button" aria-label="Close pairing dialog">×</button><span class="eyebrow">TAKE THE CONTROLS WITH YOU</span><h2>Your phone.<br>Your excavator.</h2><p>Connect both devices to the same network, then scan to open the remote.</p><div class="qr-wrap"><canvas id="qr"></canvas></div><div class="pair-room">ROOM <strong id="pair-code"></strong></div><label for="pair-base">Server address reachable from your phone</label><input id="pair-base" type="url"><p class="pair-hint">Use your computer’s LAN address or public HTTPS domain. localhost only works on this device.</p><div class="pair-actions"><button class="button primary" id="copy-link">Copy remote link</button><a class="button" id="open-remote" target="_blank" rel="noopener">Open remote ↗</a></div><p id="pair-feedback" role="status"></p></dialog><div id="toast" role="status" hidden></div>`;
 }
 
 if (remote && !new URLSearchParams(location.search).get("room")) {
@@ -89,15 +110,7 @@ function fatal(message) {
 async function start() {
   app.innerHTML = remote
     ? remoteFace({ connection, connectionHelp })
-    : `
-    <header class="site-header">${brand}<nav><span class="nav-selected">Sandbox</span><a id="remote-link" href="/remote" target="_blank" rel="noopener">Remote control ↗</a></nav><div class="header-actions">${connection}<button class="button primary" data-pair>${icon("phone")} Pair your phone</button></div></header>${connectionHelp}
-    <main class="workspace"><section class="page-heading"><div><span class="eyebrow">THE DIGITAL DIG SITE <span class="eyebrow-dash">/</span> 001</span><h1>Small machine. <span>Real motion.</span></h1></div><div class="session-info"><span>SESSION</span><strong id="room-label">———</strong><button class="icon-button" data-pair aria-label="Show pairing code">${icon("link")}</button></div></section>
-    <div class="workbench"><section class="simulation" aria-label="Excavator sandbox"><div id="stage"><div class="scene-top"><span class="scene-tag"><i></i> LIVE SIMULATION</span><span class="scene-scale">1:15 SCALE <span>·</span> ARM60 / R4</span></div><div id="loading"><span class="loader"></span>Preparing your dig site…</div><div class="view-buttons" role="group" aria-label="Camera views"><button data-view="orbit" class="active">Orbit</button><button data-view="side">Side</button><button data-view="top">Top</button><button data-view="bucket">Bucket</button></div><div class="scene-bottom"><span>DRAG TO ORBIT <b>·</b> SCROLL TO ZOOM</span><button id="fullscreen" class="icon-button" aria-label="Toggle full screen">${icon("expand")}</button></div><div class="stop-banner" hidden>EMERGENCY STOP ENGAGED</div><div class="contact-banner" hidden>BUCKET ON CONCRETE · RAISE THE BOOM</div></div>
-    <div class="telemetry"><div><span>BUCKET LOAD</span><strong id="load-value">0<small>cm³</small></strong><div class="meter"><i id="load-meter"></i></div></div><div><span>BOOM STROKE</span><strong id="boom-value">10.0<small>mm</small></strong><div class="meter"><i id="boom-meter"></i></div></div><div><span>SLEW ANGLE</span><strong id="slew-value">0<small>°</small></strong><div class="meter"><i id="slew-meter"></i></div></div><div><span>POUR ZONE</span><strong id="deposited-value">0<small>cm³</small></strong><span class="metric-note">Sand deposited</span></div></div>
-    <div class="below-scene"><div><span class="number-chip">01</span><div><strong>Dig. Lift. Swing. Repeat.</strong><p>Lower into the sand, crowd the stick, then curl the bucket. Lift and swing toward the marked pour zone.</p></div></div><button id="reset" class="button">${icon("rotate")} Reset sandbox</button></div></section>
-    <aside class="sidebar"><section class="operator-panel">${controls()}</section><button class="phone-card" data-pair><span class="phone-card-icon">${icon("phone")}</span><span><strong>A pocket-sized cockpit.</strong><small>Scan, connect, and dig from your phone.</small></span>${icon("arrow")}</button></aside></div>
-    <footer><span><i class="footer-dot"></i>${(SAND.nx * SAND.ny).toLocaleString("en-US")}-cell sand bed <b>·</b> <span id="particle-count">0</span> loose grains <b>·</b> Granular physics</span><span><span id="performance">30 Hz physics</span><b>·</b><span id="latency-value">— ms</span> <b>·</b> WebSocket</span></footer></main>
-    <dialog id="pair-dialog"><button class="dialog-close icon-button" aria-label="Close pairing dialog">×</button><span class="eyebrow">TAKE THE CONTROLS WITH YOU</span><h2>Your phone.<br>Your excavator.</h2><p>Connect both devices to the same network, then scan to open the remote.</p><div class="qr-wrap"><canvas id="qr"></canvas></div><div class="pair-room">ROOM <strong id="pair-code"></strong></div><label for="pair-base">Server address reachable from your phone</label><input id="pair-base" type="url"><p class="pair-hint">Use your computer’s LAN address or public HTTPS domain. localhost only works on this device.</p><div class="pair-actions"><button class="button primary" id="copy-link">Copy remote link</button><a class="button" id="open-remote" target="_blank" rel="noopener">Open remote ↗</a></div><p id="pair-feedback" role="status"></p></dialog><div id="toast" role="status" hidden></div>`;
+    : gameScreen();
 
   let room = new URLSearchParams(location.search).get("room")?.toUpperCase();
   if (room && !/^[A-F0-9]{6}$/.test(room))
@@ -121,8 +134,7 @@ async function start() {
     state,
     scene,
     sandFrame,
-    sandBed = new Uint16Array(SAND.nx * SAND.ny),
-    sandBedReady = false,
+    sandBed = new Map(),
     retry = 0,
     reconnectTimer,
     toastTimer,
@@ -200,28 +212,43 @@ async function start() {
     if (document.hidden && isOwner()) send({ type: "input", axes, speed });
   }
   const keys = {
-    w: ["stick", -1],
-    s: ["stick", 1],
-    a: ["slew", -1],
-    d: ["slew", 1],
-    ArrowUp: ["boom", -1],
-    ArrowDown: ["boom", 1],
-    ArrowLeft: ["bucket", 1],
-    ArrowRight: ["bucket", -1],
-    q: ["leftTrack", 1],
-    z: ["leftTrack", -1],
-    e: ["rightTrack", 1],
-    c: ["rightTrack", -1],
+    w: [["stick", -1]],
+    s: [["stick", 1]],
+    a: [["slew", -1]],
+    d: [["slew", 1]],
+    ArrowUp: [["boom", -1]],
+    ArrowDown: [["boom", 1]],
+    ArrowLeft: [["bucket", 1]],
+    ArrowRight: [["bucket", -1]],
+    q: [["leftTrack", 1]],
+    z: [["leftTrack", -1]],
+    e: [["rightTrack", 1]],
+    c: [["rightTrack", -1]],
+    // Both tracks together, so one finger can steer the machine anywhere.
+    i: [
+      ["leftTrack", 1],
+      ["rightTrack", 1],
+    ],
+    k: [
+      ["leftTrack", -1],
+      ["rightTrack", -1],
+    ],
+    j: [
+      ["leftTrack", -1],
+      ["rightTrack", 1],
+    ],
+    l: [
+      ["leftTrack", 1],
+      ["rightTrack", -1],
+    ],
   };
   function gatherAxes() {
     const previous = axes;
     axes = neutral();
     for (const source of pointerSources.values())
       for (const [axis, value] of Object.entries(source)) axes[axis] += value;
-    for (const key of keyState) {
-      const [axis, value] = keys[key];
-      axes[axis] += value;
-    }
+    for (const key of keyState)
+      for (const [axis, value] of keys[key]) axes[axis] += value;
     for (const key of AXES) axes[key] = Math.max(-1, Math.min(1, axes[key]));
     if (AXES.some((key) => axes[key] !== previous[key]))
       inputSender.schedule(
@@ -416,11 +443,11 @@ async function start() {
     send({ type: "resume" });
   };
   $("#reset").onclick = () => {
-    if (!isOwner()) return toast("Take control before resetting the sandbox.");
+    if (!isOwner()) return toast("Take control before resetting the world.");
     clearInputs();
     send({ type: "reset" });
     settingsSheet?.close();
-    toast("Sandbox reset. Ready for a fresh dig.");
+    toast("World reset. Back at the sand yard.");
   };
   if (remote) setupSettings(settingsSheet, clearInputs, haptics);
 
@@ -510,6 +537,15 @@ async function start() {
       $("#load-meter").style.width =
         Math.min(100, (state.stats.load / BUCKET.ratedLoad) * 100) + "%";
       $(".contact-banner").hidden = !state.stats.blocked || state.estop;
+      const obstacle = !state.estop && state.stats.obstacle,
+        obstacleBanner = $(".obstacle-banner");
+      obstacleBanner.hidden = !obstacle;
+      if (obstacle)
+        obstacleBanner.textContent = {
+          object: "SOMETHING IN THE WAY · BACK UP OR TURN",
+          steep: "TOO STEEP TO CLIMB · BACK DOWN",
+          water: "TOO DEEP · BACK UP",
+        }[obstacle];
       $("#boom-meter").style.width =
         (state.machine.strokes[0] / 60) * 100 + "%";
       $("#slew-meter").style.width = (state.machine.slew + 150) / 3 + "%";
@@ -596,10 +632,10 @@ async function start() {
         if (previousRoom) {
           state = null;
           sandFrame = null;
-          sandBed.fill(0);
-          sandBedReady = false;
+          sandBed.clear();
+          scene?.newRoom();
           toast(
-            "The previous room ended. A new sandbox is ready; pair your phone again.",
+            "The previous room ended. A new game is ready; pair your phone again.",
           );
         }
       }
@@ -627,10 +663,11 @@ async function start() {
       if (typeof event.data !== "string") {
         // Machine pose, loose grains and changed sand-bed tiles of one tick.
         const frame = decodeFrame(event.data);
-        applyTiles(sandBed, frame.tiles);
-        if (frame.tiles.length) sandBedReady = true;
         if (scene) scene.pushFrame(frame);
-        else sandFrame = frame;
+        else {
+          applyTiles(sandBed, frame.tiles);
+          sandFrame = frame;
+        }
         return;
       }
       const message = JSON.parse(event.data);
@@ -684,6 +721,12 @@ async function start() {
   };
 
   if (!remote) {
+    const menu = $("#menu"),
+      menuToggle = $("#menu-toggle");
+    menuToggle.onclick = () => {
+      menu.hidden = !menu.hidden;
+      menuToggle.setAttribute("aria-expanded", String(!menu.hidden));
+    };
     setupPairing(() => room, toast, clearInputs).then((update) => {
       refreshPairing = update;
       refreshPairing();
@@ -703,9 +746,11 @@ async function start() {
         if (message) $("#loading").textContent = message;
       });
       if (state) scene.setState(state);
-      // Frames that arrived while the CAD model loaded are already in sandBed.
-      if (sandBedReady) scene.setTerrain(sandBed);
+      // Frames that arrived while the model loaded are already in sandBed.
+      if (sandBed.size) scene.setTerrain(sandBed);
+      sandBed.clear();
       if (sandFrame) scene.pushFrame({ ...sandFrame, tiles: [] });
+      scene.attachMinimap($("#minimap"));
       document.querySelectorAll("[data-view]").forEach((button) => {
         button.onclick = () => {
           scene.view(button.dataset.view);
@@ -792,7 +837,7 @@ async function setupPairing(getRoom, toast, clearInputs) {
       $("#open-remote").removeAttribute("href");
       $("#copy-link").disabled = true;
       $("#pair-feedback").textContent =
-        "Waiting for a sandbox. Check the server connection.";
+        "Waiting for a game. Check the server connection.";
       return;
     }
     try {

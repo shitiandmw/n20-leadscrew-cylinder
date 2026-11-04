@@ -1,4 +1,4 @@
-import { BUCKET, BUCKET_PROFILE } from "../shared/world.js";
+import { BUCKET, BUCKET_PROFILE } from "./world.js";
 
 // Bucket local frame: x along the bucket, y lateral, z normal to both. The
 // cavity is the closed polygon BUCKET_PROFILE; its last-to-first edge is the
@@ -116,12 +116,17 @@ export function firstCrossing(a, b, hit) {
   return type;
 }
 
-// A rigid bucket pose with cached trigonometry. Matches toLocal/toWorld in
-// physics.js and the Three.js bucket group (rotation.y = -pitch).
+// A rigid bucket pose in the world: local x, y and z axes ex, ey and ez, at any
+// chassis tilt. Matches toLocal/toWorld in physics.js and the Three.js bucket
+// group (rotation.y = -pitch inside the tilted root group).
 export class BucketFrame {
   constructor() {
     this.regionF = new Float64Array(REGION.length);
     this.regionZ = new Float64Array(REGION.length);
+    this.ex = [1, 0, 0];
+    this.ey = [0, 1, 0];
+    this.ez = [0, 0, 1];
+    this.centre = [0, 0, 0];
   }
   set(pose) {
     this.x = pose.x;
@@ -129,22 +134,24 @@ export class BucketFrame {
     this.z = pose.z;
     this.yaw = pose.yaw;
     this.pitch = pose.pitch;
-    this.cy = Math.cos(pose.yaw);
-    this.sy = Math.sin(pose.yaw);
-    this.cp = Math.cos(pose.pitch);
-    this.sp = Math.sin(pose.pitch);
+    const { ex, ey, ez } = pose;
+    for (let d = 0; d < 3; d++) {
+      this.ex[d] = ex[d];
+      this.ey[d] = ey[d];
+      this.ez[d] = ez[d];
+    }
+    // World "up" seen from the bucket. A vertical column is a straight line
+    // along it, so these projections make column() cheap.
+    this.upX = this.ex[2];
+    this.upY = this.ey[2];
+    this.upZ = this.ez[2];
+    this.upArea = this.upX * this.upX + this.upZ * this.upZ;
     for (let k = 0; k < REGION.length; k++) {
       const [x, z] = REGION[k];
-      this.regionF[k] = x * this.cp - z * this.sp;
-      this.regionZ[k] = x * this.sp + z * this.cp;
+      this.regionF[k] = x * this.upZ - z * this.upX;
+      this.regionZ[k] = x * this.upX + z * this.upZ;
     }
-    const [cx, cz] = CENTROID,
-      f = cx * this.cp - cz * this.sp;
-    this.centre = [
-      this.x + f * this.cy,
-      this.y + f * this.sy,
-      this.z + cx * this.sp + cz * this.cp,
-    ];
+    this.toWorld(CENTROID[0], 0, CENTROID[1], this.centre);
     return this;
   }
   copy(other) {
@@ -154,27 +161,44 @@ export class BucketFrame {
     const dx = x - this.x,
       dy = y - this.y,
       dz = z - this.z,
-      f = dx * this.cy + dy * this.sy;
-    out[0] = f * this.cp + dz * this.sp;
-    out[1] = -dx * this.sy + dy * this.cy;
-    out[2] = -f * this.sp + dz * this.cp;
+      { ex, ey, ez } = this;
+    out[0] = dx * ex[0] + dy * ex[1] + dz * ex[2];
+    out[1] = dx * ey[0] + dy * ey[1] + dz * ey[2];
+    out[2] = dx * ez[0] + dy * ez[1] + dz * ez[2];
     return out;
   }
   toWorld(x, y, z, out) {
-    const f = x * this.cp - z * this.sp;
-    out[0] = this.x + f * this.cy - y * this.sy;
-    out[1] = this.y + f * this.sy + y * this.cy;
-    out[2] = this.z + x * this.sp + z * this.cp;
+    const { ex, ey, ez } = this;
+    out[0] = this.x + x * ex[0] + y * ey[0] + z * ez[0];
+    out[1] = this.y + x * ex[1] + y * ey[1] + z * ez[1];
+    out[2] = this.z + x * ex[2] + y * ey[2] + z * ez[2];
     return out;
   }
   // Vertical extent of the cutting region above world column (x, y).
   // Writes [zLow, zHigh, lowIsMouth, highIsMouth]; returns false if missed.
   column(x, y, out) {
-    const dx = x - this.x,
+    const half = BUCKET.outerHalfWidth,
+      dx = x - this.x,
       dy = y - this.y,
-      lateral = -dx * this.sy + dy * this.cy;
-    if (Math.abs(lateral) > BUCKET.outerHalfWidth) return false;
-    const f = dx * this.cy + dy * this.sy,
+      { ex, ey, ez } = this,
+      // The column's local position at world height z = this.z.
+      ax = dx * ex[0] + dy * ex[1],
+      ay = dx * ey[0] + dy * ey[1],
+      az = dx * ez[0] + dy * ez[1],
+      upY = this.upY;
+    let tMin = -Infinity,
+      tMax = Infinity;
+    // Across the bucket: a tilted column can enter or leave through a cheek.
+    if (Math.abs(upY) < 1e-9) {
+      if (Math.abs(ay) > half) return false;
+    } else {
+      const a = (-half - ay) / upY,
+        b = (half - ay) / upY;
+      tMin = Math.min(a, b);
+      tMax = Math.max(a, b);
+    }
+    const f = ax * this.upZ - az * this.upX,
+      start = ax * this.upX + az * this.upZ,
       F = this.regionF,
       Z = this.regionZ,
       n = REGION.length;
@@ -187,7 +211,8 @@ export class BucketFrame {
         fa = F[k],
         fb = F[k1];
       if (fa > f === fb > f) continue;
-      const z = Z[k] + ((f - fa) / (fb - fa)) * (Z[k1] - Z[k]);
+      const z =
+        (Z[k] + ((f - fa) / (fb - fa)) * (Z[k1] - Z[k]) - start) / this.upArea;
       const mouth = k === REGION_EDGE_MOUTH ? 1 : 0;
       if (z < low) {
         low = z;
@@ -199,6 +224,15 @@ export class BucketFrame {
       }
     }
     if (low === Infinity) return false;
+    if (low < tMin) {
+      low = tMin;
+      lowMouth = 0;
+    }
+    if (high > tMax) {
+      high = tMax;
+      highMouth = 0;
+    }
+    if (low >= high) return false;
     out[0] = this.z + low;
     out[1] = this.z + high;
     out[2] = lowMouth;

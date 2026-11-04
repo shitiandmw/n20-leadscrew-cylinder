@@ -74,7 +74,7 @@ export function createApplication({
         if (rooms.size >= maxRooms)
           return json(res, 503, {
             error:
-              "All sandboxes are in use. Join an existing room or try again later.",
+              "All game rooms are in use. Join an existing room or try again later.",
           });
         let code;
         do {
@@ -85,7 +85,8 @@ export function createApplication({
           clients: new Map(),
           owner: null,
           lastInput: 0,
-          emptySince: Date.now(),
+          // The idle clock starts once the room can be joined.
+          emptySince: Infinity,
           frame: 0,
           stepMs: 0,
         };
@@ -101,6 +102,7 @@ export function createApplication({
         );
         rooms.set(code, room);
         await room.simulation.ready;
+        room.emptySince = Date.now();
         return json(res, 201, { room: code });
       }
       if (url.pathname.startsWith("/api/"))
@@ -217,7 +219,13 @@ export function createApplication({
     // of the same tick. Each client tracks which tile versions it holds, so a
     // congested socket can skip frames and later catch up on every change.
     const s = room.simulation,
-      frame = { tick: s.tick, machine: s.machine, grains: s.grains };
+      frame = {
+        tick: s.tick,
+        machine: s.machine,
+        grains: s.grains,
+        origin: s.origin,
+        tileData: s.tileData,
+      };
     room.frame++;
     for (const [ws, client] of room.clients) {
       if (
@@ -228,9 +236,9 @@ export function createApplication({
         continue;
       client.tiles ??= new Uint32Array(TILE_COUNT);
       const tiles = [];
-      for (let t = 0; t < TILE_COUNT; t++)
+      for (const t of s.tileData.keys())
         if (client.tiles[t] !== s.tileVersions[t]) tiles.push(t);
-      ws.send(encodeFrame({ ...frame, terrain: s.terrain, tiles }));
+      ws.send(encodeFrame({ ...frame, tiles }));
       for (const t of tiles) client.tiles[t] = s.tileVersions[t];
     }
   }

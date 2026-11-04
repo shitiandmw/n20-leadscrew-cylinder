@@ -63,10 +63,15 @@ try {
   );
   await page.mouse.up();
   await page.getByText("You have control", { exact: true }).waitFor();
-  await page.getByRole("button", { name: "Reset sandbox" }).click();
+  const resetWorld = async () => {
+    await page.getByRole("button", { name: "Menu", exact: true }).click();
+    await page.getByRole("button", { name: "Reset world" }).click();
+    await page.getByRole("button", { name: "Menu", exact: true }).click();
+  };
+  await resetWorld();
   await page.getByRole("button", { name: "Release", exact: true }).click();
   await page.waitForFunction(() => window.sandLab.getState().owner === null);
-  await page.screenshot({ path: "test-results/desktop.png", fullPage: true });
+  await page.screenshot({ path: "test-results/desktop.png" });
   await page.getByRole("button", { name: "Pair your phone" }).click();
   await page.locator("#pair-base").fill(origin);
   await page.waitForFunction(() =>
@@ -195,7 +200,7 @@ try {
     touchPoints: [],
   });
   await phone.getByRole("button", { name: "Settings" }).click();
-  await phone.getByRole("button", { name: "Reset sand" }).click();
+  await phone.getByRole("button", { name: "Reset world" }).click();
   await phone.waitForFunction(
     () =>
       window.sandLab.getState().machine.strokes[0] === 10 &&
@@ -228,26 +233,38 @@ try {
   );
   await page.keyboard.up("ArrowDown");
   await page.getByText("You have control", { exact: true }).waitFor();
-  // Both tracks can drive beyond the old x=20 apron restriction.
+  // Both tracks drive the machine, and so does the single drive key.
   await page.keyboard.down("q");
   await page.keyboard.down("e");
   await page.waitForFunction(() => window.sandLab.getState().machine.x > 25);
   await page.keyboard.up("q");
   await page.keyboard.up("e");
-  await page.getByRole("button", { name: "Reset sandbox" }).click();
-  for (const name of ["Side", "Top", "Bucket", "Orbit"])
+  await page.keyboard.down("i");
+  await page.waitForFunction(() => window.sandLab.getState().machine.x > 60);
+  await page.keyboard.up("i");
+  // The camera follows the machine: it never stays at the place it started.
+  const followed = await page.evaluate(
+    () => window.sandLab.getGraphics().camera[0],
+  );
+  await page.keyboard.down("i");
+  await page.waitForFunction(
+    (x) => window.sandLab.getGraphics().camera[0] > x + 40,
+    followed,
+    { timeout: 30000 },
+  );
+  await page.keyboard.up("i");
+  await resetWorld();
+  await page.waitForFunction(() => window.sandLab.getState().machine.x === 0);
+  for (const name of ["Side", "Top", "Bucket", "Orbit", "Chase"])
     await page.getByRole("button", { name, exact: true }).click();
-  await page.screenshot({ path: "test-results/desktop.png", fullPage: true });
+  await page.screenshot({ path: "test-results/desktop.png" });
   await page.setViewportSize({ width: 390, height: 844 });
   assert.equal(
     await page.locator("body").evaluate((el) => el.scrollWidth <= innerWidth),
     true,
     "mobile simulator must not overflow horizontally",
   );
-  await page.screenshot({
-    path: "test-results/mobile-simulator.png",
-    fullPage: true,
-  });
+  await page.screenshot({ path: "test-results/mobile-simulator.png" });
   const touchSimulator = await mobile.newPage();
   touchSimulator.on("pageerror", (error) => errors.push(error.message));
   await touchSimulator.goto(`${origin}/?room=${room}`);
@@ -271,7 +288,7 @@ try {
   await touchSimulator.waitForFunction(
     () => window.sandLab.getState().owner === null,
   );
-  await touchSimulator.locator("#right-stick").scrollIntoViewIfNeeded();
+  await touchSimulator.locator("#right-stick").waitFor();
   const touchStick = await touchSimulator.locator("#right-stick").boundingBox();
   const touchCdp = await mobile.newCDPSession(touchSimulator);
   await touchCdp.send("Input.dispatchTouchEvent", {
@@ -294,7 +311,7 @@ try {
   await touchSimulator.close();
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: 644 CAD meshes, sand rendering, QR pairing, automatic mouse/keyboard/touch control, phone foreground recovery, multitouch, release/cancel, shared E-stop, reset, reconnect, travel beyond the apron, ownership handoff, camera views, mobile layouts and reduced touch graphics cost.",
+    "PASS: 644 CAD meshes, sand rendering, QR pairing, automatic mouse/keyboard/touch control, phone foreground recovery, multitouch, release/cancel, shared E-stop, reset, reconnect, driving, the following camera, ownership handoff, camera views, mobile layouts and reduced touch graphics cost.",
   );
 } finally {
   await browser?.close();

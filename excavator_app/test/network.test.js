@@ -4,8 +4,8 @@ import { once } from "node:events";
 import { setTimeout as delay } from "node:timers/promises";
 import WebSocket from "ws";
 import { createApplication } from "../server/index.js";
-import { neutral, SAND } from "../shared/world.js";
-import { decodeFrame, applyTiles, TILE_COUNT } from "../shared/protocol.js";
+import { neutral } from "../shared/world.js";
+import { decodeFrame, applyTiles } from "../shared/protocol.js";
 
 async function waitFor(check, timeout = 5000) {
   const start = Date.now();
@@ -22,7 +22,7 @@ async function connect(url, options) {
       client.binary++;
       const frame = decodeFrame(Uint8Array.from(buffer));
       client.frame = frame;
-      client.terrain ??= new Uint16Array(SAND.nx * SAND.ny);
+      client.terrain ??= new Map();
       client.tiles = (client.tiles || 0) + frame.tiles.length;
       applyTiles(client.terrain, frame.tiles);
     } else {
@@ -194,10 +194,14 @@ test(
       observer.send({ type: "claim" });
       await waitFor(() => viewer.state.owner === observer.id);
       assert.ok(viewer.binary > 0);
-      // The first frame delivers the whole sand bed; later frames carry only
+      // The first frame delivers all the sand there is; later frames carry only
       // changed tiles together with the machine pose of the same tick.
-      assert.ok(viewer.tiles >= TILE_COUNT);
-      assert.ok(viewer.terrain.some((height) => height > 1000));
+      assert.ok(viewer.tiles > 1000);
+      assert.ok(
+        [...viewer.terrain.values()].some((tile) =>
+          tile.some((height) => height > 1000),
+        ),
+      );
       assert.equal(viewer.frame.grains.length % 4, 0);
       assert.equal(
         viewer.frame.machine.heading,

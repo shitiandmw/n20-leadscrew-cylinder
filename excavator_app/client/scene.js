@@ -6,71 +6,22 @@ import { solve } from "../shared/kinematics.js";
 import {
   WORLD,
   SAND,
-  POUR_ZONE,
+  armFrame,
+  clamp,
   initialMachine,
-  groundHeight,
-  cellX,
-  cellY,
 } from "../shared/world.js";
-import { tileCells, TILE_COUNT } from "../shared/protocol.js";
+import { groundHeight, landscape } from "../shared/landscape.js";
+import { createWorld } from "./world-view.js";
+import { createSandView } from "./sand-view.js";
+import { createLooseSandView } from "./loose-sand-view.js";
 
-const NX = SAND.nx,
-  NY = SAND.ny,
-  CELLS = NX * NY,
-  TICK_RATE = 30,
+const TICK_RATE = 30,
   // Render this many ticks behind the newest frame, so there is always a
   // later frame to interpolate toward despite network jitter.
   DELAY_TICKS = 1.75;
 
-// Fine, seamless sand grain texture. It multiplies the sand colour, so it is
-// kept near white; a few darker mineral grains break up the surface.
-function sandTexture(renderer) {
-  const size = 512,
-    canvas = document.createElement("canvas");
-  canvas.width = canvas.height = size;
-  const c = canvas.getContext("2d"),
-    image = c.createImageData(size, size),
-    d = image.data;
-  let seed = 11;
-  const random = () =>
-    (seed = (1664525 * seed + 1013904223) >>> 0) / 4294967296;
-  for (let i = 0; i < size * size; i++) {
-    const v = 0.84 + random() * 0.18,
-      mineral = random() < 0.035 ? 0.72 + random() * 0.2 : 1;
-    d[4 * i] = 255 * Math.min(1, v * mineral);
-    d[4 * i + 1] = 255 * Math.min(1, v * 0.985 * mineral);
-    d[4 * i + 2] = 255 * Math.min(1, v * 0.95 * mineral);
-    d[4 * i + 3] = 255;
-  }
-  c.putImageData(image, 0, 0);
-  for (let k = 0; k < 2400; k++) {
-    const x = random() * size,
-      y = random() * size,
-      r = 0.6 + random() * 1.3,
-      l = 165 + random() * 90;
-    c.fillStyle = `rgb(${l | 0},${(l * 0.96) | 0},${(l * 0.88) | 0})`;
-    for (const [ox, oy] of [
-      [0, 0],
-      [size, 0],
-      [-size, 0],
-      [0, size],
-      [0, -size],
-    ]) {
-      c.beginPath();
-      c.arc(x + ox, y + oy, r, 0, 2 * Math.PI);
-      c.fill();
-    }
-  }
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-  texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
-  return texture;
-}
-
 export async function createScene(stage, onProgress) {
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color("#e6e2d9");
   const mobile = matchMedia("(pointer: coarse)").matches;
   const renderer = new THREE.WebGLRenderer({
     antialias: !mobile,
@@ -81,409 +32,61 @@ export async function createScene(stage, onProgress) {
   renderer.shadowMap.enabled = !mobile;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.25;
+  renderer.toneMappingExposure = 0.92;
   renderer.domElement.setAttribute(
     "aria-label",
-    "Live 3D excavator and simulated sand",
+    "Live 3D excavator in an open world",
   );
   stage.prepend(renderer.domElement);
   let dirty = true;
-  const camera = new THREE.PerspectiveCamera(38, 1, 2, 6500);
+  const camera = new THREE.PerspectiveCamera(42, 1, 15, 320000);
   camera.up.set(0, 0, 1);
   const orbit = new OrbitControls(camera, renderer.domElement);
   orbit.enableDamping = true;
   orbit.addEventListener("change", () => {
     dirty = true;
   });
-  orbit.minDistance = 450;
-  orbit.maxDistance = 3000;
-  orbit.maxPolarAngle = Math.PI * 0.48;
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xa69b80, 2.3));
-  const sun = new THREE.DirectionalLight(0xfff5db, 3.2);
-  sun.position.set(-250, -650, 1400);
+  orbit.minDistance = 220;
+  orbit.maxDistance = 16000;
+  orbit.maxPolarAngle = Math.PI * 0.495;
+  orbit.enablePan = false;
+
+  const sunDirection = new THREE.Vector3(-0.42, -0.5, 0.76).normalize();
+  scene.add(new THREE.HemisphereLight(0xcfe3ff, 0x8d8466, 1.45));
+  const sun = new THREE.DirectionalLight(0xfff0d6, 3.2);
   sun.castShadow = true;
   sun.shadow.mapSize.set(2048, 2048);
-  sun.shadow.normalBias = 1.3;
+  sun.shadow.normalBias = 1.4;
   Object.assign(sun.shadow.camera, {
-    left: -1200,
-    right: 1200,
-    top: 1100,
-    bottom: -1100,
-    near: 1,
-    far: 2800,
+    left: -2100,
+    right: 2100,
+    top: 2100,
+    bottom: -2100,
+    near: 200,
+    far: 9000,
   });
-  scene.add(sun);
-  const fill = new THREE.DirectionalLight(0xdbe6ff, 1);
+  scene.add(sun, sun.target);
+  const fill = new THREE.DirectionalLight(0xdbe6ff, 0.55);
   fill.position.set(800, 900, 700);
   scene.add(fill);
-  const mat = (color, roughness = 0.9) =>
-    new THREE.MeshStandardMaterial({ color, roughness });
-  function box(w, d, h, x, y, z, material) {
-    const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, d, h), material);
-    mesh.position.set(x, y, z);
-    mesh.receiveShadow = true;
-    mesh.castShadow = true;
-    scene.add(mesh);
-    return mesh;
-  }
-  const concrete = mat("#c9c6bb"),
-    ground = mat("#b9b2a3"),
-    dark = mat("#454d45"),
-    stripe = mat("#dbaa3d");
-  box(1640, 1230, 50, 225, 0, -126, concrete);
-  box(1550, 1140, 12, 225, 0, WORLD.floor - 6, ground);
-  box(740, 1140, 90, -180, 0, -45, concrete);
-  // The ramp shares its dimensions with particle contacts and crawler travel.
-  const rampGeometry = new THREE.BufferGeometry();
-  rampGeometry.setAttribute(
-    "position",
-    new THREE.Float32BufferAttribute(
-      [
-        WORLD.platformEdge,
-        WORLD.minY,
-        0,
-        WORLD.rampEnd,
-        WORLD.minY,
-        WORLD.floor,
-        WORLD.rampEnd,
-        WORLD.maxY,
-        WORLD.floor,
-        WORLD.platformEdge,
-        WORLD.maxY,
-        0,
-      ],
-      3,
-    ),
-  );
-  rampGeometry.setIndex([0, 1, 2, 0, 2, 3]);
-  rampGeometry.computeVertexNormals();
-  const ramp = new THREE.Mesh(rampGeometry, concrete);
-  ramp.receiveShadow = true;
-  scene.add(ramp);
-  for (const y of [-585, 585]) box(1640, 30, 75, 225, y, -66, concrete);
-  for (const x of [-565, 1015]) box(30, 1140, 75, x, 0, -66, concrete);
-  // Flat painted apron markings and a receiving area within the same sand pit.
-  for (let y = -500; y < 520; y += 65) box(20, 34, 1, 157, y, 0.6, stripe);
-  const zone = POUR_ZONE,
-    zoneX = (zone.minX + zone.maxX) / 2,
-    zoneY = (zone.minY + zone.maxY) / 2;
-  for (const y of [zone.minY, zone.maxY])
-    box(zone.maxX - zone.minX, 4, 1, zoneX, y, WORLD.floor + 1, stripe);
-  for (const x of [zone.minX, zone.maxX])
-    box(4, zone.maxY - zone.minY, 1, x, zoneY, WORLD.floor + 1, stripe);
-  function label(text, x, y, z, width, color = "#5e6258") {
-    const canvas = document.createElement("canvas");
-    canvas.width = 1024;
-    canvas.height = 128;
-    const c = canvas.getContext("2d");
-    c.fillStyle = color;
-    c.font = "500 48px monospace";
-    c.textAlign = "center";
-    c.fillText(text, 512, 80);
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.colorSpace = THREE.SRGBColorSpace;
-    const mesh = new THREE.Mesh(
-      new THREE.PlaneGeometry(width, width / 8),
-      new THREE.MeshBasicMaterial({
-        map: texture,
-        transparent: true,
-        depthWrite: false,
-      }),
-    );
-    mesh.position.set(x, y, z);
-    scene.add(mesh);
-  }
-  label("ARM60 / DRIVE TO THE PIT", -215, -420, 1, 420);
-  label("02 / POUR ZONE", 440, 435, WORLD.floor + 2, 260, "#8c713d");
-  label("01 / SAND PIT", 690, -415, WORLD.floor + 2, 300);
-  box(20, 85, 2, -430, 390, 1, dark);
-  box(85, 20, 2, -430, 390, 1, dark);
 
-  // ---------------------------------------------------------------- sand bed
-  const base = Float32Array.from({ length: NX }, (_, i) =>
-      groundHeight(cellX(i)),
-    ),
-    thickness = new Float32Array(CELLS),
-    sandPosition = new Float32Array(CELLS * 3),
-    sandNormal = new Float32Array(CELLS * 3),
-    sandColor = new Float32Array(CELLS * 3),
-    sandUv = new Float32Array(CELLS * 2),
-    // x: sand thickness (mm), y: time it was last disturbed (s).
-    sandInfo = new Float32Array(CELLS * 2);
-  const dry = new THREE.Color("#d3b88d").convertSRGBToLinear();
-  for (let j = 0; j < NY; j++)
-    for (let i = 0; i < NX; i++) {
-      const c = j * NX + i,
-        // Edge vertices reach the walls.
-        x = i === 0 ? WORLD.minX : i === NX - 1 ? WORLD.maxX : cellX(i),
-        y = j === 0 ? WORLD.minY : j === NY - 1 ? WORLD.maxY : cellY(j);
-      sandPosition.set([x, y, base[i]], 3 * c);
-      sandNormal.set([0, 0, 1], 3 * c);
-      sandUv.set([x / 70, y / 70], 2 * c);
-      sandInfo.set([0, -1e6], 2 * c);
-      // Gentle low-frequency patchiness of colour and moisture.
-      const patch =
-        0.04 * Math.sin(x * 0.013 + Math.sin(y * 0.021) * 2) +
-        0.03 * Math.sin(y * 0.017 - x * 0.006);
-      sandColor.set(
-        [dry.r * (1 + patch), dry.g * (1 + patch), dry.b * (1 + patch * 1.2)],
-        3 * c,
-      );
-    }
-  const sandIndex = new Uint16Array((NX - 1) * (NY - 1) * 6);
-  for (let j = 0, o = 0; j < NY - 1; j++)
-    for (let i = 0; i < NX - 1; i++) {
-      const a = j * NX + i,
-        b = a + 1,
-        c = a + NX,
-        d = c + 1;
-      sandIndex.set([a, b, d, a, d, c], o);
-      o += 6;
-    }
-  const sandGeometry = new THREE.BufferGeometry();
-  const positionAttribute = new THREE.BufferAttribute(sandPosition, 3),
-    normalAttribute = new THREE.BufferAttribute(sandNormal, 3),
-    infoAttribute = new THREE.BufferAttribute(sandInfo, 2);
-  for (const a of [positionAttribute, normalAttribute, infoAttribute])
-    a.setUsage(THREE.DynamicDrawUsage);
-  sandGeometry.setAttribute("position", positionAttribute);
-  sandGeometry.setAttribute("normal", normalAttribute);
-  sandGeometry.setAttribute("color", new THREE.BufferAttribute(sandColor, 3));
-  sandGeometry.setAttribute("uv", new THREE.BufferAttribute(sandUv, 2));
-  sandGeometry.setAttribute("sandInfo", infoAttribute);
-  sandGeometry.setIndex(new THREE.BufferAttribute(sandIndex, 1));
-  const grain = sandTexture(renderer),
-    time = { value: 0 };
-  const sandMaterial = new THREE.MeshStandardMaterial({
-    color: 0xffffff,
-    vertexColors: true,
-    map: grain,
-    bumpMap: grain,
-    bumpScale: 1.4,
-    roughness: 0.97,
-    metalness: 0,
-    polygonOffset: true,
-    polygonOffsetFactor: -1,
-    polygonOffsetUnits: -2,
-  });
-  // Bare concrete shows through where there is no sand; freshly dug or
-  // dumped sand is darker (moist) and dries over about a minute.
-  sandMaterial.onBeforeCompile = (shader) => {
-    shader.uniforms.sandTime = time;
-    shader.vertexShader = shader.vertexShader
-      .replace(
-        "#include <common>",
-        "#include <common>\nattribute vec2 sandInfo;\nuniform float sandTime;\nvarying vec2 vSand;",
-      )
-      .replace(
-        "#include <begin_vertex>",
-        "#include <begin_vertex>\nvSand = vec2(sandInfo.x, exp(-max(0.0, sandTime - sandInfo.y) / 55.0));\nvSandXY = position.xy;",
-      )
-      .replace(
-        "varying vec2 vSand;",
-        "varying vec2 vSand;\nvarying vec2 vSandXY;",
-      );
-    shader.fragmentShader = shader.fragmentShader
-      .replace(
-        "#include <common>",
-        "#include <common>\nvarying vec2 vSand;\nvarying vec2 vSandXY;\nfloat sandHash(vec2 p) { return fract(sin(dot(floor(p), vec2(12.9898, 78.233))) * 43758.5453); }",
-      )
-      .replace(
-        "#include <map_fragment>",
-        // Thin sand breaks up into scattered grains instead of a hard edge.
-        "#include <map_fragment>\nif (vSand.x < 0.15 + 2.2 * sandHash(vSandXY * 1.6)) discard;\ndiffuseColor.rgb *= mix(1.0, 0.78, vSand.y) * mix(0.88, 1.0, smoothstep(0.3, 4.0, vSand.x));",
-      );
-  };
-  const sandMesh = new THREE.Mesh(sandGeometry, sandMaterial);
-  sandMesh.receiveShadow = true;
-  sandMesh.castShadow = true;
-  sandMesh.frustumCulled = false;
-  scene.add(sandMesh);
-  let terrainReady = false;
-  const surface = (i, j) => base[i] + thickness[j * NX + i];
-  function updateNormals(i0, i1, j0, j1) {
-    for (let j = Math.max(0, j0); j <= Math.min(NY - 1, j1); j++)
-      for (let i = Math.max(0, i0); i <= Math.min(NX - 1, i1); i++) {
-        const il = Math.max(0, i - 1),
-          ir = Math.min(NX - 1, i + 1),
-          jd = Math.max(0, j - 1),
-          ju = Math.min(NY - 1, j + 1),
-          dx = (surface(ir, j) - surface(il, j)) / ((ir - il) * SAND.cell),
-          dy = (surface(i, ju) - surface(i, jd)) / ((ju - jd) * SAND.cell),
-          n = 1 / Math.sqrt(1 + dx * dx + dy * dy),
-          c = 3 * (j * NX + i);
-        sandNormal[c] = -dx * n;
-        sandNormal[c + 1] = -dy * n;
-        sandNormal[c + 2] = n;
-      }
-  }
-  function markRows(j0, j1) {
-    const start = Math.max(0, j0) * NX,
-      count = (Math.min(NY - 1, j1) - Math.max(0, j0) + 1) * NX;
-    for (const [attribute, size] of [
-      [positionAttribute, 3],
-      [normalAttribute, 3],
-      [infoAttribute, 2],
-    ]) {
-      attribute.addUpdateRange(start * size, count * size);
-      attribute.needsUpdate = true;
-    }
-  }
-  // Apply sand-bed tiles; `fresh` marks changed cells as newly disturbed.
-  function applyTiles(tiles, fresh) {
-    let i0 = NX,
-      i1 = -1,
-      j0 = NY,
-      j1 = -1;
-    for (const { index, heights } of tiles) {
-      const { i0: ti, j0: tj } = tileCells(index);
-      let o = 0;
-      for (let j = tj; j < tj + SAND.tile; j++)
-        for (let i = ti; i < ti + SAND.tile; i++, o++) {
-          if (i >= NX || j >= NY) continue;
-          const c = j * NX + i,
-            h = heights[o] * SAND.heightQuantum;
-          if (h === thickness[c]) continue;
-          if (fresh && Math.abs(h - thickness[c]) > 0.08)
-            sandInfo[2 * c + 1] = time.value;
-          thickness[c] = h;
-          sandInfo[2 * c] = h;
-          sandPosition[3 * c + 2] = base[i] + h;
-          i0 = Math.min(i0, i);
-          i1 = Math.max(i1, i);
-          j0 = Math.min(j0, j);
-          j1 = Math.max(j1, j);
-        }
-    }
-    terrainReady = true;
-    if (i1 < 0) return;
-    updateNormals(i0 - 1, i1 + 1, j0 - 1, j1 + 1);
-    markRows(j0 - 1, j1 + 1);
-    dirty = true;
-  }
-  function setTerrain(full) {
-    const tiles = [];
-    for (let t = 0; t < TILE_COUNT; t++) {
-      const { i0, j0 } = tileCells(t),
-        heights = new Uint16Array(SAND.tile * SAND.tile);
-      for (let j = 0; j < SAND.tile; j++)
-        for (let i = 0; i < SAND.tile; i++)
-          if (i0 + i < NX && j0 + j < NY)
-            heights[j * SAND.tile + i] = full[(j0 + j) * NX + i0 + i];
-      tiles.push({ index: t, heights });
-    }
-    applyTiles(tiles, false);
-  }
+  onProgress("Building the valley…");
+  const world = createWorld(scene, renderer, sunDirection, mobile),
+    sand = createSandView(scene, renderer);
 
-  // ------------------------------------------------------------ free grains
-  const grainMaterial = new THREE.MeshStandardMaterial({
-    color: 0xffffff,
-    roughness: 0.96,
-    metalness: 0,
-    flatShading: true,
-  });
-  // Drawn at the physical radius so grains touch, never cut, the bucket.
-  const grains = new THREE.InstancedMesh(
-    new THREE.IcosahedronGeometry(WORLD.radius, 0),
-    grainMaterial,
-    SAND.maxGrains,
+  const grains = createLooseSandView(
+    scene,
+    sand.texture,
+    mobile,
+    sand.surfaceHeight,
   );
-  grains.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-  grains.count = 0;
-  grains.castShadow = !mobile;
-  grains.receiveShadow = true;
-  grains.frustumCulled = false;
-  scene.add(grains);
-  const slotColor = new Float32Array(SAND.maxGrains * 3),
-    slotTurn = new Float32Array(SAND.maxGrains * 4),
-    slotScale = new Float32Array(SAND.maxGrains * 3),
-    color = new THREE.Color(),
-    turn = new THREE.Quaternion(),
-    axis = new THREE.Vector3(),
-    place = new THREE.Vector3(),
-    size = new THREE.Vector3(),
-    matrix = new THREE.Matrix4();
-  for (let s = 0; s < SAND.maxGrains; s++) {
-    // Freshly dug sand: the bed's colour, moist and a little darker.
-    const shade = 0.66 + ((s * 11) % 9) * 0.018,
-      warm = 1 + (((s * 7) % 5) - 2) * 0.02;
-    color.copy(dry).multiplyScalar(shade);
-    slotColor.set([color.r * warm, color.g, color.b / warm], 3 * s);
-    axis
-      .set(Math.sin(s * 12.9), Math.cos(s * 78.2), Math.sin(s * 3.7))
-      .normalize();
-    turn.setFromAxisAngle(axis, s * 2.399);
-    slotTurn.set([turn.x, turn.y, turn.z, turn.w], 4 * s);
-    // Irregular clumps, never larger than the physical grain.
-    for (let d = 0; d < 3; d++)
-      slotScale[3 * s + d] = 0.86 + ((s * (37 + 13 * d)) % 11) * 0.013;
-  }
-  grains.instanceColor = new THREE.InstancedBufferAttribute(
-    new Float32Array(SAND.maxGrains * 3),
-    3,
-  );
-  grains.instanceColor.setUsage(THREE.DynamicDrawUsage);
-  const seenA = new Uint32Array(SAND.maxGrains),
-    matched = new Uint32Array(SAND.maxGrains),
-    indexA = new Int32Array(SAND.maxGrains);
-  let serial = 0;
-  function drawGrain(n, slot, x, y, z) {
-    place.set(x, y, z);
-    turn.fromArray(slotTurn, 4 * slot);
-    size.fromArray(slotScale, 3 * slot);
-    matrix.compose(place, turn, size);
-    grains.setMatrixAt(n, matrix);
-    grains.instanceColor.array.set(
-      slotColor.subarray(3 * slot, 3 * slot + 3),
-      3 * n,
-    );
-  }
-  // Grains present in both frames move smoothly; new grains appear, and
-  // settled grains vanish, halfway between frames as the bed tiles change.
-  function drawGrains(a, b, alpha) {
-    serial++;
-    const ga = a.grains,
-      gb = b.grains,
-      q = SAND.positionQuantum;
-    for (let n = 0; n < ga.length; n += 4) {
-      seenA[ga[n] & 0xffff] = serial;
-      indexA[ga[n] & 0xffff] = n;
-    }
-    let count = 0;
-    for (let n = 0; n < gb.length; n += 4) {
-      const slot = gb[n] & 0xffff;
-      let x = gb[n + 1] * q,
-        y = gb[n + 2] * q,
-        z = gb[n + 3] * q;
-      if (seenA[slot] === serial) {
-        matched[slot] = serial;
-        const m = indexA[slot],
-          ax = ga[m + 1] * q,
-          ay = ga[m + 2] * q,
-          az = ga[m + 3] * q;
-        if ((x - ax) ** 2 + (y - ay) ** 2 + (z - az) ** 2 < 3600) {
-          x = ax + (x - ax) * alpha;
-          y = ay + (y - ay) * alpha;
-          z = az + (z - az) * alpha;
-        }
-      } else if (alpha < 0.5) continue;
-      drawGrain(count++, slot, x, y, z);
-    }
-    if (alpha < 0.5)
-      for (let n = 0; n < ga.length; n += 4) {
-        const slot = ga[n] & 0xffff;
-        if (matched[slot] !== serial)
-          drawGrain(count++, slot, ga[n + 1] * q, ga[n + 2] * q, ga[n + 3] * q);
-      }
-    grains.count = count;
-    grains.instanceMatrix.needsUpdate = true;
-    grains.instanceColor.needsUpdate = true;
-  }
 
   // ----------------------------------------------------------- CAD assembly
   const root = new THREE.Group(),
     upper = new THREE.Group(),
     arm = new THREE.Group();
+  // Same rotation as chassisAxes(): heading, then pitch, then roll.
+  root.rotation.order = "ZYX";
   scene.add(root);
   root.add(upper);
   upper.add(arm);
@@ -601,6 +204,9 @@ export async function createScene(stage, onProgress) {
     frames = 0,
     fpsAt = performance.now(),
     fps = 60;
+  // The CAD names its tracks from the opposite end: "L" is on the -Y side, which
+  // is the operator's right. Each track must turn with its own drive command.
+  const trackOf = { L: 1, R: 0 };
   function updateMachine(machine) {
     const s = solve(machine.strokes);
     for (const name of [
@@ -636,11 +242,15 @@ export async function createScene(stage, onProgress) {
       });
     }
     root.position.set(machine.x, machine.y, machine.z ?? 0);
-    root.rotation.z = machine.heading;
+    root.rotation.set(
+      machine.roll ?? 0,
+      -(machine.pitch ?? 0),
+      machine.heading,
+    );
     upper.rotation.z = (machine.slew * Math.PI) / 180;
     groups.vehicle_slew_pinion.rotation.z = (-upper.rotation.z * 96) / 20;
-    for (const [sideIndex, side] of ["L", "R"].entries()) {
-      const offset = machine.tracks[sideIndex] / V.track_pitch;
+    for (const side of ["L", "R"]) {
+      const offset = machine.tracks[trackOf[side]] / V.track_pitch;
       for (let i = 0; i < links[side].length; i++) {
         const phase =
             (((i + offset) % links[side].length) + links[side].length) %
@@ -660,7 +270,7 @@ export async function createScene(stage, onProgress) {
       }
     }
     for (const w of wheels)
-      w.group.rotation.y = machine.tracks[w.side === "L" ? 0 : 1] / w.radius;
+      w.group.rotation.y = machine.tracks[trackOf[w.side]] / w.radius;
     return s;
   }
 
@@ -669,15 +279,7 @@ export async function createScene(stage, onProgress) {
   // are played back slightly delayed and interpolated, so the bucket and its
   // load always move together.
   const queue = [],
-    pose = {
-      strokes: [0, 0, 0],
-      slew: 0,
-      x: 0,
-      y: 0,
-      z: 0,
-      heading: 0,
-      tracks: [0, 0],
-    };
+    pose = initialMachine();
   let renderTick = null,
     content = 0,
     drawnKey = "",
@@ -689,14 +291,21 @@ export async function createScene(stage, onProgress) {
     a.x === b.x &&
     a.y === b.y &&
     a.z === b.z &&
-    a.heading === b.heading;
+    a.heading === b.heading &&
+    a.pitch === b.pitch &&
+    a.roll === b.roll;
   const sameGrains = (a, b) =>
     a.length === b.length && a.every((value, i) => value === b[i]);
   function settle(frame) {
     if (frame.applied) return;
     frame.applied = true;
-    if (frame.tiles.length)
-      applyTiles(frame.tiles, frame.tiles.length < TILE_COUNT);
+    // The first frames of a room, a reset or a connection restore the world;
+    // nothing in them has just been dug.
+    if (
+      frame.tiles.length &&
+      sand.applyTiles(frame.tiles, frame.tick > 2 && frame.tiles.length < 400)
+    )
+      dirty = true;
   }
   function pushFrame(frame) {
     const last = queue[queue.length - 1];
@@ -707,6 +316,7 @@ export async function createScene(stage, onProgress) {
       renderTick = null;
     }
     const previous = queue[queue.length - 1];
+    grains.pushFrame(frame, previous);
     if (
       !previous ||
       frame.tiles.length ||
@@ -756,33 +366,225 @@ export async function createScene(stage, onProgress) {
       pose.tracks[i] =
         a.machine.tracks[i] +
         (b.machine.tracks[i] - a.machine.tracks[i]) * alpha;
-    for (const k of ["slew", "x", "y", "z", "heading"])
+    for (const k of ["slew", "x", "y", "z", "heading", "pitch", "roll"])
       pose[k] = a.machine[k] + (b.machine[k] - a.machine[k]) * alpha;
     const nextPose = JSON.stringify(pose);
     if (nextPose !== poseKey) {
       updateMachine(pose);
       poseKey = nextPose;
     }
-    drawGrains(a, b, alpha);
+    grains.update(a, b, alpha, pose);
     return true;
   }
 
-  function view(name) {
-    const poses = {
-      orbit: [1300, -1500, 1150],
-      side: [260, -1800, 470],
-      top: [220, -30, 2100],
-      bucket: [880, -620, 480],
-    };
-    camera.position.set(...poses[name]);
-    orbit.target.set(name === "bucket" ? 470 : 220, 0, name === "top" ? 0 : 70);
-    orbit.update();
+  // ------------------------------------------------------- following camera
+  // The orbit target follows the machine and the camera moves with it, so a
+  // view chosen by dragging survives driving. Chase, Side and Bucket also turn
+  // with the machine; Orbit and Top keep their compass direction.
+  const focus = new THREE.Vector3(),
+    move = new THREE.Vector3(),
+    offset = new THREE.Vector3();
+  let mode = "chase",
+    rigHeading = 0;
+  const VIEWS = {
+    // Camera offset from the focus, in the frame that follows the heading.
+    chase: { offset: [-1560, 0, 330], ahead: 420, turns: true },
+    orbit: { offset: [760, -1220, 860], ahead: 120, turns: false },
+    side: { offset: [90, -1500, 300], ahead: 180, turns: true },
+    top: { offset: [0, -40, 3400], ahead: 0, turns: false },
+    bucket: { offset: [120, -640, 300], ahead: 0, turns: true },
+  };
+  function focusPoint(out) {
+    if (mode === "bucket") {
+      const s = solve(pose.strokes),
+        frame = armFrame(
+          pose,
+          s.origins.bucket[0] + V.arm_offset[0],
+          s.origins.bucket[1] + V.arm_offset[2],
+          s.angles.bucket,
+        );
+      return out.set(frame.x, frame.y, frame.z);
+    }
+    // Aim a little ahead of the machine, to show where it is going.
+    const ahead = VIEWS[mode].ahead;
+    return out.set(
+      pose.x + Math.cos(pose.heading) * ahead,
+      pose.y + Math.sin(pose.heading) * ahead,
+      pose.z + 170,
+    );
   }
-  view("orbit");
-  updateMachine(initialMachine());
+  const followHeading = () =>
+    pose.heading + (mode === "bucket" ? (pose.slew * Math.PI) / 180 : 0);
+  function view(name) {
+    mode = name;
+    const v = VIEWS[name];
+    focusPoint(focus);
+    rigHeading = v.turns ? followHeading() : 0;
+    offset.set(...v.offset);
+    const c = Math.cos(rigHeading),
+      s = Math.sin(rigHeading);
+    camera.position.set(
+      focus.x + offset.x * c - offset.y * s,
+      focus.y + offset.x * s + offset.y * c,
+      focus.z + offset.z,
+    );
+    orbit.target.copy(focus);
+    keepAboveGround();
+    orbit.update();
+    dirty = true;
+  }
+  function keepAboveGround() {
+    const floor = groundHeight(camera.position.x, camera.position.y) + 45;
+    if (camera.position.z < floor) camera.position.z = floor;
+  }
+  // A building behind the machine shortens the camera boom rather than letting
+  // the view start inside its walls. Only the drawn position changes: the orbit
+  // keeps the distance the player chose, and the boom eases back to it.
+  const WALL_MARGIN = 70,
+    WALL_HEIGHT = 900,
+    walls = landscape()
+      .colliders.filter((k) => k.hx !== undefined || k.r >= 100)
+      .map((k) => ({
+        x: k.x,
+        y: k.y,
+        c: k.c ?? 1,
+        s: k.s ?? 0,
+        hx: (k.hx ?? k.r) + WALL_MARGIN,
+        hy: (k.hy ?? k.r) + WALL_MARGIN,
+        reach: k.r + WALL_MARGIN,
+      })),
+    drawnFrom = new THREE.Vector3();
+  let boomLength = 1;
+  // Fraction of the way from the focus to the camera that is clear of walls.
+  function clearBoom() {
+    const from = orbit.target,
+      to = camera.position;
+    if (to.z - groundHeight(to.x, to.y) > WALL_HEIGHT) return 1;
+    const dx = to.x - from.x,
+      dy = to.y - from.y,
+      middleX = (from.x + to.x) / 2,
+      middleY = (from.y + to.y) / 2,
+      half = Math.hypot(dx, dy) / 2;
+    let clear = 1;
+    for (const w of walls) {
+      if (Math.hypot(w.x - middleX, w.y - middleY) > half + w.reach) continue;
+      const ox = from.x - w.x,
+        oy = from.y - w.y,
+        origin = [ox * w.c + oy * w.s, -ox * w.s + oy * w.c],
+        along = [dx * w.c + dy * w.s, -dx * w.s + dy * w.c],
+        size = [w.hx, w.hy];
+      let enter = -Infinity,
+        leave = Infinity;
+      for (let d = 0; d < 2; d++) {
+        if (Math.abs(along[d]) < 1e-6) {
+          if (Math.abs(origin[d]) > size[d]) enter = Infinity;
+          continue;
+        }
+        const a = (-size[d] - origin[d]) / along[d],
+          b = (size[d] - origin[d]) / along[d];
+        enter = Math.max(enter, Math.min(a, b));
+        leave = Math.min(leave, Math.max(a, b));
+      }
+      // Starting inside means the focus point itself is at the wall, and the
+      // camera behind it is not: only a wall ahead along the boom counts.
+      if (enter >= 0 && enter <= leave && enter < clear) clear = enter;
+    }
+    return Math.max(clear, 0.1);
+  }
+  function updateBoom(dt) {
+    const clear = clearBoom(),
+      next =
+        clear < boomLength
+          ? clear
+          : boomLength + (clear - boomLength) * (1 - Math.exp(-dt / 0.35));
+    if (Math.abs(next - boomLength) > 1e-4) dirty = true;
+    boomLength = next > 0.9995 ? 1 : next;
+  }
+  function followMachine(dt) {
+    focusPoint(focus);
+    move.copy(focus).sub(orbit.target);
+    const far = move.length() > 1800,
+      k = far ? 1 : 1 - Math.exp(-dt / 0.09);
+    move.multiplyScalar(k);
+    let moved = move.lengthSq() > 1e-4;
+    camera.position.add(move);
+    orbit.target.add(move);
+    if (VIEWS[mode].turns) {
+      let delta = followHeading() - rigHeading;
+      delta = Math.atan2(Math.sin(delta), Math.cos(delta));
+      const step = far ? delta : delta * (1 - Math.exp(-dt / 0.28));
+      if (Math.abs(step) > 1e-5) {
+        offset.copy(camera.position).sub(orbit.target);
+        const c = Math.cos(step),
+          s = Math.sin(step),
+          x = offset.x * c - offset.y * s,
+          y = offset.x * s + offset.y * c;
+        camera.position.set(
+          orbit.target.x + x,
+          orbit.target.y + y,
+          camera.position.z,
+        );
+        rigHeading += step;
+        moved = true;
+      }
+    }
+    if (moved) {
+      keepAboveGround();
+      dirty = true;
+    }
+  }
+  // The shadow frustum travels with the machine, on a grid so it does not shimmer.
+  let sunX = NaN,
+    sunY = NaN;
+  function followSun() {
+    const x = Math.round(pose.x / 60) * 60,
+      y = Math.round(pose.y / 60) * 60;
+    if (x === sunX && y === sunY) return;
+    sunX = x;
+    sunY = y;
+    sun.target.position.set(x, y, pose.z);
+    sun.position.set(x, y, pose.z).addScaledVector(sunDirection, 4600);
+  }
+
+  // ---------------------------------------------------------------- minimap
+  let minimap, mapContext, mapKey;
+  function drawMinimap() {
+    if (!minimap) return;
+    const key = `${Math.round(pose.x / 40)}:${Math.round(pose.y / 40)}:${Math.round(pose.heading * 12)}`;
+    if (key === mapKey) return;
+    mapKey = key;
+    const size = minimap.width,
+      span = WORLD.maxX - WORLD.minX,
+      x = ((pose.x - WORLD.minX) / span) * size,
+      y = ((WORLD.maxY - pose.y) / span) * size,
+      c = mapContext;
+    c.drawImage(world.map, 0, 0, size, size);
+    c.save();
+    c.translate(x, y);
+    c.rotate(-pose.heading);
+    c.fillStyle = "#ffd24a";
+    c.strokeStyle = "#1c241f";
+    c.lineWidth = 1.5 * (size / 180);
+    c.beginPath();
+    const u = size / 180;
+    c.moveTo(8 * u, 0);
+    c.lineTo(-5.5 * u, -5 * u);
+    c.lineTo(-3 * u, 0);
+    c.lineTo(-5.5 * u, 5 * u);
+    c.closePath();
+    c.fill();
+    c.stroke();
+    c.restore();
+  }
+
+  view("chase");
+  updateMachine(pose);
+  followSun();
   new ResizeObserver(() => {
     renderer.setSize(stage.clientWidth, stage.clientHeight);
     camera.aspect = stage.clientWidth / stage.clientHeight;
+    // A portrait screen needs a taller view to keep the machine's width in it.
+    camera.fov = 42 + 24 * clamp((1 - camera.aspect) / 0.55, 0, 1);
     camera.updateProjectionMatrix();
     dirty = true;
   }).observe(stage);
@@ -790,11 +592,12 @@ export async function createScene(stage, onProgress) {
     event.preventDefault();
     onProgress("Graphics context lost. Reload to restore the scene.");
   });
-  let stateKey = "";
+  let stateKey = "",
+    detailAt = 0;
   function animate(now) {
     const dt = Math.min(0.1, (now - lastAt) / 1000);
     lastAt = now;
-    time.value = now / 1000;
+    sand.setTime(now / 1000);
     if (document.hidden) {
       requestAnimationFrame(animate);
       return;
@@ -805,14 +608,28 @@ export async function createScene(stage, onProgress) {
       // Before the first binary frame, show the pose from telemetry.
       const key = JSON.stringify(state.machine);
       if (key !== stateKey) {
-        updateMachine(state.machine);
+        Object.assign(pose, state.machine);
+        updateMachine(pose);
         stateKey = key;
         dirty = true;
       }
     }
+    followMachine(dt);
+    followSun();
     orbit.update();
+    updateBoom(dt);
+    if (now - detailAt > 250) {
+      detailAt = now;
+      if (sand.updateDetail(camera)) dirty = true;
+      drawMinimap();
+    }
     if (dirty && !document.hidden) {
+      world.placeSky(camera);
+      drawnFrom.copy(camera.position);
+      if (boomLength < 1)
+        camera.position.lerpVectors(orbit.target, drawnFrom, boomLength);
       renderer.render(scene, camera);
+      camera.position.copy(drawnFrom);
       dirty = false;
       frames++;
     }
@@ -828,10 +645,27 @@ export async function createScene(stage, onProgress) {
   return {
     view,
     pushFrame,
-    setTerrain,
+    setTerrain(store) {
+      const tiles = [...store].map(([index, heights]) => ({ index, heights }));
+      if (sand.applyTiles(tiles, false)) dirty = true;
+    },
+    newRoom() {
+      queue.length = 0;
+      renderTick = null;
+      grains.clear();
+      drawnKey = "";
+      dirty = true;
+      if (sand.clear()) dirty = true;
+    },
     setState(value) {
       state = value;
       if (!queue.length) latestAt = performance.now();
+    },
+    attachMinimap(canvas) {
+      minimap = canvas;
+      mapContext = canvas.getContext("2d");
+      mapKey = "";
+      drawMinimap();
     },
     telemetry() {
       return {
@@ -839,10 +673,17 @@ export async function createScene(stage, onProgress) {
         age: performance.now() - latestAt,
         meshes: data.meshes.length,
         triangles: renderer.info.render.triangles,
-        sandCount: terrainReady ? CELLS : 0,
+        calls: renderer.info.render.calls,
+        sandCount: sand.ready ? sand.chunkCount * SAND.page * SAND.page : 0,
+        chunks: sand.chunkCount,
         grains: grains.count,
+        loadTriangles: grains.triangles,
+        flyingGrains: grains.flying,
+        sandUpdateMs: grains.updateMs,
+        tick: renderTick,
         pixelRatio: renderer.getPixelRatio(),
         shadows: renderer.shadowMap.enabled,
+        camera: camera.position.toArray(),
       };
     },
   };

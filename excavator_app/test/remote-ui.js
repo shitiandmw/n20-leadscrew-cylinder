@@ -332,10 +332,10 @@ export async function checkRemoteFace(browser, app, origin) {
 
     // Reset lives in the sheet; its answer appears on the LCD.
     await page.getByRole("button", { name: "Settings" }).click();
-    await page.getByRole("button", { name: "Reset sand" }).click();
+    await page.getByRole("button", { name: "Reset world" }).click();
     await page
       .locator(".lcd")
-      .getByText("Sandbox reset. Ready for a fresh dig.", { exact: true })
+      .getByText("World reset. Back at the sand yard.", { exact: true })
       .waitFor();
     assert.equal(await page.locator("#settings-sheet").isVisible(), false);
 

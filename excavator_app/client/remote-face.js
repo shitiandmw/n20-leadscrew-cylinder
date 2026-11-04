@@ -149,7 +149,7 @@ export const remoteFace = ({ connection, connectionHelp }) => `
       <div class="lcd-row lcd-link">${connection}<span class="lcd-signal" id="signal" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="lcd-ping"><span id="latency-value">--</span> ms</span><span class="lcd-room"><span>ROOM</span> <strong id="room-label">------</strong></span></div>
       <div class="lcd-readings">${reading("BOOM", "boom-value", 3, 1, "mm")}${reading("STICK", "stick-value", 3, 1, "mm")}${reading("BUCKET", "bucket-value", 3, 1, "mm")}${reading("SLEW", "slew-value", 4, -1, "deg")}</div>
       <div class="lcd-row lcd-load"><span>LOAD</span><span class="lcd-bar" id="load-bar" aria-hidden="true">${"<i></i>".repeat(12)}</span>${digits("load-value", 3)}<small>cm³</small><span class="lcd-speed" id="lcd-speed">SPD 65%</span></div>
-      <div class="lcd-row ownership"><span id="operator-status">Waiting for connection</span><span class="lcd-flag" id="lcd-floor" hidden><span class="lcd-wide">ON CONCRETE · </span>RAISE BOOM</span><span class="lcd-flag lcd-blink" id="lcd-stop" hidden>E-STOP</span></div>
+      <div class="lcd-row ownership"><span id="operator-status">Waiting for connection</span><span class="lcd-flag" id="lcd-floor" hidden><span class="lcd-wide">ON GROUND · </span>RAISE BOOM</span><span class="lcd-flag lcd-blink" id="lcd-stop" hidden>E-STOP</span></div>
       <div id="toast" role="status" hidden></div>
     </div></section>
     ${rocker("left", "leftTrack", "Left")}
@@ -173,12 +173,12 @@ export const remoteFace = ({ connection, connectionHelp }) => `
   <div class="sheet-body">
     <section class="sheet-group" aria-label="Operation">
       <div class="setting setting-speed"><label for="speed">Movement speed</label><output id="speed-value">65%</output><input id="speed" type="range" min="20" max="100" step="5" value="65"></div>
-      <div class="setting"><div><strong>Sand and machine</strong><small>Back to the start position. You need control to do this.</small></div><button id="reset" class="rc-key">Reset sand</button></div>
+      <div class="setting"><div><strong>Sand and machine</strong><small>Back to the start position. You need control to do this.</small></div><button id="reset" class="rc-key">Reset world</button></div>
     </section>
     <section class="sheet-group" aria-label="This phone">
       <label class="setting" id="haptics-row" hidden><div><strong>Haptic feedback</strong><small>A short pulse from buttons and stick stops.</small></div><span class="switch"><input id="haptics" type="checkbox" role="switch"><i></i></span></label>
       <label class="setting" id="fullscreen-row" hidden><div><strong>Full screen</strong><small>Hides the browser bars.</small></div><span class="switch"><input id="fullscreen-toggle" type="checkbox" role="switch"><i></i></span></label>
-      <div class="setting"><div><strong>Room <span id="sheet-room">------</span></strong><small>Scan a new code to drive another sandbox.</small></div><a class="rc-key" href="/remote">Change room</a></div>
+      <div class="setting"><div><strong>Room <span id="sheet-room">------</span></strong><small>Scan a new code to join another game.</small></div><a class="rc-key" href="/remote">Change room</a></div>
     </section>
     <details class="sheet-group sheet-guide"><summary>Control guide</summary>
       <dl>
@@ -204,7 +204,7 @@ export const joinFace = () => `
   <div class="lcd"><div class="lcd-glass"><input id="room-code" placeholder="A1B2C3" maxlength="6" minlength="6" pattern="[a-fA-F0-9]{6}" required autocomplete="off" autocapitalize="characters" spellcheck="false"></div></div>
   <p>Enter the six-character code shown on your simulator.</p>
   <button class="rc-key rc-key-wide">Connect to excavator</button>
-  <a href="/">Open a new sandbox ↗</a>
+  <a href="/">Open a new game ↗</a>
 </form></main>`;
 
 // The LCD: fixed-format readouts, updated only when a shown value changes.

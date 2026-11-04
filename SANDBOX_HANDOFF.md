@@ -1,3 +1,51 @@
+# Open world and sand yard — 2026-11-04 (task 16776c7b)
+
+**Status: the open-world game is built and passes every test, and runs as a preview on port 8090. It is not deployed.** The container on port 8080 still serves the old pit build; rebuilding it needs the user's OK. The sand model and gameplay discussion (item 2 below) is waiting for the user's decision, and nothing from it has been built. This section also includes the phone remote redesign below, since 8080 has neither.
+
+## User request
+1. "Make it directly into an open-world game instead of this kind of platform, and make a larger sand yard."
+2. "The current sand implementation has problems and will cause many issues, such as the situation in the picture, and particles becoming larger after being dug into the bucket, etc. Discuss a more suitable gameplay approach."
+
+## What changed
+- `shared/landscape.js` (new): the world, run by both server and browser. Hard ground on a 160 mm triangle grid, roads, lake, ridge, initial sand, scenery and colliders.
+- `shared/world.js`: a 40.96 m world, the 6.4 m `YARD`, chassis pitch and roll, and `armFrame`, the exact tilted frame. The old floor, apron and ramp constants are gone.
+- `server/terrain.js`: sparse height field (4096 x 4096 cells of 10 mm, in 64-cell pages that exist only where sand has been).
+- `server/physics.js`, `server/bucket.js`: the chassis rides on ground and sand, with pitch and roll. New stops for steep slopes, scenery and deep water. `pressSand` replaces the old track plow. A 2,000-grain budget, past which the bucket bulldozes.
+- `shared/protocol.js`: frame version 3, with pitch, roll, a grain origin and sparse tiles.
+- `client/world-view.js`, `client/sand-view.js` (new); `client/scene.js`, `client/main.js`, `client/style.css` rewritten or patched: full-window game screen, minimap, following cameras, camera boom that clears buildings, sand chunks with level of detail.
+
+## Root causes found (measured)
+- **The fin in the user's screenshot:** the old track plow moved every column under the tracks into one cell beside them. Driving into a 127 mm pile made a 449 mm column at 88 degrees. Now the tracks press a rut of about 4 mm and spread the sand beside them, and the machine rides up piles. The worst fin in the stress run is 44 mm.
+- **Particles growing in the bucket (not fixed, see item 2):** two drawings of one material. The bed's speckle is 0.1-0.25 mm and a free grain is an 8 mm ball, about 40 times bigger. Finer grains are not affordable: the solver costs 14 us per grain per tick, so a full 300 cm3 bucket needs 9 ms at 4 mm radius, 75 ms at 2 mm and 600 ms at 1 mm, against a 33 ms tick.
+
+## Other bugs fixed on the way
+- **Grains hanging outside a tilted bucket cheek**, caused by the new tilt: `wallPass` treated the shell as wider than the plates. The regression test was confirmed to fail on the old line.
+- **Cliff at the lake:** a levelled pad made a 1.2-slope bank. Removed; the shore is now at most 0.5 slope.
+- **Room reaped during startup:** rooms now take about 650 ms to create, so the idle clock starts when the room is ready.
+- **First frame took 200 s under software rendering:** per-draw canvas blur. Now about 4 s.
+
+## Verification
+- `npm test`: 29/29. `npm run test:browser`: all four PASS lines. `bash scripts/check_docker.sh`: PASS (it builds only the test image, so 8080 was untouched).
+- Real keyboard playthrough: drove into the yard, climbed the 560 mm pile, pivoted on it, dug, lifted and poured. First scoop from the start: 312 cm3 loaded, 289 after the swing, 296 delivered, 0 wall crossings.
+- Stress ticks p99 27 ms, worst 36.7 ms (budget 33 ms). Four digging rooms peak at 242 MB (limit 768 MB). First frame 876 KB, then about 10 KB per frame.
+- Seen only under software rendering. **Not tried on a real GPU or a physical phone.**
+
+## Known limits
+- The arm and bucket do not collide with buildings or trees, and grains pass through the machine body.
+- Trees can block the camera; only buildings shorten its boom.
+- `output/arm60-sand-lab.zip` is stale.
+
+## Item 2: what was proposed to the user
+- **Sand model, recommended:** height field everywhere, plus a small height field for the load in the bucket's own frame, drawn with the same material. Spill streams are visual-only fine particles and the volume lands on the terrain. Estimated at 1-2 ms per tick (an estimate, not measured). It removes the grain solver.
+- **Gameplay, recommended:** free roam plus a job board: load the truck to a target, dig to a blueprint with a percentage overlay, level or build a ramp, clear a road slide. All are scored by comparing height fields.
+
+## Next steps
+1. Get the user's choice on the sand model and gameplay, then build it. Keep the full independent 0-60 mm boom stroke at every slew angle within +/-150 degrees; only hard ground stops the bucket.
+2. Get a fresh OK before rebuilding: `cd excavator_app && docker compose up --build -d`. It restarts the service and drops open rooms.
+3. Try it on a real phone and a real GPU.
+
+---
+
 # Phone remote redesign — 2026-11-04 (task 0c4a82fb)
 
 **Status: built and passing every test, but not deployed.** The container on port 8080 still serves the previous remote; rebuilding it needs the user's OK (see Next steps). The change is in `excavator_app/`, left for the workspace auto-commit. The shared handoff tools and the workspace service tools were unavailable again, so this file is the handoff.

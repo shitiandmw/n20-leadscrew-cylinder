@@ -69,7 +69,6 @@ try {
   await drive(4, { bucket: 1 });
   await drive(0.8, { boom: 1 });
   ws.send(JSON.stringify({ type: "release" }));
-  await page.getByRole("button", { name: "Bucket", exact: true }).click();
   await wait(2500);
   await page.screenshot({ path: "docs/desktop.png", timeout: 120000 });
   const phone = await (
