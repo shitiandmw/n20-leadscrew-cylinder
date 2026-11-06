@@ -5,9 +5,10 @@ import { createApplication } from "../server/index.js";
 import { checkControlClaims } from "./control-claims.js";
 import { checkRoomRecovery } from "./room-recovery.js";
 import { checkRemoteFace } from "./remote-ui.js";
+import { checkMultiplayer } from "./multiplayer-ui.js";
 
 // This is a finite test: its HTTP server and browser are always closed.
-const app = createApplication();
+const app = createApplication({ maxRooms: 8 });
 await new Promise((resolve) => app.server.listen(0, "127.0.0.1", resolve));
 const origin = `http://127.0.0.1:${app.server.address().port}`;
 let browser;
@@ -25,8 +26,9 @@ try {
   });
   await checkRoomRecovery(browser);
   await checkControlClaims(browser, app, origin);
-  await checkRemoteFace(browser, app, origin);
   await mkdir("test-results", { recursive: true });
+  await checkRemoteFace(browser, app, origin);
+  await checkMultiplayer(browser, app, origin);
   const desktop = await browser.newContext({
     viewport: { width: 1440, height: 1050 },
     deviceScaleFactor: 1,
@@ -77,10 +79,8 @@ try {
   await page.waitForFunction(() =>
     document.querySelector("#open-remote").href.includes(location.host),
   );
-  assert.match(
-    await page.locator("#open-remote").getAttribute("href"),
-    new RegExp(`/remote\\?room=${room}`),
-  );
+  const pairLink = await page.locator("#open-remote").getAttribute("href");
+  assert.match(pairLink, new RegExp(`/remote\\?room=${room}&pair=`));
   await page.screenshot({ path: "test-results/pairing.png" });
   await page.getByRole("button", { name: "Close pairing dialog" }).click();
 
@@ -95,8 +95,15 @@ try {
   phone.on("request", (request) => phoneRequests.push(request.url()));
   phone.on("pageerror", (error) => errors.push(error.message));
   phone.setDefaultTimeout(30000);
-  await phone.goto(`${origin}/remote?room=${room}`);
+  // The pairing link makes this phone a second device for the same excavator.
+  await phone.goto(pairLink.replace(new URL(pairLink).origin, origin));
   await phone.getByText("You have control", { exact: true }).waitFor();
+  assert.equal(
+    new URL(phone.url()).searchParams.has("pair"),
+    false,
+    "the key moves out of the address bar",
+  );
+  assert.equal(app.rooms.get(room).players.size, 1, "no extra excavator");
   assert.ok(
     phoneRequests.every((url) => !/model\.json|\/three-|\/scene-/.test(url)),
     "remote stays free of CAD and Three.js downloads",
@@ -257,6 +264,23 @@ try {
   await page.waitForFunction(() => window.sandLab.getState().machine.x === 0);
   for (const name of ["Side", "Top", "Bucket", "Orbit", "Chase"])
     await page.getByRole("button", { name, exact: true }).click();
+  // Every part is drawn in full from close up, and from a simpler index further
+  // away, where a frame of one machine stays well under a million triangles.
+  await page.waitForFunction(
+    () => window.sandLab.getGraphics().machineLevel === "far",
+  );
+  await page.waitForTimeout(3000);
+  const farFrame = await page.evaluate(() => window.sandLab.getGraphics());
+  assert.ok(farFrame.triangles < 1000000, `${farFrame.triangles} triangles`);
+  assert.ok(farFrame.calls < 400, `${farFrame.calls} draw calls`);
+  await page.getByRole("button", { name: "Bucket", exact: true }).click();
+  await page.waitForFunction(
+    () => window.sandLab.getGraphics().machineLevel === "full",
+  );
+  await page.getByRole("button", { name: "Chase", exact: true }).click();
+  await page.waitForFunction(
+    () => window.sandLab.getGraphics().machineLevel === "far",
+  );
   await page.screenshot({ path: "test-results/desktop.png" });
   await page.setViewportSize({ width: 390, height: 844 });
   assert.equal(
@@ -267,6 +291,7 @@ try {
   await page.screenshot({ path: "test-results/mobile-simulator.png" });
   const touchSimulator = await mobile.newPage();
   touchSimulator.on("pageerror", (error) => errors.push(error.message));
+  // A second simulator in the room is a second player, with their own machine.
   await touchSimulator.goto(`${origin}/?room=${room}`);
   await touchSimulator.waitForFunction(
     () => window.sandLab?.getGraphics()?.sandCount > 0,
@@ -283,6 +308,7 @@ try {
   );
   assert.equal(graphics.pixelRatio, 1);
   assert.equal(graphics.meshes, 644);
+  assert.equal(app.rooms.get(room).players.size, 2);
   await page.getByRole("button", { name: "Release", exact: true }).click();
   await touchSimulator.bringToFront();
   await touchSimulator.waitForFunction(
@@ -311,7 +337,7 @@ try {
   await touchSimulator.close();
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: 644 CAD meshes, sand rendering, QR pairing, automatic mouse/keyboard/touch control, phone foreground recovery, multitouch, release/cancel, shared E-stop, reset, reconnect, driving, the following camera, ownership handoff, camera views, mobile layouts and reduced touch graphics cost.",
+    "PASS: 644 CAD meshes, sand rendering, QR pairing, automatic mouse/keyboard/touch control, phone foreground recovery, multitouch, release/cancel, a player's shared E-stop, reset, reconnect, driving, the following camera, ownership handoff, camera views, mobile layouts and reduced touch graphics cost.",
   );
 } finally {
   await browser?.close();

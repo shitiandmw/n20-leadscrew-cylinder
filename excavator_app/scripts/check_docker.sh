@@ -42,6 +42,8 @@ try {
   const decoded = decodeFrame(Uint8Array.from(frame));
   assert.ok(decoded.tiles.length > 1000);
   assert.ok(decoded.tiles.some((tile) => tile.heights.some((h) => h > 1000)));
+  // This viewer is a second player; the first left just now and keeps a machine.
+  assert.equal(decoded.machines.length, 2);
   viewer.close();
   console.log('PASS: non-root read-only Docker container, health, remote page, 644 model meshes, WebSocket control and binary sand-bed frames.');
 } finally { await app.close(); }

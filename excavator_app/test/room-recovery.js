@@ -29,15 +29,16 @@ export async function checkRoomRecovery(browser) {
     assert.equal(roomCreates, 1);
     assert.equal(new URL(page.url()).searchParams.get("room"), room);
     assert.equal(await page.locator("#room-label").textContent(), room);
-    assert.equal(
-      await page.locator("#remote-link").getAttribute("href"),
-      `/remote?room=${room}`,
+    await page.waitForFunction(() =>
+      document.querySelector("#remote-link").href.includes("pair="),
     );
+    const pairedLink = await page.locator("#remote-link").getAttribute("href");
+    assert.ok(pairedLink.startsWith(`/remote?room=${room}&pair=`));
     assert.equal(sockets.length, 1);
     assert.equal(new URL(sockets[0]).searchParams.get("room"), room);
     await page.getByRole("button", { name: "Pair your phone" }).click();
     await page.waitForFunction(
-      (code) => document.querySelector("#open-remote").href.endsWith(`room=${code}`),
+      (code) => document.querySelector("#open-remote").href.includes(`room=${code}&pair=`),
       room,
     );
     const originalQr = await page.locator("#qr").evaluate((canvas) => canvas.toDataURL());
@@ -59,10 +60,16 @@ export async function checkRoomRecovery(browser) {
       1,
       "transient network failures must not create another room",
     );
+    assert.equal(
+      app.rooms.get(room).players.size,
+      1,
+      "and the page keeps its excavator",
+    );
 
     // A failed room lookup must not be mistaken for an expired room. The
     // explicit retry should restore the connection without a page reload.
-    await page.route(`**/api/rooms/${room}`, (route) => route.fulfill({
+    const roomLookup = new RegExp(`/api/rooms/${room}(\\?|$)`);
+    await page.route(roomLookup, (route) => route.fulfill({
       status: 503,
       json: { error: "Room lookup unavailable. Retry connection." },
     }));
@@ -71,7 +78,7 @@ export async function checkRoomRecovery(browser) {
     assert.equal(await page.evaluate(() => window.sandLab.getRoom()), room);
     assert.equal(roomCreates, 1);
     await page.getByRole("button", { name: "Retry connection" }).waitFor();
-    await page.unroute(`**/api/rooms/${room}`);
+    await page.unroute(roomLookup);
     // The app also retries by itself. A rendering-heavy page makes a pointer
     // click slow enough to lose that race, so press the button straight away.
     await page.evaluate(() => document.querySelector("#retry-connection").click());
@@ -94,14 +101,15 @@ export async function checkRoomRecovery(browser) {
     assert.equal(roomCreates, 2);
     assert.equal(new URL(page.url()).searchParams.get("room"), replacement);
     assert.equal(await page.locator("#room-label").textContent(), replacement);
-    assert.equal(
-      await page.locator("#remote-link").getAttribute("href"),
-      `/remote?room=${replacement}`,
+    await page.waitForFunction(
+      (code) =>
+        document.querySelector("#remote-link").getAttribute("href").startsWith(`/remote?room=${code}&pair=`),
+      replacement,
     );
     await page.waitForFunction(
       (code) =>
         document.querySelector("#pair-code").textContent === code &&
-        document.querySelector("#open-remote").href.endsWith(`room=${code}`),
+        document.querySelector("#open-remote").href.includes(`room=${code}&pair=`),
       replacement,
     );
     await page.waitForFunction(

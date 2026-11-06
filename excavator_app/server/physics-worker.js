@@ -2,28 +2,38 @@ import { parentPort } from "node:worker_threads";
 import { SandSimulation } from "./physics.js";
 import { TILE_CELLS } from "../shared/protocol.js";
 
-const simulation = new SandSimulation();
+// The machines follow the players in the room; each command lists them.
+const simulation = new SandSimulation({ vehicles: [] });
 // The quantised bed persists across resets and every changed tile carries a
-// version no client has seen, so a reset only resends what the player changed.
+// version no client has seen, so a reset only resends what the players changed.
 const store = new Map();
 let resetVersion = 0,
   version = 0;
-function publish(stepMs = 0, motionVersion = 0) {
-  const origin = new Int32Array(3),
-    grains = simulation.packGrains(origin),
+function publish(stepMs = 0, commands = []) {
+  const { grains, groups } = simulation.packGrains(),
     message = {
-      machine: simulation.machine,
+      vehicles: commands.map(({ id, motionVersion, poseVersion }) => {
+        const v = simulation.vehicles.find((vehicle) => vehicle.id === id);
+        return {
+          id,
+          motionVersion,
+          poseVersion,
+          machine: v.machine,
+          stats: v.stats,
+          load: v.load.pack(),
+        };
+      }),
       tick: simulation.tick,
       count: simulation.grains,
-      stats: simulation.stats,
+      world: simulation.world,
       grains,
-      origin,
+      groups,
       stepMs,
       resetVersion,
-      motionVersion,
     },
-    transfer = [grains.buffer, origin.buffer],
+    transfer = [grains.buffer, groups.buffer],
     changed = simulation.terrain.quantize(store);
+  for (const { load } of message.vehicles) if (load) transfer.push(load.buffer);
   if (changed.length) {
     const tileIndex = Int32Array.from(changed),
       tileData = new Uint16Array(changed.length * TILE_CELLS);
@@ -41,12 +51,8 @@ parentPort.on("message", (command) => {
     simulation.reset();
     resetVersion = command.resetVersion;
   }
-  simulation.axes = command.axes;
-  simulation.speed = command.speed;
-  simulation.estop = command.estop;
-  // The server's last accepted pose wins after a stop invalidates a busy step.
-  simulation.machine = command.machine;
+  simulation.syncVehicles(command.vehicles);
   const start = performance.now();
   simulation.step();
-  publish(performance.now() - start, command.motionVersion);
+  publish(performance.now() - start, command.vehicles);
 });

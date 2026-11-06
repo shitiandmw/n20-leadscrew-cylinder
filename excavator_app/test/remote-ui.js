@@ -107,18 +107,14 @@ async function checkLayout(page, label) {
 }
 
 export async function checkRemoteFace(browser, app, origin) {
-  const { room } = await (
-    await fetch(`${origin}/api/rooms`, { method: "POST" })
-  ).json();
-  const sandbox = app.rooms.get(room);
-  const url = `${origin}/remote?room=${room}`;
-  const axes = () => sandbox.simulation.axes;
-  const isNeutral = () => Object.values(axes()).every((n) => n === 0);
+  const newRoom = async () =>
+    (await (await fetch(`${origin}/api/rooms`, { method: "POST" })).json()).room;
   const errors = [];
 
+  // Every phone here is a new player, so each has an excavator to control.
+  const phones = await newRoom();
   for (const [width, height] of PHONES) {
     const label = `${width}x${height}`;
-    await waitFor(() => sandbox.owner === null, "the previous phone to leave");
     const context = await browser.newContext({
       viewport: { width, height },
       isMobile: true,
@@ -126,7 +122,7 @@ export async function checkRemoteFace(browser, app, origin) {
     });
     const page = await context.newPage();
     watchErrors(page, errors);
-    await page.goto(url);
+    await page.goto(`${origin}/remote?room=${phones}`);
     await page.getByText("You have control", { exact: true }).waitFor();
     await checkLayout(page, label);
     if (width === 844 && height === 390)
@@ -134,7 +130,14 @@ export async function checkRemoteFace(browser, app, origin) {
     await context.close();
   }
 
-  await waitFor(() => sandbox.owner === null, "the last phone to leave");
+  // The functions, on one phone alone in a room: its first player and host.
+  const room = await newRoom();
+  const sandbox = app.rooms.get(room);
+  const url = `${origin}/remote?room=${room}`;
+  const player = () => [...sandbox.players.values()][0];
+  const vehicle = () => player().vehicle;
+  const axes = () => vehicle().axes;
+  const isNeutral = () => Object.values(axes()).every((n) => n === 0);
   const context = await browser.newContext({
     viewport: { width: 390, height: 664 },
     isMobile: true,
@@ -157,12 +160,13 @@ export async function checkRemoteFace(browser, app, origin) {
       cdp.send("Input.dispatchTouchEvent", { type, touchPoints });
     const pulses = () => page.evaluate(() => window.pulses.length);
 
-    // The LCD reads the machine's real state.
+    // The LCD reads the machine's real state and the link.
     await page.waitForFunction(
       () =>
         document.querySelector("#boom-value").getAttribute("aria-label") ===
         "Boom 10.0 millimetres",
     );
+    await page.getByText("Connected", { exact: true }).waitFor();
 
     // A thumb landing on the cap grabs it; only pushing moves the machine.
     const stick = await page.locator("#right-stick").boundingBox();
@@ -176,6 +180,7 @@ export async function checkRemoteFace(browser, app, origin) {
     );
     const tick = sandbox.simulation.tick;
     await waitFor(() => sandbox.simulation.tick > tick + 4, "a few ticks");
+
     assert.ok(
       isNeutral(),
       "pressing the cap off-centre must not move anything",
@@ -273,7 +278,7 @@ export async function checkRemoteFace(browser, app, origin) {
     const speed = await page.locator("#speed").inputValue();
     assert.ok(+speed < 50, `the fader follows a touch drag (now ${speed})`);
     await waitFor(
-      () => Math.round(sandbox.simulation.speed * 100) === +speed,
+      () => Math.round(vehicle().speed * 100) === +speed,
       "the new speed to reach the server",
     );
     assert.equal(
@@ -308,7 +313,7 @@ export async function checkRemoteFace(browser, app, origin) {
       .locator("#settings-sheet")
       .getByRole("button", { name: "Emergency stop" })
       .click();
-    await waitFor(() => sandbox.simulation.estop, "the emergency stop");
+    await waitFor(() => vehicle().estop, "the emergency stop");
     assert.equal(await page.locator("#settings-sheet").isVisible(), false);
     await page.locator("#lcd-stop").waitFor();
     await page.waitForFunction(() =>
@@ -316,21 +321,35 @@ export async function checkRemoteFace(browser, app, origin) {
     );
     assert.equal(await page.locator("#claim").isVisible(), false);
     await page.getByRole("button", { name: "Resume operation" }).click();
-    await waitFor(() => !sandbox.simulation.estop, "resume");
+    await waitFor(() => !vehicle().estop, "resume");
     await page.getByRole("button", { name: "Release", exact: true }).waitFor();
     assert.equal(await page.locator("#lcd-stop").isVisible(), false);
 
-    // A stop from another device brings this operator back to the face too.
-    other = new WebSocket(`${origin.replace("http", "ws")}/ws?room=${room}`);
+    // A stop from this player's other device brings them back to the face too.
+    other = new WebSocket(
+      `${origin.replace("http", "ws")}/ws?room=${room}&key=${player().key}`,
+    );
     await once(other, "open");
     await page.getByRole("button", { name: "Settings" }).click();
     other.send(JSON.stringify({ type: "estop" }));
     await page.locator("#lcd-stop").waitFor();
     assert.equal(await page.locator("#settings-sheet").isVisible(), false);
     await page.getByRole("button", { name: "Resume operation" }).click();
-    await waitFor(() => !sandbox.simulation.estop, "resume");
+    await waitFor(() => !vehicle().estop, "resume");
 
-    // Reset lives in the sheet; its answer appears on the LCD.
+    // Going back to the start and resetting live in the sheet; their answers
+    // appear on the LCD.
+    await page.getByRole("button", { name: "Settings" }).click();
+    assert.equal(
+      await page.locator("#sheet-players").textContent(),
+      "Only you here",
+    );
+    await page.getByRole("button", { name: "Back to start" }).click();
+    await page
+      .locator(".lcd")
+      .getByText("Back at a start position.", { exact: true })
+      .waitFor();
+    assert.equal(await page.locator("#settings-sheet").isVisible(), false);
     await page.getByRole("button", { name: "Settings" }).click();
     await page.getByRole("button", { name: "Reset world" }).click();
     await page
@@ -341,7 +360,7 @@ export async function checkRemoteFace(browser, app, origin) {
 
     // The hard floor stop is explained on the phone as well as the simulator.
     await page.getByRole("button", { name: "Release", exact: true }).click();
-    await waitFor(() => sandbox.owner === null, "release");
+    await waitFor(() => player().owner === null, "release");
     const drive = async (seconds, command) => {
       other.send(JSON.stringify({ type: "claim" }));
       const end = Date.now() + seconds * 1000;
@@ -363,11 +382,11 @@ export async function checkRemoteFace(browser, app, origin) {
     await page.locator("#lcd-floor").waitFor();
     other.send(JSON.stringify({ type: "input", axes: neutral(), speed: 1 }));
     other.send(JSON.stringify({ type: "release" }));
-    await waitFor(() => sandbox.owner === null, "the other device to release");
+    await waitFor(() => player().owner === null, "the other device to release");
 
     assert.deepEqual(errors, []);
     console.log(
-      "PASS: phone remote fits one screen at 10 phone sizes with thumb-sized, non-overlapping controls; cap grab, spring return, rockers, haptics, settings sheet, touch fader, sheet and remote stops, reset and floor warning.",
+      "PASS: phone remote fits one screen at 10 phone sizes with thumb-sized, non-overlapping controls; cap grab, spring return, rockers, haptics, settings sheet, touch fader, stops from the sheet and a second device, going back to a start position, reset and floor warning.",
     );
   } finally {
     other?.terminate();

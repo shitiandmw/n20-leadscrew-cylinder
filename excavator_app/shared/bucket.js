@@ -6,7 +6,6 @@ import { BUCKET, BUCKET_PROFILE } from "./world.js";
 // right of each edge.
 const P = BUCKET_PROFILE;
 const LAST = P.length - 1;
-export const MOUTH = LAST; // edge index P[LAST] -> P[0]
 
 function segment(a, b, inner = BUCKET.shellHalfThickness, outer = inner) {
   const dx = b[0] - a[0],
@@ -33,7 +32,6 @@ export const WALLS = P.slice(0, LAST).map((a, i) =>
   segment(a, P[i + 1], INNER_SURFACE[i], BUCKET.shellHalfThickness),
 );
 export const TEETH = segment(P[LAST], BUCKET.tip, 1.5);
-const MOUTH_EDGE = segment(P[LAST], P[0]);
 // Region swept when cutting the sand bed: cavity plus the tooth triangle.
 export const REGION = [...P, BUCKET.tip];
 export const REGION_EDGE_MOUTH = REGION.length - 1; // tip -> P[0]
@@ -65,56 +63,6 @@ export function insidePolygon(x, z) {
 }
 export const insideCavity = (x, y, z) =>
   Math.abs(y) < BUCKET.cheekCentre && insidePolygon(x, z);
-
-// Parameter t in [0, 1] where segment p0->p1 crosses edge e, or -1.
-function crossEdge(p0x, p0z, p1x, p1z, e) {
-  const rx = p1x - p0x,
-    rz = p1z - p0z,
-    den = rx * e.dz - rz * e.dx;
-  if (Math.abs(den) < 1e-12) return -1;
-  const qx = e.ax - p0x,
-    qz = e.az - p0z,
-    t = (qx * e.dz - qz * e.dx) / den,
-    u = (qx * rz - qz * rx) / den;
-  return t >= 0 && t <= 1 && u >= 0 && u <= 1 ? t : -1;
-}
-
-// How did a point travel from local a to local b relative to the bucket?
-// Returns the first boundary it crossed: 0 none, 1 mouth, 2 wall, 3 cheek.
-// `hit` receives [t, wall index, cheek sign].
-export const CROSS_NONE = 0,
-  CROSS_MOUTH = 1,
-  CROSS_WALL = 2,
-  CROSS_CHEEK = 3;
-export function firstCrossing(a, b, hit) {
-  let best = 2,
-    type = CROSS_NONE;
-  const dy = b[1] - a[1],
-    half = BUCKET.cheekCentre;
-  for (let k = 0; k <= LAST; k++) {
-    const edge = k === LAST ? MOUTH_EDGE : WALLS[k],
-      t = crossEdge(a[0], a[2], b[0], b[2], edge);
-    if (t < 0 || t >= best || Math.abs(a[1] + dy * t) >= half) continue;
-    best = t;
-    type = k === LAST ? CROSS_MOUTH : CROSS_WALL;
-    hit[1] = k;
-  }
-  for (const sign of [-1, 1]) {
-    const plane = sign * half;
-    if ((a[1] - plane) * (b[1] - plane) >= 0) continue;
-    const t = (plane - a[1]) / dy;
-    if (
-      t < best &&
-      insidePolygon(a[0] + (b[0] - a[0]) * t, a[2] + (b[2] - a[2]) * t)
-    ) {
-      best = t;
-      type = CROSS_CHEEK;
-      hit[2] = sign;
-    }
-  }
-  hit[0] = best;
-  return type;
-}
 
 // A rigid bucket pose in the world: local x, y and z axes ex, ey and ez, at any
 // chassis tilt. Matches toLocal/toWorld in physics.js and the Three.js bucket

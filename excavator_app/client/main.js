@@ -3,6 +3,7 @@ import "./remote.css";
 import QRCode from "qrcode";
 import { AXES, neutral, BUCKET } from "../shared/world.js";
 import { decodeFrame, applyTiles } from "../shared/protocol.js";
+import { NAME_LENGTH, cleanName } from "../shared/players.js";
 import { createInputSender } from "./input-sender.js";
 import {
   remoteFace,
@@ -30,6 +31,8 @@ const icons = {
   link: '<path d="m9 15 6-6m-6 8-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m0-1 1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0"/>',
   shovel:
     '<path d="M3 19h8m-6-3h5v3H5zm4 0V9l4-4 5 7m-6-6 5-2 4 8-4 3-3-3 3-2"/>',
+  people:
+    '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.8a3.5 3.5 0 0 1 0 6.4M18 14.3a6.5 6.5 0 0 1 3.5 5.7"/>',
 };
 const icon = (name) =>
   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]}</svg>`;
@@ -50,10 +53,12 @@ function gameScreen() {
     <div id="loading"><span class="loader"></span>Preparing the valley…</div>
     <div class="hud-top">
       <div class="hud-identity">${brand}<div class="hud-session">${connection}<span class="session-code">ROOM <strong id="room-label">———</strong></span></div>${connectionHelp}<canvas id="minimap" width="360" height="360" role="img" aria-label="Map of the valley"></canvas></div>
-      <div class="hud-actions"><div class="view-buttons" role="group" aria-label="Camera views"><button data-view="chase" class="active">Chase</button><button data-view="orbit">Orbit</button><button data-view="side">Side</button><button data-view="top">Top</button><button data-view="bucket">Bucket</button></div><button id="fullscreen" class="icon-button" aria-label="Toggle full screen">${icon("expand")}</button><button class="button hud-button" data-pair aria-label="Pair your phone">${iconText("phone", "Pair your phone")}</button><button id="menu-toggle" class="button hud-button" aria-expanded="false" aria-controls="menu">Menu</button></div>
+      <div class="hud-actions"><div class="view-buttons" role="group" aria-label="Camera views"><button data-view="chase" class="active">Chase</button><button data-view="orbit">Orbit</button><button data-view="side">Side</button><button data-view="top">Top</button><button data-view="bucket">Bucket</button></div><button id="fullscreen" class="icon-button" aria-label="Toggle full screen">${icon("expand")}</button><button class="button hud-button" id="invite" aria-label="Invite players">${iconText("people", "Invite players")}</button><button class="button hud-button" data-pair aria-label="Pair your phone">${iconText("phone", "Pair your phone")}</button><button id="menu-toggle" class="button hud-button" aria-expanded="false" aria-controls="menu">Menu</button></div>
     </div>
-    <div class="hud-messages"><div class="stop-banner" hidden>EMERGENCY STOP ENGAGED</div><div class="contact-banner" hidden>BUCKET ON HARD GROUND · RAISE THE BOOM</div><div class="obstacle-banner" hidden></div></div>
+    <aside id="roster" class="roster" aria-label="Players in this room"><button id="roster-toggle" class="roster-head" aria-expanded="true" aria-controls="player-list"><span>PLAYERS</span><strong id="player-count">—</strong></button><ol id="player-list"></ol></aside>
+    <div class="hud-messages"><div id="watching" class="watching" hidden><span>Watching <strong id="watching-name"></strong></span><button id="watch-self" class="button small">Back to my excavator</button></div><div class="stop-banner" hidden>EMERGENCY STOP ENGAGED</div><div class="contact-banner" hidden>BUCKET ON HARD GROUND · RAISE THE BOOM</div><div class="obstacle-banner" hidden></div></div>
     <aside id="menu" class="menu" hidden aria-label="Game menu">
+      <div class="menu-section menu-name"><label for="player-name">Your name</label><input id="player-name" maxlength="${NAME_LENGTH}" autocomplete="nickname" spellcheck="false"></div>
       <div class="menu-section"><span class="eyebrow">HOW TO PLAY</span><p>Drive with <kbd>I</kbd> <kbd>K</kbd> <kbd>J</kbd> <kbd>L</kbd>. The yard is straight ahead: lower the boom, crowd the stick, curl past 50 mm, lift, swing left to the pour zone and open the bucket. Everything else is yours to explore. The map shows where you are.</p><p class="key-table"><span><kbd>I</kbd> <kbd>K</kbd> drive</span><span><kbd>J</kbd> <kbd>L</kbd> turn</span><span><kbd>W</kbd> <kbd>S</kbd> stick</span><span><kbd>A</kbd> <kbd>D</kbd> slew</span><span><kbd>↑</kbd> <kbd>↓</kbd> boom down / up</span><span><kbd>←</kbd> <kbd>→</kbd> bucket</span><span><kbd>Q</kbd> <kbd>Z</kbd> left track</span><span><kbd>E</kbd> <kbd>C</kbd> right track</span></p></div>
       <div class="speed-control menu-section"><label for="speed">Movement speed</label><output id="speed-value">65%</output><input id="speed" type="range" min="20" max="100" step="5" value="65"></div>
       <div class="menu-section joint-readouts"><span>STICK <output id="stick-value">0.0 mm</output></span><span>BUCKET <output id="bucket-value">0.0 mm</output></span></div>
@@ -68,8 +73,8 @@ function gameScreen() {
             `<div><span>${label}</span><button class="hold" data-axis="${axis}" data-value="-1" aria-label="Decrease ${label}">−</button><button class="hold" data-axis="${axis}" data-value="1" aria-label="Increase ${label}">+</button></div>`,
         )
         .join("")}</div></details>
-      <div class="menu-section menu-actions"><button id="reset" class="button">${iconText("rotate", "Reset world")}</button><a id="remote-link" class="button" href="/remote" target="_blank" rel="noopener">Remote control ↗</a></div>
-      <p class="menu-status"><span id="particle-count">0</span> loose grains · <span id="performance">30 Hz physics</span> · <span id="latency-value">— ms</span></p>
+      <div class="menu-section menu-actions"><button id="respawn" class="button">Back to start</button><button id="reset" class="button">${iconText("rotate", "Reset world")}</button><a id="remote-link" class="button" href="/remote" target="_blank" rel="noopener">Remote control ↗</a></div>
+      <p class="menu-status"><span id="particle-count">0</span> falling parcels · <span id="performance">30 Hz physics</span> · <span id="latency-value">— ms</span></p>
     </aside>
     <div class="hud-bottom">
       <div class="control-cluster">${stickPad("left-stick", "STICK / SLEW", "STICK OUT", "STICK IN", "L", "R")}${trackPad("leftTrack", "Left")}</div>
@@ -82,13 +87,31 @@ function gameScreen() {
       <div class="control-cluster control-cluster-right">${trackPad("rightTrack", "Right")}${stickPad("right-stick", "BOOM / BUCKET", "LOWER", "RAISE", "CURL", "OPEN")}</div>
     </div>
   </section></main>
-  <dialog id="pair-dialog"><button class="dialog-close icon-button" aria-label="Close pairing dialog">×</button><span class="eyebrow">TAKE THE CONTROLS WITH YOU</span><h2>Your phone.<br>Your excavator.</h2><p>Connect both devices to the same network, then scan to open the remote.</p><div class="qr-wrap"><canvas id="qr"></canvas></div><div class="pair-room">ROOM <strong id="pair-code"></strong></div><label for="pair-base">Server address reachable from your phone</label><input id="pair-base" type="url"><p class="pair-hint">Use your computer’s LAN address or public HTTPS domain. localhost only works on this device.</p><div class="pair-actions"><button class="button primary" id="copy-link">Copy remote link</button><a class="button" id="open-remote" target="_blank" rel="noopener">Open remote ↗</a></div><p id="pair-feedback" role="status"></p></dialog><div id="toast" role="status" hidden></div>`;
+  <dialog id="pair-dialog"><button class="dialog-close icon-button" aria-label="Close pairing dialog">×</button><span class="eyebrow">TAKE THE CONTROLS WITH YOU</span><h2>Your phone.<br>Your excavator.</h2><p>Connect both devices to the same network, then scan to open the remote.</p><div class="qr-wrap"><canvas id="qr"></canvas></div><div class="pair-room">ROOM <strong id="pair-code"></strong></div><label for="pair-base">Server address reachable from your phone</label><input id="pair-base" type="url"><p class="pair-hint">Use your computer’s LAN address or public HTTPS domain. localhost only works on this device.</p><div class="pair-actions"><button class="button primary" id="copy-link">Copy remote link</button><a class="button" id="open-remote" target="_blank" rel="noopener">Open remote ↗</a></div><p id="pair-feedback" role="status"></p></dialog>
+  <dialog id="invite-dialog"><button class="dialog-close icon-button" aria-label="Close invite dialog">×</button><span class="eyebrow">ONE ROOM, ONE SAND YARD</span><h2>Everyone gets<br>an excavator.</h2><p>Anyone with this link joins this room with a machine of their own, in the same world.</p><div class="qr-wrap"><canvas id="invite-qr"></canvas></div><div class="pair-room">ROOM <strong id="invite-code"></strong></div><div class="invite-kind" role="radiogroup" aria-label="What the link opens"><label><input type="radio" name="invite-kind" value="game" checked><span>The full game</span></label><label><input type="radio" name="invite-kind" value="remote"><span>A phone controller</span></label></div><p class="pair-hint" id="invite-hint"></p><label for="invite-base">Server address your friends can reach</label><input id="invite-base" type="url"><div class="pair-actions"><button class="button primary" id="copy-invite">Copy invite link</button><a class="button" id="open-invite" target="_blank" rel="noopener">Open ↗</a></div><p id="invite-feedback" role="status"></p></dialog>
+  <div id="toast" role="status" hidden></div>`;
 }
+
+// Storage can be missing in private browsing: choices then last as long as the
+// page does, and a reload joins as a new player.
+function stored(area, key, value) {
+  try {
+    if (value === undefined) return window[area].getItem(key) ?? "";
+    window[area].setItem(key, value);
+  } catch {
+    /* See above. */
+  }
+  return value ?? "";
+}
+const savedName = () => stored("localStorage", "sandlab-name");
+const saveName = (name) => stored("localStorage", "sandlab-name", name);
 
 if (remote && !new URLSearchParams(location.search).get("room")) {
   app.innerHTML = joinFace();
+  $("#join-name").value = savedName();
   $("#join").onsubmit = (event) => {
     event.preventDefault();
+    saveName(cleanName($("#join-name").value));
     location.href =
       "/remote?room=" + $("#room-code").value.trim().toUpperCase();
   };
@@ -117,7 +140,11 @@ async function start() {
     throw new Error(
       "Invalid room code. Open /remote and enter the six-character code.",
     );
-  let refreshPairing = () => {};
+  let refreshLinks = () => {};
+  // This device's claim on an excavator in this room. A paired phone arrives with
+  // the owner's key in its link; a reloaded page finds its own in this tab.
+  const playerSlot = () => `sandlab-player-${room}`;
+  let playerKey = new URLSearchParams(location.search).get("pair") || "";
   function setRoom(code) {
     room = code;
     const url = new URL(location.href);
@@ -125,13 +152,17 @@ async function start() {
     history.replaceState(null, "", url);
     $("#room-label").textContent = room;
     if ($("#sheet-room")) $("#sheet-room").textContent = room;
-    if ($("#remote-link")) $("#remote-link").href = `/remote?room=${room}`;
-    refreshPairing();
+    refreshLinks();
   }
-  if (room) setRoom(room);
+  if (room) {
+    setRoom(room);
+    playerKey ||= stored("sessionStorage", playerSlot());
+  }
   let ws,
     id,
     state,
+    me = null,
+    roster = null,
     scene,
     sandFrame,
     sandBed = new Map(),
@@ -190,7 +221,7 @@ async function start() {
           ? "Waiting for connection. Try again when connected."
           : state.estop
             ? "Resume operation before moving."
-            : "Another operator has control. Ask them to release it.",
+            : "Your other device has control. Release it there first.",
       );
       return false;
     }
@@ -377,6 +408,7 @@ async function start() {
     if (
       ["INPUT", "TEXTAREA"].includes(event.target.tagName) ||
       $("#pair-dialog")?.open ||
+      $("#invite-dialog")?.open ||
       settingsSheet?.open
     )
       return;
@@ -444,10 +476,29 @@ async function start() {
   };
   $("#reset").onclick = () => {
     if (!isOwner()) return toast("Take control before resetting the world.");
+    if (!state.host) return toast("Only the host can reset the world.");
     clearInputs();
     send({ type: "reset" });
     settingsSheet?.close();
     toast("World reset. Back at the sand yard.");
+  };
+  $("#respawn").onclick = () => {
+    if (!isOwner()) return toast("Take control before moving the excavator.");
+    clearInputs();
+    send({ type: "respawn" });
+    settingsSheet?.close();
+    toast("Back at a start position.");
+  };
+  $("#player-name").value = savedName();
+  $("#player-name").onchange = (event) => {
+    const name = cleanName(event.target.value);
+    if (!name) {
+      event.target.value = me?.name ?? "";
+      return;
+    }
+    event.target.value = name;
+    saveName(name);
+    send({ type: "rename", name });
   };
   if (remote) setupSettings(settingsSheet, clearInputs, haptics);
 
@@ -474,7 +525,7 @@ async function start() {
     if (!ownedBefore && isOwner()) inputSender.flush();
     const owner = isOwner(),
       live = ws?.readyState === WebSocket.OPEN;
-    const nextMode = `${owner}:${state.owner}:${state.estop}:${live}`;
+    const nextMode = `${owner}:${state.owner}:${state.estop}:${live}:${state.host}`;
     if (nextMode !== controlMode) {
       controlMode = nextMode;
       $("#claim").disabled = !live;
@@ -482,7 +533,7 @@ async function start() {
       $("#operator-status").textContent = owner
         ? "You have control"
         : state.owner
-          ? "Another operator is driving"
+          ? "Your other device is driving"
           : state.estop
             ? "Take control to resume"
             : "Move a control to start";
@@ -494,7 +545,13 @@ async function start() {
       document
         .querySelectorAll(".joystick")
         .forEach((el) => el.classList.toggle("disabled", !controlsAvailable()));
-      $("#reset").disabled = !owner || !live;
+      $("#reset").disabled = !owner || !live || !state.host;
+      $("#reset").title = state.host ? "" : "Only the host can reset the world.";
+      if ($("#reset-note"))
+        $("#reset-note").textContent = state.host
+          ? "Everything goes back to the start. You need control to do this."
+          : "Only the host of this room can do this.";
+      $("#respawn").disabled = !owner || !live;
       // The remote has one key for both: an operator stopped by the E-stop
       // needs Resume, and anyone else needs to take control first.
       const resumeKey = state.estop && (owner || !remote);
@@ -545,17 +602,112 @@ async function start() {
           object: "SOMETHING IN THE WAY · BACK UP OR TURN",
           steep: "TOO STEEP TO CLIMB · BACK DOWN",
           water: "TOO DEEP · BACK UP",
+          machine: "ANOTHER EXCAVATOR IN THE WAY · BACK UP OR TURN",
         }[obstacle];
       $("#boom-meter").style.width =
         (state.machine.strokes[0] / 60) * 100 + "%";
       $("#slew-meter").style.width = (state.machine.slew + 150) / 3 + "%";
       if (scene) {
         scene.setState(state);
-        const fps = scene.telemetry().fps;
+        const { fps, pixelRatio } = scene.telemetry();
         $("#performance").textContent =
-          `${fps ? fps + " fps" : "View idle"} · ${state.stepMs} ms physics`;
+          `${fps ? `${fps} fps at ${pixelRatio.toFixed(2)}×` : "View idle"} · ${state.stepMs} ms physics`;
       }
     }
+  }
+  // Who this device drives. The key moves out of a pairing link and into the tab,
+  // so the address bar stays safe to share: as a link it invites a new player.
+  function becomePlayer(player) {
+    me = player;
+    playerKey = player.key;
+    stored("sessionStorage", playerSlot(), playerKey);
+    const url = new URL(location.href);
+    if (url.searchParams.has("pair")) {
+      url.searchParams.delete("pair");
+      history.replaceState(null, "", url);
+    }
+    $("#player-name").value = player.name;
+    if (remote) {
+      const chip = $("#rc-player");
+      chip.hidden = false;
+      chip.style.setProperty("--paint", player.paint);
+      chip.lastElementChild.textContent = player.name;
+    }
+    scene?.setSelf(player.id);
+    refreshLinks();
+  }
+  function updateRoster(next) {
+    const before = roster?.players ?? [],
+      known = new Set(before.map((p) => p.id)),
+      now = new Set(next.players.map((p) => p.id));
+    roster = next;
+    // Say who came and went, once this page knows who was there.
+    if (me && before.length) {
+      for (const player of next.players)
+        if (!known.has(player.id) && player.id !== me.id)
+          toast(`${player.name} joined the room.`);
+      for (const player of before)
+        if (!now.has(player.id)) toast(`${player.name} left the room.`);
+    }
+    const self = next.players.find((p) => p.id === me?.id);
+    if (self && me.name !== self.name) {
+      me.name = self.name;
+      if (document.activeElement !== $("#player-name"))
+        $("#player-name").value = self.name;
+      if (remote) $("#rc-player").lastElementChild.textContent = self.name;
+    }
+    if (remote) {
+      const others = next.players.length - 1;
+      $("#sheet-players").textContent = others
+        ? `With ${others} other${others > 1 ? "s" : ""}, ${next.players.length} of ${next.capacity}`
+        : "Only you here";
+      return;
+    }
+    scene?.setRoster(next.players);
+    drawRoster();
+  }
+  function drawRoster() {
+    if (!roster || remote) return;
+    $("#player-count").textContent = `${roster.players.length}/${roster.capacity}`;
+    const following = scene?.following ?? me?.id;
+    const rows = roster.players.map((player) => {
+      const row = document.createElement("li"),
+        button = document.createElement("button"),
+        swatch = document.createElement("i"),
+        name = document.createElement("span"),
+        note = document.createElement("small"),
+        mine = player.id === me?.id;
+      button.className = "player";
+      button.classList.toggle("followed", player.id === following);
+      button.classList.toggle("offline", !player.online);
+      button.setAttribute(
+        "aria-label",
+        mine ? "Follow my excavator" : `Watch ${player.name}`,
+      );
+      swatch.style.background = player.paint;
+      name.textContent = player.name;
+      note.textContent = [
+        mine ? "you" : "",
+        roster.host === player.id ? "host" : "",
+        player.online ? "" : "offline",
+      ]
+        .filter(Boolean)
+        .join(" · ");
+      button.append(swatch, name, note);
+      button.onclick = () => watch(player.id);
+      row.append(button);
+      return row;
+    });
+    $("#player-list").replaceChildren(...rows);
+    const watched =
+      following !== me?.id &&
+      roster.players.find((player) => player.id === following);
+    $("#watching").hidden = !watched;
+    if (watched) $("#watching-name").textContent = watched.name;
+  }
+  function watch(playerId) {
+    scene?.follow(playerId);
+    drawRoster();
   }
   function disableControls() {
     $("#claim").disabled = true;
@@ -569,6 +721,7 @@ async function start() {
       display.latency(null);
     }
     $("#reset").disabled = true;
+    $("#respawn").disabled = true;
     $("#operator-status").textContent = "Waiting for connection";
     $(".ownership").classList.remove("owned");
     document.querySelectorAll(".hold, #speed").forEach((el) => {
@@ -600,9 +753,10 @@ async function start() {
       if (room) {
         // Browser WebSocket errors hide the HTTP rejection reason. Check the
         // room first so an expired link can recover without retrying forever.
-        const response = await fetch(`/api/rooms/${room}`, {
-          signal: AbortSignal.timeout(10000),
-        });
+        const response = await fetch(
+          `/api/rooms/${room}?key=${encodeURIComponent(playerKey)}`,
+          { signal: AbortSignal.timeout(10000) },
+        );
         const result = await response.json();
         if (closed) return;
         missing = response.status === 404 && result.code === "ROOM_NOT_FOUND";
@@ -614,9 +768,9 @@ async function start() {
           return;
         }
         if (!response.ok && !missing) throw new Error(result.error);
-        if (!missing && result.clients >= result.capacity)
+        if (!missing && !result.member && result.players >= result.capacity)
           throw new Error(
-            "This room is full. Close another tab or device, then retry.",
+            `This room is full: all ${result.capacity} excavators are taken. Retry when someone leaves, or open a new game.`,
           );
       }
       if (missing) {
@@ -628,19 +782,28 @@ async function start() {
         if (closed) return;
         if (!response.ok) throw new Error(result.error);
         const previousRoom = room;
+        playerKey = "";
         setRoom(result.room);
         if (previousRoom) {
           state = null;
+          me = null;
+          roster = null;
           sandFrame = null;
           sandBed.clear();
           scene?.newRoom();
           toast(
-            "The previous room ended. A new game is ready; pair your phone again.",
+            "The previous room ended. A new game is ready; pair your phone and invite your friends again.",
           );
         }
       }
+      const query = new URLSearchParams({
+        room,
+        role: remote ? "remote" : "simulator",
+      });
+      if (playerKey) query.set("key", playerKey);
+      if (savedName()) query.set("name", savedName());
       ws = new WebSocket(
-        `${location.protocol === "https:" ? "wss" : "ws"}://${location.host}/ws?room=${room}&role=${remote ? "remote" : "simulator"}`,
+        `${location.protocol === "https:" ? "wss" : "ws"}://${location.host}/ws?${query}`,
       );
     } catch (error) {
       connectionFailed(
@@ -661,7 +824,7 @@ async function start() {
     };
     ws.onmessage = (event) => {
       if (typeof event.data !== "string") {
-        // Machine pose, loose grains and changed sand-bed tiles of one tick.
+        // Machine poses and loads, falling sand and changed sand-bed tiles of one tick.
         const frame = decodeFrame(event.data);
         if (scene) scene.pushFrame(frame);
         else {
@@ -673,9 +836,12 @@ async function start() {
       const message = JSON.parse(event.data);
       if (message.type === "welcome") {
         id = message.id;
+        becomePlayer(message.player);
         if (remote && !document.hidden) requestControl();
       }
       if (message.type === "state") updateUI(message);
+      if (message.type === "roster") updateRoster(message);
+      if (message.type === "notice") toast(message.message);
       if (message.type === "error") {
         if (claimPending) {
           claimPending = false;
@@ -718,6 +884,8 @@ async function start() {
     getState: () => state,
     getGraphics: () => scene?.telemetry(),
     getRoom: () => room,
+    getRoster: () => roster,
+    getPlayer: () => me,
   };
 
   if (!remote) {
@@ -727,10 +895,30 @@ async function start() {
       menu.hidden = !menu.hidden;
       menuToggle.setAttribute("aria-expanded", String(!menu.hidden));
     };
-    setupPairing(() => room, toast, clearInputs).then((update) => {
-      refreshPairing = update;
-      refreshPairing();
-    });
+    // The top buttons wrap on a narrow screen; what opens below them follows.
+    const stage = $("#stage"),
+      actions = $(".hud-actions");
+    new ResizeObserver(() =>
+      stage.style.setProperty(
+        "--actions-bottom",
+        `${actions.getBoundingClientRect().bottom - stage.getBoundingClientRect().top}px`,
+      ),
+    ).observe(actions);
+    $("#roster-toggle").onclick = () => {
+      const list = $("#player-list");
+      list.hidden = !list.hidden;
+      $("#roster-toggle").setAttribute("aria-expanded", String(!list.hidden));
+    };
+    // There is little room on a phone: the list opens when it is asked for.
+    if (matchMedia("(max-width: 760px), (max-height: 620px)").matches)
+      $("#roster-toggle").click();
+    $("#watch-self").onclick = () => watch(me?.id ?? null);
+    setupSharing(() => room, () => (me ? playerKey : null), toast, clearInputs).then(
+      (update) => {
+        refreshLinks = update;
+        update();
+      },
+    );
     $("#fullscreen").onclick = async () => {
       try {
         if (document.fullscreenElement) await document.exitFullscreen();
@@ -746,6 +934,9 @@ async function start() {
         if (message) $("#loading").textContent = message;
       });
       if (state) scene.setState(state);
+      if (me) scene.setSelf(me.id);
+      if (roster) scene.setRoster(roster.players);
+      drawRoster();
       // Frames that arrived while the model loaded are already in sandBed.
       if (sandBed.size) scene.setTerrain(sandBed);
       sandBed.clear();
@@ -813,8 +1004,9 @@ function setupSettings(sheet, clearInputs, haptics) {
   }
 }
 
-async function setupPairing(getRoom, toast, clearInputs) {
-  const dialog = $("#pair-dialog");
+// The two links a page hands out, each with a QR code: one pairs your phone with
+// your excavator, the other brings someone new into the room.
+async function setupSharing(getRoom, getKey, toast, clearInputs) {
   let base = location.origin;
   try {
     const network = await (await fetch("/api/network")).json();
@@ -827,68 +1019,135 @@ async function setupPairing(getRoom, toast, clearInputs) {
   } catch {
     /* The displayed address remains editable. */
   }
-  $("#pair-base").value = base;
-  let link;
-  async function update() {
+  const inviteKind = () =>
+    document.querySelector('input[name="invite-kind"]:checked').value;
+  const dialogs = [
+    {
+      dialog: $("#pair-dialog"),
+      qr: $("#qr"),
+      baseInput: $("#pair-base"),
+      code: $("#pair-code"),
+      copy: $("#copy-link"),
+      open: $("#open-remote"),
+      feedback: $("#pair-feedback"),
+      copied: "Remote link copied.",
+      link(origin, room) {
+        const key = getKey();
+        return (
+          key &&
+          `${origin}/remote?room=${room}&pair=${encodeURIComponent(key)}`
+        );
+      },
+    },
+    {
+      dialog: $("#invite-dialog"),
+      qr: $("#invite-qr"),
+      baseInput: $("#invite-base"),
+      code: $("#invite-code"),
+      copy: $("#copy-invite"),
+      open: $("#open-invite"),
+      feedback: $("#invite-feedback"),
+      copied: "Invite link copied.",
+      link(origin, room) {
+        return `${origin}${inviteKind() === "remote" ? "/remote" : "/"}?room=${room}`;
+      },
+    },
+  ];
+  async function refresh(share) {
     const room = getRoom();
-    $("#pair-code").textContent = room || "———";
+    share.code.textContent = room || "———";
+    share.current = null;
+    share.open.removeAttribute("href");
+    share.copy.disabled = true;
     if (!room) {
-      link = null;
-      $("#open-remote").removeAttribute("href");
-      $("#copy-link").disabled = true;
-      $("#pair-feedback").textContent =
+      share.feedback.textContent =
         "Waiting for a game. Check the server connection.";
       return;
     }
+    let link;
     try {
-      const url = new URL($("#pair-base").value);
+      const url = new URL(share.baseInput.value);
       if (!["http:", "https:"].includes(url.protocol)) throw new Error();
-      link = url.origin + "/remote?room=" + room;
-      $("#open-remote").href = link;
-      await QRCode.toCanvas($("#qr"), link, {
-        width: 208,
-        margin: 1,
-        color: { dark: "#26332b", light: "#ffffff" },
-        errorCorrectionLevel: "M",
-      });
-      $("#pair-feedback").textContent = "";
-      $("#copy-link").disabled = false;
+      link = share.link(url.origin, room);
     } catch {
-      link = null;
-      $("#open-remote").removeAttribute("href");
-      $("#copy-link").disabled = true;
-      $("#pair-feedback").textContent =
+      share.feedback.textContent =
         "Enter a complete http:// or https:// server address.";
+      return;
     }
+    if (!link) {
+      share.feedback.textContent = "Waiting for your excavator…";
+      return;
+    }
+    share.current = link;
+    share.open.href = link;
+    share.copy.disabled = false;
+    share.feedback.textContent = "";
+    await QRCode.toCanvas(share.qr, link, {
+      width: 208,
+      margin: 1,
+      color: { dark: "#26332b", light: "#ffffff" },
+      errorCorrectionLevel: "M",
+    });
   }
-  $("#pair-base").oninput = update;
-  await update();
+  const refreshAll = () => {
+    const room = getRoom(),
+      remoteLink = $("#remote-link");
+    if (remoteLink && room && getKey())
+      remoteLink.href = `/remote?room=${room}&pair=${encodeURIComponent(getKey())}`;
+    return Promise.all(dialogs.map(refresh));
+  };
+  const hints = {
+    game: "Opens the whole game, on a computer or a phone with a good graphics chip.",
+    remote:
+      "Opens just the controls, for everyone sharing a big screen. Click a name in the player list there to watch that machine.",
+  };
+  const showHint = () => {
+    $("#invite-hint").textContent = hints[inviteKind()];
+  };
+  showHint();
+  document.querySelectorAll('input[name="invite-kind"]').forEach((radio) => {
+    radio.onchange = () => {
+      showHint();
+      refresh(dialogs[1]);
+    };
+  });
+  for (const share of dialogs) {
+    share.baseInput.value = base;
+    share.baseInput.oninput = () => refresh(share);
+    share.dialog.querySelector(".dialog-close").onclick = () =>
+      share.dialog.close();
+    share.dialog.addEventListener("click", (event) => {
+      const box = share.dialog.getBoundingClientRect();
+      if (
+        event.target === share.dialog &&
+        (event.clientX < box.left ||
+          event.clientX > box.right ||
+          event.clientY < box.top ||
+          event.clientY > box.bottom)
+      )
+        share.dialog.close();
+    });
+    share.copy.onclick = async () => {
+      if (!share.current) return;
+      try {
+        await navigator.clipboard.writeText(share.current);
+        share.feedback.textContent = share.copied;
+      } catch {
+        share.feedback.textContent = share.current;
+        toast("Copy the address shown below the buttons.");
+      }
+    };
+  }
   document.querySelectorAll("[data-pair]").forEach((button) => {
     button.onclick = () => {
       clearInputs();
-      dialog.showModal();
+      dialogs[0].dialog.showModal();
     };
   });
-  $(".dialog-close").onclick = () => dialog.close();
-  dialog.addEventListener("click", (event) => {
-    if (
-      event.target === dialog &&
-      (event.clientX < dialog.getBoundingClientRect().left ||
-        event.clientX > dialog.getBoundingClientRect().right ||
-        event.clientY < dialog.getBoundingClientRect().top ||
-        event.clientY > dialog.getBoundingClientRect().bottom)
-    )
-      dialog.close();
-  });
-  $("#copy-link").onclick = async () => {
-    if (!link) return;
-    try {
-      await navigator.clipboard.writeText(link);
-      $("#pair-feedback").textContent = "Remote link copied.";
-    } catch {
-      $("#pair-feedback").textContent = link;
-      toast("Copy the remote address shown below the buttons.");
-    }
+  $("#invite").onclick = () => {
+    clearInputs();
+    dialogs[1].dialog.showModal();
   };
-  return update;
+  await refreshAll();
+  return refreshAll;
 }

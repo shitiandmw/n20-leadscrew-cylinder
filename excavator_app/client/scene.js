@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { CONFIG as V } from "../shared/config.js";
 import { solve } from "../shared/kinematics.js";
 import {
@@ -10,15 +9,19 @@ import {
   clamp,
   initialMachine,
 } from "../shared/world.js";
-import { groundHeight, landscape } from "../shared/landscape.js";
+import { cameraWall, groundHeight, landscape } from "../shared/landscape.js";
+import { FrameJitter } from "./frame-jitter.js";
 import { createWorld } from "./world-view.js";
 import { createSandView } from "./sand-view.js";
 import { createLooseSandView } from "./loose-sand-view.js";
+import { loadMachineModel } from "./machine-model.js";
+import { AdaptiveResolution } from "./resolution.js";
 
 const TICK_RATE = 30,
   // Render this many ticks behind the newest frame, so there is always a
   // later frame to interpolate toward despite network jitter.
-  DELAY_TICKS = 1.75;
+  DELAY_TICKS = 1.75,
+  MAX_JITTER_DELAY = 6;
 
 export async function createScene(stage, onProgress) {
   const scene = new THREE.Scene();
@@ -28,11 +31,17 @@ export async function createScene(stage, onProgress) {
     alpha: false,
     powerPreference: "high-performance",
   });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1 : 1.75));
+  // Automated browsers keep to one resolution: tests and pictures depend on it.
+  const resolution = new AdaptiveResolution(
+    Math.min(devicePixelRatio, mobile ? 1 : 1.75),
+  );
+  renderer.setPixelRatio(resolution.ratio);
   renderer.shadowMap.enabled = !mobile;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 0.92;
+  // Reset by hand, because three.js otherwise forgets the shadow pass in its count.
+  renderer.info.autoReset = false;
   renderer.domElement.setAttribute(
     "aria-label",
     "Live 3D excavator in an open world",
@@ -79,199 +88,128 @@ export async function createScene(stage, onProgress) {
     sand.texture,
     mobile,
     sand.surfaceHeight,
+    sand.lumps,
   );
 
-  // ----------------------------------------------------------- CAD assembly
-  const root = new THREE.Group(),
-    upper = new THREE.Group(),
-    arm = new THREE.Group();
-  // Same rotation as chassisAxes(): heading, then pitch, then roll.
-  root.rotation.order = "ZYX";
-  scene.add(root);
-  root.add(upper);
-  upper.add(arm);
-  arm.position.set(...V.arm_offset);
+  // ------------------------------------------------------------- the machines
   onProgress("Loading original CAD assembly…");
-  const response = await fetch("/model.json");
-  if (!response.ok) throw new Error("The excavator model could not be loaded.");
-  const data = await response.json(),
-    groups = {},
-    batches = new Map(),
-    links = { L: [], R: [] },
-    wheels = [];
-  const decode = (encoded, Type) => {
-    const bytes = Uint8Array.from(atob(encoded), (c) => c.charCodeAt(0));
-    return new Type(bytes.buffer);
-  };
-  const wheelCenters = {};
-  for (const side of ["L", "R"]) {
-    const y = ((side === "L" ? -1 : 1) * V.track_centres) / 2;
-    const centres = [
-      [-V.wheel_centres / 2, V.axle_z],
-      [V.wheel_centres / 2 + V.idler_assembly_offset_mm, V.axle_z],
-      ...V.road_roller_x_mm.map((x) => [x, 29]),
-      ...V.return_roller_x_mm.map((x) => [x, V.return_roller_z_mm]),
-    ];
-    [
-      "drive_" + side,
-      "idler_" + side,
-      ...V.road_roller_x_mm.map((_, i) => "roller_" + side + i),
-      ...V.return_roller_x_mm.map((_, i) => "return_" + side + i),
-    ].forEach((name, i) => {
-      wheelCenters[name] = {
-        centre: [centres[i][0], y, centres[i][1]],
-        side,
-        radius: i === 0 ? V.pitch_radius : i === 1 ? 30 : i < 5 ? 17.5 : 13.5,
-      };
-    });
-  }
-  for (const item of data.meshes) {
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute(
-      "position",
-      new THREE.BufferAttribute(decode(item.v, Float32Array), 3),
-    );
-    geometry.setIndex(
-      new THREE.BufferAttribute(
-        decode(item.t, item.wide ? Uint32Array : Uint16Array),
-        1,
-      ),
-    );
-    geometry.computeVertexNormals();
-    let key = (item.arm ? "arm_" : "vehicle_") + item.group,
-      parent = item.arm ? arm : item.group === "upper" ? upper : root;
-    const link =
-      /^(?:shoe_|track_pin_|track_bushing_|pin_clip_)([LR])(\d{2})/.exec(
-        item.name,
-      );
-    if (link) {
-      const [, side, index] = link,
-        pose = data.track.initial_poses[+index],
-        y = ((side === "L" ? -1 : 1) * V.track_centres) / 2;
-      key = "link_" + side + index;
-      geometry.translate(-pose.origin[0], -y, -pose.origin[1]);
-      geometry.rotateY(pose.angle);
-      if (!groups[key]) {
-        groups[key] = new THREE.Group();
-        root.add(groups[key]);
-        links[side][+index] = groups[key];
-      }
-    }
-    if (!groups[key]) {
-      groups[key] = new THREE.Group();
-      parent.add(groups[key]);
-    }
-    if (!item.arm && wheelCenters[item.group]) {
-      const w = wheelCenters[item.group];
-      geometry.translate(-w.centre[0], -w.centre[1], -w.centre[2]);
-      groups[key].position.set(...w.centre);
-      if (!wheels.some((w) => w.group === groups[key]))
-        wheels.push({ ...w, group: groups[key] });
-    }
-    if (key === "vehicle_slew_pinion") {
-      geometry.translate(-V.slew_centre_distance, 0, 0);
-      groups[key].position.x = V.slew_centre_distance;
-    }
-    const batchKey =
-      key + ":" + item.color.join(",") + ":" + item.kind + ":" + !!item.moving;
-    if (!batches.has(batchKey))
-      batches.set(batchKey, { geometries: [], item, group: groups[key] });
-    batches.get(batchKey).geometries.push(geometry);
-  }
-  for (const { geometries, item, group } of batches.values()) {
-    const geometry = mergeGeometries(geometries),
-      glass = item.kind === "glazing";
-    const mesh = new THREE.Mesh(
-      geometry,
-      new THREE.MeshStandardMaterial({
-        color: new THREE.Color(...item.color).convertSRGBToLinear(),
-        roughness: glass ? 0.18 : item.kind === "hardware" ? 0.42 : 0.66,
-        metalness: item.kind === "hardware" ? 0.55 : 0.12,
-        transparent: glass,
-        opacity: glass ? 0.42 : 1,
-        depthWrite: !glass,
-      }),
-    );
-    mesh.castShadow = !glass;
-    mesh.receiveShadow = true;
-    mesh.userData.moving = item.moving;
-    group.add(mesh);
-    for (const g of geometries) g.dispose();
-  }
+  const model = await loadMachineModel();
+  // Compile now what a first dig or another player would otherwise stall the
+  // game for; three.js otherwise waits for a shader's first use.
+  const sample = model.createSimplified(null, !mobile);
+  scene.add(sample.root);
+  renderer.compile(scene, camera);
+  scene.remove(sample.root);
+  sample.dispose();
   let state,
     lastAt = performance.now(),
     latestAt = 0,
     frames = 0,
     fpsAt = performance.now(),
     fps = 60;
-  // The CAD names its tracks from the opposite end: "L" is on the -Y side, which
-  // is the operator's right. Each track must turn with its own drive command.
-  const trackOf = { L: 1, R: 0 };
-  function updateMachine(machine) {
-    const s = solve(machine.strokes);
-    for (const name of [
-      "base",
-      "boom",
-      "stick",
-      "bucket",
-      "rocker",
-      "coupler",
-    ]) {
-      groups["arm_" + name].position.set(
-        s.origins[name][0],
-        0,
-        s.origins[name][1],
-      );
-      groups["arm_" + name].rotation.y = -s.angles[name];
+  // Every excavator in the room, by id. The one the camera follows is drawn in
+  // full and the others simplified, so more players add little to the picture.
+  const views = new Map(),
+    poses = new Map(),
+    labelLayer = document.createElement("div");
+  labelLayer.className = "machine-labels";
+  stage.append(labelLayer);
+  let selfId = null,
+    followId = null,
+    paints = new Map(),
+    names = new Map();
+  function viewOf(id) {
+    let view = views.get(id);
+    if (!view) {
+      view = {
+        id,
+        pose: initialMachine(),
+        drawn: null,
+        assembly: null,
+        paint: paints.get(id) ?? null,
+        label: null,
+      };
+      views.set(id, view);
+      poses.set(id, view.pose);
+      followId ??= selfId ?? id;
+      dressView(view);
     }
-    for (const [i, role] of ["boom", "stick", "bucket"].entries()) {
-      const [a, b] = [
-        ["A", "B"],
-        ["C", "D"],
-        ["F", "R"],
-      ][i];
-      V.arm.actuators[role].y.forEach((y, side) => {
-        const group = groups["arm_act_" + role + side];
-        group.position.set(s.p[a][0], y, s.p[a][1]);
-        group.rotation.y =
-          Math.PI / 2 -
-          Math.atan2(s.p[b][1] - s.p[a][1], s.p[b][0] - s.p[a][0]);
-        for (const mesh of group.children)
-          mesh.position.z =
-            37.5 + (mesh.userData.moving ? machine.strokes[i] : 0);
-      });
+    return view;
+  }
+  function dressView(view) {
+    const detailed = view.id === followId;
+    if (
+      view.assembly &&
+      view.assembly.detailed === detailed &&
+      view.assemblyPaint === view.paint
+    )
+      return;
+    if (view.assembly) {
+      scene.remove(view.assembly.root);
+      view.assembly.dispose();
     }
-    root.position.set(machine.x, machine.y, machine.z ?? 0);
-    root.rotation.set(
-      machine.roll ?? 0,
-      -(machine.pitch ?? 0),
-      machine.heading,
-    );
-    upper.rotation.z = (machine.slew * Math.PI) / 180;
-    groups.vehicle_slew_pinion.rotation.z = (-upper.rotation.z * 96) / 20;
-    for (const side of ["L", "R"]) {
-      const offset = machine.tracks[trackOf[side]] / V.track_pitch;
-      for (let i = 0; i < links[side].length; i++) {
-        const phase =
-            (((i + offset) % links[side].length) + links[side].length) %
-            links[side].length,
-          j = Math.floor(phase),
-          f = phase - j;
-        const a = data.track.initial_poses[j],
-          b = data.track.initial_poses[(j + 1) % links[side].length];
-        links[side][i].position.set(
-          a.origin[0] * (1 - f) + b.origin[0] * f,
-          ((side === "L" ? -1 : 1) * V.track_centres) / 2,
-          a.origin[1] * (1 - f) + b.origin[1] * f,
-        );
-        let delta = b.angle - a.angle;
-        delta = Math.atan2(Math.sin(delta), Math.cos(delta));
-        links[side][i].rotation.y = -(a.angle + delta * f);
+    view.assembly = detailed
+      ? model.createDetailed(view.paint)
+      : model.createSimplified(view.paint, !mobile);
+    view.assemblyPaint = view.paint;
+    scene.add(view.assembly.root);
+    view.assembly.update(view.pose);
+    view.drawn = structuredClone(view.pose);
+    dirty = true;
+  }
+  function dropView(id) {
+    const view = views.get(id);
+    if (!view) return;
+    scene.remove(view.assembly.root);
+    view.assembly.dispose();
+    view.label?.remove();
+    views.delete(id);
+    poses.delete(id);
+    if (followId === id) follow(selfId);
+    dirty = true;
+  }
+  // Whose excavator the camera is on; null goes back to your own.
+  function follow(id) {
+    const next = id ?? selfId;
+    if (next === followId) return;
+    followId = next;
+    for (const view of views.values()) dressView(view);
+    if (followId !== null) {
+      viewOf(followId);
+      view(mode);
+    }
+  }
+  const followed = () => views.get(followId)?.pose ?? fallbackPose;
+  const fallbackPose = initialMachine();
+  function drawView(view) {
+    if (view.drawn && samePose(view.drawn, view.pose)) return false;
+    view.assembly.update(view.pose);
+    view.drawn = structuredClone(view.pose);
+    return true;
+  }
+  // Names float over the other machines, and stay out of the pointer's way.
+  const labelAt = new THREE.Vector3();
+  function placeLabels() {
+    for (const view of views.values()) {
+      if (view.id === selfId) continue;
+      const name = names.get(view.id);
+      if (!name) continue;
+      if (!view.label) {
+        view.label = document.createElement("div");
+        view.label.className = "machine-label";
+        view.label.append(document.createElement("i"), document.createElement("span"));
+        labelLayer.append(view.label);
       }
+      const [swatch, text] = view.label.children;
+      if (text.textContent !== name) text.textContent = name;
+      swatch.style.background = view.paint ?? "#e89912";
+      labelAt.set(view.pose.x, view.pose.y, view.pose.z + 400).project(camera);
+      const shown =
+        labelAt.z < 1 && Math.abs(labelAt.x) < 1 && Math.abs(labelAt.y) < 1;
+      view.label.hidden = !shown;
+      if (shown)
+        view.label.style.transform = `translate(${(((labelAt.x + 1) / 2) * stage.clientWidth).toFixed(1)}px, ${(((1 - labelAt.y) / 2) * stage.clientHeight).toFixed(1)}px) translate(-50%, -100%)`;
     }
-    for (const w of wheels)
-      w.group.rotation.y = machine.tracks[trackOf[w.side]] / w.radius;
-    return s;
   }
 
   // ------------------------------------------- synchronised frame playback
@@ -279,11 +217,10 @@ export async function createScene(stage, onProgress) {
   // are played back slightly delayed and interpolated, so the bucket and its
   // load always move together.
   const queue = [],
-    pose = initialMachine();
+    jitter = new FrameJitter(TICK_RATE);
   let renderTick = null,
     content = 0,
-    drawnKey = "",
-    poseKey = "";
+    drawnKey = "";
   const samePose = (a, b) =>
     a.strokes.every((v, i) => v === b.strokes[i]) &&
     a.tracks.every((v, i) => v === b.tracks[i]) &&
@@ -294,20 +231,34 @@ export async function createScene(stage, onProgress) {
     a.heading === b.heading &&
     a.pitch === b.pitch &&
     a.roll === b.roll;
-  const sameGrains = (a, b) =>
+  const sameArray = (a, b) =>
     a.length === b.length && a.every((value, i) => value === b[i]);
+  const sameLoad = (a, b) => a === b || (a && b && sameArray(a, b));
+  const sameMachines = (a, b) =>
+    a.machines.length === b.machines.length &&
+    a.machines.every(
+      (machine, i) =>
+        machine.id === b.machines[i].id &&
+        samePose(machine, b.machines[i]) &&
+        sameLoad(machine.load, b.machines[i].load),
+    );
   function settle(frame) {
     if (frame.applied) return;
     frame.applied = true;
     // The first frames of a room, a reset or a connection restore the world;
     // nothing in them has just been dug.
+    const fresh = frame.tick > 2 && frame.tiles.length < 400,
+      // Catching up after a hidden tab or a stall, the moment for this has passed.
+      live = renderTick !== null && renderTick - frame.tick < 8;
+    if (live) grains.settle(frame, camera.position);
     if (
       frame.tiles.length &&
-      sand.applyTiles(frame.tiles, frame.tick > 2 && frame.tiles.length < 400)
+      sand.applyTiles(frame.tiles, fresh, fresh && live ? grains.moved : null)
     )
       dirty = true;
   }
   function pushFrame(frame) {
+    jitter.arrived(frame.tick, performance.now());
     const last = queue[queue.length - 1];
     if (last && frame.tick <= last.tick) {
       // A reset or a new room restarts the tick count: show it at once.
@@ -320,11 +271,13 @@ export async function createScene(stage, onProgress) {
     if (
       !previous ||
       frame.tiles.length ||
-      !samePose(previous.machine, frame.machine) ||
-      !sameGrains(previous.grains, frame.grains)
+      !sameMachines(previous, frame) ||
+      !sameArray(previous.slots, frame.slots) ||
+      !sameArray(previous.positions, frame.positions)
     )
       content++;
     frame.content = content;
+    frame.byId = new Map(frame.machines.map((machine) => [machine.id, machine]));
     queue.push(frame);
     // Bound memory if the tab is hidden: older frames only matter for tiles.
     while (queue.length > 90) settle(queue.shift());
@@ -333,7 +286,8 @@ export async function createScene(stage, onProgress) {
   function play(dt) {
     if (!queue.length) return false;
     const newest = queue[queue.length - 1].tick,
-      target = newest - DELAY_TICKS;
+      // On a jittery connection, wait until the next frame has usually arrived.
+      target = newest - DELAY_TICKS - Math.min(MAX_JITTER_DELAY, 3 * jitter.ticks);
     if (renderTick === null || Math.abs(target - renderTick) > 15)
       renderTick = target;
     else
@@ -358,22 +312,24 @@ export async function createScene(stage, onProgress) {
         : `${a.content}:${b.content}:${alpha.toFixed(3)}`;
     if (key === drawnKey) return false;
     drawnKey = key;
-    for (let i = 0; i < 3; i++)
-      pose.strokes[i] =
-        a.machine.strokes[i] +
-        (b.machine.strokes[i] - a.machine.strokes[i]) * alpha;
-    for (let i = 0; i < 2; i++)
-      pose.tracks[i] =
-        a.machine.tracks[i] +
-        (b.machine.tracks[i] - a.machine.tracks[i]) * alpha;
-    for (const k of ["slew", "x", "y", "z", "heading", "pitch", "roll"])
-      pose[k] = a.machine[k] + (b.machine[k] - a.machine[k]) * alpha;
-    const nextPose = JSON.stringify(pose);
-    if (nextPose !== poseKey) {
-      updateMachine(pose);
-      poseKey = nextPose;
+    // Machines that left are gone from the newer frame; one that just arrived
+    // has nothing to interpolate from.
+    for (const id of views.keys()) if (!b.byId.has(id)) dropView(id);
+    for (const to of b.machines) {
+      const from = a.byId.get(to.id) ?? to,
+        view = viewOf(to.id),
+        pose = view.pose;
+      for (let i = 0; i < 3; i++)
+        pose.strokes[i] =
+          from.strokes[i] + (to.strokes[i] - from.strokes[i]) * alpha;
+      for (let i = 0; i < 2; i++)
+        pose.tracks[i] =
+          from.tracks[i] + (to.tracks[i] - from.tracks[i]) * alpha;
+      for (const k of ["slew", "x", "y", "z", "heading", "pitch", "roll"])
+        pose[k] = from[k] + (to[k] - from[k]) * alpha;
+      drawView(view);
     }
-    grains.update(a, b, alpha, pose);
+    grains.update(a, b, alpha, poses);
     return true;
   }
 
@@ -395,6 +351,7 @@ export async function createScene(stage, onProgress) {
     bucket: { offset: [120, -640, 300], ahead: 0, turns: true },
   };
   function focusPoint(out) {
+    const pose = followed();
     if (mode === "bucket") {
       const s = solve(pose.strokes),
         frame = armFrame(
@@ -413,8 +370,10 @@ export async function createScene(stage, onProgress) {
       pose.z + 170,
     );
   }
-  const followHeading = () =>
-    pose.heading + (mode === "bucket" ? (pose.slew * Math.PI) / 180 : 0);
+  const followHeading = () => {
+    const pose = followed();
+    return pose.heading + (mode === "bucket" ? (pose.slew * Math.PI) / 180 : 0);
+  };
   function view(name) {
     mode = name;
     const v = VIEWS[name];
@@ -443,7 +402,7 @@ export async function createScene(stage, onProgress) {
   const WALL_MARGIN = 70,
     WALL_HEIGHT = 900,
     walls = landscape()
-      .colliders.filter((k) => k.hx !== undefined || k.r >= 100)
+      .colliders.filter(cameraWall)
       .map((k) => ({
         x: k.x,
         y: k.y,
@@ -537,7 +496,8 @@ export async function createScene(stage, onProgress) {
   let sunX = NaN,
     sunY = NaN;
   function followSun() {
-    const x = Math.round(pose.x / 60) * 60,
+    const pose = followed(),
+      x = Math.round(pose.x / 60) * 60,
       y = Math.round(pose.y / 60) * 60;
     if (x === sunX && y === sunY) return;
     sunX = x;
@@ -546,39 +506,60 @@ export async function createScene(stage, onProgress) {
     sun.position.set(x, y, pose.z).addScaledVector(sunDirection, 4600);
   }
 
+  // How finely to draw the followed machine, from how large it is on the screen.
+  function updateMachineDetail() {
+    const assembly = views.get(followId)?.assembly;
+    if (!assembly?.detailed) return false;
+    const distance = camera.position.distanceTo(orbit.target) * boomLength,
+      visible = 2 * distance * Math.tan((camera.fov * Math.PI) / 360);
+    return assembly.setScale(renderer.domElement.height / visible);
+  }
+
   // ---------------------------------------------------------------- minimap
   let minimap, mapContext, mapKey;
   function drawMinimap() {
     if (!minimap) return;
-    const key = `${Math.round(pose.x / 40)}:${Math.round(pose.y / 40)}:${Math.round(pose.heading * 12)}`;
+    const moved = [...views.values()],
+      key = moved
+        .map(
+          ({ id, pose, paint }) =>
+            `${id}${paint}:${Math.round(pose.x / 40)}:${Math.round(pose.y / 40)}:${Math.round(pose.heading * 12)}`,
+        )
+        .join() + followId;
     if (key === mapKey) return;
     mapKey = key;
     const size = minimap.width,
       span = WORLD.maxX - WORLD.minX,
-      x = ((pose.x - WORLD.minX) / span) * size,
-      y = ((WORLD.maxY - pose.y) / span) * size,
-      c = mapContext;
+      c = mapContext,
+      u = size / 180;
     c.drawImage(world.map, 0, 0, size, size);
-    c.save();
-    c.translate(x, y);
-    c.rotate(-pose.heading);
-    c.fillStyle = "#ffd24a";
-    c.strokeStyle = "#1c241f";
-    c.lineWidth = 1.5 * (size / 180);
-    c.beginPath();
-    const u = size / 180;
-    c.moveTo(8 * u, 0);
-    c.lineTo(-5.5 * u, -5 * u);
-    c.lineTo(-3 * u, 0);
-    c.lineTo(-5.5 * u, 5 * u);
-    c.closePath();
-    c.fill();
-    c.stroke();
-    c.restore();
+    // Draw the followed machine last, so it is always on top.
+    moved.sort((a, b) => (a.id === followId) - (b.id === followId));
+    for (const { id, pose, paint } of moved) {
+      const big = id === followId ? 1 : 0.8;
+      c.save();
+      c.translate(
+        ((pose.x - WORLD.minX) / span) * size,
+        ((WORLD.maxY - pose.y) / span) * size,
+      );
+      c.rotate(-pose.heading);
+      c.scale(big, big);
+      c.fillStyle = paint ?? "#ffd24a";
+      c.strokeStyle = id === followId ? "#ffffff" : "#1c241f";
+      c.lineWidth = 1.5 * u;
+      c.beginPath();
+      c.moveTo(8 * u, 0);
+      c.lineTo(-5.5 * u, -5 * u);
+      c.lineTo(-3 * u, 0);
+      c.lineTo(-5.5 * u, 5 * u);
+      c.closePath();
+      c.fill();
+      c.stroke();
+      c.restore();
+    }
   }
 
   view("chase");
-  updateMachine(pose);
   followSun();
   new ResizeObserver(() => {
     renderer.setSize(stage.clientWidth, stage.clientHeight);
@@ -593,7 +574,8 @@ export async function createScene(stage, onProgress) {
     onProgress("Graphics context lost. Reload to restore the scene.");
   });
   let stateKey = "",
-    detailAt = 0;
+    detailAt = 0,
+    drawnAt = null;
   function animate(now) {
     const dt = Math.min(0.1, (now - lastAt) / 1000);
     lastAt = now;
@@ -604,16 +586,18 @@ export async function createScene(stage, onProgress) {
     }
     if (queue.length) {
       if (play(dt)) dirty = true;
-    } else if (state) {
+    } else if (state && followId !== null) {
       // Before the first binary frame, show the pose from telemetry.
       const key = JSON.stringify(state.machine);
       if (key !== stateKey) {
-        Object.assign(pose, state.machine);
-        updateMachine(pose);
+        const view = viewOf(selfId ?? followId);
+        Object.assign(view.pose, state.machine);
+        drawView(view);
         stateKey = key;
         dirty = true;
       }
     }
+    if (grains.stepGrains(dt)) dirty = true;
     followMachine(dt);
     followSun();
     orbit.update();
@@ -621,18 +605,29 @@ export async function createScene(stage, onProgress) {
     if (now - detailAt > 250) {
       detailAt = now;
       if (sand.updateDetail(camera)) dirty = true;
+      if (updateMachineDetail()) dirty = true;
       drawMinimap();
     }
     if (dirty && !document.hidden) {
+      // Only frames drawn straight after another say how fast this machine is.
+      if (
+        drawnAt !== null &&
+        !navigator.webdriver &&
+        resolution.frame(now - drawnAt)
+      )
+        renderer.setPixelRatio(resolution.ratio);
+      drawnAt = now;
       world.placeSky(camera);
       drawnFrom.copy(camera.position);
       if (boomLength < 1)
         camera.position.lerpVectors(orbit.target, drawnFrom, boomLength);
+      renderer.info.reset();
       renderer.render(scene, camera);
+      placeLabels();
       camera.position.copy(drawnFrom);
       dirty = false;
       frames++;
-    }
+    } else drawnAt = null;
     if (now - fpsAt > 1000) {
       fps = Math.round((frames * 1000) / (now - fpsAt));
       fpsAt = now;
@@ -655,7 +650,30 @@ export async function createScene(stage, onProgress) {
       grains.clear();
       drawnKey = "";
       dirty = true;
+      selfId = followId = null;
+      for (const id of [...views.keys()]) dropView(id);
       if (sand.clear()) dirty = true;
+    },
+    // Your own excavator: where the camera goes, and the one without a name tag.
+    setSelf(id) {
+      const wasFollowingSelf = followId === null || followId === selfId;
+      selfId = id;
+      viewOf(id);
+      if (wasFollowingSelf) follow(id);
+    },
+    follow,
+    get following() {
+      return followId;
+    },
+    setRoster(players) {
+      paints = new Map(players.map(({ id, paint }) => [id, paint]));
+      names = new Map(players.map(({ id, name }) => [id, name]));
+      for (const v of views.values()) {
+        v.paint = paints.get(v.id) ?? v.paint;
+        dressView(v);
+      }
+      mapKey = "";
+      dirty = true;
     },
     setState(value) {
       state = value;
@@ -671,7 +689,11 @@ export async function createScene(stage, onProgress) {
       return {
         fps,
         age: performance.now() - latestAt,
-        meshes: data.meshes.length,
+        meshes: model.meshes,
+        machines: views.size,
+        detailed: [...views.values()].filter((v) => v.assembly.detailed).length,
+        machineLevel: views.get(followId)?.assembly.level ?? null,
+        following: followId,
         triangles: renderer.info.render.triangles,
         calls: renderer.info.render.calls,
         sandCount: sand.ready ? sand.chunkCount * SAND.page * SAND.page : 0,
@@ -679,8 +701,10 @@ export async function createScene(stage, onProgress) {
         grains: grains.count,
         loadTriangles: grains.triangles,
         flyingGrains: grains.flying,
+        looseGrains: grains.looseGrains,
         sandUpdateMs: grains.updateMs,
         tick: renderTick,
+        jitterTicks: jitter.ticks,
         pixelRatio: renderer.getPixelRatio(),
         shadows: renderer.shadowMap.enabled,
         camera: camera.position.toArray(),

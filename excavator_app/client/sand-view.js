@@ -2,7 +2,8 @@ import * as THREE from "three";
 import { SAND, WORLD, cellX, cellY } from "../shared/world.js";
 import { groundHeight } from "../shared/landscape.js";
 
-import { sandTexture } from "./sand-material.js";
+import { lumpTexture, sandTexture } from "./sand-material.js";
+import { SAND_LUMPS } from "./sand-relief.js";
 
 const CHUNK = SAND.page,
   SIDE = CHUNK + 1,
@@ -10,6 +11,11 @@ const CHUNK = SAND.page,
   PAGE_CELLS = CHUNK * CHUNK;
 const pageKey = (col, row) => row * 64 + col;
 const offset = (i, j) => ((j & 63) << 6) | (i & 63);
+// How far (mm) a cell has to have moved to count as dug. It shows damper sand then,
+// and its lumps are at their strongest. Less is mostly the slope around it creeping.
+const DUG = 1.5;
+// How far a square's corners bend out of a plane before its fold matters (mm).
+const SHARP_BEND = 3;
 
 // The sand is drawn as chunks of the height field, created where sand exists.
 // A chunk's far edge repeats its neighbour's first row, so the sheet has no
@@ -17,12 +23,17 @@ const offset = (i, j) => ((j & 63) << 6) | (i & 63);
 export function createSandView(scene, renderer) {
   const dry = new THREE.Color("#e4d9c3").convertSRGBToLinear(),
     grain = sandTexture(renderer),
+    // Read three times for each pixel, and at a glancing angle not worth all the
+    // samples that keep the colour sharp there.
+    relief = grain.clone(),
+    lumps = lumpTexture(renderer),
     time = { value: 0 };
+  relief.anisotropy = Math.min(2, grain.anisotropy);
   const material = new THREE.MeshStandardMaterial({
     color: 0xffffff,
     vertexColors: true,
     map: grain,
-    bumpMap: grain,
+    bumpMap: relief,
     bumpScale: 1.4,
     roughness: 0.97,
     metalness: 0,
@@ -30,28 +41,55 @@ export function createSandView(scene, renderer) {
     polygonOffsetFactor: -1,
     polygonOffsetUnits: -2,
   });
-  // Bare ground shows through where there is no sand; freshly dug or dumped
-  // sand is darker (moist) and dries over about a minute.
+  // Bare ground shows through where there is no sand. Dug or dumped sand is damp,
+  // and dries in patches over about a minute.
   material.onBeforeCompile = (shader) => {
     shader.uniforms.sandTime = time;
+    shader.uniforms.sandLumps = { value: lumps };
     shader.vertexShader = shader.vertexShader
       .replace(
         "#include <common>",
-        "#include <common>\nattribute vec2 sandInfo;\nuniform float sandTime;\nvarying vec2 vSand;\nvarying vec2 vSandXY;",
+        `#include <common>
+        attribute vec4 sandInfo;
+        uniform float sandTime;
+        varying vec4 vSand;
+        varying vec3 vSandAt;
+        varying vec3 vSandUp;`,
       )
       .replace(
         "#include <begin_vertex>",
-        "#include <begin_vertex>\nvSand = vec2(sandInfo.x, exp(-max(0.0, sandTime - sandInfo.y) / 55.0));\nvSandXY = position.xy;",
+        `#include <begin_vertex>
+        vSand = vec4(sandInfo.x, exp(-max(0.0, sandTime - sandInfo.y) / 55.0), sandInfo.zw);
+        vSandAt = position;
+        vSandUp = normal;`,
       );
     shader.fragmentShader = shader.fragmentShader
       .replace(
         "#include <common>",
-        "#include <common>\nvarying vec2 vSand;\nvarying vec2 vSandXY;\nfloat sandHash(vec2 p) { return fract(sin(dot(mod(floor(p), 1024.0), vec2(12.9898, 78.233))) * 43758.5453); }",
+        `#include <common>
+        varying vec4 vSand;
+        varying vec3 vSandAt;
+        varying vec3 vSandUp;
+        float sandHash(vec2 p) { return fract(sin(dot(mod(floor(p), 1024.0), vec2(12.9898, 78.233))) * 43758.5453); }
+        ${SAND_LUMPS}`,
       )
       .replace(
         "#include <map_fragment>",
-        // Thin sand breaks up into scattered grains instead of a hard edge.
-        "#include <map_fragment>\nif (vSand.x < 0.15 + 2.2 * sandHash(vSandXY * 1.6)) discard;\ndiffuseColor.rgb *= mix(1.0, 0.78, vSand.y) * mix(0.88, 1.0, smoothstep(0.3, 4.0, vSand.x));",
+        `#include <map_fragment>
+        sandRelief(vSandAt, normalize(vSandUp), vSand.w);
+        // Thin sand breaks up into patches and grains instead of a hard edge.
+        if (vSand.x < 0.15 + 1.6 * clamp(0.5 - sandPatch, 0.0, 1.0) + 0.9 * sandHash(vSandAt.xy * 1.6)) discard;
+        // Dries from the high spots first, so what is left has a broken edge.
+        float sandDamp = smoothstep(-0.06, 0.06, vSand.y - 0.28 - 0.9 * clamp(0.5 + sandPatch, 0.0, 1.0));
+        // A crease collects shade; a crest catches the light.
+        float sandCrease = 1.0 - clamp(vSand.z * 0.22, -0.07, 0.28);
+        diffuseColor.rgb *= sandShade * sandCrease * mix(1.0, 0.84, sandDamp)
+          * mix(0.88, 1.0, smoothstep(0.3, 4.0, vSand.x));`,
+      )
+      .replace(
+        "#include <normal_fragment_maps>",
+        `#include <normal_fragment_maps>
+        normal = normalize(normal - (viewMatrix * vec4(sandSlope, 0.0, 0.0)).xyz);`,
       );
   };
   const indexes = new Map(
@@ -71,10 +109,17 @@ export function createSandView(scene, renderer) {
       return [stride, new THREE.BufferAttribute(index, 1)];
     }),
   );
+  // Each square of the bed folds along one diagonal. Where the sand bends sharply
+  // that must be the one running along the bend, or a steep wall that crosses the
+  // grid becomes a row of zigzag teeth. These are the heights at its four corners.
+  const foldsTheOtherWay = (a, b, c, d) =>
+    Math.abs(a + d - b - c) > SHARP_BEND && Math.abs(b - c) < Math.abs(a - d);
   const thickness = new Map(),
     disturbed = new Map(),
+    travelled = new Map(),
     baseHeights = new Map(),
     chunks = new Map();
+  const changes = [];
   let ready = false,
     changedSinceDraw = false;
   const heightAt = (i, j) => {
@@ -113,7 +158,7 @@ export function createSandView(scene, renderer) {
       normal = new Float32Array(VERTICES * 3),
       color = new Float32Array(VERTICES * 3),
       uv = new Float32Array(VERTICES * 2),
-      info = new Float32Array(VERTICES * 2);
+      info = new Float32Array(VERTICES * 4);
     for (let b = 0; b < SIDE; b++)
       for (let a = 0; a < SIDE; a++) {
         const v = b * SIDE + a,
@@ -124,7 +169,7 @@ export function createSandView(scene, renderer) {
         normal[3 * v + 2] = 1;
         uv[2 * v] = x / 70;
         uv[2 * v + 1] = y / 70;
-        info[2 * v + 1] = -1e6;
+        info[4 * v + 1] = -1e6;
         // Gentle low-frequency patchiness of colour and moisture.
         const patch =
           0.04 * Math.sin(x * 0.0043 + Math.sin(y * 0.007) * 2) +
@@ -136,7 +181,7 @@ export function createSandView(scene, renderer) {
     const geometry = new THREE.BufferGeometry(),
       positions = new THREE.BufferAttribute(position, 3),
       normals = new THREE.BufferAttribute(normal, 3),
-      infos = new THREE.BufferAttribute(info, 2);
+      infos = new THREE.BufferAttribute(info, 4);
     for (const a of [positions, normals, infos])
       a.setUsage(THREE.DynamicDrawUsage);
     geometry.setAttribute("position", positions);
@@ -147,8 +192,11 @@ export function createSandView(scene, renderer) {
     geometry.setIndex(indexes.get(1));
     geometry.boundingSphere = new THREE.Sphere();
     const mesh = new THREE.Mesh(geometry, material);
+    // Sand lies at 34 degrees at most and the sun stands at 49, so what it casts
+    // does not show: a dig looks the same to within one colour level without it.
+    // Drawn before the ground, which it mostly hides.
     mesh.receiveShadow = true;
-    mesh.castShadow = true;
+    mesh.renderOrder = -2;
     scene.add(mesh);
     chunk = {
       col,
@@ -160,6 +208,8 @@ export function createSandView(scene, renderer) {
       normals,
       infos,
       stride: 1,
+      // Its own triangles, once it has a square that folds the other way.
+      index: null,
       zMin: Infinity,
       zMax: -Infinity,
       cx: cellX(i0 + CHUNK / 2),
@@ -168,6 +218,41 @@ export function createSandView(scene, renderer) {
     chunks.set(key, chunk);
     refreshChunk(chunk, 0, CHUNK, 0, CHUNK);
     return chunk;
+  }
+
+  // Choose the fold of the squares around the vertices a0..a1, b0..b1.
+  function foldSquares(chunk, a0, a1, b0, b1) {
+    const position = chunk.positions.array;
+    let first = Infinity,
+      last = -1;
+    for (let b = Math.max(0, b0 - 1); b <= Math.min(CHUNK - 1, b1); b++)
+      for (let a = Math.max(0, a0 - 1); a <= Math.min(CHUNK - 1, a1); a++) {
+        const v = b * SIDE + a,
+          other = foldsTheOtherWay(
+            position[3 * v + 2],
+            position[3 * (v + 1) + 2],
+            position[3 * (v + SIDE) + 2],
+            position[3 * (v + SIDE + 1) + 2],
+          );
+        if (!other && !chunk.index) continue;
+        if (!chunk.index) {
+          chunk.index = new THREE.BufferAttribute(indexes.get(1).array.slice(), 1);
+          chunk.index.setUsage(THREE.DynamicDrawUsage);
+          if (chunk.stride === 1) chunk.mesh.geometry.setIndex(chunk.index);
+        }
+        const index = chunk.index.array,
+          o = (b * CHUNK + a) * 6,
+          north = v + SIDE;
+        if ((index[o + 2] === north) === other) continue;
+        // a b d, a d c as built, or a b c, b d c: only the middle two change.
+        index[o + 2] = other ? north : north + 1;
+        index[o + 3] = other ? v + 1 : v;
+        first = Math.min(first, o);
+        last = Math.max(last, o);
+      }
+    if (last < 0) return;
+    chunk.index.addUpdateRange(first, last - first + 6);
+    chunk.index.needsUpdate = true;
   }
 
   // Rewrite the vertices a..a1, b..b1 (inclusive) of one chunk.
@@ -184,25 +269,34 @@ export function createSandView(scene, renderer) {
           j = j0 + b,
           h = i < NX && j < NY ? heightAt(i, j) : 0,
           z = surface(i, j),
-          dx = (surface(i + 1, j) - surface(i - 1, j)) / spacing,
-          dy = (surface(i, j + 1) - surface(i, j - 1)) / spacing,
+          east = surface(i + 1, j),
+          west = surface(i - 1, j),
+          north = surface(i, j + 1),
+          south = surface(i, j - 1),
+          dx = (east - west) / spacing,
+          dy = (north - south) / spacing,
           n = 1 / Math.sqrt(1 + dx * dx + dy * dy),
-          page = disturbed.get(pageKey(i >> 6, j >> 6));
+          key = pageKey(i >> 6, j >> 6),
+          page = disturbed.get(key);
         position[3 * v + 2] = z;
         normal[3 * v] = -dx * n;
         normal[3 * v + 1] = -dy * n;
         normal[3 * v + 2] = n;
-        info[2 * v] = h;
-        info[2 * v + 1] = page ? page[offset(i, j)] : -1e6;
+        info[4 * v] = h;
+        info[4 * v + 1] = page ? page[offset(i, j)] : -1e6;
+        // Positive in a hollow, negative on a crest.
+        info[4 * v + 2] = (east + west + north + south - 4 * z) / SAND.cell;
+        info[4 * v + 3] = page ? travelled.get(key)[offset(i, j)] / DUG : 0;
         if (z < chunk.zMin) chunk.zMin = z;
         if (z > chunk.zMax) chunk.zMax = z;
       }
+    foldSquares(chunk, a0, a1, b0, b1);
     const start = b0 * SIDE,
       count = (b1 - b0 + 1) * SIDE;
     for (const [attribute, size] of [
       [positions, 3],
       [normals, 3],
-      [infos, 2],
+      [infos, 4],
     ]) {
       attribute.addUpdateRange(start * size, count * size);
       attribute.needsUpdate = true;
@@ -218,8 +312,10 @@ export function createSandView(scene, renderer) {
       Math.hypot(half, half, zHalf) + SAND.cell;
   }
 
-  // Apply sand-bed tiles; `fresh` marks changed cells as newly disturbed.
-  function applyTiles(tiles, fresh) {
+  // Apply sand-bed tiles; `fresh` marks changed cells as newly disturbed. `moved`,
+  // if given, hears of each cell that changed: its middle and by how much.
+  function applyTiles(tiles, fresh, moved = null) {
+    changes.length = 0;
     for (const { index, heights } of tiles) {
       const ti = index & 255,
         tj = index >>> 8,
@@ -242,13 +338,22 @@ export function createSandView(scene, renderer) {
           const c = offset(i, j),
             old = page[c];
           if (h === old) continue;
-          if (fresh && Math.abs(h - old) > 0.08) {
-            let moist = disturbed.get(key);
+          if (fresh) {
+            let moist = disturbed.get(key),
+              far = travelled.get(key);
             if (!moist) {
               moist = new Float32Array(PAGE_CELLS).fill(-1e6);
               disturbed.set(key, moist);
+              far = new Float32Array(PAGE_CELLS);
+              travelled.set(key, far);
             }
-            moist[c] = time.value;
+            far[c] = Math.min(DUG, far[c] + Math.abs(h - old));
+            if (far[c] >= DUG) moist[c] = time.value;
+            if (moved) changes.push(cellX(i), cellY(j), h - old);
+          } else if (disturbed.has(key)) {
+            // Put back by a reset or a new room: nothing has dug this sand.
+            disturbed.get(key)[c] = -1e6;
+            travelled.get(key)[c] = 0;
           }
           page[c] = h;
           if (i < iLow) iLow = i;
@@ -279,6 +384,10 @@ export function createSandView(scene, renderer) {
           if (a0 <= a1 && b0 <= b1) refreshChunk(chunk, a0, a1, b0, b1);
         }
     }
+    // Afterwards, when the slopes around them are up to date.
+    if (moved)
+      for (let k = 0; k < changes.length; k += 3)
+        moved(changes[k], changes[k + 1], changes[k + 2]);
     if (changedSinceDraw) {
       changedSinceDraw = false;
       return true;
@@ -297,7 +406,9 @@ export function createSandView(scene, renderer) {
         stride = d < 2400 ? 1 : d < 6000 ? 2 : 4;
       if (stride !== chunk.stride) {
         chunk.stride = stride;
-        chunk.mesh.geometry.setIndex(indexes.get(stride));
+        chunk.mesh.geometry.setIndex(
+          stride === 1 && chunk.index ? chunk.index : indexes.get(stride),
+        );
         changed = true;
       }
     }
@@ -323,8 +434,9 @@ export function createSandView(scene, renderer) {
 
   return {
     texture: grain,
-    // Sample the same two triangles as the nearby rendered bed. Loose-grain
-    // breakup tapers before this surface, including freshly deposited sand.
+    lumps,
+    // Sample the same two triangles as the nearby rendered bed, for the grains
+    // that land on it and roll down it.
     surfaceHeight(x, y) {
       const gx = (x - WORLD.minX) / SAND.cell - 0.5,
         gy = (y - WORLD.minY) / SAND.cell - 0.5,
@@ -336,6 +448,10 @@ export function createSandView(scene, renderer) {
         b = surface(i + 1, j),
         c = surface(i, j + 1),
         d = surface(i + 1, j + 1);
+      if (foldsTheOtherWay(a, b, c, d))
+        return u + v <= 1
+          ? a + u * (b - a) + v * (c - a)
+          : d + (1 - u) * (c - d) + (1 - v) * (b - d);
       return u >= v
         ? a + u * (b - a) + v * (d - b)
         : a + v * (c - a) + u * (d - c);

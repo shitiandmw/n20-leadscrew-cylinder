@@ -633,6 +633,187 @@ dialog .pair-hint {
   border-radius: 6px;
   font-size: 11px;
 }
+/* Who is in the room. A row follows that player's machine with the camera. */
+.roster {
+  position: absolute;
+  z-index: 2;
+  top: calc(var(--actions-bottom, 48px) + 8px);
+  right: 12px;
+  width: 220px;
+  max-height: calc(100% - var(--actions-bottom, 48px) - 282px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--glass);
+  border-radius: 6px;
+}
+.roster-head {
+  flex: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 10px;
+  background: transparent;
+  color: var(--hud-muted);
+  font: 9px var(--mono);
+  letter-spacing: 1px;
+}
+.roster-head strong {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--hud-text);
+}
+#player-list {
+  margin: 0;
+  padding: 0 3px 3px;
+  list-style: none;
+  overflow-y: auto;
+}
+.player {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 7px;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--hud-text);
+  font-size: 12px;
+  text-align: left;
+}
+.player:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.player.followed {
+  background: rgba(255, 255, 255, 0.16);
+}
+.player.offline {
+  opacity: 0.55;
+}
+.player i {
+  flex: none;
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.45);
+}
+.player span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.player small {
+  flex: none;
+  margin-left: auto;
+  font: 9px var(--mono);
+  color: var(--hud-muted);
+}
+.machine-labels {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.machine-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 180px;
+  padding: 3px 7px;
+  border-radius: 4px;
+  background: var(--glass-solid);
+  color: var(--hud-text);
+  font-size: 11px;
+  white-space: nowrap;
+  will-change: transform;
+}
+.machine-label i {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+}
+.machine-label span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.watching {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 7px 6px 14px;
+  border-radius: 6px;
+  background: var(--glass-solid);
+  font-size: 12px;
+  pointer-events: auto;
+}
+.watching strong {
+  font-weight: 600;
+}
+.game .watching .button {
+  border-color: var(--glass-line);
+  color: var(--hud-text);
+}
+#invite-dialog .pair-actions {
+  margin-top: 12px;
+}
+.invite-kind {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.invite-kind label {
+  flex: 1;
+  cursor: pointer;
+}
+.invite-kind input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+}
+.invite-kind span {
+  display: block;
+  padding: 9px 6px;
+  border: 1px solid #d3d6cb;
+  border-radius: 4px;
+  font-size: 11px;
+  text-align: center;
+  color: var(--ink);
+}
+.invite-kind input:checked + span {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #faf9f1;
+}
+.invite-kind input:focus-visible + span {
+  outline: 3px solid #c18b29;
+  outline-offset: 2px;
+}
+.menu-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.menu-name label {
+  flex: none;
+}
+.menu-name input {
+  flex: 1;
+  min-width: 0;
+  padding: 6px 9px;
+  border: 1px solid var(--glass-line);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--hud-text);
+  font-size: 12px;
+}
 .hud-messages {
   top: 25%;
   left: 50%;
@@ -883,10 +1064,10 @@ dialog .pair-hint {
 .menu {
   position: absolute;
   z-index: 3;
-  top: 56px;
+  top: calc(var(--actions-bottom, 48px) + 8px);
   right: 12px;
   width: min(330px, calc(100% - 24px));
-  max-height: calc(100% - 68px);
+  max-height: calc(100% - var(--actions-bottom, 48px) - 20px);
   overflow-y: auto;
   background: var(--glass-solid);
   border-radius: 8px;
@@ -1026,6 +1207,12 @@ dialog .pair-hint {
   .hud-button span {
     display: none;
   }
+  /* Closed until asked for here, and then it may cover the controls for a while. */
+  .roster {
+    z-index: 3;
+    width: 170px;
+    max-height: calc(100% - var(--actions-bottom, 48px) - 20px);
+  }
   .game .brand small {
     display: none;
   }
@@ -1035,6 +1222,21 @@ dialog .pair-hint {
   }
 }
 @media (max-width: 430px) {
+  /* The buttons need the room: the map and the stop keep the rest of the story. */
+  .game .brand {
+    font-size: 0;
+    padding-right: 6px;
+  }
+  .game #connection-text,
+  .game .session-code {
+    font-size: 0;
+  }
+  .game .session-code strong {
+    font-size: 10px;
+  }
+  .game .hud-button:not(#menu-toggle) {
+    padding: 0 9px;
+  }
   .joystick-group {
     width: 104px;
   }

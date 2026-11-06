@@ -16,6 +16,24 @@ const SETTLED = 0.02;
 const DI = [1, -1, 0, 0, 1, 1, -1, -1];
 const DJ = [0, 0, 1, -1, 1, -1, 1, -1];
 const LIMIT = DI.map((_, k) => TALUS * CELL * (k < 4 ? 1 : Math.SQRT2));
+// Undisturbed sand is damp and packed, so a cut face stands far steeper than loose
+// sand can: up to about 65 degrees, and less at weak spots, which vary from block to
+// block so a face breaks unevenly. What breaks away, and all sand that has moved, is
+// loose.
+const FIRM_LOW = 0.9,
+  // Cutting firm sand shears up to this share of the cut's depth beside it.
+  SHEAR = 0.5;
+export const FIRM_HIGH = 2.2;
+// A fixed value in 0..1 for each block of cells.
+function blockNoise(i, j, size) {
+  const mixed = Math.imul(
+    (((i / size) | 0) * 73856093) ^ (((j / size) | 0) * 19349663),
+    0x5bd1e995,
+  );
+  return (mixed >>> 24) / 255;
+}
+const firmSlope = (i, j) =>
+  FIRM_LOW + (FIRM_HIGH - FIRM_LOW) * Math.sqrt(blockNoise(i, j, 3));
 
 // Cells are addressed by one number, c = j * NX + i, across the whole world.
 // With NX = 4096 and 64-cell pages the page and offset come from a few bits.
@@ -45,10 +63,14 @@ const baseAt = (c) => {
 
 // Sand thickness above the hard ground on a sparse cell-centred grid. Material
 // is only ever moved between cells or exchanged with free grains, so the total
-// sand volume is conserved exactly (to floating-point rounding).
+// sand volume is conserved exactly (to floating-point rounding). The top of a
+// column may be loose; the rest of it is firm.
 export class Terrain {
   constructor() {
     this.pages = new Array(PAGES).fill(null);
+    this.loosePages = new Array(PAGES).fill(null);
+    this.ceilingPages = new Array(PAGES).fill(null);
+    this.ceiled = [];
     this.flags = new Array(PAGES).fill(null);
     this.pressedPages = new Array(PAGES).fill(null);
     this.active = new Int32Array(1 << 15);
@@ -64,9 +86,11 @@ export class Terrain {
         theirs = other.pages[p];
       if (mine || theirs) this.dirtyPage(p);
       this.pages[p] = theirs ? theirs.slice() : null;
+      this.loosePages[p] = other.loosePages[p]?.slice() ?? null;
     }
     this.flags.fill(null);
     this.pressedPages.fill(null);
+    this.clearCeilings();
     this.activeCount = 0;
   }
 
@@ -84,14 +108,88 @@ export class Terrain {
     return page === null ? 0 : page[offsetOf(c)];
   }
 
+  // Sand that lands on a column is loose, and sand that leaves takes the loose first.
   add(c, amount) {
     const p = pageOf(c),
-      page = this.pages[p] ?? (this.pages[p] = new Float64Array(PAGE_CELLS));
-    page[offsetOf(c)] += amount;
+      o = offsetOf(c),
+      page = this.pages[p] ?? (this.pages[p] = new Float64Array(PAGE_CELLS)),
+      loose =
+        this.loosePages[p] ?? (this.loosePages[p] = new Float64Array(PAGE_CELLS));
+    page[o] += amount;
+    loose[o] = Math.max(0, loose[o] + amount);
+  }
+
+  // A bucket takes sand off a column. Where that cuts firm sand, it shears the top
+  // of the firm sand beside it loose, unevenly.
+  cut(c, amount) {
+    const firm = amount - this.looseAt(c);
+    this.add(c, -amount);
+    this.touch(c);
+    if (firm <= 0) return;
+    const i = c & 4095,
+      j = c >>> 12;
+    for (let n = 0; n < 8; n++) {
+      const ni = i + DI[n],
+        nj = j + DJ[n];
+      if (ni < 0 || ni >= NX || nj < 0 || nj >= NY) continue;
+      const next = nj * NX + ni,
+        thickness = this.get(next),
+        loose = this.looseAt(next);
+      if (loose < thickness)
+        this.setLoose(
+          next,
+          Math.min(thickness, loose + firm * SHEAR * blockNoise(ni, nj, 1)),
+        );
+    }
+  }
+
+  looseAt(c) {
+    const page = this.loosePages[pageOf(c)];
+    return page === null ? 0 : page[offsetOf(c)];
+  }
+
+  setLoose(c, thickness) {
+    const p = pageOf(c);
+    (this.loosePages[p] ?? (this.loosePages[p] = new Float64Array(PAGE_CELLS)))[
+      offsetOf(c)
+    ] = thickness;
+  }
+
+  // Break up a whole column, so it can slide if it stands too steep.
+  loosen(c) {
+    const thickness = this.get(c);
+    if (this.looseAt(c) >= thickness) return;
+    this.setLoose(c, thickness);
+    this.touch(c);
   }
 
   surface(c) {
     return baseAt(c) + this.get(c);
+  }
+
+  // Something stands in this column from this height up, so sand piles against it
+  // instead of sliding underneath.
+  setCeiling(c, height) {
+    const p = pageOf(c);
+    (this.ceilingPages[p] ??
+      (this.ceilingPages[p] = new Float64Array(PAGE_CELLS).fill(Infinity)))[
+      offsetOf(c)
+    ] = height;
+    this.ceiled.push(c);
+  }
+
+  ceilingAt(c) {
+    const page = this.ceilingPages[pageOf(c)];
+    return page === null ? Infinity : page[offsetOf(c)];
+  }
+
+  // With that gone, what leaned on it may slide.
+  clearCeilings() {
+    for (const c of this.ceiled) {
+      this.ceilingPages[pageOf(c)][offsetOf(c)] = Infinity;
+      this.wake(c);
+    }
+    this.ceiled.length = 0;
   }
 
   // Tracks have already compacted this cell, so it gives no further.
@@ -124,11 +222,15 @@ export class Terrain {
   }
 
   // Mark a changed cell: its tile must be resent, and it and its neighbours
-  // may now exceed the angle of repose.
+  // may now stand too steep.
   touch(c) {
+    this.tileDirty[((c >>> 12) >> 4) * TX + ((c & 4095) >> 4)] = 1;
+    this.wake(c);
+  }
+
+  wake(c) {
     const i = c & 4095,
       j = c >>> 12;
-    this.tileDirty[(j >> 4) * TX + (i >> 4)] = 1;
     for (let dj = -1; dj <= 1; dj++) {
       const nj = j + dj;
       if (nj < 0 || nj >= NY) continue;
@@ -187,10 +289,11 @@ export class Terrain {
     this.touch(c + NX + 1);
   }
 
-  // Avalanche every over-steep slope toward the angle of repose. Each sweep
-  // moves part of the steepest excess, so a cut face collapses over a few ticks
-  // instead of instantly, while a tall spike falls apart at full speed. Only
-  // recently disturbed cells are visited.
+  // Avalanche loose sand on every over-steep slope toward the angle of repose. Each
+  // sweep moves part of the steepest excess, so it slides over a few ticks instead of
+  // instantly, while a tall spike falls apart at full speed. Firm sand stands until
+  // the slope below it passes what it can hold, and then only what is too steep breaks
+  // away. Only recently disturbed cells are visited.
   relax(sweeps = 3, rate = 0.5) {
     const excess = this.excess;
     let moved = 0;
@@ -210,22 +313,33 @@ export class Terrain {
         const i = c & 4095,
           j = c >>> 12,
           sc = baseAt(c) + hc;
+        const spare = firmSlope(i, j) / TALUS - 1;
         let total = 0,
-          steepest = 0;
+          steepest = 0,
+          breaks = 0;
         for (let n = 0; n < 8; n++) {
           const ni = i + DI[n],
             nj = j + DJ[n];
           excess[n] = 0;
           if (ni < 0 || ni >= NX || nj < 0 || nj >= NY) continue;
-          const e = sc - this.surface(nj * NX + ni) - LIMIT[n];
-          if (e > SETTLED) {
+          const next = nj * NX + ni,
+            lower = this.surface(next),
+            e = sc - lower - LIMIT[n];
+          if (e > SETTLED && lower < this.ceilingAt(next)) {
             excess[n] = e;
             total += e;
             if (e > steepest) steepest = e;
+            if (e - LIMIT[n] * spare > breaks) breaks = e - LIMIT[n] * spare;
           }
         }
         if (!total) continue;
-        const move = Math.min(hc, 0.5 * steepest * (steepest > 12 ? 1 : rate));
+        let loose = Math.min(hc, this.looseAt(c));
+        if (breaks > 0 && loose < hc) {
+          loose = Math.min(hc, loose + breaks);
+          this.setLoose(c, loose);
+        }
+        const move = Math.min(loose, 0.5 * steepest * (steepest > 12 ? 1 : rate));
+        if (move <= 1e-9) continue;
         for (let n = 0; n < 8; n++)
           if (excess[n]) {
             const target = (j + DJ[n]) * NX + i + DI[n];
@@ -319,5 +433,7 @@ export function initialTerrain() {
   initial.settle();
   initial.activeCount = 0;
   initial.flags.fill(null);
+  // All of it has lain there long enough to be firm.
+  initial.loosePages.fill(null);
   return initial;
 }

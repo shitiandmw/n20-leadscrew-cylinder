@@ -298,6 +298,8 @@ export function groundSample(x, y, out) {
 }
 
 export const landscape = () => built ?? build();
+// Colliders tall enough to stop a camera. It passes over low barriers and posts.
+export const cameraWall = (k) => (k.hx === undefined ? k.r >= 100 : k.hy >= 40);
 
 // Stockpiles on the level sand, dumped below the angle of repose and clear of
 // the pad. `top` flattens a pile's crown.

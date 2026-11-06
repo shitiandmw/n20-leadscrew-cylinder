@@ -6,6 +6,7 @@ Kinematics and collision profile come directly from the original arm60 model.
 import gzip
 import hashlib
 import json
+import re
 from pathlib import Path
 
 APP = Path(__file__).resolve().parents[1]
@@ -15,6 +16,15 @@ html = source.read_text()
 start = html.index('const DATA=') + len('const DATA=')
 data, _ = json.JSONDecoder().raw_decode(html[start:])
 data['track'] = {'initial_poses': data['track']['initial_poses']}
+# Every track link is the same parts, moved round the chain, and client/machine-model.js
+# draws the first link's meshes once for each link. The others stay listed, without
+# geometry, which they would otherwise repeat: 45% of the download.
+LINK = re.compile(r'(?:shoe_|track_pin_|track_bushing_|pin_clip_)([LR])(\d{2})')
+for mesh in data['meshes']:
+    link = LINK.match(mesh['name'])
+    if link and link.groups() != ('R', '00'):
+        for key in ('v', 't', 'wide'):
+            mesh.pop(key, None)
 data['source'] = {'file': 'excavator_60mm/3D_preview.html',
                   'sha256': hashlib.sha256(source.read_bytes()).hexdigest()}
 (APP / 'public').mkdir(exist_ok=True)

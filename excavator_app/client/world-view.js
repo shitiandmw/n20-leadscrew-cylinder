@@ -214,7 +214,7 @@ function detailTexture(renderer) {
   c.putImageData(image, 0, 0);
   const texture = new THREE.CanvasTexture(canvas);
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-  texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+  texture.anisotropy = Math.min(2, renderer.capabilities.getMaxAnisotropy());
   return texture;
 }
 
@@ -291,6 +291,8 @@ function buildGround(scene, land, map, detail) {
       geometry.setIndex(indexAttribute);
       const mesh = new THREE.Mesh(geometry, material);
       mesh.receiveShadow = true;
+      // Last of the solid things: whatever already covers it saves its shading.
+      mesh.renderOrder = 1;
       scene.add(mesh);
     }
 }
@@ -807,6 +809,26 @@ function rockGeometry(seed) {
   return g;
 }
 
+// One instanced mesh per block of the valley rather than one for all of it, so
+// the blocks out of view, or too far away to shadow the machine, are not drawn.
+const INSTANCE_BLOCK = 6000;
+function addInstances(scene, geometry, material, list, mobile, place) {
+  const blocks = new Map();
+  for (const p of list) {
+    const key = `${Math.floor(p.x / INSTANCE_BLOCK)},${Math.floor(p.y / INSTANCE_BLOCK)}`;
+    if (!blocks.has(key)) blocks.set(key, []);
+    blocks.get(key).push(p);
+  }
+  for (const members of blocks.values()) {
+    const mesh = new THREE.InstancedMesh(geometry, material, members.length);
+    members.forEach((p, k) => place(p, mesh, k));
+    mesh.castShadow = !mobile;
+    mesh.receiveShadow = true;
+    mesh.computeBoundingSphere();
+    scene.add(mesh);
+  }
+}
+
 function buildScenery(scene, land, mobile) {
   const parts = new Parts();
   const dummy = new THREE.Object3D();
@@ -849,56 +871,49 @@ function buildScenery(scene, land, mobile) {
   const trees = treeGeometries(),
     tint = new THREE.Color();
   for (const kind of ["pine", "broadleaf"]) {
-    const list = land.props.filter((p) => p.kind === kind),
-      mesh = new THREE.InstancedMesh(
-        trees[kind],
-        new THREE.MeshStandardMaterial({
-          vertexColors: true,
-          roughness: 0.92,
-          flatShading: true,
-        }),
-        list.length,
-      );
-    list.forEach((p, k) => {
-      dummy.position.set(p.x, p.y, groundHeight(p.x, p.y) - 6);
-      dummy.rotation.set(0, 0, p.rot);
+    const material = new THREE.MeshStandardMaterial({
+      vertexColors: true,
+      roughness: 0.92,
+      flatShading: true,
+    });
+    addInstances(
+      scene,
+      trees[kind],
+      material,
+      land.props.filter((p) => p.kind === kind),
+      mobile,
+      (p, mesh, k) => {
+        dummy.position.set(p.x, p.y, groundHeight(p.x, p.y) - 6);
+        dummy.rotation.set(0, 0, p.rot);
+        dummy.scale.setScalar(p.size);
+        dummy.updateMatrix();
+        mesh.setMatrixAt(k, dummy.matrix);
+        const shade = 0.82 + 0.4 * (noise(p.x / 500 + 3, p.y / 500) + 0.5);
+        tint.setRGB(shade * 1.03, shade, shade * 0.94);
+        mesh.setColorAt(k, tint);
+      },
+    );
+  }
+  addInstances(
+    scene,
+    rockGeometry(2),
+    new THREE.MeshStandardMaterial({
+      color: "#99948a",
+      roughness: 0.95,
+      flatShading: true,
+    }),
+    land.props.filter((p) => p.kind === "rock" || p.kind === "boulder"),
+    mobile,
+    (p, mesh, k) => {
+      dummy.position.set(p.x, p.y, groundHeight(p.x, p.y) + 0.1 * p.size);
+      dummy.rotation.set(0.3 * ((k % 5) - 2), 0.2 * ((k % 3) - 1), p.rot);
       dummy.scale.setScalar(p.size);
       dummy.updateMatrix();
       mesh.setMatrixAt(k, dummy.matrix);
-      const shade = 0.82 + 0.4 * (noise(p.x / 500 + 3, p.y / 500) + 0.5);
-      tint.setRGB(shade * 1.03, shade, shade * 0.94);
+      tint.setScalar(0.76 + 0.3 * (noise(p.x / 310, p.y / 310) + 0.5));
       mesh.setColorAt(k, tint);
-    });
-    mesh.castShadow = !mobile;
-    mesh.receiveShadow = true;
-    mesh.frustumCulled = false;
-    scene.add(mesh);
-  }
-  const rocks = land.props.filter(
-      (p) => p.kind === "rock" || p.kind === "boulder",
-    ),
-    rock = new THREE.InstancedMesh(
-      rockGeometry(2),
-      new THREE.MeshStandardMaterial({
-        color: "#99948a",
-        roughness: 0.95,
-        flatShading: true,
-      }),
-      rocks.length,
-    );
-  rocks.forEach((p, k) => {
-    dummy.position.set(p.x, p.y, groundHeight(p.x, p.y) + 0.1 * p.size);
-    dummy.rotation.set(0.3 * ((k % 5) - 2), 0.2 * ((k % 3) - 1), p.rot);
-    dummy.scale.setScalar(p.size);
-    dummy.updateMatrix();
-    rock.setMatrixAt(k, dummy.matrix);
-    tint.setScalar(0.76 + 0.3 * (noise(p.x / 310, p.y / 310) + 0.5));
-    rock.setColorAt(k, tint);
-  });
-  rock.castShadow = !mobile;
-  rock.receiveShadow = true;
-  rock.frustumCulled = false;
-  scene.add(rock);
+    },
+  );
 
   // Power lines sag between the poles.
   const poles = land.props.filter((p) => p.kind === "pole"),

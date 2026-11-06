@@ -2,12 +2,14 @@ import { solve } from "../shared/kinematics.js";
 import { CONFIG } from "../shared/config.js";
 import {
   WORLD,
+  AXES,
   SAND,
   BUCKET,
   POUR_ZONE,
   clamp,
   neutral,
   crawlerExtent,
+  crawlersOverlap,
   initialMachine,
   armFrame,
   cellX,
@@ -21,18 +23,21 @@ import {
 import { Terrain, initialTerrain, CELL_AREA } from "./terrain.js";
 import {
   BucketFrame,
-  WALLS,
-  TEETH,
   REGION,
   REGION_EDGE_MOUTH,
-  CENTROID,
   BOUNDING_RADIUS,
   insidePolygon,
   insideCavity,
-  firstCrossing,
-  CROSS_MOUTH,
-  CROSS_CHEEK,
 } from "../shared/bucket.js";
+import { LOAD, mouthToLocal } from "../shared/bucket-load.js";
+import {
+  BucketLoad,
+  RIM_LIP,
+  RIM_FAR,
+  RIM_LEFT,
+  RIM_RIGHT,
+  RIM_BED,
+} from "./bucket-load.js";
 
 export function bucketPose(machine) {
   const s = solve(machine.strokes);
@@ -63,30 +68,18 @@ export function toWorld(x, y, z, b) {
 export const insideProfile = insidePolygon;
 
 const R = WORLD.radius,
-  D = 2 * R,
   GRAIN = SAND.grainVolume,
   MAX = SAND.maxGrains,
-  BUDGET = SAND.grainBudget,
   SHELL = BUCKET.shellHalfThickness,
-  // Centre-to-shell-centreline contact distance and lateral cheek limits.
-  RR = R + SHELL,
-  INNER = BUCKET.innerHalfWidth - R,
-  OUTER = BUCKET.outerHalfWidth + R,
-  ALL_WALLS = [...WALLS, TEETH],
   SUBSTEPS = 4,
-  ITERATIONS = 3,
-  // Coulomb friction (static, kinetic): sand on sand ~32 degrees internal
-  // friction; sand on the bucket's printed plastic and steel teeth.
-  MU_S = 0.62,
-  MU_K = 0.5,
-  MU_BS = 0.55,
-  MU_BK = 0.4,
-  // Height-based mass scaling keeps deep stacks of grains from springing.
-  STACK = 0.08,
   MAX_SPEED = 2500,
-  HASH = 1 << 15,
-  MASK = HASH - 1,
-  NEAR = Math.hypot(BOUNDING_RADIUS, BUCKET.outerHalfWidth) + RR + 6,
+  // A falling parcel this far from a bucket's centre has left its reach.
+  NEAR = Math.hypot(BOUNDING_RADIUS, BUCKET.outerHalfWidth) + R + 8,
+  // The bed goes into a bucket or round it at no more than this per substep (mm),
+  // so a bucket buried in deep sand does not open a pit at once.
+  CUT_RATE = 6,
+  // Sand leaves over a rim at this speed (mm/s), sliding, before it falls.
+  SPILL_SPEED = 90,
   TRACK_HALF_LENGTH = CONFIG.wheel_centres / 2 + CONFIG.sprocket_tip_radius_mm,
   TRACK_Y = CONFIG.track_centres / 2,
   SHOE_HALF = CONFIG.shoe_width / 2,
@@ -95,6 +88,8 @@ const R = WORLD.radius,
   TRACK_SPEED = 220,
   // Loose sand gives this far under a shoe the first time it is driven over.
   SHOE_SINK = 4,
+  // Working tracks break up firm sand this far around them (mm).
+  TRACK_REACH = 60,
   // The crawler climbs up to this tilt, a little past the sand's repose, so a
   // machine that dug itself into a pit can always drive out.
   MAX_TILT = (37 * Math.PI) / 180,
@@ -109,7 +104,9 @@ const R = WORLD.radius,
   UPPER_MAX_X = 145,
   UPPER_MIN_Y = -158,
   UPPER_MAX_Y = 136,
-  UPPER_BOTTOM = 110;
+  UPPER_BOTTOM = 110,
+  // Network groups of parcels: positions fit Int16 within half this span of a centre.
+  GROUP_SPAN = 6400;
 const { nx: NX, ny: NY, cell: CELL } = SAND;
 const FOOT = 48; // max cut footprint, in cells per side
 // A cell's cut class is only needed while the bucket stays over that cell, so
@@ -121,78 +118,215 @@ const SAMPLE_U = [-130, -87, -43, 0, 43, 87, 130],
   SAMPLE_SUM_U2 = SAMPLE_U.reduce((sum, u) => sum + u * u, 0) * 2,
   SAMPLE_SUM_V2 = TRACK_Y * TRACK_Y * SAMPLE_U.length * 2;
 
-// Hybrid sand model used by excavation simulators: the bulk of the sand is a
-// height field that slumps to its angle of repose; material the bucket scoops,
-// or that is falling, becomes free grains solved with position-based granular
-// dynamics (contacts with Coulomb friction). Grains that come to rest on the
-// bed rejoin it. Bucket contacts remember which side of every wall a grain is
-// on, so grains can enter or leave the cavity only through its open mouth.
-export class SandSimulation {
-  constructor() {
-    this.terrain = new Terrain();
-    this.pos = new Float64Array(3 * MAX);
-    this.prev = new Float64Array(3 * MAX);
-    this.vel = new Float64Array(3 * MAX);
-    this.local = new Float64Array(3 * MAX);
-    this.localStart = new Float64Array(3 * MAX);
-    this.alive = new Uint8Array(MAX);
-    this.side = new Uint8Array(MAX);
-    this.sideStart = new Uint8Array(MAX);
-    this.near = new Uint8Array(MAX);
-    this.touchAge = new Uint8Array(MAX);
-    this.rest = new Uint8Array(MAX);
-    this.ground = new Uint8Array(MAX);
-    this.weight = new Float64Array(MAX);
-    this.list = new Int32Array(MAX);
-    this.freeList = new Int32Array(MAX);
-    this.cellOf = new Int32Array(3 * MAX);
-    this.hashOf = new Int32Array(MAX);
-    this.start = new Int32Array(HASH + 1);
-    this.fill = new Int32Array(HASH);
-    this.entries = new Int32Array(MAX);
-    this.pairs = new Int32Array(MAX * 24);
-    this.cutClass = new Uint8Array((CUT_MASK + 1) * (CUT_MASK + 1));
-    this.footLow = new Float64Array(FOOT * FOOT);
+// One excavator: its controls, its pose, where its bucket is and the sand in it.
+// The bed and the sand in the air are shared by all the machines in the world.
+class Vehicle {
+  constructor(id, slot, machine) {
+    this.id = id;
+    // Falling parcels name the bucket they are near by this small index.
+    this.slot = slot;
+    this.home = structuredClone(machine);
     this.frame = new BucketFrame();
     this.prevFrame = new BucketFrame();
+    this.cutClass = new Uint8Array((CUT_MASK + 1) * (CUT_MASK + 1));
+    this.load = new BucketLoad();
+    this.touchingBed = false;
+    this.poseVersion = 0;
+    this.restart();
+  }
+
+  restart(machine = this.home) {
+    this.machine = structuredClone(machine);
+    this.axes = neutral();
+    this.speed = 0.65;
+    this.estop = false;
+    this.blocked = false;
+    this.obstacle = null;
+    this.chassisMoving = false;
+    this.drove = false;
+    this.bodyMoved = false;
+    this.stats = { load: 0, blocked: false, obstacle: null };
+    this.cutClass.fill(0);
+    this.load.clear();
+    this.touchingBed = false;
+    this.bucket = bucketPose(this.machine);
+    this.frame.set(this.bucket);
+    this.prevFrame.set(this.bucket);
+  }
+}
+
+// Sand as height fields: the bed is one that slumps to its angle of repose, and
+// each bucket carries a small one in its own frame. Moving sand changes field by
+// exact volumes. Sand spilled over a rim falls as parcels, with no contacts, until
+// it lands on the bed or in a bucket.
+export class SandSimulation {
+  // A simulation starts with one excavator at the start position unless told
+  // otherwise. The worker starts empty and follows the players in the room.
+  constructor({ vehicles = [{ id: 1 }] } = {}) {
+    this.terrain = new Terrain();
+    this.pos = new Float64Array(3 * MAX);
+    this.vel = new Float64Array(3 * MAX);
+    this.volumes = new Float64Array(MAX);
+    this.alive = new Uint8Array(MAX);
+    // Which vehicle's bucket a parcel is still near, by slot; valid while near[i].
+    this.near = new Uint8Array(MAX);
+    this.holder = new Uint8Array(MAX);
+    this.freeList = new Int32Array(MAX);
+    this.footLow = new Float64Array(FOOT * FOOT);
     this.testFrame = new BucketFrame();
-    this.v3 = new Float64Array(3);
     this.w3 = new Float64Array(3);
     this.l3 = new Float64Array(3);
     this.m3 = new Float64Array(3);
-    this.hit = new Float64Array(3);
     this.col = new Float64Array(4);
     this.surf = new Float64Array(3);
-    this.normal = new Float64Array(3);
     this.fit = { b: 0, c: 0, h: new Float64Array(2 * SAMPLE_U.length) };
-    this.penetration = 0;
+    this.vehicles = [];
+    this.bySlot = [];
+    for (const { id, machine } of vehicles) this.addVehicle(id, machine);
     this.reset();
   }
 
   reset() {
-    this.machine = initialMachine();
-    this.axes = neutral();
-    this.speed = 0.65;
-    this.estop = false;
+    for (const v of this.vehicles) v.restart();
     this.tick = 0;
     this.resting = false;
-    this.blocked = false;
-    this.obstacle = null;
-    this.chassisMoving = false;
     this.terrain.copyFrom(initialTerrain());
-    this.cutClass.fill(0);
     this.alive.fill(0);
     this.grains = 0;
-    this.listCount = 0;
     for (let i = 0; i < MAX; i++) this.freeList[i] = i;
     this.freeHead = 0;
     this.freeCount = MAX;
     this.seed = 60;
-    this.converted = 0;
-    this.bucket = bucketPose(this.machine);
-    this.frame.set(this.bucket);
-    this.prevFrame.set(this.bucket);
-    this.stats = this.measure();
+    this.world = this.measure();
+  }
+
+  addVehicle(id, machine = initialMachine()) {
+    let slot = this.bySlot.indexOf(null);
+    if (slot < 0) slot = this.bySlot.length;
+    const vehicle = new Vehicle(id, slot, machine);
+    this.bySlot[slot] = vehicle;
+    this.vehicles.push(vehicle);
+    this.resting = false;
+    return vehicle;
+  }
+
+  // Its load falls where it is: the sand itself stays in the world.
+  removeVehicle(vehicle) {
+    this.dropLoad(vehicle);
+    this.vehicles.splice(this.vehicles.indexOf(vehicle), 1);
+    this.bySlot[vehicle.slot] = null;
+    this.resting = false;
+  }
+
+  // Move a machine in one jump, leaving behind any sand in its bucket.
+  placeVehicle(vehicle, machine) {
+    this.dropLoad(vehicle);
+    vehicle.restart(machine);
+    this.resting = false;
+  }
+
+  // Everything in a bucket falls out where it is.
+  dropLoad(vehicle) {
+    const load = vehicle.load,
+      frame = vehicle.frame,
+      point = this.l3,
+      world = this.w3;
+    for (let j = 0; j < LOAD.nv; j++)
+      for (let i = 0; i < LOAD.nu; i++) {
+        let volume = load.thickness[j * LOAD.nu + i] * LOAD.area;
+        if (volume <= 0) continue;
+        const u = LOAD.columnU(i),
+          y = LOAD.rowY(j),
+          bottom = LOAD.floors[i],
+          parcels = Math.max(1, Math.ceil(volume / GRAIN)),
+          each = volume / parcels;
+        for (let k = 0; k < parcels; k++) {
+          mouthToLocal(
+            u + this.random() * LOAD.du,
+            y + this.random() * LOAD.dv,
+            bottom + ((k + 0.5) * (volume / LOAD.area)) / parcels,
+            point,
+          );
+          frame.toWorld(point[0], point[1], point[2], world);
+          this.spawn(world[0], world[1], world[2], 0, 0, 0, each, vehicle);
+        }
+      }
+    for (const [rim, pending] of load.pending.entries())
+      for (let n = 0; n < pending.length; n++)
+        if (pending[n] > 0) this.emit(vehicle, rim, n, pending[n], 1 / 120);
+    load.clear();
+  }
+
+  // Follow the server's list of machines before a step. The server's pose wins
+  // after a stop invalidates a busy step.
+  syncVehicles(commands) {
+    for (const v of [...this.vehicles])
+      if (!commands.some((command) => command.id === v.id))
+        this.removeVehicle(v);
+    for (const command of commands) {
+      let v = this.vehicles.find((candidate) => candidate.id === command.id);
+      if (!v) {
+        v = this.addVehicle(command.id, command.machine);
+        v.poseVersion = command.poseVersion;
+      } else if (v.poseVersion !== command.poseVersion) {
+        this.placeVehicle(v, command.machine);
+        v.poseVersion = command.poseVersion;
+      }
+      v.axes = command.axes;
+      v.speed = command.speed;
+      v.estop = command.estop;
+      v.machine = command.machine;
+    }
+  }
+
+  // The first machine, for a solo drive and the numerical tests.
+  get machine() {
+    return this.vehicles[0].machine;
+  }
+  set machine(value) {
+    this.vehicles[0].machine = value;
+  }
+  get axes() {
+    return this.vehicles[0].axes;
+  }
+  set axes(value) {
+    this.vehicles[0].axes = value;
+  }
+  get speed() {
+    return this.vehicles[0].speed;
+  }
+  set speed(value) {
+    this.vehicles[0].speed = value;
+  }
+  get estop() {
+    return this.vehicles[0].estop;
+  }
+  set estop(value) {
+    this.vehicles[0].estop = value;
+  }
+  get bucket() {
+    return this.vehicles[0].bucket;
+  }
+  set bucket(value) {
+    this.vehicles[0].bucket = value;
+  }
+  get frame() {
+    return this.vehicles[0].frame;
+  }
+  get prevFrame() {
+    return this.vehicles[0].prevFrame;
+  }
+  get blocked() {
+    return this.vehicles[0].blocked;
+  }
+  get obstacle() {
+    return this.vehicles[0].obstacle;
+  }
+  set obstacle(value) {
+    this.vehicles[0].obstacle = value;
+  }
+  get stats() {
+    return { ...this.vehicles[0].stats, ...this.world };
   }
 
   random() {
@@ -200,13 +334,20 @@ export class SandSimulation {
     return this.seed / 4294967296 - 0.5;
   }
 
-  // Exact bulk sand volume: bed + free grains (mm^3).
+  // Exact sand volume: the bed, every bucket and the sand in the air (mm^3).
   totalVolume() {
-    return this.terrain.volume() + this.grains * GRAIN;
+    let sum = this.terrain.volume();
+    for (const v of this.vehicles) sum += v.load.total;
+    for (let i = 0; i < MAX; i++) if (this.alive[i]) sum += this.volumes[i];
+    return sum;
   }
 
-  spawn(x, y, z, vx, vy, vz, side, local) {
-    if (!this.freeCount) return -1;
+  // A parcel of falling sand. With no slot free it lands straight away.
+  spawn(x, y, z, vx, vy, vz, volume, vehicle) {
+    if (!this.freeCount) {
+      this.terrain.deposit(x, y, volume);
+      return -1;
+    }
     const i = this.freeList[this.freeHead];
     this.freeHead = (this.freeHead + 1) % MAX;
     this.freeCount--;
@@ -219,20 +360,10 @@ export class SandSimulation {
     this.vel[k] = vx;
     this.vel[k + 1] = vy;
     this.vel[k + 2] = vz;
-    this.side[i] = side;
-    this.near[i] = local ? 1 : 0;
-    if (local)
-      for (let d = 0; d < 3; d++)
-        this.local[k + d] = this.localStart[k + d] = local[d];
-    this.touchAge[i] = 0;
-    this.rest[i] = 0;
-    this.ground[i] = 0;
+    this.volumes[i] = volume;
+    this.near[i] = 1;
+    this.holder[i] = vehicle.slot;
     return i;
-  }
-
-  // How many more grains the solver can take on within its time budget.
-  spawnRoom() {
-    return Math.min(this.freeCount, BUDGET - this.grains);
   }
 
   release(i) {
@@ -286,7 +417,7 @@ export class SandSimulation {
 
   // Rest the chassis on the footprint: the tilt follows the fitted plane with
   // a short lag, and the height is the lowest that clears every sample.
-  restChassis(dt, m) {
+  restChassis(dt, m, v) {
     const fit = this.fitFootprint(m.x, m.y, m.heading),
       k = 1 - Math.exp(-dt / TILT_TIME);
     const before = [m.z, m.pitch, m.roll];
@@ -307,7 +438,7 @@ export class SandSimulation {
         ? m.z + Math.min(change, RISE_RATE * dt)
         : m.z + Math.max(change, -FALL_RATE * dt);
     if (Math.abs(m.z - target) < 1e-7) m.z = target + 0;
-    this.chassisMoving =
+    v.chassisMoving =
       Math.abs(m.z - before[0]) > 1e-4 ||
       Math.abs(m.pitch - before[1]) > 1e-5 ||
       Math.abs(m.roll - before[2]) > 1e-5;
@@ -340,21 +471,24 @@ export class SandSimulation {
 
   // Kinematic machine riding on the ground and the sand. The bucket cannot be
   // driven through the hard ground: a motion that would push it deeper stops.
-  advanceMachine(dt) {
-    const a = this.estop ? neutral() : this.axes,
-      m = this.machine,
-      speed = this.speed;
-    let clearance = this.bucketClearance(m);
+  advanceMachine(dt, v = this.vehicles[0]) {
+    const a = v.estop ? neutral() : v.axes,
+      m = v.machine,
+      speed = v.speed;
+    // Nothing below looks at the clearance unless an axis is commanded.
+    let clearance = AXES.some((key) => a[key])
+      ? this.bucketClearance(m)
+      : Infinity;
     const accept = () => {
       const next = this.bucketClearance(m);
       if (next < 0 && next < clearance - 1e-9) {
-        this.blocked = true;
+        v.blocked = true;
         return false;
       }
       clearance = next;
       return true;
     };
-    this.bodyMoved = false;
+    v.bodyMoved = false;
     for (const [i, key] of ["boom", "stick", "bucket"].entries()) {
       const old = m.strokes[i];
       m.strokes[i] = clamp(old + a[key] * 13 * speed * dt, 0, 60);
@@ -363,14 +497,15 @@ export class SandSimulation {
     const slew = m.slew;
     m.slew = clamp(slew + a.slew * 30 * speed * dt, -150, 150);
     if (m.slew !== slew) {
-      if (accept()) this.bodyMoved = true;
+      if (accept()) v.bodyMoved = true;
       else m.slew = slew;
     }
     const l = a.leftTrack * TRACK_SPEED * speed,
       r = a.rightTrack * TRACK_SPEED * speed;
-    this.drove = false;
+    v.drove = false;
+    v.crawling = Boolean(l || r);
     if (!l && !r) {
-      this.restChassis(dt, m);
+      this.restChassis(dt, m, v);
       return;
     }
     const before = {
@@ -397,6 +532,7 @@ export class SandSimulation {
     // cannot climb. A motion that makes things better is always allowed.
     let obstacle = this.obstacleAt(m);
     if (obstacle && this.obstacleAt(before) === obstacle) obstacle = null;
+    if (!obstacle && this.machineInTheWay(m, before, v)) obstacle = "machine";
     if (!obstacle) {
       const fit = this.fitFootprint(m.x, m.y, m.heading),
         tilt = Math.atan(Math.hypot(fit.b, fit.c));
@@ -406,27 +542,42 @@ export class SandSimulation {
       }
     }
     if (obstacle) {
-      this.obstacle = obstacle;
+      v.obstacle = obstacle;
       Object.assign(m, before);
-      this.restChassis(dt, m);
+      this.restChassis(dt, m, v);
       return;
     }
-    this.restChassis(dt, m);
+    this.restChassis(dt, m, v);
     if (!accept()) {
       Object.assign(m, before);
       return;
     }
     m.tracks[0] += l * dt;
     m.tracks[1] += r * dt;
-    this.drove = true;
-    this.bodyMoved = true;
+    v.drove = true;
+    v.bodyMoved = true;
+  }
+
+  // Crawlers cannot drive through each other. Two that somehow touch can always
+  // part: only a motion that brings them closer is refused.
+  machineInTheWay(m, before, v) {
+    for (const other of this.vehicles) {
+      if (other === v || !crawlersOverlap(m, other.machine)) continue;
+      if (!crawlersOverlap(before, other.machine)) return true;
+      const o = other.machine;
+      if (
+        Math.hypot(m.x - o.x, m.y - o.y) <
+        Math.hypot(before.x - o.x, before.y - o.y)
+      )
+        return true;
+    }
+    return false;
   }
 
   // Sand displaced by the machine goes off to the side of its tracks, spread
   // over a band so it never stacks up in one column of cells.
-  displace(cell, excess, u, side, ch, sh) {
+  displace(cell, excess, u, side, ch, sh, m) {
     const t = this.terrain,
-      m = this.machine,
       v = side * (TRACK_Y + SHOE_HALF + 8 + 36 * (this.random() + 0.5)),
       along = u + 12 * this.random();
     t.add(cell, -excess);
@@ -438,17 +589,40 @@ export class SandSimulation {
     );
   }
 
+  // Working tracks break up the firm sand under and around them, so whatever they
+  // run into slumps: a machine can always drive out of a pit it dug, even when a cut
+  // face is too steep to climb.
+  breakUpSand(m, ch, sh) {
+    const t = this.terrain,
+      extent = crawlerExtent(m.heading),
+      i0 = clamp(Math.floor((m.x - extent.x - TRACK_REACH - WORLD.minX) / CELL), 0, NX - 1),
+      i1 = clamp(Math.floor((m.x + extent.x + TRACK_REACH - WORLD.minX) / CELL), 0, NX - 1),
+      j0 = clamp(Math.floor((m.y - extent.y - TRACK_REACH - WORLD.minY) / CELL), 0, NY - 1),
+      j1 = clamp(Math.floor((m.y + extent.y + TRACK_REACH - WORLD.minY) / CELL), 0, NY - 1);
+    for (let j = j0; j <= j1; j++)
+      for (let i = i0; i <= i1; i++) {
+        const dx = cellX(i) - m.x,
+          dy = cellY(j) - m.y;
+        if (
+          Math.abs(dx * ch + dy * sh) <= TRACK_HALF_LENGTH + TRACK_REACH &&
+          Math.abs(-dx * sh + dy * ch) <= TRACK_Y + SHOE_HALF + TRACK_REACH
+        )
+          t.loosen(j * NX + i);
+      }
+  }
+
   // Moving tracks press a shallow rut into loose sand; the lower frame and the
   // upper body push aside whatever stands in their way. Nothing here runs while
   // the machine stands still, so slumping sand can come to rest against it.
-  pressSand() {
-    const m = this.machine,
+  pressSand(vehicle) {
+    const m = vehicle.machine,
       t = this.terrain,
       ch = Math.cos(m.heading),
       sh = Math.sin(m.heading),
       b = Math.tan(m.pitch),
       c = Math.tan(m.roll) / Math.cos(m.pitch);
-    if (this.drove) {
+    if (vehicle.crawling) this.breakUpSand(m, ch, sh);
+    if (vehicle.drove) {
       const extent = crawlerExtent(m.heading),
         i0 = clamp(Math.floor((m.x - extent.x - WORLD.minX) / CELL), 0, NX - 1),
         i1 = clamp(Math.floor((m.x + extent.x - WORLD.minX) / CELL), 0, NX - 1),
@@ -473,10 +647,10 @@ export class SandSimulation {
             excess = Math.min(sand, t.surface(cell) - limit);
           if (excess <= 0.01) continue;
           if (onShoe) t.press(cell);
-          this.displace(cell, excess, u, v < 0 ? -1 : 1, ch, sh);
+          this.displace(cell, excess, u, v < 0 ? -1 : 1, ch, sh, m);
         }
     }
-    if (!this.bodyMoved) return;
+    if (!vehicle.bodyMoved) return;
     // The upper body turns with the slew; its footprint is a rotated box.
     const a = m.heading + (m.slew * Math.PI) / 180,
       ca = Math.cos(a),
@@ -508,12 +682,13 @@ export class SandSimulation {
             sand,
             t.surface(cell) - (m.z + b * u + c * v + UPPER_BOTTOM),
           );
-        if (excess > 0.01) this.displace(cell, excess, u, v < 0 ? -1 : 1, ch, sh);
+        if (excess > 0.01)
+          this.displace(cell, excess, u, v < 0 ? -1 : 1, ch, sh, m);
       }
   }
 
   // Cells pushed by a closed wall move along the bucket's motion until they
-  // clear its footprint; relaxation then shapes the berm.
+  // clear its footprint; they lie loose there, and relaxation shapes the berm.
   pushTarget(cell, x, y, dx, dy, i0, j0, w, h) {
     const t = this.terrain;
     let target = cell;
@@ -532,13 +707,70 @@ export class SandSimulation {
     return target;
   }
 
-  // Excavate the bed where the bucket occupies it. Sand that reaches the
-  // cutting region through the mouth or teeth becomes grains in the cavity;
-  // sand met by a closed wall or cheek is bulldozed; overburden resting on
-  // a buried bucket becomes grains above it.
-  cutTerrain(dt) {
-    const frame = this.frame,
-      prev = this.prevFrame,
+  // Sand met by a closed wall, or with no room left in the bucket, is pushed just
+  // ahead of it.
+  bulldoze(cell, amount, cx, cy, v, i0, j0, fw, fh) {
+    const frame = v.frame,
+      t = this.terrain,
+      w = this.w3,
+      before = this.m3,
+      now = this.l3;
+    // Push along the bucket's horizontal motion at this point.
+    frame.toWorld(now[0], now[1], now[2], w);
+    v.prevFrame.toWorld(now[0], now[1], now[2], before);
+    let dx = w[0] - before[0],
+      dy = w[1] - before[1],
+      length = Math.hypot(dx, dy);
+    if (length < 0.02) {
+      dx = cx - frame.centre[0];
+      dy = cy - frame.centre[1];
+      length = Math.hypot(dx, dy);
+    }
+    if (length < 1e-6) {
+      dx = Math.cos(frame.yaw);
+      dy = Math.sin(frame.yaw);
+      length = 1;
+    }
+    const target = this.pushTarget(
+        cell,
+        cx,
+        cy,
+        dx / length,
+        dy / length,
+        i0,
+        j0,
+        fw,
+        fh,
+      ),
+      side = 36 * this.random(),
+      ahead = 4 + 20 * (this.random() + 0.5) ** 2;
+    t.cut(cell, amount);
+    t.deposit(
+      cellX(target & (NX - 1)) + (dx / length) * ahead - (dy / length) * side,
+      cellY(Math.floor(target / NX)) +
+        (dy / length) * ahead +
+        (dx / length) * side,
+      amount * CELL_AREA,
+    );
+  }
+
+  // Sand from a bed cell into the bucket, under the point in this.l3. Returns the
+  // thickness the bucket had room for. Rounding in the volumes is not a refusal.
+  takeSand(v, cell, amount) {
+    const now = this.l3,
+      taken = v.load.add(now[0], now[1], now[2], amount * CELL_AREA) / CELL_AREA;
+    if (taken <= 0) return 0;
+    this.terrain.cut(cell, taken);
+    return taken < amount - 1e-9 ? taken : amount;
+  }
+
+  // Excavate the bed where the bucket occupies it. Sand that reaches the cutting
+  // region through the mouth or teeth goes into the bucket, while there is room,
+  // and so does sand lying above an open mouth. The rest is bulldozed.
+  cutTerrain(v) {
+    const frame = v.frame,
+      prev = v.prevFrame,
+      cutClass = v.cutClass,
       t = this.terrain,
       w = this.w3,
       col = this.col,
@@ -569,9 +801,10 @@ export class SandSimulation {
     for (let j = j0; j < j0 + fh; j++)
       for (let i = i0; i < i0 + fw; i++)
         highest = Math.max(highest, t.surface(j * NX + i));
-    if (highest < lowest - SHELL) {
+    v.touchingBed = highest >= lowest - SHELL;
+    if (!v.touchingBed) {
       for (let j = j0; j < j0 + fh; j++)
-        for (let i = i0; i < i0 + fw; i++) this.cutClass[cutIndex(i, j)] = 0;
+        for (let i = i0; i < i0 + fw; i++) cutClass[cutIndex(i, j)] = 0;
       return;
     }
     for (let fj = 0; fj < fh; fj++)
@@ -591,16 +824,17 @@ export class SandSimulation {
           cx = cellX(i),
           cy = cellY(j);
         if (Number.isNaN(this.footLow[fj * FOOT + fi])) {
-          this.cutClass[cutIndex(i, j)] = 0;
+          cutClass[cutIndex(i, j)] = 0;
           continue;
         }
         frame.column(cx, cy, col);
         const surface = t.surface(cell),
           low = col[0] - (col[2] ? 0 : SHELL),
           high = col[1] + (col[3] ? 0 : SHELL);
+        t.setCeiling(cell, low);
         const sand = t.get(cell);
         if (surface <= low + 0.05 || sand <= 1e-9) {
-          this.cutClass[cutIndex(i, j)] = 0;
+          cutClass[cutIndex(i, j)] = 0;
           continue;
         }
         const removable = Math.min(sand, surface - low),
@@ -611,85 +845,23 @@ export class SandSimulation {
         const middle = (low + top) / 2;
         frame.toLocal(cx, cy, middle, now);
         prev.toLocal(cx, cy, middle, before);
-        let type = this.cutClass[cutIndex(i, j)];
+        let type = cutClass[cutIndex(i, j)];
         const entered = this.regionEntry(before, now);
         if (entered) type = entered;
         if (!type) type = col[2] ? 1 : 2;
-        this.cutClass[cutIndex(i, j)] = type;
+        cutClass[cutIndex(i, j)] = type;
         if (inside > 0) {
-          if (type === 1 && this.spawnRoom() > 0) {
-            const n = Math.min(
-              this.spawnRoom(),
-              10,
-              Math.floor((inside * CELL_AREA) / GRAIN),
-            );
-            const spawned = n ? this.spawnInCavity(cx, cy, low, top, n, dt) : 0;
-            if (spawned) {
-              t.add(cell, (-spawned * GRAIN) / CELL_AREA);
-              t.touch(cell);
-            }
-          } else {
-            // Push along the bucket's horizontal motion at this point.
-            frame.toWorld(now[0], now[1], now[2], w);
-            prev.toWorld(now[0], now[1], now[2], before);
-            let dx = w[0] - before[0],
-              dy = w[1] - before[1],
-              length = Math.hypot(dx, dy);
-            if (length < 0.02) {
-              dx = cx - frame.centre[0];
-              dy = cy - frame.centre[1];
-              length = Math.hypot(dx, dy);
-            }
-            if (length < 1e-6) {
-              dx = Math.cos(frame.yaw);
-              dy = Math.sin(frame.yaw);
-              length = 1;
-            }
-            const target = this.pushTarget(
-              cell,
-              cx,
-              cy,
-              dx / length,
-              dy / length,
-              i0,
-              j0,
-              fw,
-              fh,
-            );
-            // Sand flows ahead of and around a pushing bucket: spread it widely,
-            // so it forms a broad berm instead of a spike.
-            const side = 130 * this.random(),
-              ahead = 8 + 80 * (this.random() + 0.5) ** 2;
-            t.add(cell, -inside);
-            t.touch(cell);
-            t.deposit(
-              cellX(target & (NX - 1)) + (dx / length) * ahead - (dy / length) * side,
-              cellY(Math.floor(target / NX)) +
-                (dy / length) * ahead +
-                (dx / length) * side,
-              inside * CELL_AREA,
-            );
-          }
+          const amount = Math.min(inside, CUT_RATE),
+            taken = type === 1 ? this.takeSand(v, cell, amount) : 0;
+          if (taken < amount)
+            this.bulldoze(cell, inside - taken, cx, cy, v, i0, j0, fw, fh);
         }
         if (above > 0) {
-          const n = Math.min(
-            this.spawnRoom(),
-            10,
-            Math.floor((above * CELL_AREA) / GRAIN),
-          );
-          let spawned = 0;
-          for (let k = 0; k < n; k++) {
-            const x = cx + this.random() * CELL * 0.8,
-              y = cy + this.random() * CELL * 0.8,
-              z = col[1] + RR + 0.5 + k * D * 0.95;
-            frame.toLocal(x, y, z, now);
-            const inCavity = insideCavity(now[0], now[1], now[2]) ? 1 : 0;
-            if (this.spawn(x, y, z, 0, 0, 0, inCavity, now) >= 0) spawned++;
-          }
-          if (spawned) {
-            t.add(cell, (-spawned * GRAIN) / CELL_AREA);
-            t.touch(cell);
-          }
+          const amount = Math.min(above, CUT_RATE);
+          frame.toLocal(cx, cy, col[1], now);
+          const taken = col[3] ? this.takeSand(v, cell, amount) : 0;
+          if (taken < amount)
+            this.bulldoze(cell, amount - taken, cx, cy, v, i0, j0, fw, fh);
         }
       }
   }
@@ -745,584 +917,249 @@ export class SandSimulation {
     return type;
   }
 
-  // Scooped sand starts inside the cavity, moving with the bucket.
-  spawnInCavity(cx, cy, low, top, n, dt) {
-    const frame = this.frame,
-      prev = this.prevFrame,
-      l = this.l3,
-      w = this.w3,
-      b = this.v3;
-    const span = Math.max(0, top - low - D);
-    let spawned = 0;
-    for (let k = 0; k < n; k++) {
-      const z = low + R + (n > 1 ? (span * k) / (n - 1) : span / 2);
-      frame.toLocal(
-        cx + this.random() * CELL * 0.8,
-        cy + this.random() * CELL * 0.8,
-        z,
-        l,
-      );
-      l[1] = clamp(l[1], -INNER, INNER);
-      for (let iteration = 0; iteration < 8; iteration++) {
-        if (!insidePolygon(l[0], l[2])) {
-          l[0] += (CENTROID[0] - l[0]) * 0.35;
-          l[2] += (CENTROID[1] - l[2]) * 0.35;
-          continue;
-        }
-        let moved = false;
-        for (const wall of WALLS) {
-          const t =
-            ((l[0] - wall.ax) * wall.dx + (l[2] - wall.az) * wall.dz) /
-            wall.len2;
-          if (t <= 0 || t >= 1) continue;
-          const signed =
-              (l[0] - wall.ax) * wall.nx + (l[2] - wall.az) * wall.nz,
-            reach = R + wall.inner;
-          if (signed < reach) {
-            l[0] += wall.nx * (reach - signed);
-            l[2] += wall.nz * (reach - signed);
-            moved = true;
-          }
-        }
-        if (!moved) break;
-      }
-      if (!insideCavity(l[0], l[1], l[2])) continue;
-      frame.toWorld(l[0], l[1], l[2], w);
-      prev.toWorld(l[0], l[1], l[2], b);
-      spawned++;
-      this.spawn(
-        w[0],
-        w[1],
-        w[2],
-        (w[0] - b[0]) / dt,
-        (w[1] - b[1]) / dt,
-        (w[2] - b[2]) / dt,
-        1,
-        l,
-      );
-    }
-    return spawned;
-  }
-
-  buildPairs() {
-    const p = this.pos,
-      list = this.list,
-      n = this.listCount,
-      start = this.start,
-      fill = this.fill,
-      entries = this.entries,
-      cellOf = this.cellOf,
-      hashOf = this.hashOf;
-    start.fill(0);
-    const key = (x, y, z) =>
-      (Math.imul(x, 73856093) ^
-        Math.imul(y, 19349663) ^
-        Math.imul(z, 83492791)) &
-      MASK;
-    for (let a = 0; a < n; a++) {
-      const i = list[a],
-        k = 3 * i,
-        x = Math.floor(p[k] / D),
-        y = Math.floor(p[k + 1] / D),
-        z = Math.floor(p[k + 2] / D);
-      cellOf[k] = x;
-      cellOf[k + 1] = y;
-      cellOf[k + 2] = z;
-      const h = key(x, y, z);
-      hashOf[i] = h;
-      start[h + 1]++;
-    }
-    for (let h = 0; h < HASH; h++) start[h + 1] += start[h];
-    fill.set(start.subarray(0, HASH));
-    for (let a = 0; a < n; a++) {
-      const i = list[a];
-      entries[fill[hashOf[i]]++] = i;
-    }
-    let pairs = this.pairs,
-      count = 0;
-    const reach = (D + 1) * (D + 1);
-    for (let a = 0; a < n; a++) {
-      const i = list[a],
-        k = 3 * i,
-        cx = cellOf[k],
-        cy = cellOf[k + 1],
-        cz = cellOf[k + 2];
-      for (let dz = -1; dz <= 1; dz++)
-        for (let dy = -1; dy <= 1; dy++)
-          for (let dx = -1; dx <= 1; dx++) {
-            const x = cx + dx,
-              y = cy + dy,
-              z = cz + dz,
-              h = key(x, y, z);
-            for (let e = start[h], end = start[h + 1]; e < end; e++) {
-              const j = entries[e];
-              if (j <= i) continue;
-              const m = 3 * j;
-              if (cellOf[m] !== x || cellOf[m + 1] !== y || cellOf[m + 2] !== z)
-                continue;
-              const ex = p[k] - p[m],
-                ey = p[k + 1] - p[m + 1],
-                ez = p[k + 2] - p[m + 2];
-              if (ex * ex + ey * ey + ez * ez >= reach) continue;
-              if (count + 2 > pairs.length) {
-                const grown = new Int32Array(pairs.length * 2);
-                grown.set(pairs);
-                pairs = this.pairs = grown;
-              }
-              pairs[count++] = i;
-              pairs[count++] = j;
-            }
-          }
-    }
-    this.pairCount = count;
-  }
-
-  solvePairs() {
-    const p = this.pos,
-      q = this.prev,
-      wt = this.weight,
-      pairs = this.pairs,
-      count = this.pairCount;
-    for (let e = 0; e < count; e += 2) {
-      const i = pairs[e],
-        j = pairs[e + 1],
-        k = 3 * i,
-        m = 3 * j;
-      const dx = p[k] - p[m],
-        dy = p[k + 1] - p[m + 1],
-        dz = p[k + 2] - p[m + 2],
-        d2 = dx * dx + dy * dy + dz * dz;
-      if (d2 >= D * D || d2 < 1e-12) continue;
-      const d = Math.sqrt(d2),
-        pen = D - d,
-        nx = dx / d,
-        ny = dy / d,
-        nz = dz / d,
-        si = wt[i] / (wt[i] + wt[j]),
-        sj = 1 - si;
-      p[k] += nx * pen * si;
-      p[k + 1] += ny * pen * si;
-      p[k + 2] += nz * pen * si;
-      p[m] -= nx * pen * sj;
-      p[m + 1] -= ny * pen * sj;
-      p[m + 2] -= nz * pen * sj;
-      // Coulomb friction on the relative tangential displacement.
-      const rx = p[k] - q[k] - p[m] + q[m],
-        ry = p[k + 1] - q[k + 1] - p[m + 1] + q[m + 1],
-        rz = p[k + 2] - q[k + 2] - p[m + 2] + q[m + 2],
-        rn = rx * nx + ry * ny + rz * nz,
-        tx = rx - rn * nx,
-        ty = ry - rn * ny,
-        tz = rz - rn * nz,
-        lt = Math.sqrt(tx * tx + ty * ty + tz * tz);
-      if (lt < 1e-9) continue;
-      const f = lt < MU_S * pen ? 1 : (MU_K * pen) / lt;
-      p[k] -= tx * f * si;
-      p[k + 1] -= ty * f * si;
-      p[k + 2] -= tz * f * si;
-      p[m] += tx * f * sj;
-      p[m + 1] += ty * f * sj;
-      p[m + 2] += tz * f * sj;
-    }
-  }
-
-  // Grain against the sand bed (with friction) and the hard ground underneath.
-  collideBed(i) {
-    const p = this.pos,
-      q = this.prev,
-      k = 3 * i,
-      s = this.surf;
-    this.terrain.sample(p[k], p[k + 1], s);
-    const nz = 1 / Math.sqrt(1 + s[1] * s[1] + s[2] * s[2]),
-      nx = -s[1] * nz,
-      ny = -s[2] * nz,
-      distance = (p[k + 2] - s[0]) * nz;
-    if (distance >= R) return;
-    const pen = R - distance;
-    p[k] += nx * pen;
-    p[k + 1] += ny * pen;
-    p[k + 2] += nz * pen;
-    this.ground[i] = 1;
-    const rx = p[k] - q[k],
-      ry = p[k + 1] - q[k + 1],
-      rz = p[k + 2] - q[k + 2],
-      rn = rx * nx + ry * ny + rz * nz,
-      tx = rx - rn * nx,
-      ty = ry - rn * ny,
-      tz = rz - rn * nz,
-      lt = Math.sqrt(tx * tx + ty * ty + tz * tz);
-    if (lt < 1e-9) return;
-    const f = lt < MU_S * pen ? 1 : (MU_K * pen) / lt;
-    p[k] -= tx * f;
-    p[k + 1] -= ty * f;
-    p[k + 2] -= tz * f;
-  }
-
-  // Push a local position out of every shell plate and the tooth row, onto
-  // the side of each plate that the remembered position is on. Returns true
-  // on contact; the last contact normal and depth are kept for friction.
-  wallPass(l, memory, side) {
-    let contact = false;
-    // The shell only exists between the cheek plates. Past their outer faces
-    // nothing but the plates can touch a grain: treating the shell as wider
-    // would hold up a grain resting against a tilted cheek from outside.
-    if (Math.abs(l[1]) > BUCKET.outerHalfWidth) return false;
-    for (const wall of ALL_WALLS) {
-      const t =
-        ((l[0] - wall.ax) * wall.dx + (l[2] - wall.az) * wall.dz) / wall.len2;
-      if (t > 0 && t < 1) {
-        const tm =
-            ((memory[0] - wall.ax) * wall.dx +
-              (memory[2] - wall.az) * wall.dz) /
-            wall.len2,
-          signed = (l[0] - wall.ax) * wall.nx + (l[2] - wall.az) * wall.nz;
-        let sign;
-        if (tm > 0 && tm < 1)
-          sign =
-            (memory[0] - wall.ax) * wall.nx + (memory[2] - wall.az) * wall.nz >=
-            0
-              ? 1
-              : -1;
-        else sign = signed >= 0 ? 1 : -1;
-        const reach = R + (sign > 0 ? wall.inner : wall.outer);
-        if (sign * signed < reach) {
-          const move = sign * reach - signed;
-          l[0] += wall.nx * move;
-          l[2] += wall.nz * move;
-          contact = true;
-          this.normal[0] = sign * wall.nx;
-          this.normal[2] = sign * wall.nz;
-          this.penetration = Math.abs(move);
-        }
-      } else {
-        const qx = t <= 0 ? wall.ax : wall.ax + wall.dx,
-          qz = t <= 0 ? wall.az : wall.az + wall.dz,
-          vx = l[0] - qx,
-          vz = l[2] - qz,
-          d = Math.hypot(vx, vz),
-          reach = R + (side ? wall.inner : wall.outer);
-        if (d < reach && d > 1e-9) {
-          l[0] = qx + (vx / d) * reach;
-          l[2] = qz + (vz / d) * reach;
-          contact = true;
-          this.normal[0] = vx / d;
-          this.normal[2] = vz / d;
-          this.penetration = reach - d;
-        }
-      }
-    }
-    return contact;
-  }
-
-  // Bucket shell, teeth and cheek plates in the bucket frame. Each wall is
-  // two-sided: a grain is held on the side its last valid position was on,
-  // so fast grains or a fast bucket cannot tunnel through the 4 mm shell.
-  // A grain's cavity membership changes only if its path relative to the
-  // bucket crosses the open mouth; any other change is rolled back.
-  collideBucket(i) {
-    const p = this.pos,
-      k = 3 * i,
-      frame = this.frame,
-      c = frame.centre,
-      ex = p[k] - c[0],
-      ey = p[k + 1] - c[1],
-      ez = p[k + 2] - c[2];
-    if (ex * ex + ey * ey + ez * ez > NEAR * NEAR) {
-      this.near[i] = 0;
-      this.side[i] = 0;
-      return;
-    }
-    const l = this.l3,
-      m = this.local,
-      start = this.localStart,
-      hit = this.hit,
-      memory = this.m3;
-    frame.toLocal(p[k], p[k + 1], p[k + 2], l);
-    if (!this.near[i]) {
-      this.near[i] = 1;
-      for (let d = 0; d < 3; d++) m[k + d] = start[k + d] = l[d];
-    }
-    memory[0] = m[k];
-    memory[1] = m[k + 1];
-    memory[2] = m[k + 2];
-    // The remembered position is always valid; its side is authoritative.
-    const before = insideCavity(memory[0], memory[1], memory[2]) ? 1 : 0;
-    let side = before;
-    if ((insideCavity(l[0], l[1], l[2]) ? 1 : 0) !== before) {
-      const type = firstCrossing(memory, l, hit);
-      if (type === CROSS_MOUTH) side = 1 - before;
-      else if (type === CROSS_CHEEK) l[1] = hit[2] * (before ? INNER : OUTER);
-    }
-    const contact = this.wallPass(l, memory, side),
-      normal = this.normal;
-    let touching = contact,
-      pen = this.penetration,
-      nlx = normal[0],
-      nly = 0,
-      nlz = normal[2];
-    if (side) {
-      if (l[1] > INNER || l[1] < -INNER) {
-        const limit = l[1] > 0 ? INNER : -INNER;
-        pen = Math.abs(l[1] - limit);
-        l[1] = limit;
-        touching = true;
-        nlx = 0;
-        nly = limit > 0 ? -1 : 1;
-        nlz = 0;
-      }
-    } else if (Math.abs(l[1]) < OUTER && insidePolygon(l[0], l[2])) {
-      const sign = (l[1] || memory[1] || 1) > 0 ? 1 : -1;
-      pen = OUTER - Math.abs(l[1]);
-      l[1] = sign * OUTER;
-      touching = true;
-      nlx = 0;
-      nly = sign;
-      nlz = 0;
-    }
-    if (touching) {
-      // Friction on the grain's motion relative to the bucket surface.
-      const rx = l[0] - start[k],
-        ry = l[1] - start[k + 1],
-        rz = l[2] - start[k + 2],
-        rn = rx * nlx + ry * nly + rz * nlz,
-        tx = rx - rn * nlx,
-        ty = ry - rn * nly,
-        tz = rz - rn * nlz,
-        lt = Math.sqrt(tx * tx + ty * ty + tz * tz);
-      if (lt > 1e-9) {
-        const f = lt < MU_BS * pen ? 1 : (MU_BK * pen) / lt;
-        l[0] -= tx * f;
-        l[1] -= ty * f;
-        l[2] -= tz * f;
-        // Sliding along one wall must not cut into the next at a corner.
-        if (contact) this.wallPass(l, memory, side);
-      }
-      this.touchAge[i] = 0;
-    }
-    const after = insideCavity(l[0], l[1], l[2]) ? 1 : 0;
-    if (after === before) side = before;
-    else if (firstCrossing(memory, l, hit) === CROSS_MOUTH) {
-      side = after;
-      if (side) l[1] = clamp(l[1], -INNER, INNER);
+  // A parcel leaves over a rim: from along the teeth at the lip, and from outside
+  // the plates elsewhere, moving with the bucket as it starts to fall.
+  emit(v, rim, index, volume, dt) {
+    const point = this.l3,
+      now = this.w3,
+      before = this.m3,
+      spread = this.random();
+    let u, y, w, slideU = 0, slideY = 0;
+    if (rim === RIM_LIP) {
+      const along = this.random() + 0.5;
+      u = -11 * along - 1;
+      w = 5.1 * along + R * 0.5;
+      y = LOAD.rowY(index) + spread * LOAD.dv;
+      slideU = -1;
+    } else if (rim === RIM_FAR) {
+      u = LOAD.length + 3 + 4 * (this.random() + 0.5);
+      w = R * 0.5;
+      y = LOAD.rowY(index) + spread * LOAD.dv;
+      slideU = 1;
+    } else if (rim === RIM_BED) {
+      u = LOAD.columnU(v.load.lipColumn[index]) - LOAD.du / 2;
+      w = R;
+      y = LOAD.rowY(index) + spread * LOAD.dv;
+      slideU = -1;
     } else {
-      l[0] = memory[0];
-      l[1] = memory[1];
-      l[2] = memory[2];
-      side = before;
+      const side = rim === RIM_LEFT ? -1 : 1;
+      u = LOAD.columnU(index) + spread * LOAD.du;
+      w = R * 0.5;
+      y = side * (BUCKET.outerHalfWidth + R + 0.5);
+      slideY = side;
     }
-    this.side[i] = side;
-    m[k] = l[0];
-    m[k + 1] = l[1];
-    m[k + 2] = l[2];
-    frame.toWorld(l[0], l[1], l[2], this.w3);
-    p[k] = this.w3[0];
-    p[k + 1] = this.w3[1];
-    p[k + 2] = this.w3[2];
+    mouthToLocal(u, y, w, point);
+    v.prevFrame.toWorld(point[0], point[1], point[2], before);
+    const bx = before[0],
+      by = before[1],
+      bz = before[2];
+    v.frame.toWorld(point[0], point[1], point[2], now);
+    const x = now[0],
+      wy = now[1],
+      z = now[2];
+    // The slide's direction in the world.
+    mouthToLocal(u + slideU, y + slideY, w, point);
+    v.frame.toWorld(point[0], point[1], point[2], before);
+    const speed = SPILL_SPEED * (1 + 0.6 * this.random());
+    this.spawn(
+      x,
+      wy,
+      z,
+      (x - bx) / dt + (before[0] - x) * speed,
+      (wy - by) / dt + (before[1] - wy) * speed,
+      (z - bz) / dt + (before[2] - z) * speed,
+      volume,
+      v,
+    );
   }
 
-  solveGrains(dt) {
+  // What has gone over a rim leaves as parcels of one size, and the last of a
+  // stream as a smaller one.
+  spillLoad(v, dt) {
+    const { pending, flowing } = v.load;
+    for (const [rim, amounts] of pending.entries())
+      for (let n = 0; n < amounts.length; n++) {
+        while (amounts[n] >= GRAIN) {
+          amounts[n] -= GRAIN;
+          this.emit(v, rim, n, GRAIN, dt);
+        }
+        if (amounts[n] > 0 && !flowing[rim][n]) {
+          this.emit(v, rim, n, amounts[n], dt);
+          amounts[n] = 0;
+        }
+      }
+  }
+
+  // Falling sand touches nothing on the way down. It joins a bucket it falls into,
+  // if there is room, or the bed where it lands.
+  moveParcels(dt) {
     const p = this.pos,
-      q = this.prev,
-      v = this.vel,
-      list = this.list,
-      g = WORLD.gravity,
-      stackBase = this.machine.z;
-    let n = 0;
-    for (let i = 0; i < MAX; i++) if (this.alive[i]) list[n++] = i;
-    this.listCount = n;
-    if (!n) return;
-    for (let a = 0; a < n; a++) {
-      const i = list[a],
-        k = 3 * i;
-      v[k + 2] -= g * dt;
-      for (let d = 0; d < 3; d++) {
-        q[k + d] = p[k + d];
-        p[k + d] += clamp(v[k + d], -MAX_SPEED, MAX_SPEED) * dt;
-        this.localStart[k + d] = this.local[k + d];
-      }
-      this.ground[i] = 0;
-      this.sideStart[i] = this.side[i];
-      if (this.touchAge[i] < 255) this.touchAge[i]++;
-      // Inverse mass rises with height: lower grains are heavier, so an
-      // upper grain takes most of a contact correction.
-      this.weight[i] = Math.exp(STACK * clamp(p[k + 2] - stackBase, -300, 900));
-    }
-    this.buildPairs();
-    for (let iteration = 0; iteration < ITERATIONS; iteration++) {
-      this.solvePairs();
-      for (let a = 0; a < n; a++) {
-        const i = list[a],
-          k = 3 * i;
-        p[k] = clamp(p[k], WORLD.minX + R, WORLD.maxX - R);
-        p[k + 1] = clamp(p[k + 1], WORLD.minY + R, WORLD.maxY - R);
-        if (!this.side[i]) this.collideBed(i);
-        this.collideBucket(i);
-      }
-    }
-    for (let a = 0; a < n; a++) {
-      const i = list[a],
-        k = 3 * i;
-      // Grains at rest in the bucket ride with it exactly instead of jittering.
-      if (this.side[i] && this.sideStart[i] && this.near[i]) {
-        const ux = this.local[k] - this.localStart[k],
-          uy = this.local[k + 1] - this.localStart[k + 1],
-          uz = this.local[k + 2] - this.localStart[k + 2];
-        if (ux * ux + uy * uy + uz * uz < 0.006 * 0.006) {
-          this.frame.toWorld(
-            this.localStart[k],
-            this.localStart[k + 1],
-            this.localStart[k + 2],
-            this.w3,
-          );
-          for (let d = 0; d < 3; d++) {
-            this.local[k + d] = this.localStart[k + d];
-            p[k + d] = this.w3[d];
+      vel = this.vel,
+      s = this.surf,
+      l = this.l3,
+      g = WORLD.gravity;
+    for (let i = 0; i < MAX; i++) {
+      if (!this.alive[i]) continue;
+      const k = 3 * i;
+      vel[k + 2] -= g * dt;
+      p[k] = clamp(
+        p[k] + clamp(vel[k], -MAX_SPEED, MAX_SPEED) * dt,
+        WORLD.minX + R,
+        WORLD.maxX - R,
+      );
+      p[k + 1] = clamp(
+        p[k + 1] + clamp(vel[k + 1], -MAX_SPEED, MAX_SPEED) * dt,
+        WORLD.minY + R,
+        WORLD.maxY - R,
+      );
+      p[k + 2] += clamp(vel[k + 2], -MAX_SPEED, MAX_SPEED) * dt;
+      let caught = false;
+      for (const v of this.vehicles) {
+        const c = v.frame.centre,
+          ex = p[k] - c[0],
+          ey = p[k + 1] - c[1],
+          ez = p[k + 2] - c[2];
+        if (ex * ex + ey * ey + ez * ez > NEAR * NEAR) {
+          if (this.near[i] && this.holder[i] === v.slot) this.near[i] = 0;
+          continue;
+        }
+        v.frame.toLocal(p[k], p[k + 1], p[k + 2], l);
+        if (insideCavity(l[0], l[1], l[2])) {
+          this.volumes[i] -= v.load.add(l[0], l[1], l[2], this.volumes[i]);
+          if (this.volumes[i] <= 0) {
+            this.release(i);
+            caught = true;
+            break;
           }
         }
       }
-      for (let d = 0; d < 3; d++)
-        v[k + d] = clamp(
-          ((p[k + d] - q[k + d]) / dt) * 0.998,
-          -MAX_SPEED,
-          MAX_SPEED,
-        );
-    }
-    this.settleGrains();
-  }
-
-  // Grains resting on the bed (and clear of the bucket) rejoin it.
-  settleGrains() {
-    const p = this.pos,
-      v = this.vel,
-      list = this.list,
-      n = this.listCount,
-      s = this.surf,
-      col = this.col;
-    for (let a = 0; a < n; a++) {
-      const i = list[a],
-        k = 3 * i;
-      if (this.side[i]) {
-        this.rest[i] = 0;
-        continue;
+      if (caught) continue;
+      this.terrain.sample(p[k], p[k + 1], s);
+      if (p[k + 2] - R <= s[0]) {
+        this.terrain.deposit(p[k], p[k + 1], this.volumes[i]);
+        this.release(i);
       }
-      if (this.ground[i] && this.touchAge[i] < 2) {
-        // Squeezed between the bucket and the bed: becomes bed material that
-        // the cut then bulldozes or scoops.
-        this.terrain.sample(p[k], p[k + 1], s);
-        if (p[k + 2] < s[0]) {
-          this.terrain.deposit(p[k], p[k + 1], GRAIN);
-          this.release(i);
-          this.converted++;
-          continue;
-        }
-      }
-      const speed2 = v[k] * v[k] + v[k + 1] * v[k + 1] + v[k + 2] * v[k + 2];
-      if (!this.ground[i] || this.touchAge[i] < 8 || speed2 > 30 * 30) {
-        this.rest[i] = 0;
-        continue;
-      }
-      if (++this.rest[i] < 6) continue;
-      if (
-        this.frame.column(p[k], p[k + 1], col) &&
-        col[0] < p[k + 2] + R + 10
-      ) {
-        this.rest[i] = 0;
-        continue;
-      }
-      this.terrain.deposit(p[k], p[k + 1], GRAIN);
-      this.release(i);
-      this.converted++;
     }
   }
 
   substep(dt) {
-    this.prevFrame.copy(this.frame);
-    this.advanceMachine(dt);
-    this.pressSand();
-    this.bucket = bucketPose(this.machine);
-    this.frame.set(this.bucket);
-    this.cutTerrain(dt);
-    this.solveGrains(dt);
+    this.terrain.clearCeilings();
+    for (const v of this.vehicles) {
+      v.prevFrame.copy(v.frame);
+      this.advanceMachine(dt, v);
+      this.pressSand(v);
+      v.bucket = bucketPose(v.machine);
+      v.frame.set(v.bucket);
+      this.cutTerrain(v);
+      v.load.relax(v.frame);
+      this.spillLoad(v, dt);
+    }
+    this.moveParcels(dt);
   }
 
   step(dt = 1 / 30) {
-    const idle =
-      this.estop || Object.values(this.axes).every((value) => value === 0);
+    const idle = this.vehicles.every(
+      (v) => v.estop || Object.values(v.axes).every((value) => value === 0),
+    );
     if (this.resting && idle) {
       this.tick++;
-      if (this.stats.blocked || this.stats.obstacle)
-        this.stats = { ...this.stats, blocked: false, obstacle: null };
+      for (const v of this.vehicles)
+        if (v.stats.blocked || v.stats.obstacle)
+          v.stats = { ...v.stats, blocked: false, obstacle: null };
       return;
     }
-    this.blocked = false;
-    this.obstacle = null;
+    for (const v of this.vehicles) {
+      v.blocked = false;
+      v.obstacle = null;
+      v.load.coverBy(v.frame, this.terrain, v.touchingBed);
+    }
     for (let i = 0; i < SUBSTEPS; i++) this.substep(dt / SUBSTEPS);
     this.terrain.relax(3, 0.5);
     this.tick++;
-    this.stats = this.measure();
+    this.world = this.measure();
     this.resting =
       idle &&
       !this.grains &&
       !this.terrain.activeCount &&
-      !this.chassisMoving;
+      this.vehicles.every((v) => !v.chassisMoving && v.load.settled);
   }
 
+  // What is true of the whole world. Each machine's own numbers go in its stats.
   measure() {
-    let carried = 0,
-      active = 0,
-      falling = 0;
+    let landing = 0;
     const p = this.pos,
-      v = this.vel,
       z = POUR_ZONE;
     for (let i = 0; i < MAX; i++) {
       if (!this.alive[i]) continue;
       const k = 3 * i;
-      if (this.side[i]) carried++;
-      if (Math.hypot(v[k], v[k + 1], v[k + 2]) > 35) active++;
       if (
-        !this.side[i] &&
         p[k] > z.minX &&
         p[k] < z.maxX &&
         p[k + 1] > z.minY &&
         p[k + 1] < z.maxY &&
         p[k + 2] < 40
       )
-        falling++;
+        landing += this.volumes[i];
     }
     const cm3 = (mm3) => Math.round(mm3 / 100) / 10;
+    for (const vehicle of this.vehicles)
+      vehicle.stats = {
+        load: cm3(vehicle.load.total),
+        blocked: vehicle.blocked,
+        obstacle: vehicle.obstacle,
+      };
     return {
-      carried,
-      load: cm3(carried * GRAIN),
-      deposited: cm3(this.terrain.volumeIn(z) + falling * GRAIN),
+      deposited: cm3(this.terrain.volumeIn(z) + landing),
       grains: this.grains,
-      active,
-      blocked: this.blocked,
-      obstacle: this.obstacle,
     };
   }
 
-  // Free grains for the network: [slot, x, y, z] as Int16 in 0.1 mm units,
-  // relative to whole-millimetre origin, which is written to the given array.
-  packGrains(origin) {
-    const m = this.machine,
-      out = new Int16Array(4 * this.grains),
+  // Falling parcels for the network: [slot, x, y, z] as Int16 in 0.1 mm units. The
+  // machines can be far apart, so parcels are grouped by the bucket they are near
+  // and by a block of the world, with positions relative to the block's centre.
+  // `groups` holds five numbers for each: the centre (x, y, z), the parcel count
+  // and the id of the vehicle they are near (0 for none).
+  packGrains() {
+    const p = this.pos,
       scale = 1 / SAND.positionQuantum,
-      p = this.pos;
-    origin[0] = Math.round(m.x);
-    origin[1] = Math.round(m.y);
-    origin[2] = Math.round(m.z);
-    let o = 0;
-    for (let i = 0; i < MAX && o < out.length; i++) {
+      found = new Map();
+    for (let i = 0; i < MAX; i++) {
       if (!this.alive[i]) continue;
-      const k = 3 * i;
-      out[o++] = i;
-      for (let d = 0; d < 3; d++)
-        out[o++] = clamp(
-          Math.round((p[k + d] - origin[d]) * scale),
-          -32767,
-          32767,
+      const k = 3 * i,
+        bx = Math.floor((p[k] - WORLD.minX) / GROUP_SPAN),
+        by = Math.floor((p[k + 1] - WORLD.minY) / GROUP_SPAN),
+        bz = Math.floor(p[k + 2] / GROUP_SPAN),
+        holder = this.near[i] ? this.holder[i] + 1 : 0,
+        key = holder + 256 * (bx + 16 * (by + 16 * (bz + 64)));
+      let group = found.get(key);
+      if (!group)
+        found.set(
+          key,
+          (group = {
+            x: WORLD.minX + (bx + 0.5) * GROUP_SPAN,
+            y: WORLD.minY + (by + 0.5) * GROUP_SPAN,
+            z: (bz + 0.5) * GROUP_SPAN,
+            id: holder && this.bySlot[holder - 1] ? this.bySlot[holder - 1].id : 0,
+            members: [],
+          }),
         );
+      group.members.push(i);
     }
-    return out;
+    const grains = new Int16Array(4 * this.grains),
+      groups = new Int32Array(5 * found.size);
+    let o = 0,
+      g = 0;
+    for (const { x, y, z, id, members } of found.values()) {
+      groups.set([x, y, z, members.length, id], g);
+      g += 5;
+      for (const i of members) {
+        const k = 3 * i;
+        grains[o++] = i;
+        grains[o++] = Math.round((p[k] - x) * scale);
+        grains[o++] = Math.round((p[k + 1] - y) * scale);
+        grains[o++] = Math.round((p[k + 2] - z) * scale);
+      }
+    }
+    return { grains, groups };
   }
 }

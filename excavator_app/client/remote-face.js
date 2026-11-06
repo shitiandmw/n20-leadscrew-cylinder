@@ -1,6 +1,7 @@
 // The phone remote's hardware: faceplate markup, the segment LCD and haptics.
 // main.js owns the control logic and finds every control by its id or class.
 import { BUCKET } from "../shared/world.js";
+import { NAME_LENGTH } from "../shared/players.js";
 
 const chevron = (points) =>
   `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${points}"/></svg>`;
@@ -138,7 +139,7 @@ export const remoteFace = ({ connection, connectionHelp }) => `
 <main class="rc" aria-label="Excavator remote control">
   <div class="rc-face">
     <div class="rc-plate">
-      <div class="rc-logo">SAND<span>/</span>LAB</div>
+      <div class="rc-title"><div class="rc-logo">SAND<span>/</span>LAB</div><div class="rc-player" id="rc-player" hidden><i></i><span></span></div></div>
       <div class="rc-leds" aria-hidden="true"><span><i class="led led-link"></i>LINK</span><span><i class="led led-ctrl"></i>CTRL</span><span><i class="led led-stop"></i>STOP</span></div>
     </div>
     <button id="estop" class="rc-estop" data-estop aria-label="Emergency stop">
@@ -173,12 +174,14 @@ export const remoteFace = ({ connection, connectionHelp }) => `
   <div class="sheet-body">
     <section class="sheet-group" aria-label="Operation">
       <div class="setting setting-speed"><label for="speed">Movement speed</label><output id="speed-value">65%</output><input id="speed" type="range" min="20" max="100" step="5" value="65"></div>
-      <div class="setting"><div><strong>Sand and machine</strong><small>Back to the start position. You need control to do this.</small></div><button id="reset" class="rc-key">Reset world</button></div>
+      <div class="setting"><div><strong>Your excavator</strong><small>Back to a start position, leaving the sand as it is. You need control to do this.</small></div><button id="respawn" class="rc-key">Back to start</button></div>
+      <div class="setting"><div><strong>Sand and every machine</strong><small id="reset-note">Everything goes back to the start. You need control to do this.</small></div><button id="reset" class="rc-key">Reset world</button></div>
     </section>
     <section class="sheet-group" aria-label="This phone">
       <label class="setting" id="haptics-row" hidden><div><strong>Haptic feedback</strong><small>A short pulse from buttons and stick stops.</small></div><span class="switch"><input id="haptics" type="checkbox" role="switch"><i></i></span></label>
       <label class="setting" id="fullscreen-row" hidden><div><strong>Full screen</strong><small>Hides the browser bars.</small></div><span class="switch"><input id="fullscreen-toggle" type="checkbox" role="switch"><i></i></span></label>
-      <div class="setting"><div><strong>Room <span id="sheet-room">------</span></strong><small>Scan a new code to join another game.</small></div><a class="rc-key" href="/remote">Change room</a></div>
+      <label class="setting setting-name"><div><strong>Your name</strong><small>Shown to the others in this room.</small></div><input id="player-name" maxlength="${NAME_LENGTH}" autocomplete="nickname" spellcheck="false"></label>
+      <div class="setting"><div><strong>Room <span id="sheet-room">------</span></strong><small><span id="sheet-players">Only you here</span>. Scan a new code to join another game.</small></div><a class="rc-key" href="/remote">Change room</a></div>
     </section>
     <details class="sheet-group sheet-guide"><summary>Control guide</summary>
       <dl>
@@ -186,7 +189,7 @@ export const remoteFace = ({ connection, connectionHelp }) => `
         <dt>Right stick</dt><dd>Up lowers the boom, down raises it. Left curls the bucket, right opens it.</dd>
         <dt>Track rockers</dt><dd>Push both up to drive forward, both down to reverse, one of each to turn.</dd>
         <dt>First scoop</dt><dd>Boom down to 0, stick to about 20 mm, curl past 50 mm, then lift and swing to the pour zone.</dd>
-        <dt>Emergency stop</dt><dd>Works from any device and stays latched until the operator presses Resume.</dd>
+        <dt>Emergency stop</dt><dd>Stops your excavator from any of your devices and stays latched until you press Resume.</dd>
       </dl>
       <p>Keep this page open while operating. Switching apps releases control.</p>
     </details>
@@ -202,7 +205,9 @@ export const joinFace = () => `
   <div class="rc-logo">SAND<span>/</span>LAB</div>
   <label for="room-code">Room code</label>
   <div class="lcd"><div class="lcd-glass"><input id="room-code" placeholder="A1B2C3" maxlength="6" minlength="6" pattern="[a-fA-F0-9]{6}" required autocomplete="off" autocapitalize="characters" spellcheck="false"></div></div>
-  <p>Enter the six-character code shown on your simulator.</p>
+  <p>Enter the six-character code shown in the game. You get an excavator of your own in that room.</p>
+  <label for="join-name">Your name</label>
+  <input id="join-name" class="rc-field" maxlength="${NAME_LENGTH}" placeholder="Optional" autocomplete="nickname" spellcheck="false">
   <button class="rc-key rc-key-wide">Connect to excavator</button>
   <a href="/">Open a new game ↗</a>
 </form></main>`;

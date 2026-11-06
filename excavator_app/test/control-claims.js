@@ -19,6 +19,9 @@ export async function checkControlClaims(browser, app, origin) {
     })
   ).json();
   const sandbox = app.rooms.get(room);
+  // The excavator of the one player in this room.
+  const player = () => [...sandbox.players.values()][0];
+  const vehicle = () => player().vehicle;
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },
     isMobile: true,
@@ -83,10 +86,10 @@ export async function checkControlClaims(browser, app, origin) {
     // Delay the actual server's ownership reply while the user changes input.
     for (const ending of ["release", "cancel", "blur", "hold"]) {
       await release();
-      const before = sandbox.simulation.machine.strokes[0];
+      const before = vehicle().machine.strokes[0];
       holdStates = true;
       await touch("touchStart");
-      await waitFor(() => sandbox.owner !== null);
+      await waitFor(() => player().owner !== null);
       assert.equal(
         commands.filter((c) => c.type === "claim").length,
         1,
@@ -113,13 +116,13 @@ export async function checkControlClaims(browser, app, origin) {
         const tick = sandbox.simulation.tick;
         await waitFor(() => sandbox.simulation.tick > tick + 3);
         assert.equal(
-          sandbox.simulation.machine.strokes[0],
+          vehicle().machine.strokes[0],
           before,
           `${ending} before ownership arrives must not replay movement`,
         );
       }
       await waitFor(() =>
-        Object.values(sandbox.simulation.axes).every((n) => n === 0),
+        Object.values(vehicle().axes).every((n) => n === 0),
       );
     }
 
@@ -127,7 +130,7 @@ export async function checkControlClaims(browser, app, origin) {
     await release();
     holdStates = true;
     await touch("touchStart");
-    await waitFor(() => sandbox.owner !== null);
+    await waitFor(() => player().owner !== null);
     await page.evaluate(() => {
       Object.defineProperty(document, "hidden", {
         configurable: true,
@@ -137,7 +140,7 @@ export async function checkControlClaims(browser, app, origin) {
     });
     await waitFor(
       () =>
-        sandbox.owner === null &&
+        player().owner === null &&
         latestState &&
         JSON.parse(latestState).owner === null,
     );
@@ -148,7 +151,7 @@ export async function checkControlClaims(browser, app, origin) {
       document.dispatchEvent(new Event("visibilitychange"));
     });
     await page.waitForFunction(() => window.sandLab.getState().owner === null);
-    assert.deepEqual(sandbox.simulation.axes, neutral());
+    assert.deepEqual(vehicle().axes, neutral());
 
     // Track buttons can also acquire a free slot on their first press.
     const track = await page
@@ -165,32 +168,33 @@ export async function checkControlClaims(browser, app, origin) {
     await page.mouse.up();
     await release();
 
-    // A competing operator claims while this browser still sees a free slot.
+    // The same player's other device claims while this browser still sees a
+    // free slot.
     holdStates = true;
     competitor = new WebSocket(
-      `${origin.replace("http", "ws")}/ws?room=${room}&role=remote`,
+      `${origin.replace("http", "ws")}/ws?room=${room}&role=remote&key=${player().key}`,
     );
     await once(competitor, "open");
     competitor.send(JSON.stringify({ type: "claim" }));
-    await waitFor(() => sandbox.owner !== null);
-    const owner = sandbox.owner;
+    await waitFor(() => player().owner !== null);
+    const owner = player().owner;
     await touch("touchStart");
     await page
-      .getByText("Another operator has control. Ask them to release it.", {
+      .getByText("Your other device has control. Release it there first.", {
         exact: true,
       })
       .waitFor();
-    assert.equal(sandbox.owner, owner, "a rejected claim cannot take over");
+    assert.equal(player().owner, owner, "a rejected claim cannot take over");
     competitor.send(JSON.stringify({ type: "release" }));
     await waitFor(
       () =>
-        sandbox.owner === null &&
+        player().owner === null &&
         latestState &&
         JSON.parse(latestState).owner === null,
     );
     await deliverState();
     await touch("touchCancel");
-    assert.deepEqual(sandbox.simulation.axes, neutral());
+    assert.deepEqual(vehicle().axes, neutral());
     assert.equal(
       commands.filter((c) => c.type === "input").length,
       0,
@@ -207,8 +211,8 @@ export async function checkControlClaims(browser, app, origin) {
       .waitFor();
     await touch("touchEnd");
     assert.equal(commands.filter((c) => c.type === "claim").length, 0);
-    assert.equal(sandbox.owner, null);
-    assert.equal(sandbox.simulation.estop, true);
+    assert.equal(player().owner, null);
+    assert.equal(vehicle().estop, true);
     await page
       .getByRole("button", { name: "Take control", exact: true })
       .click();
@@ -217,7 +221,7 @@ export async function checkControlClaims(browser, app, origin) {
     await page.waitForFunction(() => !window.sandLab.getState().estop);
     assert.deepEqual(errors, []);
     console.log(
-      "PASS: delayed control grants, release/cancel/blur before grant, multitouch claim deduplication, held input, track-button claims, competing operators and latched emergency stop.",
+      "PASS: delayed control grants, release/cancel/blur before grant, multitouch claim deduplication, held input, track-button claims, a player's competing devices and latched emergency stop.",
     );
   } finally {
     competitor?.terminate();

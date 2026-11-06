@@ -7,21 +7,39 @@ import { chromium } from "@playwright/test";
 import { createServer } from "vite";
 import { SandSimulation } from "../server/physics.js";
 import { neutral } from "../shared/world.js";
+import { decodeFrame, encodeFrame } from "../shared/protocol.js";
 
 const simulation = new SandSimulation();
 simulation.speed = 1;
 const tiles = new Map(),
   shots = [];
 let history = [];
-function packet() {
-  const origin = new Int32Array(3),
-    grains = simulation.packGrains(origin);
+// What a browser would get: the real wire format, as plain arrays for the page.
+function packet(tiles = [], tileData = new Map()) {
+  const frame = decodeFrame(
+    encodeFrame({
+      tick: simulation.tick,
+      machines: [
+        { id: 1, ...simulation.machine, load: simulation.vehicles[0].load.pack() },
+      ],
+      ...simulation.packGrains(),
+      tileData,
+      tiles,
+    }),
+  );
   return {
-    tick: simulation.tick,
-    machine: structuredClone(simulation.machine),
-    origin: [...origin],
-    grains: [...grains],
-    tiles: [],
+    tick: frame.tick,
+    machines: frame.machines.map((machine) => ({
+      ...machine,
+      load: machine.load && [...machine.load],
+    })),
+    slots: [...frame.slots],
+    holders: [...frame.holders],
+    positions: [...frame.positions],
+    tiles: frame.tiles.map((t) => ({
+      index: t.index,
+      heights: [...t.heights],
+    })),
   };
 }
 function run(seconds, axes = {}) {
@@ -34,23 +52,12 @@ function run(seconds, axes = {}) {
   }
 }
 function capture(name) {
-  const origin = new Int32Array(3),
-    grains = simulation.packGrains(origin);
   const changed = simulation.terrain.quantize(tiles);
   shots.push({
     name,
     history,
     stats: { ...simulation.stats },
-    frame: {
-      tick: simulation.tick,
-      machine: structuredClone(simulation.machine),
-      origin: [...origin],
-      grains: [...grains],
-      tiles: changed.map((index) => ({
-        index,
-        heights: [...tiles.get(index)],
-      })),
-    },
+    frame: packet(changed, tiles),
   });
 }
 capture("bed");
@@ -146,7 +153,13 @@ try {
           for (const frame of frames) {
             const f = {
               ...frame,
-              grains: Int16Array.from(frame.grains),
+              machines: frame.machines.map((machine) => ({
+                ...machine,
+                load: machine.load && Uint16Array.from(machine.load),
+              })),
+              slots: Uint16Array.from(frame.slots),
+              holders: Uint16Array.from(frame.holders),
+              positions: Float32Array.from(frame.positions),
               tiles: frame.tiles.map((t) => ({
                 index: t.index,
                 heights: Uint16Array.from(t.heights),
@@ -165,9 +178,14 @@ try {
       const graphics = await page.evaluate(() => preview.telemetry());
       assert.ok(Number.isFinite(graphics.sandUpdateMs));
       if (shot.name === "lift")
-        assert.ok(graphics.loadTriangles > 100, "carried load reconstructs");
+        assert.ok(graphics.loadTriangles > 100, "the carried load is drawn");
       if (shot.name === "bed") assert.equal(graphics.loadTriangles, 0);
-      if (shot.name === "settled") assert.equal(graphics.loadTriangles, 0);
+      if (shot.name === "settled")
+        assert.equal(
+          graphics.loadTriangles,
+          808,
+          "only the dusting left in the bucket that poured",
+        );
       if (shot.name === "pour")
         assert.ok(
           graphics.flyingGrains > 0,
@@ -180,6 +198,7 @@ try {
           load: shot.stats.load,
           grains: graphics.grains,
           flying: graphics.flyingGrains,
+          loose: graphics.looseGrains,
           triangles: graphics.loadTriangles,
           updateMs: graphics.sandUpdateMs,
         }),
@@ -190,6 +209,7 @@ try {
     }
     await page.evaluate(() => preview.newRoom());
     assert.equal(await page.evaluate(() => preview.telemetry().grains), 0);
+    assert.equal(await page.evaluate(() => preview.telemetry().looseGrains), 0);
     assert.equal(
       await page.evaluate(() => preview.telemetry().loadTriangles),
       0,

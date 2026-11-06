@@ -91,7 +91,39 @@ body.remote {
   min-width: 0;
   padding-left: 4px;
 }
+.rc-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+/* A chip of this machine's paint, with its driver's name. */
+.rc-player {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--silk);
+}
+.rc-player i {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: var(--paint, #e89912);
+  box-shadow:
+    inset 0 0 0 0.5px #0008,
+    var(--lip);
+}
+.rc-player span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .rc-logo {
+  flex: none;
   font-size: 19px;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -958,6 +990,25 @@ body.remote {
   min-width: 96px;
   margin-bottom: 3px;
 }
+.setting-name input,
+.rc-field {
+  min-width: 0;
+  border: 0;
+  border-radius: 7px;
+  padding: 11px 12px;
+  background: #0e0f0f;
+  color: var(--silk);
+  font-size: 15px;
+  outline: 1px solid #ffffff14;
+}
+.setting-name input {
+  flex: 0 1 150px;
+  width: 150px;
+}
+.setting-name input:focus-visible,
+.rc-field:focus-visible {
+  outline: 2px solid var(--accent);
+}
 #sheet-room {
   font-family: var(--lcd-font);
   letter-spacing: 0.06em;
@@ -1191,7 +1242,7 @@ body.remote {
 .rc-join-face .lcd-glass {
   padding: 10px 12px;
 }
-.rc-join-face input {
+.rc-join-face .lcd input {
   position: relative;
   z-index: 3;
   width: 100%;
@@ -1204,8 +1255,11 @@ body.remote {
   text-align: center;
   text-transform: uppercase;
 }
-.rc-join-face input::placeholder {
+.rc-join-face .lcd input::placeholder {
   color: #1b231926;
+}
+.rc-join-face .rc-field {
+  width: 100%;
 }
 .rc-join-face p {
   font-size: 13px;
@@ -1286,6 +1340,9 @@ body.remote {
   }
   .rc-plate .rc-logo {
     font-size: 12px;
+  }
+  .rc-player {
+    font-size: 10px;
   }
   .rc-leds {
     gap: 8px;

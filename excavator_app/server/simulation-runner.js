@@ -1,13 +1,28 @@
 import { Worker } from "node:worker_threads";
-import { initialMachine, neutral } from "../shared/world.js";
+import { neutral } from "../shared/world.js";
 import { TILE_CELLS, TILE_COUNT } from "../shared/protocol.js";
 
+const noStats = () => ({
+  load: 0,
+  blocked: false,
+  obstacle: null,
+});
+
 // One in-flight step per room: slow physics cannot block sockets or accumulate
-// a backlog of old control commands. Ownership and watchdogs stay on the server.
+// a backlog of old control commands. A step asked for while another is running
+// starts as soon as that one ends, so a step of 36 ms costs 36 ms, not the two
+// whole timer periods it would otherwise wait for. Ownership and watchdogs stay
+// on the server.
 export class SimulationRunner {
   constructor(onStep, onFailure) {
     this.resetVersion = 0;
-    this.motionVersion = 0;
+    this.vehicles = new Map();
+    this.tick = 0;
+    this.world = { deposited: 0, grains: 0 };
+    this.grains = new Int16Array(0);
+    this.groups = new Int32Array(0);
+    this.count = 0;
+    this.stepMs = 0;
     // The latest quantised sand: tile index -> cells, each with a version.
     this.tileData = new Map();
     this.tileVersions = new Uint32Array(TILE_COUNT);
@@ -23,8 +38,10 @@ export class SimulationRunner {
     });
     this.ready = new Promise((resolve, reject) => {
       this.rejectReady = reject;
-      this.worker.on("message", ({ motionVersion, ...frame }) => {
+      this.worker.on("message", ({ vehicles, ...frame }) => {
         this.busy = false;
+        const overdue = this.overdue;
+        this.overdue = false;
         // Sand updates are never discarded, not even from before a reset: the
         // worker only ever sends a tile again if it changes again.
         if (frame.tileIndex)
@@ -36,25 +53,28 @@ export class SimulationRunner {
             this.tileVersions[tile] = frame.tileVersion;
           });
         if (!this.initialized) {
-          this.reset();
-          this.resetVersion = 0;
           this.initialized = true;
-          this.origin = frame.origin;
           resolve();
           return;
         }
+        if (overdue) this.step();
         // Frames computed before a reset are otherwise discarded entirely.
         if (frame.resetVersion !== this.resetVersion) return;
         // The sand always mirrors the worker, including a step that a stop
-        // invalidated: only that step's machine motion is discarded.
+        // invalidated: only that machine's motion in that step is discarded.
         this.grains = frame.grains;
-        this.origin = frame.origin;
+        this.groups = frame.groups;
         this.count = frame.count;
-        this.stats = frame.stats;
-        if (motionVersion !== this.motionVersion) return;
-        this.machine = frame.machine;
+        this.world = frame.world;
         this.tick = frame.tick;
         this.stepMs = frame.stepMs;
+        for (const { id, machine, stats, load, motionVersion, poseVersion } of vehicles) {
+          const v = this.vehicles.get(id);
+          if (!v || poseVersion !== v.poseVersion) continue;
+          v.stats = stats;
+          v.load = load;
+          if (motionVersion === v.motionVersion) v.machine = machine;
+        }
         onStep();
       });
       const fail = (error) => {
@@ -70,43 +90,78 @@ export class SimulationRunner {
     });
   }
 
+  addVehicle(id, machine) {
+    const vehicle = {
+      id,
+      home: machine,
+      machine: structuredClone(machine),
+      axes: neutral(),
+      speed: 0.65,
+      estop: false,
+      motionVersion: 0,
+      poseVersion: 0,
+      stats: noStats(),
+      load: null,
+    };
+    this.vehicles.set(id, vehicle);
+    return vehicle;
+  }
+
+  removeVehicle(vehicle) {
+    this.vehicles.delete(vehicle.id);
+  }
+
+  // Move a machine in one jump, and make that its home for a world reset.
+  place(vehicle, machine) {
+    vehicle.home = machine;
+    vehicle.machine = structuredClone(machine);
+    vehicle.axes = neutral();
+    vehicle.poseVersion++;
+    vehicle.stats = noStats();
+    vehicle.load = null;
+  }
+
+  // Sand and machines go back to the start. A latched stop stays latched.
   reset() {
     this.resetVersion++;
-    this.machine = initialMachine();
-    this.axes = neutral();
-    this.speed = 0.65;
-    this.estop = false;
+    for (const vehicle of this.vehicles.values()) {
+      this.place(vehicle, vehicle.home);
+      vehicle.speed = 0.65;
+    }
     this.tick = 0;
-    this.stats = {
-      carried: 0,
-      load: 0,
-      deposited: 0,
-      grains: 0,
-      active: 0,
-      blocked: false,
-      obstacle: null,
-    };
+    this.world = { deposited: 0, grains: 0 };
     this.grains = new Int16Array(0);
+    this.groups = new Int32Array(0);
     this.count = 0;
     this.stepMs = 0;
   }
 
   step() {
-    if (!this.initialized || this.busy || this.failed || this.closed) return;
+    if (!this.initialized || this.failed || this.closed) return;
+    if (this.busy) {
+      this.overdue = true;
+      return;
+    }
     this.busy = true;
     this.worker.postMessage({
-      axes: this.axes,
-      speed: this.speed,
-      estop: this.estop,
       resetVersion: this.resetVersion,
-      motionVersion: this.motionVersion,
-      machine: this.machine,
+      vehicles: [...this.vehicles.values()].map(
+        ({ id, axes, speed, estop, machine, motionVersion, poseVersion }) => ({
+          id,
+          axes,
+          speed,
+          estop,
+          machine,
+          motionVersion,
+          poseVersion,
+        }),
+      ),
     });
   }
 
-  stop() {
-    this.axes = neutral();
-    this.motionVersion++;
+  stop(vehicle) {
+    vehicle.axes = neutral();
+    vehicle.motionVersion++;
   }
 
   async close() {

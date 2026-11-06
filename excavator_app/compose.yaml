@@ -6,6 +6,8 @@ services:
     environment:
       PORT: 8080
       MAX_ROOMS: 4
+      # Excavators per room, up to 16.
+      MAX_PLAYERS: ${MAX_PLAYERS:-16}
       # Set to your LAN address or HTTPS domain when accessed behind a proxy.
       PUBLIC_URL: ${PUBLIC_URL:-}
     init: true

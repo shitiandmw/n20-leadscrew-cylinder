@@ -6,6 +6,7 @@ import WebSocket from "ws";
 import { createApplication } from "../server/index.js";
 import { neutral } from "../shared/world.js";
 import { decodeFrame, applyTiles } from "../shared/protocol.js";
+import { DEFAULT_PLAYERS } from "../shared/players.js";
 
 async function waitFor(check, timeout = 5000) {
   const start = Date.now();
@@ -28,7 +29,10 @@ async function connect(url, options) {
     } else {
       const message = JSON.parse(buffer);
       client.messages.push(message);
-      if (message.type === "welcome") client.id = message.id;
+      if (message.type === "welcome") {
+        client.id = message.id;
+        client.player = message.player;
+      }
       if (message.type === "state") client.state = message;
     }
   });
@@ -58,7 +62,12 @@ test("room lookup distinguishes expired links and full rooms without creating ro
     const response = await lookup();
     assert.equal(response.status, 200);
     assert.equal(response.headers.get("cache-control"), "no-store");
-    assert.deepEqual(await response.json(), { room, clients: 0, capacity: 8 });
+    assert.deepEqual(await response.json(), {
+      room,
+      players: 0,
+      capacity: DEFAULT_PLAYERS,
+      member: false,
+    });
     const socket = `${origin.replace("http", "ws")}/ws?room=${room}&role=remote`;
     const foreign = new WebSocket(socket, {
       origin: "https://elsewhere.invalid",
@@ -75,8 +84,9 @@ test("room lookup distinguishes expired links and full rooms without creating ro
     for (let i = 0; i < 8; i++) await connect(socket, { origin });
     assert.deepEqual(await (await lookup()).json(), {
       room,
-      clients: 8,
-      capacity: 8,
+      players: 8,
+      capacity: DEFAULT_PLAYERS,
+      member: false,
     });
     assert.equal(app.rooms.size, 1);
   } finally {
@@ -112,8 +122,15 @@ test(
         503,
       );
       const viewer = await connect(`${socket}/ws?room=${room}&role=simulator`);
-      const operator = await connect(`${socket}/ws?room=${room}&role=remote`);
-      const observer = await connect(`${socket}/ws?room=${room}&role=remote`);
+      // Three devices of one player share one excavator and one operator lease.
+      const key = viewer.player.key;
+      const operator = await connect(
+        `${socket}/ws?room=${room}&role=remote&key=${key}`,
+      );
+      const observer = await connect(
+        `${socket}/ws?room=${room}&role=remote&key=${key}`,
+      );
+      assert.equal(operator.player.id, viewer.player.id);
       operator.send({ type: "claim" });
       await waitFor(() => viewer.state?.owner === operator.id);
       observer.send({ type: "claim" });
@@ -202,9 +219,11 @@ test(
           tile.some((height) => height > 1000),
         ),
       );
-      assert.equal(viewer.frame.grains.length % 4, 0);
+      assert.equal(viewer.frame.positions.length, viewer.frame.slots.length * 3);
+      assert.equal(viewer.frame.machines.length, 1);
+      assert.equal(viewer.frame.machines[0].id, viewer.player.id);
       assert.equal(
-        viewer.frame.machine.heading,
+        viewer.frame.machines[0].heading,
         Math.fround(viewer.state.machine.heading),
       );
       assert.equal(observer.binary, 0, "phones receive telemetry only");
@@ -220,6 +239,53 @@ test(
       const [failed] = await once(invalid, "unexpected-response");
       failed.destroy();
       invalid.terminate();
+    } finally {
+      await app.close();
+    }
+  },
+);
+
+test(
+  "a browser busy loading is not dropped, and only real silence ends a connection",
+  { timeout: 15000 },
+  async () => {
+    const app = createApplication({
+      heartbeatMs: 20,
+      silence: { simulator: 900, remote: 200 },
+    });
+    await new Promise((resolve) => app.server.listen(0, "127.0.0.1", resolve));
+    const origin = `http://127.0.0.1:${app.server.address().port}`;
+    try {
+      const { room } = await (
+        await fetch(origin + "/api/rooms", { method: "POST" })
+      ).json();
+      const url = `${origin.replace("http", "ws")}/ws?room=${room}`,
+        // None of these answer the server's pings, like a page that is busy.
+        loading = await connect(url, { autoPong: false }),
+        phone = await connect(`${url}&role=remote`, { autoPong: false }),
+        talking = await connect(`${url}&role=remote`, { autoPong: false });
+      const talk = setInterval(
+        () => talking.ws.send(JSON.stringify({ type: "ping", at: 0 })),
+        40,
+      );
+      try {
+        await waitFor(() => phone.ws.readyState === WebSocket.CLOSED, 3000);
+        assert.equal(
+          loading.ws.readyState,
+          WebSocket.OPEN,
+          "a simulator page gets longer than a phone",
+        );
+        await delay(300);
+        assert.equal(
+          talking.ws.readyState,
+          WebSocket.OPEN,
+          "anything it sends is a sign of life",
+        );
+        await waitFor(() => loading.ws.readyState === WebSocket.CLOSED, 3000);
+      } finally {
+        clearInterval(talk);
+        talking.ws.terminate();
+      }
     } finally {
       await app.close();
     }

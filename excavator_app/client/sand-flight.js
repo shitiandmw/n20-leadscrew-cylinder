@@ -1,7 +1,11 @@
-import { BUCKET, BUCKET_PROFILE, SAND, WORLD } from "../shared/world.js";
+import { BUCKET, BUCKET_PROFILE, WORLD } from "../shared/world.js";
 import { WALLS, TEETH, insideCavity, insidePolygon } from "../shared/bucket.js";
 
 const PLATES = [...WALLS, TEETH];
+// The furthest a parcel can move in a tick (mm). Physics stops them at 2.5 m/s, and
+// a slot is not reused until thousands of others have been, so more than this
+// means the world was reset or reloaded.
+export const MAX_TICK_TRAVEL = 100;
 const clamp01 = (value) => Math.max(0, Math.min(1, value));
 
 function segmentDistance2(x, z, ax, az, dx, dz, len2) {
@@ -11,9 +15,10 @@ function segmentDistance2(x, z, ax, az, dx, dz, len2) {
 
 // Extra room for visual breakup beyond the physical particle's sphere. Use
 // finite plate segments, including the teeth and cheeks, so the stream may
-// spread after clearing the mouth but never fan through a bucket wall.
-export function flightRoom(x, y, z, heightAboveBed) {
-  if (insideCavity(x, y, z) || heightAboveBed <= WORLD.radius) return 0;
+// spread after clearing the mouth but never fan through a bucket wall. Only plates
+// count: where a streak runs into the bed, the bed hides it.
+export function flightRoom(x, y, z) {
+  if (insideCavity(x, y, z)) return 0;
   const beyondCheek = Math.max(0, Math.abs(y) - BUCKET.outerHalfWidth);
   let distance = Infinity;
   for (const wall of PLATES) {
@@ -50,14 +55,7 @@ export function flightRoom(x, y, z, heightAboveBed) {
     Math.hypot(Math.sqrt(edge2), Math.abs(y) - BUCKET.cheekCentre) -
       (BUCKET.outerHalfWidth - BUCKET.innerHalfWidth) / 2,
   );
-  return Math.max(
-    0,
-    Math.min(
-      12,
-      distance - WORLD.radius - 0.5,
-      (heightAboveBed - WORLD.radius) * 0.65,
-    ),
-  );
+  return Math.max(0, Math.min(12, distance - WORLD.radius - 0.5));
 }
 
 // Derive motion only from nearby simulation ticks. Never stretch a reconnect,
@@ -71,16 +69,12 @@ export class ParcelMotion {
   }
   attach(previous, frame) {
     this.indices.fill(-1);
-    const before = previous?.grains;
+    const before = previous?.slots;
     if (before)
-      for (let n = 0; n < before.length; n += 4)
-        this.indices[before[n] & 0xffff] = n;
-    const output = (frame.velocities = new Float32Array(
-      (frame.grains.length / 4) * 3,
-    ));
-    const q = SAND.positionQuantum;
-    for (let n = 0; n < frame.grains.length; n += 4) {
-      const slot = frame.grains[n] & 0xffff,
+      for (let n = 0; n < before.length; n++) this.indices[before[n]] = n;
+    const output = (frame.velocities = new Float32Array(frame.slots.length * 3));
+    for (let n = 0; n < frame.slots.length; n++) {
+      const slot = frame.slots[n],
         m = this.indices[slot];
       if (m < 0) {
         this.forget(slot);
@@ -90,14 +84,14 @@ export class ParcelMotion {
         slot,
         previous.tick,
         frame.tick,
-        previous.origin[0] + before[m + 1] * q,
-        previous.origin[1] + before[m + 2] * q,
-        previous.origin[2] + before[m + 3] * q,
-        frame.origin[0] + frame.grains[n + 1] * q,
-        frame.origin[1] + frame.grains[n + 2] * q,
-        frame.origin[2] + frame.grains[n + 3] * q,
+        previous.positions[3 * m],
+        previous.positions[3 * m + 1],
+        previous.positions[3 * m + 2],
+        frame.positions[3 * n],
+        frame.positions[3 * n + 1],
+        frame.positions[3 * n + 2],
       );
-      output.set(this.velocity.subarray(slot * 3, slot * 3 + 3), (n / 4) * 3);
+      output.set(this.velocity.subarray(slot * 3, slot * 3 + 3), 3 * n);
     }
   }
   between(slot, fromTick, toTick, ax, ay, az, bx, by, bz) {
@@ -105,7 +99,10 @@ export class ParcelMotion {
     const dx = bx - ax,
       dy = by - ay,
       dz = bz - az;
-    const valid = dt > 0 && dt <= 0.1 && dx * dx + dy * dy + dz * dz < 3600;
+    const valid =
+      dt > 0 &&
+      dt <= 0.1 &&
+      dx * dx + dy * dy + dz * dz < MAX_TICK_TRAVEL * MAX_TICK_TRAVEL;
     const k = slot * 3;
     this.velocity[k] = valid ? dx / dt : 0;
     this.velocity[k + 1] = valid ? dy / dt : 0;

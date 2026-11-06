@@ -8,7 +8,7 @@ export const WORLD = Object.freeze({
   maxX: HALF,
   minY: -HALF,
   maxY: HALF,
-  // Radius of one simulated loose-sand grain (a clump at 1:15 scale).
+  // Radius of a parcel of falling sand (a clump at 1:15 scale).
   radius: 4,
   gravity: 9810,
 });
@@ -24,8 +24,9 @@ export const neutral = () => Object.fromEntries(AXES.map((key) => [key, 0]));
 export const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
 // Sand anywhere in the world is a cell-centred height field of sand thickness
-// above the hard ground, plus free grains for material that is moving, carried
-// or falling. Storage is sparse: only pages that have held sand exist.
+// above the hard ground. Each bucket carries a small height field of its own
+// (bucket-load.js), and sand in the air falls as parcels. Storage is sparse: only
+// pages that have held sand exist.
 const CELL = 10;
 const GRAIN_PACKING = 0.6;
 export const SAND = Object.freeze({
@@ -37,19 +38,16 @@ export const SAND = Object.freeze({
   tilesX: (2 * HALF) / CELL / 16,
   tilesY: (2 * HALF) / CELL / 16,
   page: 64,
-  // Network quantisation: Uint16 sand thickness (up to 1.3 m) and Int16 grain
+  // Network quantisation: Uint16 sand thickness (up to 1.3 m) and Int16 parcel
   // positions relative to the frame origin.
   heightQuantum: 0.02,
   positionQuantum: 0.1,
-  // Bulk (not solid) volume represented by one grain: a sphere at random
-  // loose packing. Converting between grains and the bed conserves it.
+  // Bulk (not solid) volume of one parcel of falling sand: a sphere at random
+  // loose packing.
   grainVolume: ((4 / 3) * Math.PI * WORLD.radius ** 3) / GRAIN_PACKING,
   // Dry sand: the bed relaxes to its angle of repose.
   reposeDeg: 34,
   maxGrains: 6000,
-  // The solver costs about 14 us per grain per tick. Past this many free grains
-  // it would miss its 33 ms budget, so the bed stops breaking up into more.
-  grainBudget: 2000,
 });
 export const cellX = (i) => WORLD.minX + (i + 0.5) * CELL;
 export const cellY = (j) => WORLD.minY + (j + 0.5) * CELL;
@@ -88,6 +86,36 @@ export function crawlerExtent(heading) {
     x: halfLength * c + halfWidth * s,
     y: halfLength * s + halfWidth * c,
   };
+}
+
+// Crawlers keep this far apart: their footprint, with room at the ends for the
+// upper body's rear corners as they swing past the tracks.
+const SEPARATION_LENGTH =
+    CONFIG.wheel_centres / 2 + CONFIG.sprocket_tip_radius_mm + 30,
+  SEPARATION_WIDTH = CONFIG.track_outer_width_mm / 2 + 10,
+  SEPARATION_REACH = 2 * Math.hypot(SEPARATION_LENGTH, SEPARATION_WIDTH);
+
+// Separating-axis test between two crawler footprints, seen from above.
+export function crawlersOverlap(a, b) {
+  const dx = b.x - a.x,
+    dy = b.y - a.y;
+  if (dx * dx + dy * dy > SEPARATION_REACH * SEPARATION_REACH) return false;
+  const ca = Math.cos(a.heading),
+    sa = Math.sin(a.heading),
+    cb = Math.cos(b.heading),
+    sb = Math.sin(b.heading),
+    ac = Math.abs(ca * cb + sa * sb),
+    as = Math.abs(sb * ca - cb * sa),
+    alongReach =
+      SEPARATION_LENGTH + SEPARATION_LENGTH * ac + SEPARATION_WIDTH * as,
+    acrossReach =
+      SEPARATION_WIDTH + SEPARATION_LENGTH * as + SEPARATION_WIDTH * ac;
+  return !(
+    Math.abs(dx * ca + dy * sa) > alongReach ||
+    Math.abs(-dx * sa + dy * ca) > acrossReach ||
+    Math.abs(dx * cb + dy * sb) > alongReach ||
+    Math.abs(-dx * sb + dy * cb) > acrossReach
+  );
 }
 
 export const initialMachine = () => ({
