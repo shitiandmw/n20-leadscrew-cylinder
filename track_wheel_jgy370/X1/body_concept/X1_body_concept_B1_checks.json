@@ -1,0 +1,528 @@
+{
+ "revision": "X1 body, concept B1 issue 2",
+ "status": "sketch for review, not CAD",
+ "decided": {
+  "D1": "3 x 18650 Li-ion in series (3S1P), 3S BMS, straight to the 12 V motors",
+  "D2": "ESP32 with a Bluetooth gamepad",
+  "D3": "loose shot in the counterweight, sealed with epoxy",
+  "D4": "Cat tail widened (corners R 225)",
+  "D5": "31 mm skirt over the T101 sides",
+  "D6": "details as drawn"
+ },
+ "split": {
+  "B101 counterweight": {
+   "kg": 0.436,
+   "size": [
+    43.7,
+    308.0,
+    114.0
+   ],
+   "fits_256": true,
+   "how": "upright, turned 45°",
+   "side": 231.5,
+   "height": 114.0
+  },
+  "B102 left half": {
+   "kg": 0.391,
+   "size": [
+    237.0,
+    154.0,
+    146.9
+   ],
+   "fits_256": true,
+   "how": "on its outer side face",
+   "side": 237.0,
+   "height": 154.0
+  },
+  "B103 right half": {
+   "kg": 0.308,
+   "size": [
+    205.0,
+    154.0,
+    126.8
+   ],
+   "fits_256": true,
+   "how": "on its outer side face",
+   "side": 205.0,
+   "height": 154.0
+  },
+  "one piece (for comparison)": {
+   "kg": 1.135,
+   "size": [
+    280.7,
+    308.0,
+    146.9
+   ],
+   "fits_256": false,
+   "how": "upright",
+   "side": 308.0,
+   "height": 146.9
+  }
+ },
+ "sources": {
+  "drawing": "excavator_arm_60mm/references/cat320_spec_page_4.png",
+  "render": "excavator_arm_60mm/references/cat320_view_018.jpg",
+  "list": "excavator_arm_60mm/references/SOURCES.md"
+ },
+ "scales": {
+  "drawing_mm_per_px": 19.1,
+  "render_mm_per_px": 5.97,
+  "x1_scale": 15
+ },
+ "cat_at_1_15": {
+  "deck": 81.49,
+  "bottom": 70.03,
+  "hood_top": 164.51,
+  "cab_top": 197.37,
+  "step": 144.27,
+  "cab_x": [
+   -33.74333333333334,
+   90.78866666666661
+  ],
+  "cab_low_rear": -3.82,
+  "slope": [
+   -73.59866666666662,
+   -55.64466666666673
+  ],
+  "rear_end": -185.27,
+  "hood_rear": -178.65,
+  "cw_seam_left": -150.0,
+  "door_seam_left": -82.77,
+  "exhaust_x": [
+   -127.71533333333329,
+   -118.16533333333328
+  ],
+  "exhaust_top": 177.25,
+  "track_length": 300.51,
+  "half_width": 91.62,
+  "rear_top": 163.37,
+  "cab_y": [
+   23.62033333333335,
+   91.36166666666668
+  ],
+  "exhaust_y": [
+   -68.69633333333333,
+   -61.18366666666669
+  ],
+  "rail_y": [
+   -81.42966666666666,
+   -49.59633333333332
+  ],
+  "rail_top_rear": 195.2,
+  "cw_side_end": -165.37,
+  "cw_seam_right": -145.07,
+  "door_seam_right": -76.22,
+  "tank_x": [
+   -63.08299999999999,
+   -30.446999999999996,
+   -12.536999999999999
+  ],
+  "tank_top": 164.1,
+  "tank_step": 150.13,
+  "steps_x": [
+   -32.437,
+   18.108999999999998
+  ],
+  "toolbox_x": [
+   18.108999999999998,
+   57.90899999999999
+  ],
+  "toolbox_top": 110.27,
+  "rail_top": 194.51,
+  "rail_x": [
+   -63.08299999999999,
+   -43.580999999999996
+  ],
+  "tail": 188.67,
+  "spec_half_width": 92.67,
+  "cw_corner_x": -164.34,
+  "tank_inner_y": -30.0
+ },
+ "mapping": {
+  "dy_each_side": 61.33,
+  "half_width": 154.0,
+  "z_deck": 136.0,
+  "z_bottom": 105.0,
+  "cat_deck": 81.49
+ },
+ "x1_body": {
+  "hood_top": 219.02,
+  "cab_top": 251.87,
+  "step": 198.78,
+  "tank_top": 218.61,
+  "tank_step": 204.64,
+  "toolbox_top": 164.78,
+  "exhaust_top": 231.75,
+  "rail_top": 249.02,
+  "cab_x": [
+   -33.74333333333334,
+   90.78866666666661
+  ],
+  "cab_y": [
+   84.95366666666668,
+   154.0
+  ],
+  "inner": 77.0,
+  "wall": 2.0,
+  "left_front": 92.0,
+  "right_front": 60.0,
+  "tank_y": [
+   -91.33333333333333,
+   -154.0
+  ]
+ },
+ "parts": {
+  "B101 counterweight shell": {
+   "kg": 0.436,
+   "bed": {
+    "side": 231.5,
+    "height": 114.0,
+    "how": "upright, turned 45° on the bed"
+   },
+   "note": "closed box; ballast pocket and lead channel inside"
+  },
+  "B102 left side module": {
+   "kg": 0.168,
+   "bed": {
+    "side": 237.0,
+    "height": 77.0,
+    "how": "flat, straight"
+   },
+   "note": "floor, skirt, side wall with the louvres, cab deck"
+  },
+  "B103 right side module": {
+   "kg": 0.147,
+   "bed": {
+    "side": 205.0,
+    "height": 77.0,
+    "how": "flat, straight"
+   },
+   "note": "floor, skirt, engine and pump doors, steps"
+  },
+  "B104 hood lid, left": {
+   "kg": 0.067,
+   "bed": {
+    "side": 151.5,
+    "height": 23.2,
+    "how": "flat, straight"
+   },
+   "note": "hood top, slope and step; 4 magnets"
+  },
+  "B105 hood lid, right": {
+   "kg": 0.06,
+   "bed": {
+    "side": 151.5,
+    "height": 23.2,
+    "how": "flat, straight"
+   },
+   "note": "hood top with the exhaust; 4 magnets"
+  },
+  "B106 cab": {
+   "kg": 0.156,
+   "bed": {
+    "side": 124.5,
+    "height": 69.0,
+    "how": "flat, straight"
+   },
+   "note": "window recesses; 4 x M3 into the module deck"
+  },
+  "B107 tank block": {
+   "kg": 0.062,
+   "bed": {
+    "side": 82.6,
+    "height": 50.5,
+    "how": "flat, straight"
+   },
+   "note": "spare space (receiver or speaker later)"
+  },
+  "B108 toolbox lid and box": {
+   "kg": 0.025,
+   "bed": {
+    "side": 62.7,
+    "height": 28.8,
+    "how": "flat, straight"
+   },
+   "note": "switch, fuse, charge jack under the lid"
+  },
+  "B109 details": {
+   "kg": 0.014,
+   "bed": {
+    "side": 60,
+    "height": 10,
+    "how": "flat, straight"
+   },
+   "note": "exhaust stack, 2 handrails, mirrors (optional)"
+  }
+ },
+ "items": {
+  "battery": {
+   "envelope": [
+    -139.0,
+    -81.0,
+    -149.0,
+    -81.0,
+    108.5,
+    134.5
+   ],
+   "kg": 0.165
+  },
+  "carrier": {
+   "envelope": [
+    -136.0,
+    -40.0,
+    84.0,
+    148.0,
+    110.0,
+    134.0
+   ],
+   "kg": 0.075
+  },
+  "switch": {
+   "envelope": [
+    24.0,
+    45.0,
+    -112.0,
+    -97.0,
+    140.0,
+    162.0
+   ],
+   "kg": 0.008
+  },
+  "fuse": {
+   "envelope": [
+    24.0,
+    45.0,
+    -128.0,
+    -116.0,
+    140.0,
+    158.0
+   ],
+   "kg": 0.006
+  },
+  "jack": {
+   "envelope": [
+    30.0,
+    50.0,
+    -148.0,
+    -134.0,
+    142.0,
+    156.0
+   ],
+   "kg": 0.006
+  }
+ },
+ "balance": {
+  "upper_kg": 5.129,
+  "upper_cg_mm": [
+   0.0,
+   -0.4,
+   174.9
+  ],
+  "upper_cg_tucked_bound_mm": [
+   -42.5,
+   -0.4,
+   139.4
+  ],
+  "upper_inertia_kgm2": 0.1562,
+  "shot_kg": 0.851,
+  "shot_cm3": 189.1,
+  "fill_z": 130.4,
+  "shells_kg": 1.165,
+  "electronics_kg": 0.31,
+  "machine_cg_stretched_mm": [
+   -1.5,
+   -0.2,
+   117.5
+  ],
+  "machine_cg_tucked_bound_mm": [
+   -24.2,
+   -0.2,
+   98.6
+  ],
+  "r3_simulation": {
+   "upper_kg": 5.519,
+   "inertia_kgm2": 0.1516
+  }
+ },
+ "trace": [
+  {
+   "what": "cab top (drawing A)",
+   "traced": 197.37,
+   "caterpillar": 197.33,
+   "error_pct": 0.02
+  },
+  {
+   "what": "upper-frame bottom (drawing A)",
+   "traced": 70.03,
+   "caterpillar": 70.0,
+   "error_pct": 0.05
+  },
+  {
+   "what": "track length (drawing A)",
+   "traced": 300.51,
+   "caterpillar": 296.67,
+   "error_pct": 1.29
+  },
+  {
+   "what": "rear end (drawing A)",
+   "traced": 185.27,
+   "caterpillar": 188.67,
+   "error_pct": -1.8
+  },
+  {
+   "what": "upper-frame width (drawing B)",
+   "traced": 183.23,
+   "caterpillar": 185.33,
+   "error_pct": -1.13
+  },
+  {
+   "what": "counterweight side end (render C)",
+   "traced": 165.37,
+   "caterpillar": 164.34,
+   "error_pct": 0.63
+  },
+  {
+   "what": "handrail top (render C)",
+   "traced": 194.51,
+   "caterpillar": 196.67,
+   "error_pct": -1.1
+  }
+ ],
+ "checks": [
+  {
+   "what": "trace against Caterpillar's numbers",
+   "value": "1.8 %",
+   "limit": "≤ 2.5 %",
+   "ok": true
+  },
+  {
+   "what": "largest part on the bed",
+   "value": "237",
+   "limit": "≤ 256",
+   "ok": true
+  },
+  {
+   "what": "cab to the ARM60 base (Y)",
+   "value": "3.0",
+   "limit": "≥ 2",
+   "ok": true
+  },
+  {
+   "what": "tank and toolbox to the base",
+   "value": "9.3",
+   "limit": "≥ 2",
+   "ok": true
+  },
+  {
+   "what": "hood lids to the base (X)",
+   "value": "2.0",
+   "limit": "≥ 2",
+   "ok": true
+  },
+  {
+   "what": "module walls to T101 (Y)",
+   "value": "3.0",
+   "limit": "≥ 2",
+   "ok": true
+  },
+  {
+   "what": "body bottom over every lower part",
+   "value": "12.6",
+   "limit": "≥ 10",
+   "ok": true
+  },
+  {
+   "what": "body bottom over the swing envelope",
+   "value": "5.0",
+   "limit": "≥ 3",
+   "ok": true
+  },
+  {
+   "what": "electronics over the T101 service area",
+   "value": "0",
+   "limit": "0",
+   "ok": true
+  },
+  {
+   "what": "battery, board, switch gear in their bays",
+   "value": "3/3",
+   "limit": "3/3",
+   "ok": true
+  },
+  {
+   "what": "battery and board below the deck line",
+   "value": "134.5",
+   "limit": "≤ 136",
+   "ok": true
+  },
+  {
+   "what": "shot fill height in the pocket",
+   "value": "130",
+   "limit": "≤ 136",
+   "ok": true
+  },
+  {
+   "what": "upper CG X, arm stretched",
+   "value": "+0.0",
+   "limit": "0 ± 2",
+   "ok": true
+  },
+  {
+   "what": "upper CG Y (sideways)",
+   "value": "-0.4",
+   "limit": "± 5",
+   "ok": true
+  },
+  {
+   "what": "machine CG inside the tracks (margin)",
+   "value": "86",
+   "limit": "≥ 50",
+   "ok": true
+  },
+  {
+   "what": "upper mass vs R3 simulation",
+   "value": "5.13",
+   "limit": "≤ 5.52",
+   "ok": true
+  },
+  {
+   "what": "swing inertia + rotor vs R3 simulation",
+   "value": "+1.0 %",
+   "limit": "≤ +5 %",
+   "ok": true
+  },
+  {
+   "what": "3-part split: every print fits the 256 bed",
+   "value": "3/3",
+   "limit": "3/3",
+   "ok": true
+  },
+  {
+   "what": "one piece on the 256 bed (expected: no)",
+   "value": "no",
+   "limit": "no",
+   "ok": true
+  },
+  {
+   "what": "peak current vs the fuse",
+   "value": "2.6 A",
+   "limit": "≤ 5 A",
+   "ok": true
+  },
+  {
+   "what": "track motor current per slip-ring way",
+   "value": "0.6 A",
+   "limit": "≤ 2 A",
+   "ok": true
+  }
+ ],
+ "all_pass": true,
+ "outputs": [
+  "X1_body_concept_B1.pdf",
+  "X1_body_concept_B1_sheet1.png",
+  "X1_body_concept_B1_sheet2.png",
+  "X1_body_concept_B1_sheet3.png",
+  "X1_body_concept_B1_sheet4.png",
+  "X1_body_concept_B1_sheet5.png"
+ ]
+}

@@ -1,5 +1,8 @@
 {
  "pass": true,
+ "html_sha256": "a873aa49103bc95c2e86a2f8e7289e7936e1c1f916b300b9e27e9e2c5bc4337a",
+ "scene_sha256": "1cec73dc0046c0220e468ae449b94bea01a13b15edbd651757dc43355b9ca9c9",
+ "checker_sha256": "57f1802e1d06704ab514a8cf8f91de1c1baf2f07b53e589ad528e5d0a5c24f31",
  "views": {
   "iso": "images/J9_iso.png",
   "outboard": "images/J9_outboard.png",
@@ -7,17 +10,33 @@
   "pod": "images/J9_pod.png",
   "top": "images/J9_top.png",
   "frame": "images/J9_frame.png",
-  "exploded": "images/J9_exploded.png"
+  "spring": "images/J9_spring.png",
+  "exploded": "images/J9_exploded.png",
+  "outboard_half_pitch": "images/J9_outboard_half_pitch.png"
+ },
+ "screenshot_sha256": {
+  "iso": "93f32c72b1bee673f74b7cce5eeb28f35159da35f66cc6b257b73937b3e72893",
+  "outboard": "0aa1b319b4263d4712d800512d636e2a67efb2219c7cca4f9cf1d3e18701dcbb",
+  "inboard": "04cba82d42f1746ed17591eb3fefccbf79918ac208ffa037c1257cbc237d7478",
+  "pod": "5c0cff0d6bb15e24a01ebb37ea6d922be4670dff686c563a9db05256ab030221",
+  "top": "51ed619efdc694b262285e28746a7525f90e079891f4af7d71d92d4be3a87ff2",
+  "frame": "5aa984967c5f62411e05ecab29177d3ca5af80fc357e47a8fe8c7ec892d2ce60",
+  "spring": "43218334d1af9ae3e1c7037f1ab864b1cb3d937849b59b562ef34164740a9070",
+  "exploded": "f7c8f8985317582277f19abdff36c6ce87099470e704212c3867c3eaabc42420",
+  "outboard_half_pitch": "073f4e99da84b2efe12993e8aa0923bd98f035fcd76a319796ed5defcfb60f0b"
  },
  "state": {
   "view": "outboard",
   "phase": 0.5,
   "exploded": false,
   "track": true,
-  "meshes": 108,
-  "links": 34
+  "meshes": 105,
+  "links": 34,
+  "springSection": false,
+  "springVisible": true
  },
- "run_phase_after_0_7s": 1.2477200002288824,
+ "spring_section_and_restoration": true,
+ "run_phase_after_start": 0.9536000000017884,
  "errors": [],
  "network": []
 }

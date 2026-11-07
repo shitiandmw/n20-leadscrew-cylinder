@@ -1,10 +1,12 @@
 # JGY-370 single track — J9: one printed H-frame
 
-**Status (2026-11-03):** the J9 CAD is complete and every geometry check in `validation.json` passes. Nothing has been printed, assembled or run under power yet.
+**Status (revision F mounting interface):** J901 has plain 1.5 mm receiving seats for the flat ends of the straight X1 arms, with plain mounting holes and external nuts. A screw on each side of the arm's centre web clamps each connection. J909 has matching clearance openings. The accepted enclosed spring guide is retained. Current track verification and its fresh/inherited scope are recorded in [validation.json](validation.json). Chassis-connection checks are in [X1/arc_seat_mount_validation.json](../X1/arc_seat_mount_validation.json). Nothing has been printed, assembled or run under power yet.
 
 - **Motor:** the JGY-370-1260 12 V 200:1 (30 rpm), motor only. See [Motor choice](#motor-choice).
 - **Sprocket drive:** the sprocket now bolts to a bought Pololu #1999 aluminium hub on the D-shaft. The printed D-bore was too weak for any useful ratio. See [Drive hub](#drive-hub-replaces-the-printed-d-bore).
 - **Motor enclosure:** the housing now closes over the motor with a pod styled on the Cat 320's final drive. See [Motor enclosure](#motor-enclosure).
+- **Chassis interface (revision F):** two plain 1.5 mm deep rectangular seats in the inner main plate receive the flat ends of the X1 arms at X ±63.5. Two screws pass either side of each arm's centre web, with external washers and nuts behind the plate. Use matching revision F X101, J901 and J909 parts.
+- **Spring guide (rev B):** the tension spring is fully contained in a Ø16.4 axial pocket in the main web. An integral Ø15.6 piston on the yoke enters the pocket, retaining the original 25.8 mm spring length and 4.2 mm recoil.
 
 J9 replaces J8's machined side plates, axles, spacer stacks and bearing carrier with the core parts only:
 - the JGY-370 gear motor;
@@ -32,6 +34,15 @@ Two side effects of a flat bottom, for information:
 - **Ground load on the end wheels.** On hard floors the sprocket and idler now share ground load with the road rollers.
 - **Bobbing at the sprocket end.** The 12-tooth sprocket's polygon effect reaches the ground, so that end can rise and fall by up to 1.3 mm per tooth. The old 2 mm rise hid this. If it shows up in testing, raising only the sprocket by about 1.3 mm would remove it.
 
+## Recessed spring guide
+
+The spring pocket has a Ø21.2 outside diameter (2.4 mm wall). Its seat is recessed 8 mm behind the former web face, at X28; the guide extends to X56.8. At normal extension the spring ends 3 mm inside the guide, and at maximum recoil the guide mouth clears the yoke crossbar by 0.8 mm. The spring has 0.58 mm radial clearance and the piston has 0.4 mm. Print the bore cleanly, remove any bridging/support material, and check free sliding before fitting the spring. Use the revised J901 frame and J908 yoke together; the old yoke does not retain the revised preload.
+
+The dedicated `spring_guide_validation.json` checks the spring's complete annular envelope at eleven positions through the stroke, free-spring insertion, and roller clearance. These nominal clearances still need physical print and debris testing.
+
+The accepted guide dimensions and full-stroke checks are recorded in `spring_guide_validation.json`. The original spring-guide drawing remains in the repository; the current offline viewer shows the guide within the revised frame.
+The offline viewer's **Spring guide section** view removes the outboard half of the H-frame so the spring, bore and piston are visible. Switching views restores the complete frame.
+
 ## Motor choice
 
 From the shop listing and the ZENG WHCD tables the user sent, the pick is:
@@ -50,7 +61,7 @@ How the numbers are worked out:
 - Vendor 12 V ratings.
 - Track speed = 4 mm/s per sprocket rpm: 12 teeth × 20 mm per revolution.
 - Pull = torque ÷ the sprocket's 38.6 mm pitch radius.
-- The full list, including the 90–375 rpm options, is in `validation.json → motor_selection`.
+- The full motor comparison, including the 90–375 rpm options, is in [motor_selection.json](motor_selection.json).
 
 Why this one:
 - **12 V.**
@@ -81,10 +92,10 @@ The torque from any ratio slow enough for a track was too high for a printed D-b
 - **With the chosen motor:** the old 9.1 mm printed bore would see 71 MPa at rated torque and 235 MPa at stall. PETG yields at about 50 MPa.
 - **Correction.** The 2026-11-02 table used 6T / (L·w²), which understated these pressures by half. Even the 40:1 motor would have reached 47 MPa at stall.
 
-![Section through the drive axis](images/J9_drive_section.png)
+![Retained drive-axis section of the unchanged drivetrain](images/J9_drive_section.png)
 
 J9 now uses a **Pololu #1999 universal aluminium mounting hub** (6 mm bore, M3 holes, sold in pairs).
-- **Datasheet-sized.** The CAD uses Pololu's drawing and STEP model; copies and source links are in `track_wheel_jgy370/references/pololu_1999/` (`references/pololu_1999/` in the download package). The build places Pololu's STEP in the J9 pose and compares it with the modelled hub:
+- **Datasheet-sized.** The CAD uses Pololu's drawing and STEP model; copies and source links are in `track_wheel_jgy370/references/pololu_1999/` in the original repository. The build places Pololu's STEP in the J9 pose and compares it with the modelled hub:
   - bounding box within 0.0001 mm;
   - 0.03 mm³ of vendor material missing from the model;
   - 16 mm³ of model material where Pololu's part has edge chamfers.
@@ -127,10 +138,10 @@ The housing (J909) now has a closed motor pod, printed in one piece with the inb
 - **Printing.**
   - The flat skirt face goes on the bed and the pod rises 27 mm.
   - Supports are needed only inside the pod. They come out through its open side.
-  - Print bounds 287 × 67 × 27 mm; 71 g if printed solid in PETG.
+  - Current print bounds and volume are recorded in the revision F export/preservation reports.
 - **Effects elsewhere.**
   - **Width.** The module is 4 mm wider: 97.5 mm from the hub cap to the outer shoe edge (was 93.5).
-  - **Chassis.** The pod reaches Y −62.5, which is 16.5 mm beyond the chassis boss faces at Y −46, so the vehicle side needs a cut-out for it (open item 5). The bare gearbox already reached Y −53. The pod clears the rear chassis boss by 2.4 mm.
+  - **Chassis.** The pod reaches Y −62.5, inboard of the original main-plate face at Y −34 and recessed contact face at Y −32.5. The revision F X1 connection must clear this retained envelope; other chassis adapters must also clear it.
   - **Heat.** The motor's heat stays inside the pod (open item 7).
 
 Two faults in the previous housing came to light during this redesign. Both are now fixed:
@@ -154,7 +165,7 @@ Two faults in the previous housing came to light during this redesign. Both are 
 4. **Housing skirt.** (The motor pod is described under [Motor enclosure](#motor-enclosure).)
    - The skirt sits at Y −35.5 to −38 so that it clears the M4 roller-bolt heads.
    - It has Ø8 holes so the roller bolts can be reached and removed with the housing fitted.
-   - The three chassis bosses on the inner wall pass through it.
+   - Two openings expose the revision F receiving seats at X ±63.5 and follow the X1 arms with 0.5 mm clearance; beside the rear arm a 0.9 mm deep lane in the pod shell lets the joint screws slide in.
 
 ## Key numbers (mm)
 
@@ -166,7 +177,7 @@ Two faults in the previous housing came to light during this redesign. Both are 
 | Road rollers: 5 at X −58, −29, 0, 29, 58; centre Z | 22 (tangent to the ground run) |
 | Support rollers: 2 at X ±35; centre Z; lift of the top run | 70.14; 3.5 |
 | Wheel part | one roller, Ø22 tread / Ø26 flanges × 46, 2 × 624ZZ, M4 bolt |
-| Walls / gap / web | 6 thick / 48 apart / 18 × 102 |
+| Main walls / inside gap / original web | Inner plate 10 thick, 8.5 behind the 1.5-deep support seats, with mechanism recesses; outer wall 6 / 48 / 18 × 102 |
 | Spring (R5 part, kept) | 25.8 fitted, 77 N; 21.6 and 104 N at the recoil stop; max 118 N, solid 17.0 |
 | Chain | unchanged: 34 × 20 mm links, Ø3 pins, Ø6 bushings, 12-tooth sprocket form |
 | Motor | JGY-370-1260 12 V 200:1: 30 rpm no load, 22 rpm at 6 kgf·cm rated, 20 kgf·cm stall; 88–120 mm/s track speed |
@@ -176,7 +187,7 @@ Two faults in the previous housing came to light during this redesign. Both are 
 
 ## Parts
 
-There are 15 printed pieces (9 designs) and 56 bought pieces, plus the track. The concept estimated 12 + 51; J8 had 148. Full list: [BOM.md](BOM.md).
+There are 15 printed pieces (9 designs) and 53 bought pieces, plus the track. The concept estimated 12 + 51; J8 had 148. Full list: [BOM.md](BOM.md).
 
 Changes since the concept:
 - **Printed pieces added:** two small ones, the journal plug (1) and the idler spacers (2).
@@ -196,8 +207,8 @@ Changes since the concept:
    - the Ø25.8 hub recess in the sprocket. Pololu gives no tolerance for the Ø25.4 flange.
 4. **Roller bolts.** The rollers float 0.3 mm between small wall bosses. Tighten the nyloc nuts only until snug; clamping the walls would preload the bearings.
 5. **Chassis.**
-   - [X1](../X1/README.md) (2026-11-03) is the chassis for two J9 tracks. Its X-frame rails bolt to the three bosses with M4 × 12 and clear the motor pod by 1.5 mm.
-   - Any other chassis has to match the same mounting: three M4 bosses at X −60 / 0 / 60, Z 68, face at Y −46.
+   - [X1](../X1/README.md) seats the flat ends of two straight arms per track at X ±63.5 in shallow main-plate recesses. Each arm has one screw on each side of its centre web. Fit the road/support rollers and their axles, motor and housing first. Hold both tracks at their final spacing and lower bare X101 vertically into the seats before fastening the joints, with the rear sprocket and chain removed; see the current X1 assembly guide.
+   - Any other chassis must match the revision F interface: seats from local Y−34 to Y−32.5, joint centres X ±63.5, and two Ø4.5 screw holes per station at X54/X73 and their rear mirrors, all at Z67.75. External nuts and both washers must clear the wheels. See `source/j9_mounts.py` and the X1 assembly guide.
    - It must also leave room for the motor pod, which stands out to Y −62.5 over X −137.5 to −18.6 and Z 16.8 to 71.8.
 6. **Reverse stall.**
    - At stall in reverse, the chosen motor pulls 50.8 N; the idler holds 51.9 N at its recoil stop, so there is almost no margin.
@@ -210,69 +221,42 @@ Changes since the concept:
    - On the first bench runs, check the can's temperature; four screws take the housing off. If it runs hot, vent slots can go on the underside of the tube.
 8. **Not checked.** Loads, wear, print tolerances and powered running. The vehicle mass is not specified, so no load rating is claimed.
 
-## Verification (`validation.json`)
+## Current verification
 
-All of these were run on the exact CAD solids, and the result is **PASS**:
-- **Chain closure:** 34 links close with 2e-14 mm length error; the support-roller lift is 3.500 mm.
-- **Static assembly:** no overlap among 449 candidate pairs (exact solid intersection, with the track included).
-- **Drive rotation:** sprocket, hub, hub screws, set screws, plug, screw and shaft turned through a full tooth in 5° steps, without the chain, against the frame, motor and rollers.
-- **Idler recoil:** the idler moves 2.1 and 4.2 mm to the stop. Pushed 0.3 mm further, the yoke hits only the H-frame groove ends, which is the intended hard stop. The spring at its recoil length clears everything.
-- **Chain phases:** the chain advanced by ¼, ½ and ¾ pitch was checked against all fixed parts. This uses a conveyor approximation: pins follow the pitch circles on the wraps and straight lines elsewhere.
-- **Assembly paths:**
-  - motor-screw hex key, from inside the open H before the sprocket goes in;
-  - sprocket and hub entry from the rear between the walls, then the slide onto the D-shaft;
-  - journal plug and M3 × 50 through the 6800ZZ;
-  - yoke, idler and pin sliding in from the front;
-  - the housing sliding straight on over the motor, checked 40, 25, 15, 8, 4 and 1.5 mm short of home.
-- **Tool access:** 25 paths, all clear:
-  - housing screws;
-  - roller bolts through the skirt holes;
-  - nyloc socket;
-  - plug screw;
-  - motor-screw key;
-  - the 1.5 mm key straight down onto both hub set screws, between the walls, before the track goes on.
-- **Hub against Pololu's STEP:** the vendor model, placed in the J9 pose, matches the modelled hub (see [Drive hub](#drive-hub-replaces-the-printed-d-bore)).
-- **Minimum clearances:**
-  - track pins and clips to the H-frame: 3.5 mm;
-  - shoes to the housing: 7.8 mm;
-  - end road rollers to the sprocket and to the idler at full recoil: 4.8 / 4.5 mm;
-  - roller flanges to the web: 2.0 / 2.1 mm;
-  - yoke base to road roller: 2.1 mm;
-  - hub boss to the inner wall: 1.0 mm;
-  - hub and hub-screw tips to the motor screw heads: 2.5 mm;
-  - sprocket tooth tips to the web end: 3.2 mm;
-  - motor pod to motor, and the frame rim behind the skirt to motor: 0.8 mm;
-  - motor pod to the rear chassis boss: 2.4 mm.
-- **Printability:** every printed part is one valid solid, its STEP round-trips, and its STL is watertight.
-- **3D viewer:** it loads offline with no errors or network requests, and its views, toggles and run animation work (`browser_validation.json`).
+The revision F `validation.json` is a fresh full run of the `build_j9.py` trial block on the delivered STEP parts (`source/check_revf_track.py`): static interference, drive rotation, idler travel and stop, spring at recoil, chain phases, assembly routes and tool access, with every candidate pair computed. It also checks the clearances of the thickened main-plate seats. The checked source and exported files are bound by SHA-256. Exact counts and minimum clearances are in the report.
+
+`spring_guide_validation.json` checks the complete spring envelope at eleven positions through the 4.2 mm stroke, spring insertion and roller clearance. `browser_validation.json` checks the offline viewer and records its current HTML, scene and screenshots.
+
+The assembled X1 joints are checked separately in [arc_seat_mount_validation.json](../X1/arc_seat_mount_validation.json). Support-roller access differs when mounted on X1: the X101 arms may block a straight driver and full bolt withdrawal. Detach the prepared track using the vertical service route in X1/ASSEMBLY.md: independently support the chassis, remove the specified drive/joint hardware and disconnect its wiring, lower the track at least 80 mm, then slide it outward.
+
+These are nominal geometry checks. Printed fit, strength, wear, spring friction and powered operation require physical tests; no payload rating is assigned.
 
 ## Files
 
-- `J9_layout.pdf` — dimensioned side view, flat-ground and support-roller details, and the concept-vs-J9 table.
+- `J9_layout.pdf`: side-view layout drawn from the CAD; `J9_spring_guide_detail.pdf`: the enclosed spring guide. Use the STEP and viewer for the recessed support seats and external mounting fasteners.
 - `3D_preview.html` — offline 3D viewer. It has views, show/hide toggles, an exploded view, click-to-identify and a "Run track" animation.
-- `images/` — screenshots from the viewer (including `J9_pod.png`, the motor pod), the layout sheet and `J9_drive_section.png` (section through the drive axis).
-- `step/` — one STEP per printed part, plus `JGY370_track_J9.step` (the full coloured assembly, 280 solids).
+- `images/` — screenshots from the viewer (including `J9_pod.png`, the motor pod), the retained `J9_drive_section.png` reference for the unchanged drivetrain.
+- `step/` — one STEP per printed part, plus `JGY370_track_J9.step` (the full coloured assembly, 277 solids).
 - `stl/` — print-oriented STL files for each printed part.
 - `BOM.md`, `ASSEMBLY.md`, `validation.json`, `browser_validation.json`.
 - `source/` — the source scripts:
   - `j9_design.py`: layout and the exact chain solver;
   - `j9_parts.py`: CadQuery parts and the assembly;
-  - `build_j9.py`: exports and checks;
+  - `build_j9.py`: full rebuild (exports and checks);
+  - `export_revf_track.py`, `check_revf_track.py`: revision F J901/J909 exports and the fresh validation of the delivered parts;
   - `build_viewer.py`, `viewer.html`, `check_viewer.cjs`: viewer build and test;
-  - `draw_layout.py`: the layout sheet;
+  - `draw_layout.py`, `draw_spring_guide.py`: the layout sheet and spring-guide detail;
   - `draw_drive_section.py`: the drive section image.
-- `track_wheel_jgy370/references/pololu_1999/` (in the package: `references/pololu_1999/`) — Pololu's hub drawing and STEP, with their source links. `build_j9.py` compares the model against the STEP.
+- `track_wheel_jgy370/references/pololu_1999/` in the original repository — Pololu's hub drawing and STEP, with their source links. `build_j9.py` compares the model against the STEP.
 
 ## Rebuild
 
-From `track_wheel_jgy370/J9/source/`, with CadQuery 2.8 (`/tmp/venv` in this workspace):
+From `track_wheel_jgy370/J9/source/`, with CadQuery 2.7 (`/tmp/sw-venv/bin/python` with `LD_LIBRARY_PATH=/tmp/sw-tools/root/usr/lib/x86_64-linux-gnu` in this workspace):
 
 ```
-python build_j9.py          # STEP, STL, validation.json, viewer data (about 4 min)
+python build_j9.py          # STEP, STL, validation.json, viewer data
 python build_viewer.py      # ../3D_preview.html
 NODE_PATH=<playwright node_modules> node check_viewer.cjs   # screenshots + browser_validation.json
-python draw_layout.py       # ../J9_layout.pdf
-python draw_drive_section.py   # ../images/J9_drive_section.png
 ```
 
 `build_j9.py` reuses `track_wheel/source/tw_parts.py` (geometry helpers, the J8/R5 idler wheel and the R4 sprocket outline), `tw_checks.py` and `build_track_wheel.py`.

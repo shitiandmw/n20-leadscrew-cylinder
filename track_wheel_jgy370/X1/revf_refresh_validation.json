@@ -1,0 +1,97 @@
+{
+  "revision": "F",
+  "mode": "verified existing assemblies and scenes; no CAD written",
+  "inputs": {
+    "track_wheel_jgy370/X1/step/X101_X_frame.step": "6b1ec27ddd8826b87174378405e12db393bce725350cb364996ff3c9fb13a34d",
+    "track_wheel_jgy370/J9/step/J901_H_frame.step": "da84e2569c93645bcdd0cad831674c71ec21781eda9e4cad0582ce98dc328ec0",
+    "track_wheel_jgy370/J9/step/J909_housing.step": "605d619f8ad5ca0b2f2b5a52d0f9e5e642103f753afd154f1dbe320f43369542",
+    "track_wheel_jgy370/X1/step/J901_H_frame_right.step": "c311dcf725624fcc5450a3d7d47f49291835cd923a7f064a3bc577b70aa744f8",
+    "track_wheel_jgy370/X1/step/J909_housing_right.step": "77331fdc2cb0e8a28c5d0dbb0463fac5c30d42d982887cb12c75a907a03eecce",
+    "track_wheel_jgy370/X1/source/refresh_revf.py": "73c44627c4f6eebf34c561b906da45225395ea7a5958ef1b80233096b4d93f81",
+    "track_wheel_jgy370/X1/source/x1_parts.py": "0b77d36a20ea1cbd402639453f9035d8462df5845023dcf6594439b7fac0fc47",
+    "track_wheel_jgy370/J9/source/j9_parts.py": "0da491a24b9cbb33bb84bd19a036e9b46282b7569f4e20b139be6bf8017d66b2",
+    "track_wheel_jgy370/J9/source/j9_mounts.py": "d18f32025d34729409c6a9d046674dacd05e27033de9c9136c229bc9b0564ff3",
+    "track_wheel_jgy370/J9/source/j9_design.py": "b952562b77c5fd9c778d52113387a4bfbe071050a057529096e524be026cbdbd",
+    "track_wheel/source/tw_parts.py": "0bb01b2c7013a2f2296e3f7176afe62635e563270b250936c40febc0deb9b3e4"
+  },
+  "assemblies": [
+    {
+      "file": "track_wheel_jgy370/J9/step/JGY370_track_J9.step",
+      "sha256": "8a075824869a1a30b36c29178e2792273f7cb55af941bd594cbafb4a440764d9",
+      "components": 275,
+      "solids": 277,
+      "checked_current_parts": [
+        "J901_H_frame",
+        "J909_housing",
+        "housing_screw_M3x8_0",
+        "housing_screw_M3x8_2",
+        "insert_M3_0",
+        "insert_M3_2"
+      ],
+      "missing": [],
+      "signature_mismatches": [],
+      "mount_hardware_count": 0,
+      "mount_hardware_names_match": true,
+      "mount_hardware_mismatches": [],
+      "obsolete_clamp_components": [],
+      "pass": true
+    },
+    {
+      "file": "track_wheel_jgy370/X1/step/X1_crawler_chassis.step",
+      "sha256": "6f9d869233c6544bef4a47fdb881897d1b95f135a5ef1840d8b70eb33015bf29",
+      "components": 626,
+      "solids": 630,
+      "checked_current_parts": [
+        "L_J901_H_frame",
+        "L_J909_housing",
+        "L_housing_screw_M3x8_0",
+        "L_housing_screw_M3x8_2",
+        "L_insert_M3_0",
+        "L_insert_M3_2",
+        "R_J901_H_frame",
+        "R_J909_housing",
+        "R_housing_screw_M3x8_0",
+        "R_housing_screw_M3x8_2",
+        "R_insert_M3_0",
+        "R_insert_M3_2",
+        "X101_X_frame"
+      ],
+      "missing": [],
+      "signature_mismatches": [],
+      "mount_hardware_count": 32,
+      "mount_hardware_names_match": true,
+      "mount_hardware_mismatches": [],
+      "obsolete_clamp_components": [],
+      "pass": true
+    },
+    {
+      "file": "track_wheel_jgy370/X1/step/X1_turntable_assembly.step",
+      "sha256": "48e78e6fade9bd27d345c676b90094c146e58f8a03618f19565f24a49bafa1e8",
+      "components": 181,
+      "solids": 181,
+      "checked_current_parts": [
+        "X101_X_frame"
+      ],
+      "missing": [],
+      "signature_mismatches": [],
+      "mount_hardware_count": 32,
+      "mount_hardware_names_match": true,
+      "mount_hardware_mismatches": [],
+      "obsolete_clamp_components": [],
+      "pass": true
+    }
+  ],
+  "scenes": [
+    {
+      "file": "track_wheel_jgy370/J9/source/j9_scene.json.gz",
+      "sha256": "1cec73dc0046c0220e468ae449b94bea01a13b15edbd651757dc43355b9ca9c9"
+    },
+    {
+      "file": "track_wheel_jgy370/X1/source/x1_scene.json.gz",
+      "sha256": "4a9545ba6e506ab159cbf083849a0d69130f6431c707e2ba2807dc0e42525de8"
+    }
+  ],
+  "scene_problems": [],
+  "seconds": 355.6,
+  "pass": true
+}

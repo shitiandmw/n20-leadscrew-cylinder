@@ -1,12 +1,14 @@
 # J9 assembly
 
-Every step below was checked in CAD (`validation.json → assembly_and_access`). Work on a bench with the H-frame lying on its outer wall.
+Build the track on a bench with the H-frame lying on its outer wall. The retained drive and spring assembly sequence comes from the earlier J9 checks; revision F mounting geometry is checked separately in [X1/arc_seat_mount_validation.json](../X1/arc_seat_mount_validation.json).
+
+For X1, install the motor and all road/support rollers with their axles first (steps 2–3). Fit the housing from step 8 while detached. The front tensioner/idler may also be fitted. **Pause before the rear sprocket and chain:** hold both tracks at their final spacing and lower bare X101 vertically into the seats, then tighten the joints using step 9 and X1/ASSEMBLY.md, then install the rear sprocket/hub, journal plug and chain. This preserves roller-axle access and leaves room to hold the external mounting nuts.
 
 ## 1. Prepare the prints
 
 1. **Heat-set inserts.**
    - Four M3 inserts into the tops of the four housing standoffs on the inner wall (housing screws).
-   - Three M4 inserts into the ends of the chassis bosses.
+   - Clean the shallow chassis-support seats and plain mounting holes. Prepare four M4 nuts (AF7 × 3.2 mm) and eight Ø9/Ø4.4 × 0.8 mm washers per track for the X1 connection. The nuts remain external and must be held with a socket; no chassis heat-set inserts or captive nut pockets are fitted.
 2. **6800ZZ.** Press it into the outer-wall seat from the outside until it sits on the 1 mm lip. Its face ends flush with the wall.
 3. **Rollers.** Press two 624ZZ into each of the seven rollers, flush with the roller faces.
 4. **Idler.** Press two 608 into the idler wheel (as J8).
@@ -18,7 +20,7 @@ Every step below was checked in CAD (`validation.json → assembly_and_access`).
 
 ## 2. Motor (before the sprocket)
 
-1. Set the JGY-370 against the outer face of the inner wall. Its four screw bosses and the central boss drop into the counterbores, and the shaft passes through the wall.
+1. Seat the JGY-370 in the motor recess on the outer side of the thickened inner main plate. The recess retains the original gearbox face at local Y−30. Its four screw bosses and central boss enter the retained counterbores, and the shaft passes through the wall.
 2. Working inside the open H, from the rear, drive four **M3 × 6** socket screws into the gearbox with a 2.5 mm L-key.
    - The CAD check reserves a straight 30 mm path for the key's short arm.
    - The screws cannot be reached once the sprocket is in.
@@ -27,7 +29,7 @@ Every step below was checked in CAD (`validation.json → assembly_and_access`).
 ## 3. Rollers
 
 1. Put each roller between the walls: road rollers from below, support rollers from above.
-2. Push an **M4 × 70** in from the inboard side, through the inner wall, both bearings and the outer wall.
+2. Push an **M4 × 70** in from the inboard side, seating its head in the retained recess, then through the inner wall, both bearings and the outer wall. The recess keeps the original bolt position despite the thicker main plate.
 3. Fit a **nyloc nut** outboard and turn it until it is just snug.
    - The rollers float about 0.3 mm between small wall bosses that touch only the bearing inner rings.
    - Do not clamp the walls together.
@@ -51,13 +53,14 @@ Every step below was checked in CAD (`validation.json → assembly_and_access`).
 
 ## 6. Tensioner
 
-1. Put the spring on the pilot at the front of the web.
+1. Clean the Ø16.4 main-web guide bore and dry-fit the revised J908's Ø15.6 piston. It must slide freely through the full 4.2 mm recoil stroke. Use the revised frame and piston yoke together.
+   - Insert the spring from the front into the guide hole, onto the pilot at the recessed floor (X28). The spring is retained around its outside by the guide wall.
 2. Make up the idler sub-assembly away from the frame:
    1. Place the idler (with its 608s) between the U-yoke arms, with one **J907 spacer** on each side.
    2. Push the **Ø8 × 55 pin** through arm, spacer, bearings, spacer and arm. The pin ends stand 0.5 mm proud of the arms.
 3. Slide the yoke arms into the wall grooves **from the front**.
    - The pin ends run in the deeper tracks in the groove floors.
-   - Push until the spring sits on the yoke pilot.
+   - Push until the spring sits on the yoke pilot and the piston enters the guide hole. The guide mouth remains 0.8 mm clear of the crossbar at the recoil stop.
 4. Without the track, the spring pushes the yoke forward to about 12 mm ahead of its running position. The arms stay in the grooves.
 
 ## 7. Track
@@ -71,21 +74,23 @@ Every step below was checked in CAD (`validation.json → assembly_and_access`).
 
 1. Thread the two motor leads through the cable port in the housing's nose, from the outside in. The port is Ø5.5: it takes two wires, not a plug.
 2. Solder the leads to the motor terminals.
-3. Lower the housing straight down over the motor, pulling the slack out through the port.
-   - The chassis bosses pass through the skirt.
+3. With the module detached from X1, slide the housing toward the inner wall along local Y and over the motor, pulling the slack out through the port.
+   - The skirt openings expose the shallow main-plate receiving seats and clear the two X1 arms.
    - The pod's open side meets the rim on the inner wall, so the motor is closed in.
 4. Fasten it with four **M3 × 8** button heads into the standoff inserts.
 
 ## 9. Chassis
 
-Fasten the module with three M4 screws into the boss inserts: X −60, 0 and 60; Z 68; boss faces at Y −46.
-- **On the X1 chassis:** three M4 × 12 go through the X-frame rail from the inboard side. See [X1's assembly guide](../X1/ASSEMBLY.md).
-- **On any other chassis:** the adapter must match the bosses and have a cut-out for the motor pod, which stands out to Y −62.5.
+Use the revision F X101, J901 and J909 together. Each track receives the flat ends of two straight X101 arms in 1.5 mm deep seats at X ±63.5. Four horizontal M4 × 25 screws per track, one in each side slot of every arm, clamp the parts through plain holes. Put a washer beneath every head and external nut. Follow [X1's assembly guide](../X1/ASSEMBLY.md): fit the road/support rollers and their axle bolts, motor and housing first. Secure both tracks at their final spacing and lower bare X101 vertically 80 mm into the open-top seats. Do not fit the tracks sideways into the frame: that route clashes with the motor and housing. Leave the rear sprocket/hub, journal plug, chain and joint fasteners off until the frame is seated; then install and tighten the joint fasteners. Slide each screw sideways into its slot and push it through; a compact 7 mm nut-holding tool holds each nut while a short-leg 3 mm L-key, handle out of the slot, turns the screw. Fit the rear sprocket/hub and chain afterward.
+
+Other chassis adapters must match these current mating faces and the spring/motor envelopes. Earlier saddle, projecting-pad and flat-face joint patterns are obsolete.
 
 ## Service
 
-- **Roller bolts:** reachable and removable through the Ø8 holes in the housing skirt. The nyloc nuts are on the open outboard side.
-- **Motor:** remove the four housing screws and lift the housing off; the leads stay threaded through the port.
+- **X1 mounting joints:** follow X1/ASSEMBLY.md. Park the upper at 0° with the arm in its original reference pose, independently support the chassis/upper and affected track, remove the belly cover for access, and disconnect/secure the affected motor wiring. Remove the affected chain, rear sprocket/hub and journal plug for access to the external nuts, then all four joint screws, both sets of washers and nuts. Lower the prepared track **at least 80 mm vertically relative to the chassis before sliding it outward**. Road/support rollers and the front idler can remain fitted, as can the other track and parked upper. An immediate sideways pull clashes with the motor and housing.
+
+- **Roller bolts on the detached module:** reachable and removable through the Ø8 housing-skirt holes, with nyloc nuts outboard. When fitted to X1, detach the module before servicing the support rollers; its deeper X-legs block their straight tool and withdrawal routes.
+- **Motor:** detach the module from X1 first, then remove the four housing screws and slide the housing away from the inner wall along local Y. The leads stay threaded through the port.
 - **Plug screw:** reachable from the outboard side with the track on.
 - **Removing the idler:** take the track off, then the yoke, idler and spring slide out of the front of the frame.
 - **Removing the sprocket:**

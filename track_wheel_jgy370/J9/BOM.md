@@ -6,17 +6,17 @@ The mirrored module for the other side uses the same parts, assembled as a mirro
 
 | Part | Qty | Material and orientation | Notes |
 |---|---|---|---|
-| J901_H_frame | 1 | PETG or PA12, 3 walls, 30 % infill. Outer wall face on the bed; supports under the inner wall. | Two 6 mm walls and an 18 mm web. Motor seat, 6800ZZ seat, 7 roller holes, yoke grooves, 3 chassis bosses. On the inner wall: the motor rim that closes the gap behind the housing skirt, and 4 housing standoffs. Print bounds 275 × 76 × 64. |
+| J901_H_frame | 1 | PETG or PA12. Qualify wall count, infill and layer orientation for the intended load; no structural print recipe is validated. Outer wall face on the bed; supports under the inner wall. | Revision F: inner main plate with 10 mm base thickness, 1.5 mm deep curved-support receiving seats and plain mounting holes; outer wall remains 6 mm. Mechanism recesses retain the motor seat, 7 roller axes and yoke grooves. Retains the 6800ZZ seat, main web, recessed Ø16.4 spring guide with Ø21.2 exterior, motor rim and four cover standoffs. The support seats include lower receiving shoulders; no separate projecting chassis pads or recessed mounting-nut pockets. Use the current STL bounds. |
 | J902_sprocket | 1 | PETG or PA12, 5 walls, 50 % infill. Outer disc face on the bed, no supports. | Unchanged 12-tooth, 20 mm pitch form. Ø25.8 × 1 recess for the hub flange, 3 counterbored M3 holes on a Ø19.05 circle, stop pad for the shaft end, Ø10.1 socket for the plug. |
 | J903_journal_plug | 1 | PETG or PA12, 100 % infill, standing on its end. | Ø9.95 × 26.5 journal in the 6800ZZ, with an M3 clearance bore. |
 | J904_roller | 7 | PETG, 4 walls, 40 % infill, on a flange face. | Road (5) and support (2) roller: Ø22 tread, Ø26 flanges, 46 wide, two Ø13 bearing seats. |
 | J906_idler_wheel | 1 | As J8 07_idler_wheel. | Unchanged J8/R5 idler, two 608 seats. |
 | J907_idler_spacer | 2 | PETG, 100 % infill. | Ø11 / Ø8.2 × 13.9 tube. It touches only the 608 inner ring. |
-| J908_U_yoke | 1 | PETG or PA12, 4 walls, 50 % infill, upside down on its flat top. | Arms slide in the wall grooves; Ø8.1 pin holes; spring pilot on the back. |
-| J909_housing | 1 | PETG, 3 walls. Skirt inner face on the bed; supports inside the motor pod only. | Inboard skirt and closed motor pod in one piece: drum on the sprocket axis, gearbox shoulder, motor tube, nose with a Ø5.5 cable port. Ø8 roller-bolt access holes. Print bounds 287 × 67 × 27. |
+| J908_U_yoke | 1 | PETG or PA12, 4 walls, 50 % infill, upside down on its flat top; support the rear piston as needed. | Arms slide in the wall grooves; Ø8.1 pin holes; rear Ø15.6 × 8 piston and spring pilot enter the revised J901 guide bore. |
+| J909_housing | 1 | PETG, 3 walls. Skirt inner face on the bed; supports inside the motor pod only. | Inboard skirt and closed motor pod in one piece: drum on the sprocket axis, gearbox shoulder, motor tube, nose with a Ø5.5 cable port. Ø8 roller-bolt access holes, curved-support clearance openings and retained cover attachment axes. Current print bounds are in the revision F export report. |
 | J910_track_shoe_70 | 34 | PETG or PA12, grousers on the bed (as R4). | R4 shoe and link plates, with the shoe plate widened to 70 mm. |
 
-## Bought: 56 pieces
+## Bought: 53 pieces
 
 | Item | Qty | Use |
 |---|---|---|
@@ -34,7 +34,6 @@ The mirrored module for the other side uses the same parts, assembled as a mirro
 | M3 × 25 socket head screw (ISO 4762) | 3 | Sprocket to the hub, from the sprocket's outer face. 5 mm thread in the hub. |
 | M3 × 8 button head screw (ISO 7380) | 4 | Housing to the standoffs on the inner wall: 5.5 mm in the insert. |
 | M3 heat-set insert (hole Ø4.0 × 5.7) | 4 | Tops of the housing standoffs on the inner wall. |
-| M4 heat-set insert (hole Ø5.6 × 8.1) | 3 | Chassis bosses. |
 | Compression spring, Associated/Lee Spring C-600-072-1500 (R5 part) | 1 | Idler tension: 25.8 fitted, 77 N. |
 
 ## Track hardware (unchanged R4/J8 chain)
@@ -50,6 +49,6 @@ The mirrored module for the other side uses the same parts, assembled as a mirro
 | | J9 CAD | J9 concept | J8 |
 |---|---|---|---|
 | Printed pieces (without the track) | 15 | 12 | — |
-| Bought pieces (without the track) | 56 | 51 | — |
-| Total without the track | 71 | 63 | 148 (25 custom machined) |
+| Bought pieces (without the track) | 53 | 51 | — |
+| Total without the track | 68 | 63 | 148 (25 custom machined) |
 | Custom-machined parts | 0 | 0 | 25 |

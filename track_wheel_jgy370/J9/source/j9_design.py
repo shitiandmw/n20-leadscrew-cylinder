@@ -51,6 +51,10 @@ SPRING = dict(model='Associated/Lee Spring C-600-072-1500, music wire', od=.600*
 SPRING['id'] = SPRING['od'] - 2*SPRING['wire']
 SPRING_SET = 25.8                              # fitted length, as R5/J8: 77 N preload
 RECOIL = 4.2                                   # idler recoil to the mechanical stop
+# J9 rev B: spring contained in an axial pocket in the main web. The yoke's rear
+# piston preserves the original crossbar position and spring preload/travel.
+SPRING_POCKET = dict(recess=8.0, bore_d=16.4, outer_d=21.2, piston_d=15.6,
+                     rear_wall=2.0, yoke_gap_at_recoil=0.8)
 YOKE_BASE_T, ARM_T, ARM_HALF_Z = 8.0, 3.0, 8.0
 GROOVE_CLEAR = 0.2
 IDLER_PIN = dict(d=8.0, length=55.0)           # ISO 2338 8 m6 x 55 steel pin
@@ -79,8 +83,7 @@ B608 = dict(d=8.0, D=22.0, B=7.0)
 
 # ---- housing ----
 SKIRT_Y = (-38.0, -35.5)
-CHASSIS_X, CHASSIS_Z, CHASSIS_Y = [-60.0, 0.0, 60.0], (62.0, 74.0), (-46.0, -WALL_OUT)
-CHASSIS_HALF_X = 6.0
+# Chassis mounting dimensions are in j9_mounts.py (two supported side plates).
 
 
 # ================================================================ chain closure
@@ -193,8 +196,10 @@ CARRIER_Z = SOLUTION['carrier_z']
 IDLER_LIMITS = (IDLER_X - RECOIL, IDLER_X)
 
 # ---- tensioner positions derived from the solved idler ----
-SPRING_X0 = WEB_X[1]                                   # spring seat on the web front face
-YOKE_BASE_X = (SPRING_X0 + SPRING_SET, SPRING_X0 + SPRING_SET + YOKE_BASE_T)
+SPRING_X0 = WEB_X[1] - SPRING_POCKET['recess']          # recessed spring seat
+YOKE_BASE_X = (WEB_X[1] + SPRING_SET, WEB_X[1] + SPRING_SET + YOKE_BASE_T)
+SPRING_GUIDE_X = (SPRING_X0 - SPRING_POCKET['rear_wall'],
+                  YOKE_BASE_X[0] - RECOIL - SPRING_POCKET['yoke_gap_at_recoil'])
 YOKE_ARM_END = IDLER_X + 8.0
 GROOVE_X0 = YOKE_BASE_X[0] - RECOIL                    # recoil stop: arm ends meet the groove end
 

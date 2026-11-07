@@ -1,0 +1,26 @@
+<mujoco model="X1_swing">
+  <option timestep="5e-05" integrator="implicitfast" gravity="0 0 -9.81"/>
+  <worldbody>
+    <geom name="ground" type="plane" size="2 2 .1" friction="0.6 .005 .0001" solref=".004 1"/>
+    <body name="lower" pos="0 0 0">
+      <freejoint name="lower_free"/>
+      <inertial pos="-0.00238796 4.1311e-08 0.051428" mass="4.65471" fullinertia="0.1017287 0.030352983 0.12588071 -3.1683777e-10 -8.1837295e-05 7.3564085e-11"/>
+      <geom name="track_L" type="box" pos="0 0.17 .005" size="0.12 0.035 .005" friction="0.6 .005 .0001" solref=".004 1" mass="0"/>
+      <geom name="track_R" type="box" pos="0 -0.17 .005" size="0.12 0.035 .005" friction="0.6 .005 .0001" solref=".004 1" mass="0"/>
+      <body name="hub" pos="0 0 0.1">
+        <joint name="roll" type="hinge" axis="1 0 0" stiffness="44000.0" damping="3.88683"/>
+        <joint name="pitch" type="hinge" axis="0 1 0" stiffness="44000.0" damping="3.88683"/>
+        <inertial pos="0 0 0" mass="0.001" diaginertia="1e-7 1e-7 1e-7"/>
+        <body name="upper" pos="0 0 0">
+          <joint name="swing" type="hinge" axis="0 0 1" frictionloss="0.21259999999999998" damping="0.002"/>
+          <inertial pos="0.000317147 9.85448e-07 0.0785785" mass="5.10311" fullinertia="0.063865589 0.17150331 0.15371226 -0.002037993 -0.04263972 -0.00033187148"/>
+          <site name="bucket" pos="0.44016 0 0.04727"/>
+          <body name="pinion" pos="-0.075137 0 0">
+            <joint name="pinion" type="hinge" axis="0 0 1"/>
+            <inertial pos="1.36445e-08 -6.71331e-05 -0.00422873" mass="0.021539" diaginertia="1.12513e-06 1.12513e-06 1.87522e-06"/>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+</mujoco>

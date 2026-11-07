@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "X1_main")(type "KiCad")(uri "${KIPRJMOD}/X1_main.kicad_sym")(options "")(descr "X1 main board project symbols"))
+)

@@ -1,0 +1,3831 @@
+{
+ "units": "kg, m, kg m^2 about the body centre; vehicle frame (X forward, Z up), swing 0",
+ "upper": {
+  "mass_kg": 5.103112921521918,
+  "centre_m": [
+   0.0003171473092710914,
+   9.854479809514424e-07,
+   0.17857852280761036
+  ],
+  "inertia_kgm2": [
+   [
+    0.06386558871176436,
+    -0.002037993039162788,
+    -0.04263971993316896
+   ],
+   [
+    -0.002037993039162788,
+    0.17150330656698,
+    -0.00033187147763482505
+   ],
+   [
+    -0.04263971993316896,
+    -0.00033187147763482505,
+    0.15371225506073444
+   ]
+  ]
+ },
+ "upper_cad_only": {
+  "mass_kg": 2.8022139986909216,
+  "centre_m": [
+   0.09326668040389378,
+   -1.4747242347901094e-06,
+   0.20037648516745848
+  ],
+  "inertia_kgm2": [
+   [
+    0.03775152993274966,
+    4.809308599508579e-07,
+    -0.029186488370192793
+   ],
+   [
+    4.809308599508579e-07,
+    0.0998903594597135,
+    5.543957524311679e-07
+   ],
+   [
+    -0.029186488370192793,
+    5.543957524311679e-07,
+    0.06845036259264872
+   ]
+  ]
+ },
+ "pinion": {
+  "mass_kg": 0.021539002293717358,
+  "centre_m": [
+   -0.07513736022644979,
+   -6.713310623830691e-05,
+   0.09577127011063515
+  ],
+  "inertia_kgm2": [
+   [
+    1.4692028968926414e-06,
+    -7.175667800851606e-08,
+    -1.4757998515468883e-12
+   ],
+   [
+    -7.175667800851606e-08,
+    1.543431802607553e-06,
+    7.049455651022183e-09
+   ],
+   [
+    -1.4757998515468883e-12,
+    7.049455651022183e-09,
+    1.8751237459265207e-06
+   ]
+  ]
+ },
+ "lower": {
+  "mass_kg": 4.654711884524176,
+  "centre_m": [
+   -0.0023879589724657216,
+   4.131101804811708e-08,
+   0.05142798296118264
+  ],
+  "inertia_kgm2": [
+   [
+    0.10172870363040547,
+    -3.1683777028729265e-10,
+    -8.183729495903327e-05
+   ],
+   [
+    -3.1683777028729265e-10,
+    0.03035298302836608,
+    7.356408457115382e-11
+   ],
+   [
+    -8.183729495903327e-05,
+    7.356408457115382e-11,
+    0.12588070950486685
+   ]
+  ]
+ },
+ "upper_inertia_about_swing_axis_kgm2": 0.15371276834911574,
+ "pinion_inertia_about_its_axis_kgm2": 1.8752208190681663e-06,
+ "assumptions": {
+  "densities_kg_mm3": {
+   "petg": 1.27e-06,
+   "tpu": 1.2e-06,
+   "steel": 7.85e-06,
+   "brass": 8.5e-06,
+   "alu": 2.7e-06
+  },
+  "motor_kg": 0.17,
+  "slip_ring_kg": 0.03,
+  "arm_kg": 1.6418,
+  "arm_pose": "excavator_arm_60mm STEP as exported (stretched forward, bucket 440 mm from the swing axis)",
+  "rest_of_upper": {
+   "kg": 2.3008989228309966,
+   "source": "simulation/body_mass_properties.json (build_body.py: body B1 CAD, shot sized for the CG on the swing axis)",
+   "names": [
+    "B101_counterweight",
+    "B103_right_half_shell",
+    "B103_right_half_tank_block",
+    "B102_left_half",
+    "B104_cab_interior",
+    "B105_operator",
+    "B106_battery_hatch",
+    "B107_left_handrail",
+    "cell_18650_0",
+    "holder_1043_0",
+    "cell_18650_1",
+    "holder_1043_1",
+    "cell_18650_2",
+    "holder_1043_2",
+    "battery_BMS_3S",
+    "battery_lead_XT30",
+    "controller_PCB",
+    "ESP32_devboard",
+    "ESP32_USB_C",
+    "DRV8871_0",
+    "DRV8871_1",
+    "DRV8871_2",
+    "DRV8833_0",
+    "DRV8833_1",
+    "buck_6V",
+    "buck_5V",
+    "main_switch",
+    "fuse_holder_5A",
+    "charge_jack",
+    "rib_insert_M3_0",
+    "sleeve_screw_M3x12_0",
+    "rib_insert_M3_1",
+    "sleeve_screw_M3x12_1",
+    "rib_insert_M3_2",
+    "sleeve_screw_M3x12_2",
+    "rib_insert_M3_3",
+    "sleeve_screw_M3x12_3",
+    "cw_insert_M4_0",
+    "cw_screw_M4x12_0",
+    "cw_insert_M4_1",
+    "cw_screw_M4x12_1",
+    "hatch_magnet_0",
+    "ledge_magnet_0",
+    "hatch_magnet_1",
+    "ledge_magnet_1",
+    "hatch_magnet_2",
+    "ledge_magnet_2",
+    "hatch_magnet_3",
+    "ledge_magnet_3",
+    "wiring_left_bay",
+    "wiring_right_bay",
+    "wiring_hatch_lead",
+    "small_fixings",
+    "ballast_steel_shot"
+   ]
+  },
+  "printed": "turntable parts: full modelled volume at PETG density (as the 60 mm excavator); body prints: see body_mass_properties.json"
+ },
+ "parts": [
+  {
+   "name": "L_J901_H_frame",
+   "body": "lower",
+   "mass_kg": 0.37619
+  },
+  {
+   "name": "L_J909_housing",
+   "body": "lower",
+   "mass_kg": 0.06735
+  },
+  {
+   "name": "L_J902_sprocket",
+   "body": "lower",
+   "mass_kg": 0.10763
+  },
+  {
+   "name": "L_J903_journal_plug",
+   "body": "lower",
+   "mass_kg": 0.00231
+  },
+  {
+   "name": "L_J904_roller_road0",
+   "body": "lower",
+   "mass_kg": 0.01977
+  },
+  {
+   "name": "L_J904_roller_road1",
+   "body": "lower",
+   "mass_kg": 0.01977
+  },
+  {
+   "name": "L_J904_roller_road2",
+   "body": "lower",
+   "mass_kg": 0.01977
+  },
+  {
+   "name": "L_J904_roller_road3",
+   "body": "lower",
+   "mass_kg": 0.01977
+  },
+  {
+   "name": "L_J904_roller_road4",
+   "body": "lower",
+   "mass_kg": 0.01977
+  },
+  {
+   "name": "L_J904_roller_support0",
+   "body": "lower",
+   "mass_kg": 0.01977
+  },
+  {
+   "name": "L_J904_roller_support1",
+   "body": "lower",
+   "mass_kg": 0.01977
+  },
+  {
+   "name": "L_J906_idler_wheel",
+   "body": "lower",
+   "mass_kg": 0.17595
+  },
+  {
+   "name": "L_J907_idler_spacer_0",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "L_J907_idler_spacer_1",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "L_J908_U_yoke",
+   "body": "lower",
+   "mass_kg": 0.01598
+  },
+  {
+   "name": "L_JGY370_gearbox",
+   "body": "lower",
+   "mass_kg": 0.085
+  },
+  {
+   "name": "L_JGY370_motor_can",
+   "body": "lower",
+   "mass_kg": 0.085
+  },
+  {
+   "name": "L_JGY370_output_shaft",
+   "body": "lower",
+   "mass_kg": 0.00244
+  },
+  {
+   "name": "L_motor_screw_M3x6_0",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "L_motor_screw_M3x6_1",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "L_motor_screw_M3x6_2",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "L_motor_screw_M3x6_3",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "L_sprocket_screw_M3x50",
+   "body": "lower",
+   "mass_kg": 0.00333
+  },
+  {
+   "name": "L_Pololu_1999_hub",
+   "body": "lower",
+   "mass_kg": 0.0066
+  },
+  {
+   "name": "L_hub_screw_M3x25_0",
+   "body": "lower",
+   "mass_kg": 0.00195
+  },
+  {
+   "name": "L_hub_screw_M3x25_1",
+   "body": "lower",
+   "mass_kg": 0.00195
+  },
+  {
+   "name": "L_hub_screw_M3x25_2",
+   "body": "lower",
+   "mass_kg": 0.00195
+  },
+  {
+   "name": "L_hub_set_screw_M3x8",
+   "body": "lower",
+   "mass_kg": 0.00044
+  },
+  {
+   "name": "L_hub_set_screw_M3x3",
+   "body": "lower",
+   "mass_kg": 0.00017
+  },
+  {
+   "name": "L_6800ZZ_inner",
+   "body": "lower",
+   "mass_kg": 0.00189
+  },
+  {
+   "name": "L_6800ZZ_outer",
+   "body": "lower",
+   "mass_kg": 0.00294
+  },
+  {
+   "name": "L_6800ZZ_shield",
+   "body": "lower",
+   "mass_kg": 0.0028
+  },
+  {
+   "name": "L_624ZZ_road0_0_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "L_624ZZ_road0_0_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "L_624ZZ_road0_0_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "L_624ZZ_road0_1_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "L_624ZZ_road0_1_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "L_624ZZ_road0_1_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "L_bolt_M4x70_road0",
+   "body": "lower",
+   "mass_kg": 0.00811
+  },
+  {
+   "name": "L_nyloc_M4_road0",
+   "body": "lower",
+   "mass_kg": 0.00117
+  },
+  {
+   "name": "L_624ZZ_road1_0_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "L_624ZZ_road1_0_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "L_624ZZ_road1_0_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "L_624ZZ_road1_1_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "L_624ZZ_road1_1_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "L_624ZZ_road1_1_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "L_bolt_M4x70_road1",
+   "body": "lower",
+   "mass_kg": 0.00811
+  },
+  {
+   "name": "L_nyloc_M4_road1",
+   "body": "lower",
+   "mass_kg": 0.00117
+  },
+  {
+   "name": "L_624ZZ_road2_0_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "L_624ZZ_road2_0_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "L_624ZZ_road2_0_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "L_624ZZ_road2_1_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "L_624ZZ_road2_1_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "L_624ZZ_road2_1_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "L_bolt_M4x70_road2",
+   "body": "lower",
+   "mass_kg": 0.00811
+  },
+  {
+   "name": "L_nyloc_M4_road2",
+   "body": "lower",
+   "mass_kg": 0.00117
+  },
+  {
+   "name": "L_624ZZ_road3_0_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "L_624ZZ_road3_0_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "L_624ZZ_road3_0_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "L_624ZZ_road3_1_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "L_624ZZ_road3_1_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "L_624ZZ_road3_1_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "L_bolt_M4x70_road3",
+   "body": "lower",
+   "mass_kg": 0.00811
+  },
+  {
+   "name": "L_nyloc_M4_road3",
+   "body": "lower",
+   "mass_kg": 0.00117
+  },
+  {
+   "name": "L_624ZZ_road4_0_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "L_624ZZ_road4_0_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "L_624ZZ_road4_0_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "L_624ZZ_road4_1_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "L_624ZZ_road4_1_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "L_624ZZ_road4_1_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "L_bolt_M4x70_road4",
+   "body": "lower",
+   "mass_kg": 0.00811
+  },
+  {
+   "name": "L_nyloc_M4_road4",
+   "body": "lower",
+   "mass_kg": 0.00117
+  },
+  {
+   "name": "L_624ZZ_support0_0_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "L_624ZZ_support0_0_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "L_624ZZ_support0_0_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "L_624ZZ_support0_1_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "L_624ZZ_support0_1_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "L_624ZZ_support0_1_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "L_bolt_M4x70_support0",
+   "body": "lower",
+   "mass_kg": 0.00811
+  },
+  {
+   "name": "L_nyloc_M4_support0",
+   "body": "lower",
+   "mass_kg": 0.00117
+  },
+  {
+   "name": "L_624ZZ_support1_0_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "L_624ZZ_support1_0_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "L_624ZZ_support1_0_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "L_624ZZ_support1_1_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "L_624ZZ_support1_1_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "L_624ZZ_support1_1_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "L_bolt_M4x70_support1",
+   "body": "lower",
+   "mass_kg": 0.00811
+  },
+  {
+   "name": "L_nyloc_M4_support1",
+   "body": "lower",
+   "mass_kg": 0.00117
+  },
+  {
+   "name": "L_idler_pin_8x55",
+   "body": "lower",
+   "mass_kg": 0.0217
+  },
+  {
+   "name": "L_608ZZ_0_inner",
+   "body": "lower",
+   "mass_kg": 0.00366
+  },
+  {
+   "name": "L_608ZZ_0_outer",
+   "body": "lower",
+   "mass_kg": 0.00721
+  },
+  {
+   "name": "L_608ZZ_0_shield",
+   "body": "lower",
+   "mass_kg": 0.00658
+  },
+  {
+   "name": "L_608ZZ_1_inner",
+   "body": "lower",
+   "mass_kg": 0.00366
+  },
+  {
+   "name": "L_608ZZ_1_outer",
+   "body": "lower",
+   "mass_kg": 0.00721
+  },
+  {
+   "name": "L_608ZZ_1_shield",
+   "body": "lower",
+   "mass_kg": 0.00658
+  },
+  {
+   "name": "L_recoil_spring",
+   "body": "lower",
+   "mass_kg": 0.00856
+  },
+  {
+   "name": "L_insert_M3_0",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "L_housing_screw_M3x8_0",
+   "body": "lower",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "L_insert_M3_1",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "L_housing_screw_M3x8_1",
+   "body": "lower",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "L_insert_M3_2",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "L_housing_screw_M3x8_2",
+   "body": "lower",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "L_insert_M3_3",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "L_housing_screw_M3x8_3",
+   "body": "lower",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "L_shoe_00",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_01",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_02",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_03",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_04",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_05",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_06",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_07",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_08",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_09",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_10",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_11",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_12",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_13",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_14",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_15",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_16",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_17",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_18",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_19",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_20",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_21",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_22",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_23",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_24",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_25",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_26",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_27",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_28",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_29",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_30",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_31",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_32",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_shoe_33",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "L_track_bushing_00",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_00",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_00_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_00_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_01",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_01",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_01_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_01_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_02",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_02",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_02_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_02_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_03",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_03",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_03_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_03_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_04",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_04",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_04_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_04_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_05",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_05",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_05_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_05_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_06",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_06",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_06_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_06_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_07",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_07",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_07_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_07_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_08",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_08",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_08_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_08_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_09",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_09",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_09_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_09_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_10",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_10",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_10_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_10_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_11",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_11",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_11_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_11_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_12",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_12",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_12_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_12_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_13",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_13",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_13_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_13_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_14",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_14",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_14_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_14_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_15",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_15",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_15_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_15_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_16",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_16",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_16_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_16_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_17",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_17",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_17_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_17_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_18",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_18",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_18_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_18_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_19",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_19",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_19_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_19_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_20",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_20",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_20_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_20_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_21",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_21",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_21_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_21_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_22",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_22",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_22_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_22_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_23",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_23",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_23_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_23_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_24",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_24",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_24_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_24_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_25",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_25",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_25_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_25_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_26",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_26",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_26_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_26_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_27",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_27",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_27_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_27_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_28",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_28",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_28_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_28_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_29",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_29",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_29_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_29_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_30",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_30",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_30_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_30_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_31",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_31",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_31_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_31_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_32",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_32",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_32_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_32_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_track_bushing_33",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "L_track_pin_33",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "L_pin_clip_33_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "L_pin_clip_33_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_J901_H_frame",
+   "body": "lower",
+   "mass_kg": 0.37619
+  },
+  {
+   "name": "R_J909_housing",
+   "body": "lower",
+   "mass_kg": 0.06735
+  },
+  {
+   "name": "R_J902_sprocket",
+   "body": "lower",
+   "mass_kg": 0.10763
+  },
+  {
+   "name": "R_J903_journal_plug",
+   "body": "lower",
+   "mass_kg": 0.00231
+  },
+  {
+   "name": "R_J904_roller_road0",
+   "body": "lower",
+   "mass_kg": 0.01977
+  },
+  {
+   "name": "R_J904_roller_road1",
+   "body": "lower",
+   "mass_kg": 0.01977
+  },
+  {
+   "name": "R_J904_roller_road2",
+   "body": "lower",
+   "mass_kg": 0.01977
+  },
+  {
+   "name": "R_J904_roller_road3",
+   "body": "lower",
+   "mass_kg": 0.01977
+  },
+  {
+   "name": "R_J904_roller_road4",
+   "body": "lower",
+   "mass_kg": 0.01977
+  },
+  {
+   "name": "R_J904_roller_support0",
+   "body": "lower",
+   "mass_kg": 0.01977
+  },
+  {
+   "name": "R_J904_roller_support1",
+   "body": "lower",
+   "mass_kg": 0.01977
+  },
+  {
+   "name": "R_J906_idler_wheel",
+   "body": "lower",
+   "mass_kg": 0.17595
+  },
+  {
+   "name": "R_J907_idler_spacer_0",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "R_J907_idler_spacer_1",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "R_J908_U_yoke",
+   "body": "lower",
+   "mass_kg": 0.01598
+  },
+  {
+   "name": "R_JGY370_gearbox",
+   "body": "lower",
+   "mass_kg": 0.085
+  },
+  {
+   "name": "R_JGY370_motor_can",
+   "body": "lower",
+   "mass_kg": 0.085
+  },
+  {
+   "name": "R_JGY370_output_shaft",
+   "body": "lower",
+   "mass_kg": 0.00244
+  },
+  {
+   "name": "R_motor_screw_M3x6_0",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "R_motor_screw_M3x6_1",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "R_motor_screw_M3x6_2",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "R_motor_screw_M3x6_3",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "R_sprocket_screw_M3x50",
+   "body": "lower",
+   "mass_kg": 0.00333
+  },
+  {
+   "name": "R_Pololu_1999_hub",
+   "body": "lower",
+   "mass_kg": 0.0066
+  },
+  {
+   "name": "R_hub_screw_M3x25_0",
+   "body": "lower",
+   "mass_kg": 0.00195
+  },
+  {
+   "name": "R_hub_screw_M3x25_1",
+   "body": "lower",
+   "mass_kg": 0.00195
+  },
+  {
+   "name": "R_hub_screw_M3x25_2",
+   "body": "lower",
+   "mass_kg": 0.00195
+  },
+  {
+   "name": "R_hub_set_screw_M3x8",
+   "body": "lower",
+   "mass_kg": 0.00044
+  },
+  {
+   "name": "R_hub_set_screw_M3x3",
+   "body": "lower",
+   "mass_kg": 0.00017
+  },
+  {
+   "name": "R_6800ZZ_inner",
+   "body": "lower",
+   "mass_kg": 0.00189
+  },
+  {
+   "name": "R_6800ZZ_outer",
+   "body": "lower",
+   "mass_kg": 0.00294
+  },
+  {
+   "name": "R_6800ZZ_shield",
+   "body": "lower",
+   "mass_kg": 0.0028
+  },
+  {
+   "name": "R_624ZZ_road0_0_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "R_624ZZ_road0_0_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "R_624ZZ_road0_0_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "R_624ZZ_road0_1_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "R_624ZZ_road0_1_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "R_624ZZ_road0_1_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "R_bolt_M4x70_road0",
+   "body": "lower",
+   "mass_kg": 0.00811
+  },
+  {
+   "name": "R_nyloc_M4_road0",
+   "body": "lower",
+   "mass_kg": 0.00117
+  },
+  {
+   "name": "R_624ZZ_road1_0_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "R_624ZZ_road1_0_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "R_624ZZ_road1_0_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "R_624ZZ_road1_1_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "R_624ZZ_road1_1_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "R_624ZZ_road1_1_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "R_bolt_M4x70_road1",
+   "body": "lower",
+   "mass_kg": 0.00811
+  },
+  {
+   "name": "R_nyloc_M4_road1",
+   "body": "lower",
+   "mass_kg": 0.00117
+  },
+  {
+   "name": "R_624ZZ_road2_0_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "R_624ZZ_road2_0_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "R_624ZZ_road2_0_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "R_624ZZ_road2_1_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "R_624ZZ_road2_1_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "R_624ZZ_road2_1_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "R_bolt_M4x70_road2",
+   "body": "lower",
+   "mass_kg": 0.00811
+  },
+  {
+   "name": "R_nyloc_M4_road2",
+   "body": "lower",
+   "mass_kg": 0.00117
+  },
+  {
+   "name": "R_624ZZ_road3_0_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "R_624ZZ_road3_0_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "R_624ZZ_road3_0_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "R_624ZZ_road3_1_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "R_624ZZ_road3_1_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "R_624ZZ_road3_1_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "R_bolt_M4x70_road3",
+   "body": "lower",
+   "mass_kg": 0.00811
+  },
+  {
+   "name": "R_nyloc_M4_road3",
+   "body": "lower",
+   "mass_kg": 0.00117
+  },
+  {
+   "name": "R_624ZZ_road4_0_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "R_624ZZ_road4_0_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "R_624ZZ_road4_0_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "R_624ZZ_road4_1_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "R_624ZZ_road4_1_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "R_624ZZ_road4_1_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "R_bolt_M4x70_road4",
+   "body": "lower",
+   "mass_kg": 0.00811
+  },
+  {
+   "name": "R_nyloc_M4_road4",
+   "body": "lower",
+   "mass_kg": 0.00117
+  },
+  {
+   "name": "R_624ZZ_support0_0_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "R_624ZZ_support0_0_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "R_624ZZ_support0_0_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "R_624ZZ_support0_1_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "R_624ZZ_support0_1_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "R_624ZZ_support0_1_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "R_bolt_M4x70_support0",
+   "body": "lower",
+   "mass_kg": 0.00811
+  },
+  {
+   "name": "R_nyloc_M4_support0",
+   "body": "lower",
+   "mass_kg": 0.00117
+  },
+  {
+   "name": "R_624ZZ_support1_0_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "R_624ZZ_support1_0_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "R_624ZZ_support1_0_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "R_624ZZ_support1_1_inner",
+   "body": "lower",
+   "mass_kg": 0.00089
+  },
+  {
+   "name": "R_624ZZ_support1_1_outer",
+   "body": "lower",
+   "mass_kg": 0.00194
+  },
+  {
+   "name": "R_624ZZ_support1_1_shield",
+   "body": "lower",
+   "mass_kg": 0.00164
+  },
+  {
+   "name": "R_bolt_M4x70_support1",
+   "body": "lower",
+   "mass_kg": 0.00811
+  },
+  {
+   "name": "R_nyloc_M4_support1",
+   "body": "lower",
+   "mass_kg": 0.00117
+  },
+  {
+   "name": "R_idler_pin_8x55",
+   "body": "lower",
+   "mass_kg": 0.0217
+  },
+  {
+   "name": "R_608ZZ_0_inner",
+   "body": "lower",
+   "mass_kg": 0.00366
+  },
+  {
+   "name": "R_608ZZ_0_outer",
+   "body": "lower",
+   "mass_kg": 0.00721
+  },
+  {
+   "name": "R_608ZZ_0_shield",
+   "body": "lower",
+   "mass_kg": 0.00658
+  },
+  {
+   "name": "R_608ZZ_1_inner",
+   "body": "lower",
+   "mass_kg": 0.00366
+  },
+  {
+   "name": "R_608ZZ_1_outer",
+   "body": "lower",
+   "mass_kg": 0.00721
+  },
+  {
+   "name": "R_608ZZ_1_shield",
+   "body": "lower",
+   "mass_kg": 0.00658
+  },
+  {
+   "name": "R_recoil_spring",
+   "body": "lower",
+   "mass_kg": 0.00856
+  },
+  {
+   "name": "R_insert_M3_0",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "R_housing_screw_M3x8_0",
+   "body": "lower",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "R_insert_M3_1",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "R_housing_screw_M3x8_1",
+   "body": "lower",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "R_insert_M3_2",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "R_housing_screw_M3x8_2",
+   "body": "lower",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "R_insert_M3_3",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "R_housing_screw_M3x8_3",
+   "body": "lower",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "R_shoe_00",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_01",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_02",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_03",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_04",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_05",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_06",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_07",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_08",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_09",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_10",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_11",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_12",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_13",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_14",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_15",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_16",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_17",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_18",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_19",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_20",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_21",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_22",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_23",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_24",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_25",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_26",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_27",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_28",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_29",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_30",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_31",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_32",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_shoe_33",
+   "body": "lower",
+   "mass_kg": 0.00737
+  },
+  {
+   "name": "R_track_bushing_00",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_00",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_00_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_00_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_01",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_01",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_01_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_01_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_02",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_02",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_02_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_02_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_03",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_03",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_03_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_03_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_04",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_04",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_04_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_04_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_05",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_05",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_05_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_05_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_06",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_06",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_06_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_06_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_07",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_07",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_07_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_07_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_08",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_08",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_08_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_08_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_09",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_09",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_09_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_09_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_10",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_10",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_10_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_10_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_11",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_11",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_11_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_11_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_12",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_12",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_12_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_12_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_13",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_13",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_13_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_13_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_14",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_14",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_14_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_14_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_15",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_15",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_15_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_15_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_16",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_16",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_16_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_16_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_17",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_17",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_17_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_17_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_18",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_18",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_18_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_18_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_19",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_19",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_19_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_19_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_20",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_20",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_20_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_20_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_21",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_21",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_21_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_21_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_22",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_22",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_22_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_22_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_23",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_23",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_23_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_23_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_24",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_24",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_24_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_24_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_25",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_25",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_25_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_25_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_26",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_26",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_26_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_26_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_27",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_27",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_27_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_27_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_28",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_28",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_28_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_28_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_29",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_29",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_29_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_29_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_30",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_30",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_30_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_30_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_31",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_31",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_31_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_31_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_32",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_32",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_32_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_32_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_track_bushing_33",
+   "body": "lower",
+   "mass_kg": 0.00277
+  },
+  {
+   "name": "R_track_pin_33",
+   "body": "lower",
+   "mass_kg": 0.00311
+  },
+  {
+   "name": "R_pin_clip_33_0",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "R_pin_clip_33_1",
+   "body": "lower",
+   "mass_kg": 0.0001
+  },
+  {
+   "name": "X101_X_frame",
+   "body": "lower",
+   "mass_kg": 0.62594
+  },
+  {
+   "name": "X102_belly_cover",
+   "body": "lower",
+   "mass_kg": 0.04288
+  },
+  {
+   "name": "mount_screw_M4x25_L00",
+   "body": "lower",
+   "mass_kg": 0.00367
+  },
+  {
+   "name": "mount_washer_L00",
+   "body": "lower",
+   "mass_kg": 0.0003
+  },
+  {
+   "name": "mount_rear_washer_L00",
+   "body": "lower",
+   "mass_kg": 0.0003
+  },
+  {
+   "name": "mount_nut_M4_L00",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "mount_screw_M4x25_L01",
+   "body": "lower",
+   "mass_kg": 0.00367
+  },
+  {
+   "name": "mount_washer_L01",
+   "body": "lower",
+   "mass_kg": 0.0003
+  },
+  {
+   "name": "mount_rear_washer_L01",
+   "body": "lower",
+   "mass_kg": 0.0003
+  },
+  {
+   "name": "mount_nut_M4_L01",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "mount_screw_M4x25_L10",
+   "body": "lower",
+   "mass_kg": 0.00367
+  },
+  {
+   "name": "mount_washer_L10",
+   "body": "lower",
+   "mass_kg": 0.0003
+  },
+  {
+   "name": "mount_rear_washer_L10",
+   "body": "lower",
+   "mass_kg": 0.0003
+  },
+  {
+   "name": "mount_nut_M4_L10",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "mount_screw_M4x25_L11",
+   "body": "lower",
+   "mass_kg": 0.00367
+  },
+  {
+   "name": "mount_washer_L11",
+   "body": "lower",
+   "mass_kg": 0.0003
+  },
+  {
+   "name": "mount_rear_washer_L11",
+   "body": "lower",
+   "mass_kg": 0.0003
+  },
+  {
+   "name": "mount_nut_M4_L11",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "mount_screw_M4x25_R00",
+   "body": "lower",
+   "mass_kg": 0.00367
+  },
+  {
+   "name": "mount_washer_R00",
+   "body": "lower",
+   "mass_kg": 0.0003
+  },
+  {
+   "name": "mount_rear_washer_R00",
+   "body": "lower",
+   "mass_kg": 0.0003
+  },
+  {
+   "name": "mount_nut_M4_R00",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "mount_screw_M4x25_R01",
+   "body": "lower",
+   "mass_kg": 0.00367
+  },
+  {
+   "name": "mount_washer_R01",
+   "body": "lower",
+   "mass_kg": 0.0003
+  },
+  {
+   "name": "mount_rear_washer_R01",
+   "body": "lower",
+   "mass_kg": 0.0003
+  },
+  {
+   "name": "mount_nut_M4_R01",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "mount_screw_M4x25_R10",
+   "body": "lower",
+   "mass_kg": 0.00367
+  },
+  {
+   "name": "mount_washer_R10",
+   "body": "lower",
+   "mass_kg": 0.0003
+  },
+  {
+   "name": "mount_rear_washer_R10",
+   "body": "lower",
+   "mass_kg": 0.0003
+  },
+  {
+   "name": "mount_nut_M4_R10",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "mount_screw_M4x25_R11",
+   "body": "lower",
+   "mass_kg": 0.00367
+  },
+  {
+   "name": "mount_washer_R11",
+   "body": "lower",
+   "mass_kg": 0.0003
+  },
+  {
+   "name": "mount_rear_washer_R11",
+   "body": "lower",
+   "mass_kg": 0.0003
+  },
+  {
+   "name": "mount_nut_M4_R11",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "seat_screw_M4x30_0",
+   "body": "lower",
+   "mass_kg": 0.00417
+  },
+  {
+   "name": "seat_washer_12_0",
+   "body": "lower",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "seat_disc_spring_0",
+   "body": "lower",
+   "mass_kg": 0.00049
+  },
+  {
+   "name": "seat_nut_M4_0",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "seat_screw_M4x30_1",
+   "body": "lower",
+   "mass_kg": 0.00417
+  },
+  {
+   "name": "seat_washer_12_1",
+   "body": "lower",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "seat_disc_spring_1",
+   "body": "lower",
+   "mass_kg": 0.00049
+  },
+  {
+   "name": "seat_nut_M4_1",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "seat_screw_M4x30_2",
+   "body": "lower",
+   "mass_kg": 0.00417
+  },
+  {
+   "name": "seat_washer_12_2",
+   "body": "lower",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "seat_disc_spring_2",
+   "body": "lower",
+   "mass_kg": 0.00049
+  },
+  {
+   "name": "seat_nut_M4_2",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "seat_screw_M4x30_3",
+   "body": "lower",
+   "mass_kg": 0.00417
+  },
+  {
+   "name": "seat_washer_12_3",
+   "body": "lower",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "seat_disc_spring_3",
+   "body": "lower",
+   "mass_kg": 0.00049
+  },
+  {
+   "name": "seat_nut_M4_3",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "seat_screw_M4x30_4",
+   "body": "lower",
+   "mass_kg": 0.00417
+  },
+  {
+   "name": "seat_washer_12_4",
+   "body": "lower",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "seat_disc_spring_4",
+   "body": "lower",
+   "mass_kg": 0.00049
+  },
+  {
+   "name": "seat_nut_M4_4",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "seat_screw_M4x30_5",
+   "body": "lower",
+   "mass_kg": 0.00417
+  },
+  {
+   "name": "seat_washer_12_5",
+   "body": "lower",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "seat_disc_spring_5",
+   "body": "lower",
+   "mass_kg": 0.00049
+  },
+  {
+   "name": "seat_nut_M4_5",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "seat_screw_M4x30_6",
+   "body": "lower",
+   "mass_kg": 0.00417
+  },
+  {
+   "name": "seat_washer_12_6",
+   "body": "lower",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "seat_disc_spring_6",
+   "body": "lower",
+   "mass_kg": 0.00049
+  },
+  {
+   "name": "seat_nut_M4_6",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "seat_screw_M4x30_7",
+   "body": "lower",
+   "mass_kg": 0.00417
+  },
+  {
+   "name": "seat_washer_12_7",
+   "body": "lower",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "seat_disc_spring_7",
+   "body": "lower",
+   "mass_kg": 0.00049
+  },
+  {
+   "name": "seat_nut_M4_7",
+   "body": "lower",
+   "mass_kg": 0.00075
+  },
+  {
+   "name": "insert_M3_cover_0",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "cover_screw_M3x8_0",
+   "body": "lower",
+   "mass_kg": 0.00058
+  },
+  {
+   "name": "insert_M3_cover_1",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "cover_screw_M3x8_1",
+   "body": "lower",
+   "mass_kg": 0.00058
+  },
+  {
+   "name": "insert_M3_cover_2",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "cover_screw_M3x8_2",
+   "body": "lower",
+   "mass_kg": 0.00058
+  },
+  {
+   "name": "insert_M3_cover_3",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "cover_screw_M3x8_3",
+   "body": "lower",
+   "mass_kg": 0.00058
+  },
+  {
+   "name": "RU66_outer_ring",
+   "body": "lower",
+   "mass_kg": 0.31
+  },
+  {
+   "name": "RU66_inner_ring",
+   "body": "upper",
+   "mass_kg": 0.31
+  },
+  {
+   "name": "X103_ring_gear",
+   "body": "lower",
+   "mass_kg": 0.06259
+  },
+  {
+   "name": "ring_gear_screw_M3x12_0",
+   "body": "lower",
+   "mass_kg": 0.0008
+  },
+  {
+   "name": "ring_gear_insert_M3_0",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "ring_gear_screw_M3x12_1",
+   "body": "lower",
+   "mass_kg": 0.0008
+  },
+  {
+   "name": "ring_gear_insert_M3_1",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "ring_gear_screw_M3x12_2",
+   "body": "lower",
+   "mass_kg": 0.0008
+  },
+  {
+   "name": "ring_gear_insert_M3_2",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "ring_gear_screw_M3x12_3",
+   "body": "lower",
+   "mass_kg": 0.0008
+  },
+  {
+   "name": "ring_gear_insert_M3_3",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "ring_gear_screw_M3x12_4",
+   "body": "lower",
+   "mass_kg": 0.0008
+  },
+  {
+   "name": "ring_gear_insert_M3_4",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "ring_gear_screw_M3x12_5",
+   "body": "lower",
+   "mass_kg": 0.0008
+  },
+  {
+   "name": "ring_gear_insert_M3_5",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "slip_ring_6way_stator",
+   "body": "lower",
+   "mass_kg": 0.0255
+  },
+  {
+   "name": "slip_ring_6way_rotor",
+   "body": "lower",
+   "mass_kg": 0.0045
+  },
+  {
+   "name": "T106_rotor_dog_TPU",
+   "body": "lower",
+   "mass_kg": 0.001
+  },
+  {
+   "name": "collar_insert_M3_0",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "slip_ring_washer_M3_0",
+   "body": "lower",
+   "mass_kg": 0.00012
+  },
+  {
+   "name": "slip_ring_screw_M3x8_0",
+   "body": "lower",
+   "mass_kg": 0.001
+  },
+  {
+   "name": "collar_insert_M3_1",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "slip_ring_washer_M3_1",
+   "body": "lower",
+   "mass_kg": 0.00012
+  },
+  {
+   "name": "slip_ring_screw_M3x8_1",
+   "body": "lower",
+   "mass_kg": 0.001
+  },
+  {
+   "name": "collar_insert_M3_2",
+   "body": "lower",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "slip_ring_washer_M3_2",
+   "body": "lower",
+   "mass_kg": 0.00012
+  },
+  {
+   "name": "slip_ring_screw_M3x8_2",
+   "body": "lower",
+   "mass_kg": 0.001
+  },
+  {
+   "name": "T101_centre_frame",
+   "body": "upper",
+   "mass_kg": 0.52244
+  },
+  {
+   "name": "T104_hub_adapter",
+   "body": "upper",
+   "mass_kg": 0.01493
+  },
+  {
+   "name": "T102_motor_slide",
+   "body": "upper",
+   "mass_kg": 0.02623
+  },
+  {
+   "name": "hub_washer_12_0",
+   "body": "upper",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "hub_disc_spring_0",
+   "body": "upper",
+   "mass_kg": 0.00049
+  },
+  {
+   "name": "hub_screw_M4x20_0",
+   "body": "upper",
+   "mass_kg": 0.00318
+  },
+  {
+   "name": "hub_washer_12_1",
+   "body": "upper",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "hub_disc_spring_1",
+   "body": "upper",
+   "mass_kg": 0.00049
+  },
+  {
+   "name": "hub_screw_M4x20_1",
+   "body": "upper",
+   "mass_kg": 0.00318
+  },
+  {
+   "name": "hub_washer_12_2",
+   "body": "upper",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "hub_disc_spring_2",
+   "body": "upper",
+   "mass_kg": 0.00049
+  },
+  {
+   "name": "hub_screw_M4x20_2",
+   "body": "upper",
+   "mass_kg": 0.00318
+  },
+  {
+   "name": "hub_washer_12_3",
+   "body": "upper",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "hub_disc_spring_3",
+   "body": "upper",
+   "mass_kg": 0.00049
+  },
+  {
+   "name": "hub_screw_M4x20_3",
+   "body": "upper",
+   "mass_kg": 0.00318
+  },
+  {
+   "name": "hub_washer_12_4",
+   "body": "upper",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "hub_disc_spring_4",
+   "body": "upper",
+   "mass_kg": 0.00049
+  },
+  {
+   "name": "hub_screw_M4x20_4",
+   "body": "upper",
+   "mass_kg": 0.00318
+  },
+  {
+   "name": "hub_washer_12_5",
+   "body": "upper",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "hub_disc_spring_5",
+   "body": "upper",
+   "mass_kg": 0.00049
+  },
+  {
+   "name": "hub_screw_M4x20_5",
+   "body": "upper",
+   "mass_kg": 0.00318
+  },
+  {
+   "name": "hub_washer_12_6",
+   "body": "upper",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "hub_disc_spring_6",
+   "body": "upper",
+   "mass_kg": 0.00049
+  },
+  {
+   "name": "hub_screw_M4x20_6",
+   "body": "upper",
+   "mass_kg": 0.00318
+  },
+  {
+   "name": "hub_washer_12_7",
+   "body": "upper",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "hub_disc_spring_7",
+   "body": "upper",
+   "mass_kg": 0.00049
+  },
+  {
+   "name": "hub_screw_M4x20_7",
+   "body": "upper",
+   "mass_kg": 0.00318
+  },
+  {
+   "name": "JGY370_gearbox",
+   "body": "upper",
+   "mass_kg": 0.12074
+  },
+  {
+   "name": "JGY370_motor_can",
+   "body": "upper",
+   "mass_kg": 0.04926
+  },
+  {
+   "name": "motor_screw_M3x8_button_0",
+   "body": "upper",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "motor_screw_M3x8_button_1",
+   "body": "upper",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "motor_screw_M3x8_button_2",
+   "body": "upper",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "motor_screw_M3x8_button_3",
+   "body": "upper",
+   "mass_kg": 0.00077
+  },
+  {
+   "name": "slide_insert_M3_0",
+   "body": "upper",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "slide_washer_M3_0",
+   "body": "upper",
+   "mass_kg": 0.00012
+  },
+  {
+   "name": "slide_clamp_screw_M3x12_0",
+   "body": "upper",
+   "mass_kg": 0.00123
+  },
+  {
+   "name": "slide_insert_M3_1",
+   "body": "upper",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "slide_washer_M3_1",
+   "body": "upper",
+   "mass_kg": 0.00012
+  },
+  {
+   "name": "slide_clamp_screw_M3x12_1",
+   "body": "upper",
+   "mass_kg": 0.00123
+  },
+  {
+   "name": "slide_insert_M3_2",
+   "body": "upper",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "slide_washer_M3_2",
+   "body": "upper",
+   "mass_kg": 0.00012
+  },
+  {
+   "name": "slide_clamp_screw_M3x12_2",
+   "body": "upper",
+   "mass_kg": 0.00123
+  },
+  {
+   "name": "slide_insert_M3_3",
+   "body": "upper",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "slide_washer_M3_3",
+   "body": "upper",
+   "mass_kg": 0.00012
+  },
+  {
+   "name": "slide_clamp_screw_M3x12_3",
+   "body": "upper",
+   "mass_kg": 0.00123
+  },
+  {
+   "name": "lug_insert_M3_0",
+   "body": "upper",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "push_screw_M3x12_0",
+   "body": "upper",
+   "mass_kg": 0.00123
+  },
+  {
+   "name": "push_nut_M3_0",
+   "body": "upper",
+   "mass_kg": 0.00036
+  },
+  {
+   "name": "lug_insert_M3_1",
+   "body": "upper",
+   "mass_kg": 0.00027
+  },
+  {
+   "name": "push_screw_M3x12_1",
+   "body": "upper",
+   "mass_kg": 0.00123
+  },
+  {
+   "name": "push_nut_M3_1",
+   "body": "upper",
+   "mass_kg": 0.00036
+  },
+  {
+   "name": "T103_drag_plunger_0",
+   "body": "upper",
+   "mass_kg": 0.00048
+  },
+  {
+   "name": "drag_felt_0",
+   "body": "upper",
+   "mass_kg": 5e-05
+  },
+  {
+   "name": "drag_spring_0",
+   "body": "upper",
+   "mass_kg": 0.0003
+  },
+  {
+   "name": "drag_insert_M6_0",
+   "body": "upper",
+   "mass_kg": 0.00168
+  },
+  {
+   "name": "drag_set_screw_M6x8_0",
+   "body": "upper",
+   "mass_kg": 0.00178
+  },
+  {
+   "name": "T103_drag_plunger_1",
+   "body": "upper",
+   "mass_kg": 0.00048
+  },
+  {
+   "name": "drag_felt_1",
+   "body": "upper",
+   "mass_kg": 5e-05
+  },
+  {
+   "name": "drag_spring_1",
+   "body": "upper",
+   "mass_kg": 0.0003
+  },
+  {
+   "name": "drag_insert_M6_1",
+   "body": "upper",
+   "mass_kg": 0.00168
+  },
+  {
+   "name": "drag_set_screw_M6x8_1",
+   "body": "upper",
+   "mass_kg": 0.00178
+  },
+  {
+   "name": "arm_bolt_M6x40_0",
+   "body": "upper",
+   "mass_kg": 0.01258
+  },
+  {
+   "name": "arm_nut_M6_0",
+   "body": "upper",
+   "mass_kg": 0.00229
+  },
+  {
+   "name": "arm_bolt_M6x40_1",
+   "body": "upper",
+   "mass_kg": 0.01258
+  },
+  {
+   "name": "arm_nut_M6_1",
+   "body": "upper",
+   "mass_kg": 0.00229
+  },
+  {
+   "name": "arm_bolt_M6x40_2",
+   "body": "upper",
+   "mass_kg": 0.01258
+  },
+  {
+   "name": "arm_nut_M6_2",
+   "body": "upper",
+   "mass_kg": 0.00229
+  },
+  {
+   "name": "arm_bolt_M6x40_3",
+   "body": "upper",
+   "mass_kg": 0.01258
+  },
+  {
+   "name": "arm_nut_M6_3",
+   "body": "upper",
+   "mass_kg": 0.00229
+  },
+  {
+   "name": "T105_pinion",
+   "body": "pinion",
+   "mass_kg": 0.00747
+  },
+  {
+   "name": "Pololu_1999_hub",
+   "body": "pinion",
+   "mass_kg": 0.0066
+  },
+  {
+   "name": "JGY370_output_shaft",
+   "body": "pinion",
+   "mass_kg": 0.00244
+  },
+  {
+   "name": "hub_set_screw_0",
+   "body": "pinion",
+   "mass_kg": 0.00042
+  },
+  {
+   "name": "hub_set_screw_1",
+   "body": "pinion",
+   "mass_kg": 0.00015
+  },
+  {
+   "name": "pinion_screw_M3x10_0",
+   "body": "pinion",
+   "mass_kg": 0.00111
+  },
+  {
+   "name": "pinion_screw_M3x10_1",
+   "body": "pinion",
+   "mass_kg": 0.00111
+  },
+  {
+   "name": "pinion_screw_M3x10_2",
+   "body": "pinion",
+   "mass_kg": 0.00111
+  },
+  {
+   "name": "pinion_screw_M3x10_3",
+   "body": "pinion",
+   "mass_kg": 0.00111
+  },
+  {
+   "name": "ARM60_fixed_pivot_base",
+   "body": "upper",
+   "mass_kg": 0.52729
+  },
+  {
+   "name": "ARM60_arm_and_actuators",
+   "body": "upper",
+   "mass_kg": 1.11451
+  }
+ ],
+ "bucket_tip_mm": [
+  440.15742193326,
+  0.0,
+  147.27033318335634
+ ]
+}

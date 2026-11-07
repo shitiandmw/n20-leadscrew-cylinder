@@ -3,10 +3,15 @@
 Vehicle frame: X forward, Y to the left, Z up; origin on the ground under the swing centre.
 - The J9 module as built is the left track (its inboard side is -Y in its own frame), so it sits at Y = +TRACK_Y.
   The right track is its mirror image: mirrored J901 H-frame and J909 housing prints, every other part the same.
-- The X-frame X101 follows the Cat 320 lower frame: a round carbody under the slewing ring, four legs in an X and a
-  mounting rail along each track. Each rail bolts to the track's three J9 chassis bosses (M4 inserts).
-- The turntable is not built. Its seat is sized for a THK RU66 cross-roller ring (catalogue A18-20/21): the outer
-  ring bolts to the X-frame with 8 x M4 from above, and the inner ring (8 x M4 tapped, PCD 45) is left for the turntable.
+- The X-frame X101 follows the Cat 320 lower frame: a round carbody under the slewing ring and four straight arms
+  in an X. Rev F: each arm keeps its 28 mm width to the track plate and ends flat in a plain 1.5 mm seat; the deck
+  and the arched underside are single curves, and side slots take the two screw heads (j9_mounts.py).
+- The seat is sized for a THK RU66 cross-roller ring (catalogue A18-20/21). The inner ring (8 x M4 tapped, PCD 45)
+  carries the turntable (x1_turntable.py, concept R3).
+- X101 rev B (turntable concept R3, 2026-11-03): the RU66 outer ring sits on 8 x M4 x 30 with Ø12 washers, conical
+  spring washers and nuts under the mount ring (plain Ø4.5 holes instead of heat-set inserts); a collar under the top
+  plate locates the bought 6-way slip ring (R2); 6 countersunk Ø3.4 holes at R 51 take the ring gear X103's screws from
+  below, with scallops in the mount ring and wall so the Ø6.3 heads pass.
 """
 import math, sys
 from pathlib import Path
@@ -20,6 +25,7 @@ ROOT = HERE.parent                                   # track_wheel_jgy370/X1
 sys.path.insert(0, str(ROOT.parent / 'J9/source'))
 import j9_parts as P9                                # also puts track_wheel/source on the path
 import j9_design as D9
+import j9_mounts as M
 
 tp = P9.tp
 box, ycyl, xcyl, zcyl, yring, one = tp.box, tp.ycyl, tp.xcyl, tp.zcyl, tp.yring, tp.one
@@ -35,24 +41,22 @@ CAT320 = dict(track_length=4450, length_to_centre_of_rollers=3650, track_gauge=2
 
 # ---------------------------------------------------------------- layout
 TRACK_Y = 170.0                    # track centre lines at Y = +-170: the 60 mm excavator's 340 mm stance
-BOSS_FACE_Y = TRACK_Y + D9.CHASSIS_Y[0]              # 124: J9 boss faces (M4 inserts), seen from the vehicle centre
-CHASSIS_Z = sum(D9.CHASSIS_Z)/2                      # 68
-CHASSIS_SCREW_L = 12.0             # M4 x 12 through the 6 mm rail: 6 mm in the 8.1 mm insert, 2.1 short of the hole bottom
+SEAT_Y = TRACK_Y + M.FACE_Y        # 137.5: arm end face, bottom of the J901 seat
+PLATE_Y = TRACK_Y + M.PLATE_FACE_Y # 136: J901 main-plate face
 
 # X-frame X101
-TOP_Z = 85.0                       # flat top = slewing-ring seat; the whole top prints on the bed
+TOP_Z = 85.0                       # bearing seat on the bed
 BOTTOM_Z = 34.0                    # carbody rim; the belly cover sits below it
 COVER_Z = (31.0, 34.0)             # ground clearance 31 (Cat 320: 470 mm, 31.3 at 1:15)
 BODY_R, BODY_WALL, PLATE_T = 60.0, 6.0, 6.0
-LEG_W, LEG_END_X, LEG_FILLET = 32.0, 73.5, 15.0      # leg centre lines meet the rails' inner faces at X = +-73.5
-RAIL_T = 6.0
-RAIL_IN_Y = BOSS_FACE_Y - RAIL_T                     # 118
-RAIL_X = (-93.0, 95.0)
-RAIL_Z0, RAIL_Z0_POD, POD_STEP_X = 61.5, 67.5, -70.0  # rail bottom: over the bosses and motor tube / over the pod's shoulder and drum
-UNDER = ((BODY_R, BOTTOM_Z), (100.0, 73.0))          # underside rises from the carbody rim to the legs (Cat-style sloped bottom plates)
-RAIL_HOLE_R, ACCESS_R = 2.25, 4.0                    # M4 clearance; J9 tool access through the rail
-ACCESS = [(x, D9.CARRIER_Z) for x in D9.CARRIER_X] + [(x, z) for x, z in P9.HOUSING_SCREWS if z > RAIL_Z0]
-CABLE_HOLE = dict(x=0.0, z=46.0, r=5.0)              # motor leads enter the carbody here, midway between the legs
+ARM_X, ARM_HALF, ARM_FILLET = M.STATIONS[1], M.ARM_HALF, 10.0
+ARM_ROOT = ((5.0, 35.0), (40.0, 20.0))   # arm root on the carbody (first quadrant)
+ARM_STRAIGHT_Y = 96.0              # full 28 mm width from here into the seat
+PROFILE_Y0 = 48.0                  # side profile: full carbody height inside |Y| 48
+CROWN_Y = TRACK_Y + M.CROWN_Y      # 108: top of the arched underside; the J9 foot curve follows
+SLOT_Y = tuple(TRACK_Y + y for y in M.SLOT_Y)   # 97..127: head slots
+CABLE_HOLE = dict(x=0.0, z=46.0, r=5.0)              # motor leads enter the carbody here, midway between the arms
+CABLE_X, CABLE_TURN_Y = 34.0, (96.0, 66.0)        # leads run forward beside the front arm, clear of the inner screws' key swing
 COVER_BOSS_R, COVER_BOSS_ANG = 51.0, (45, 135, 225, 315)
 
 # Turntable seat: THK RU66 cross-roller ring, catalogue A18-20/21 (references/thk_ru66/)
@@ -70,6 +74,11 @@ MOUNT_RING = (35.0, 48.0, TOP_Z - 10.0)              # thickened ring under the 
 TAIL_SWING_R = CAT320['tail_swing_radius']/SCALE     # 188.7: reserved swing circle (the R3 upper body uses 189)
 RESERVE_R = 189.0
 M4_HEAD, M3_CSK = P9.M4_HEAD, dict(r=3.15, h=1.65)   # ISO 4762 M4; ISO 10642 M3 countersunk (90 deg)
+# X101 rev B: turntable interface of concept R3 (swing_concept/X1_swing_concept_R3.pdf, sheet 4)
+SEAT_HOLE_R = 2.25                 # plain Ø4.5 through the seat and mount ring; nuts below
+SEAT_STACK = dict(screw_L=30.0, washer=(6.0, 2.2, 1.0), disc=(4.5, 2.2, 1.3), nut=(7.0, 3.2))   # DIN 9021 Ø12, DIN 6796 M4, ISO 4032 M4
+COLLAR = dict(r_in=11.2, r_out=22.0, z=(TOP_Z - PLATE_T - 5.0, TOP_Z - PLATE_T), insert_r=17.5, insert_ang=(0.0, 120.0, 240.0))
+RG_HOLES = dict(r=51.0, ang=[60.0*k for k in range(6)], hole_r=1.7, scallop_r=3.6)                # ring gear X103 screws, from below
 
 
 def polar(r, deg):
@@ -89,58 +98,126 @@ def zring(ro, ri, z0, z1, x=0., y=0.):
     return zcyl(ro, z0, z1, x, y).cut(zcyl(ri, z0 - 1, z1 + 1, x, y))
 
 
-def leg_ends():
-    return [(sx*LEG_END_X, sy*RAIL_IN_Y) for sx in (1, -1) for sy in (1, -1)]
+def arm_centres():
+    return [(sx*ARM_X, sy*SEAT_Y) for sx in (1, -1) for sy in (1, -1)]
 
 
 def plan_outline():
-    """Carbody circle and four legs in an X, concave corners rounded, cut at the rails' inner faces."""
+    """Carbody disc and four arms; each arm is 28 mm wide from Y 96 to the seat, concave root fillets."""
     shapes = [Point(0, 0).buffer(BODY_R, quad_segs=64)]
-    for x, y in leg_ends():
-        shapes.append(LineString([(0, 0), (1.2*x, 1.2*y)]).buffer(LEG_W/2, cap_style=2))
-    u = unary_union(shapes).buffer(LEG_FILLET, quad_segs=16).buffer(-LEG_FILLET, quad_segs=16)
-    return u.intersection(rect(-300, -RAIL_IN_Y - .5, 300, RAIL_IN_Y + .5))
+    (x0, y0), (x1, y1) = ARM_ROOT
+    for sx in (1, -1):
+        for sy in (1, -1):
+            shapes.append(Polygon([(sx*x, sy*y) for x, y in
+                                  ((x0, y0), (x1, y1),
+                                   (ARM_X+ARM_HALF, ARM_STRAIGHT_Y), (ARM_X+ARM_HALF, SEAT_Y+1),
+                                   (ARM_X-ARM_HALF, SEAT_Y+1), (ARM_X-ARM_HALF, ARM_STRAIGHT_Y))]))
+    u = unary_union(shapes).buffer(ARM_FILLET, quad_segs=6).buffer(-ARM_FILLET, quad_segs=6).simplify(.05)
+    return u.intersection(rect(-300, -SEAT_Y - .5, 300, SEAT_Y + .5))
 
 
-def rail_profile():
-    """Rail elevation (X, Z): stepped up over the J9 motor pod's shoulder and drum, corners rounded."""
-    p = Polygon([(RAIL_X[0], RAIL_Z0_POD), (POD_STEP_X - 6, RAIL_Z0_POD), (POD_STEP_X, RAIL_Z0), (RAIL_X[1], RAIL_Z0),
-                 (RAIL_X[1], TOP_Z), (RAIL_X[0], TOP_Z)])
-    return p.buffer(-2.5, join_style=1).buffer(2.5, join_style=1)
+def deck_bezier():
+    """Arm deck: z = 85 - 11 u^3 from |Y| 48 (u=0) to the plate face (u=1), as an exact cubic Bezier."""
+    y0, y1 = PROFILE_Y0, PLATE_Y
+    d = (y1 - y0)/3
+    return [(y0, TOP_Z), (y0 + d, TOP_Z), (y0 + 2*d, TOP_Z), (y1, M.FACE_Z[1])]
 
 
-def underside():
-    """Solid of revolution: everything above the X-frame's underside surface."""
-    (r0, z0), (r1, z1) = UNDER
-    pts = [(0, z0), (r0, z0), (r1, z1), (400, z1), (400, TOP_Z + 5), (0, TOP_Z + 5)]
-    return cq.Workplane('XZ').polyline(pts).close().revolve(360, (0, 0, 0), (0, 1, 0))
+def arch_bezier():
+    """Arched underside from the carbody rim to the crown: z = 34 + 23.5 (1 - (1-u)^2), a quadratic Bezier."""
+    return [(PROFILE_Y0, BOTTOM_Z), ((PROFILE_Y0 + CROWN_Y)/2, M.CROWN_Z), (CROWN_Y, M.CROWN_Z)]
+
+
+def foot_bezier():
+    """The J9 foot curve (j9_mounts.FOOT) in vehicle |Y|, from the crown to the plate face."""
+    return [(TRACK_Y + y, z) for y, z in M.FOOT[::-1]]
+
+
+def arm_profile():
+    """|Y|-symmetric side elevation of the arms, extruded along X; exact Bezier edges only."""
+    deck, arch, foot = deck_bezier(), arch_bezier(), foot_bezier()
+    zb, zt = M.FACE_Z
+    neg = lambda pts: [(-y, z) for y, z in pts]
+    w = (cq.Workplane('YZ').moveTo(-SEAT_Y, zb).lineTo(-SEAT_Y, zt).lineTo(-PLATE_Y, zt)
+         .bezier(neg(deck[::-1])[1:], includeCurrent=True)
+         .lineTo(PROFILE_Y0, TOP_Z)
+         .bezier(deck[1:], includeCurrent=True)
+         .lineTo(SEAT_Y, zt).lineTo(SEAT_Y, zb).lineTo(PLATE_Y, zb)
+         .bezier(foot[::-1][1:], includeCurrent=True)
+         .bezier(arch[::-1][1:], includeCurrent=True)
+         .lineTo(-PROFILE_Y0, BOTTOM_Z)
+         .bezier(neg(arch)[1:], includeCurrent=True)
+         .bezier(neg(foot)[1:], includeCurrent=True)
+         .close())
+    return w.extrude(400).translate((-200, 0, 0))
+
+
+def arm_z_under(y):
+    """Underside height of the arm at vehicle |Y| (for checks and drawings)."""
+    y = abs(y)
+    if y <= PROFILE_Y0:
+        return BOTTOM_Z
+    if y <= CROWN_Y:
+        u = (y - PROFILE_Y0)/(CROWN_Y - PROFILE_Y0)
+        return BOTTOM_Z + (M.CROWN_Z - BOTTOM_Z)*(1 - (1 - u)**2)
+    return M.arm_under(y - TRACK_Y)
+
+
+def arm_z_top(y):
+    y = abs(y)
+    if y <= PROFILE_Y0:
+        return TOP_Z
+    if y >= PLATE_Y:
+        return M.FACE_Z[1]
+    return TOP_Z - (TOP_Z - M.FACE_Z[1])*((y - PROFILE_Y0)/(PLATE_Y - PROFILE_Y0))**3
+
+
+def slot_tool():
+    """Both head slots of every arm (round inboard end, open to the side) and the screw bores, fused."""
+    tool = None
+    for sx in (1, -1):
+        for sy in (1, -1):
+            cx = sx*ARM_X
+            y0, y1 = sorted((sy*SLOT_Y[0], sy*SLOT_Y[1]))
+            for side in (-1, 1):
+                xa, xb = sorted((cx + side*M.WEB/2, cx + side*(ARM_HALF + 6)))
+                cut = box(xa, xb, y0, y1, *M.SLOT_Z).union(xcyl(M.SLOT_R, xa, xb, sy*SLOT_Y[0], M.BOLT_Z[0]))
+                ya, yb = sorted((sy*(SLOT_Y[1] - 5), sy*(SEAT_Y + 2)))
+                cut = cut.union(ycyl(M.HOLE_R, ya, yb, cx + side*M.BOLT_OFFSET, M.BOLT_Z[0]))
+                tool = cut if tool is None else tool.union(cut)
+    return tool
 
 
 @lru_cache(None)
 def x_frame():
-    s = xy_prism(plan_outline(), BOTTOM_Z, TOP_Z).intersect(underside())
-    for side in (1, -1):
-        y0, y1 = sorted([side*RAIL_IN_Y, side*BOSS_FACE_Y])
-        s = s.union(tp.xz_prism(rail_profile(), y0, y1))
+    arms = xy_prism(plan_outline(), BOTTOM_Z - 1, TOP_Z + 1).cut(zcyl(BODY_R - 1, BOTTOM_Z - 2, TOP_Z + 2))
+    arms = arms.intersect(arm_profile())
+    s = zcyl(BODY_R, BOTTOM_Z, TOP_Z).union(arms).cut(slot_tool())
     # Hollow carbody: 6 mm wall, 6 mm top plate, open below (closed by the belly cover).
     s = s.cut(zcyl(BODY_R - BODY_WALL, BOTTOM_Z - 1, TOP_Z - PLATE_T))
     s = s.union(zring(MOUNT_RING[1], MOUNT_RING[0], MOUNT_RING[2], TOP_Z - PLATE_T + .01))
     for a in COVER_BOSS_ANG:
         s = s.union(zcyl(5.0, BOTTOM_Z, BOTTOM_Z + 10, *polar(COVER_BOSS_R, a)))
-    # Seat for the RU66 outer ring, relief over the inner ring, cable passage, inserts.
+    # Seat for the RU66 outer ring, relief over the inner ring, cable passage (rev B: plain holes, nuts below).
     s = s.cut(zcyl(RELIEF_R, TOP_Z - RELIEF_DEPTH, TOP_Z + 1))
     s = s.cut(zcyl(PASSAGE_R, MOUNT_RING[2] - 1, TOP_Z + 1))
     for a in OUTER_ANG:
-        s = s.cut(zcyl(INSERT_M4['r'], TOP_Z - INSERT_M4['length'] - 1, TOP_Z + 1, *polar(RU66['outer_pcd']/2, a)))
+        s = s.cut(zcyl(SEAT_HOLE_R, MOUNT_RING[2] - 1, TOP_Z + 1, *polar(RU66['outer_pcd']/2, a)))
+    # Rev B: slip-ring collar under the top plate (R2): Ø22.4 bore for the ring's spigot, 3 M3 inserts from below.
+    z0, z1 = COLLAR['z']
+    s = s.union(zring(COLLAR['r_out'], COLLAR['r_in'], z0, z1 + .01))
+    for a in COLLAR['insert_ang']:
+        s = s.cut(zcyl(INSERT_M3['r'], z0 - 1, z0 + INSERT_M3['length'], *polar(COLLAR['insert_r'], a)))
+    # Rev B: ring gear screws from below, countersunk in the plate's underside; scallops let the heads pass.
+    for a in RG_HOLES['ang']:
+        x, y = polar(RG_HOLES['r'], a)
+        s = s.cut(zcyl(RG_HOLES['hole_r'], z1 - 1, TOP_Z + 1, x, y))
+        s = s.cut(cq.Workplane(obj=cq.Solid.makeCone(M3_CSK['r'] + .05, 0, M3_CSK['r'] + .05, cq.Vector(x, y, z1 - .01), cq.Vector(0, 0, 1))))
+        s = s.cut(zcyl(RG_HOLES['scallop_r'], BOTTOM_Z - 1, z1, x, y))      # 0.6 deep groove up the carbody wall, notch in the mount ring
     for a in COVER_BOSS_ANG:
         s = s.cut(zcyl(INSERT_M3['r'], BOTTOM_Z - 1, BOTTOM_Z + INSERT_M3['length'], *polar(COVER_BOSS_R, a)))
     for side in (1, -1):
         s = s.cut(ycyl(CABLE_HOLE['r'], *sorted([side*(BODY_R - BODY_WALL - 2), side*(BODY_R + 2)]), CABLE_HOLE['x'], CABLE_HOLE['z']))
-        y0, y1 = sorted([side*(RAIL_IN_Y - 1), side*(BOSS_FACE_Y + 1)])
-        for x in D9.CHASSIS_X:
-            s = s.cut(ycyl(RAIL_HOLE_R, y0, y1, x, CHASSIS_Z))
-        for x, z in ACCESS:
-            s = s.cut(ycyl(ACCESS_R, y0, y1, x, z))
     return s.clean()
 
 
@@ -164,7 +241,7 @@ def ru66():
         x, y = polar(RU66['outer_pcd']/2, a)
         outer = outer.cut(zcyl(2.25, z0 - 1, z1 + 1, x, y)).cut(zcyl(4.0, z1 - 4.4, z1 + 1, x, y))
     for a in INNER_ANG:
-        inner = inner.cut(zcyl(1.65, z0 - 1, z1 + 1, *polar(RU66['inner_pcd']/2, a)))      # M4 tapped through (minor dia.)
+        inner = inner.cut(zcyl(2.0, z0 - 1, z1 + 1, *polar(RU66['inner_pcd']/2, a)))       # M4 tapped through (drawn at the major dia., as in J9)
     return outer.clean(), inner.clean()
 
 
@@ -190,9 +267,9 @@ def track(side, inst9):
 
 def chassis_parts():
     """Printed X1 parts (single solids, vehicle frame)."""
-    return {'X101_X_frame': dict(shape=x_frame(), quantity=1, material='PETG or PA12, 4 walls, 30 % infill',
-                                 note='Carbody under the slewing ring, four legs in an X and a rail along each track (3 x M4 into the J9 chassis bosses). '
-                                      'Flat top = RU66 seat with 8 M4 inserts; Ø25 cable passage at the swing centre.'),
+    return {'X101_X_frame': dict(shape=x_frame(), quantity=1, material='PETG or PA12; qualify print settings for intended load',
+                                 note='Rev F: four T-ends with integral curved supports seated in shallow main-plate recesses; exposed through-bolts on both wings. '
+                                      'Flat top = RU66 seat with 8 M4 through-bolts; Ø25 cable passage at the swing centre.'),
             'X102_belly_cover': dict(shape=belly_cover(), quantity=1, material='PETG, 3 walls',
                                      note='Round guard under the carbody, 4 x M3 x 8 countersunk into inserts.')}
 
@@ -210,14 +287,11 @@ def unit(inst9=None, with_reserve=True):
     prt = chassis_parts()
     add('X101_X_frame', prt['X101_X_frame']['shape'], XFRAME_C, 'xframe', 'printed', 'X101_X_frame')
     add('X102_belly_cover', prt['X102_belly_cover']['shape'], COVER_C, 'cover', 'printed', 'X102_belly_cover')
-    for side in (1, -1):
-        tag = 'L' if side > 0 else 'R'
-        for i, x in enumerate(D9.CHASSIS_X):
-            add(f'chassis_screw_M4x12_{tag}{i}', chassis_screw(side, x), BLACK, 'xframe')
+    out.update(mount_hardware())
     for i, a in enumerate(OUTER_ANG):
         x, y = polar(RU66['outer_pcd']/2, a)
-        add(f'insert_M4_seat_{i}', zring(INSERT_M4['r'], 2.0, TOP_Z - INSERT_M4['length'], TOP_Z, x, y), BRASS, 'xframe')
-        add(f'seat_screw_M4x16_{i}', screw_z(2.0, M4_HEAD, TURNTABLE_Z - 4.4, 16.0, x, y, -1), BLACK, 'bearing')
+        for n, sh in seat_stack(x, y).items():
+            add(f'{n}_{i}', sh, BLACK if n.startswith(('seat_screw', 'seat_nut')) else STEEL, 'bearing')
     for i, a in enumerate(COVER_BOSS_ANG):
         x, y = polar(COVER_BOSS_R, a)
         add(f'insert_M3_cover_{i}', zring(INSERT_M3['r'], 1.5, BOTTOM_Z, BOTTOM_Z + INSERT_M3['length'], x, y), BRASS, 'xframe')
@@ -230,9 +304,62 @@ def unit(inst9=None, with_reserve=True):
     return out
 
 
-def chassis_screw(side, x):
-    """M4 x 12 socket screw from the rail's inner face into a J9 boss insert (shank outboard)."""
-    return P9.screw_y(2.0, M4_HEAD, side*RAIL_IN_Y, CHASSIS_SCREW_L, x, CHASSIS_Z, side)
+def seat_stack(x, y):
+    """RU66 outer ring to X101 (rev B): M4 x 30 socket screw from the ring's counterbore; under the mount ring a Ø12
+    washer, a conical spring washer (drawn flat at its free height) and a nut."""
+    st = SEAT_STACK; z = MOUNT_RING[2]
+    wz = (z - st['washer'][2], z); dz = (wz[0] - st['disc'][2], wz[0]); nz = (dz[0] - st['nut'][1], dz[0])
+    return {'seat_screw_M4x30': screw_z(2.0, M4_HEAD, TURNTABLE_Z - 4.4, st['screw_L'], x, y, -1),
+            'seat_washer_12': zring(st['washer'][0], st['washer'][1], *wz, x, y),
+            'seat_disc_spring': zring(st['disc'][0], st['disc'][1], *dz, x, y),
+            'seat_nut_M4': tp.zhex(st['nut'][0], *nz, x, y).cut(zcyl(2.0, nz[0] - 1, nz[1] + 1, x, y))}
+
+
+def mount_stack(x, z):
+    """Plain through-bolt: head and washer in the arm's side slot, rear washer and nut inside the track."""
+    w = M.WASHER
+    face = M.HEAD_FACE_Y
+    return dict(
+        screw_M4x25=P9.screw_y(2, M.HEAD, face-w['t'], M.BOLT_L, x, z, 1),
+        washer=yring(w['ro'], w['ri'], face-w['t'], face, x, z),
+        rear_washer=yring(w['ro'], w['ri'], *M.REAR_WASHER_Y, x, z),
+        nut_M4=P9.yhex(M.NUT['af'], *M.NUT_Y, x, z).cut(ycyl(2, M.NUT_Y[0]-1, M.NUT_Y[1]+1, x, z)))
+
+
+def mount_hardware():
+    out = {}
+    for side in (1, -1):
+        tag = 'L' if side > 0 else 'R'
+        for i, j, x, z in M.bolt_centres():
+            for n, shape in mount_stack(x, z).items():
+                if side < 0:
+                    shape = mirror_y(shape)
+                out[f'mount_{n}_{tag}{i}{j}'] = dict(
+                    shape=shape.translate((0, side*TRACK_Y, 0)),
+                    color=BLACK if n.startswith(('screw', 'nut')) else STEEL,
+                    group='xframe', kind='hardware', source=None)
+    return out
+
+
+def key_side(x):
+    """+1 if the screw at local X x lies on the +X side of its arm's centre web."""
+    station = min(M.STATIONS, key=lambda c: abs(x - c))
+    return 1 if x > station else -1
+
+
+def mount_key(x, z, angle=0.0):
+    """Ordinary 3 mm L-key: 20 mm short leg on the screw axis, 80 mm handle out of the side slot.
+
+    angle is the handle's elevation above horizontal (degrees), turning about the screw axis.
+    The socket is not modelled in the simplified screw, so the short leg stops
+    just before the head. The standard socket supplies the final insertion.
+    """
+    head_end = M.HEAD_FACE_Y - M.WASHER['t'] - M.HEAD['h']
+    bend_y = head_end - 18.0
+    handle = xcyl(1.75, x, x + key_side(x)*80.0, bend_y, z)
+    if angle:
+        handle = handle.rotate((x, bend_y, z), (x, bend_y + 1, z), -key_side(x)*angle)
+    return ycyl(1.75, bend_y, head_end - .05, x, z).union(handle)
 
 
 def csk_screw(x, y):
@@ -246,11 +373,23 @@ def csk_cone(x, y):
 
 
 def cable_route(side):
-    """Reserved Ø5 path for one motor's two leads: from the pod's nose port, forward, then inboard into the carbody."""
+    """Reserved Ø5 path for one motor's two leads.
+
+    From the pod's nose port it runs forward under the arms to X 34, beside the
+    front arm, then inboard and into the carbody's side hole at X 0. This keeps
+    it out of the inner joint screws' L-key swing, which sweeps the gap between
+    the arms at vehicle Y 99-106.
+    """
     port_x = P9.NOSE_X + P9.TUBE_R + P9.PORT['length']             # tip of the port boss
     y_port = side*(TRACK_Y + P9.CAN_Y)
-    a = cq.Vector(port_x, y_port, D9.AXLE_Z); b = cq.Vector(CABLE_HOLE['x'], y_port, D9.AXLE_Z)
-    c = cq.Vector(CABLE_HOLE['x'], side*(BODY_R - BODY_WALL - 4), CABLE_HOLE['z'])
-    seg = lambda p, q: cq.Workplane(obj=cq.Solid.makeCylinder(2.5, (q - p).Length, p, (q - p).normalized()))
-    ball = cq.Workplane(obj=cq.Solid.makeSphere(2.5, b, angleDegrees1=-90, angleDegrees2=90))
-    return seg(a, b).union(ball).union(seg(b, c))
+    pts = [cq.Vector(port_x, y_port, D9.AXLE_Z), cq.Vector(CABLE_X, y_port, D9.AXLE_Z),
+           cq.Vector(CABLE_X, side*CABLE_TURN_Y[0], D9.AXLE_Z),
+           cq.Vector(CABLE_HOLE['x'], side*CABLE_TURN_Y[1], CABLE_HOLE['z']),
+           cq.Vector(CABLE_HOLE['x'], side*(BODY_R - BODY_WALL - 4), CABLE_HOLE['z'])]
+    s = None
+    for p, q in zip(pts, pts[1:]):
+        seg = cq.Workplane(obj=cq.Solid.makeCylinder(2.5, (q - p).Length, p, (q - p).normalized()))
+        s = seg if s is None else s.union(seg)
+    for corner in pts[1:-1]:
+        s = s.union(cq.Workplane(obj=cq.Solid.makeSphere(2.5, corner)))
+    return s

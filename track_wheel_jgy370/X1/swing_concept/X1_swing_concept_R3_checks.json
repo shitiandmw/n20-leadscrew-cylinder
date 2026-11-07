@@ -1,0 +1,620 @@
+{
+ "concept": "X1 turntable concept R3: anti-sway structure, no custom metal parts",
+ "issue": "Issue 3, 2026-11-03: modelled in CAD (x1_turntable.py); fixes from the CAD checks. Issue 2: track motor, 6-way slip ring",
+ "source": "draw_swing_concept_r3.py",
+ "estimates": {
+  "swing_motor": {
+   "motor": "JGY-370-1260 12 V 200:1 (30 rpm)",
+   "same_as_tracks": true,
+   "ratio": 4.0,
+   "turntable_rpm_noload": 7.5,
+   "turntable_rpm_rated": 5.5,
+   "seconds_per_turn": [
+    8.0,
+    10.909090909090908
+   ],
+   "motor_torque_Nm": {
+    "rated": 0.5886,
+    "stall": 1.9620000000000002,
+    "at_limit": 0.8175000000000001
+   },
+   "current_limit_A": 0.6,
+   "turntable_torque_Nm": {
+    "rated": 2.3544,
+    "stall": 7.848000000000001,
+    "at_limit": 3.2700000000000005,
+    "needed": 1.6
+   },
+   "tooth_force_N": {
+    "stall": 130.8,
+    "at_limit": 54.50000000000001
+   },
+   "tooth_stress_MPa": {
+    "stall": 27.250000000000004,
+    "at_limit": 11.354166666666668,
+    "petg_yield": 50.0
+   },
+   "note": "torques before gear losses; Lewis bending on the 20-tooth pinion, 10 wide"
+  },
+  "slip_ring": {
+   "ways": 6,
+   "wires_crossing": 4,
+   "spare": 2,
+   "amp_per_ring": 2.0,
+   "max_amp_per_wire": 1.3,
+   "note": "battery, receiver, all drivers and the swing motor ride in the upper"
+  },
+  "stiffness": {
+   "E_MPa": 2000.0,
+   "counterweight_kg": 1.8,
+   "lever_mm": 126.0,
+   "I_plate_mm4": 2484.0,
+   "I_T101_mm4": 93067.41386138613,
+   "ratio": 37.466752762232744,
+   "sag_plate_mm": 2.3700106956521743,
+   "sag_T101_mm": 0.06325636787080181,
+   "f_plate_Hz": 10.239517259111587,
+   "f_T101_Hz": 62.67617862369982,
+   "note": "cantilever from the hub well to the counterweight; T101 cut through the motor opening (weakest)"
+  },
+  "top_joint": {
+   "screws": "8 x M4 x 20 + DIN 6796 + DIN 9021 (\u00d812)",
+   "preload_N": 400.0,
+   "pressure_MPa": 4.115521760760122,
+   "opening_moment_Nm": 36.0,
+   "static_moment_Nm": 2.93,
+   "note": "static moment: upper + arm of the 60 mm excavator (its validation.json)"
+  },
+  "bottom_joint": {
+   "screws": "8 x M4 x 30, nut + DIN 6796 + DIN 9021 under the mount ring",
+   "preload_N": 400.0,
+   "pressure_washer_MPa": 4.115521760760122,
+   "pressure_seat_MPa": 1.1480322747682505,
+   "opening_moment_Nm": 66.4
+  },
+  "drag": {
+   "force_per_pad_N": 7.199999999999999,
+   "pads": 2,
+   "mu_assumed": 0.25,
+   "radius_mm": 53.5,
+   "torque_Nm": 0.1926,
+   "share_of_rated_swing_torque": 0.08180428134556575,
+   "rated_swing_torque_Nm": 2.3544,
+   "pull_at_100mm_N": 1.926
+  },
+  "play": {
+   "gearbox_deg_assumed": [
+    1.0,
+    2.0
+   ],
+   "ratio": 4.0,
+   "mesh_mm_before": [
+    0.2,
+    0.4
+   ],
+   "mesh_mm_after": [
+    0.1,
+    0.1
+   ],
+   "turntable_deg_before": [
+    0.44098593171027445,
+    0.8819718634205489
+   ],
+   "turntable_deg_after": [
+    0.3454929658551372,
+    0.5954929658551372
+   ],
+   "at_500mm_before": [
+    3.8484042232174525,
+    7.697264439001929
+   ],
+   "at_500mm_after": [
+    3.015031441376738,
+    5.196843587333372
+   ]
+  }
+ },
+ "checks": [
+  {
+   "check": "pinion above the leg tops",
+   "value": 2.0,
+   "unit": "mm",
+   "required": ">= 1.5",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "hub flange below the slide body",
+   "value": 1.0,
+   "unit": "mm",
+   "required": ">= 0.8",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "hub boss below the gearbox boss",
+   "value": 1.2,
+   "unit": "mm",
+   "required": ">= 0.5",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "shaft engagement in the hub (shaft tip below the hub)",
+   "value": 3.6,
+   "unit": "mm",
+   "required": ">= 0",
+   "ok": true,
+   "note": "the whole hub bore is on the shaft"
+  },
+  {
+   "check": "T101 above the RU66 outer ring",
+   "value": 3.0,
+   "unit": "mm",
+   "required": ">= 2",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "T101 above the ring gear",
+   "value": 6.0,
+   "unit": "mm",
+   "required": ">= 4",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "ring gear bore to the RU66 outer ring, radial",
+   "value": 0.1,
+   "unit": "mm",
+   "required": "<= 0.15",
+   "ok": true,
+   "note": "centring fit"
+  },
+  {
+   "check": "drag track inside the ring-gear band, inner",
+   "value": 1.9,
+   "unit": "mm",
+   "required": ">= 1",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "drag track inside the ring-gear band, outer",
+   "value": 0.62,
+   "unit": "mm",
+   "required": ">= 0.5",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "felt pad inside the track",
+   "value": 0.0,
+   "unit": "mm",
+   "required": ">= 0",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "pad housing merges into the rear hub bulkhead (overlap)",
+   "value": 1.18,
+   "unit": "mm",
+   "required": ">= 1",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "pad housing to the slide ears at full travel",
+   "value": 3.18,
+   "unit": "mm",
+   "required": ">= 2",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "motor can to the rear bulkhead at full travel",
+   "value": 1.7,
+   "unit": "mm",
+   "required": ">= 1.5",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "push-screw lugs to the slide ears, nearest",
+   "value": 4.0,
+   "unit": "mm",
+   "required": ">= 1",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "gearbox to the rib inner faces",
+   "value": 45.0,
+   "unit": "mm",
+   "required": ">= 20",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "motor can top below the rib tops",
+   "value": 1.8,
+   "unit": "mm",
+   "required": ">= 1",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "hub washers to the well wall",
+   "value": 1.5,
+   "unit": "mm",
+   "required": ">= 1",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "hub screws: thread in the inner ring",
+   "value": 8.7,
+   "unit": "mm",
+   "required": ">= 6",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "hub screws: tip above the X-frame relief limit (Z 83)",
+   "value": 8.3,
+   "unit": "mm",
+   "required": ">= 1",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "bottom joint: \u00d812 washer inside the mount ring, inner",
+   "value": 0.5,
+   "unit": "mm",
+   "required": ">= 0.5",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "bottom joint: \u00d812 washer inside the mount ring, outer",
+   "value": 0.5,
+   "unit": "mm",
+   "required": ">= 0.5",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "bottom joint: screw past the nut",
+   "value": 3.9,
+   "unit": "mm",
+   "required": ">= 1",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "ring-gear screw: thread in the gear",
+   "value": 6.0,
+   "unit": "mm",
+   "required": ">= 4.5",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "ring-gear screw: key gap between mount ring and wall",
+   "value": 6.0,
+   "unit": "mm",
+   "required": ">= 5",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "ring-gear insert hole inside the gear band",
+   "value": 1.4,
+   "unit": "mm",
+   "required": ">= 1",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "arm bolts: M6 x 40 past the nut",
+   "value": -5.0,
+   "unit": "mm",
+   "required": "<= -1",
+   "ok": true,
+   "note": "negative = below the nut"
+  },
+  {
+   "check": "drag-pad travel before the plunger lands on the lip",
+   "value": 2.0,
+   "unit": "mm",
+   "required": ">= 1.5",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "plunger head through the M6 insert hole (fitted from above)",
+   "value": 0.2,
+   "unit": "mm",
+   "required": ">= 0.15",
+   "ok": true,
+   "note": "radial"
+  },
+  {
+   "check": "drag spring above its solid length when set",
+   "value": 1.0,
+   "unit": "mm",
+   "required": ">= 0.5",
+   "ok": true,
+   "note": "\u00d84.5 \u00d7 12, wire 0.5, ~8 coils"
+  },
+  {
+   "check": "drag spring through the M6 insert thread (minor \u00d84.92)",
+   "value": 0.21,
+   "unit": "mm",
+   "required": ">= 0.1",
+   "ok": true,
+   "note": "fitted after the insert"
+  },
+  {
+   "check": "plunger hanging on the lip clear of the insert while it is pressed",
+   "value": 7.0,
+   "unit": "mm",
+   "required": ">= 3",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "push-screw M3 lock nut above the base plate",
+   "value": 0.83,
+   "unit": "mm",
+   "required": ">= 0.5",
+   "ok": true,
+   "note": "nut across corners 6.35"
+  },
+  {
+   "check": "ring-gear screw head through the scallop",
+   "value": 0.45,
+   "unit": "mm",
+   "required": ">= 0.3",
+   "ok": true,
+   "note": "radial"
+  },
+  {
+   "check": "motor lead bundle (\u00d818) through the rear window",
+   "value": 1.0,
+   "unit": "mm",
+   "required": ">= 0.5",
+   "ok": true,
+   "note": "radial"
+  },
+  {
+   "check": "T101 length on a 256 bed",
+   "value": 4.0,
+   "unit": "mm",
+   "required": ">= 3",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "T101 width on a 256 bed",
+   "value": 108.0,
+   "unit": "mm",
+   "required": ">= 3",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "T101 stiffer than a 6 mm plate",
+   "value": 37.47,
+   "unit": "ratio",
+   "required": ">= 20",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "hub joint opening moment over the static moment",
+   "value": 12.29,
+   "unit": "ratio",
+   "required": ">= 5",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "drag torque",
+   "value": 0.19,
+   "unit": "N\u00b7m",
+   "required": "<= 0.4",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "swing torque, rated, over the R1 sizing need",
+   "value": 1.47,
+   "unit": "ratio",
+   "required": ">= 1.2",
+   "ok": true,
+   "note": "track motor, 4:1 gears"
+  },
+  {
+   "check": "pinion tooth stress at motor stall, margin to PETG yield",
+   "value": 22.75,
+   "unit": "MPa",
+   "required": ">= 10",
+   "ok": true,
+   "note": "Lewis bending; no current limit"
+  },
+  {
+   "check": "slip ring: current per ring at track-motor stall, margin to 2 A",
+   "value": 0.7,
+   "unit": "A",
+   "required": ">= 0.5",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "slip ring: spare rings after the 4 track-motor leads",
+   "value": 2,
+   "unit": "rings",
+   "required": ">= 1",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "r2_slip_ring_checks": [
+  {
+   "check": "collar bore to spigot, radial",
+   "value_mm": 0.2,
+   "required": ">= 0.15",
+   "ok": true,
+   "note": "locating clearance; tune the bore on a test ring"
+  },
+  {
+   "check": "insert hole to collar bore, wall",
+   "value_mm": 4.3,
+   "required": ">= 2",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "insert hole to collar rim, wall",
+   "value_mm": 2.5,
+   "required": ">= 2",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "insert hole top to the relief floor (skin)",
+   "value_mm": 2.8,
+   "required": ">= 2",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "screw thread in the insert",
+   "value_mm": 5.1,
+   "required": ">= 4.5",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "screw tip to the insert-hole bottom",
+   "value_mm": 0.6,
+   "required": ">= 0.3",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "washer to the stator body, radial",
+   "value_mm": 3.0,
+   "required": ">= 2",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "collar to the seat-insert ring under the plate, radial",
+   "value_mm": 13.0,
+   "required": ">= 5",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "6-way stator end above the belly cover",
+   "value_mm": 26.0,
+   "required": ">= 15",
+   "ok": true,
+   "note": "room to bend the stator leads"
+  },
+  {
+   "check": "12-way stator end above the belly cover",
+   "value_mm": 19.0,
+   "required": ">= 15",
+   "ok": true,
+   "note": "room to bend the stator leads"
+  },
+  {
+   "check": "dog above the stator face",
+   "value_mm": 2.0,
+   "required": ">= 1.5",
+   "ok": true,
+   "note": "the dog turns, the face does not"
+  },
+  {
+   "check": "dog hub to the prongs, radial",
+   "value_mm": 1.0,
+   "required": ">= 0.8",
+   "ok": true,
+   "note": "misalignment room: no side load on the rotor"
+  },
+  {
+   "check": "lug / prong overlap, radial",
+   "value_mm": 2.0,
+   "required": ">= 1.5",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "lug / prong overlap, height",
+   "value_mm": 5.0,
+   "required": ">= 4",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "prong tips above the relief floor",
+   "value_mm": 1.0,
+   "required": ">= 1",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "prongs to the RU66 bore, radial",
+   "value_mm": 6.5,
+   "required": ">= 3",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "lugs inside the \u00d825 passage, radial",
+   "value_mm": 3.0,
+   "required": ">= 2",
+   "ok": true,
+   "note": "the dog passes the passage and the collar bore"
+  },
+  {
+   "check": "lugs pass the collar bore (fit the dog first)",
+   "value_mm": 1.7,
+   "required": ">= 1",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "dog top to the hub, height",
+   "value_mm": 6.0,
+   "required": ">= 3",
+   "ok": true,
+   "note": "no axial load on the rotor"
+  },
+  {
+   "check": "hub spigot in the RU66 bore, radial",
+   "value_mm": 0.2,
+   "required": ">= 0.15",
+   "ok": true,
+   "note": "centres the turntable"
+  },
+  {
+   "check": "JST-XH 4 plug through the \u00d815 lead hole, diagonal margin",
+   "value_mm": 1.33,
+   "required": ">= 1",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "free play of the rotor drive (degrees)",
+   "value_mm": 102.78,
+   "required": "<= 120",
+   "ok": true,
+   "note": "the rotor may lag; its leads twist < 1/3 turn"
+  }
+ ],
+ "all_ok": true
+}

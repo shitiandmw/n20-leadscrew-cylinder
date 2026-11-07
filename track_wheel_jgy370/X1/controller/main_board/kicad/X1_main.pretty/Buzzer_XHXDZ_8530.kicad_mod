@@ -1,0 +1,135 @@
+(footprint
+  "Buzzer_XHXDZ_8530"
+  (version 20241229)
+  (generator "x1_footprints")
+  (generator_version "9.0")
+  (layer "F.Cu")
+  (descr
+    "XHXDZ SMD8530 passive SMD buzzer 8.5x8.5x3.0 mm, LCSC C49246949 (land pattern from LCSC/EasyEDA)")
+  (tags "buzzer magnetic SMD 8530")
+  (property
+    "Reference"
+    "REF**"
+    (at 0 -5.65 0)
+    (layer "F.SilkS")
+    (uuid "c0e16e27-822c-543a-89e9-4e42fb0c8946")
+    (effects (font (size 1 1) (thickness 0.15))))
+  (property
+    "Value"
+    "Buzzer_XHXDZ_8530"
+    (at 0 5.65 0)
+    (layer "F.Fab")
+    (uuid "184f63e0-2af6-5f5c-8e5e-ac3ece1a7f67")
+    (effects (font (size 1 1) (thickness 0.15))))
+  (property
+    "Datasheet"
+    "https://www.lcsc.com/product-detail/C49246949.html"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "8a7aa459-bfc0-58a2-847a-10ab49de4da5")
+    (effects (font (size 1 1) (thickness 0.15))))
+  (property
+    "Description"
+    "5 V passive buzzer, 32 ohm"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "e101b222-2412-5b00-99db-b18aa776fec6")
+    (effects (font (size 1 1) (thickness 0.15))))
+  (attr smd)
+  (fp_rect
+    (start -4.25 -4.25)
+    (end 4.25 4.25)
+    (stroke (width 0.1) (type solid))
+    (fill no)
+    (layer "F.Fab")
+    (uuid "f8bbdf6a-cccf-53fb-8755-73d588b51b66"))
+  (fp_rect
+    (start -4.64 -4.64)
+    (end 4.64 4.64)
+    (stroke (width 0.05) (type solid))
+    (fill no)
+    (layer "F.CrtYd")
+    (uuid "c89c0fac-bf87-5630-b424-78605eaca37f"))
+  (fp_line
+    (start -2.2875 -4.4)
+    (end 2.2875 -4.4)
+    (stroke (width 0.12) (type solid))
+    (layer "F.SilkS")
+    (uuid "a62b5d63-22e4-5240-a475-f1844684dca2"))
+  (fp_line
+    (start -2.2875 4.4)
+    (end 2.2875 4.4)
+    (stroke (width 0.12) (type solid))
+    (layer "F.SilkS")
+    (uuid "7a95cda4-a98b-5519-9dab-ce7f38a2e0da"))
+  (fp_line
+    (start -4.4 -2.2875)
+    (end -4.4 2.2875)
+    (stroke (width 0.12) (type solid))
+    (layer "F.SilkS")
+    (uuid "38e7761e-c38a-5367-b478-bdad8871710f"))
+  (fp_line
+    (start 4.4 -2.2875)
+    (end 4.4 2.2875)
+    (stroke (width 0.12) (type solid))
+    (layer "F.SilkS")
+    (uuid "86c9be22-c2fa-516f-a086-4e5abff11656"))
+  (fp_line
+    (start 4.9 3.4875)
+    (end 5.7 3.4875)
+    (stroke (width 0.12) (type solid))
+    (layer "F.SilkS")
+    (uuid "0c187c19-7a43-534c-89bc-e9cdbad6c082"))
+  (fp_line
+    (start 5.3 3.0875)
+    (end 5.3 3.8875)
+    (stroke (width 0.12) (type solid))
+    (layer "F.SilkS")
+    (uuid "c48de490-5530-570a-bd17-267b9868189f"))
+  (fp_text
+    user
+    "${REFERENCE}"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (uuid "f894fc70-c5e3-59ad-bd18-88bdb202c2e2")
+    (effects (font (size 1 1) (thickness 0.15))))
+  (pad
+    "1"
+    smd
+    rect
+    (at 3.4875 3.4875)
+    (size 1.8 1.8)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (uuid "a43890e3-96d5-5198-8aba-ce0adaedd607"))
+  (pad
+    "2"
+    smd
+    rect
+    (at 3.4875 -3.4875)
+    (size 1.8 1.8)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (uuid "a4ff4e60-19f3-5af7-aa22-9e4bac662e7f"))
+  (pad
+    ""
+    smd
+    rect
+    (at -3.4875 -3.4875)
+    (size 1.8 1.8)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (uuid "cdc70144-f805-50de-a15b-19b494dbf158"))
+  (pad
+    ""
+    smd
+    rect
+    (at -3.4875 3.4875)
+    (size 1.8 1.8)
+    (layers "F.Cu" "F.Paste" "F.Mask")
+    (uuid "c39238e7-3941-56fb-8b41-a934a55adce8"))
+  (embedded_fonts no)
+  (model
+    "${KIPRJMOD}/3d/Buzzer_XHXDZ_8530.step"
+    (offset (xyz 0 0 0))
+    (scale (xyz 1 1 1))
+    (rotate (xyz 0 0 0))))

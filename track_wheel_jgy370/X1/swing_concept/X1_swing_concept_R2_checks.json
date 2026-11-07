@@ -1,0 +1,217 @@
+{
+ "concept": "X1 swing concept R2: bought 6-way / 12-way 2 A slip ring",
+ "source": "draw_swing_concept_r2.py",
+ "ring": {
+  "body_d": 22.0,
+  "flange_d": 44.0,
+  "flange_t": 2.4,
+  "flange_back": 5.0,
+  "hole_d": 5.4,
+  "pcd": 35.0,
+  "rotor_d": 7.8,
+  "rotor_l": 9.0,
+  "L": {
+   "6": 19.0,
+   "12": 26.0
+  },
+  "amps": 2.0
+ },
+ "collar": {
+  "r_in": 11.2,
+  "r_out": 22.0,
+  "z0": 74.0,
+  "z1": 79.0
+ },
+ "flange_z": [
+  71.6,
+  74.0
+ ],
+ "stator_end_z": {
+  "6": 60.0,
+  "12": 53.0
+ },
+ "rotor_z": [
+  79.0,
+  88.0
+ ],
+ "dog": {
+  "bore_d": 7.5,
+  "r_out": 6.5,
+  "z0": 81.0,
+  "z1": 89.0,
+  "hole_d": 5.0,
+  "lug_w": 4.0,
+  "lug_r": 9.5,
+  "lug_z0": 84.0
+ },
+ "hub": {
+  "hole_r": 7.5,
+  "spigot_r": 17.3,
+  "spigot_z0": 95.0
+ },
+ "prong": {
+  "ri": 7.5,
+  "ro": 11.0,
+  "width_deg": 50.0,
+  "z0": 83.5,
+  "z1": 95.0
+ },
+ "free_play_deg": 102.8,
+ "checks": [
+  {
+   "check": "collar bore to spigot, radial",
+   "value_mm": 0.2,
+   "required": ">= 0.15",
+   "ok": true,
+   "note": "locating clearance; tune the bore on a test ring"
+  },
+  {
+   "check": "insert hole to collar bore, wall",
+   "value_mm": 4.3,
+   "required": ">= 2",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "insert hole to collar rim, wall",
+   "value_mm": 2.5,
+   "required": ">= 2",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "insert hole top to the relief floor (skin)",
+   "value_mm": 2.8,
+   "required": ">= 2",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "screw thread in the insert",
+   "value_mm": 5.1,
+   "required": ">= 4.5",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "screw tip to the insert-hole bottom",
+   "value_mm": 0.6,
+   "required": ">= 0.3",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "washer to the stator body, radial",
+   "value_mm": 3.0,
+   "required": ">= 2",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "collar to the seat-insert ring under the plate, radial",
+   "value_mm": 13.0,
+   "required": ">= 5",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "6-way stator end above the belly cover",
+   "value_mm": 26.0,
+   "required": ">= 15",
+   "ok": true,
+   "note": "room to bend the stator leads"
+  },
+  {
+   "check": "12-way stator end above the belly cover",
+   "value_mm": 19.0,
+   "required": ">= 15",
+   "ok": true,
+   "note": "room to bend the stator leads"
+  },
+  {
+   "check": "dog above the stator face",
+   "value_mm": 2.0,
+   "required": ">= 1.5",
+   "ok": true,
+   "note": "the dog turns, the face does not"
+  },
+  {
+   "check": "dog hub to the prongs, radial",
+   "value_mm": 1.0,
+   "required": ">= 0.8",
+   "ok": true,
+   "note": "misalignment room: no side load on the rotor"
+  },
+  {
+   "check": "lug / prong overlap, radial",
+   "value_mm": 2.0,
+   "required": ">= 1.5",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "lug / prong overlap, height",
+   "value_mm": 5.0,
+   "required": ">= 4",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "prong tips above the relief floor",
+   "value_mm": 1.0,
+   "required": ">= 1",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "prongs to the RU66 bore, radial",
+   "value_mm": 6.5,
+   "required": ">= 3",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "lugs inside the \u00d825 passage, radial",
+   "value_mm": 3.0,
+   "required": ">= 2",
+   "ok": true,
+   "note": "the dog passes the passage and the collar bore"
+  },
+  {
+   "check": "lugs pass the collar bore (fit the dog first)",
+   "value_mm": 1.7,
+   "required": ">= 1",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "dog top to the hub, height",
+   "value_mm": 6.0,
+   "required": ">= 3",
+   "ok": true,
+   "note": "no axial load on the rotor"
+  },
+  {
+   "check": "hub spigot in the RU66 bore, radial",
+   "value_mm": 0.2,
+   "required": ">= 0.15",
+   "ok": true,
+   "note": "centres the turntable"
+  },
+  {
+   "check": "JST-XH 4 plug through the \u00d815 lead hole, diagonal margin",
+   "value_mm": 1.33,
+   "required": ">= 1",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "check": "free play of the rotor drive (degrees)",
+   "value_mm": 102.78,
+   "required": "<= 120",
+   "ok": true,
+   "note": "the rotor may lag; its leads twist < 1/3 turn"
+  }
+ ],
+ "all_ok": true
+}

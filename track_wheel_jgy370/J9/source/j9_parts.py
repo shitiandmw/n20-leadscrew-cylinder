@@ -7,7 +7,7 @@ One printed H-frame (two walls joined by a web) carries everything:
 - five road rollers and two support rollers (one part, 2 x 624ZZ each) on M4 bolts
   through both walls;
 - a U-yoke slides in grooves in both walls and carries the idler on a plain 8 mm pin;
-  the R5 spring sits between the web and the yoke.
+  the R5 spring sits inside an axial guide pocket in the web, driven by the yoke piston.
 A one-piece housing (inboard skirt + closed motor pod) encloses the motor.
 """
 import math, sys
@@ -23,6 +23,7 @@ REPO = ROOT.parents[1]
 sys.path.insert(0, str(REPO / 'track_wheel/source'))
 sys.path.insert(0, str(HERE))
 import tw_parts as tp                    # primitives, R4 idler wheel, sprocket outline (tp.ex)
+import j9_mounts as mounts               # direct T-end connections on the main plate
 from j9_design import *
 
 box, ycyl, yring, xcyl, xring, zcyl, xz_prism, one = tp.box, tp.ycyl, tp.yring, tp.xcyl, tp.xring, tp.zcyl, tp.xz_prism, tp.one
@@ -31,7 +32,7 @@ YELLOW, DARK, STEEL, RUBBER, BRASS, MOTOR_C, GEARBOX_C, SPRING_C, BLACK = (
 FRAME_C, HOUSING_C, YOKE_C, HUB_C = (.55, .64, .64), (.91, .60, .07), (.62, .45, .78), (.80, .82, .86)
 
 ROLLERS = [(x, ROAD_Z, f'road{j}') for j, x in enumerate(ROAD_X)] + [(x, CARRIER_Z, f'support{j}') for j, x in enumerate(CARRIER_X)]
-HOUSING_SCREWS = [(-84.0, 69.0), (-15.0, 33.0), (85.0, 62.0), (85.0, 32.0)]   # first one clears the pod's drum
+HOUSING_SCREWS = [(-103.0, 71.0), (-15.0, 33.0), (85.0, 56.0), (85.0, 32.0)]  # upper attachments clear the direct T-end windows
 CAN_Y = GEARBOX_FACE_Y - 13.2
 GB_X, GB_Z = (DRIVE_X - 14.5, DRIVE_X + 31.5), (AXLE_Z - 16, AXLE_Z + 16)
 GB_Y = (GEARBOX_FACE_Y - 23, GEARBOX_FACE_Y)
@@ -83,7 +84,22 @@ def wall_profile():
 def wall(side):
     """side -1: inner (motor) wall, +1: outer wall."""
     y0, y1 = sorted([side*WALL_IN, side*WALL_OUT])
-    w = xz_prism(wall_profile() if side > 0 else unary_union([wall_profile(), pod_silhouette()]), y0, y1)
+    profile = wall_profile() if side > 0 else unary_union([wall_profile(), pod_silhouette()])
+    w = xz_prism(profile, y0, y1)
+    if side < 0:
+        # The main plate itself is uniformly thicker, not fitted with local
+        # connection pads. Keep the motor's original mounting plane at Y=-30
+        # by recessing only the added stock around its working envelope.
+        added = xz_prism(profile, *mounts.THICKENING_Y)
+        motor_space = box(GB_X[0]-.8, GB_X[1]+.8, mounts.PLATE_FACE_Y-1, -WALL_OUT+.01,
+                          GB_Z[0]-.8, GB_Z[1]+.8)
+        motor_space = motor_space.union(xcyl(12.8, CAN_X[0]-.8, TERM_X[1]+.8, CAN_Y, AXLE_Z))
+        added = added.cut(motor_space)
+        # Existing roller bolts keep their original head seating plane; their
+        # heads are recessed into the additional 4 mm of main-plate stock.
+        for x, z, _ in ROLLERS:
+            added = added.cut(ycyl(M4_HEAD['r']+.2, mounts.PLATE_FACE_Y-1, -WALL_OUT+.01, x, z))
+        w = w.union(added)
     face = side*WALL_IN                                   # inner face (toward the track centre)
     for x, z, _ in ROLLERS:
         b0, b1 = sorted([face, face - side*ROLLER_BOSS['h']])
@@ -107,9 +123,6 @@ def wall(side):
             w = w.union(ycyl(4.0, RIM_Y[0], o + .01, x, z))
             w = w.cut(ycyl(INSERT_M3['r'], RIM_Y[0] - 1, RIM_Y[0] + INSERT_M3['length'], x, z))
         w = w.union(pod_rim())
-        for x in CHASSIS_X:
-            w = w.union(box(x - CHASSIS_HALF_X, x + CHASSIS_HALF_X, CHASSIS_Y[0], CHASSIS_Y[1] + .01, *CHASSIS_Z))
-            w = w.cut(ycyl(INSERT_M4['r'], CHASSIS_Y[0] - 1, CHASSIS_Y[0] + INSERT_M4['length'], x, sum(CHASSIS_Z)/2))
     else:
         w = w.cut(ycyl(B6800['D']/2, B6800_Y[0], WALL_OUT + 1, DRIVE_X, AXLE_Z))      # 6800ZZ seat, 1 mm lip
         w = w.cut(ycyl(6.0, WALL_IN - 1, B6800_Y[0] + .01, DRIVE_X, AXLE_Z))
@@ -118,8 +131,22 @@ def wall(side):
 
 def h_frame():
     web = box(WEB_X[0], WEB_X[1], -WALL_IN - .01, WALL_IN + .01, *WEB_Z)
-    web = web.union(xcyl(SPIGOT_R, WEB_X[1] - .01, WEB_X[1] + SPIGOT_L, 0, AXLE_Z))
-    return wall(-1).union(wall(1)).union(web).clean()
+    web = web.union(xcyl(SPRING_POCKET['outer_d']/2, *SPRING_GUIDE_X, 0, AXLE_Z))
+    web = web.cut(xcyl(SPRING_POCKET['bore_d']/2, SPRING_X0, SPRING_GUIDE_X[1] + 1, 0, AXLE_Z))
+    web = web.union(xcyl(SPIGOT_R, SPRING_X0 - .01, SPRING_X0 + SPIGOT_L, 0, AXLE_Z))
+    # Retain the full-width diaphragm beneath the front mounting region.
+    # Its axial bore remains identical to the accepted spring guide.
+    diaphragm = box(*mounts.DIAPHRAGM_X, -WALL_IN-.01, WALL_IN+.01, *mounts.DIAPHRAGM_Z)
+    diaphragm = diaphragm.cut(xcyl(SPRING_POCKET['bore_d']/2, SPRING_X0, SPRING_GUIDE_X[1]+1, 0, AXLE_Z))
+    s = wall(-1).union(wall(1)).union(web).union(diaphragm)
+    s = s.cut(mounts.bolt_bores()).cut(mounts.receiving_seats())
+    s = s.cut(mounts.main_face_clearance())
+    # The relocated rear attachment crosses the pod rim. Finish the insert
+    # bores after all unions so the rim cannot refill an already drilled hole.
+    for x, z in HOUSING_SCREWS:
+        s = s.cut(ycyl(INSERT_M3['r'], RIM_Y[0] - 1,
+                      RIM_Y[0] + INSERT_M3['length'], x, z))
+    return s.clean()
 
 
 # ================================================================ drive
@@ -211,7 +238,9 @@ def u_yoke():
     for side in (-1, 1):
         y0, y1 = sorted([side*WALL_IN, side*y_out])
         s = s.union(box(x0, IDLER_X, y0, y1, z0, z1)).union(ycyl(ARM_HALF_Z, y0, y1, IDLER_X, AXLE_Z))
-    s = s.union(xcyl(SPIGOT_R, x0 - SPIGOT_L, x0 + .01, 0, AXLE_Z))
+    seat_x = x0 - SPRING_POCKET['recess']
+    s = s.union(xcyl(SPRING_POCKET['piston_d']/2, seat_x, x0 + .01, 0, AXLE_Z))
+    s = s.union(xcyl(SPIGOT_R, seat_x - SPIGOT_L, seat_x + .01, 0, AXLE_Z))
     s = s.cut(ycyl(4.05, -y_out - 1, y_out + 1, IDLER_X, AXLE_Z))
     return s.clean()
 
@@ -302,8 +331,6 @@ def housing():
                            Point(IDLER_X, AXLE_Z).buffer(33.5, quad_segs=48)])
     for x, z, _ in ROLLERS:
         outline = outline.difference(Point(x, z).buffer(4.0, quad_segs=24))         # bolt access, Ø8
-    for x in CHASSIS_X:
-        outline = outline.difference(rect(x - CHASSIS_HALF_X - .5, CHASSIS_Z[0] - .5, x + CHASSIS_HALF_X + .5, CHASSIS_Z[1] + .5))
     s = xz_prism(outline, *SKIRT_Y).union(pod_outer(SKIRT_Y[1]))
     # 1 mm base flange round the pod on the skirt face, and a raised band on the motor tube.
     flange = box(-300, 300, SKIRT_Y[0] - 1.0, SKIRT_Y[0] + .01, -100, 200)
@@ -323,6 +350,11 @@ def housing():
     s = s.cut(xcyl(PORT['r'], NOSE_X, tip + PORT['length'] + 1, CAN_Y, AXLE_Z))
     for x, z in HOUSING_SCREWS:
         s = s.cut(ycyl(1.7, SKIRT_Y[0] - 1, SKIRT_Y[1] + 1, x, z))
+    s = s.cut(mounts.housing_clearance())
+    # Clear the rear button head from the cosmetic pod's raised flange;
+    # retain the original skirt face as its seating plane.
+    rear_x, rear_z = HOUSING_SCREWS[0]
+    s = s.cut(ycyl(M3_BUTTON['r'] + .2, POD_FACE_Y - 5, SKIRT_Y[0], rear_x, rear_z))
     return s.clean()
 
 
@@ -382,8 +414,8 @@ def spring_helix(x0, length):
 
 PRINTED = {
     'J901_H_frame': (h_frame, FRAME_C, 1, 'PETG or PA12, 3 walls, 30 % infill; supports under the inner wall',
-                     'Two 6 mm walls joined by an 18 mm web. Motor seat, 6800ZZ seat, 7 roller holes, yoke grooves, 3 chassis bosses; '
-                     'motor rim and 4 housing standoffs on the inner wall.'),
+                     'A 10 mm inner main plate with 1.5 mm shallow T-shaped receiving seats and plain mounting holes for external nuts; 6 mm outer wall, 18 mm web and front diaphragm. Motor seat, 6800ZZ seat, 7 roller holes and yoke grooves; '
+                     'motor rim and 4 housing standoffs on the inner wall; recessed Ø16.4 spring guide pocket with Ø21.2 outer wall.'),
     'J902_sprocket': (sprocket, DARK, 1, 'PETG or PA12, 5 walls, 50 % infill; outer disc face on the bed',
                       'Unchanged 12-tooth 20 mm pitch form. Ø25.8 recess for the Pololu hub flange, 3 x M3 counterbored holes; Ø10 socket for the journal plug.'),
     'J903_journal_plug': (journal_plug, DARK, 1, 'PETG or PA12, 100 % infill, standing on its end',
@@ -395,7 +427,7 @@ PRINTED = {
     'J907_idler_spacer': (idler_spacer, STEEL, 2, 'PETG, 100 % infill',
                           'Ø11 x 13.9 tube between the yoke arm and the 608 inner ring; locates the idler.'),
     'J908_U_yoke': (u_yoke, YOKE_C, 1, 'PETG or PA12, 4 walls, 50 % infill, base on the bed',
-                    'Arms slide in the wall grooves; carries the Ø8 idler pin; spring pilot on the back.'),
+                    'Arms slide in the wall grooves; carries the Ø8 idler pin; rear Ø15.6 piston and spring pilot slide in the main-web guide bore.'),
     'J909_housing': (housing, HOUSING_C, 1, 'PETG, 3 walls; skirt inner face on the bed, supports inside the motor pod',
                      'Inboard skirt and motor pod in one piece: drum on the sprocket axis, gearbox shoulder, motor tube, '
                      'nose with cable port. 4 x M3 x 8 into inserts in the frame standoffs.'),
@@ -468,8 +500,6 @@ def unit(prt=None, with_chain=True):
     for i, (x, z) in enumerate(HOUSING_SCREWS):
         add(f'insert_M3_{i}', yring(INSERT_M3['r'], 1.5, RIM_Y[0], RIM_Y[0] + INSERT_M3['length'], x, z), BRASS, 'frame')
         add(f'housing_screw_M3x8_{i}', screw_y(1.5, M3_BUTTON, SKIRT_Y[0], 8.0, x, z, 1), BLACK, 'housing')
-    for i, x in enumerate(CHASSIS_X):
-        add(f'insert_M4_chassis_{i}', yring(INSERT_M4['r'], 2.0, CHASSIS_Y[0], CHASSIS_Y[0] + INSERT_M4['length'], x, sum(CHASSIS_Z)/2), BRASS, 'frame')
 
     if with_chain:
         for n, (s, color) in chain(prt).items():

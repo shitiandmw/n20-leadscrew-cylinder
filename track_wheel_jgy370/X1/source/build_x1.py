@@ -3,7 +3,7 @@
 Run with the CAD interpreter from this folder:  python build_x1.py
 Writes ../step, ../stl, ../validation.json and x1_scene.json.gz (viewer data).
 """
-import json, gzip, time
+import json, gzip, time, sys
 import cadquery as cq
 from OCP.BRepExtrema import BRepExtrema_DistShapeShape
 import x1_parts as X
@@ -14,7 +14,7 @@ import build_track_wheel as export
 ROOT = X.ROOT
 PETG_G_MM3, STEEL_G_MM3 = 1.27e-3, 7.85e-3
 PRINT = {   # axis, angle, how the part lies on the bed
-    'X101_X_frame': ((1, 0, 0), 180, 'upside down: the flat top (slewing-ring seat) on the bed; no supports'),
+    'X101_X_frame': ((1, 0, 0), 180, 'upside down on slewing-ring seat; support the curved arm decks and the head-slot roofs as required'),
     'X102_belly_cover': ((1, 0, 0), 0, 'flat, countersinks up'),
     'J901_H_frame_right': ((1, 0, 0), 90, 'mirror of J9 J901: outer wall face on the bed; support under the inner wall overhangs'),
     'J909_housing_right': ((1, 0, 0), 90, 'mirror of J9 J909: skirt inner face on the bed; supports inside the motor pod only'),
@@ -95,13 +95,19 @@ def checks_all(inst):
     # J9's own pairs were checked in J9 (the right track is its mirror); here every X1 part meets everything.
     out['static'] = checks.interference({**x1, **tracks}, skip=lambda a, b: a in tracks and b in tracks)
     print('Assembly paths', flush=True)
-    # Tracks are offered up from the side before their three chassis screws go in.
-    xfixed = {n: d for n, d in x1.items() if not n.startswith(('cable_route', 'chassis_screw'))}
     seq = {}
-    for side in (1, -1):
-        names = side_names(inst, side)
-        seq[f'track_slide_on_{"L" if side > 0 else "R"}'] = [dict(dy=dy, **against(xfixed, moved(inst, names, 0, side*dy)))
-                                                              for dy in (40, 20, 10, 4, 1)]
+    # Each track approaches laterally onto the direct flat T-end faces.
+    # Mount screws/washers are fitted afterwards; nuts can be in their slots.
+    for side, tag in ((1, 'L'), (-1, 'R')):
+        moving = side_names(inst, side)
+        fixed = {n: d for n, d in inst.items() if n not in moving and d['group'] != 'reserve'
+                 and not n.startswith(('mount_screw_', 'mount_washer_'))}
+        # Nuts travel with their track-frame pockets.
+        nuts = [n for n in fixed if n.startswith(f'mount_nut_M4_{tag}')]
+        moving += nuts
+        fixed = {n: d for n, d in fixed.items() if n not in nuts}
+        seq[f'track_lateral_{tag}'] = [dict(dy=dy, **against(fixed, moved(inst, moving, dy=side*dy)))
+                                      for dy in (40, 20, 10, 4, 1, .3)]
     ring = ['RU66_outer_ring', 'RU66_inner_ring']
     rest = {n: d for n, d in {**x1, **tracks}.items() if n not in ring and not n.startswith(('cable_route', 'seat_screw', 'cover_screw'))}
     seq['bearing_lowering'] = [dict(dz=dz, **against(rest, moved(inst, ring, 0, 0, dz))) for dz in (40, 15, 5, 1)]
@@ -111,14 +117,13 @@ def checks_all(inst):
     every = {**x1, **tracks}
     nochain = {n: d for n, d in every.items() if d['group'] not in ('L_track', 'R_track')}
     t = {}
-    head_r = X.M4_HEAD['h']
     for side in (1, -1):
         tag = 'L' if side > 0 else 'R'
-        y_head = side*(X.RAIL_IN_Y - head_r)                     # top of the chassis screw heads
-        t[f'chassis_screw_key_{tag}'] = [against(every, tool(ycyl_span(1.6, y_head - side*35, y_head - side*.05, x, X.CHASSIS_Z)))
-                                         for x in D9.CHASSIS_X]
-        t[f'chassis_screw_insertion_{tag}'] = [against({n: d for n, d in every.items() if not n.startswith('chassis_screw')},
-                                                       tool(ycyl_span(3.6, y_head - side*X.CHASSIS_SCREW_L, y_head, x, X.CHASSIS_Z))) for x in D9.CHASSIS_X]
+        def key_at(x, z):
+            shape = X.mount_key(x, z)
+            return (shape if side > 0 else X.mirror_y(shape)).translate((0, side*X.TRACK_Y, 0))
+        t[f'mount_screw_L_key_{tag}'] = [against(every, tool(key_at(x, z)))
+                                        for _, _, x, z in X.M.bolt_centres()]
         # J9 paths, now with the X-frame in place (vehicle frame; module Y -> side*(TRACK_Y + y)).
         vy = lambda y: side*(X.TRACK_Y + y)
         y_hs = vy(P9.SKIRT_Y[0] - P9.M3_BUTTON['h'])             # top of the housing screw heads
@@ -174,7 +179,8 @@ def key_numbers(inst):
     return dict(track_gauge=2*X.TRACK_Y, overall_width=round(max(ys) - min(ys), 1), track_length=round(max(xs) - min(xs), 1),
                 sprocket_to_idler=round(D9.IDLER_X - D9.DRIVE_X, 1), shoe_width=D9.SHOE_W, track_top=round(zt, 1),
                 ground_clearance=X.COVER_Z[0], seat_z=X.SEAT_Z, turntable_face_z=X.TURNTABLE_Z, reserve_radius=X.RESERVE_R,
-                x_frame_width=round(2*X.BOSS_FACE_Y, 1), x_frame_length=round(X.RAIL_X[1] - X.RAIL_X[0], 1))
+                x_frame_width=round(X.one(inst['X101_X_frame']['shape']).BoundingBox().ylen, 1),
+                x_frame_length=round(X.one(inst['X101_X_frame']['shape']).BoundingBox().xlen, 1))
 
 
 def write_scene(inst, keys):
@@ -194,10 +200,28 @@ def write_scene(inst, keys):
 
 
 def main():
+    # The check suite below predates the revision F arc-seat joint: it slides the
+    # tracks on sideways, a route F rejects. Running it would overwrite the
+    # delivered F exports with an unchecked rebuild. This module stays as a
+    # helper library for export_arc_frame.py and build_turntable.py.
+    if '--legacy' not in sys.argv:
+        raise SystemExit('build_x1.py main() is superseded for revision F. Use export_arc_frame.py, '
+                         '../../J9/source/export_revf_track.py, check_revf_exports.py, refresh_revf.py and '
+                         'check_arc_seat_mounts.py (see ../README.md, "Verification and rebuilding").')
     t0 = time.time()
     (ROOT / 'step').mkdir(exist_ok=True); (ROOT / 'stl').mkdir(exist_ok=True)
     print('J9 parts and track unit', flush=True)
-    prt9 = P9.parts()
+    if '--from-track-exports' in sys.argv:
+        # Reuse verified track exports after a successful J9 build. Individual
+        # J9 STEP files already passed round-trip checks; this still reruns all
+        # X1 exports, intersections, paths and clearance checks.
+        prior = json.loads((P9.ROOT / 'validation.json').read_text())
+        assert prior['pass'] and prior.get('spring_guide', {}).get('pass'), 'Build guided-spring J9 first'
+        prt9 = {n: dict(shape=cq.importers.importStep(str(P9.ROOT / 'step' / (n+'.step'))),
+                       color=c, quantity=q, material=m, note=note, kind='printed')
+                for n, (_, c, q, m, note) in P9.PRINTED.items()}
+    else:
+        prt9 = P9.parts()
     inst9 = P9.unit(prt9, with_chain=True)
     rows = export_parts(printed_parts(prt9))
     inst = X.unit(inst9)
@@ -208,25 +232,26 @@ def main():
     clear = clearances(inst)
     write_scene(inst, keys)
     runs = [rep['static'], rep['turntable_reserve']] + [r for v in rep['assembly'].values() for r in v]
-    tool_runs = {k: v for k, v in rep['tools'].items() if not k.startswith('support_roller_bolt_withdrawal')}
+    tool_runs = {k: v for k, v in rep['tools'].items() if not k.startswith('support_roller_bolt_')}
     runs += [r for v in tool_runs.values() for r in v]
-    blocked = {k: [len(r['hits']) for r in v] for k, v in rep['tools'].items() if k.startswith('support_roller_bolt_withdrawal')}
+    blocked = {k: [len(r['hits']) for r in v] for k, v in rep['tools'].items() if k.startswith('support_roller_bolt_')}
     ok = all(not r['hits'] for r in runs) and clear['RU66 inner ring to X-frame (relief)'] > .5
-    val = dict(revision='X1', reference=dict(machine='Caterpillar 320 (07H) technical specifications, p. 2 and p. 4',
+    val = dict(revision='X1 rev E direct T-flange mounts / J9 guided spring', reference=dict(machine='Caterpillar 320 (07H) technical specifications, p. 2 and p. 4',
                                              file='excavator_arm_60mm/references/cat320_specifications.pdf', values_mm=X.CAT320, scale=X.SCALE),
                slewing_ring=dict(model='THK RU66 cross-roller ring', source='THK catalogue A18-20/21 (track_wheel_jgy370/X1/references/thk_ru66/)', **X.RU66),
-               turntable_interface=dict(swing_centre=[0, 0], outer_ring_to_x_frame='8 x M4 x 16 ISO 4762 from above into heat-set inserts, PCD 83',
+               turntable_interface=dict(swing_centre=[0, 0], outer_ring_to_x_frame='8 x M4 x 30 ISO 4762, washers, spring washers and nuts, PCD 83',
                                         inner_ring_reserved_for_turntable='8 x M4 tapped through, PCD 45; turntable flange within Ø59 (ds max)',
                                         seat_z=X.SEAT_Z, turntable_face_z=X.TURNTABLE_Z, cable_passage_d=2*X.PASSAGE_R,
                                         relief='Ø75 x 2.5 under the inner ring: turntable screw tips may protrude up to 2 mm below it',
                                         swing_envelope=f'R {X.RESERVE_R} above Z {X.TURNTABLE_Z} (Cat 320 tail swing radius 2830 mm at 1:15)'),
                key_numbers=keys, parts=rows, assembly_solids=solids,
                static=rep['static'], turntable_reserve=rep['turntable_reserve'], assembly_paths=rep['assembly'], tool_access=rep['tools'],
-               known_service_limits=dict(support_roller_bolt_withdrawal_hits=blocked,
-                                         note='The X-frame legs cross the inboard withdrawal path of the two support-roller bolts on each side. '
-                                              'To change a support roller, unbolt that track from the X-frame (3 screws) first. Their heads stay reachable with a key.'),
+               known_service_limits=dict(support_roller_bolt_in_place_access_hits=blocked,
+                                         note='The deep X-frame legs obstruct straight-driver access and bolt withdrawal for the support rollers. '
+                                              'Support the chassis, remove the four mount screws on that side and detach the track laterally for support-roller service. '
+                                              'Detached-track tool access is checked in J9.'),
                clearances_mm=clear, pass_=ok,
-               scope='Nominal CAD with exact solid intersections: static fit, track slide-on, bearing and cover fitting, tool access and the '
+               scope='Nominal CAD with exact solid intersections: static fit, lateral track fitting, bearing and cover fitting, tool access and the '
                      'reserved turntable envelope. J9 internals as validated in J9 (the right track is its mirror). Not a load, print-tolerance or powered test.',
                elapsed_s=round(time.time() - t0, 1))
     val['pass'] = val.pop('pass_')
@@ -236,6 +261,8 @@ def main():
                           tool_hits={k: [len(r['hits']) for r in v] for k, v in rep['tools'].items()},
                           assembly_hits={k: [len(r['hits']) for r in v] for k, v in rep['assembly'].items()},
                           elapsed=round(time.time() - t0, 1)), indent=1))
+    if not ok:
+        raise SystemExit('X1 validation failed')
 
 
 if __name__ == '__main__':

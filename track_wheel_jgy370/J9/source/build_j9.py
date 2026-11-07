@@ -3,7 +3,8 @@
 Run with the CAD interpreter from this folder:  python build_j9.py
 Writes ../step, ../stl, ../validation.json and j9_scene.json.gz (viewer data).
 """
-import json, gzip, math, time
+import json, gzip, math, time, hashlib
+from pathlib import Path
 import numpy as np
 import cadquery as cq
 from OCP.BRepExtrema import BRepExtrema_DistShapeShape
@@ -29,7 +30,7 @@ PRINT = {   # axis, angle: how each part lies on the bed
     'J904_roller': ((1, 0, 0), -90, 'on a flange face; no supports'),
     'J906_idler_wheel': ((1, 0, 0), -90, 'as J8 07_idler_wheel'),
     'J907_idler_spacer': ((1, 0, 0), -90, 'standing on its end'),
-    'J908_U_yoke': ((1, 0, 0), 180, 'upside down, flat top face on the bed'),
+    'J908_U_yoke': ((1, 0, 0), 180, 'upside down, flat top face on the bed; support rear piston as needed'),
     'J909_housing': ((1, 0, 0), -90, 'skirt inner face on the bed; supports inside the motor pod only'),
     'J910_track_shoe_70': ((1, 0, 0), 0, 'grousers on the bed, as the R4 shoe'),
 }
@@ -144,13 +145,20 @@ def write_scene(prt, inst):
 
 def main():
     t0 = time.time()
+    sources = [P.HERE / name for name in ('build_j9.py', 'j9_parts.py', 'j9_design.py',
+                                          'j9_mounts.py', 'check_spring_guide.py')]
+    sources += [Path(module.__file__) for module in (tp, checks, export)]
+    source_hashes = {str(p.relative_to(P.REPO)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}
     (ROOT / 'step').mkdir(exist_ok=True); (ROOT / 'stl').mkdir(exist_ok=True)
     prt = P.parts()
     rows = export_parts(prt)
     inst = P.unit(prt)
     print('Assembly STEP', flush=True)
     solids = save_assembly(inst, ROOT / 'step' / 'JGY370_track_J9.step', 'JGY370_track_J9')
-    rep = dict(revision='J9', design=D.check(), parts=rows, assembly_solids=solids)
+    rep = dict(revision='J9 revision F mounting stations', design=D.check(), parts=rows, assembly_solids=solids)
+    from check_spring_guide import check as check_spring_guide
+    rep['spring_guide'] = check_spring_guide(prt['J901_H_frame']['shape'], prt['J908_U_yoke']['shape'])
+    (ROOT / 'spring_guide_validation.json').write_text(json.dumps(rep['spring_guide'], indent=2) + '\n')
 
     fixed_names = [n for n, d in inst.items() if d['group'] in ('frame', 'housing')]
     fixed = {n: inst[n] for n in fixed_names}
@@ -233,7 +241,7 @@ def main():
     c = {}
     c['track pins and clips to H-frame'] = min(dist(H, s) for s in clips + pins)
     c['track shoes to housing'] = min(dist(prt['J909_housing']['shape'], inst[n]['shape']) for n in inst if n.startswith('shoe_'))
-    c['road rollers to H-frame (walls 1.0 by design)'] = min(dist(H, inst[f'J904_roller_road{j}']['shape']) for j in range(5))
+    c['road rollers to H-frame (including spring guide)'] = min(dist(H, inst[f'J904_roller_road{j}']['shape']) for j in range(5))
     c['road roller flanges to web underside'] = round(D.WEB_Z[0] - (D.ROAD_Z + D.FLANGE_R), 3)
     c['support roller flanges to web top'] = round(D.CARRIER_Z - D.FLANGE_R - D.WEB_Z[1], 3)
     c['support rollers to H-frame (walls)'] = min(dist(H, inst[f'J904_roller_support{j}']['shape']) for j in range(2))
@@ -249,9 +257,9 @@ def main():
     motor = ('JGY370_gearbox', 'JGY370_motor_can', 'JGY370_terminal_space')
     c['housing pod to motor'] = min(dist(prt['J909_housing']['shape'], inst[n]['shape']) for n in motor)
     c['frame rim (behind the skirt) to motor'] = min(dist(P.pod_rim(), inst[n]['shape']) for n in motor)
-    boss0 = tp.box(D.CHASSIS_X[0] - D.CHASSIS_HALF_X, D.CHASSIS_X[0] + D.CHASSIS_HALF_X, *D.CHASSIS_Y, *D.CHASSIS_Z)
-    c['housing skirt cutouts to chassis bosses (0.5 by design)'] = dist(prt['J909_housing']['shape'], boss0)
-    c['motor pod to rear chassis boss'] = dist(P.pod_outer(D.SKIRT_Y[1]), boss0)
+    pads = P.mounts.pads()
+    c['housing cutouts to chassis mounting stations'] = dist(prt['J909_housing']['shape'], pads)
+    c['motor gearbox to chassis mounting stations'] = dist(inst['JGY370_gearbox']['shape'], pads)
     c['road roller tread to ground-run link faces'] = round(min(D.seg_dist(np.array([x, D.ROAD_Z]), a, b) for x in D.ROAD_X for a, b in D.running_faces(D.PINS)) - D.ROLLER_R, 4)
     c['support roller tread to top-run link faces'] = round(min(D.seg_dist(np.array([x, D.CARRIER_Z]), a, b) for x in D.CARRIER_X for a, b in D.running_faces(D.PINS)) - D.ROLLER_R, 4)
     c['sprocket bottom chord to ground line (pin line)'] = round(D.AXLE_Z - D.APOTHEM - D.GROUND_PIN_Z, 4)
@@ -310,10 +318,18 @@ def main():
         [seq['plug_screw_key']] + seq['hub_set_screw_key'] + seq['housing_fitting']
     stop_ok = bool(travel[2]['stop_hits']) and all('U_yoke' in h or 'H_frame' in h for h in travel[2]['stop_hits'])
     hub_ok = rep['drive_hub']['vendor_step_check']['ok'] and all(s['on_flat'] for s in rep['drive_hub']['set_screws'])
-    rep['pass'] = all(not r['hits'] for r in runs) and stop_ok and hub_ok and D.check()['link_error_mm'] < 1e-9
+    rep['pass'] = all(not r['hits'] for r in runs) and stop_ok and hub_ok and D.check()['link_error_mm'] < 1e-9 and rep['spring_guide']['pass']
     rep['scope'] = ('Nominal CAD with exact solid intersections; sampled drive rotation, idler recoil, chain phases (conveyor '
                     'approximation on the wraps), assembly paths and tool access. Not a load, fatigue, print-tolerance or powered test.')
     rep['elapsed_s'] = round(time.time() - t0, 1)
+    assert all(hashlib.sha256((P.REPO / name).read_bytes()).hexdigest() == value
+               for name, value in source_hashes.items()), 'CAD source changed during validation'
+    rep['source_sha256'] = source_hashes
+    rep['exported_step_sha256'] = {str(p.relative_to(P.REPO)): hashlib.sha256(p.read_bytes()).hexdigest()
+                                  for p in sorted((ROOT / 'step').glob('*.step')) if p.stem in P.PRINTED}
+    rep['exported_stl_sha256'] = {str(p.relative_to(P.REPO)): hashlib.sha256(p.read_bytes()).hexdigest()
+                                 for p in sorted((ROOT / 'stl').glob('*.stl'))}
+    rep['spring_guide_report_sha256'] = hashlib.sha256((ROOT / 'spring_guide_validation.json').read_bytes()).hexdigest()
     (ROOT / 'validation.json').write_text(json.dumps(rep, indent=1, default=float) + '\n')
 
     def failures(v, path=''):

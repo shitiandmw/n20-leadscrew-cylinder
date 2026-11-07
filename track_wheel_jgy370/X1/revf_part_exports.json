@@ -1,0 +1,441 @@
+{
+  "revision": "F",
+  "method": "verified delivered STEP/STL files against the current source; nothing re-exported",
+  "source_sha256": {
+    "track_wheel_jgy370/X1/source/check_revf_exports.py": "4ede30c347311ae45c81f918764465018b6083d67b94d7bc3378fec77cc7d251",
+    "track_wheel_jgy370/X1/source/x1_parts.py": "0b77d36a20ea1cbd402639453f9035d8462df5845023dcf6594439b7fac0fc47",
+    "track_wheel_jgy370/J9/source/j9_mounts.py": "d18f32025d34729409c6a9d046674dacd05e27033de9c9136c229bc9b0564ff3",
+    "track_wheel_jgy370/J9/source/j9_parts.py": "0da491a24b9cbb33bb84bd19a036e9b46282b7569f4e20b139be6bf8017d66b2",
+    "track_wheel_jgy370/J9/source/j9_design.py": "b952562b77c5fd9c778d52113387a4bfbe071050a057529096e524be026cbdbd",
+    "track_wheel/source/tw_parts.py": "0bb01b2c7013a2f2296e3f7176afe62635e563270b250936c40febc0deb9b3e4",
+    "track_wheel_jgy370/J9/source/export_revf_track.py": "b4da77de642e4cfb4d81c503503c2672e0af3233df35b82a2ea3c012ba241993",
+    "track_wheel_jgy370/X1/source/export_arc_frame.py": "b0ff143e4690af3b59a3f8f86aaabecbda8a041a081c4970d021eba502971eb0",
+    "track_wheel_jgy370/X1/source/build_x1.py": "0535753bcb2d6e4ddcf2dae2d5dcbad36ac5fc5909f8c564d8c6450388bb047d",
+    "track_wheel/source/build_track_wheel.py": "1403d731b84c0ff929270501362acc493eba01b2f9d0b4fea898d6917dfc7590",
+    "track_wheel_jgy370/X1/source/refresh_revf.py": "73c44627c4f6eebf34c561b906da45225395ea7a5958ef1b80233096b4d93f81"
+  },
+  "exports": [
+    {
+      "name": "X101_X_frame",
+      "step_file": "track_wheel_jgy370/X1/step/X101_X_frame.step",
+      "step_sha256": "6b1ec27ddd8826b87174378405e12db393bce725350cb364996ff3c9fb13a34d",
+      "stl_file": "track_wheel_jgy370/X1/stl/X101_X_frame.stl",
+      "stl_sha256": "edac60a6edca0369e0de4b636305db951ecea49281b4c2922f65d26525f3c160",
+      "solids": 1,
+      "valid": true,
+      "step_roundtrip": true,
+      "matches_current_source": true,
+      "source_equivalence": {
+        "source_signature": {
+          "solids": 1,
+          "faces": 237,
+          "volume": 492864.2386345337,
+          "area": 113723.4045732885,
+          "bounds": [
+            -77.5000001,
+            77.5000001,
+            -137.5000001,
+            137.5000001,
+            33.99999989999997,
+            85.0000001
+          ]
+        },
+        "imported_signature": {
+          "solids": 1,
+          "faces": 237,
+          "volume": 492864.2326264669,
+          "area": 113723.40824125528,
+          "bounds": [
+            -77.5000001,
+            77.5000001,
+            -137.5000001,
+            137.5000001,
+            33.99999989999999,
+            85.0000001
+          ]
+        },
+        "original_signature_match": false,
+        "method": "adaptive OCC integration and exact symmetric difference",
+        "adaptive_properties": {
+          "source": {
+            "volume_mm3": 492864.0228055894,
+            "area_mm2": 113723.35879192733,
+            "volume_integration_relative_error": 1.2647361140984495e-13,
+            "area_integration_relative_error": 3.462769425859957e-14
+          },
+          "imported": {
+            "volume_mm3": 492864.0227798335,
+            "area_mm2": 113723.35879068989,
+            "volume_integration_relative_error": 1.2647752612887148e-13,
+            "area_integration_relative_error": 3.4627694258447725e-14
+          }
+        },
+        "symmetric_difference": {
+          "removed_mm3": 0,
+          "added_mm3": 0
+        },
+        "tolerance": {
+          "bounds_mm": 1e-05,
+          "volume_mm3": 0.004928640228055894,
+          "area_mm2": 0.0011372335879192732,
+          "each_material_difference_mm3": 1e-06
+        },
+        "max_bound_difference_mm": 2.1316282072803006e-14,
+        "passed": true
+      },
+      "volume_mm3": 492864.2326264669,
+      "stl_watertight": true,
+      "stl_components": 1,
+      "stl_volume_mm3": 493569.552524165,
+      "stl_volume_relative_difference": 0.0014310510569510075,
+      "print_bounds_mm": [
+        155.0,
+        275.0,
+        51.0
+      ],
+      "print_orientation": "Bearing seat on the bed; rotate X by 180 degrees.",
+      "seconds": 79.3,
+      "envelope_contract": {
+        "source": {
+          "expected_bounds_mm": [
+            -77.5,
+            77.5,
+            -137.5,
+            137.5,
+            34.0,
+            85.0
+          ],
+          "measured_bounds_mm": [
+            -77.5000001,
+            77.5000001,
+            -137.5000001,
+            137.5000001,
+            33.99999989999997,
+            85.0000001
+          ],
+          "bound_order": [
+            "xmin",
+            "xmax",
+            "ymin",
+            "ymax",
+            "zmin",
+            "zmax"
+          ],
+          "tolerance_mm": 0.0001,
+          "max_error_mm": 1.0000002959031917e-07,
+          "pass": true
+        },
+        "step": {
+          "expected_bounds_mm": [
+            -77.5,
+            77.5,
+            -137.5,
+            137.5,
+            34.0,
+            85.0
+          ],
+          "measured_bounds_mm": [
+            -77.5000001,
+            77.5000001,
+            -137.5000001,
+            137.5000001,
+            33.99999989999999,
+            85.0000001
+          ],
+          "bound_order": [
+            "xmin",
+            "xmax",
+            "ymin",
+            "ymax",
+            "zmin",
+            "zmax"
+          ],
+          "tolerance_mm": 0.0001,
+          "max_error_mm": 1.000000082740371e-07,
+          "pass": true
+        }
+      },
+      "pass": true
+    },
+    {
+      "name": "J901_H_frame",
+      "step_file": "track_wheel_jgy370/J9/step/J901_H_frame.step",
+      "step_sha256": "da84e2569c93645bcdd0cad831674c71ec21781eda9e4cad0582ce98dc328ec0",
+      "stl_file": "track_wheel_jgy370/J9/stl/J901_H_frame.stl",
+      "stl_sha256": "8a71deed2cff2f0928fd3e93f9cc35b4ce34d392d982fdcccc6b322f9842a64f",
+      "solids": 1,
+      "valid": true,
+      "step_roundtrip": true,
+      "matches_current_source": true,
+      "source_equivalence": {
+        "source_signature": {
+          "solids": 1,
+          "faces": 1528,
+          "volume": 296216.12700298347,
+          "area": 85465.01550910405,
+          "bounds": [
+            -139.0,
+            135.89889799949836,
+            -35.5,
+            30.0,
+            13.5,
+            77.14101615137753
+          ]
+        },
+        "imported_signature": {
+          "solids": 1,
+          "faces": 1528,
+          "volume": 296216.12700294243,
+          "area": 85465.01550909162,
+          "bounds": [
+            -139.0,
+            135.89889799949563,
+            -35.5,
+            30.0,
+            13.499999999999794,
+            77.141016151378
+          ]
+        },
+        "original_signature_match": true,
+        "method": "original strict signature",
+        "passed": true
+      },
+      "volume_mm3": 296216.12700294243,
+      "stl_watertight": true,
+      "stl_components": 1,
+      "stl_volume_mm3": 296222.50864629325,
+      "stl_volume_relative_difference": 2.154387532626648e-05,
+      "print_bounds_mm": [
+        274.899,
+        63.641,
+        65.5
+      ],
+      "print_orientation": "Outer wall on the bed; rotate X by -90 degrees.",
+      "seconds": 254.1,
+      "pass": true
+    },
+    {
+      "name": "J909_housing",
+      "step_file": "track_wheel_jgy370/J9/step/J909_housing.step",
+      "step_sha256": "605d619f8ad5ca0b2f2b5a52d0f9e5e642103f753afd154f1dbe320f43369542",
+      "stl_file": "track_wheel_jgy370/J9/stl/J909_housing.stl",
+      "stl_sha256": "708c3887fc32aeaf62c1c24c66c5865b5dba6dd56343fae9814da6d15f467359",
+      "solids": 1,
+      "valid": true,
+      "step_roundtrip": true,
+      "matches_current_source": true,
+      "source_equivalence": {
+        "source_signature": {
+          "solids": 1,
+          "faces": 1048,
+          "volume": 53029.05391683608,
+          "area": 44676.627610656345,
+          "bounds": [
+            -143.5000001,
+            143.39889809949835,
+            -62.5,
+            -35.49999989999987,
+            10.820507975688772,
+            77.82050817568876
+          ]
+        },
+        "imported_signature": {
+          "solids": 1,
+          "faces": 1048,
+          "volume": 53029.04798040406,
+          "area": 44676.62615880641,
+          "bounds": [
+            -143.5000001,
+            143.3988980994917,
+            -62.5,
+            -35.4999999,
+            10.820507975688113,
+            77.820508175689
+          ]
+        },
+        "original_signature_match": false,
+        "method": "adaptive OCC integration and exact symmetric difference",
+        "adaptive_properties": {
+          "source": {
+            "volume_mm3": 53029.04816204368,
+            "area_mm2": 44676.627256075575,
+            "volume_integration_relative_error": 1.084078159751718e-11,
+            "area_integration_relative_error": 1.1035164477822511e-12
+          },
+          "imported": {
+            "volume_mm3": 53029.04815154151,
+            "area_mm2": 44676.627255778294,
+            "volume_integration_relative_error": 4.697753942561347e-12,
+            "area_integration_relative_error": 1.853809437157211e-13
+          }
+        },
+        "symmetric_difference": {
+          "removed_mm3": 0,
+          "added_mm3": 0
+        },
+        "tolerance": {
+          "bounds_mm": 1e-05,
+          "volume_mm3": 0.0005302904816204368,
+          "area_mm2": 0.0004467662725607558,
+          "each_material_difference_mm3": 1e-06
+        },
+        "max_bound_difference_mm": 6.650680006714538e-12,
+        "passed": true
+      },
+      "volume_mm3": 53029.04798040406,
+      "stl_watertight": true,
+      "stl_components": 1,
+      "stl_volume_mm3": 53018.68514826489,
+      "stl_volume_relative_difference": 0.00019552995585110403,
+      "print_bounds_mm": [
+        286.899,
+        67.0,
+        27.0
+      ],
+      "print_orientation": "Skirt inner face on the bed; rotate X by -90 degrees.",
+      "seconds": 250.8,
+      "pass": true
+    },
+    {
+      "name": "J901_H_frame_right",
+      "step_file": "track_wheel_jgy370/X1/step/J901_H_frame_right.step",
+      "step_sha256": "c311dcf725624fcc5450a3d7d47f49291835cd923a7f064a3bc577b70aa744f8",
+      "stl_file": "track_wheel_jgy370/X1/stl/J901_H_frame_right.stl",
+      "stl_sha256": "64880cd88a31006270d45259309bf221b6bfc4bcfb1c59c76c110e078977b703",
+      "solids": 1,
+      "valid": true,
+      "step_roundtrip": true,
+      "matches_current_source": true,
+      "source_equivalence": {
+        "source_signature": {
+          "solids": 1,
+          "faces": 1528,
+          "volume": 296216.12700298347,
+          "area": 85465.01550910402,
+          "bounds": [
+            -139.0,
+            135.89889799949836,
+            -30.0,
+            35.5,
+            13.5,
+            77.14101615137753
+          ]
+        },
+        "imported_signature": {
+          "solids": 1,
+          "faces": 1528,
+          "volume": 296216.1270029555,
+          "area": 85465.01550909235,
+          "bounds": [
+            -139.0,
+            135.89889799949563,
+            -30.0,
+            35.5,
+            13.499999999999794,
+            77.141016151378
+          ]
+        },
+        "original_signature_match": true,
+        "method": "original strict signature",
+        "passed": true
+      },
+      "volume_mm3": 296216.1270029555,
+      "stl_watertight": true,
+      "stl_components": 1,
+      "stl_volume_mm3": 296222.50864629325,
+      "stl_volume_relative_difference": 2.154387532626648e-05,
+      "print_bounds_mm": [
+        274.899,
+        63.641,
+        65.5
+      ],
+      "print_orientation": "Outer wall on the bed; rotate X by 90 degrees.",
+      "seconds": 260.7,
+      "pass": true
+    },
+    {
+      "name": "J909_housing_right",
+      "step_file": "track_wheel_jgy370/X1/step/J909_housing_right.step",
+      "step_sha256": "77331fdc2cb0e8a28c5d0dbb0463fac5c30d42d982887cb12c75a907a03eecce",
+      "stl_file": "track_wheel_jgy370/X1/stl/J909_housing_right.stl",
+      "stl_sha256": "f509c73d29cbe22dbe584285308dc334c79cd2840db70965d55d23b05b6b8b5a",
+      "solids": 1,
+      "valid": true,
+      "step_roundtrip": true,
+      "matches_current_source": true,
+      "source_equivalence": {
+        "source_signature": {
+          "solids": 1,
+          "faces": 1048,
+          "volume": 53029.053916836085,
+          "area": 44676.627610656345,
+          "bounds": [
+            -143.5000001,
+            143.39889809949835,
+            35.49999989999987,
+            62.5,
+            10.820507975688772,
+            77.82050817568876
+          ]
+        },
+        "imported_signature": {
+          "solids": 1,
+          "faces": 1048,
+          "volume": 53029.05040776595,
+          "area": 44676.62798198245,
+          "bounds": [
+            -143.5000001,
+            143.3988980994917,
+            35.4999999,
+            62.5,
+            10.820507975688113,
+            77.820508175689
+          ]
+        },
+        "original_signature_match": false,
+        "method": "adaptive OCC integration and exact symmetric difference",
+        "adaptive_properties": {
+          "source": {
+            "volume_mm3": 53029.04816204369,
+            "area_mm2": 44676.62725607558,
+            "volume_integration_relative_error": 1.084078159751718e-11,
+            "area_integration_relative_error": 1.1035164477822511e-12
+          },
+          "imported": {
+            "volume_mm3": 53029.04815140172,
+            "area_mm2": 44676.627255817744,
+            "volume_integration_relative_error": 4.698023391586908e-12,
+            "area_integration_relative_error": 1.1033681588963173e-12
+          }
+        },
+        "symmetric_difference": {
+          "removed_mm3": 0,
+          "added_mm3": 0
+        },
+        "tolerance": {
+          "bounds_mm": 1e-05,
+          "volume_mm3": 0.0005302904816204369,
+          "area_mm2": 0.00044676627256075584,
+          "each_material_difference_mm3": 1e-06
+        },
+        "max_bound_difference_mm": 6.650680006714538e-12,
+        "passed": true
+      },
+      "volume_mm3": 53029.05040776595,
+      "stl_watertight": true,
+      "stl_components": 1,
+      "stl_volume_mm3": 53018.68514826489,
+      "stl_volume_relative_difference": 0.0001955299558512412,
+      "print_bounds_mm": [
+        286.899,
+        67.0,
+        27.0
+      ],
+      "print_orientation": "Skirt inner face on the bed; rotate X by 90 degrees.",
+      "seconds": 259.5,
+      "pass": true
+    }
+  ],
+  "seconds": 1105.9,
+  "pass": true
+}

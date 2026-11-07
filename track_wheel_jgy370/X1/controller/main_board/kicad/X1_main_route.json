@@ -1,0 +1,9 @@
+{
+ "dsn_sha256": "ac71f4b5a01182a42b312333c964186aac16400462e33c2fdd9e33b405f83141",
+ "session": "X1_main.ses",
+ "routed_by": "ghcr.io/freerouting/freerouting:2.1.0, 40 min",
+ "note": "build_pcb.py imports this session while the DSN it exports still has this hash",
+ "repair_dsn_sha256": "793aac2d9b97c6a39bcb8ccaa3ae78b1714ea7e5698591ec437f0a193e263fcf",
+ "repair_session": "X1_main_repair.ses",
+ "repair_routed_by": "ghcr.io/freerouting/freerouting:2.1.0, 6 min"
+}

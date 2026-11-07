@@ -1,0 +1,135 @@
+{
+  "revision": "J9 recessed spring guide",
+  "dimensions_mm": {
+    "recess": 8.0,
+    "bore_d": 16.4,
+    "outer_d": 21.2,
+    "piston_d": 15.6,
+    "rear_wall": 2.0,
+    "yoke_gap_at_recoil": 0.8,
+    "seat_x": 28.0,
+    "guide_x": [
+      26.0,
+      56.8
+    ],
+    "spring_radial_clearance": 0.5800000000000001,
+    "piston_radial_clearance": 0.39999999999999947,
+    "guide_wall": 2.4000000000000004,
+    "spring_end_inside_guide_at_extension": 2.9999999999999964,
+    "spring_above_solid_at_recoil": 4.582000000000001
+  },
+  "frame_one_valid_solid": true,
+  "yoke_one_valid_solid": true,
+  "travel": [
+    {
+      "recoil_mm": 0.0,
+      "spring_frame_overlap_mm3": 0.0,
+      "spring_yoke_overlap_mm3": 0.0,
+      "yoke_frame_overlap_mm3": 0.0,
+      "spring_length_mm": 25.8
+    },
+    {
+      "recoil_mm": 0.42,
+      "spring_frame_overlap_mm3": 0.0,
+      "spring_yoke_overlap_mm3": 0.0,
+      "yoke_frame_overlap_mm3": 0.0,
+      "spring_length_mm": 25.38
+    },
+    {
+      "recoil_mm": 0.84,
+      "spring_frame_overlap_mm3": 0.0,
+      "spring_yoke_overlap_mm3": 0.0,
+      "yoke_frame_overlap_mm3": 0.0,
+      "spring_length_mm": 24.96
+    },
+    {
+      "recoil_mm": 1.26,
+      "spring_frame_overlap_mm3": 0.0,
+      "spring_yoke_overlap_mm3": 0.0,
+      "yoke_frame_overlap_mm3": 0.0,
+      "spring_length_mm": 24.54
+    },
+    {
+      "recoil_mm": 1.68,
+      "spring_frame_overlap_mm3": 0.0,
+      "spring_yoke_overlap_mm3": 0.0,
+      "yoke_frame_overlap_mm3": 0.0,
+      "spring_length_mm": 24.12
+    },
+    {
+      "recoil_mm": 2.1,
+      "spring_frame_overlap_mm3": 0.0,
+      "spring_yoke_overlap_mm3": 0.0,
+      "yoke_frame_overlap_mm3": 0.0,
+      "spring_length_mm": 23.7
+    },
+    {
+      "recoil_mm": 2.52,
+      "spring_frame_overlap_mm3": 0.0,
+      "spring_yoke_overlap_mm3": 0.0,
+      "yoke_frame_overlap_mm3": 0.0,
+      "spring_length_mm": 23.28
+    },
+    {
+      "recoil_mm": 2.94,
+      "spring_frame_overlap_mm3": 0.0,
+      "spring_yoke_overlap_mm3": 0.0,
+      "yoke_frame_overlap_mm3": 0.0,
+      "spring_length_mm": 22.86
+    },
+    {
+      "recoil_mm": 3.36,
+      "spring_frame_overlap_mm3": 0.0,
+      "spring_yoke_overlap_mm3": 0.0,
+      "yoke_frame_overlap_mm3": 0.0,
+      "spring_length_mm": 22.44
+    },
+    {
+      "recoil_mm": 3.78,
+      "spring_frame_overlap_mm3": 0.0,
+      "spring_yoke_overlap_mm3": 0.0,
+      "yoke_frame_overlap_mm3": 0.0,
+      "spring_length_mm": 22.02
+    },
+    {
+      "recoil_mm": 4.2,
+      "spring_frame_overlap_mm3": 0.0,
+      "spring_yoke_overlap_mm3": 0.0,
+      "yoke_frame_overlap_mm3": 0.0,
+      "spring_length_mm": 21.6
+    }
+  ],
+  "free_spring_insertion": [
+    {
+      "offset_mm": 40,
+      "overlap_mm3": 0.0
+    },
+    {
+      "offset_mm": 20,
+      "overlap_mm3": 0.0
+    },
+    {
+      "offset_mm": 8,
+      "overlap_mm3": 0.0
+    },
+    {
+      "offset_mm": 1,
+      "overlap_mm3": 0.0
+    },
+    {
+      "offset_mm": 0,
+      "overlap_mm3": 0.0
+    }
+  ],
+  "guide_to_rollers_mm": {
+    "road0": 75.59324,
+    "road1": 47.19253,
+    "road2": 19.35408,
+    "road3": 0.72051,
+    "road4": 0.78178,
+    "support0": 53.81253,
+    "support1": 4.22051
+  },
+  "scope": "Nominal exact CAD clearance and full spring-envelope checks. No structural, wear or physical print verification.",
+  "pass": true
+}

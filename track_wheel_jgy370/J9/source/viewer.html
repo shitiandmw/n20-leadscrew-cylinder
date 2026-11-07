@@ -8,9 +8,9 @@ aside{width:340px;overflow:auto;padding:14px 18px;background:#fbfcfb;border-left
 .metric{display:flex;justify-content:space-between;border-bottom:1px solid #e3e8e6;padding:3px 0}.metric b{white-space:nowrap;margin-left:8px}
 #caption{position:absolute;left:14px;bottom:12px;right:14px;background:rgba(255,255,255,.88);padding:8px 12px;border-radius:4px;max-width:760px}
 #part{margin-top:10px;min-height:40px;color:#40585e}h2{font-size:15px;margin:14px 0 6px}small{color:#5b6f73}
-</style></head><body><header><h1>J9 / one printed H-frame &ndash; flat ground run, lifted top run</h1><p>JGY-370 single track &middot; 70 mm shoes &middot; 5 road + 2 support rollers (one part) &middot; R5 spring idler</p></header>
+</style></head><body><header><h1>J9 rev F / support seats and guided spring</h1><p>JGY-370 single track &middot; 70 mm shoes &middot; 5 road + 2 support rollers (one part) &middot; spring enclosed in the main web</p></header>
 <main><div id="stage"><div id="caption"></div></div><aside>
-<div class="views"><button data-view="iso">3/4 outboard</button><button data-view="outboard">Outboard side</button><button data-view="inboard">Inboard side</button><button data-view="pod">Motor pod</button><button data-view="top">Top</button><button data-view="frame">H-frame and wheels</button><button data-view="exploded">Exploded</button></div>
+<div class="views"><button data-view="iso">3/4 outboard</button><button data-view="outboard">Outboard side</button><button data-view="inboard">Inboard side</button><button data-view="pod">Motor pod</button><button data-view="top">Top</button><button data-view="frame">H-frame and wheels</button><button data-view="spring">Spring guide section</button><button data-view="exploded">Exploded</button></div>
 <label><input id="track" type="checkbox" checked> Show track</label><label><input id="housing" type="checkbox" checked> Show housing</label><label><input id="motor" type="checkbox" checked> Show motor</label><label><input id="ground" type="checkbox" checked> Show ground plane</label>
 <p><button id="run">Run track</button> <small>chain advance is a geometric preview, not a simulation</small></p>
 <h2>Key dimensions / mm</h2><div id="metrics"></div>
@@ -20,6 +20,7 @@ aside{width:340px;overflow:auto;padding:14px 18px;background:#fbfcfb;border-left
 <script>__THREE__</script><script>__ORBIT__</script><script>
 'use strict';const DATA=__DATA__,V=DATA.config;const stage=document.getElementById('stage'),scene=new THREE.Scene();scene.background=new THREE.Color('#eef1ef');
 const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.outputEncoding=THREE.sRGBEncoding;renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));stage.prepend(renderer.domElement);
+renderer.localClippingEnabled=true;const springPlane=new THREE.Plane(new THREE.Vector3(0,-1,0),0);
 const camera=new THREE.PerspectiveCamera(30,1,1,5000);camera.up.set(0,0,1);const controls=new THREE.OrbitControls(camera,renderer.domElement);let dirty=true;controls.addEventListener('change',()=>dirty=true);
 scene.add(new THREE.HemisphereLight(0xffffff,0x8a9696,.8));for(const [p,i] of [[[180,-420,640],.85],[[-380,380,320],.55],[[300,500,-100],.25]]){const l=new THREE.DirectionalLight(0xffffff,i);l.position.set(...p);scene.add(l)}
 const decode=(s,T)=>{const b=atob(s),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new T(u.buffer)};
@@ -51,14 +52,17 @@ function visible(){track.visible=ui.track.checked&&!exploded;ground.visible=ui.g
 for(const k in ui)ui[k].addEventListener('change',visible);
 const views={iso:{pos:[-250,470,250],target:[0,0,40],cap:'Outboard 3/4 view. The ground run is flat: sprocket, five road rollers and idler all bear on one line. Only the two support rollers lift the top run (3.5 mm).'},
  outboard:{pos:[0,560,46],target:[0,0,46],cap:'Outboard side. Note the straight ground run from sprocket to idler and the top run lifted over the two support rollers.'},
- inboard:{pos:[0,-600,46],target:[0,-20,46],cap:'Inboard (vehicle) side: one-piece housing = skirt + closed motor pod (final-drive drum, gearbox shoulder, motor tube, cable port in the nose); three chassis bosses with M4 inserts pass through the skirt; Ø8 holes give access to the roller bolts.'},
+ inboard:{pos:[0,-600,46],target:[0,-20,46],cap:'Inboard (vehicle) side: one-piece housing = skirt + closed motor pod. Openings expose the plain 1.5 mm main-plate seats for the flat ends of the X1 arms, with a screw on each side of each arm\'s centre web and external mounting nuts. Ø8 holes give access to the roller bolts.'},
  pod:{pos:[-232,-276,150],target:[-72,-45,36],cap:'Motor pod, printed in one piece with the skirt: Ø53 final-drive drum on the sprocket axis with hub cap and 8 cosmetic bolt heads, gearbox shoulder, motor tube with a band at the end cap, rounded nose with the Ø5.5 cable port. A rim on the inner wall closes the gap behind the skirt, so the motor is fully enclosed.'},
  top:{pos:[0,-1,620],target:[0,-12,40],cap:'Top view: 70 mm shoes; housing with its motor pod on the inboard side.'},
  frame:{pos:[-240,430,300],target:[0,0,40],cap:'H-frame with drive, rollers and tensioner. Track, housing and motor hidden.',hide:['track','housing','motor']},
+ spring:{pos:[53,145,80],target:[45,0,44.32],cap:'Axial spring-guide cutaway: the outboard half of the main frame is clipped away. The Ø15.24 spring sits entirely inside a Ø16.4 hole with a 2.4 mm wall; the purple Ø15.6 yoke piston slides into it. Original 77 N preload and 4.2 mm recoil are retained.',hide:['track','housing','motor','ground'],section:true},
  exploded:{pos:[-330,560,330],target:[0,-10,30],cap:'Exploded: sprocket leaves to the rear (its fitting path) with its Pololu hub inboard and hub screws outboard, journal plug and screw outboard, rollers down/up, yoke + idler forward, housing and motor inboard.',explode:true}};
 let view='iso';function setView(v){view=v;const s=views[v];camera.position.set(...s.pos);controls.target.set(...s.target);controls.update();
  document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('on',b.dataset.view===v));
- for(const k of ['track','housing','motor'])ui[k].checked=!(s.hide||[]).includes(k);setExploded(!!s.explode);visible();document.getElementById('caption').textContent=s.cap;dirty=true}
+ for(const k of ['track','housing','motor','ground'])ui[k].checked=!(s.hide||[]).includes(k);
+ for(const m of meshes)if(m.userData.name==='J901_H_frame'){m.material.clippingPlanes=s.section?[springPlane]:null;m.material.side=s.section?THREE.DoubleSide:THREE.FrontSide;m.material.needsUpdate=true;}
+ setExploded(!!s.explode);visible();document.getElementById('caption').textContent=s.cap;dirty=true}
 document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
 let playing=false,last=0;const runBtn=document.getElementById('run');runBtn.addEventListener('click',()=>{playing=!playing;runBtn.classList.toggle('on',playing);runBtn.textContent=playing?'Stop':'Run track';if(playing&&exploded)setView('iso');last=performance.now()});
 const K=V.key;document.getElementById('metrics').innerHTML=[['Shoe width',K.shoe],['Sprocket to idler centres',K.centres],['Axle height (sprocket, idler)',K.axle_z],['Top of track',K.track_top],['Support-roller lift of the top run',K.top_lift],['Road rollers below the end-wheel line','0 (flat)'],['Module width (housing to shoe edge)',K.width],['Links / pitch','34 / 20']].map(([a,b])=>`<div class="metric"><span>${a}</span><b>${b}</b></div>`).join('');
@@ -68,5 +72,5 @@ function resize(){const w=stage.clientWidth,h=stage.clientHeight;renderer.setSiz
 function render(){renderer.render(scene,camera);dirty=false}
 function loop(now){if(playing){setPhase((phase+(now-last)/1000*1.2)%N)}last=now;if(dirty)render();requestAnimationFrame(loop)}
 resize();setPhase(0);setView('iso');requestAnimationFrame(loop);
-window.j9={setView,setPhase,setExploded,render,state:()=>({view,phase,exploded,track:track.visible,meshes:meshes.length,links:shoes.length})};
+window.j9={setView,setPhase,setExploded,render,state:()=>({view,phase,exploded,track:track.visible,meshes:meshes.length,links:shoes.length,springSection:meshes.some(m=>m.userData.name==='J901_H_frame'&&m.material.clippingPlanes?.length===1),springVisible:meshes.some(m=>m.userData.group==='spring'&&m.visible)})};
 </script></body></html>

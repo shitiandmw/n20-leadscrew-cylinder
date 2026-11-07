@@ -2,6 +2,7 @@
 Cat 320 comparison. Writes ../X1_layout.pdf and ../images/X1_layout.png."""
 import json
 from functools import reduce
+import cadquery as cq
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
@@ -14,6 +15,15 @@ from x1_parts import P9, D9
 
 ROOT = X.ROOT
 INK, ACC, RES, GRID = '#203a42', '#c0392b', '#2e86c1', '#9aa7a5'
+
+
+def exported_chassis():
+    """Use the delivered STEP, preserving global geometry and component colours."""
+    assembly = cq.Assembly.load(str(ROOT / 'step/X1_crawler_chassis.step'))
+    return {name: dict(shape=cq.Workplane(obj=node.obj.moved(node.loc)),
+                       color=node.color.toTuple()[:3] if node.color else (.6, .6, .6),
+                       group='drawing')
+            for name, node in assembly.objects.items() if node.obj is not None}
 
 
 def to_mesh(shape, tol=.05):
@@ -58,7 +68,7 @@ def plan(ax, inst, keys):
         tag = 'L' if s > 0 else 'R'
         fill(ax, section(inst[f'{tag}_J901_H_frame']['shape'], [0, 0, 68], [0, 0, 1], [0, 1]), '#8fb4b4', z=2)
         fill(ax, section(inst[f'{tag}_J909_housing']['shape'], [0, 0, D9.AXLE_Z], [0, 0, 1], [0, 1]), '#e8a23a', z=3)
-    fill(ax, section(inst['X101_X_frame']['shape'], [0, 0, 80], [0, 0, 1], [0, 1]), '#f2c230', z=4)
+    fill(ax, section(inst['X101_X_frame']['shape'], [0, 0, 73.5], [0, 0, 1], [0, 1]), '#f2c230', z=4)
     for r in (X.RU66['D']/2, X.RU66['d']/2):
         ax.add_patch(Circle((0, 0), r, fill=False, ec='#566573', lw=.9, zorder=6))
     ax.add_patch(Circle((0, 0), X.RESERVE_R, fill=False, ec=RES, lw=1.0, ls='--', zorder=6))
@@ -69,7 +79,7 @@ def plan(ax, inst, keys):
     # labels sit in the open space between the front legs and left of the swing circle, clear of the dimensions
     ax.annotate('swing centre:\nRU66 seat\n(Ø95 outer ring)', (0, 0), (66, -8), fontsize=8, va='top',
                 arrowprops=dict(arrowstyle='-', lw=.5, relpos=(0, 1)), zorder=8)
-    ax.annotate('X-frame X101:\ncarbody, 4 legs,\na rail on each\ntrack (3 x M4)', (60, 80), (66, 60), fontsize=8, va='top',
+    ax.annotate('X101 rev F:\n4 straight arms\nseat in the\ntrack beams', (60, 80), (66, 60), fontsize=8, va='top',
                 arrowprops=dict(arrowstyle='-', lw=.5, relpos=(0, 1)), zorder=8)
     ax.annotate('motor pods\n(final drives) at\nthe rear, as on\nthe Cat 320', (-100, X.TRACK_Y - 58), (-268, 30), fontsize=8, va='top',
                 arrowprops=dict(arrowstyle='-', lw=.5, relpos=(1, 1)), zorder=8)
@@ -79,9 +89,10 @@ def plan(ax, inst, keys):
     dim(ax, (D9.DRIVE_X, 0), (D9.IDLER_X, 0), X.TRACK_Y + 45, f'{keys["sprocket_to_idler"]:.1f} sprocket to idler')
     dim(ax, (0, -X.TRACK_Y), (0, X.TRACK_Y), L/2 + 22, f'{2*X.TRACK_Y:.0f} track gauge', vertical=True)
     dim(ax, (0, -X.TRACK_Y - 35), (0, X.TRACK_Y + 35), L/2 + 40, f'{keys["overall_width"]:.0f} overall width', vertical=True)
-    dim(ax, (0, -X.BOSS_FACE_Y), (0, X.BOSS_FACE_Y), 138, f'{2*X.BOSS_FACE_Y:.0f} X-frame (boss faces)', vertical=True, side=-1)
+    half_width = keys['x_frame_width']/2
+    dim(ax, (0, -half_width), (0, half_width), 138, f'{2*half_width:.0f} X-frame width', vertical=True, side=-1)
     ax.set_xlim(-235, 250); ax.set_ylim(-245, 238); ax.set_aspect('equal'); ax.axis('off')
-    ax.set_title('Plan view (front to the right). Sections: X-frame at Z 80, J9 frames at Z 68, motor pods at the axle height', fontsize=10, loc='left')
+    ax.set_title('Plan view (front to the right). Sections: X-frame at Z 73.5 (arm decks, just above the screw slots), J9 frames at Z 68, motor pods at the axle height', fontsize=10, loc='left')
 
 
 def front(ax, inst):
@@ -102,14 +113,13 @@ def front(ax, inst):
     dim(ax, (0, 0), (0, 92.4), 224, '92.4 top of track', vertical=True, fs=7.5)
     ax.annotate('cable route: pod port to carbody', (X.BODY_R + 20, X.CABLE_HOLE['z']), (2, 6), fontsize=7.5, color='#c0392b',
                 arrowprops=dict(arrowstyle='-', lw=.5, color='#c0392b'))
-    ax.annotate('rail, 3 x M4 into the J9 bosses', (X.RAIL_IN_Y + 3, 80), (110, 112), fontsize=7.5, arrowprops=dict(arrowstyle='-', lw=.5))
     ax.annotate('belly cover', (-50, 32.5), (-110, 14), fontsize=7.5, arrowprops=dict(arrowstyle='-', lw=.5))
     ax.set_xlim(-215, 245); ax.set_ylim(-8, 122); ax.set_aspect('equal'); ax.axis('off')
     ax.set_title('Front section through the swing centre (X = 0), seen from the front', fontsize=10, loc='left')
 
 
 def seat(ax, inst):
-    names = ['X101_X_frame', 'RU66_outer_ring', 'RU66_inner_ring'] + [n for n in inst if n.startswith(('seat_screw', 'insert_M4_seat'))]
+    names = ['X101_X_frame', 'RU66_outer_ring', 'RU66_inner_ring'] + [n for n in inst if n.startswith(('seat_screw', 'seat_washer', 'seat_disc', 'seat_nut'))]
     a = np.radians(X.OUTER_ANG[0])
     for n in names:
         c = '#f2c230' if n == 'X101_X_frame' else ('#9aa4ab' if n.startswith('RU66') else tuple(inst[n]['color']))
@@ -131,13 +141,13 @@ def seat(ax, inst):
     for z, t in ((X.SEAT_Z, 'Z 85 seat (outer ring)'), (X.TURNTABLE_Z, 'Z 100 turntable face (inner ring)')):
         ax.plot([-62, 62], [z, z], color=GRID, lw=.4, ls=':')
         ax.text(-63, z, t, fontsize=7, color=INK, ha='right', va='center')
-    notes = [((41.5, 97.5), (28, 106), 'outer ring: 8 x M4 x 16 from above,\nPCD 83, into heat-set inserts', 'baseline'),
+    notes = [((41.5, 97.5), (28, 106), 'outer ring: 8 x M4 x 30 from above,\nPCD 83, washers and nuts below', 'baseline'),
              ((-24, 99), (-60, 106), 'inner ring: 8 x M4 tapped, PCD 45\n(reserved for the turntable)', 'baseline'),
-             ((-30, 83.6), (-52, 73.5), 'Ø75 relief 2.5 deep: clears the\ninner ring (Dh min 74) and the\nturntable screw tips', 'top'),
+             ((-30, 83.6), (-52, 60), 'Ø75 relief 2.5 deep: clears the\ninner ring (Dh min 74) and the\nturntable screw tips', 'top'),
              ((-11, 79), (-22, 64), 'Ø25 cable passage', 'baseline')]
     for xy, txt, t, va in notes:
         ax.annotate(t, xy, txt, fontsize=7, va=va, arrowprops=dict(arrowstyle='-', lw=.5))
-    ax.set_xlim(-62, 62); ax.set_ylim(62, 112); ax.set_aspect('equal'); ax.axis('off')
+    ax.set_xlim(-62, 62); ax.set_ylim(54, 112); ax.set_aspect('equal'); ax.axis('off')
     ax.set_title('Turntable seat: section through a seat screw (THK RU66, catalogue A18-21)', fontsize=10, loc='left')
 
 
@@ -158,12 +168,17 @@ def table(ax, keys, val):
             txt = t if isinstance(t, str) else (f'{t:,.0f}' if j == 1 else f'{t:.1f}')
             ax.text([0, .50, .66, .82][j], .92 - i*.092, txt, fontsize=8.5, transform=ax.transAxes,
                     weight='bold' if i == 0 else 'normal', color=INK)
-    st = val['static']; tools = sum(len(v) for k, v in val['tool_access'].items() if not k.startswith('support_roller_bolt_withdrawal'))
-    lines = [f'CAD checks (validation.json): {"PASS" if val["pass"] else "FAIL"}',
-             f'static: 0 overlaps in {st["pairs_tested"]} exact pairs (both tracks, X-frame, RU66, screws, cable routes)',
-             f'turntable reserve (R 189 above Z 100): no intrusion; tracks 7.6 below it, X-frame 15',
-             f'track slide-on (both sides), RU66 lowering, belly cover: no overlaps; {tools} tool paths clear',
-             'support-roller bolts: unbolt the track from the X-frame before withdrawing them']
+    tools = sum(len(val[k]) for k in ('screw_insertion', 'L_key_access', 'external_nut_socket_access',
+                                      'upper_key_at_zero_deg'))
+    tools += sum(len(v) for v in val['central_tools'].values())
+    c = val['clearances_mm']
+    lines = [f'CAD checks (arc_seat_mount_validation.json): {"PASS" if val["pass"] else "FAIL"}',
+             f'static: 0 overlaps in {val["static"]["pairs_tested"]} exact pairs (X-frame, joint hardware, both tracks)',
+             f'vertical frame fitting (80 mm sweep), {len(val["track_phases"])} chain-phase and '
+             f'{len(val["recoil"])} idler-recoil cases, {len(val["swing"])} upper swing angles: no overlaps',
+             f'{tools} fastener and tool-access cases clear; support-roller bolts: detach the track first',
+             f'min clearance: X-frame to housing {min(c["frame_to_L_housing"]["mm"], c["frame_to_R_housing"]["mm"]):.2f}, '
+             f'joint hardware to recoiled idler {min(c["hardware_to_L_recoiled_idler"]["mm"], c["hardware_to_R_recoiled_idler"]["mm"]):.2f}']
     for i, t in enumerate(lines):
         plt.gcf().text(.57, .205 - i*.022, t, fontsize=9 if i == 0 else 8.2,
                        color='#1e8449' if i == 0 else '#40585e', weight='bold' if i == 0 else 'normal')
@@ -171,13 +186,30 @@ def table(ax, keys, val):
     ax.set_title('Cat 320 reference (07H spec sheet p. 4) and X1 (mm)', fontsize=10, loc='left')
 
 
+def key_numbers(inst):
+    chain = [X.one(d['shape']).BoundingBox() for n, d in inst.items()
+             if n.startswith(('L_', 'R_')) and n[2:].startswith(('shoe_', 'track_pin_', 'track_bushing_', 'pin_clip_'))]
+    assert chain, 'No track chain found in the exported chassis'
+    xs = [b.xmin for b in chain] + [b.xmax for b in chain]
+    ys = [b.ymin for b in chain] + [b.ymax for b in chain]
+    frame = X.one(inst['X101_X_frame']['shape']).BoundingBox()
+    return dict(track_gauge=2*X.TRACK_Y, overall_width=round(max(ys) - min(ys), 1),
+                track_length=round(max(xs) - min(xs), 1), sprocket_to_idler=round(D9.IDLER_X - D9.DRIVE_X, 1),
+                shoe_width=D9.SHOE_W, ground_clearance=X.COVER_Z[0], turntable_face_z=X.TURNTABLE_Z,
+                reserve_radius=X.RESERVE_R, x_frame_width=round(frame.ylen, 1), x_frame_length=round(frame.xlen, 1))
+
+
 def main():
-    val = json.loads((ROOT / 'validation.json').read_text()); keys = val['key_numbers']
-    inst = X.unit(with_reserve=False)
+    print('Reading exported chassis STEP', flush=True)
+    inst = exported_chassis()
+    val = json.loads((ROOT / 'arc_seat_mount_validation.json').read_text())
+    if not val['pass'] or val['revision'] != 'F':
+        raise SystemExit('Refusing to label a failed or stale chassis validation as a completed layout')
+    keys = key_numbers(inst)
     fig = plt.figure(figsize=(16.5, 11.7))
-    fig.text(.03, .965, 'X1 crawler chassis  —  two J9 tracks on an X-frame (built from the CAD data)', fontsize=17, weight='bold', color=INK)
-    fig.text(.03, .943, 'Cat 320 lower-frame layout: round carbody under the slewing ring, four legs in an X, final drives at the rear. '
-                        'The turntable is not built; its seat, cable passage and swing envelope are reserved.', fontsize=10, color='#40585e')
+    fig.text(.03, .965, 'X1 revision F  —  straight arms seated in the track beams (from the CAD data)', fontsize=17, weight='bold', color=INK)
+    fig.text(.03, .943, 'Cat 320 lower-frame layout: round carbody under the slewing ring, four arms in an X, final drives at the rear. '
+                        'Turntable R3 is modelled separately; its seat, cable passage and swing envelope are retained.', fontsize=10, color='#40585e')
     plan(fig.add_axes([.02, .27, .52, .63]), inst, keys)
     front(fig.add_axes([.55, .60, .44, .31]), inst)
     seat(fig.add_axes([.57, .25, .41, .31]), inst)

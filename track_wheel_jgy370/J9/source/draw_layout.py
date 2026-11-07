@@ -51,6 +51,9 @@ def frame(ax):
     ax.add_patch(MPoly([(D.WEB_X[0], D.WEB_Z[0]), (D.WEB_X[1], D.WEB_Z[0]), (D.WEB_X[1], D.WEB_Z[1]), (D.WEB_X[0], D.WEB_Z[1])],
                        closed=True, fill=False, ec=INK, ls='--', lw=.6, zorder=2))
     s0, s1 = D.SPRING_X0, D.SPRING_X0 + D.SPRING_SET
+    gx0,gx1 = D.SPRING_GUIDE_X; gr = D.SPRING_POCKET['outer_d']/2
+    ax.add_patch(MPoly([(gx0,D.AXLE_Z-gr),(gx1,D.AXLE_Z-gr),(gx1,D.AXLE_Z+gr),(gx0,D.AXLE_Z+gr)],
+                      closed=True, fill=False, ec=INK, ls='--', lw=.8, zorder=3))
     xs = np.linspace(s0, s1, 40); ax.plot(xs, D.AXLE_Z + 7*np.sin((xs - s0)/(s1 - s0)*2*math.pi*7), color='#666', lw=.6, zorder=2)
     y0, y1 = D.YOKE_BASE_X
     ax.add_patch(MPoly([(y0, D.AXLE_Z - 8), (D.YOKE_ARM_END, D.AXLE_Z - 8), (D.YOKE_ARM_END, D.AXLE_Z + 8), (y0, D.AXLE_Z + 8)],
@@ -96,7 +99,7 @@ def main():
     vdim(ax, -158, 0, D.ROAD_Z, f'{D.ROAD_Z:.0f} road rollers', side=-1)
     vdim(ax, -168, 0, D.CARRIER_Z, f'{D.CARRIER_Z:.2f} support rollers', side=-1)
     ax.annotate('sprocket on a Pololu hub, JGY-370 D-shaft\n(12 V, 200:1 motor on the inboard wall)', (D.DRIVE_X - 30, D.AXLE_Z + 30), (-175, 112), fontsize=8, arrowprops=dict(arrowstyle='-', lw=.5))
-    ax.annotate('idler on a U-yoke, R5 spring\n77 N fitted, recoil stop 4.2 mm', (D.IDLER_X + 20, D.AXLE_Z + 30), (120, 112), fontsize=8, arrowprops=dict(arrowstyle='-', lw=.5))
+    ax.annotate('idler on a piston U-yoke\nR5 spring in Ø16.4 guide hole\n77 N fitted, recoil stop 4.2 mm', (D.IDLER_X + 20, D.AXLE_Z + 30), (120, 112), fontsize=8, arrowprops=dict(arrowstyle='-', lw=.5))
     ax.annotate('H-frame wall (web dashed)', (-40, 60), (-60, 112), fontsize=8, arrowprops=dict(arrowstyle='-', lw=.5))
     ax.set_xlim(-185, 185); ax.set_ylim(-34, 122)
 
@@ -146,7 +149,9 @@ def main():
              f'34 links closed exactly (error {chk["link_error_mm"]:.0e} mm); static overlap: 0 of {st["pairs_tested"]} pairs',
              'drive rotation, idler recoil to the stop, 3 chain phases, sprocket fitting path,',
              f'plug, yoke and housing insertion, {n_tools} tool-access paths: no overlaps',
-             f'min clearance track pins/clips to H-frame {val["clearances_mm"]["track pins and clips to H-frame"]:.1f} mm']
+             'main-plate seats to housing / motor / chain: ' + ' / '.join(
+                 f'{val["mounting_clearances_mm"][k]["mm"]:.2f}' for k in
+                 ('added_main_plate_to_housing', 'added_main_plate_to_motor', 'added_main_plate_to_chain')) + ' mm']
     for i, t in enumerate(lines):
         a3.text(0, .26 - i*.055, t, fontsize=8, color='#1e6b3a' if i == 0 else '#40585e', weight='bold' if i == 0 else None, transform=a3.transAxes)
     out = ROOT / 'J9_layout.pdf'

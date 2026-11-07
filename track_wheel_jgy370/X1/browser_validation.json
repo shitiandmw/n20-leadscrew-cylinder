@@ -1,27 +1,103 @@
 {
  "pass": true,
+ "html_sha256": "cea719bc1b8a670e7bf6d50d3fee57137c69d582ca0f42de5b76d999c571afcd",
+ "scene_sha256": "4a9545ba6e506ab159cbf083849a0d69130f6431c707e2ba2807dc0e42525de8",
+ "checker_sha256": "eb5fd962c88051aee85d3829ab36475bb064e5ba055546d5acfcaf78a92fa6f8",
  "views": {
+  "mounts": "images/X1_mounts.png",
+  "frame": "images/X1_frame.png",
   "iso": "images/X1_iso.png",
   "rear": "images/X1_rear.png",
   "front": "images/X1_front.png",
   "top": "images/X1_top.png",
   "seat": "images/X1_seat.png",
   "under": "images/X1_under.png",
-  "frame": "images/X1_frame.png",
-  "exploded": "images/X1_exploded.png"
+  "springs": "images/X1_springs.png",
+  "drive": "images/X1_drive.png",
+  "hub": "images/X1_hub.png",
+  "exploded": "images/X1_exploded.png",
+  "body": "images/X1_body.png",
+  "cab": "images/X1_cab.png",
+  "bodyright": "images/X1_bodyright.png",
+  "bodyin": "images/X1_bodyin.png",
+  "service": "images/X1_service.png",
+  "drive_swing30": "images/X1_drive_swing30.png"
+ },
+ "screenshot_sha256": {
+  "mounts": "df63578560b3c7c892e640ba242bc426dc417289ef784b4e61f3998c7e0cc6e9",
+  "frame": "97ee0500285a0cdd7640f4ba5f91fa54e4f0e909bbcc553d93b7c6e21308dbc5",
+  "iso": "abbacb3fccde9351cddd362ab040f0eb4fef7a38c0f1b8ebd13f03899d8eb916",
+  "rear": "b4c5a2eb54f0765c92a736ec0a1ab974f2b6e42b0244433c7d923598470f2c88",
+  "front": "96a55334b7159af65a6d96930846018e6cd9bc1412246e875295997fdce9ede3",
+  "top": "6c274de8d27cbe106eccd94f50768de84fd50abaa05e61fcf2d85ba2a3b57ed4",
+  "seat": "0f2e6b35314ad2d83690dcfff7fa2fdd6cb16a18d5b1cc8666448776f67daa60",
+  "under": "b4aa269f0063e1cd07634b68883a2551a28bfda8449a6adef791b1a510d4a4bf",
+  "springs": "2e59f0a106f557379a6e2481dfaa05d19e58576281732d5556bcd77bbac7cedb",
+  "drive": "6b1f4fa03c531f0bbf9f57b250c30a468e0ce06108a51b38cd6f193a5cdea681",
+  "hub": "bb6dbeae1fbbd8c91993804d74b51a104ed4b6924f3b6ae639b75bf8093378c0",
+  "exploded": "42ae47538da07e65cba983894411884bde8e7d116a327d3e2b7b3709cd16606a",
+  "body": "d037ca5577df9c9b499e402c16c8f1ab67b5b8d80dc2388ee41f721a100f06f9",
+  "cab": "6b4566c2936ce0c7f8a77ade9ea4184a8a25273ff0b24e13f04ea0274a0f779b",
+  "bodyright": "3535601a5f638a5bbec230e5c7d149338850cd912ff9fc7234cb9af2c67beb1f",
+  "bodyin": "10ee037d546db4496dc9bd1a92700529a0ebcae1401dc1d9f6a7fba0e91dca7c",
+  "service": "4c42c0500882d53ab5466641584ac580cbdff8f9bbdc4752f0be4e27aa1b7d13",
+  "drive_swing30": "a387c2bacd98e423b93280cd7d7e270c86af4479725632d368b4408a41f408bf"
+ },
+ "model_views": {
+  "mounts": "images/X1_mounts_model.png",
+  "frame": "images/X1_frame_model.png",
+  "iso": "images/X1_iso_model.png",
+  "springs": "images/X1_springs_model.png"
+ },
+ "model_screenshot_sha256": {
+  "mounts": "bbea2a0186916022b7fe8777d6ef818ea2ff83b4d6b8954cbbff68fcadc4db71",
+  "frame": "f409558ff1e4475814feaf9d2fd8f83aeb484faa3f4be56b7cd302770b521cdd",
+  "iso": "08baca54085d017b0eb2fec709876e0db89d9b7f83fdd8c817b7dade77c51ffa",
+  "springs": "cb71f8caf408d1305823636b4023234d9ba00daaf635c84e4387896f897f4f9c"
  },
  "state": {
   "view": "iso",
   "phase": 0.5,
   "exploded": false,
+  "swing": 0,
+  "frameColor": "eda819",
+  "trackPlaying": false,
+  "swingPlaying": false,
+  "springSection": false,
+  "springVisible": true,
+  "frameVisible": true,
+  "pinion_rel_deg": 0,
+  "turntable_items": 105,
+  "body_items": 42,
+  "body_prints_visible": true,
+  "service": false,
+  "hatch_lifted": false,
+  "swing_cases": [
+   "start_stop_ramp",
+   "start_stop_step",
+   "reverse_ramp"
+  ],
   "chains": [
    true,
    true
   ],
-  "meshes": 253,
+  "meshes": 435,
   "links": 68
  },
- "run_phase_after_0_7s": 0.9973999998855608,
+ "swing_check": {
+  "swing": 30,
+  "pinion_rel_deg": 119.99999999999999,
+  "turntable_items": 105,
+  "playback_swing": 24.77,
+  "playback_wait_ms": 23816
+ },
+ "body_check": {
+  "items": 42,
+  "inside_view_prints_hidden": true,
+  "service_pose": true,
+  "hatch_lifted_in_service": true
+ },
+ "run_phase_after_start": 0.6171200000053647,
  "errors": [],
  "network": []
 }
