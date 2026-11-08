@@ -119,7 +119,9 @@ export function crawlersOverlap(a, b) {
 }
 
 export const initialMachine = () => ({
-  strokes: [10, 0, 0],
+  // Start in the complete viewer's carry pose. The legacy [10, 0, 0] pose
+  // places the R12 bucket below the ground plane and immediately scoops sand.
+  strokes: [...CONFIG.arm.default],
   slew: 0,
   x: 0,
   y: 0,

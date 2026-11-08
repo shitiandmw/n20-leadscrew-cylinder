@@ -1,11 +1,59 @@
-// Original arm60 linkage solver; shared by physics and rendering.
+// Generated R12 table solver; shared by physics and rendering.
 import { CONFIG } from './config.js';
 const C = CONFIG.arm;
-const add=(a,b)=>[a[0]+b[0],a[1]+b[1]],sub=(a,b)=>[a[0]-b[0],a[1]-b[1]],mul=(a,s)=>[a[0]*s,a[1]*s],norm=a=>Math.hypot(...a),rot=(v,a)=>[v[0]*Math.cos(a)-v[1]*Math.sin(a),v[0]*Math.sin(a)+v[1]*Math.cos(a)];
-function triangle(a,b,l,branch){return Math.atan2(a[1],a[0])-Math.atan2(b[1],b[0])+branch*Math.acos((norm(a)**2+norm(b)**2-l*l)/(2*norm(a)*norm(b)));}
-function solve(s){const theta=triangle(sub(C.ground_cyl,C.origin),C.boom_lift,C.closed[0]+s[0],1),phi=triangle(sub(C.stick_cyl,[C.boom,0]),C.stick_tail,C.closed[1]+s[1],-1),alpha=triangle(sub(C.bucket_cyl,C.rocker_pivot),[C.rocker,0],C.closed[2]+s[2],-1),r=add(C.rocker_pivot,rot([C.rocker,0],alpha)),v=sub(r,[C.stick,0]),d=norm(v),u=mul(v,1/d),t=(C.horn**2-C.coupler**2+d*d)/(2*d),h=Math.sqrt(C.horn**2-t*t),q=add(add([C.stick,0],mul(u,t)),mul([-u[1],u[0]],-h)),beta=Math.atan2(q[1],q[0]-C.stick),gamma=beta-C.horn_datum;
-const O=C.origin,E=add(O,rot([C.boom,0],theta)),H=add(E,rot([C.stick,0],theta+phi)),p={O,A:C.ground_cyl,B:add(O,rot(C.boom_lift,theta)),E,C:add(O,rot(C.stick_cyl,theta)),D:add(E,rot(C.stick_tail,theta+phi)),F:add(E,rot(C.bucket_cyl,theta+phi)),J:add(E,rot(C.rocker_pivot,theta+phi)),R:add(E,rot(r,theta+phi)),H,Q:add(E,rot(q,theta+phi))};p.T=add(H,rot(C.tip,theta+phi+gamma));
-const uv=mul(sub(p.R,p.Q),1/C.coupler),vv=mul(sub(p.Q,p.H),1/C.horn),mu=Math.acos(Math.min(1,Math.abs(uv[0]*vv[0]+uv[1]*vv[1])))*180/Math.PI;
-return {p,theta,phi,alpha,gamma,mu,origins:{base:[0,0],boom:O,stick:E,bucket:H,rocker:p.J,coupler:p.R},angles:{base:0,boom:theta,stick:theta+phi,bucket:theta+phi+gamma,rocker:theta+phi+alpha,coupler:Math.atan2(p.Q[1]-p.R[1],p.Q[0]-p.R[0])}};}
-
+const STEP = C.pitch;
+const compose = (p, r) => {
+  const c = Math.cos(p[2]), s = Math.sin(p[2]);
+  return [p[0] + c * r[0] - s * r[1], p[1] + s * r[0] + c * r[1], p[2] + r[2]];
+};
+const look = (key, stroke) => {
+  const rows = C.tables[key].rows;
+  const x = Math.min(Math.max(stroke / STEP, 0), rows.length - 1.000001);
+  const i = Math.floor(x), f = x - i, a = rows[i], b = rows[i + 1];
+  return a.map((v, j) => v + (b[j] - v) * f);
+};
+const pinsOf = (P) => {
+  const W = {};
+  for (const [name, local] of Object.entries(C.pins))
+    W[name] = compose(P[C.pin_body[name]], [local[0], local[1], 0]);
+  return W;
+};
+function solve(strokes) {
+  const P = { base: [0, 0, 0] };
+  P.boom = compose(P.base, look('boom', strokes[0]));
+  P.stick = compose(P.boom, look('stick', strokes[1]));
+  const bucket = look('bucket', strokes[2]);
+  C.tables.bucket.bodies.forEach((body, i) => {
+    P[body] = compose(P.stick, bucket.slice(3 * i, 3 * i + 3));
+  });
+  const W = pinsOf(P);
+  for (const drive of C.drives) {
+    const ax = W[drive.b][0] - W[drive.a][0];
+    const az = W[drive.b][1] - W[drive.a][1];
+    const length = Math.hypot(ax, az), k = (length - C.closed[0]) / length;
+    const angle = Math.atan2(az, ax);
+    P[drive.name + '_barrel'] = [W[drive.a][0], W[drive.a][1], angle];
+    P[drive.name + '_rod'] = [W[drive.a][0] + k * ax, W[drive.a][1] + k * az, angle];
+  }
+  return {
+    P, W,
+    p: W,
+    origins: {
+      base: [P.base[0], P.base[1]],
+      boom: [P.boom[0], P.boom[1]],
+      stick: [P.stick[0], P.stick[1]],
+      bucket: [P.bucket[0], P.bucket[1]],
+      rocker: [P.side_link?.[0] ?? P.bucket[0], P.side_link?.[1] ?? P.bucket[1]],
+      coupler: [P.h_link?.[0] ?? P.bucket[0], P.h_link?.[1] ?? P.bucket[1]],
+    },
+    angles: {
+      base: 0,
+      boom: P.boom[2],
+      stick: P.stick[2],
+      bucket: P.bucket[2],
+      rocker: P.side_link?.[2] ?? P.bucket[2],
+      coupler: P.h_link?.[2] ?? P.bucket[2],
+    },
+  };
+}
 export { solve };

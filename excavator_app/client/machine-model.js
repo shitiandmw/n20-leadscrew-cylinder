@@ -5,40 +5,31 @@ import { solve } from "../shared/kinematics.js";
 import { PAINTS } from "../shared/players.js";
 import { clusterMesh } from "./decimate.js";
 
-// The CAD meshes are shared by every excavator in the world. The one the camera
-// follows has every part: in full (776,942 triangles) from close up, and from a
-// simplified index when each part's fine detail would be smaller than a pixel or
-// two. The others are simplified further, so they are recognisably the same
-// machine at a small cost.
+// The complete-machine export uses the same frames as the offline X1 viewer:
+// ground and upper parts are in the vehicle frame, while R12 arm parts are in
+// their body frames. Track modules are in one J9 track frame and are mirrored
+// for the right hand side.
 const SIMPLE_CELL = 5,
   SHOE_CELL = 6,
-  TRACK_LINKS = 34,
-  // The far level's cell, and how many drawn pixels a millimetre must span at
-  // the machine before that cell would show: it is 2 pixels wide there.
+  TRACK_LINKS = V.track_links_per_side,
   FAR_CELL = 1.5,
-  FULL_FROM_PIXELS_PER_MM = 2 / FAR_CELL;
-// Drawn first, because what they hide then costs nothing to shade.
-const DRAW_FIRST = -3;
-// The yellow paint the CAD model uses, as sRGB, and each one's share of a new paint.
-const PAINTED = { "0.91,0.6,0.07": 1, "0.9,0.57,0.045": 0.96 };
-const LINK = /^(?:shoe_|track_pin_|track_bushing_|pin_clip_)([LR])(\d{2})/,
-  LINKS = "links";
-// Parts a simplified machine does without: too small to see, or inside it.
-const HIDDEN =
-  /^(?:track_pin_|track_bushing_|pin_clip_|battery|electronics|motor|steel_ballast|gear_standoff|slew_|flexible_coupling|.*axle|.*_slew_pinion)/;
-const TINY_HARDWARE = 30,
-  TINY_PART = 8;
-// The CAD names its tracks from the opposite end: "L" is on the -Y side, which
-// is the operator's right. Each track must turn with its own drive command.
-const trackOf = { L: 1, R: 0 };
+  FULL_FROM_PIXELS_PER_MM = 2 / FAR_CELL,
+  DRAW_FIRST = -3,
+  trackOf = { 1: 0, "-1": 1 };
+const PAINTED = new Set([
+  "0.95,0.74,0.22",
+  "0.88,0.64,0.16",
+  "0.93,0.66,0.1",
+  "0.91,0.6,0.07",
+]);
 const decode = (encoded, Type) => {
   const bytes = Uint8Array.from(atob(encoded), (c) => c.charCodeAt(0));
   return new Type(bytes.buffer);
 };
 const linear = (r, g, b) => new THREE.Color(r, g, b).convertSRGBToLinear();
+const isPainted = (item) => PAINTED.has(item.color.join(","));
+const repaint = (paint) => (paint === PAINTS[0] ? null : paint);
 
-// Appends a coarser copy of a merged mesh to its own buffers, so that choosing
-// between the two is only a matter of which range of the index to draw.
 function addFarLevel(geometry) {
   const position = geometry.attributes.position.array,
     normal = geometry.attributes.normal.array,
@@ -56,9 +47,7 @@ function addFarLevel(geometry) {
       index.length + far.index.length,
     );
   indices.set(index);
-  far.index.forEach((v, i) => {
-    indices[index.length + i] = first + v;
-  });
+  far.index.forEach((v, i) => (indices[index.length + i] = first + v));
   geometry.setAttribute(
     "position",
     new THREE.BufferAttribute(joined(position, far.positions), 3),
@@ -68,40 +57,106 @@ function addFarLevel(geometry) {
     new THREE.BufferAttribute(joined(normal, far.normals), 3),
   );
   geometry.setIndex(new THREE.BufferAttribute(indices, 1));
-  return {
-    full: [0, index.length],
-    far: [index.length, far.index.length],
-  };
+  return { full: [0, index.length], far: [index.length, far.index.length] };
 }
-// The first paint is the model's own, so nothing needs repainting for it.
-const repaint = (paint) => (paint === PAINTS[0] ? null : paint);
 
-// The arm, its four cylinders and the slew: the same for both levels of detail.
-function poseCommon(machine, root, upper, groups) {
-  const s = solve(machine.strokes);
-  for (const name of ["base", "boom", "stick", "bucket", "rocker", "coupler"]) {
-    groups["arm_" + name].position.set(
-      s.origins[name][0],
-      0,
-      s.origins[name][1],
-    );
-    groups["arm_" + name].rotation.y = -s.angles[name];
+function geometry(item, simplified = false, cell = SIMPLE_CELL) {
+  const source = new THREE.BufferGeometry();
+  source.setAttribute(
+    "position",
+    new THREE.BufferAttribute(decode(item.v, Float32Array), 3),
+  );
+  source.setIndex(
+    new THREE.BufferAttribute(
+      decode(item.t, item.wide ? Uint32Array : Uint16Array),
+      1,
+    ),
+  );
+  if (!simplified) {
+    source.computeVertexNormals();
+    return source;
   }
-  for (const [i, role] of ["boom", "stick", "bucket"].entries()) {
-    const [a, b] = [
-      ["A", "B"],
-      ["C", "D"],
-      ["F", "R"],
-    ][i];
-    V.arm.actuators[role].y.forEach((y, side) => {
-      const group = groups["arm_act_" + role + side];
-      group.position.set(s.p[a][0], y, s.p[a][1]);
-      group.rotation.y =
-        Math.PI / 2 - Math.atan2(s.p[b][1] - s.p[a][1], s.p[b][0] - s.p[a][0]);
-      for (const mesh of group.children)
-        mesh.position.z =
-          37.5 + (mesh.userData.moving ? machine.strokes[i] : 0);
-    });
+  const { positions, index } = clusterMesh(
+    source.attributes.position.array,
+    source.index.array,
+    cell,
+  );
+  source.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  source.setIndex(new THREE.BufferAttribute(index, 1));
+  source.computeVertexNormals();
+  return source;
+}
+
+function materialFor(item, paint, materials) {
+  const share = repaint(paint) && isPainted(item) ? paint : "";
+  const key = `${item.color.join(",")}:${item.kind}:${share}`;
+  if (!materials.has(key)) {
+    const glass = item.kind === "glazing",
+      color = linear(...item.color);
+    if (share) color.set(share);
+    materials.set(
+      key,
+      new THREE.MeshStandardMaterial({
+        color,
+        roughness: glass ? 0.18 : item.kind === "hardware" ? 0.42 : 0.66,
+        metalness: item.kind === "hardware" ? 0.55 : 0.12,
+        transparent: glass,
+        opacity: glass ? 0.42 : 1,
+        depthWrite: !glass,
+      }),
+    );
+  }
+  return materials.get(key);
+}
+
+function armParentFor(mover) {
+  if (mover === "upper") return "arm_mount";
+  if (mover.startsWith("arm:")) return `arm_${mover.slice(4)}`;
+  return mover;
+}
+
+function skeleton() {
+  const root = new THREE.Group(),
+    upper = new THREE.Group(),
+    armMount = new THREE.Group(),
+    armRoot = new THREE.Group(),
+    pinOrigin = new THREE.Group(),
+    pinInner = new THREE.Group();
+  root.rotation.order = "ZYX";
+  root.add(upper);
+  upper.add(armMount, pinOrigin);
+  armRoot.position.set(...V.arm_offset);
+  armMount.add(armRoot);
+  pinOrigin.position.set(V.complete.pinion_axis[0], V.complete.pinion_axis[1], 0);
+  pinOrigin.add(pinInner);
+  pinInner.position.set(-V.complete.pinion_axis[0], -V.complete.pinion_axis[1], 0);
+  const groups = {};
+  const armGroup = (name) => {
+    const key = `arm_${name}`;
+    if (!groups[key]) {
+      groups[key] = new THREE.Group();
+      armRoot.add(groups[key]);
+    }
+    return groups[key];
+  };
+  return { root, upper, armMount, armRoot, pinInner, groups, armGroup };
+}
+
+function poseCommon(machine, rig) {
+  const s = solve(machine.strokes), { groups, root, upper } = rig;
+  for (const name of ["boom", "stick", "bucket", "side_link", "h_link"]) {
+    const p = s.P[name], group = groups[`arm_${name}`];
+    if (!group || !p) continue;
+    group.position.set(p[0], 0, p[1]);
+    group.rotation.y = -p[2];
+  }
+  for (const drive of V.arm.drives) {
+    for (const suffix of ["_barrel", "_rod"]) {
+      const p = s.P[drive.name + suffix], group = groups[`arm_${drive.name + suffix}`];
+      if (!group || !p) continue;
+      group.position.set(p[0], drive.y || 0, p[1]);
+      group.rotation.y = -p[2];
+    }
   }
   root.position.set(machine.x, machine.y, machine.z ?? 0);
   root.rotation.set(machine.roll ?? 0, -(machine.pitch ?? 0), machine.heading);
@@ -109,385 +164,183 @@ function poseCommon(machine, root, upper, groups) {
   return s;
 }
 
-// Where track link i of a side is, part way round its chain.
-function linkPose(poses, i, offset) {
-  const count = TRACK_LINKS,
-    phase = (((i + offset) % count) + count) % count,
-    j = Math.floor(phase),
-    f = phase - j,
-    a = poses[j],
-    b = poses[(j + 1) % count];
-  let delta = b.angle - a.angle;
-  delta = Math.atan2(Math.sin(delta), Math.cos(delta));
-  return {
-    x: a.origin[0] * (1 - f) + b.origin[0] * f,
-    z: a.origin[1] * (1 - f) + b.origin[1] * f,
-    angle: -(a.angle + delta * f),
-  };
+function circlePoint(a, c, radius) {
+  return Math.abs(Math.hypot(a[0] - c[0], a[1] - c[1]) - radius) < 1e-4;
 }
-
-// Puts every link of both tracks in its place. Each mesh draws one part, once per
-// link, in the machine's frame.
-const linkMatrix = new THREE.Matrix4();
-function placeLinks(meshes, poses, machine) {
-  let n = 0;
-  for (const side of ["L", "R"]) {
-    const offset = machine.tracks[trackOf[side]] / V.track_pitch,
-      y = ((side === "L" ? -1 : 1) * V.track_centres) / 2;
-    for (let i = 0; i < TRACK_LINKS; i++, n++) {
-      const pose = linkPose(poses, i, offset);
-      linkMatrix.makeRotationY(pose.angle).setPosition(pose.x, y, pose.z);
-      for (const mesh of meshes) mesh.setMatrixAt(n, linkMatrix);
+function trackInterp(a, b, f, cfg) {
+  for (const center of [cfg.drive, cfg.idler]) {
+    if (circlePoint(a, center, cfg.pitch_r) && circlePoint(b, center, cfg.pitch_r)) {
+      let ta = Math.atan2(a[1] - center[1], a[0] - center[0]),
+        tb = Math.atan2(b[1] - center[1], b[0] - center[0]);
+      if (tb < ta) tb += 2 * Math.PI;
+      const t = ta + (tb - ta) * f;
+      return [center[0] + cfg.pitch_r * Math.cos(t), center[1] + cfg.pitch_r * Math.sin(t)];
     }
   }
-  for (const mesh of meshes) mesh.instanceMatrix.needsUpdate = true;
+  return [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f];
+}
+function chainPose(cfg, travel) {
+  const pins = cfg.pins,
+    n = pins.length,
+    phase = ((-travel / cfg.pitch) % n + n) % n,
+    k = Math.floor(phase),
+    f = phase - k,
+    q = [];
+  for (let j = 0; j < n; j++)
+    q.push(trackInterp(pins[(j + k) % n], pins[(j + k + 1) % n], f, cfg));
+  return { q, phase };
+}
+const matrix = new THREE.Matrix4();
+function placeTrack(track, machine, cfg) {
+  const { q, phase } = chainPose(cfg, machine.tracks[trackOf[track.side]]);
+  for (let j = 0; j < q.length; j++) {
+    const a = q[j], b = q[(j + 1) % q.length], angle = Math.atan2(b[1] - a[1], b[0] - a[0]);
+    for (const shoes of track.shoes) {
+      matrix.makeRotationY(-angle).setPosition((a[0] + b[0]) / 2, 0, (a[1] + b[1]) / 2);
+      shoes.setMatrixAt(j, matrix);
+    }
+    for (const pins of track.pins) {
+      matrix.makeRotationY(0).setPosition(a[0], 0, a[1]);
+      pins.setMatrixAt(j, matrix);
+    }
+  }
+  const wheelPhase = (-phase * Math.PI) / 6;
+  track.pivots.drive.rotation.y = wheelPhase;
+  track.pivots.idler.rotation.y = wheelPhase;
+  for (const name of Object.keys(cfg.rollers))
+    track.pivots[name].rotation.y = (-phase * cfg.pitch) / cfg.roller_r;
+  for (const mesh of [...track.shoes, ...track.pins]) mesh.instanceMatrix.needsUpdate = true;
 }
 
-function skeleton() {
-  const root = new THREE.Group(),
-    upper = new THREE.Group(),
-    arm = new THREE.Group();
-  // Same rotation as chassisAxes(): heading, then pitch, then roll.
-  root.rotation.order = "ZYX";
-  root.add(upper);
-  upper.add(arm);
-  arm.position.set(...V.arm_offset);
-  return { root, upper, arm };
+function buildTracks(data, paint, detailed, materials, root, detailLevels) {
+  const tracks = [], cfg = data.cfg.j9;
+  for (const side of [1, -1]) {
+    const outer = new THREE.Group(), g = new THREE.Group();
+    root.add(outer); outer.add(g); g.position.set(0, side * data.cfg.track_y, 0);
+    if (side < 0) g.scale.set(1, -1, 1);
+    const pivots = {}, groups = {};
+    const pivot = (name, pos) => {
+      const o = new THREE.Group(), i = new THREE.Group();
+      o.position.set(pos[0], 0, pos[1]); i.position.set(-pos[0], 0, -pos[1]); o.add(i); g.add(o);
+      pivots[name] = o; groups[name] = i;
+    };
+    for (const [name, pos] of Object.entries({ drive: cfg.drive, idler: cfg.idler, ...cfg.rollers })) pivot(name, pos);
+    const moduleBatches = new Map();
+    for (const item of data.module) {
+      const key = `${item.group}:${item.color.join(",")}:${item.kind}`;
+      if (!moduleBatches.has(key)) moduleBatches.set(key, { item, geometries: [] });
+      moduleBatches.get(key).geometries.push(geometry(item, !detailed));
+    }
+    for (const { item, geometries } of moduleBatches.values()) {
+      const merged = mergeGeometries(geometries);
+      geometries.forEach((part) => part.dispose());
+      merged.computeVertexNormals();
+      if (detailed) {
+        const levels = addFarLevel(merged);
+        merged.setDrawRange(...levels.far);
+        detailLevels.push({ geometry: merged, levels });
+      }
+      const mesh = new THREE.Mesh(merged, materialFor(item, paint, materials));
+      mesh.castShadow = item.kind !== "glazing"; mesh.receiveShadow = true; mesh.renderOrder = DRAW_FIRST;
+      (groups[item.group] || g).add(mesh);
+    }
+    const chain = new THREE.Group();
+    g.add(chain);
+    const shoes = [], pins = [];
+    for (const [index, item] of data.link.entries()) {
+      const geo = geometry(item, !detailed, SHOE_CELL);
+      if (detailed) {
+        const levels = addFarLevel(geo);
+        geo.setDrawRange(...levels.far);
+        detailLevels.push({ geometry: geo, levels });
+      }
+      const mesh = new THREE.InstancedMesh(geo, materialFor(item, paint, materials), TRACK_LINKS);
+      mesh.frustumCulled = false; mesh.castShadow = true; mesh.receiveShadow = true; mesh.renderOrder = DRAW_FIRST;
+      chain.add(mesh); (index === 0 ? shoes : pins).push(mesh);
+    }
+    tracks.push({ side, outer, g, pivots, shoes, pins });
+  }
+  return tracks;
+}
+
+function prepareParts(data, detailed) {
+  const batches = new Map();
+  for (const item of data.parts) {
+    const parent = armParentFor(item.mover), key = `${parent}:${item.color.join(",")}:${item.kind}`;
+    if (!batches.has(key)) batches.set(key, { item, parent, geometries: [] });
+    batches.get(key).geometries.push(geometry(item, !detailed));
+  }
+  return [...batches.values()].map(({ item, parent, geometries }) => {
+    const merged = mergeGeometries(geometries);
+    geometries.forEach((part) => part.dispose());
+    merged.computeVertexNormals();
+    if (!detailed) return { parent, item, geometry: merged, levels: null };
+    const levels = addFarLevel(merged);
+    merged.setDrawRange(...levels.far);
+    return { parent, item, geometry: merged, levels };
+  });
+}
+function attachParent(rig, parent) {
+  if (parent === "root") return rig.root;
+  if (parent === "upper") return rig.upper;
+  if (parent === "arm_mount") return rig.armMount;
+  if (parent === "pinion") return rig.pinInner;
+  if (parent.startsWith("arm_")) return rig.armGroup(parent.slice(4));
+  return rig.root;
 }
 
 export async function loadMachineModel() {
   const response = await fetch("/model.json");
   if (!response.ok) throw new Error("The excavator model could not be loaded.");
-  const data = await response.json(),
-    poses = data.track.initial_poses,
-    groupsOf = new Map(),
-    batches = new Map(),
-    simpleParts = new Map();
-  const wheelCenters = {};
-  for (const side of ["L", "R"]) {
-    const y = ((side === "L" ? -1 : 1) * V.track_centres) / 2;
-    const centres = [
-      [-V.wheel_centres / 2, V.axle_z],
-      [V.wheel_centres / 2 + V.idler_assembly_offset_mm, V.axle_z],
-      ...V.road_roller_x_mm.map((x) => [x, 29]),
-      ...V.return_roller_x_mm.map((x) => [x, V.return_roller_z_mm]),
-    ];
-    [
-      "drive_" + side,
-      "idler_" + side,
-      ...V.road_roller_x_mm.map((_, i) => "roller_" + side + i),
-      ...V.return_roller_x_mm.map((_, i) => "return_" + side + i),
-    ].forEach((name, i) => {
-      wheelCenters[name] = {
-        centre: [centres[i][0], y, centres[i][1]],
-        side,
-        radius: i === 0 ? V.pitch_radius : i === 1 ? 30 : i < 5 ? 17.5 : 13.5,
-      };
-    });
-  }
-  // Simplify a mesh and file it under the rigid part of a simplified machine.
-  function simplify(geometry, item, key) {
-    const position = geometry.attributes.position.array,
-      box = (geometry.computeBoundingBox(), geometry.boundingBox),
-      size = box.max.distanceTo(box.min);
-    if (
-      HIDDEN.test(item.name) ||
-      size < (item.kind === "hardware" ? TINY_HARDWARE : TINY_PART)
-    )
-      return;
-    const { positions, index } = clusterMesh(
-      position,
-      geometry.index.array,
-      SIMPLE_CELL,
-    );
-    if (!index.length) return;
-    const simple = new THREE.BufferGeometry();
-    simple.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    simple.setIndex(new THREE.BufferAttribute(index, 1));
-    const color = linear(...item.color),
-      paint = PAINTED[item.color.join(",")] ?? 0,
-      colors = new Float32Array(positions.length),
-      shares = new Float32Array(positions.length / 3);
-    for (let v = 0; v < positions.length / 3; v++) {
-      colors.set([color.r, color.g, color.b], 3 * v);
-      shares[v] = paint;
+  const data = await response.json();
+  const make = (paint, detailed, castShadow = true) => {
+    const rig = skeleton(), materials = new Map(), parts = prepareParts(data, detailed),
+      detailLevels = parts.filter((part) => part.levels).map((part) => ({ geometry: part.geometry, levels: part.levels })),
+      tracks = buildTracks(data, paint, detailed, materials, rig.root, detailLevels);
+    let level = "far";
+    for (const part of parts) {
+      const mesh = new THREE.Mesh(part.geometry, materialFor(part.item, paint, materials));
+      mesh.castShadow = castShadow && part.item.kind !== "glazing"; mesh.receiveShadow = true; mesh.renderOrder = DRAW_FIRST;
+      mesh.userData.moving = part.item.mover.startsWith("arm:"); mesh.userData.modelSystem = part.item.sys;
+      attachParent(rig, part.parent).add(mesh);
     }
-    simple.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-    simple.setAttribute("paint", new THREE.BufferAttribute(shares, 1));
-    const partKey = `${key}:${!!item.moving}`;
-    if (!simpleParts.has(partKey))
-      simpleParts.set(partKey, { key, moving: !!item.moving, geometries: [] });
-    simpleParts.get(partKey).geometries.push(simple);
-  }
-  let shoe = null;
-  for (const item of data.meshes) {
-    const link = LINK.exec(item.name);
-    // Every link of both tracks is the same parts, moved round the chain, so
-    // one link's meshes are drawn once for each of them.
-    if (link && !(link[1] === "R" && link[2] === "00")) continue;
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute(
-      "position",
-      new THREE.BufferAttribute(decode(item.v, Float32Array), 3),
-    );
-    geometry.setIndex(
-      new THREE.BufferAttribute(
-        decode(item.t, item.wide ? Uint32Array : Uint16Array),
-        1,
-      ),
-    );
-    let key = (item.arm ? "arm_" : "vehicle_") + item.group,
-      parent = item.arm ? "arm" : item.group === "upper" ? "upper" : "root";
-    if (item.arm) simplify(geometry, item, key);
-    else if (item.group === "upper") simplify(geometry, item, "vehicle_upper");
-    else if (!link) simplify(geometry, item, "vehicle_chassis");
-    const spec = {};
-    if (link) {
-      const pose = poses[+link[2]];
-      geometry.translate(-pose.origin[0], -V.track_centres / 2, -pose.origin[1]);
-      geometry.rotateY(pose.angle);
-      key = LINKS;
-      parent = "root";
-      if (item.name.startsWith("shoe_")) {
-        const { positions, index: triangles } = clusterMesh(
-          geometry.attributes.position.array,
-          geometry.index.array,
-          SHOE_CELL,
-        );
-        shoe = new THREE.BufferGeometry();
-        shoe.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-        shoe.setIndex(new THREE.BufferAttribute(triangles, 1));
-        shoe.userData.color = linear(...item.color);
-      }
-    }
-    if (!item.arm && wheelCenters[item.group]) {
-      const w = wheelCenters[item.group];
-      geometry.translate(-w.centre[0], -w.centre[1], -w.centre[2]);
-      spec.position = w.centre;
-      spec.wheel = w;
-    }
-    if (key === "vehicle_slew_pinion") {
-      geometry.translate(-V.slew_centre_distance, 0, 0);
-      spec.position = [V.slew_centre_distance, 0, 0];
-    }
-    if (!groupsOf.has(key)) groupsOf.set(key, { parent, ...spec });
-    geometry.computeVertexNormals();
-    const batchKey =
-      key + ":" + item.color.join(",") + ":" + item.kind + ":" + !!item.moving;
-    if (!batches.has(batchKey))
-      batches.set(batchKey, { geometries: [], item, key });
-    batches.get(batchKey).geometries.push(geometry);
-  }
-  // Full detail: one merged mesh for each rigid group, colour and kind.
-  const detailBatches = [...batches.values()].map(
-    ({ geometries, item, key }) => {
-      const geometry = mergeGeometries(geometries);
-      for (const g of geometries) g.dispose();
-      return { geometry, item, key, levels: addFarLevel(geometry) };
-    },
-  );
-  // Simplified: one merged mesh for each rigid part, painted by vertex.
-  const simpleBase = [...simpleParts.values()].map(
-    ({ key, moving, geometries }) => {
-      const geometry = mergeGeometries(geometries);
-      for (const g of geometries) g.dispose();
-      geometry.computeBoundingSphere();
-      return { key, moving, geometry };
-    },
-  );
-
-  // One material for each surface and paint. They are shared between machines,
-  // and geometries that share attributes must not be disposed, so both last as
-  // long as the page; paint is the only thing that varies, in a fixed palette.
-  const materials = new Map();
-  function detailMaterial(item, paint) {
-    const share = repaint(paint) ? (PAINTED[item.color.join(",")] ?? 0) : 0,
-      key = `${item.color}:${item.kind}:${share ? paint : ""}`;
-    if (!materials.has(key)) {
-      const glass = item.kind === "glazing",
-        color = linear(...item.color);
-      if (share) color.set(paint).multiplyScalar(share);
-      materials.set(
-        key,
-        new THREE.MeshStandardMaterial({
-          color,
-          roughness: glass ? 0.18 : item.kind === "hardware" ? 0.42 : 0.66,
-          metalness: item.kind === "hardware" ? 0.55 : 0.12,
-          transparent: glass,
-          opacity: glass ? 0.42 : 1,
-          depthWrite: !glass,
-        }),
-      );
-    }
-    return materials.get(key);
-  }
-  const simpleMaterial = new THREE.MeshStandardMaterial({
-    vertexColors: true,
-    roughness: 0.62,
-    metalness: 0.14,
-    flatShading: true,
-  });
-  const shoeMaterial = new THREE.MeshStandardMaterial({
-    color: shoe.userData.color,
-    roughness: 0.66,
-    metalness: 0.12,
-    flatShading: true,
-  });
-  // The simplified parts in one paint; they share all but the colours.
-  const paintedParts = new Map();
-  function simpleFor(paint) {
-    if (!repaint(paint)) return simpleBase;
-    if (paintedParts.has(paint)) return paintedParts.get(paint);
-    const color = new THREE.Color(paint),
-      parts = simpleBase.map((part) => {
-        const shares = part.geometry.attributes.paint.array;
-        if (!shares.some((share) => share > 0)) return part;
-        const geometry = new THREE.BufferGeometry(),
-          colors = part.geometry.attributes.color.array.slice();
-        geometry.setIndex(part.geometry.index);
-        geometry.setAttribute("position", part.geometry.attributes.position);
-        geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-        geometry.boundingSphere = part.geometry.boundingSphere;
-        shares.forEach((share, v) => {
-          if (share)
-            colors.set(
-              [color.r * share, color.g * share, color.b * share],
-              3 * v,
-            );
+    return {
+      detailed, root: rig.root,
+      meshes: data.parts.length + 2 * data.module.length + 2 * data.link.length,
+      setScale(pixelsPerMm) {
+        if (!detailed) return false;
+        const limit = FULL_FROM_PIXELS_PER_MM * (level === "far" ? 1.08 : 0.92), next = pixelsPerMm > limit ? "full" : "far";
+        if (next === level) return false; level = next;
+        for (const { geometry, levels } of detailLevels)
+          geometry.setDrawRange(...levels[level]);
+        return true;
+      },
+      get level() { return level; },
+      update(machine) {
+        const solution = poseCommon(machine, rig);
+        rig.pinInner.rotation.z = rig.upper.rotation.z * V.complete.ratio;
+        for (const track of tracks) placeTrack(track, machine, data.cfg.j9);
+        return solution;
+      },
+      dispose() {
+        const geometries = new Set(), materials = new Set();
+        rig.root.traverse((object) => {
+          if (object.geometry) geometries.add(object.geometry);
+          if (object.material) {
+            const list = Array.isArray(object.material)
+              ? object.material
+              : [object.material];
+            list.forEach((material) => materials.add(material));
+          }
         });
-        return { ...part, geometry };
-      });
-    paintedParts.set(paint, parts);
-    return parts;
-  }
-
+        geometries.forEach((geometry) => geometry.dispose());
+        materials.forEach((material) => material.dispose());
+      },
+    };
+  };
   return {
-    meshes: data.meshes.length,
-    // paint: a colour from PAINTS, or null for the model's own yellow.
-    createDetailed(paint) {
-      const { root, upper, arm } = skeleton(),
-        parents = { root, upper, arm },
-        groups = {},
-        linkMeshes = [],
-        wheels = [];
-      for (const [key, spec] of groupsOf) {
-        const group = (groups[key] = new THREE.Group());
-        parents[spec.parent].add(group);
-        if (spec.position) group.position.set(...spec.position);
-        if (spec.wheel) wheels.push({ ...spec.wheel, group });
-      }
-      let level = "far",
-        tracks = null;
-      for (const { geometry, item, key, levels } of detailBatches) {
-        const material = detailMaterial(item, paint),
-          mesh =
-            key === LINKS
-              ? new THREE.InstancedMesh(geometry, material, 2 * TRACK_LINKS)
-              : new THREE.Mesh(geometry, material);
-        if (key === LINKS) {
-          mesh.frustumCulled = false;
-          linkMeshes.push(mesh);
-        }
-        mesh.castShadow = item.kind !== "glazing";
-        mesh.receiveShadow = true;
-        if (item.kind !== "glazing") mesh.renderOrder = DRAW_FIRST;
-        mesh.userData.moving = item.moving;
-        geometry.setDrawRange(...levels.far);
-        // The shadow map's texels are about as wide as the far level's cell.
-        mesh.onBeforeShadow = () => geometry.setDrawRange(...levels.far);
-        mesh.onAfterShadow = () => geometry.setDrawRange(...levels[level]);
-        groups[key].add(mesh);
-      }
-      return {
-        detailed: true,
-        root,
-        // How many drawn pixels a millimetre at the machine spans now. A little
-        // slack keeps a camera at the limit from changing level back and forth.
-        // Returns true if the picture will change.
-        setScale(pixelsPerMm) {
-          const limit =
-              FULL_FROM_PIXELS_PER_MM * (level === "far" ? 1.08 : 0.92),
-            next = pixelsPerMm > limit ? "full" : "far";
-          if (next === level) return false;
-          level = next;
-          for (const { geometry, levels } of detailBatches)
-            geometry.setDrawRange(...levels[level]);
-          return true;
-        },
-        get level() {
-          return level;
-        },
-        update(machine) {
-          const s = poseCommon(machine, root, upper, groups);
-          groups.vehicle_slew_pinion.rotation.z =
-            (-upper.rotation.z * 96) / 20;
-          if (
-            !tracks ||
-            tracks[0] !== machine.tracks[0] ||
-            tracks[1] !== machine.tracks[1]
-          ) {
-            tracks = [...machine.tracks];
-            placeLinks(linkMeshes, poses, machine);
-          }
-          for (const w of wheels)
-            w.group.rotation.y = machine.tracks[trackOf[w.side]] / w.radius;
-          return s;
-        },
-        dispose() {
-          for (const mesh of linkMeshes) mesh.dispose();
-        },
-      };
-    },
-    createSimplified(paint, castShadow = true) {
-      const { root, upper, arm } = skeleton(),
-        groups = {};
-      for (const { key, moving, geometry } of simpleFor(paint)) {
-        if (!groups[key]) {
-          const spec = groupsOf.get(key),
-            group = (groups[key] = new THREE.Group());
-          (key === "vehicle_upper"
-            ? upper
-            : key === "vehicle_chassis"
-              ? root
-              : arm
-          ).add(group);
-          if (spec?.position && key !== "vehicle_chassis")
-            group.position.set(...spec.position);
-        }
-        const mesh = new THREE.Mesh(geometry, simpleMaterial);
-        mesh.castShadow = castShadow;
-        mesh.receiveShadow = true;
-        mesh.renderOrder = DRAW_FIRST;
-        mesh.userData.moving = moving;
-        groups[key].add(mesh);
-      }
-      // Every shoe is the same part, moved round its chain.
-      const shoes = new THREE.InstancedMesh(shoe, shoeMaterial, 2 * TRACK_LINKS);
-      shoes.castShadow = castShadow;
-      shoes.receiveShadow = true;
-      shoes.renderOrder = DRAW_FIRST;
-      shoes.frustumCulled = false;
-      root.add(shoes);
-      let tracks = null;
-      return {
-        detailed: false,
-        root,
-        update(machine) {
-          const s = poseCommon(machine, root, upper, groups);
-          if (
-            !tracks ||
-            tracks[0] !== machine.tracks[0] ||
-            tracks[1] !== machine.tracks[1]
-          ) {
-            tracks = [...machine.tracks];
-            placeLinks([shoes], poses, machine);
-          }
-          return s;
-        },
-        dispose() {
-          shoes.dispose();
-        },
-      };
-    },
+    meshes: data.parts.length + 2 * data.module.length + 2 * data.link.length,
+    createDetailed: (paint) => make(paint, true),
+    createSimplified: (paint, castShadow) => make(paint, false, castShadow),
   };
 }

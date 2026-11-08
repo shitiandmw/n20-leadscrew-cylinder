@@ -2,6 +2,7 @@ import "./style.css";
 import "./remote.css";
 import QRCode from "qrcode";
 import { AXES, neutral, BUCKET } from "../shared/world.js";
+import { CONFIG } from "../shared/config.js";
 import { decodeFrame, applyTiles } from "../shared/protocol.js";
 import { NAME_LENGTH, cleanName } from "../shared/players.js";
 import { createInputSender } from "./input-sender.js";
@@ -80,7 +81,7 @@ function gameScreen() {
       <div class="control-cluster">${stickPad("left-stick", "STICK / SLEW", "STICK OUT", "STICK IN", "L", "R")}${trackPad("leftTrack", "Left")}</div>
       <div class="hud-centre">
         <div class="ownership"><span id="operator-status">Waiting for connection</span><button id="claim" class="button small" disabled>Take control</button></div>
-        <div class="telemetry"><div><span>BUCKET LOAD</span><strong id="load-value">0<small>cm³</small></strong><div class="meter"><i id="load-meter"></i></div></div><div><span>BOOM</span><strong id="boom-value">10.0<small>mm</small></strong><div class="meter"><i id="boom-meter"></i></div></div><div><span>SLEW</span><strong id="slew-value">0<small>°</small></strong><div class="meter"><i id="slew-meter"></i></div></div><div><span>DELIVERED</span><strong id="deposited-value">0<small>cm³</small></strong><div class="meter meter-empty"></div></div></div>
+        <div class="telemetry"><div><span>BUCKET LOAD</span><strong id="load-value">0<small>cm³</small></strong><div class="meter"><i id="load-meter"></i></div></div><div><span>BOOM</span><strong id="boom-value">${CONFIG.arm.default[0].toFixed(1)}<small>mm</small></strong><div class="meter"><i id="boom-meter"></i></div></div><div><span>SLEW</span><strong id="slew-value">0<small>°</small></strong><div class="meter"><i id="slew-meter"></i></div></div><div><span>DELIVERED</span><strong id="deposited-value">0<small>cm³</small></strong><div class="meter meter-empty"></div></div></div>
         <button id="estop" class="estop" data-estop><span class="stop-icon"></span><span>EMERGENCY STOP</span><kbd>SPACE</kbd></button>
         <button id="resume" class="button resume" hidden>Resume operation</button>
       </div>
@@ -755,7 +756,7 @@ async function start() {
         // room first so an expired link can recover without retrying forever.
         const response = await fetch(
           `/api/rooms/${room}?key=${encodeURIComponent(playerKey)}`,
-          { signal: AbortSignal.timeout(10000) },
+          { signal: AbortSignal.timeout(60000) },
         );
         const result = await response.json();
         if (closed) return;
@@ -776,7 +777,7 @@ async function start() {
       if (missing) {
         const response = await fetch("/api/rooms", {
           method: "POST",
-          signal: AbortSignal.timeout(10000),
+          signal: AbortSignal.timeout(60000),
         });
         const result = await response.json();
         if (closed) return;
