@@ -2,6 +2,14 @@
 
 **A 3D-printable linear actuator for a model excavator that looks like a hydraulic cylinder.** It is driven by a standard N20 gearmotor with an integrated M3 leadscrew, used exactly as bought.
 
+**The [complete X1 excavator](excavator_complete/README.md) puts the current revision of every subsystem together.** It combines:
+- the J9 tracks and the X1 revision F X-frame;
+- the RU66 slewing ring and the R3 turntable;
+- body B1 rev B with the main board rev A;
+- the R12 arm.
+
+It has an offline 3D demonstration with a scripted work cycle (travel, dig, swing, dump), the assembly order, an exploded view and layer-by-layer structure. Whole-machine checks cover clashes, the swing envelope and static balance. R12 sits on a new adapter, B01X, which replaces the ARM60 base on the turntable. That adapter is a proposal awaiting review.
+
 The latest lower chassis is [X1 revision F with J9 tracks](track_wheel_jgy370/X1/README.md). Each X-frame leg ends in a curved support seated in a shallow recess in the track's main plate, clamped by two M4 screws through plain holes with the washers and nuts outside the plastic. The idler spring is enclosed in a bore in the track's main web and guided by a sliding piston. See the [revision notes](track_wheel_jgy370/X1/REV_F_NOTES.md) for the matched parts, assembly order and validation scope.
 
 The [Sand / Lab application](excavator_app/README.md) turns the existing ARM60 / Track R4 model into a Docker-deployable digging sandbox. A desktop displays the complete CAD assembly and a live sand pit: a deformable sand bed that slumps to its angle of repose, plus free grains wherever sand is cut, carried or poured; a phone pairs by QR code and controls the boom, stick, bucket, slew and tracks over WebSocket. It includes touch joysticks, keyboard controls, emergency stop, connection watchdogs, and verified scoop-and-pour physics. Run `docker compose up --build -d` from `excavator_app/` to start it.

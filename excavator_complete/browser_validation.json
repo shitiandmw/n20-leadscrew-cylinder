@@ -1,0 +1,165 @@
+{
+ "file": "3D_preview.html",
+ "checks": {
+  "kinematics": {
+   "cases": 125,
+   "max_origin_error_mm": 0.0002743640173559012,
+   "max_tip_error_mm": 0.0003472805567136231,
+   "pass": true
+  },
+  "timeline": {
+   "start": {
+    "swing": 0,
+    "travel": 0,
+    "armRoot": [
+     30,
+     0,
+     195
+    ]
+   },
+   "travel_end": 249.99999999750037,
+   "swing_out": {
+    "swing": 89.99999999910011,
+    "pinion_deg": 359.99999999640045,
+    "armRoot": [
+     250.00000000047118,
+     30,
+     195
+    ]
+   },
+   "dump_mid": {
+    "swing": 90,
+    "payload": true
+   },
+   "dig_late": {
+    "payload": true,
+    "armT": 357.91875
+   },
+   "end": {
+    "travel": 2.4996893444040325e-9,
+    "swing": 0
+   },
+   "pass": true
+  },
+  "ground_run": {
+   "ground_shoes": 12,
+   "flat_run_shoes": 8,
+   "max_slip_flat_run_mm": 0,
+   "max_slip_all_ground_shoes_mm": 0.12869618916265324,
+   "note": "a sign error would show 10 mm (twice the 5 mm move); end links follow the sprocket/idler pitch circles",
+   "pass": true
+  },
+  "assembly": {
+   "visible_after_each_step": [
+    346,
+    390,
+    449,
+    519,
+    620,
+    626,
+    635,
+    649,
+    662
+   ],
+   "meshes": 662,
+   "pass": true
+  },
+  "exploded": {
+   "exploded": 1,
+   "back": 0,
+   "armRoot_exploded": [
+    90,
+    0,
+    470
+   ],
+   "armRoot_back": [
+    30.00000000249969,
+    0,
+    195
+   ],
+   "pass": true
+  }
+ },
+ "screenshots": [
+  {
+   "file": "images/complete_iso.png",
+   "bytes": 302396,
+   "seconds": 51.811
+  },
+  {
+   "file": "images/complete_side_dig.png",
+   "bytes": 212686,
+   "seconds": 4.287
+  },
+  {
+   "file": "images/complete_dump_left.png",
+   "bytes": 319521,
+   "seconds": 6.884
+  },
+  {
+   "file": "images/complete_front.png",
+   "bytes": 195048,
+   "seconds": 9.314
+  },
+  {
+   "file": "images/complete_rear.png",
+   "bytes": 294093,
+   "seconds": 6.709
+  },
+  {
+   "file": "images/complete_top.png",
+   "bytes": 166566,
+   "seconds": 5.592
+  },
+  {
+   "file": "images/arm_mount.png",
+   "bytes": 306615,
+   "seconds": 13.603
+  },
+  {
+   "file": "images/inside_body.png",
+   "bytes": 349097,
+   "seconds": 7.103
+  },
+  {
+   "file": "images/cab.png",
+   "bytes": 277492,
+   "seconds": 7.781
+  },
+  {
+   "file": "images/exploded.png",
+   "bytes": 216274,
+   "seconds": 6.008
+  },
+  {
+   "file": "images/assembly_step2_xframe.png",
+   "bytes": 251594,
+   "seconds": 5.198
+  },
+  {
+   "file": "images/assembly_step5_arm.png",
+   "bytes": 280788,
+   "seconds": 6.394
+  }
+ ],
+ "sha256": "f5529d8a30275310d5a7372002314b140febb9df9aea3cc688569a44c810ccfa",
+ "size_mb": 15.3,
+ "load_s": 5.83,
+ "meshes": 662,
+ "timeline": {
+  "shown_s": 48.135,
+  "real_s": 658.7,
+  "segments": [
+   "Travel forward",
+   "Dig",
+   "Swing to dump",
+   "Dump",
+   "Swing back",
+   "Carry",
+   "Travel back"
+  ]
+ },
+ "errors": [],
+ "network_requests": [],
+ "pass": true
+}

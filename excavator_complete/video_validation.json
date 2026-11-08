@@ -1,0 +1,22 @@
+{
+ "file": "images/complete_demo.mp4",
+ "sha256": "43893f9ed745d2cfe19d1b749a39e4a52dd23e059f32031dc28852391488a539",
+ "bytes": 9184211,
+ "width": 1280,
+ "height": 720,
+ "fps": 12,
+ "frames": 814,
+ "duration_s": 67.83,
+ "rendered_from": {
+  "page": "3D_preview.html",
+  "page_sha256": "51bb0e080c4aeaf6050a89dd42ba4805e6eb0d7e78fd63255c4009fd07a611ec",
+  "browser_validation_pass": true,
+  "note": "Rendered before one caption edit (front view) that is not shown in the video; the page was then rebuilt and re-checked."
+ },
+ "script": "source/render_video.cjs (2 workers, headless Chromium, software WebGL), encoded with ffmpeg libx264 crf 22",
+ "story": [
+  "assembly order: 9 steps x 1.8 s",
+  "work cycle: 48.1 s on screen = 658.7 s real (travel and swing 1x, arm 20x)",
+  "exploded view: 3.5 s"
+ ]
+}

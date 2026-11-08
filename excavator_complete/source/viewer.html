@@ -1,0 +1,251 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>X1 excavator: the complete machine, current revisions</title>
+<!-- Written by excavator_complete/source/build_viewer.py from viewer.html; do not edit the output by hand. -->
+<style>
+:root{--ink:#18303a;--sub:#5d7076;--line:#d6dedb;--paper:#eef1ef;--panel:#fbfcfb;--accent:#e0a21b;--ok:#1d7a3e;--warn:#b15b00}
+*{box-sizing:border-box}html,body{height:100%}body{margin:0;background:var(--paper);color:var(--ink);font:13px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;display:flex;flex-direction:column}
+header{background:#18333c;color:#fff;padding:10px 20px}header h1{font-size:20px;margin:0}header p{margin:2px 0 0;opacity:.85;font-size:12.5px}
+main{flex:1;display:flex;min-height:0}#stage{flex:1;position:relative;min-width:0;overflow:hidden}#stage canvas{display:block}
+aside{width:390px;flex:none;overflow:auto;padding:10px 16px 18px;background:var(--panel);border-left:1px solid var(--line)}
+h2{font-size:11.5px;letter-spacing:1px;text-transform:uppercase;color:var(--sub);margin:16px 0 6px}
+button,select{font:inherit;font-size:12px;color:var(--ink);background:#fff;border:1px solid #a9b8b8;border-radius:5px;padding:5px 9px;cursor:pointer}
+button.on{background:#18333c;color:#fff;border-color:#18333c}button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #2a78d6;outline-offset:1px}
+.views{display:flex;flex-wrap:wrap;gap:5px}.seg{display:flex;gap:4px}.seg button{flex:1}
+.row{display:flex;align-items:center;gap:6px;margin:6px 0}.row input[type=range]{flex:1}output{font-variant-numeric:tabular-nums}
+#hud{position:absolute;left:12px;top:12px;max-width:min(640px,calc(100% - 24px));background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:6px;padding:8px 12px;pointer-events:none}
+#hud .t{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}#hud .p{font-size:13px}#hud .m{font-size:11.5px;color:var(--sub);font-variant-numeric:tabular-nums}
+#caption{position:absolute;left:12px;bottom:12px;right:12px;max-width:820px;background:rgba(255,255,255,.9);border:1px solid var(--line);border-radius:6px;padding:8px 12px;font-size:12.5px}
+#steps,#bsteps{list-style:none;margin:0;padding:0}#steps li,#bsteps li{display:flex;gap:8px;align-items:baseline;padding:3px 6px;border-radius:4px;cursor:pointer}
+#steps li.on,#bsteps li.on{background:#e6eeec;font-weight:600}#steps li small{color:var(--sub);margin-left:auto;font-variant-numeric:tabular-nums;white-space:nowrap}
+.layer{display:flex;align-items:center;gap:7px;margin:3px 0}.layer .sw{width:12px;height:12px;border-radius:3px;flex:none;border:1px solid rgba(0,0,0,.2)}
+.layer label{flex:1;cursor:pointer}.layer small{color:var(--sub)}.layer button{padding:2px 7px;font-size:11px}
+.ctl{margin:6px 0}.ctl .h{display:flex;justify-content:space-between}.ctl input{width:100%}.ctl small{color:var(--sub)}
+.metric{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #e3e8e6;padding:3px 0}.metric b{text-align:right;font-variant-numeric:tabular-nums}
+.chk{display:flex;gap:6px;margin:3px 0;font-size:12px}.chk .y{color:var(--ok);font-weight:700}.chk .n{color:var(--warn);font-weight:700}
+.note{font-size:11.5px;color:var(--sub);margin:6px 0}#part{min-height:36px;color:#40585e}
+@media (max-width:860px){main{flex-direction:column}#stage{height:60vh;flex:none}aside{width:auto;border-left:0;border-top:1px solid var(--line)}}
+</style></head><body>
+<header><h1>X1 excavator: the complete machine, current revisions</h1>
+<p>J9 tracks on the X1 revision F X-frame &middot; THK RU66 slewing ring &middot; R3 turntable and swing drive &middot; body B1 rev B with the main board rev A &middot; R12 Rev. D4 arm on the new B01X mount &middot; 1:15 Cat 320</p></header>
+<main><div id="stage"><div id="hud"><div class="t" id="hud-t"></div><div class="p" id="hud-p"></div><div class="m" id="hud-m"></div></div><div id="caption"></div></div>
+<aside>
+<h2>Mode</h2>
+<div class="seg" role="group" aria-label="Mode"><button data-mode="demo" class="on">Work cycle</button><button data-mode="build">Assembly order</button><button data-mode="manual">Manual</button></div>
+<div id="p-demo">
+<div class="row"><button id="play" style="min-width:84px">&#9654; Play</button><button id="restart">&#8634; Start</button><label style="margin-left:auto"><input type="checkbox" id="loop" checked> loop</label></div>
+<div class="row"><input id="time" type="range" min="0" step="0.01" aria-label="Demonstration time"><output id="time-o" style="min-width:74px;text-align:right"></output></div>
+<ol id="steps"></ol>
+<p class="note">Travel and swing play in real time and are kinematic. The arm replays R12's MuJoCo dig cycle (150 g payload) at 20&times; real time, because the leadscrew drives move at most 0.8 mm/s. The clock above shows real elapsed time.</p>
+</div>
+<div id="p-build" hidden>
+<div class="row"><button id="bprev">&#9664; Back</button><button id="bplay" style="flex:1">&#9654; Play all steps</button><button id="bnext">Next &#9654;</button></div>
+<ol id="bsteps"></ol>
+</div>
+<div id="p-manual" hidden>
+<div class="ctl"><div class="h"><span>Boom pair (2 drives)</span><output id="o0"></output></div><input id="k0" type="range" min="0" max="60" step="0.1" aria-label="Boom stroke"><small>extend: boom up</small></div>
+<div class="ctl"><div class="h"><span>Stick drive</span><output id="o1"></output></div><input id="k1" type="range" min="0" max="60" step="0.1" aria-label="Stick stroke"><small>extend: stick in (crowd)</small></div>
+<div class="ctl"><div class="h"><span>Bucket drive</span><output id="o2"></output></div><input id="k2" type="range" min="0" max="60" step="0.1" aria-label="Bucket stroke"><small>extend: bucket curls</small></div>
+<div class="ctl"><div class="h"><span>Swing</span><output id="o3"></output></div><input id="k3" type="range" min="-180" max="180" step="1" aria-label="Swing angle"><small>+ = to the left (cab side); the pinion turns 4:1</small></div>
+<div class="ctl"><div class="h"><span>Travel</span><output id="o4"></output></div><input id="k4" type="range" min="-300" max="300" step="1" aria-label="Travel"><small>both tracks; chain, sprocket, idler and rollers turn with it</small></div>
+<div class="row"><select id="wp" style="flex:1" aria-label="Arm waypoint"></select></div>
+</div>
+<h2>Views</h2>
+<div class="views"><button data-view="iso">3/4 front</button><button data-view="side">Side</button><button data-view="front">Front</button><button data-view="top">Top</button><button data-view="rear">3/4 rear</button><button data-view="cab">Cab</button><button data-view="mount">Arm mount</button><button data-view="inside">Inside the body</button><button data-view="under">Underside</button><button data-view="exploded">Exploded</button></div>
+<h2>Structure layers</h2><div id="layers"></div>
+<div class="row"><label><input type="checkbox" id="xray"> See-through body</label><label><input type="checkbox" id="ground" checked> Ground</label></div>
+<h2>Drives now</h2><div id="drives"></div>
+<h2>Key numbers</h2><div id="metrics"></div>
+<h2>Integration checks</h2><div id="checks"></div>
+<h2>Part</h2><div id="part"><small>Click a part to identify it.</small></div>
+<p class="note">Nominal CAD from each subsystem folder; nothing here has been printed or run under power. B01X, the R12 mount on T101, is new in this folder and still needs your review. See README.md.</p>
+</aside></main>
+<script>__THREE__</script><script>__ORBIT__</script><script>
+'use strict';
+const D=__DATA__,C=D.cfg,V=C.j9,TY=C.track_y;const $=id=>document.getElementById(id);
+const state={mode:'demo',tau:0,playing:false,loop:true,view:'iso',strokes:[...C.default],swing:0,travel:0,build:{k:D.steps.length-1,f:1,playing:false},explode:0,ready:false,renders:0};
+// ---------------- renderer
+const stage=$('stage'),scene=new THREE.Scene();scene.background=new THREE.Color('#eef1ef');
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.outputEncoding=THREE.sRGBEncoding;renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));stage.prepend(renderer.domElement);
+const camera=new THREE.PerspectiveCamera(30,1,2,12000);camera.up.set(0,0,1);const controls=new THREE.OrbitControls(camera,renderer.domElement);let dirty=true;controls.addEventListener('change',()=>dirty=true);
+scene.add(new THREE.HemisphereLight(0xffffff,0x8a9696,.8));for(const [p,i] of [[[520,-380,900],.85],[[-520,520,480],.55],[[380,620,-200],.3]]){const l=new THREE.DirectionalLight(0xffffff,i);l.position.set(...p);scene.add(l)}
+const decode=(s,T)=>{const b=atob(s),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new T(u.buffer)};
+function geometry(p){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(decode(p.v,Float32Array),3));g.setIndex(new THREE.BufferAttribute(decode(p.t,p.wide?Uint32Array:Uint16Array),1));g.computeVertexNormals();return g}
+function mat(c,kind,srgb){const col=new THREE.Color(...c);if(srgb)col.convertSRGBToLinear();return new THREE.MeshStandardMaterial({color:col,metalness:kind==='printed'?.05:kind==='electronics'?.15:.35,roughness:.6})}
+// ---------------- ground
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(2600,2600),new THREE.MeshStandardMaterial({color:0xb9b096,roughness:1,transparent:true,opacity:.55,depthWrite:false,side:THREE.DoubleSide}));ground.position.set(200,0,-.05);scene.add(ground);
+const grid=new THREE.GridHelper(2600,52,0x9d9478,0xb0a88d);grid.rotation.x=Math.PI/2;grid.position.set(200,0,.2);grid.material.transparent=true;grid.material.opacity=.45;scene.add(grid);
+// ---------------- machine hierarchy
+const root=new THREE.Group();scene.add(root);                 // travel along X
+const upperG=new THREE.Group();root.add(upperG);              // swing about Z, lifts when exploded
+const pinO=new THREE.Group(),pinI=new THREE.Group();upperG.add(pinO);pinO.add(pinI);pinO.position.set(C.pinion_axis[0],C.pinion_axis[1],0);pinI.position.set(-C.pinion_axis[0],-C.pinion_axis[1],0);
+const armMount=new THREE.Group();upperG.add(armMount);        // B01X, R12's fixed pins and the whole arm (assembly / exploded offsets)
+const armRoot=new THREE.Group();armRoot.position.set(...C.O);armMount.add(armRoot);
+const armG={};function armGroup(b){if(!armG[b]){armG[b]=new THREE.Group();armRoot.add(armG[b])}return armG[b]}
+const meshes=[],tracks=[];
+const SYSCOL={track:'#3f4a4f',xframe:'#4d86a0',slew:'#d87a2c',turntable:'#6c9bc3',body:'#e8b52f',electronics:'#2a9d5c',arm:'#c9902a'};
+// tracks (the J9 module twice; the right one mirrored, as the J901/J909 right prints)
+const modGeo=D.module.map(p=>({p,g:geometry(p),m:mat(p.color,p.kind)})),linkGeo=D.link.map(p=>({g:geometry(p),m:mat(p.color,'printed')}));
+function buildTrack(side){const outer=new THREE.Group();root.add(outer);const g=new THREE.Group();outer.add(g);g.position.set(0,side*TY,0);if(side<0)g.scale.set(1,-1,1);const label=side>0?'left':'right',groups={};
+ function pivot(name,x,z){const o=new THREE.Group(),i=new THREE.Group();o.position.set(x,0,z);i.position.set(-x,0,-z);o.add(i);g.add(o);groups[name]={o,i}}
+ pivot('drive',...V.drive);pivot('idler',...V.idler);for(const [n,[x,z]] of Object.entries(V.rollers))pivot(n,x,z);
+ for(const q of modGeo){const m=new THREE.Mesh(q.g,q.m);const mir=side<0&&['J901_H_frame','J909_housing'].includes(q.p.name)?', mirrored print':'';m.userData={name:`${q.p.name} (${label} track${mir})`,sys:'track'};(groups[q.p.group]?groups[q.p.group].i:g).add(m);meshes.push(m)}
+ const chain=new THREE.Group();g.add(chain);const shoes=[],pins=[];
+ for(let j=0;j<V.pins.length;j++){const s=new THREE.Mesh(linkGeo[0].g,linkGeo[0].m);s.userData={name:`J910 track shoe 70 (${label} track, link ${j})`,sys:'track'};chain.add(s);shoes.push(s);meshes.push(s);
+  const q=new THREE.Mesh(linkGeo[1].g,linkGeo[1].m);q.userData={name:`track pin, bushing and clips (${label} track)`,sys:'track'};chain.add(q);pins.push(q);meshes.push(q)}
+ tracks.push({side,outer,g,groups,shoes,pins})}
+buildTrack(1);buildTrack(-1);
+for(const p of D.parts){const m=new THREE.Mesh(geometry(p),mat(p.color,p.kind,p.sys==='arm'));   // R12 colours are sRGB (as its own viewer); X1's are used as given
+const lab=D.sys[p.sys].label;
+ m.userData={name:p.name.replace(/_/g,' '),sys:p.sys,step:p.step,app:p.app,exp:p.exp,part:p.part,mover:p.mover,isNew:p.new,kind:p.kind,label:lab};
+ if(p.mover==='ground')root.add(m);else if(p.mover==='pinion')pinI.add(m);else if(p.mover.startsWith('arm:'))armGroup(p.mover.slice(4)).add(m);
+ else if(p.sys==='arm')armMount.add(m);else upperG.add(m);meshes.push(m)}
+// payload: 150 g of sand as a mound in the bucket (a cue; MuJoCo carries it as a point mass)
+const pay=new THREE.Mesh(new THREE.SphereGeometry(1,24,16),new THREE.MeshStandardMaterial({color:0x9c7a45,roughness:1}));pay.scale.set(22,26,15);pay.position.set(...C.payload.com);pay.userData={name:'payload, 150 g of sand (shown from the curl to the dump)',sys:'arm'};armGroup('bucket').add(pay);
+// ---------------- R12 kinematics (twin of excavator_arm_r12/source/build_viewer_r12.py)
+function look(key,s){const rows=C.tables[key].rows,x=Math.min(Math.max(s/C.step,0),rows.length-1.000001),i=Math.floor(x),f=x-i,a=rows[i],b=rows[i+1];return a.map((v,j)=>v+(b[j]-v)*f)}
+function compose(p,r){const c=Math.cos(p[2]),s=Math.sin(p[2]);return [p[0]+c*r[0]-s*r[1],p[1]+s*r[0]+c*r[1],p[2]+r[2]]}
+function pinsOf(P){const W={};for(const [k,v] of Object.entries(C.pins))W[k]=compose(P[C.pin_body[k]],[v[0],v[1],0]);return W}
+function kinematic(st){const P={base:[0,0,0]};P.boom=compose(P.base,look('boom',st[0]));P.stick=compose(P.boom,look('stick',st[1]));const r=look('bucket',st[2]);
+ C.tables.bucket.bodies.forEach((b,j)=>P[b]=compose(P.stick,r.slice(3*j,3*j+3)));const W=pinsOf(P);
+ for(const d of C.drives){const ax=W[d.b][0]-W[d.a][0],az=W[d.b][1]-W[d.a][1],L=Math.hypot(ax,az),k=(L-C.closed)/L,ang=Math.atan2(az,ax);P[d.name+'_barrel']=[W[d.a][0],W[d.a][1],ang];P[d.name+'_rod']=[W[d.a][0]+k*ax,W[d.a][1]+k*az,ang]}
+ return {P,W,s:[st[0],st[0],st[1],st[2]],f:null,tip:[W.T[0],W.T[1]]}}
+let trace=null;
+async function loadTrace(){const bin=Uint8Array.from(atob(D.trace),c=>c.charCodeAt(0));const buf=await new Response(new Blob([bin]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();trace=JSON.parse(new TextDecoder().decode(buf))}
+function sample(t){const fr=trace.frames,x=Math.min(Math.max(t*trace.record_hz,0),fr.length-1.000001),i=Math.floor(x),f=x-i,a=fr[i],b=fr[i+1],L=(u,v)=>u.map((q,j)=>q+(v[j]-q)*f);
+ const pose=L(a.pose,b.pose),P={base:[0,0,0]};trace.bodies.forEach((n,j)=>P[n]=pose.slice(3*j,3*j+3));return {P,W:pinsOf(P),s:L(a.s,b.s),f:L(a.f,b.f),tip:L(a.tip,b.tip)}}
+function applyArm(sol){for(const [n,p] of Object.entries(sol.P)){const g=armG[n];if(!g)continue;g.position.set(p[0],0,p[1]);g.rotation.set(0,-p[2],0)}dirty=true}
+// ---------------- tracks: chain phase from travel (ground run stays on the ground)
+const P=V.pins,N=P.length,CW=[V.drive,V.idler],R=V.pitch_r;
+function onCircle(p,c){return Math.abs(Math.hypot(p[0]-c[0],p[1]-c[1])-R)<1e-4}
+function interp(a,b,f){for(const c of CW){if(onCircle(a,c)&&onCircle(b,c)){let ta=Math.atan2(a[1]-c[1],a[0]-c[0]),tb=Math.atan2(b[1]-c[1],b[0]-c[0]);if(tb<ta)tb+=2*Math.PI;const t=ta+(tb-ta)*f;return [c[0]+R*Math.cos(t),c[1]+R*Math.sin(t)]}}return [a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f]}
+function setTravel(x){state.travel=x;root.position.x=x;const ph=((-x/V.pitch)%N+N)%N,k=Math.floor(ph),f=ph-k,q=[];for(let j=0;j<N;j++)q.push(interp(P[(j+k)%N],P[(j+k+1)%N],f));
+ for(const tr of tracks){for(let j=0;j<N;j++){const a=q[j],b=q[(j+1)%N],ang=Math.atan2(b[1]-a[1],b[0]-a[0]);tr.shoes[j].position.set((a[0]+b[0])/2,0,(a[1]+b[1])/2);tr.shoes[j].rotation.set(0,-ang,0);tr.pins[j].position.set(a[0],0,a[1])}
+  const w=-ph*Math.PI/6;tr.groups.drive.o.rotation.y=w;tr.groups.idler.o.rotation.y=w;for(const g of Object.keys(V.rollers))tr.groups[g].o.rotation.y=-ph*V.pitch/V.roller_r}dirty=true}
+function setSwing(deg){state.swing=deg;upperG.rotation.z=deg*Math.PI/180;pinO.rotation.z=C.ratio*deg*Math.PI/180;dirty=true}
+// ---------------- assembly order and exploded view
+const ease=u=>u<=0?0:u>=1?1:u*u*(3-2*u);
+function placeParts(){const e=state.explode,B=state.build,building=state.mode==='build';
+ for(const m of meshes){const u=m.userData;if(u.step===undefined)continue;let off=[0,0,0];
+  if(u.mover==='ground'||u.mover==='upper'||u.mover==='pinion'){if(u.sys!=='arm'){off=u.exp.map(v=>v*e);if(building&&u.step===B.k)off=u.app.map(v=>v*(1-ease(B.f)))}}
+  if(u.mover!=='pinion')m.position.set(...off)}
+ pinI.position.set(-C.pinion_axis[0],-C.pinion_axis[1],building&&B.k===3?90*(1-ease(B.f)):0);
+ for(const tr of tracks){let y=tr.side*90*e;if(building&&B.k===0)y=tr.side*120*(1-ease(B.f));tr.outer.position.set(0,y,0)}
+ let a=[60*e,0,170*e];if(building&&B.k===4)a=[0,0,140*(1-ease(B.f))];armMount.position.set(...a);upperG.position.z=105*e;visible();dirty=true}
+// ---------------- layers, visibility
+const ui={xray:$('xray'),ground:$('ground')},layerOn={};
+$('layers').innerHTML=Object.entries(D.sys).map(([k,s])=>`<div class="layer"><span class="sw" style="background:${SYSCOL[k]}"></span><input type="checkbox" id="L-${k}" checked><label for="L-${k}"><b>${s.label}</b><br><small>${s.revision} &middot; ${s.folder}</small></label><button data-iso="${k}" title="Show only this layer">only</button></div>`).join('')+'<div class="row"><button id="Lall">Show all layers</button></div>';
+for(const k of Object.keys(D.sys)){layerOn[k]=true;$('L-'+k).addEventListener('change',e=>{layerOn[k]=e.target.checked;visible()})}
+document.querySelectorAll('[data-iso]').forEach(b=>b.addEventListener('click',()=>{for(const k of Object.keys(D.sys)){layerOn[k]=k===b.dataset.iso;$('L-'+k).checked=layerOn[k]}visible()}));
+$('Lall').addEventListener('click',()=>{for(const k of Object.keys(D.sys)){layerOn[k]=true;$('L-'+k).checked=true}visible()});
+let viewHide=[];
+function visible(){const B=state.build,building=state.mode==='build';
+ for(const m of meshes){const u=m.userData;let on=layerOn[u.sys]&&!viewHide.includes(u.sys);if(building){const st=u.sys==='track'?0:u.sys==='arm'?4:u.step;if(st!==undefined&&st>B.k)on=false}
+  if(u.sys==='body'&&state.view==='inside'&&u.kind==='printed'&&!/B104|B105|B107/.test(u.name))on=false;m.visible=on}
+ const pt=state.mode==='demo'&&trace&&state.armT>=C.payload.payload_from&&state.armT<=C.payload.payload_to;pay.visible=!!pt&&layerOn.arm&&!viewHide.includes('arm');
+ ground.visible=grid.visible=ui.ground.checked&&state.explode<.01;
+ for(const m of meshes){const u=m.userData;if(u.sys==='body'&&u.kind==='printed'){const x=ui.xray.checked;if(m.material.transparent!==x){m.material.transparent=x;m.material.opacity=x?.25:1;m.material.depthWrite=!x;m.material.needsUpdate=true}}}dirty=true}
+ui.xray.addEventListener('change',visible);ui.ground.addEventListener('change',visible);
+// ---------------- views
+const VIEWS={
+ iso:{pos:[1080,860,620],target:[170,60,130],cap:'The complete machine, front-left. Lower: two J9 tracks on 340 mm centres, joined by the X1 revision F X-frame. Upper: the R3 turntable on a THK RU66 slewing ring, the B1 rev B body traced from the Cat 320 (cab, hood, tank, stairs, counterweight) and the R12 arm, Cat 320 geometry at 1:15, on its B01X mount.'},
+ side:{pos:[260,-1900,210],target:[260,0,160],cap:'Side view from the right (tank and stairs side). The boom-foot pin O is 195 mm above the ground and 30 mm ahead of the swing axis. R12 was drawn with O at 155, so on X1 it digs 40 mm less deep and dumps 40 mm higher.'},
+ front:{pos:[1700,0,190],target:[0,0,160],cap:'Front view. 410 mm over the track shoes; the arm runs on the centreline between the cab (the machine\'s left, on the right of this view) and the tank. Ground clearance under the carbody 31 mm.'},
+ top:{pos:[160,-1,1900],target:[160,0,0],cap:'Top view, front to the right, left side up. Track length 308.6 mm; the body\'s tail swing reaches R 189 (corners R 225, above the tracks).'},
+ rear:{pos:[-950,-760,560],target:[0,0,110],cap:'Rear 3/4. Both final-drive motor pods at the rear of the tracks, as on the Cat 320; the counterweight B101 with its steel-shot pocket; the rear camera and work lamps.'},
+ cab:{pos:[520,640,360],target:[40,110,195],cap:'The cab on the left of the boom, with the glass cut out: seat, consoles, operator B105, handrail B107 and the roof lamps. The cab\'s inner face stands 85 mm off the centreline, outside the arm\'s widest part (the boom drives, 42 mm).'},
+ mount:{pos:[470,-470,430],target:[50,0,160],cap:'The arm mount. B01X (dark) is R12\'s boom-foot bracket B01 above its flange, unchanged, on a 10 mm base plate with the ARM60 base\'s footprint and bolt pattern: it sits on the T101 rib tops with the 4 existing M6 x 40 bolts. The foot plates carry pin O; the outer cheeks carry the boom drives\' rear pins A.',hide:['body','electronics']},
+ inside:{pos:[-560,640,700],target:[-60,0,150],cap:'Inside the body (the shells hidden; cab interior, operator and handrail kept). The 3S 18650 pack hangs under the battery hatch on the centreline. The main board rev A (ESP32-S3, 7 x DRV8876: 2 tracks, swing, 4 arm drives) is in the left bay; switch, fuse and charge jack in the toolbox; steel shot in the counterweight.'},
+ under:{pos:[420,-520,-330],target:[0,0,40],cap:'Underside: the belly cover closes the carbody; each X-frame arm arches over the motor pod and ends in the track main plate\'s seat.'},
+ exploded:{pos:[1500,1380,1180],target:[60,0,250],cap:'Exploded by subsystem: tracks out sideways, the belly cover and slip ring down, the RU66 and ring gear up, the turntable lifted, the counterweight back, the body halves out, the battery hatch up and the arm with B01X lifted forward. Use the layer list to isolate one subsystem.',explode:true}};
+let explodeTarget=0;
+function setView(v){const was=state.view;state.view=v;const s=VIEWS[v];camera.position.set(...s.pos);controls.target.set(...s.target);controls.update();viewHide=s.hide||[];
+ document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('on',b.dataset.view===v));explodeTarget=s.explode?1:0;
+ if(s.explode){if(state.mode==='demo')pause();if(state.mode!=='build'){setSwing(0);setTravel(0)}}
+ else if(was==='exploded'){state.explode=0;if(state.mode==='demo')seek(state.tau);else if(state.mode==='manual')manual()}
+ placeParts();$('caption').textContent=(state.mode==='build'?D.steps[state.build.k].caption+'  ':'')+s.cap;dirty=true}
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
+// ---------------- demonstration timeline
+const TL=D.timeline,TOTAL=TL[TL.length-1].v0+TL[TL.length-1].vd,REAL=TL[TL.length-1].real0+TL[TL.length-1].rd;
+const mj=u=>{u=Math.min(Math.max(u,0),1);return u*u*u*(10-15*u+6*u*u)};
+function segAt(t){return TL.find(s=>t>=s.v0&&t<s.v0+s.vd)||TL[TL.length-1]}
+function evalT(t){const s=segAt(t),u=Math.min(Math.max((t-s.v0)/s.vd,0),1);const lin=(a)=>Array.isArray(a)?a[0]+(a[1]-a[0])*u:a,smo=(a)=>Array.isArray(a)?a[0]+(a[1]-a[0])*mj(u):a;
+ return {s,x:smo(s.x),sw:smo(s.sw),armT:lin(s.t),real:s.real0+s.rd*u}}
+function r12Phase(t){return C.phases.find(p=>t>=p.start&&t<p.end)||C.phases[C.phases.length-1]}
+$('time').max=TOTAL;
+$('steps').innerHTML=TL.map(s=>`<li data-seg="${s.id}"><span>${s.id+1}. ${s.title}</span><small>${s.rate>1?s.rate+'&times; &middot; ':''}${s.rd.toFixed(0)} s real</small></li>`).join('');
+document.querySelectorAll('[data-seg]').forEach(li=>li.addEventListener('click',()=>{seek(TL[+li.dataset.seg].v0+1e-3)}));
+function seek(t){state.tau=Math.min(Math.max(t,0),TOTAL);const e=evalT(state.tau);state.armT=e.armT;setTravel(e.x);setSwing(e.sw);let sol=null;if(trace){sol=sample(e.armT);applyArm(sol)}
+ $('time').value=state.tau;$('time-o').textContent=`${state.tau.toFixed(1)} / ${TOTAL.toFixed(0)} s`;document.querySelectorAll('[data-seg]').forEach(li=>li.classList.toggle('on',+li.dataset.seg===e.s.id));
+ const ph=e.s.kind==='arm'?r12Phase(e.armT):null;
+ $('hud-t').textContent=`Step ${e.s.id+1}/${TL.length}: ${e.s.title}${ph?' · '+ph.title:''}`;
+ $('hud-p').textContent=`Real time ${e.real.toFixed(1)} of ${REAL.toFixed(0)} s · ${e.s.rate>1?'shown at '+e.s.rate+'×':'real-time playback'} · swing ${e.sw.toFixed(1)}° · travel ${e.x.toFixed(0)} mm`;
+ if(sol){const z=C.O[2]+sol.tip[1];$('hud-m').textContent=`Tooth tip ${(sol.tip[0]+C.O[0]).toFixed(0)} mm from the swing axis, ${z<0?(-z).toFixed(0)+' mm below':z.toFixed(0)+' mm above'} ground · MuJoCo forces: boom ${Math.max(sol.f[0],sol.f[1]).toFixed(1)} N each, stick ${sol.f[2].toFixed(1)} N, bucket ${sol.f[3].toFixed(1)} N (rating ${C.thrust_cont} N)`;drives(sol)}
+ $('caption').textContent=e.s.caption;visible();dirty=true;return e}
+function drives(sol){const names=['Boom L','Boom R','Stick','Bucket'];$('drives').innerHTML='<div class="metric"><span><b>Drive</b></span><b>stroke mm &middot; force N</b></div>'+names.map((n,i)=>`<div class="metric"><span>${n}</span><b>${sol.s[i].toFixed(1)} &middot; ${sol.f?sol.f[i].toFixed(1):'&ndash;'}</b></div>`).join('')}
+function play(){if(state.mode!=='demo')setMode('demo');if(state.view==='exploded')setView('iso');state.playing=true;$('play').innerHTML='&#10074;&#10074; Pause';if(state.tau>=TOTAL-.01)seek(0)}
+function pause(){state.playing=false;$('play').innerHTML='&#9654; Play'}
+$('play').addEventListener('click',()=>state.playing?pause():play());$('restart').addEventListener('click',()=>{seek(0)});$('loop').addEventListener('change',e=>state.loop=e.target.checked);
+$('time').addEventListener('input',e=>{pause();seek(+e.target.value)});
+// ---------------- assembly order
+$('bsteps').innerHTML=D.steps.map((s,i)=>`<li data-b="${i}"><span>${i+1}. ${s.title}</span></li>`).join('');
+document.querySelectorAll('[data-b]').forEach(li=>li.addEventListener('click',()=>{state.build.playing=false;setBuild(+li.dataset.b,1)}));
+function setBuild(k,f){state.build.k=k;state.build.f=f;document.querySelectorAll('[data-b]').forEach(li=>li.classList.toggle('on',+li.dataset.b===k));placeParts();
+ $('hud-t').textContent=`Assembly step ${k+1}/${D.steps.length}: ${D.steps[k].title}`;$('hud-p').textContent='Order from X1 ASSEMBLY.md, TURNTABLE.md, BODY.md and R12 ASSEMBLY.md';$('hud-m').textContent='Parts of the current step move in along their fitting direction.';
+ $('caption').textContent=D.steps[k].caption;dirty=true}
+$('bprev').addEventListener('click',()=>{state.build.playing=false;setBuild(Math.max(0,state.build.k-1),1)});$('bnext').addEventListener('click',()=>{state.build.playing=false;setBuild(Math.min(D.steps.length-1,state.build.k+1),0)});
+$('bplay').addEventListener('click',()=>{state.build.playing=!state.build.playing;if(state.build.playing){if(state.build.k===D.steps.length-1&&state.build.f>=1)setBuild(0,0)}$('bplay').innerHTML=state.build.playing?'&#10074;&#10074; Pause':'&#9654; Play all steps'});
+// ---------------- manual
+$('wp').innerHTML='<option value="">Go to a dig-cycle pose…</option>'+C.waypoints.map((w,i)=>`<option value="${i}">${w.name} (${w.strokes.join(' / ')})</option>`).join('');
+function manual(){const st=state.strokes;applyArm(kinematic(st));setSwing(state.swing);setTravel(state.travel);for(let i=0;i<3;i++){$('k'+i).value=st[i];$('o'+i).textContent=st[i].toFixed(1)+' mm'}
+ $('k3').value=state.swing;$('o3').textContent=state.swing.toFixed(0)+'°';$('k4').value=state.travel;$('o4').textContent=state.travel.toFixed(0)+' mm';const sol=kinematic(st),z=C.O[2]+sol.tip[1];
+ $('hud-t').textContent=`Manual · strokes ${st.map(v=>v.toFixed(1)).join(' / ')} mm`;$('hud-p').textContent=`Swing ${state.swing.toFixed(0)}° · travel ${state.travel.toFixed(0)} mm · closed-form R12 kinematics`;
+ $('hud-m').textContent=`Tooth tip ${(sol.tip[0]+C.O[0]).toFixed(0)} mm from the swing axis, ${z<0?(-z).toFixed(0)+' mm below':z.toFixed(0)+' mm above'} ground. Not every pose clears the tracks when swung over them; see Integration checks.`;drives(sol);dirty=true}
+for(let i=0;i<3;i++)$('k'+i).addEventListener('input',e=>{state.strokes[i]=+e.target.value;manual()});
+$('k3').addEventListener('input',e=>{state.swing=+e.target.value;manual()});$('k4').addEventListener('input',e=>{state.travel=+e.target.value;manual()});
+$('wp').addEventListener('change',e=>{if(e.target.value==='')return;state.strokes=[...C.waypoints[+e.target.value].strokes];e.target.value='';manual()});
+// ---------------- modes
+function setMode(m){state.mode=m;pause();state.build.playing=false;$('bplay').innerHTML='&#9654; Play all steps';document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('on',b.dataset.mode===m));
+ for(const k of ['demo','build','manual'])$('p-'+k).hidden=k!==m;
+ if(state.view==='exploded'){explodeTarget=0;state.explode=0;state.view='iso';setView('iso')}
+ if(m==='demo')seek(state.tau);else if(m==='build'){setSwing(0);setTravel(0);applyArm(kinematic(C.default));pay.visible=false;setBuild(state.build.k,state.build.f)}
+ else{const e=evalT(state.tau);if(trace){const s=sample(e.armT).s;state.strokes=[s[0],s[2],s[3]].map(v=>Math.round(v*10)/10)}state.swing=Math.round(e.sw);state.travel=Math.round(e.x);manual()}
+ placeParts();return m}
+document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
+// ---------------- numbers and checks
+const IC=D.checks,BAL=IC.balance,REA=IC.reach,KY=C.key;
+$('metrics').innerHTML=[['Machine mass (computed, see README)',`${BAL.machine_carry_pose.kg.toFixed(2)} kg`],['Upper / lower',`${BAL.upper_with_r12_carry_pose.kg.toFixed(2)} / ${BAL.lower.kg.toFixed(2)} kg`],
+ ['Track gauge / overall width / length',`${KY.track_gauge} / ${KY.overall_width} / ${KY.track_length}`],['Boom-foot pin O (vehicle X, Z)',`${C.O[0]}, ${C.O[2]} (R12 drawings: Z ${C.O_design_z})`],
+ ['Reach from the swing axis (stroke grid)',REA.grid_reach_from_swing_axis_mm],['Dig depth below ground (stroke grid / cycle)',`${REA.grid_dig_depth_mm} / ${REA.cycle_tooth_lowest_below_ground_mm}`],
+ ['Tooth highest above ground',REA.grid_tooth_highest_above_ground_mm],['Swing / travel speed used here','42°/s peak · 117 mm/s peak'],
+ ['CG margin inside the track footprint, carry pose',`${BAL.machine_carry_pose.margin_mm} mm`],['Worst CG margin (stroke grid, any swing, 150 g)',`${BAL.worst_static.margin_mm} mm`]].map(([a,b])=>`<div class="metric"><span>${a}</span><b>${b}</b></div>`).join('');
+const ck=(ok,t)=>`<div class="chk"><span class="${ok?'y':'n'}">${ok?'✓':'!'}</span><span>${t}</span></div>`,AU=IC.arm_vs_upper,DL=IC.demo_vs_lower,FS=IC.carry_pose_full_swing,EV=IC.grid_envelope_vs_lower;
+$('checks').innerHTML=ck(IC.interface.pass,`B01X on T101: rib tops Z ${IC.interface.t101_rib_top_z}, bolt axes within ${IC.interface.bolt_axis_error_mm} mm, seated with no overlap; ${IC.interface.static_against_the_rest.closest.length?IC.interface.static_against_the_rest.closest[0][2]+' mm to the body halves':''}`)+
+ ck(AU.penetrations===0,`Arm vs turntable, body and B01X: ${AU.penetrations} overlaps in ${AU.states} poses (5×5×5 grid and the dig cycle); closest ${AU.closest.length?AU.closest[0].gap_mm+' mm':'&gt; 5 mm'}`)+
+ ck(DL.penetrations===0,`Work cycle vs tracks and X-frame: ${DL.penetrations} overlaps in ${DL.states} states; closest ${DL.closest.length?DL.closest[0].gap_mm+' mm ('+DL.closest[0].pair.split(' | ').map(s=>s.split(' (')[0]).join(' / ')+')':'&gt; 5 mm'}`)+
+ ck(FS.penetrations===0,`Carry pose swung all round (5° steps): ${FS.penetrations} overlaps`)+
+ ck(true,'Stroke grid over the lower: '+Object.entries(EV).map(([k,v])=>`${k.replace('swing ','')}° ${v.poses_touching}/${v.poses}`).join(', ')+' poses reach a track or the frame (an operating limit, not a fault)')+
+ ck(BAL.all_inside,`Static balance: the CG stays inside the track footprint in ${BAL.states} states; worst margin ${BAL.worst_static.margin_mm} mm`)+
+ Object.entries(D.subsystem_reports).map(([k,v])=>ck(/pass|true/i.test(v.status),`${k}: ${v.status} <small>(${v.file})</small>`)).join('')+
+ `<div class="note">${BAL.note}</div>`;
+// ---------------- picking
+const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();renderer.domElement.addEventListener('click',e=>{const r=renderer.domElement.getBoundingClientRect();mouse.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);ray.setFromCamera(mouse,camera);
+ const pick=meshes.filter(m=>{let o=m;while(o){if(!o.visible)return false;o=o.parent}return true});const hit=ray.intersectObjects(pick,false)[0];
+ $('part').innerHTML=hit?`<b>${hit.object.userData.name}</b>${hit.object.userData.isNew?' <small>(new in this folder)</small>':''}<br><small>${D.sys[hit.object.userData.sys].label} &middot; ${D.sys[hit.object.userData.sys].folder}</small>`:'<small>Click a part to identify it.</small>'});
+// ---------------- loop
+function resize(){const w=stage.clientWidth,h=stage.clientHeight;renderer.setSize(w,h);camera.aspect=w/Math.max(1,h);camera.updateProjectionMatrix();dirty=true}new ResizeObserver(resize).observe(stage);
+function render(){renderer.render(scene,camera);state.renders++;dirty=false}
+let last=performance.now();
+function frame(now){const dt=Math.min((now-last)/1000,.1);last=now;
+ if(state.playing){let t=state.tau+dt;if(t>=TOTAL){if(state.loop)t=0;else{t=TOTAL;pause()}}seek(t)}
+ if(Math.abs(state.explode-explodeTarget)>1e-3){const st=dt*1.4;state.explode=state.explode<explodeTarget?Math.min(explodeTarget,state.explode+st):Math.max(explodeTarget,state.explode-st);placeParts()}
+ if(state.build.playing){let f=state.build.f+dt/1.6,k=state.build.k;if(f>=1.35){if(k<D.steps.length-1){k++;f=0}else{f=1;state.build.playing=false;$('bplay').innerHTML='&#9654; Play all steps'}}setBuild(k,Math.min(f,1));state.build.f=f}
+ if(dirty)render();requestAnimationFrame(frame)}
+window.demo={explodeNow:()=>{state.explode=explodeTarget;placeParts()},setExplode:e=>{state.explode=e;explodeTarget=e;placeParts()},setCamera:(p,t)=>{camera.position.set(...p);controls.target.set(...t);controls.update();dirty=true},setView,setMode,seek,play,pause,setBuild,setSwing,setTravel,render,kinematic,applyArm,manual,
+ setStrokes:s=>{state.strokes=[...s];manual()},layers:(k,on)=>{layerOn[k]=on;$('L-'+k).checked=on;visible()},
+ state:()=>({mode:state.mode,view:state.view,tau:state.tau,total:TOTAL,real:REAL,playing:state.playing,swing:state.swing,travel:state.travel,armT:state.armT,build:{...state.build},explode:state.explode,
+  meshes:meshes.length,visible:meshes.filter(m=>{let o=m;while(o){if(!o.visible)return false;o=o.parent}return true}).length,payload:pay.visible,ready:state.ready,renders:state.renders,
+  armRootWorld:(()=>{const v=new THREE.Vector3();armRoot.getWorldPosition(v);return [v.x,v.y,v.z]})(),tip:(()=>{const g=armG.bucket;if(!g)return null;const v=new THREE.Vector3(...C.pins.T,0);v.set(C.pins.T[0],0,C.pins.T[1]);g.localToWorld(v);return [v.x,v.y,v.z]})(),
+  pinionDeg:pinO.rotation.z*180/Math.PI,trackX:root.position.x}),timeline:TL,config:C};
+resize();setTravel(0);setSwing(0);applyArm(kinematic(C.default));setView('iso');
+loadTrace().then(()=>{seek(0);state.ready=true;dirty=true});requestAnimationFrame(frame);
+</script></body></html>

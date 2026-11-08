@@ -1,0 +1,80 @@
+{
+ "part": "B01X_boom_foot_bracket",
+ "frame": "R12 base body frame: O at the origin, X forward, Z up; vehicle = this + (30, 0, 195)",
+ "valid": true,
+ "solids": 1,
+ "watertight": true,
+ "winding_consistent": true,
+ "single_shell": true,
+ "step_roundtrip_valid": true,
+ "print_orientation": "base plate on the bed (as B01: flange down); no supports except the O and A bores (bridged holes)",
+ "print_bounds_mm": [
+  132.0,
+  164.0,
+  72.0
+ ],
+ "envelope_mm3": 243562.8,
+ "infill_core_mm3": 98854.8,
+ "mass_g": 196.3,
+ "com_mm_O_frame": [
+  13.23,
+  0.0,
+  -48.88
+ ],
+ "inertia_kg_mm2": [
+  [
+   434.1181,
+   -0.0,
+   9.6696
+  ],
+  [
+   -0.0,
+   291.2737,
+   -0.0
+  ],
+  [
+   9.6696,
+   -0.0,
+   656.7083
+  ]
+ ],
+ "print_rule": "PETG, 6 perimeters (2.5 mm) + 10 % gyroid infill, as every R12 print: envelope minus 90 % of the plate core",
+ "base_plate": {
+  "x_vehicle": [
+   -21.0,
+   111.0
+  ],
+  "y_abs": 82.0,
+  "z_vehicle": [
+   136.0,
+   146.0
+  ],
+  "corner_fillet_mm": 3.0,
+  "bolt_holes": [
+   {
+    "x": -9.0,
+    "y": 65.0,
+    "d": 6.6
+   },
+   {
+    "x": -9.0,
+    "y": -65.0,
+    "d": 6.6
+   },
+   {
+    "x": 99.0,
+    "y": 65.0,
+    "d": 6.6
+   },
+   {
+    "x": 99.0,
+    "y": -65.0,
+    "d": 6.6
+   }
+  ]
+ },
+ "unchanged_from_B01": "foot plates |Y| 20.5-25.5 and outer cheeks |Y| 42.5-47.5 above Z O-49, the O bore \u00d86.1 and the A bores \u00d83.1 (r12_design.foot_parts); A pins pressed in as ASSEMBLY.md",
+ "replaced": "B01 flange 75.8 x 100 x 6 with 4 x \u00d84.5 (M4) holes",
+ "b01_volume_mm3": 73637.1,
+ "seconds": 18.0
+}

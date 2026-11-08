@@ -1,0 +1,6 @@
+{
+ "poses": 512,
+ "max_origin_error_mm": 0.0003709588988480393,
+ "max_angle_error_rad": 6.236232842127265e-06,
+ "max_tip_error_mm": 0.0007280464107169952
+}

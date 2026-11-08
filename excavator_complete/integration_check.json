@@ -1,0 +1,524 @@
+{
+ "method": "FCL mesh-mesh collision and distance on the viewer meshes of the current CAD (see the module docstring)",
+ "interface": {
+  "t101_rib_top_z": 136.0,
+  "expected_z": 136.0,
+  "b01x_plate_bottom_z": 136.0,
+  "b01x_plate_top_z": 146.0,
+  "bolt_axes_measured": [
+   [
+    -8.969,
+    65.0,
+    152.0
+   ],
+   [
+    -8.969,
+    -65.0,
+    152.0
+   ],
+   [
+    99.031,
+    65.0,
+    152.0
+   ],
+   [
+    99.031,
+    -65.0,
+    152.0
+   ]
+  ],
+  "bolt_axes_expected": [
+   [
+    -9.0,
+    65.0
+   ],
+   [
+    -9.0,
+    -65.0
+   ],
+   [
+    99.0,
+    65.0
+   ],
+   [
+    99.0,
+    -65.0
+   ]
+  ],
+  "bolt_axis_error_mm": 0.031,
+  "bolt_head_underside_z": 146.0,
+  "seated": {
+   "T101_centre_frame (B01X +0.02 Z)": {
+    "overlap": false,
+    "gap_mm": 0.02
+   },
+   "arm_nut_M6_0 (B01X +0.02 Z)": {
+    "overlap": false,
+    "gap_mm": 19.77
+   },
+   "arm_nut_M6_1 (B01X +0.02 Z)": {
+    "overlap": false,
+    "gap_mm": 19.77
+   },
+   "arm_nut_M6_2 (B01X +0.02 Z)": {
+    "overlap": false,
+    "gap_mm": 19.77
+   },
+   "arm_nut_M6_3 (B01X +0.02 Z)": {
+    "overlap": false,
+    "gap_mm": 19.77
+   },
+   "arm_bolt_M6x40_0 (B01X -0.02 Z)": {
+    "overlap": false,
+    "gap_mm": 0.02
+   },
+   "arm_bolt_M6x40_1 (B01X -0.02 Z)": {
+    "overlap": false,
+    "gap_mm": 0.02
+   },
+   "arm_bolt_M6x40_2 (B01X -0.02 Z)": {
+    "overlap": false,
+    "gap_mm": 0.02
+   },
+   "arm_bolt_M6x40_3 (B01X -0.02 Z)": {
+    "overlap": false,
+    "gap_mm": 0.02
+   }
+  },
+  "static_against_the_rest": {
+   "pairs": 560,
+   "penetrations": [],
+   "closest": [
+    [
+     "B01X_boom_foot_bracket",
+     "B102_left_half",
+     0.5
+    ],
+    [
+     "B01X_boom_foot_bracket",
+     "B103_right_half",
+     0.5
+    ],
+    [
+     "B01X_boom_foot_bracket",
+     "B104_cab_interior",
+     3.304
+    ]
+   ]
+  },
+  "pass": true
+ },
+ "arm_vs_upper": {
+  "states": 447,
+  "penetrations": 0,
+  "hits": [],
+  "closest": [
+   {
+    "pair": "B02_boom | B01X_boom_foot_bracket",
+    "gap_mm": 0.5,
+    "state": "grid [0.0, 0.0, 0.0] swing 0"
+   },
+   {
+    "pair": "boom_L_V6_body | B01X_boom_foot_bracket",
+    "gap_mm": 1.15,
+    "state": "grid [0.0, 0.0, 0.0] swing 0"
+   },
+   {
+    "pair": "boom_L_V6_rear_cap | B01X_boom_foot_bracket",
+    "gap_mm": 1.15,
+    "state": "grid [0.0, 0.0, 0.0] swing 0"
+   },
+   {
+    "pair": "boom_L_V6_cable_clamp | B01X_boom_foot_bracket",
+    "gap_mm": 1.15,
+    "state": "grid [0.0, 0.0, 0.0] swing 0"
+   },
+   {
+    "pair": "boom_R_V6_body | B01X_boom_foot_bracket",
+    "gap_mm": 1.15,
+    "state": "grid [0.0, 0.0, 0.0] swing 0"
+   },
+   {
+    "pair": "boom_R_V6_rear_cap | B01X_boom_foot_bracket",
+    "gap_mm": 1.15,
+    "state": "grid [0.0, 0.0, 0.0] swing 0"
+   },
+   {
+    "pair": "boom_R_V6_cable_clamp | B01X_boom_foot_bracket",
+    "gap_mm": 1.15,
+    "state": "grid [0.0, 0.0, 0.0] swing 0"
+   }
+  ]
+ },
+ "demo_vs_lower": {
+  "states": 718,
+  "penetrations": 0,
+  "hits": [],
+  "closest": []
+ },
+ "carry_pose_full_swing": {
+  "states": 72,
+  "penetrations": 0,
+  "hits": [],
+  "closest": []
+ },
+ "grid_envelope_vs_lower": {
+  "swing 0": {
+   "poses": 125,
+   "poses_touching": 0,
+   "touching": []
+  },
+  "swing 45": {
+   "poses": 125,
+   "poses_touching": 6,
+   "touching": [
+    {
+     "strokes": [
+      0.0,
+      60.0,
+      60.0
+     ],
+     "parts": [
+      "J910_track_shoe_70",
+      "pin, bushing, 2 clips"
+     ]
+    },
+    {
+     "strokes": [
+      15.0,
+      60.0,
+      45.0
+     ],
+     "parts": [
+      "J909_housing",
+      "J910_track_shoe_70"
+     ]
+    },
+    {
+     "strokes": [
+      15.0,
+      60.0,
+      60.0
+     ],
+     "parts": [
+      "608ZZ_0_outer",
+      "608ZZ_0_shield",
+      "608ZZ_1_outer",
+      "608ZZ_1_shield"
+     ]
+    },
+    {
+     "strokes": [
+      30.0,
+      60.0,
+      30.0
+     ],
+     "parts": [
+      "J910_track_shoe_70"
+     ]
+    },
+    {
+     "strokes": [
+      30.0,
+      60.0,
+      45.0
+     ],
+     "parts": [
+      "J906_idler_wheel",
+      "J910_track_shoe_70",
+      "pin, bushing, 2 clips"
+     ]
+    },
+    {
+     "strokes": [
+      30.0,
+      60.0,
+      60.0
+     ],
+     "parts": [
+      "J906_idler_wheel",
+      "J910_track_shoe_70",
+      "pin, bushing, 2 clips"
+     ]
+    }
+   ]
+  },
+  "swing 90": {
+   "poses": 125,
+   "poses_touching": 4,
+   "touching": [
+    {
+     "strokes": [
+      0.0,
+      60.0,
+      60.0
+     ],
+     "parts": [
+      "J910_track_shoe_70",
+      "pin, bushing, 2 clips"
+     ]
+    },
+    {
+     "strokes": [
+      15.0,
+      60.0,
+      45.0
+     ],
+     "parts": [
+      "J904_roller_road1",
+      "J904_roller_road2",
+      "J904_roller_road3",
+      "J910_track_shoe_70"
+     ]
+    },
+    {
+     "strokes": [
+      15.0,
+      60.0,
+      60.0
+     ],
+     "parts": [
+      "624ZZ_road1_1_inner",
+      "624ZZ_road1_1_outer",
+      "624ZZ_road1_1_shield",
+      "624ZZ_road2_1_inner"
+     ]
+    },
+    {
+     "strokes": [
+      30.0,
+      60.0,
+      45.0
+     ],
+     "parts": [
+      "bolt_M4x70_support0",
+      "bolt_M4x70_support1"
+     ]
+    }
+   ]
+  },
+  "swing 135": {
+   "poses": 125,
+   "poses_touching": 6,
+   "touching": [
+    {
+     "strokes": [
+      0.0,
+      60.0,
+      60.0
+     ],
+     "parts": [
+      "J902_sprocket",
+      "J910_track_shoe_70",
+      "pin, bushing, 2 clips"
+     ]
+    },
+    {
+     "strokes": [
+      15.0,
+      60.0,
+      45.0
+     ],
+     "parts": [
+      "J909_housing",
+      "J910_track_shoe_70"
+     ]
+    },
+    {
+     "strokes": [
+      15.0,
+      60.0,
+      60.0
+     ],
+     "parts": [
+      "J901_H_frame",
+      "J902_sprocket",
+      "J909_housing",
+      "J910_track_shoe_70"
+     ]
+    },
+    {
+     "strokes": [
+      30.0,
+      60.0,
+      30.0
+     ],
+     "parts": [
+      "J902_sprocket",
+      "J910_track_shoe_70"
+     ]
+    },
+    {
+     "strokes": [
+      30.0,
+      60.0,
+      45.0
+     ],
+     "parts": [
+      "J901_H_frame",
+      "J902_sprocket",
+      "J910_track_shoe_70",
+      "pin, bushing, 2 clips"
+     ]
+    },
+    {
+     "strokes": [
+      30.0,
+      60.0,
+      60.0
+     ],
+     "parts": [
+      "J910_track_shoe_70",
+      "pin, bushing, 2 clips"
+     ]
+    }
+   ]
+  },
+  "swing 180": {
+   "poses": 125,
+   "poses_touching": 0,
+   "touching": []
+  }
+ },
+ "reach": {
+  "O_vehicle_mm": [
+   30.0,
+   0.0,
+   195.0
+  ],
+  "O_above_R12_drawings_mm": 40.0,
+  "cycle_tooth_lowest_below_ground_mm": 239.5,
+  "cycle_tooth_reach_from_swing_axis_mm": 654.0,
+  "grid_dig_depth_mm": 320.8,
+  "grid_reach_from_swing_axis_mm": 684.3,
+  "grid_tooth_highest_above_ground_mm": 601.5,
+  "r12_drawings": {
+   "dig_depth_below_ground_mm": 360.8,
+   "note": "same strokes, ground at O - 155"
+  },
+  "note": "13 x 13 x 13 stroke grid, tooth tip T. Raising O by 40 mm (B01X on the T101 ribs) takes the same from the dig depth and adds it to the dump height; reach is unchanged."
+ },
+ "balance": {
+  "method": "Static: CG of the whole machine projected on the ground against the track footprint (ground-run pins X -120..120, shoe outer edges |Y| 205). Positive margin = inside. Upper without the ARM60: the X1 turntable mass file minus the ARM60 (its masses there, centres from its meshes at uniform density). R12 bodies from R12 mass_properties.json with B01 replaced by B01X. Lower from the same file. No dynamics, slopes or digging forces.",
+  "lower": {
+   "kg": 4.655,
+   "cg_mm": [
+    -2.4,
+    0.0,
+    51.4
+   ]
+  },
+  "upper_with_arm60_as_in_X1": {
+   "kg": 5.125,
+   "cg_mm": [
+    0.0,
+    0.0,
+    178.2
+   ]
+  },
+  "arm60_removed": {
+   "kg": 1.6418,
+   "cg_mm": [
+    173.0,
+    -0.0,
+    264.5
+   ]
+  },
+  "r12_added": {
+   "kg": 1.0591,
+   "base_body_with_B01X_kg": 0.2198
+  },
+  "upper_with_r12_carry_pose": {
+   "kg": 4.542,
+   "cg_mm": [
+    -8.9,
+    0.0,
+    164.3
+   ]
+  },
+  "upper_cg_mm_by_waypoint": {
+   "carry": [
+    -8.9,
+    0.0,
+    164.3
+   ],
+   "reach out, bucket open": [
+    -0.1,
+    0.0,
+    155.1
+   ],
+   "penetrate": [
+    -4.5,
+    0.0,
+    127.3
+   ],
+   "crowd the stick": [
+    -12.3,
+    0.0,
+    124.4
+   ],
+   "curl the bucket": [
+    -12.1,
+    0.0,
+    129.7
+   ],
+   "raise": [
+    -13.8,
+    0.0,
+    172.4
+   ],
+   "dump": [
+    -13.0,
+    0.0,
+    180.4
+   ]
+  },
+  "shot_trim_estimate": {
+   "reference_pose": "reach out, bucket open [32.0, 6.0, 8.0] (R12 stretched, as the ARM60 was when the shot was sized)",
+   "upper_cg_x_mm": -0.1,
+   "shot_centre_x_mm": -166.1,
+   "shot_to_remove_kg": 0.004,
+   "note": "Removing this much shot (uniformly, at the pocket centre) would put the upper CG back on the swing axis in that pose. Not applied: the body is unchanged in this folder."
+  },
+  "machine_carry_pose": {
+   "kg": 9.197,
+   "cg_mm": [
+    -5.6,
+    0.0,
+    107.2
+   ],
+   "margin_mm": 114.4
+  },
+  "footprint_mm": {
+   "x": [
+    -120.0,
+    120.0
+   ],
+   "y": [
+    -205.0,
+    205.0
+   ]
+  },
+  "worst_static": {
+   "margin_mm": 106.4,
+   "strokes": [
+    60.0,
+    60.0,
+    60.0
+   ],
+   "swing_deg": 0,
+   "payload": false,
+   "cg_mm": [
+    -13.6,
+    0.0,
+    114.3
+   ]
+  },
+  "states": 2000,
+  "cycle_min_margin_mm": 111.3,
+  "all_inside": true,
+  "note": "The body's shot pocket was sized to put the upper CG on the swing axis with the 1.64 kg ARM60 stretched forward. R12 with B01X is lighter, so the upper CG moves rearward (upper_cg_mm_by_waypoint, shot_trim_estimate). The machine stays inside its footprint in every case here."
+ },
+ "status": "PASS",
+ "seconds": 279.5
+}
