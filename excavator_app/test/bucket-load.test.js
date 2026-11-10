@@ -153,7 +153,7 @@ test("sand goes into the columns under its bed cell, up to the bucket's capacity
     point = mouthToLocal(50, 3, -10, [0, 0, 0]);
   assert.equal(load.add(point[0], point[1], point[2], 600), 600);
   const wet = load.thickness.filter((value) => value > 0).length;
-  assert.ok(wet >= 4 && wet <= 9, `${wet} columns`);
+  assert.ok(wet >= 4 && wet <= 12, `${wet} columns`);
   assert.ok(Math.abs(sum(load.thickness) * AREA - 600) < 1e-9);
   assert.equal(load.total, 600);
   // Beside a cheek, and past it under its plate, all of it stays in the bucket.

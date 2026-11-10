@@ -53,9 +53,13 @@ const ceilingAt = (u) =>
     ...PLATES.filter((p) => !p.isFloor && u >= p.from).map((p) => p.height(u)),
   );
 
-// The cavity ends where its floor meets its ceiling.
+// The cavity ends where its floor meets its ceiling: past the far rim, a plate
+// leaning back over the sand covers a pocket. With nothing over it, it ends at the
+// rim.
 let reach = LENGTH;
-while (floorAt(reach + 0.1) < ceilingAt(reach + 0.1)) reach += 0.1;
+if (PLATES.some((p) => !p.isFloor))
+  while (reach < 2 * LENGTH && floorAt(reach + 0.1) < ceilingAt(reach + 0.1))
+    reach += 0.1;
 
 const NU = 22,
   NV = 15,
@@ -67,8 +71,10 @@ const floors = Float64Array.from({ length: NU }, (_, i) => floorAt(columnU(i))),
   ceilings = Float64Array.from({ length: NU }, (_, i) =>
     ceilingAt(columnU(i)),
   );
-// The last column open to the sky: past it, the top plate covers the cavity.
-const lastOpen = ceilings.findIndex((value) => value !== Infinity) - 1;
+// The last column open to the sky: past it, a plate covers the cavity. With no
+// such plate, every column is open.
+const covered = ceilings.findIndex((value) => value !== Infinity),
+  lastOpen = covered < 0 ? NU - 1 : covered - 1;
 // The cavity filled level with the rims.
 const struck =
   floors.reduce(

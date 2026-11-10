@@ -1,11 +1,12 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { CONFIG as V } from "../shared/config.js";
-import { solve } from "../shared/kinematics.js";
+import { bucketBody } from "../shared/kinematics.js";
 import {
   WORLD,
   SAND,
   armFrame,
+  freshPose,
   clamp,
   initialMachine,
 } from "../shared/world.js";
@@ -92,8 +93,10 @@ export async function createScene(stage, onProgress) {
   );
 
   // ------------------------------------------------------------- the machines
-  onProgress("Loading original CAD assembly…");
-  const model = await loadMachineModel();
+  onProgress("Loading the excavator…");
+  const model = await loadMachineModel((done) =>
+    onProgress(`Preparing the excavator… ${Math.round(done * 100)} %`),
+  );
   // Compile now what a first dig or another player would otherwise stall the
   // game for; three.js otherwise waits for a shader's first use.
   const sample = model.createSimplified(null, !mobile);
@@ -339,7 +342,9 @@ export async function createScene(stage, onProgress) {
   // with the machine; Orbit and Top keep their compass direction.
   const focus = new THREE.Vector3(),
     move = new THREE.Vector3(),
-    offset = new THREE.Vector3();
+    offset = new THREE.Vector3(),
+    bucketAt = new Float64Array(3),
+    bucketFrame = freshPose();
   let mode = "chase",
     rigHeading = 0;
   const VIEWS = {
@@ -353,13 +358,14 @@ export async function createScene(stage, onProgress) {
   function focusPoint(out) {
     const pose = followed();
     if (mode === "bucket") {
-      const s = solve(pose.strokes),
-        frame = armFrame(
-          pose,
-          s.origins.bucket[0] + V.arm_offset[0],
-          s.origins.bucket[1] + V.arm_offset[2],
-          s.angles.bucket,
-        );
+      bucketBody(pose.strokes, bucketAt);
+      const frame = armFrame(
+        pose,
+        bucketAt[0] + V.arm_offset[0],
+        bucketAt[1] + V.arm_offset[2],
+        bucketAt[2],
+        bucketFrame,
+      );
       return out.set(frame.x, frame.y, frame.z);
     }
     // Aim a little ahead of the machine, to show where it is going.

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { once } from "node:events";
 import { setTimeout as delay } from "node:timers/promises";
 import WebSocket from "ws";
-import { neutral } from "../shared/world.js";
+import { initialMachine, neutral } from "../shared/world.js";
 
 // Phones in both orientations, with the browser's bars taking their share:
 // from a tall full-screen phone down to an old 4-inch phone under Safari's bars.
@@ -120,6 +120,7 @@ export async function checkRemoteFace(browser, app, origin) {
       isMobile: true,
       hasTouch: true,
     });
+    context.setDefaultTimeout(180000);
     const page = await context.newPage();
     watchErrors(page, errors);
     await page.goto(`${origin}/remote?room=${phones}`);
@@ -143,6 +144,7 @@ export async function checkRemoteFace(browser, app, origin) {
     isMobile: true,
     hasTouch: true,
   });
+    context.setDefaultTimeout(180000);
   let other;
   try {
     await context.addInitScript(() => {
@@ -162,9 +164,9 @@ export async function checkRemoteFace(browser, app, origin) {
 
     // The LCD reads the machine's real state and the link.
     await page.waitForFunction(
-      () =>
-        document.querySelector("#boom-value").getAttribute("aria-label") ===
-        "Boom 10.0 millimetres",
+      (label) =>
+        document.querySelector("#boom-value").getAttribute("aria-label") === label,
+      `Boom ${initialMachine().strokes[0].toFixed(1)} millimetres`,
     );
     await page.getByText("Connected", { exact: true }).waitFor();
 

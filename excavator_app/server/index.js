@@ -23,8 +23,12 @@ const ROOT = fileURLToPath(new URL("../dist/", import.meta.url));
 const COMPRESSIBLE = /\.(?:html|js|css|svg)$/,
   compressed = new Map(),
   gzipped = promisify(gzip);
+// Control messages are small and must arrive even on a socket that is behind
+// with its frames (frames and state wait for an empty buffer; see publishFrame):
+// a player on a slow computer would otherwise miss notices, errors and pongs.
+// Only a socket whose buffer has grown past all reason is left alone.
 const send = (ws, message) => {
-  if (ws.readyState === WebSocket.OPEN && ws.bufferedAmount < 256_000)
+  if (ws.readyState === WebSocket.OPEN && ws.bufferedAmount < 8_000_000)
     ws.send(JSON.stringify(message));
 };
 // A person's computer and phone drive one excavator; a few tabs are fine too.
@@ -310,12 +314,24 @@ export function createApplication({
       stepMs: Math.round(room.stepMs * 10) / 10,
     };
   }
-  // Each player hears about their own excavator.
+  // Each player hears about their own excavator. A socket that is behind with
+  // its frames skips the periodic telemetry, but never a change of who is in
+  // control, of the stop or of the host: a page that did not hear its claim was
+  // granted never starts sending inputs, loses the lease, and its next press of
+  // the control key releases instead of claiming.
   function broadcast(room, player) {
-    const packet = JSON.stringify(snapshot(room, player));
-    for (const ws of player.sockets)
-      if (ws.readyState === WebSocket.OPEN && ws.bufferedAmount === 0)
-        ws.send(packet);
+    const packet = JSON.stringify(snapshot(room, player)),
+      control = `${player.owner}:${player.vehicle.estop}:${room.host === player.id}`;
+    for (const ws of player.sockets) {
+      const client = room.clients.get(ws);
+      if (
+        ws.readyState !== WebSocket.OPEN ||
+        (ws.bufferedAmount !== 0 && client?.control === control)
+      )
+        continue;
+      ws.send(packet);
+      if (client) client.control = control;
+    }
   }
   // Who is here. Each client tracks the version it holds, so a congested socket
   // catches up later instead of losing a change.

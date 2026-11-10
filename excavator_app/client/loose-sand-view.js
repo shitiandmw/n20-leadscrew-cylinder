@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { BUCKET, SAND, armFrame } from "../shared/world.js";
+import { BUCKET, SAND, armFrame, freshPose } from "../shared/world.js";
 import { LOAD, mouthToLocal } from "../shared/bucket-load.js";
 import { CONFIG } from "../shared/config.js";
-import { solve } from "../shared/kinematics.js";
+import { bucketBody } from "../shared/kinematics.js";
 import { BucketFrame } from "../shared/bucket.js";
 import { groundHeight } from "../shared/landscape.js";
 import { flightRoom, MAX_TICK_TRAVEL, ParcelMotion } from "./sand-flight.js";
@@ -139,6 +139,8 @@ export function createLooseSandView(
   // machine id.
   const buckets = new Map(),
     spareBuckets = [],
+    bucketAt = new Float64Array(3),
+    bucketPose = freshPose(),
     local = [0, 0, 0],
     // Machines whose buckets have held sand, and so are no longer clean.
     used = new Set();
@@ -171,15 +173,16 @@ export function createLooseSandView(
   function bucketOf(id, poses) {
     let frame = buckets.get(id);
     if (frame || !poses.has(id)) return frame;
-    const machine = poses.get(id),
-      solution = solve(machine.strokes);
+    const machine = poses.get(id);
+    bucketBody(machine.strokes, bucketAt);
     frame = spareBuckets.pop() ?? new BucketFrame();
     frame.set(
       armFrame(
         machine,
-        solution.origins.bucket[0] + CONFIG.arm_offset[0],
-        solution.origins.bucket[1] + CONFIG.arm_offset[2],
-        solution.angles.bucket,
+        bucketAt[0] + CONFIG.arm_offset[0],
+        bucketAt[1] + CONFIG.arm_offset[2],
+        bucketAt[2],
+        bucketPose,
       ),
     );
     buckets.set(id, frame);

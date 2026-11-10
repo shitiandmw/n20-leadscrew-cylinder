@@ -5,6 +5,7 @@
 import WebSocket from "ws";
 import { createApplication } from "../server/index.js";
 import { neutral } from "../shared/world.js";
+import { SCOOP, CARRY, POUR, RETURN } from "../shared/scoop.js";
 
 const players = Number(process.argv[2]) || 8,
   seconds = Number(process.argv[3]) || 20,
@@ -33,18 +34,10 @@ try {
     await new Promise((resolve) => ws.once("open", resolve));
     bots.push(bot);
   }
-  // Everyone repeats a dig: lower, crowd, curl, lift, then open and do it again.
-  const cycle = [
-    [1.2, { boom: -1 }],
-    [1.6, { stick: 1 }],
-    [3.5, { bucket: 1 }],
-    [2, { boom: 1 }],
-    [1.5, { slew: 1 }],
-    [3, { bucket: -1 }],
-    [1.5, { slew: -1 }],
-    [1.6, { stick: -1 }],
-    [0.6, { boom: -1 }],
-  ];
+  // Everyone digs the standard scoop, lifts, swings, pours and comes back for
+  // another, crowding straight in from then on.
+  const prelude = SCOOP.slice(0, 3),
+    cycle = [...prelude, ...SCOOP.slice(3), ...CARRY, ...POUR, ...RETURN];
   const send = (bot, body) => bot.ws.send(JSON.stringify(body));
   for (const bot of bots) send(bot, { type: "claim" });
   await wait(300);
@@ -62,7 +55,7 @@ try {
     phaseEnd = start + cycle[0][0] * 1000;
   while (performance.now() < until) {
     if (performance.now() > phaseEnd) {
-      phase = (phase + 1) % cycle.length;
+      phase = phase + 1 < cycle.length ? phase + 1 : prelude.length;
       phaseEnd = performance.now() + cycle[phase][0] * 1000;
     }
     for (const bot of bots) {

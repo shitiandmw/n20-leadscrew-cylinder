@@ -27,6 +27,7 @@ export async function checkControlClaims(browser, app, origin) {
     isMobile: true,
     hasTouch: true,
   });
+  context.setDefaultTimeout(180000);
   let competitor;
   try {
     const page = await context.newPage();

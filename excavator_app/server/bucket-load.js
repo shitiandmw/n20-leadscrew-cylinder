@@ -233,8 +233,10 @@ export class BucketLoad {
       surplus = this.settleRow(j, surplus);
     for (let n = 0, j = first + (NV - 1) * by; n < NV && surplus > 0; n++, j -= by)
       surplus = this.settleRow(j, surplus);
-    // Nothing has room and no rim is open: it goes back to the bed it is in.
-    this.pending[RIM_BED][NV >> 1] += surplus * AREA;
+    // Nothing has room and no rim is open: it goes back to the bed it is in,
+    // across the whole mouth.
+    if (surplus > 0)
+      for (let j = 0; j < NV; j++) this.pending[RIM_BED][j] += (surplus * AREA) / NV;
     for (let j = 0; j < NV; j++) {
       let room = 0;
       for (let c = j * NU; c < (j + 1) * NU; c++)

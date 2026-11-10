@@ -4,7 +4,9 @@ import { once } from "node:events";
 import { setTimeout as delay } from "node:timers/promises";
 import WebSocket from "ws";
 import { createApplication } from "../server/index.js";
-import { neutral } from "../shared/world.js";
+import { initialMachine, neutral } from "../shared/world.js";
+
+const HOME_BOOM = initialMachine().strokes[0];
 import { decodeFrame, applyTiles } from "../shared/protocol.js";
 import { DEFAULT_PLAYERS } from "../shared/players.js";
 
@@ -144,7 +146,7 @@ test(
       await delay(120);
       assert.equal(
         viewer.state.machine.strokes[0],
-        10,
+        HOME_BOOM,
         "observer cannot move the machine",
       );
       operator.send({
@@ -152,7 +154,7 @@ test(
         axes: { ...neutral(), boom: 1 },
         speed: 1,
       });
-      await waitFor(() => viewer.state.machine.strokes[0] > 11);
+      await waitFor(() => viewer.state.machine.strokes[0] > HOME_BOOM + 1);
       await delay(550);
       const stopped = viewer.state.machine.strokes[0];
       await delay(200);
@@ -189,7 +191,7 @@ test(
       await delay(180);
       assert.equal(viewer.state.machine.strokes[0], stopped);
       operator.send({ type: "reset" });
-      await waitFor(() => viewer.state.machine.strokes[0] === 10);
+      await waitFor(() => viewer.state.machine.strokes[0] === HOME_BOOM);
       assert.equal(
         viewer.state.estop,
         true,

@@ -7,6 +7,7 @@ import { chromium } from "@playwright/test";
 import { createServer } from "vite";
 import { SandSimulation } from "../server/physics.js";
 import { neutral } from "../shared/world.js";
+import { SCOOP, CARRY } from "../shared/scoop.js";
 import { decodeFrame, encodeFrame } from "../shared/protocol.js";
 
 const simulation = new SandSimulation();
@@ -61,13 +62,12 @@ function capture(name) {
   });
 }
 capture("bed");
-run(1.2, { boom: -1 });
-run(1.6, { stick: 1 });
-run(3.5, { bucket: 1 });
+for (const [seconds, axes] of SCOOP) run(seconds, axes);
 capture("scoop");
-run(2, { boom: 1 });
+const [lift, swing] = CARRY;
+run(...lift);
 capture("lift");
-run(1.5, { slew: 1 });
+run(...swing);
 run(1.5, { bucket: -1 });
 capture("pour-start");
 run(0.7, { bucket: -1 });
@@ -146,7 +146,8 @@ try {
         errors.push(message.text());
     });
     await page.goto(`${origin}/sand-check`);
-    await page.waitForFunction(() => window.preview, null, { timeout: 90000 });
+    page.setDefaultTimeout(240000);
+    await page.waitForFunction(() => window.preview, null, { timeout: 240000 });
     for (const shot of shots) {
       await page.evaluate(
         (frames) => {
@@ -173,7 +174,7 @@ try {
       await page.waitForFunction(
         (tick) => preview.telemetry().tick >= tick,
         shot.frame.tick,
-        { timeout: 45000 },
+        { timeout: 240000 },
       );
       const graphics = await page.evaluate(() => preview.telemetry());
       assert.ok(Number.isFinite(graphics.sandUpdateMs));

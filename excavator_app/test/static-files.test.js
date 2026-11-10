@@ -3,27 +3,46 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { gunzipSync } from "node:zlib";
 import { createApplication } from "../server/index.js";
+import { CONFIG } from "../shared/config.js";
+import { MODEL_RECORDS } from "./model-counts.js";
 
-// The model the browser downloads, as committed.
+// The model the browser downloads, as committed: the complete X1 / J9 / R12
+// machine, with one track module and one chain link drawn as instances.
 const model = JSON.parse(
   gunzipSync(await readFile(new URL("../public/model.json.gz", import.meta.url))),
 );
-const LINK = /^(?:shoe_|track_pin_|track_bushing_|pin_clip_)([LR])(\d{2})/;
 
 test("the model lists every part, and holds one track link's geometry", () => {
-  assert.equal(model.meshes.length, 644);
-  const links = model.meshes.filter((mesh) => LINK.test(mesh.name));
-  assert.equal(links.length, 2 * 34 * 5, "five parts, 34 links, two tracks");
-  const drawn = links.filter((mesh) => mesh.v);
-  assert.deepEqual(drawn.map((mesh) => mesh.name).sort(), [
-    "pin_clip_R00_0",
-    "pin_clip_R00_1",
-    "shoe_R00",
-    "track_bushing_R00",
-    "track_pin_R00",
-  ]);
-  for (const mesh of model.meshes.filter((mesh) => !LINK.test(mesh.name)))
-    assert.ok(mesh.v && mesh.t, `${mesh.name} has its geometry`);
+  for (const [list, count] of Object.entries(MODEL_RECORDS)) {
+    assert.equal(model[list].length, count, list);
+    for (const item of model[list])
+      assert.ok(item.v && item.t && item.color, `${item.name} has its geometry`);
+  }
+  assert.equal(model.cfg.j9.pins.length, CONFIG.track_links_per_side);
+  assert.equal(model.cfg.O.join(), CONFIG.arm_offset.join());
+  assert.equal(model.cfg.pins.T.join(), CONFIG.arm.tip.join());
+  const movers = new Set(model.parts.map((part) => part.mover));
+  for (const mover of ["ground", "upper", "pinion", "arm:boom", "arm:stick", "arm:bucket"])
+    assert.ok(movers.has(mover), mover);
+  assert.equal(model.parts.filter((part) => part.mover === "arm:bucket").length, 9);
+  assert.ok(model.source.sha256, "the viewer it came from is recorded");
+  // The drive meshes are modelled at their own lateral position: the boom pair
+  // at y = +-34 mm. The renderer must not add the drive's offset again, or the
+  // cylinders hang 34 mm outboard of their mounts.
+  const centreY = (item) => {
+    const bytes = Buffer.from(item.v, "base64"),
+      v = new Float32Array(bytes.buffer, bytes.byteOffset, bytes.byteLength / 4);
+    let low = Infinity,
+      high = -Infinity;
+    for (let k = 1; k < v.length; k += 3) {
+      low = Math.min(low, v[k]);
+      high = Math.max(high, v[k]);
+    }
+    return (low + high) / 2;
+  };
+  for (const drive of model.cfg.drives)
+    for (const item of model.parts.filter((part) => part.mover === `arm:${drive.name}_barrel`))
+      assert.ok(Math.abs(centreY(item) - drive.y) < 1, `${item.name} sits at y ${drive.y}`);
 });
 
 test("files are compressed, and an unchanged one is not sent again", async (t) => {
@@ -68,7 +87,7 @@ test("files are compressed, and an unchanged one is not sent again", async (t) =
 
   const asset = await raw("/model.json", { "Accept-Encoding": "gzip" });
   assert.equal(asset.response.headers["content-encoding"], "gzip");
-  assert.equal(JSON.parse(gunzipSync(asset.body)).meshes.length, 644);
+  assert.equal(JSON.parse(gunzipSync(asset.body)).parts.length, MODEL_RECORDS.parts);
   const again = await raw("/model.json", {
     "If-None-Match": asset.response.headers.etag,
   });

@@ -150,11 +150,13 @@ function poseCommon(machine, rig) {
     group.position.set(p[0], 0, p[1]);
     group.rotation.y = -p[2];
   }
+  // The drive meshes carry their own lateral position (the boom pair sits at
+  // y = +-34 mm in its frames), so the groups stay on the arm's centre plane.
   for (const drive of V.arm.drives) {
     for (const suffix of ["_barrel", "_rod"]) {
       const p = s.P[drive.name + suffix], group = groups[`arm_${drive.name + suffix}`];
       if (!group || !p) continue;
-      group.position.set(p[0], drive.y || 0, p[1]);
+      group.position.set(p[0], 0, p[1]);
       group.rotation.y = -p[2];
     }
   }
@@ -212,7 +214,62 @@ function placeTrack(track, machine, cfg) {
   for (const mesh of [...track.shoes, ...track.pins]) mesh.instanceMatrix.needsUpdate = true;
 }
 
-function buildTracks(data, paint, detailed, materials, root, detailLevels) {
+// Let the page breathe between slices of work, so that messages and pings are
+// answered while the machine is being built.
+const SLICE_MS = 40,
+  breathe = () => new Promise((resolve) => setTimeout(resolve, 0));
+
+// Build one batch of parts into a single geometry, with its far level if detailed.
+function batchGeometry(items, detailed, cell = SIMPLE_CELL) {
+  const geometries = items.map((item) => geometry(item, !detailed, cell)),
+    merged = geometries.length === 1 ? geometries[0] : mergeGeometries(geometries);
+  if (geometries.length > 1) geometries.forEach((part) => part.dispose());
+  merged.computeVertexNormals();
+  if (!detailed) return { geometry: merged, levels: null };
+  const levels = addFarLevel(merged);
+  merged.setDrawRange(...levels.far);
+  return { geometry: merged, levels };
+}
+
+// The geometry is the same for every machine; only the paint differs. It is
+// built once for each level of detail, in slices that let the page breathe, and
+// shared by every assembly drawn from it, so another player's machine costs a
+// few meshes rather than a rebuild. The right-hand track reuses the left one's
+// geometry, mirrored by its group.
+async function prepare(data, detailed, progress) {
+  const batches = new Map();
+  for (const item of data.parts) {
+    const parent = armParentFor(item.mover), key = `${parent}:${item.color.join(",")}:${item.kind}`;
+    if (!batches.has(key)) batches.set(key, { item, parent, items: [] });
+    batches.get(key).items.push(item);
+  }
+  const moduleBatches = new Map();
+  for (const item of data.module) {
+    const key = `${item.group}:${item.color.join(",")}:${item.kind}`;
+    if (!moduleBatches.has(key)) moduleBatches.set(key, { item, items: [] });
+    moduleBatches.get(key).items.push(item);
+  }
+  const jobs = [
+    ...[...batches.values()].map((batch) => () => ({ kind: "part", parent: batch.parent, item: batch.item, ...batchGeometry(batch.items, detailed) })),
+    ...[...moduleBatches.values()].map((batch) => () => ({ kind: "module", item: batch.item, ...batchGeometry(batch.items, detailed) })),
+    ...data.link.map((item, index) => () => ({ kind: "link", index, item, ...batchGeometry([item], detailed, SHOE_CELL) })),
+  ];
+  const parts = [], modules = [], links = [];
+  let since = performance.now();
+  for (const [n, job] of jobs.entries()) {
+    const built = job();
+    (built.kind === "part" ? parts : built.kind === "module" ? modules : links).push(built);
+    if (performance.now() - since > SLICE_MS) {
+      progress((n + 1) / jobs.length);
+      await breathe();
+      since = performance.now();
+    }
+  }
+  progress(1);
+  return { parts, modules, links };
+}
+
+function buildTracks(data, prepared, paint, materials, root) {
   const tracks = [], cfg = data.cfg.j9;
   for (const side of [1, -1]) {
     const outer = new THREE.Group(), g = new THREE.Group();
@@ -225,60 +282,22 @@ function buildTracks(data, paint, detailed, materials, root, detailLevels) {
       pivots[name] = o; groups[name] = i;
     };
     for (const [name, pos] of Object.entries({ drive: cfg.drive, idler: cfg.idler, ...cfg.rollers })) pivot(name, pos);
-    const moduleBatches = new Map();
-    for (const item of data.module) {
-      const key = `${item.group}:${item.color.join(",")}:${item.kind}`;
-      if (!moduleBatches.has(key)) moduleBatches.set(key, { item, geometries: [] });
-      moduleBatches.get(key).geometries.push(geometry(item, !detailed));
-    }
-    for (const { item, geometries } of moduleBatches.values()) {
-      const merged = mergeGeometries(geometries);
-      geometries.forEach((part) => part.dispose());
-      merged.computeVertexNormals();
-      if (detailed) {
-        const levels = addFarLevel(merged);
-        merged.setDrawRange(...levels.far);
-        detailLevels.push({ geometry: merged, levels });
-      }
-      const mesh = new THREE.Mesh(merged, materialFor(item, paint, materials));
+    for (const { item, geometry } of prepared.modules) {
+      const mesh = new THREE.Mesh(geometry, materialFor(item, paint, materials));
       mesh.castShadow = item.kind !== "glazing"; mesh.receiveShadow = true; mesh.renderOrder = DRAW_FIRST;
       (groups[item.group] || g).add(mesh);
     }
     const chain = new THREE.Group();
     g.add(chain);
     const shoes = [], pins = [];
-    for (const [index, item] of data.link.entries()) {
-      const geo = geometry(item, !detailed, SHOE_CELL);
-      if (detailed) {
-        const levels = addFarLevel(geo);
-        geo.setDrawRange(...levels.far);
-        detailLevels.push({ geometry: geo, levels });
-      }
-      const mesh = new THREE.InstancedMesh(geo, materialFor(item, paint, materials), TRACK_LINKS);
+    for (const { index, item, geometry } of prepared.links) {
+      const mesh = new THREE.InstancedMesh(geometry, materialFor(item, paint, materials), TRACK_LINKS);
       mesh.frustumCulled = false; mesh.castShadow = true; mesh.receiveShadow = true; mesh.renderOrder = DRAW_FIRST;
       chain.add(mesh); (index === 0 ? shoes : pins).push(mesh);
     }
     tracks.push({ side, outer, g, pivots, shoes, pins });
   }
   return tracks;
-}
-
-function prepareParts(data, detailed) {
-  const batches = new Map();
-  for (const item of data.parts) {
-    const parent = armParentFor(item.mover), key = `${parent}:${item.color.join(",")}:${item.kind}`;
-    if (!batches.has(key)) batches.set(key, { item, parent, geometries: [] });
-    batches.get(key).geometries.push(geometry(item, !detailed));
-  }
-  return [...batches.values()].map(({ item, parent, geometries }) => {
-    const merged = mergeGeometries(geometries);
-    geometries.forEach((part) => part.dispose());
-    merged.computeVertexNormals();
-    if (!detailed) return { parent, item, geometry: merged, levels: null };
-    const levels = addFarLevel(merged);
-    merged.setDrawRange(...levels.far);
-    return { parent, item, geometry: merged, levels };
-  });
 }
 function attachParent(rig, parent) {
   if (parent === "root") return rig.root;
@@ -289,14 +308,23 @@ function attachParent(rig, parent) {
   return rig.root;
 }
 
-export async function loadMachineModel() {
+export async function loadMachineModel(onProgress = () => {}) {
   const response = await fetch("/model.json");
   if (!response.ok) throw new Error("The excavator model could not be loaded.");
   const data = await response.json();
+  // Both levels of detail are prepared now, so that the first other player and
+  // the first zoom in cost nothing but meshes.
+  const prepared = {
+    detailed: await prepare(data, true, (done) => onProgress(done / 2)),
+    simplified: await prepare(data, false, (done) => onProgress(0.5 + done / 2)),
+  };
   const make = (paint, detailed, castShadow = true) => {
-    const rig = skeleton(), materials = new Map(), parts = prepareParts(data, detailed),
-      detailLevels = parts.filter((part) => part.levels).map((part) => ({ geometry: part.geometry, levels: part.levels })),
-      tracks = buildTracks(data, paint, detailed, materials, rig.root, detailLevels);
+    const rig = skeleton(), materials = new Map(), shared = detailed ? prepared.detailed : prepared.simplified,
+      parts = shared.parts,
+      detailLevels = [...shared.parts, ...shared.modules, ...shared.links]
+        .filter((entry) => entry.levels)
+        .map(({ geometry, levels }) => ({ geometry, levels })),
+      tracks = buildTracks(data, shared, paint, materials, rig.root);
     let level = "far";
     for (const part of parts) {
       const mesh = new THREE.Mesh(part.geometry, materialFor(part.item, paint, materials));
@@ -322,19 +350,20 @@ export async function loadMachineModel() {
         for (const track of tracks) placeTrack(track, machine, data.cfg.j9);
         return solution;
       },
+      // The geometry is shared with every other assembly and stays; the
+      // materials and the links' instance buffers are this assembly's own.
       dispose() {
-        const geometries = new Set(), materials = new Set();
+        const own = new Set();
         rig.root.traverse((object) => {
-          if (object.geometry) geometries.add(object.geometry);
+          if (object.isInstancedMesh) object.dispose();
           if (object.material) {
             const list = Array.isArray(object.material)
               ? object.material
               : [object.material];
-            list.forEach((material) => materials.add(material));
+            list.forEach((material) => own.add(material));
           }
         });
-        geometries.forEach((geometry) => geometry.dispose());
-        materials.forEach((material) => material.dispose());
+        own.forEach((material) => material.dispose());
       },
     };
   };

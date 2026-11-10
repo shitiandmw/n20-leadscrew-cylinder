@@ -1,4 +1,4 @@
-import { solve } from "../shared/kinematics.js";
+import { bucketBody } from "../shared/kinematics.js";
 import { CONFIG } from "../shared/config.js";
 import {
   WORLD,
@@ -12,6 +12,7 @@ import {
   crawlersOverlap,
   initialMachine,
   armFrame,
+  freshPose,
   cellX,
   cellY,
 } from "../shared/world.js";
@@ -29,7 +30,12 @@ import {
   insidePolygon,
   insideCavity,
 } from "../shared/bucket.js";
-import { LOAD, mouthToLocal } from "../shared/bucket-load.js";
+import {
+  LOAD,
+  mouthToLocal,
+  localU,
+  localW,
+} from "../shared/bucket-load.js";
 import {
   BucketLoad,
   RIM_LIP,
@@ -39,13 +45,17 @@ import {
   RIM_BED,
 } from "./bucket-load.js";
 
-export function bucketPose(machine) {
-  const s = solve(machine.strokes);
+// The bucket's frame in the world. Given `out`, a pose to fill, nothing is
+// allocated.
+const BODY = new Float64Array(3);
+export function bucketPose(machine, out) {
+  bucketBody(machine.strokes, BODY);
   return armFrame(
     machine,
-    s.origins.bucket[0] + CONFIG.arm_offset[0],
-    s.origins.bucket[1] + CONFIG.arm_offset[2],
-    s.angles.bucket,
+    BODY[0] + CONFIG.arm_offset[0],
+    BODY[1] + CONFIG.arm_offset[2],
+    BODY[2],
+    out,
   );
 }
 export function toLocal(x, y, z, b) {
@@ -106,7 +116,15 @@ const R = WORLD.radius,
   UPPER_MAX_Y = 136,
   UPPER_BOTTOM = 110,
   // Network groups of parcels: positions fit Int16 within half this span of a centre.
-  GROUP_SPAN = 6400;
+  GROUP_SPAN = 6400,
+  // The tooth tips in the mouth's axes: beyond the lip, and out of the mouth.
+  TIP_U = localU(BUCKET.tip[0], BUCKET.tip[1]),
+  TIP_W = localW(BUCKET.tip[0], BUCKET.tip[1]),
+  TEETH_LENGTH = Math.hypot(TIP_U, TIP_W),
+  // Sand leaving over the lip rides on top of the teeth.
+  OVER_TEETH = BUCKET.toothHalfHeight + R * 0.5,
+  // Pushed-aside sand lands over a disc this wide (mm): a berm, not a spike.
+  SPREAD = 28;
 const { nx: NX, ny: NY, cell: CELL } = SAND;
 const FOOT = 48; // max cut footprint, in cells per side
 // A cell's cut class is only needed while the bucket stays over that cell, so
@@ -132,6 +150,7 @@ class Vehicle {
     this.load = new BucketLoad();
     this.touchingBed = false;
     this.poseVersion = 0;
+    this.bucket = freshPose();
     this.restart();
   }
 
@@ -149,7 +168,7 @@ class Vehicle {
     this.cutClass.fill(0);
     this.load.clear();
     this.touchingBed = false;
-    this.bucket = bucketPose(this.machine);
+    bucketPose(this.machine, this.bucket);
     this.frame.set(this.bucket);
     this.prevFrame.set(this.bucket);
   }
@@ -174,6 +193,11 @@ export class SandSimulation {
     this.freeList = new Int32Array(MAX);
     this.footLow = new Float64Array(FOOT * FOOT);
     this.testFrame = new BucketFrame();
+    this.testPose = freshPose();
+    // Falling parcels in use, as a list, so that only they are visited.
+    this.aliveList = new Int32Array(MAX);
+    this.aliveAt = new Int32Array(MAX);
+    this.aliveCount = 0;
     this.w3 = new Float64Array(3);
     this.l3 = new Float64Array(3);
     this.m3 = new Float64Array(3);
@@ -193,6 +217,7 @@ export class SandSimulation {
     this.terrain.copyFrom(initialTerrain());
     this.alive.fill(0);
     this.grains = 0;
+    this.aliveCount = 0;
     for (let i = 0; i < MAX; i++) this.freeList[i] = i;
     this.freeHead = 0;
     this.freeCount = MAX;
@@ -338,7 +363,7 @@ export class SandSimulation {
   totalVolume() {
     let sum = this.terrain.volume();
     for (const v of this.vehicles) sum += v.load.total;
-    for (let i = 0; i < MAX; i++) if (this.alive[i]) sum += this.volumes[i];
+    for (let n = 0; n < this.aliveCount; n++) sum += this.volumes[this.aliveList[n]];
     return sum;
   }
 
@@ -363,6 +388,8 @@ export class SandSimulation {
     this.volumes[i] = volume;
     this.near[i] = 1;
     this.holder[i] = vehicle.slot;
+    this.aliveAt[i] = this.aliveCount;
+    this.aliveList[this.aliveCount++] = i;
     return i;
   }
 
@@ -371,11 +398,16 @@ export class SandSimulation {
     this.grains--;
     this.freeList[(this.freeHead + this.freeCount) % MAX] = i;
     this.freeCount++;
+    // The last parcel in the list takes the released one's place.
+    const n = this.aliveAt[i],
+      last = this.aliveList[--this.aliveCount];
+    this.aliveList[n] = last;
+    this.aliveAt[last] = n;
   }
 
   // Lowest clearance of the bucket shell and teeth above the hard ground.
   bucketClearance(machine) {
-    const frame = this.testFrame.set(bucketPose(machine)),
+    const frame = this.testFrame.set(bucketPose(machine, this.testPose)),
       w = this.w3;
     let clearance = Infinity;
     for (const [x, z] of REGION)
@@ -582,10 +614,11 @@ export class SandSimulation {
       along = u + 12 * this.random();
     t.add(cell, -excess);
     t.touch(cell);
-    t.deposit(
+    t.spread(
       m.x + along * ch - v * sh,
       m.y + along * sh + v * ch,
       excess * CELL_AREA,
+      SPREAD,
     );
   }
 
@@ -601,13 +634,20 @@ export class SandSimulation {
       j1 = clamp(Math.floor((m.y + extent.y + TRACK_REACH - WORLD.minY) / CELL), 0, NY - 1);
     for (let j = j0; j <= j1; j++)
       for (let i = i0; i <= i1; i++) {
+        const cell = j * NX + i;
+        // Pages that never held sand are skipped 64 cells at a time.
+        if (!t.hasPage(cell)) {
+          i |= 63;
+          continue;
+        }
+        if (t.get(cell) < 0.01) continue;
         const dx = cellX(i) - m.x,
           dy = cellY(j) - m.y;
         if (
           Math.abs(dx * ch + dy * sh) <= TRACK_HALF_LENGTH + TRACK_REACH &&
           Math.abs(-dx * sh + dy * ch) <= TRACK_Y + SHOE_HALF + TRACK_REACH
         )
-          t.loosen(j * NX + i);
+          t.loosen(cell);
       }
   }
 
@@ -630,6 +670,13 @@ export class SandSimulation {
         j1 = clamp(Math.floor((m.y + extent.y - WORLD.minY) / CELL), 0, NY - 1);
       for (let j = j0; j <= j1; j++)
         for (let i = i0; i <= i1; i++) {
+          const cell = j * NX + i;
+          if (!t.hasPage(cell)) {
+            i |= 63;
+            continue;
+          }
+          const sand = t.get(cell);
+          if (sand < 0.01) continue;
           const dx = cellX(i) - m.x,
             dy = cellY(j) - m.y,
             u = dx * ch + dy * sh,
@@ -639,9 +686,6 @@ export class SandSimulation {
             Math.abs(v) > TRACK_Y + SHOE_HALF
           )
             continue;
-          const cell = j * NX + i,
-            sand = t.get(cell);
-          if (sand < 0.01) continue;
           const onShoe = Math.abs(Math.abs(v) - TRACK_Y) <= SHOE_HALF,
             limit = m.z + b * u + c * v + (onShoe ? 0 : BELLY_CLEARANCE),
             excess = Math.min(sand, t.surface(cell) - limit);
@@ -662,6 +706,13 @@ export class SandSimulation {
       j1 = clamp(Math.floor((m.y + reach - WORLD.minY) / CELL), 0, NY - 1);
     for (let j = j0; j <= j1; j++)
       for (let i = i0; i <= i1; i++) {
+        const cell = j * NX + i;
+        if (!t.hasPage(cell)) {
+          i |= 63;
+          continue;
+        }
+        const sand = t.get(cell);
+        if (sand < 0.01) continue;
         const dx = cellX(i) - m.x,
           dy = cellY(j) - m.y,
           ux = dx * ca + dy * sa,
@@ -673,9 +724,6 @@ export class SandSimulation {
           uy > UPPER_MAX_Y
         )
           continue;
-        const cell = j * NX + i,
-          sand = t.get(cell);
-        if (sand < 0.01) continue;
         const u = dx * ch + dy * sh,
           v = -dx * sh + dy * ch,
           excess = Math.min(
@@ -745,12 +793,13 @@ export class SandSimulation {
       side = 36 * this.random(),
       ahead = 4 + 20 * (this.random() + 0.5) ** 2;
     t.cut(cell, amount);
-    t.deposit(
+    t.spread(
       cellX(target & (NX - 1)) + (dx / length) * ahead - (dy / length) * side,
       cellY(Math.floor(target / NX)) +
         (dy / length) * ahead +
         (dx / length) * side,
       amount * CELL_AREA,
+      SPREAD,
     );
   }
 
@@ -924,13 +973,20 @@ export class SandSimulation {
       now = this.w3,
       before = this.m3,
       spread = this.random();
-    let u, y, w, slideU = 0, slideY = 0;
+    let u,
+      y,
+      w,
+      slideU = 0,
+      slideW = 0,
+      slideY = 0;
     if (rim === RIM_LIP) {
-      const along = this.random() + 0.5;
-      u = -11 * along - 1;
-      w = 5.1 * along + R * 0.5;
+      // Somewhere along the teeth, on top of them, sliding towards their tips.
+      const along = 0.08 + 0.84 * (this.random() + 0.5);
+      u = TIP_U * along;
+      w = TIP_W * along + OVER_TEETH;
       y = LOAD.rowY(index) + spread * LOAD.dv;
-      slideU = -1;
+      slideU = TIP_U / TEETH_LENGTH;
+      slideW = TIP_W / TEETH_LENGTH;
     } else if (rim === RIM_FAR) {
       u = LOAD.length + 3 + 4 * (this.random() + 0.5);
       w = R * 0.5;
@@ -957,8 +1013,16 @@ export class SandSimulation {
     const x = now[0],
       wy = now[1],
       z = now[2];
+    // Down in the bed already, it has nowhere to fall: it joins the bed here, over
+    // a small disc, as pushed sand does. Dropped on one column, the sand a buried
+    // bucket hands back while it curls stood up as a spike.
+    this.terrain.sample(x, wy, this.surf);
+    if (z - R <= this.surf[0]) {
+      this.terrain.spread(x, wy, volume, SPREAD);
+      return;
+    }
     // The slide's direction in the world.
-    mouthToLocal(u + slideU, y + slideY, w, point);
+    mouthToLocal(u + slideU, y + slideY, w + slideW, point);
     v.frame.toWorld(point[0], point[1], point[2], before);
     const speed = SPILL_SPEED * (1 + 0.6 * this.random());
     this.spawn(
@@ -998,9 +1062,11 @@ export class SandSimulation {
       s = this.surf,
       l = this.l3,
       g = WORLD.gravity;
-    for (let i = 0; i < MAX; i++) {
-      if (!this.alive[i]) continue;
-      const k = 3 * i;
+    // Backwards: a parcel that lands is replaced in the list by the last one,
+    // which has already had its turn.
+    for (let n = this.aliveCount - 1; n >= 0; n--) {
+      const i = this.aliveList[n],
+        k = 3 * i;
       vel[k + 2] -= g * dt;
       p[k] = clamp(
         p[k] + clamp(vel[k], -MAX_SPEED, MAX_SPEED) * dt,
@@ -1048,12 +1114,13 @@ export class SandSimulation {
       v.prevFrame.copy(v.frame);
       this.advanceMachine(dt, v);
       this.pressSand(v);
-      v.bucket = bucketPose(v.machine);
+      bucketPose(v.machine, v.bucket);
       v.frame.set(v.bucket);
       this.cutTerrain(v);
       v.load.relax(v.frame);
       this.spillLoad(v, dt);
     }
+    this.terrain.wakeUncovered();
     this.moveParcels(dt);
   }
 
@@ -1089,9 +1156,9 @@ export class SandSimulation {
     let landing = 0;
     const p = this.pos,
       z = POUR_ZONE;
-    for (let i = 0; i < MAX; i++) {
-      if (!this.alive[i]) continue;
-      const k = 3 * i;
+    for (let n = 0; n < this.aliveCount; n++) {
+      const i = this.aliveList[n],
+        k = 3 * i;
       if (
         p[k] > z.minX &&
         p[k] < z.maxX &&
@@ -1123,9 +1190,9 @@ export class SandSimulation {
     const p = this.pos,
       scale = 1 / SAND.positionQuantum,
       found = new Map();
-    for (let i = 0; i < MAX; i++) {
-      if (!this.alive[i]) continue;
-      const k = 3 * i,
+    for (let n = 0; n < this.aliveCount; n++) {
+      const i = this.aliveList[n],
+        k = 3 * i,
         bx = Math.floor((p[k] - WORLD.minX) / GROUP_SPAN),
         by = Math.floor((p[k + 1] - WORLD.minY) / GROUP_SPAN),
         bz = Math.floor(p[k + 2] / GROUP_SPAN),

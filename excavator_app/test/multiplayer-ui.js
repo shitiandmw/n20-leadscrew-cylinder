@@ -16,7 +16,7 @@ const ready = (page) =>
       window.sandLab?.getGraphics()?.sandCount > 0 &&
       window.sandLab.getPlayer(),
     null,
-    { timeout: 120000 },
+    { timeout: 240000 },
   );
 const row = (page, name) =>
   page.locator("#player-list .player", { hasText: name });
@@ -115,7 +115,7 @@ export async function checkMultiplayer(browser, app, origin) {
     const context = await browser.newContext(options);
     contexts.push(context);
     const page = await context.newPage();
-    page.setDefaultTimeout(60000);
+    page.setDefaultTimeout(180000);
     page.on("pageerror", (error) => errors.push(error.message));
     page.on("console", (message) => {
       if (message.type() === "error") errors.push(message.text());
@@ -124,7 +124,7 @@ export async function checkMultiplayer(browser, app, origin) {
     return page;
   };
   const computer = {
-      viewport: { width: 1100, height: 760 },
+      viewport: { width: 960, height: 640 },
       deviceScaleFactor: 1,
     },
     handset = {
@@ -342,8 +342,23 @@ export async function checkMultiplayer(browser, app, origin) {
     await ana.keyboard.down("ArrowDown");
     await waitFor(() => anaPlayer.owner !== null, "Ana to take control");
     await ana.keyboard.up("ArrowDown");
-    await ana.getByRole("button", { name: "Menu", exact: true }).click();
-    await ana.getByRole("button", { name: "Reset world" }).click();
+    // Under software rendering one frame can outlast the five-second operator
+    // lease, which disables the button again: take control back as needed.
+    for (let attempt = 0; ; attempt++) {
+      const take = ana.getByRole("button", { name: "Take control", exact: true });
+      if (await take.isVisible()) {
+        await take.click();
+        await waitFor(() => anaPlayer.owner !== null, "Ana to take control again");
+      }
+      if (await ana.locator("#menu").isHidden())
+        await ana.getByRole("button", { name: "Menu", exact: true }).click();
+      try {
+        await ana.getByRole("button", { name: "Reset world" }).click({ timeout: 20000 });
+        break;
+      } catch (error) {
+        if (attempt >= 8) throw error;
+      }
+    }
     await ana.getByRole("button", { name: "Menu", exact: true }).click();
     // A toast is brief, and a software renderer can look too late to see it up.
     await ben.waitForFunction(

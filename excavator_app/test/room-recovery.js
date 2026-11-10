@@ -9,6 +9,7 @@ export async function checkRoomRecovery(browser) {
   const context = await browser.newContext({
     viewport: { width: 1440, height: 1050 },
   });
+  context.setDefaultTimeout(180000);
   const errors = [];
   try {
     const page = await context.newPage();

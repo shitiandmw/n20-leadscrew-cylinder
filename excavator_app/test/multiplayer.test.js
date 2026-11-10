@@ -20,6 +20,7 @@ import {
   landscape,
 } from "../shared/landscape.js";
 import { CONFIG } from "../shared/config.js";
+import { SCOOP as DIG, CARRY } from "../shared/scoop.js";
 import {
   SPAWNS,
   PAINTS,
@@ -45,13 +46,10 @@ function run(s, seconds, ...commands) {
   axesFor(s, commands);
   for (let i = 0; i < Math.round(seconds * 30); i++) s.step();
 }
-// The first scoop from the start position, from any place facing sand.
-const SCOOP = [
-  [1.2, { boom: -1 }],
-  [1.6, { stick: 1 }],
-  [3.5, { bucket: 1 }],
-  [2, { boom: 1 }],
-];
+// The first scoop from the start position, from any place facing sand, and the
+// lift that follows it.
+const SCOOP = [...DIG, CARRY[0]],
+  HOME_BOOM = initialMachine().strokes[0];
 
 test("every start position is clear, level, on hard ground, facing sand and has its own space", () => {
   assert.ok(SPAWNS.length >= DEFAULT_PLAYERS);
@@ -181,7 +179,7 @@ test(
 );
 
 test("sand poured into a bucket joins its load, and what does not fit falls on", () => {
-  const s = world([{ ...initialMachine(), strokes: [26, 20, 52] }]),
+  const s = world([{ ...initialMachine(), strokes: [45, 30, 60] }]),
     [v] = s.vehicles,
     load = v.load,
     volume = s.totalVolume(),
@@ -254,7 +252,8 @@ test("crawlers stop at each other, and can always back away", () => {
   // A turn into a neighbour is refused too, whichever part would hit.
   const c = world([
     { ...initialMachine(), x: -600, y: 0 },
-    { ...initialMachine(), x: -600, y: 420 },
+    // Just clear of each other, by the X1's 410 mm track width.
+    { ...initialMachine(), x: -600, y: 470 },
   ]);
   run(c, 0.5, { leftTrack: 1, rightTrack: -1 });
   assert.equal(c.vehicles[0].obstacle, "machine");
@@ -506,7 +505,7 @@ test(
         ada.drive({ boom: 1 });
         await delay(60);
       }
-      await waitFor(() => ada.state.machine.strokes[0] > 11, "the boom");
+      await waitFor(() => ada.state.machine.strokes[0] > HOME_BOOM + 1, "the boom");
       assert.equal(ben.state.machine.strokes[0], benBoom);
       const other = ada.frame.machines.find((m) => m.id === ben.player.id);
       assert.equal(other.strokes[0], benBoom, "seen from another browser too");
@@ -574,7 +573,7 @@ test(
       assert.equal(desktop.state.owner, phone.id);
       desktop.drive({ boom: 1 });
       await delay(100);
-      assert.equal(desktop.state.machine.strokes[0], 10, "it is not the operator");
+      assert.equal(desktop.state.machine.strokes[0], HOME_BOOM, "it is not the operator");
 
       // Someone else in the room is not affected and cannot interfere.
       await claim(visitor);
@@ -719,7 +718,9 @@ test(
         await delay(60);
       }
       await waitFor(
-        () => ada.state.machine.strokes[0] > 11 && ben.state.machine.x > benStart + 8,
+        () =>
+          ada.state.machine.strokes[0] > HOME_BOOM + 1 &&
+          ben.state.machine.x > benStart + 8,
         "both to move",
       );
       ben.send({ type: "reset" });
@@ -731,7 +732,7 @@ test(
       ben.send({ type: "input", axes: neutral(), speed: 1 });
       ben.send({ type: "respawn" });
       await waitFor(() => ben.state.machine.x === benStart, "ben to go back");
-      assert.ok(ada.state.machine.strokes[0] > 10, "ada is untouched");
+      assert.ok(ada.state.machine.strokes[0] > HOME_BOOM, "ada is untouched");
 
       // A stop stays latched through either kind of move.
       ben.send({ type: "estop" });
@@ -741,7 +742,7 @@ test(
         await delay(40);
       }
       ada.send({ type: "reset" });
-      await waitFor(() => ada.state.machine.strokes[0] === 10, "the reset");
+      await waitFor(() => ada.state.machine.strokes[0] === HOME_BOOM, "the reset");
       assert.equal(ben.state.machine.x, benStart);
       assert.equal(ben.state.estop, true, "reset must not clear a latched stop");
       await waitFor(

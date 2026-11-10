@@ -4,6 +4,8 @@ import { SimulationRunner } from "../server/simulation-runner.js";
 import { TILE_COUNT } from "../shared/protocol.js";
 import { initialMachine, neutral } from "../shared/world.js";
 
+const HOME_BOOM = initialMachine().strokes[0];
+
 test("worker coalesces steps, discards pre-reset frames, and preserves a latched stop", async () => {
   let frames = 0;
   const s = new SimulationRunner(
@@ -23,7 +25,7 @@ test("worker coalesces steps, discards pre-reset frames, and preserves a latched
     for (let i = 0; i < 100; i++) s.step();
     await next;
     assert.equal(s.tick, 1, "only one step can be in flight");
-    assert.ok(v.machine.strokes[0] > 10);
+    assert.ok(v.machine.strokes[0] > HOME_BOOM);
     // A hundred requests leave one more step, not a backlog of a hundred.
     next = received();
     await next;
@@ -36,12 +38,12 @@ test("worker coalesces steps, discards pre-reset frames, and preserves a latched
     s.reset();
     await next;
     assert.equal(frames, 2, "the old worker frame cannot overwrite reset");
-    assert.equal(v.machine.strokes[0], 10);
+    assert.equal(v.machine.strokes[0], HOME_BOOM);
     v.axes.boom = 1;
     next = received();
     s.step();
     await next;
-    assert.equal(v.machine.strokes[0], 10);
+    assert.equal(v.machine.strokes[0], HOME_BOOM);
     assert.equal(v.estop, true, "a reset does not clear a latched stop");
     assert.ok(s.tileData.size > 1000, "the worker publishes the sand it holds");
     assert.ok(s.tileData.size < TILE_COUNT / 10, "and only that sand");

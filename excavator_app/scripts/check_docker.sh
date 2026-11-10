@@ -18,7 +18,8 @@ try {
   assert.equal((await fetch(origin + '/api/health')).status, 200);
   assert.equal((await fetch(origin + '/remote')).status, 200);
   const model = await (await fetch(origin + '/model.json')).json();
-  assert.equal(model.meshes.length, 644);
+  assert.equal(model.parts.length, 316);
+  assert.equal(model.module.length, 105);
   const { room } = await (await fetch(origin + '/api/rooms', { method: 'POST' })).json();
   const ws = new WebSocket(origin.replace('http', 'ws') + '/ws?room=' + room + '&role=remote');
   await once(ws, 'open');
@@ -45,6 +46,6 @@ try {
   // This viewer is a second player; the first left just now and keeps a machine.
   assert.equal(decoded.machines.length, 2);
   viewer.close();
-  console.log('PASS: non-root read-only Docker container, health, remote page, 644 model meshes, WebSocket control and binary sand-bed frames.');
+  console.log('PASS: non-root read-only Docker container, health, remote page, the complete model, WebSocket control and binary sand-bed frames.');
 } finally { await app.close(); }
 JS

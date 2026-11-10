@@ -11,6 +11,7 @@ import { fileURLToPath } from "node:url";
 import { gunzipSync } from "node:zlib";
 import { chromium } from "@playwright/test";
 import { createServer } from "vite";
+import { SCOOP, CARRY } from "../shared/scoop.js";
 
 const here = fileURLToPath(new URL("..", import.meta.url));
 const [
@@ -36,12 +37,11 @@ const launch = () =>
 
 // The standard cycle, with a stop wherever a picture is wanted.
 const CYCLE = [
-  [1.2, { boom: -1 }],
-  [1.6, { stick: 1 }],
+  ...SCOOP.slice(0, 4),
   [2.4, { bucket: 1 }, "curl"],
   [1.1, { bucket: 1 }],
-  [2, { boom: 1 }, "lift"],
-  [1.5, { slew: 1 }],
+  [...CARRY[0], "lift"],
+  CARRY[1],
   [1.5, { bucket: -1 }, "start"],
   [0.7, { bucket: -1 }, "pour"],
 ];

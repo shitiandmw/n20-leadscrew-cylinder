@@ -149,51 +149,103 @@ export function chassisAxes(machine) {
   };
 }
 
+// A pose for armFrame to fill: its position, yaw and pitch, and its axes.
+export const freshPose = () => ({
+  x: 0,
+  y: 0,
+  z: 0,
+  yaw: 0,
+  pitch: 0,
+  ex: [1, 0, 0],
+  ey: [0, 1, 0],
+  ez: [0, 0, 1],
+});
+
 // Rigid frame of a part hinged in the arm plane, `reach` ahead of the slew axis
 // and `height` above the chassis base, turned `angle` in the arm plane. Local
 // x runs along the part, y across the arm and z is normal to both. The frame
-// stays exact when the chassis is tilted on a slope.
-export function armFrame(machine, reach, height, angle) {
-  const { forward, left, up } = chassisAxes(machine),
+// stays exact when the chassis is tilted on a slope. Given `out`, a pose to
+// fill, it allocates nothing: the physics asks for it many times a tick.
+export function armFrame(machine, reach, height, angle, out = freshPose()) {
+  // The chassis axes of chassisAxes(), written out.
+  const ch = Math.cos(machine.heading),
+    sh = Math.sin(machine.heading),
+    cp = Math.cos(machine.pitch ?? 0),
+    sp = Math.sin(machine.pitch ?? 0),
+    cr = Math.cos(machine.roll ?? 0),
+    sr = Math.sin(machine.roll ?? 0),
+    fx = ch * cp,
+    fy = sh * cp,
+    fz = sp,
+    lx = -ch * sp * sr - sh * cr,
+    ly = -sh * sp * sr + ch * cr,
+    lz = cp * sr,
+    ux = -ch * sp * cr + sh * sr,
+    uy = -sh * sp * cr - ch * sr,
+    uz = cp * cr,
     s = (machine.slew * Math.PI) / 180,
     cs = Math.cos(s),
     ss = Math.sin(s),
     cq = Math.cos(angle),
     sq = Math.sin(angle),
-    along = [0, 1, 2].map((d) => cs * forward[d] + ss * left[d]),
-    across = [0, 1, 2].map((d) => -ss * forward[d] + cs * left[d]);
-  return {
-    x: machine.x + along[0] * reach + up[0] * height,
-    y: machine.y + along[1] * reach + up[1] * height,
-    z: (machine.z ?? 0) + along[2] * reach + up[2] * height,
-    yaw: machine.heading + s,
-    pitch: angle,
-    ex: [0, 1, 2].map((d) => cq * along[d] + sq * up[d]),
-    ey: across,
-    ez: [0, 1, 2].map((d) => -sq * along[d] + cq * up[d]),
-  };
+    ax = cs * fx + ss * lx,
+    ay = cs * fy + ss * ly,
+    az = cs * fz + ss * lz,
+    { ex, ey, ez } = out;
+  out.x = machine.x + ax * reach + ux * height;
+  out.y = machine.y + ay * reach + uy * height;
+  out.z = (machine.z ?? 0) + az * reach + uz * height;
+  out.yaw = machine.heading + s;
+  out.pitch = angle;
+  ex[0] = cq * ax + sq * ux;
+  ex[1] = cq * ay + sq * uy;
+  ex[2] = cq * az + sq * uz;
+  ey[0] = -ss * fx + cs * lx;
+  ey[1] = -ss * fy + cs * ly;
+  ey[2] = -ss * fz + cs * lz;
+  ez[0] = -sq * ax + cq * ux;
+  ez[1] = -sq * ay + cq * uy;
+  ez[2] = -sq * az + cq * uz;
+  return out;
 }
 
-// Centreline of the 4 mm shell in build_arm.py, with its original 0.8 scale.
-// The final-to-first edge is the OPEN mouth; do not collide with it.
+// Centreline of the R12 bucket's 2.4 mm wrapper in the bucket's own frame: x from
+// the hinge H to the tooth tip T, z toward the back of the bucket. It runs from the
+// top of the support plate beside the hinge, round the back and the heel and along
+// the floor to the cutting edge: the Caterpillar US 8,201,350 profile at 1:15 from
+// excavator_arm_r12/source/r12_design.py (bucket_band), simplified to 0.8 mm,
+// which also irons out a 0.7 mm step where the support plate meets the back: the
+// polygon is convex, as the load's floor and ceiling lines need. It is clockwise,
+// so the cavity lies to the right of each edge, and the final-to-first edge,
+// cutting edge back to support plate, is the OPEN mouth; do not collide with it.
 export const BUCKET_PROFILE = [
-  [-7, -22],
-  [30, -24],
-  [56, -42],
-  [55, -73],
-  [30, -96],
-  [-28, -102],
-  [-89, -77],
-].map((p) => p.map((v) => v * 0.8));
-// Dimensions of the CAD bucket (06_inward_digging_bucket) in its local frame.
+  [13.2, 11.8],
+  [6.09, 38.34],
+  [6.78, 55.17],
+  [9.76, 62.13],
+  [14.8, 67.78],
+  [21.38, 71.53],
+  [28.81, 72.99],
+  [35.51, 72.23],
+  [41.5, 69.82],
+  [56.2, 59.52],
+  [63.72, 51.17],
+  [89.43, 14.52],
+];
+// Dimensions of the CAD bucket (B06_bucket and its five B07 teeth) in its local
+// frame.
 export const BUCKET = Object.freeze({
-  // Tooth tips ahead of the lip, from the original arm configuration.
+  // Tooth tips ahead of the cutting edge: pin T of the R12 linkage.
   tip: CONFIG.arm.tip,
-  shellHalfThickness: 2,
-  // Cheek plates span |y| 36.5..40 mm.
-  innerHalfWidth: 36.5,
+  // The wrapper and the side plates are 2.4 mm printed plates.
+  shellHalfThickness: 1.2,
+  // The tooth row, from the cutting edge to the tips, is about 7 mm tall.
+  toothHalfHeight: 3.5,
+  // Side plates span |y| 37.6..40 mm: the bucket is 80 mm wide.
+  innerHalfWidth: 37.6,
   outerHalfWidth: 40,
-  cheekCentre: 38.25,
-  // Struck capacity inside the plates (cm^3), the 100 % mark of the load meter.
-  ratedLoad: 300,
+  cheekCentre: 38.8,
+  // Struck capacity inside the plates (cm^3), the 100 % mark of the load meter;
+  // LOAD.struck in bucket-load.js is the exact figure, and a test keeps them close.
+  ratedLoad: 250,
 });

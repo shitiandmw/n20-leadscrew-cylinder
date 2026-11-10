@@ -2,12 +2,17 @@ import { chromium } from "@playwright/test";
 import assert from "node:assert/strict";
 import { mkdir } from "node:fs/promises";
 import { createApplication } from "../server/index.js";
+import { initialMachine } from "../shared/world.js";
+import { MESHES } from "./model-counts.js";
 import { checkControlClaims } from "./control-claims.js";
 import { checkRoomRecovery } from "./room-recovery.js";
 import { checkRemoteFace } from "./remote-ui.js";
 import { checkMultiplayer } from "./multiplayer-ui.js";
 
 // This is a finite test: its HTTP server and browser are always closed.
+// Software rendering can take seconds a frame, so every wait allows for it.
+export const SLOW = 180000;
+const HOME_BOOM = initialMachine().strokes[0];
 const app = createApplication({ maxRooms: 8 });
 await new Promise((resolve) => app.server.listen(0, "127.0.0.1", resolve));
 const origin = `http://127.0.0.1:${app.server.address().port}`;
@@ -30,7 +35,7 @@ try {
   await checkRemoteFace(browser, app, origin);
   await checkMultiplayer(browser, app, origin);
   const desktop = await browser.newContext({
-    viewport: { width: 1440, height: 1050 },
+    viewport: { width: 1200, height: 820 },
     deviceScaleFactor: 1,
   });
   const page = await desktop.newPage();
@@ -38,15 +43,15 @@ try {
   page.on("console", (message) => {
     if (message.type() === "error") errors.push(message.text());
   });
-  page.setDefaultTimeout(30000);
+  page.setDefaultTimeout(SLOW);
   await page.goto(origin);
   await page.waitForFunction(
     () => window.sandLab?.getGraphics()?.sandCount > 0,
-    { timeout: 45000 },
+    { timeout: SLOW },
   );
   assert.equal(
     await page.evaluate(() => window.sandLab.getGraphics().meshes),
-    644,
+    MESHES,
   );
   const room = await page.evaluate(() => window.sandLab.getRoom());
   // A first mouse gesture claims the free simulator without a separate click.
@@ -61,13 +66,29 @@ try {
   );
   await page.mouse.down();
   await page.waitForFunction(
-    () => window.sandLab.getState().machine.strokes[0] > 12,
+    (home) => window.sandLab.getState().machine.strokes[0] > home + 2,
+    HOME_BOOM,
   );
   await page.mouse.up();
   await page.getByText("You have control", { exact: true }).waitFor();
+  // Under software rendering one frame can outlast the five-second operator
+  // lease, which disables the button again: take control back as needed.
   const resetWorld = async () => {
-    await page.getByRole("button", { name: "Menu", exact: true }).click();
-    await page.getByRole("button", { name: "Reset world" }).click();
+    for (let attempt = 0; ; attempt++) {
+      const take = page.getByRole("button", { name: "Take control", exact: true });
+      if (await take.isVisible()) {
+        await take.click();
+        await page.getByText("You have control", { exact: true }).waitFor();
+      }
+      if (await page.locator("#menu").isHidden())
+        await page.getByRole("button", { name: "Menu", exact: true }).click();
+      try {
+        await page.getByRole("button", { name: "Reset world" }).click({ timeout: 20000 });
+        break;
+      } catch (error) {
+        if (attempt >= 8) throw error;
+      }
+    }
     await page.getByRole("button", { name: "Menu", exact: true }).click();
   };
   await resetWorld();
@@ -94,7 +115,7 @@ try {
   const phoneRequests = [];
   phone.on("request", (request) => phoneRequests.push(request.url()));
   phone.on("pageerror", (error) => errors.push(error.message));
-  phone.setDefaultTimeout(30000);
+  phone.setDefaultTimeout(SLOW);
   // The pairing link makes this phone a second device for the same excavator.
   await phone.goto(pairLink.replace(new URL(pairLink).origin, origin));
   await phone.getByText("You have control", { exact: true }).waitFor();
@@ -149,7 +170,7 @@ try {
   await phone.waitForFunction(
     (value) => window.sandLab.getState().machine.strokes[0] > value + 2,
     before,
-    { timeout: 8000 },
+    { timeout: SLOW },
   );
   await cdp.send("Input.dispatchTouchEvent", {
     type: "touchEnd",
@@ -209,9 +230,10 @@ try {
   await phone.getByRole("button", { name: "Settings" }).click();
   await phone.getByRole("button", { name: "Reset world" }).click();
   await phone.waitForFunction(
-    () =>
-      window.sandLab.getState().machine.strokes[0] === 10 &&
+    (home) =>
+      window.sandLab.getState().machine.strokes[0] === home &&
       window.sandLab.getState().machine.slew === 0,
+    HOME_BOOM,
   );
   const previousOwner = await phone.evaluate(
     () => window.sandLab.getState().owner,
@@ -224,11 +246,11 @@ try {
       return state.owner && state.owner !== previous;
     },
     previousOwner,
-    { timeout: 10000 },
+    { timeout: SLOW },
   );
   assert.equal(
     await phone.evaluate(() => window.sandLab.getState().machine.strokes[0]),
-    10,
+    HOME_BOOM,
     "reconnection must not replay a held input",
   );
   await phone.close();
@@ -236,7 +258,8 @@ try {
   await page.waitForFunction(() => window.sandLab.getState().owner === null);
   await page.keyboard.down("ArrowDown");
   await page.waitForFunction(
-    () => window.sandLab.getState().machine.strokes[0] > 12,
+    (home) => window.sandLab.getState().machine.strokes[0] > home + 2,
+    HOME_BOOM,
   );
   await page.keyboard.up("ArrowDown");
   await page.getByText("You have control", { exact: true }).waitFor();
@@ -257,7 +280,7 @@ try {
   await page.waitForFunction(
     (x) => window.sandLab.getGraphics().camera[0] > x + 40,
     followed,
-    { timeout: 30000 },
+    { timeout: SLOW },
   );
   await page.keyboard.up("i");
   await resetWorld();
@@ -290,13 +313,14 @@ try {
   );
   await page.screenshot({ path: "test-results/mobile-simulator.png" });
   const touchSimulator = await mobile.newPage();
+  touchSimulator.setDefaultTimeout(SLOW);
   touchSimulator.on("pageerror", (error) => errors.push(error.message));
   // A second simulator in the room is a second player, with their own machine.
   await touchSimulator.goto(`${origin}/?room=${room}`);
   await touchSimulator.waitForFunction(
     () => window.sandLab?.getGraphics()?.sandCount > 0,
     null,
-    { timeout: 45000 },
+    { timeout: SLOW },
   );
   const graphics = await touchSimulator.evaluate(() =>
     window.sandLab.getGraphics(),
@@ -307,9 +331,12 @@ try {
     "touch devices skip expensive shadow rendering",
   );
   assert.equal(graphics.pixelRatio, 1);
-  assert.equal(graphics.meshes, 644);
+  assert.equal(graphics.meshes, MESHES);
   assert.equal(app.rooms.get(room).players.size, 2);
-  await page.getByRole("button", { name: "Release", exact: true }).click();
+  // Free the operator slot for the second player. A page that software
+  // rendering freezes for over five seconds has already lost its lease.
+  const release = page.getByRole("button", { name: "Release", exact: true });
+  if (await release.isVisible()) await release.click();
   await touchSimulator.bringToFront();
   await touchSimulator.waitForFunction(
     () => window.sandLab.getState().owner === null,
@@ -327,7 +354,8 @@ try {
     ],
   });
   await touchSimulator.waitForFunction(
-    () => window.sandLab.getState().machine.strokes[0] > 12,
+    (home) => window.sandLab.getState().machine.strokes[0] > home + 2,
+    HOME_BOOM,
   );
   await touchCdp.send("Input.dispatchTouchEvent", {
     type: "touchEnd",

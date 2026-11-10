@@ -71,6 +71,7 @@ export class Terrain {
     this.loosePages = new Array(PAGES).fill(null);
     this.ceilingPages = new Array(PAGES).fill(null);
     this.ceiled = [];
+    this.lifted = [];
     this.flags = new Array(PAGES).fill(null);
     this.pressedPages = new Array(PAGES).fill(null);
     this.active = new Int32Array(1 << 15);
@@ -78,6 +79,7 @@ export class Terrain {
     this.activeCount = 0;
     this.tileDirty = new Uint8Array(TX * TY);
     this.excess = new Float64Array(8);
+    this.room = new Float64Array(8);
   }
 
   copyFrom(other) {
@@ -91,6 +93,7 @@ export class Terrain {
     this.flags.fill(null);
     this.pressedPages.fill(null);
     this.clearCeilings();
+    this.lifted.length = 0;
     this.activeCount = 0;
   }
 
@@ -183,13 +186,25 @@ export class Terrain {
     return page === null ? Infinity : page[offsetOf(c)];
   }
 
-  // With that gone, what leaned on it may slide.
+  // Lift every ceiling. Whatever is not standing there again by the end of the
+  // substep has gone, and what leaned on it may slide: see wakeUncovered.
   clearCeilings() {
-    for (const c of this.ceiled) {
-      this.ceilingPages[pageOf(c)][offsetOf(c)] = Infinity;
-      this.wake(c);
-    }
-    this.ceiled.length = 0;
+    const lifted = this.ceiled;
+    for (const c of lifted) this.ceilingPages[pageOf(c)][offsetOf(c)] = Infinity;
+    this.lifted.length = 0;
+    this.ceiled = this.lifted;
+    this.lifted = lifted;
+  }
+
+  wakeUncovered() {
+    for (const c of this.lifted) if (this.ceilingAt(c) === Infinity) this.wake(c);
+    this.lifted.length = 0;
+  }
+
+  // Whether any sand has ever lain in this cell's page. Loops over the bed skip
+  // to the next page, 64 cells on, when not.
+  hasPage(c) {
+    return this.pages[pageOf(c)] !== null;
   }
 
   // Tracks have already compacted this cell, so it gives no further.
@@ -224,8 +239,24 @@ export class Terrain {
   // Mark a changed cell: its tile must be resent, and it and its neighbours
   // may now stand too steep.
   touch(c) {
-    this.tileDirty[((c >>> 12) >> 4) * TX + ((c & 4095) >> 4)] = 1;
+    this.dirtyTile(c);
     this.wake(c);
+  }
+
+  dirtyTile(c) {
+    this.tileDirty[((c >>> 12) >> 4) * TX + ((c & 4095) >> 4)] = 1;
+  }
+
+  // Flag every cell of a block of the grid, clamped to the grid. When a cluster
+  // of cells changes together, this is far cheaper than waking each in turn,
+  // which would flag the same neighbours many times over.
+  wakeBlock(i0, i1, j0, j1) {
+    if (i0 < 0) i0 = 0;
+    if (j0 < 0) j0 = 0;
+    if (i1 > NX - 1) i1 = NX - 1;
+    if (j1 > NY - 1) j1 = NY - 1;
+    for (let j = j0; j <= j1; j++)
+      for (let i = i0; i <= i1; i++) this.flag(j * NX + i);
   }
 
   wake(c) {
@@ -283,10 +314,42 @@ export class Terrain {
     this.add(c + 1, d * fu * (1 - fv));
     this.add(c + NX, d * (1 - fu) * fv);
     this.add(c + NX + 1, d * fu * fv);
-    this.touch(c);
-    this.touch(c + 1);
-    this.touch(c + NX);
-    this.touch(c + NX + 1);
+    this.dirtyTile(c);
+    this.dirtyTile(c + 1);
+    this.dirtyTile(c + NX);
+    this.dirtyTile(c + NX + 1);
+    this.wakeBlock(i - 1, i + 2, j - 1, j + 2);
+  }
+
+  // Spread a volume (mm^3) over the cells within `radius` of (x, y), most in the
+  // middle, leaving out cells that something stands over. Sand a bucket or a track
+  // pushes aside lands this way: a blade's worth dropped into one column would stand
+  // as a spike for the avalanche to catch up with.
+  spread(x, y, volume, radius) {
+    const i0 = clamp(Math.floor((x - radius - WORLD.minX) / CELL), 0, NX - 1),
+      i1 = clamp(Math.ceil((x + radius - WORLD.minX) / CELL), 0, NX - 1),
+      j0 = clamp(Math.floor((y - radius - WORLD.minY) / CELL), 0, NY - 1),
+      j1 = clamp(Math.ceil((y + radius - WORLD.minY) / CELL), 0, NY - 1);
+    let total = 0;
+    for (let j = j0; j <= j1; j++)
+      for (let i = i0; i <= i1; i++) {
+        const d = Math.hypot(cellX(i) - x, cellY(j) - y);
+        if (d < radius && this.ceilingAt(j * NX + i) === Infinity) total += 1 - d / radius;
+      }
+    if (total <= 0) {
+      this.deposit(x, y, volume);
+      return;
+    }
+    const each = volume / CELL_AREA / total;
+    for (let j = j0; j <= j1; j++)
+      for (let i = i0; i <= i1; i++) {
+        const d = Math.hypot(cellX(i) - x, cellY(j) - y),
+          c = j * NX + i;
+        if (d >= radius || this.ceilingAt(c) !== Infinity) continue;
+        this.add(c, each * (1 - d / radius));
+        this.dirtyTile(c);
+      }
+    this.wakeBlock(i0 - 1, i1 + 1, j0 - 1, j1 + 1);
   }
 
   // Avalanche loose sand on every over-steep slope toward the angle of repose. Each
@@ -295,7 +358,8 @@ export class Terrain {
   // the slope below it passes what it can hold, and then only what is too steep breaks
   // away. Only recently disturbed cells are visited.
   relax(sweeps = 3, rate = 0.5) {
-    const excess = this.excess;
+    const excess = this.excess,
+      room = this.room;
     let moved = 0;
     for (let sweep = 0; sweep < sweeps && this.activeCount; sweep++) {
       const count = this.activeCount,
@@ -324,9 +388,11 @@ export class Terrain {
           if (ni < 0 || ni >= NX || nj < 0 || nj >= NY) continue;
           const next = nj * NX + ni,
             lower = this.surface(next),
-            e = sc - lower - LIMIT[n];
-          if (e > SETTLED && lower < this.ceilingAt(next)) {
+            e = sc - lower - LIMIT[n],
+            ceiling = this.ceilingAt(next);
+          if (e > SETTLED && lower < ceiling) {
             excess[n] = e;
+            room[n] = ceiling - lower;
             total += e;
             if (e > steepest) steepest = e;
             if (e - LIMIT[n] * spare > breaks) breaks = e - LIMIT[n] * spare;
@@ -340,15 +406,23 @@ export class Terrain {
         }
         const move = Math.min(loose, 0.5 * steepest * (steepest > 12 ? 1 : rate));
         if (move <= 1e-9) continue;
+        let given = 0;
         for (let n = 0; n < 8; n++)
           if (excess[n]) {
-            const target = (j + DJ[n]) * NX + i + DI[n];
-            this.add(target, (move * excess[n]) / total);
-            this.touch(target);
+            const target = (j + DJ[n]) * NX + i + DI[n],
+              // No higher than whatever stands over that cell: the rest leans on it.
+              share = Math.min((move * excess[n]) / total, room[n]);
+            if (share <= 0) continue;
+            this.add(target, share);
+            this.dirtyTile(target);
+            given += share;
           }
-        this.add(c, -move);
-        this.touch(c);
-        moved += move;
+        if (given <= 1e-9) continue;
+        this.add(c, -given);
+        this.dirtyTile(c);
+        // The cell, the neighbours it fed and all round them may now be too steep.
+        this.wakeBlock(i - 2, i + 2, j - 2, j + 2);
+        moved += given;
       }
     }
     return moved * CELL_AREA;

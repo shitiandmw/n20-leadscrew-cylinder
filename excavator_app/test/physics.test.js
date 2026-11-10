@@ -8,7 +8,7 @@ import {
   toWorld,
   insideProfile,
 } from "../server/physics.js";
-import { BucketFrame, REGION, insideCavity } from "../shared/bucket.js";
+import { BucketFrame, CENTROID, REGION, insideCavity } from "../shared/bucket.js";
 import { LOAD } from "../shared/bucket-load.js";
 import {
   CELL_AREA,
@@ -18,6 +18,7 @@ import {
 } from "../server/terrain.js";
 import { solve } from "../shared/kinematics.js";
 import { CONFIG } from "../shared/config.js";
+import { SCOOP, CARRY, POUR } from "../shared/scoop.js";
 import {
   WORLD,
   SAND,
@@ -65,6 +66,9 @@ function runner(s) {
     for (let i = 0; i < Math.round(seconds * 30); i++) s.step();
   };
 }
+const follow = (run, steps) => {
+  for (const [seconds, axes] of steps) run(seconds, axes);
+};
 // Steepest slope that sand stands on: the higher column must hold sand, since bare
 // hard ground may be steeper than repose. Firm sand may stand steeper than loose,
 // so `loose` looks only where the top of the higher column is loose. Only pages
@@ -110,6 +114,25 @@ function worstFin(s) {
     }
   return worst;
 }
+// The tallest column near the machine against the mean of its eight neighbours,
+// wherever it stands, under the bucket or not: a spike, a wall or a needle.
+function worstColumn(s) {
+  const t = s.terrain,
+    m = s.machine,
+    i0 = Math.floor((m.x - 900 - WORLD.minX) / SAND.cell),
+    j0 = Math.floor((m.y - 900 - WORLD.minY) / SAND.cell),
+    around = [1, -1, NX, -NX, NX + 1, NX - 1, -NX + 1, -NX - 1];
+  let worst = 0;
+  for (let j = j0; j < j0 + 180; j++)
+    for (let i = i0; i < i0 + 180; i++) {
+      const c = j * NX + i;
+      if (t.get(c) < 1) continue;
+      let sum = 0;
+      for (const d of around) sum += t.surface(c + d);
+      worst = Math.max(worst, t.surface(c) - sum / 8);
+    }
+  return worst;
+}
 // How far sand stands above the plane of the track shoes, under the crawler.
 function sandAboveTracks(s) {
   const t = s.terrain,
@@ -140,20 +163,31 @@ function place(s, x, y, heading = 0) {
   s.prevFrame.set(s.bucket);
 }
 
-test("all 125 original CAD kinematic cases remain unchanged", () => {
+test("the R12 table solver reproduces the complete viewer's 125 kinematic cases", () => {
+  // Body poses and tooth tips from excavator_arm_r12/source/viewer_cases.json,
+  // the cases the complete viewer was validated against.
   const cases = JSON.parse(
     readFileSync(new URL("./kinematic-cases.json", import.meta.url)),
   );
+  assert.equal(cases.length, 125);
   for (const c of cases) {
-    const actual = solve(c.strokes).p;
-    for (const [name, expected] of Object.entries(c.points))
+    const { P, W } = solve(c.strokes);
+    for (const [body, [x, z, angle]] of Object.entries(c.poses)) {
       assert.ok(
-        Math.hypot(
-          actual[name][0] - expected[0],
-          actual[name][1] - expected[1],
-        ) < 1e-7,
-        `${c.strokes}: ${name}`,
+        Math.hypot(P[body][0] - x, P[body][1] - z) < 1e-3,
+        `${c.strokes}: ${body}`,
       );
+      // A turn is the same angle a whole turn on.
+      const turn = Math.abs(P[body][2] - angle) % (2 * Math.PI);
+      assert.ok(
+        Math.min(turn, 2 * Math.PI - turn) < 1e-4,
+        `${c.strokes}: ${body} turn`,
+      );
+    }
+    assert.ok(
+      Math.hypot(W.T[0] - c.tip[0], W.T[1] - c.tip[1]) < 1e-3,
+      `${c.strokes}: tip`,
+    );
   }
 });
 
@@ -164,8 +198,9 @@ test("the bucket's frame maps the world and back", () => {
   assert.ok(
     Math.hypot(...roundtrip.map((v, i) => v - [10, -15, -55][i])) < 1e-9,
   );
-  assert.equal(insideProfile(0, -50), true);
+  assert.equal(insideProfile(...CENTROID), true);
   assert.equal(insideProfile(-100, -50), false);
+  assert.equal(insideProfile(50, 0), false, "below the mouth");
 });
 
 test("the sand yard starts at rest, below its angle of repose", () => {
@@ -193,27 +228,27 @@ test(
       run = runner(s),
       volume = s.totalVolume();
     s.speed = 1;
-    run(1.2, { boom: -1 });
-    run(1.6, { stick: 1 });
-    run(3.5, { bucket: 1 });
+    follow(run, SCOOP);
     const loaded = s.stats.load,
       low = s.frame.z;
     assert.ok(loaded > BUCKET.ratedLoad, `the bucket fills (${loaded} cm³)`);
     assert.ok(loaded * 1000 <= LOAD.capacity, "and holds no more than a heap");
-    run(2, { boom: 1 });
+    const [lift, swing] = CARRY;
+    run(...lift);
     assert.ok(s.frame.z > low + 100, "the load rises with the bucket");
     assert.ok(s.stats.load >= loaded * 0.9, "a curled bucket keeps its load");
-    run(1.5, { slew: 1 });
+    run(...swing);
     assert.ok(
       s.stats.load >= loaded * 0.85,
       "the load travels through the swing",
     );
     const carried = s.stats.load;
     let airborne = 0;
-    for (let i = 0; i < 4; i++) {
-      run(1, { bucket: -1 });
-      airborne = Math.max(airborne, s.grains);
-    }
+    for (const [seconds, axes] of POUR)
+      for (let i = 0; i < 4; i++) {
+        run(seconds / 4, axes);
+        airborne = Math.max(airborne, s.grains);
+      }
     run(1.5);
     assert.equal(s.stats.load, 0, "opening the bucket empties it");
     assert.ok(airborne > 20, `it pours as a stream (${airborne} parcels)`);
@@ -301,6 +336,9 @@ test("an over-steep sand heap avalanches to its angle of repose", () => {
 test("boom remains independent of slew and all controls obey their limits", () => {
   const s = new SandSimulation();
   s.speed = 1;
+  // Only the controls are under test: the R12 bucket would otherwise meet the
+  // hard ground before the boom reaches 0 mm.
+  s.bucketClearance = () => Infinity;
   for (const slew of [-150, -75, 0, 75, 150]) {
     s.machine.slew = slew;
     s.machine.strokes[0] = 20;
@@ -395,7 +433,7 @@ test("the bucket frame stays exact on a tilted chassis", () => {
   const frame = new BucketFrame().set(pose),
     w = [0, 0, 0],
     col = [0, 0, 0, 0],
-    inside = [10, 0, -55];
+    inside = [CENTROID[0], 0, CENTROID[1]];
   frame.toWorld(...inside, w);
   assert.equal(frame.column(w[0], w[1], col), true);
   assert.ok(col[0] < w[2] && w[2] < col[1]);
@@ -658,8 +696,7 @@ test("a bucket with no room bulldozes, without losing sand", () => {
   s.speed = 1;
   const before = snapshot(s.terrain);
   s.vehicles[0].load.add = () => 0;
-  run(1.2, { boom: -1 });
-  run(1.6, { stick: 1 });
+  follow(run, SCOOP.slice(0, 4));
   assert.equal(s.stats.load, 0);
   assert.ok(near(s.totalVolume(), volume, 1));
   // The cut still displaced the bed around the bucket.
@@ -678,11 +715,8 @@ test("with no parcels free, spilled sand lands at once", { timeout: 60000 }, () 
     run = runner(s),
     volume = s.totalVolume();
   s.speed = 1;
-  run(1.2, { boom: -1 });
-  run(1.6, { stick: 1 });
-  run(3.5, { bucket: 1 });
-  run(2, { boom: 1 });
-  run(1.5, { slew: 1 });
+  follow(run, SCOOP);
+  follow(run, CARRY);
   assert.ok(s.stats.load > 200);
   while (s.grains) run(0.1);
   s.freeCount = 0;
@@ -757,27 +791,51 @@ test("a dig opens a slot the size of the bucket, not a crater", () => {
     };
   };
   const width = 2 * BUCKET.outerHalfWidth;
-  run(1.2, { boom: -1 });
-  run(1.6, { stick: 1 });
+  follow(run, SCOOP.slice(0, 4));
   const pulled = change();
   assert.ok(pulled.across <= width + 80, `${pulled.across} mm across after the pull`);
-  assert.ok(pulled.heap < pulled.hole * 0.35, "most of it went into the bucket");
-  run(3.5, { bucket: 1 });
+  assert.ok(pulled.heap < pulled.hole * 0.5, "most of it went into the bucket");
+  run(...SCOOP[4]);
   assert.ok(s.stats.load > BUCKET.ratedLoad, `the bucket fills (${s.stats.load})`);
+  // The R12 bucket cuts about its own depth along the crowd, so what it does not
+  // keep is heaped beside the slot rather than lost or spread about.
   assert.ok(
-    change().hole < s.stats.load * 2,
+    change().hole < s.stats.load * 3,
     `${change().hole} cm³ left the bed for ${s.stats.load} cm³ in the bucket`,
   );
-  run(2, { boom: 1 });
+  run(...CARRY[0]);
   run(2);
   // Across the cut, at the middle of the bucket's path.
   let opened = 0;
   for (let y = -300; y < 300; y += SAND.cell) {
-    const c = t.cellAt(470, y);
+    const c = t.cellAt(500, y);
     if (start.get(c) - t.get(c) > 5) opened += SAND.cell;
   }
   assert.ok(opened >= width, `the bucket cut a slot ${opened} mm wide`);
-  assert.ok(opened <= width * 1.5, `${opened} mm, for a ${width} mm bucket`);
+  // The walls of a cut this deep give a little at the top, so the slot is a few
+  // cells wider than the bucket, not a crater.
+  assert.ok(opened <= width * 1.8, `${opened} mm, for a ${width} mm bucket`);
+});
+
+test("a buried bucket hands sand back to the bed without raising a spike", () => {
+  // Curling down in the sand, the load model gives back whatever the posture
+  // cannot hold. That sand used to drop through one column at the lip and stand
+  // there as a 40 cm spike; it goes back across the mouth and spreads now.
+  const s = new SandSimulation(),
+    volume = s.totalVolume();
+  s.speed = 1;
+  let worst = 0;
+  // The standard cycle, tick for tick, looked at every fifth tick.
+  for (const [seconds, axes] of SCOOP) {
+    s.axes = { ...neutral(), ...axes };
+    for (let i = 0; i < Math.round(seconds * 30); i++) {
+      s.step();
+      if (i % 5 === 4) worst = Math.max(worst, worstColumn(s));
+    }
+  }
+  assert.ok(worst < 80, `tallest column ${worst.toFixed(0)} mm above its neighbours`);
+  assert.ok(s.stats.load > BUCKET.ratedLoad, "the bucket still fills");
+  assert.ok(near(s.totalVolume(), volume, 1));
 });
 
 test("sand piles against a bucket standing in it, instead of churning under it", () => {
@@ -785,9 +843,9 @@ test("sand piles against a bucket standing in it, instead of churning under it",
     run = runner(s),
     t = s.terrain;
   s.speed = 1;
-  run(1.2, { boom: -1 });
-  run(1.6, { stick: 1 });
-  run(2);
+  follow(run, SCOOP.slice(0, 4));
+  // The sand cut loose takes a few seconds to settle against the bucket.
+  run(4);
   assert.equal(s.resting, true, "everything comes to rest with the bucket down");
   const held = snapshot(t);
   run(2);

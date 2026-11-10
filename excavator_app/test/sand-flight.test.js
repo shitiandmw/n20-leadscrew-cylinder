@@ -4,23 +4,24 @@ import { Scene, Texture } from "three";
 import { flightRoom, ParcelMotion } from "../client/sand-flight.js";
 import { createLooseSandView } from "../client/loose-sand-view.js";
 import { BUCKET, initialMachine } from "../shared/world.js";
+import { CENTROID } from "../shared/bucket.js";
+import { mouthToLocal } from "../shared/bucket-load.js";
 
 test("falling detail clears the mouth and tapers before the bucket", () => {
-  assert.equal(flightRoom(0, 0, -45), 0, "carried sand keeps its shape");
-  assert.equal(flightRoom(0, BUCKET.innerHalfWidth - 4, -45), 0);
+  const [cx, cz] = CENTROID,
+    outside = (w) => {
+      const [x, , z] = mouthToLocal(40, 0, w, [0, 0, 0]);
+      return flightRoom(x, 0, z);
+    };
+  assert.equal(flightRoom(cx, 0, cz), 0, "carried sand keeps its shape");
+  assert.equal(flightRoom(cx, BUCKET.innerHalfWidth - 4, cz), 0);
   assert.equal(
-    flightRoom(0, BUCKET.outerHalfWidth + 4, -45),
+    flightRoom(cx, BUCKET.outerHalfWidth + 4, cz),
     0,
     "an outside cheek contact cannot spread through the plate",
   );
-  assert.ok(
-    flightRoom(-120, 0, -40) > 0,
-    "clear of the mouth, grains can separate",
-  );
-  assert.ok(
-    flightRoom(-120, 0, -4000) <= 12,
-    "spread remains bounded in a long fall",
-  );
+  assert.ok(outside(100) > 0, "clear of the mouth, grains can separate");
+  assert.ok(outside(4000) <= 12, "spread remains bounded in a long fall");
 });
 
 test("stream motion uses simulation time and rejects gaps, jumps and slot reuse", () => {

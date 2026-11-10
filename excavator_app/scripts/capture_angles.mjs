@@ -11,6 +11,7 @@ import { chromium } from "@playwright/test";
 import { createServer } from "vite";
 import { SandSimulation } from "../server/physics.js";
 import { neutral } from "../shared/world.js";
+import { SCOOP, CARRY, POUR } from "../shared/scoop.js";
 import { decodeFrame, encodeFrame } from "../shared/protocol.js";
 
 const root = fileURLToPath(new URL("..", import.meta.url)),
@@ -20,15 +21,7 @@ const root = fileURLToPath(new URL("..", import.meta.url)),
   VIEW = { width: 1600, height: 1000 };
 
 // The standard dig and pour.
-const CYCLE = [
-  [1.2, { boom: -1 }],
-  [1.6, { stick: 1 }],
-  [3.5, { bucket: 1 }],
-  [2, { boom: 1 }],
-  [1.5, { slew: 1 }],
-  [3, { bucket: -1 }],
-  [1.5, {}],
-];
+const CYCLE = [...SCOOP, ...CARRY, ...POUR, [1.5, {}]];
 // Each picture: the tick to stop at, and the camera and what it looks at, in mm from
 // the bed under the bucket at that tick. The machine stands towards -x, and the sun
 // is on the -x, -y side.
@@ -36,57 +29,57 @@ const SHOTS = [
   [
     "01-digging-front",
     "Digging, from in front",
-    110,
+    263,
     [300, -210, 240],
     [-20, 0, 15],
   ],
   [
     "02-digging-far-side",
     "Digging, from the far side",
-    110,
+    263,
     [30, 280, 150],
     [0, 0, 15],
   ],
   [
     "03-full-bucket",
     "Full bucket, curled in the pit",
-    170,
+    323,
     [-90, -250, 130],
     [-20, 0, 20],
   ],
-  ["04-lifting", "Lifting out of the pit", 225, [-340, -300, 130], [0, 0, 85]],
+  ["04-lifting", "Lifting out of the pit", 369, [-340, -300, 130], [0, 0, 85]],
   [
     "05-pouring-side",
     "Pouring, from the side",
-    372,
+    510,
     [-190, -330, 150],
     [0, 0, 105],
   ],
   [
     "06-pouring-low",
     "Pouring, from low down",
-    372,
+    510,
     [170, -250, 22],
     [0, 0, 120],
   ],
   [
     "07-pouring-far-side",
     "Pouring, from the far side",
-    372,
+    510,
     [470, 400, 200],
     [0, 0, 130],
   ],
   [
     "08-pouring-above",
     "Pouring, from above",
-    372,
+    510,
     [300, -300, 560],
     [0, 0, 40],
   ],
   [
     "09-finished",
     "Finished: the machine, the pit and the pile",
-    420,
+    573,
     [-300, -1250, 720],
     [-110, -250, 40],
   ],

@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { LOAD, mouthToLocal } from "../shared/bucket-load.js";
+import { BOUNDING_RADIUS, CENTROID } from "../shared/bucket.js";
 
 // The sand in a bucket, drawn from its columns as one sheet in the bucket's own
 // frame, so a carried load stays still on the bucket. Nodes sit at the corners of
@@ -77,8 +78,12 @@ EDGE.forEach((top, k) => {
 });
 export const LOAD_TRIANGLES = INDICES.length / 3;
 
-// Everything a load can reach, in the bucket's frame.
-const BOUNDS = new THREE.Sphere(new THREE.Vector3(-20, 0, -36), 90);
+// Everything a load can reach, in the bucket's frame: the cavity, a heap standing
+// above its rims and the drawn relief.
+const BOUNDS = new THREE.Sphere(
+  new THREE.Vector3(CENTROID[0], 0, CENTROID[1]),
+  BOUNDING_RADIUS + 32,
+);
 
 export function createLoadMeshes(scene, material, castShadow) {
   const meshes = [],

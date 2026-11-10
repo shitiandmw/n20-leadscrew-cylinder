@@ -4,7 +4,7 @@ import { MeshBasicMaterial, Scene, Texture, Vector3 } from "three";
 import { createLoadMeshes, LOAD_TRIANGLES } from "../client/load-mesh.js";
 import { createLooseSandView } from "../client/loose-sand-view.js";
 import { bucketPose, toWorld } from "../server/physics.js";
-import { LOAD, localU, localW } from "../shared/bucket-load.js";
+import { LOAD, localU, localW, mouthToLocal } from "../shared/bucket-load.js";
 import { BucketFrame } from "../shared/bucket.js";
 import { initialMachine } from "../shared/world.js";
 
@@ -36,7 +36,9 @@ const node = (mesh, n) => {
 
 test("the sheet is level where the load is, and hides behind the plates where it is not", () => {
   const { mesh } = draw(level(-20)),
-    total = (NU + 1) * (NV + 1);
+    total = (NU + 1) * (NV + 1),
+    // The first column deep enough to hold any of that level.
+    wet = LOAD.floors.findIndex((floor) => floor < -20);
   for (let n = 0; n < total; n++) {
     const p = node(mesh, n),
       u = localU(p.x, p.z),
@@ -50,7 +52,7 @@ test("the sheet is level where the load is, and hides behind the plates where it
     // within a millimetre of the level.
     if (u > 40 && ceiling > -18)
       assert.ok(Math.abs(w + 20) < 3.2, `${u}: ${w}`);
-    if (u < 15) assert.ok(w < floor, `empty near the lip at ${u}`);
+    if (u < wet * LOAD.du - 1) assert.ok(w < floor, `empty near the lip at ${u}`);
   }
 });
 
@@ -62,7 +64,9 @@ test("the sheet faces out of the mouth, and its skirt faces away from the sand",
     b = new Vector3(),
     surface = new Vector3();
   assert.equal(index.count / 3, LOAD_TRIANGLES);
-  const out = new Vector3(-0.557, 0, 0.83);
+  const origin = mouthToLocal(0, 0, 0, [0, 0, 0]),
+    outward = mouthToLocal(0, 0, 1, [0, 0, 0]),
+    out = new Vector3(outward[0] - origin[0], 0, outward[2] - origin[2]);
   for (let t = 0; t < 2 * NU * NV; t++) {
     const p = node(mesh, index.getX(3 * t)),
       q = node(mesh, index.getX(3 * t + 1)),
@@ -177,7 +181,7 @@ test("falling sand follows its snapshot, fades transfers, and clears on reset", 
   const machine = initialMachine(),
     pose = bucketPose(machine),
     poses = new Map([[1, machine]]);
-  const point = toWorld(0, 0, -45, pose);
+  const point = toWorld(30, 0, 50, pose);
   const snapshot = (fields) => ({ machines: [], byId: new Map(), ...fields });
   const empty = snapshot({
     slots: new Uint16Array(),

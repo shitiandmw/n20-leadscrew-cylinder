@@ -25,13 +25,10 @@ function segment(a, b, inner = BUCKET.shellHalfThickness, outer = inner) {
     outer,
   };
 }
-// Shell walls and the tooth row ahead of the lip. The top plate is 4 mm; the
-// back and floor plates of the CAD bucket are 6 mm, thickened inwards.
-const INNER_SURFACE = [2, 2, 4.1, 4.1, 4.1, 3.5];
-export const WALLS = P.slice(0, LAST).map((a, i) =>
-  segment(a, P[i + 1], INNER_SURFACE[i], BUCKET.shellHalfThickness),
-);
-export const TEETH = segment(P[LAST], BUCKET.tip, 1.5);
+// Shell walls and the tooth row ahead of the lip. The R12 wrapper is one printed
+// plate of BUCKET.shellHalfThickness each side of its centreline all the way round.
+export const WALLS = P.slice(0, LAST).map((a, i) => segment(a, P[i + 1]));
+export const TEETH = segment(P[LAST], BUCKET.tip, BUCKET.toothHalfHeight);
 // Region swept when cutting the sand bed: cavity plus the tooth triangle.
 export const REGION = [...P, BUCKET.tip];
 export const REGION_EDGE_MOUTH = REGION.length - 1; // tip -> P[0]

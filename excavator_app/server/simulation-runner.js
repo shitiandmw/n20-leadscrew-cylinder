@@ -27,14 +27,11 @@ export class SimulationRunner {
     this.tileData = new Map();
     this.tileVersions = new Uint32Array(TILE_COUNT);
     this.worker = new Worker(new URL("./physics-worker.js", import.meta.url), {
-      // A host launched from stdin (including the Docker smoke test) may use
-      // --input-type, which Node does not permit for a worker loaded from a file.
-      execArgv: process.execArgv.filter(
-        (arg, index, args) =>
-          arg !== "--input-type" &&
-          !arg.startsWith("--input-type=") &&
-          args[index - 1] !== "--input-type",
-      ),
+      // The worker needs no command-line flags of its own, and must not inherit
+      // the host's: a host launched from stdin (the Docker smoke test) carries
+      // --input-type, and Node's test runner hands its children every
+      // process-wide option, neither of which a worker accepts.
+      execArgv: [],
     });
     this.ready = new Promise((resolve, reject) => {
       this.rejectReady = reject;
