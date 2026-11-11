@@ -82,6 +82,7 @@ export class BucketLoad {
     this.alongY = new Float64Array(2);
     this.point = new Float64Array(3);
     this.world = new Float64Array(3);
+    this.centreAt = new Float64Array(3);
     this.settled = true;
     this.covered = false;
     this.sweep = 0;
@@ -102,6 +103,29 @@ export class BucketLoad {
     let sum = this.volume;
     for (const pending of this.pending) for (const value of pending) sum += value;
     return sum;
+  }
+
+  // Where the sand in the columns has its centre, in the bucket's frame: x and z
+  // into out[1] and out[2] (mm). Returns the columns' volume (mm³).
+  centre(out) {
+    let sum = 0,
+      alongU = 0,
+      alongW = 0;
+    for (let c = 0; c < CELLS; c++) {
+      const t = this.thickness[c];
+      if (t <= 0) continue;
+      sum += t;
+      alongU += t * LOAD.columnU(c % NU);
+      alongW += t * (FLOOR[c] + t / 2);
+    }
+    if (sum <= 0) {
+      out[1] = out[2] = 0;
+      return 0;
+    }
+    mouthToLocal(alongU / sum, 0, alongW / sum, this.centreAt);
+    out[1] = this.centreAt[0];
+    out[2] = this.centreAt[2];
+    return sum * AREA;
   }
 
   // Put sand into the columns under a bed cell centred on a point in the bucket's

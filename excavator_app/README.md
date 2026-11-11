@@ -44,7 +44,7 @@ A room holds up to 16 excavators in one world. They all dig the same sand, and w
 - **Leaving and coming back.** A machine whose driver loses the connection stays where it is for 30 seconds, marked **offline**, with its controls stopped. Reconnecting or reloading the same tab gets it back. After that it is removed, whatever is in its bucket falls out, and its paint and start position are free again.
 - **One big screen.** A computer page is a player too, so a shared screen owns one idle excavator. Everyone else can join with the phone-controller link while the big screen clicks through their names.
 
-**Everybody digs a full bucket.** A bucket's load costs the same to simulate however much sand it holds, so machines do not compete for anything but the sand itself. With all 16 digging at once, from their start positions, each scoops about 276 cm³, what one does alone.
+**Everybody digs a full bucket.** A bucket's load costs the same to simulate however much sand it holds, so machines do not compete for anything but the sand itself. With all 16 digging at once, from their start positions, each scoops about 275 cm³, what one does alone.
 
 ## Operate
 
@@ -62,7 +62,7 @@ Move a joystick, hold a drive button, or press a movement key to take control of
 | Tracks opposed                | Turn on the spot           | J / L    |
 | Emergency stop                | Latch all drive inputs off | Space    |
 
-**Menu** holds your name, the how-to-play notes, movement speed (it scales every axis), the stick and bucket strokes, **Back to start**, **Reset world**, and keyboard-focusable buttons: hold Enter to operate them. Boom stroke, slew, bucket load and the sand delivered to the pour zone (both in cm³ of loose sand) are always in the telemetry at the bottom, and the map at the top left shows where you are. **Chase**, **Orbit**, **Side**, **Top** and **Bucket** choose the camera; drag to look around and scroll to zoom.
+**Menu** holds your name, the how-to-play notes, movement speed (it scales every axis), the stick and bucket strokes, the arm drives' specification, **Back to start**, **Reset world**, and keyboard-focusable buttons: hold Enter to operate them. Boom stroke, slew, bucket load and the sand delivered to the pour zone (both in cm³ of loose sand) are always in the telemetry at the bottom, with **ARM DRIVES** under them (beside them on a phone held sideways): each leadscrew drive's speed in mm/s, the load it carries and its motor current, or that it is stalled or at its end stop, and the map at the top left shows where you are. **Chase**, **Orbit**, **Side**, **Top** and **Bucket** choose the camera; drag to look around and scroll to zoom.
 
 The bucket cannot be driven into the hard ground: the blocked motion stops and the game shows **BUCKET ON HARD GROUND · RAISE THE BOOM** until you change the command. The crawler stops at buildings, vehicles, other excavators, tree trunks and rocks, at slopes past 37°, at deep water and at the edge of the map, with a message saying which. Backing away is always allowed.
 
@@ -77,7 +77,7 @@ The bucket cannot be driven into the hard ground: the blocked motion stops and t
 7. Swing about **+45°** toward the outlined pour zone.
 8. Open the bucket toward **15 mm** and watch the sand fall.
 
-`shared/scoop.js` holds this cycle as seconds per control at full speed, and the tests, the load test and the pictures all dig with it. The deterministic physics test runs it: the bucket scoops about 281 cm³ (its struck capacity is about 247 cm³, and a heap takes it up to 297 cm³), still carries about 273 cm³ after the lift and swing, and about 272 cm³ arrives in the pour zone, including what spills on the way there. No sand is created or removed. A bucket held still while open or tilted slowly loses its heap: the sand above the mouth runs off at the angle of repose, as real sand does.
+`shared/scoop.js` holds this cycle as seconds per control at full speed, timed for the arm's drives (see *Arm drives* below): the scoop takes 18.9 s and the whole cycle to the end of the pour 29.6 s. The tests, the load test and the pictures all dig with it. The deterministic physics test runs it: the bucket scoops about 277 cm³ (its struck capacity is about 247 cm³, and a heap takes it up to 297 cm³), still carries about 272 cm³ after the lift and swing, and about 269 cm³ arrives in the pour zone, including what spills on the way there. No sand is created or removed. A bucket held still while open or tilted slowly loses its heap: the sand above the mouth runs off at the angle of repose, as real sand does.
 
 **Emergency stop** is available on every device of the machine's player. The operator must explicitly select **Resume operation** to clear it. Resetting the world does not clear a latched stop. Input becomes neutral after 350 ms without a valid control packet, on socket disconnect, on touch cancellation, and when the page loses focus. Changing apps releases ownership; use a control after returning to reclaim it if your other devices are not using it. An operator lease expires after five seconds without input. Reconnection starts with neutral controls and does not displace a device that is driving.
 
@@ -104,6 +104,18 @@ Haptic pulses mark key presses, leaving a stick's centre, reaching its stop and 
 `scripts/export_model.py` extracts the committed complete-machine viewer at `../excavator_complete/3D_preview.html` and its R12 linkage tables. It requires Python 3 only, not CadQuery or NumPy. The exported `public/model.json.gz`, `shared/config.js`, and `shared/kinematics.js` are committed so this folder can be built independently of the rest of the repository. The compressed model includes the generated viewer's SHA-256 for provenance. Run `npm run export:model` from the full repository to regenerate it.
 
 The shared R12 linkage solver uses 0.1 mm tables across the complete 0–60 mm actuator travel and independent ±150° slew. Rendering moves the boom, stick, bucket, four cylinders, linkage, slew gearing, track shoes and wheels from the same frames as the offline viewer. The crawler uses differential-drive kinematics across the whole valley, at up to 220 mm/s (about 12 km/h at 1:15). Both tracks together drive forward or backward; opposing tracks turn in place. Its rotated footprint stays inside the map. A plane fitted through 14 points under the tracks, on the ground and on any sand, sets the chassis height, pitch and roll, and the arm and bucket frames follow that tilt exactly. This is a simplified terrain model without suspension, traction limits or tipping. It does not replay or rerun the original MuJoCo track experiment. Track articulation is interpolated along the original chain poses, so the animation is a visual approximation between those poses.
+
+**Arm drives.** The boom, stick and bucket strokes move as fast as the leadscrew drives the X1 would carry: a 12 V N20 gearmotor, 1:50 and 800 rpm without load, turning an M4 × 0.7 leadscrew, on the 11.1 V battery (`shared/drives.js`). Movement speed sets their PWM duty, as on the X1's controller. Each drive carries its share of the weight of the arm and of the sand in the bucket, found by virtual work from the R12 CAD masses (the two boom drives share the boom's), so a stroke is slower against its load than with it, and slower with a full bucket.
+
+| At full duty | Speed | 60 mm stroke | Current |
+| --- | --- | --- | --- |
+| No load | 8.1 mm/s | 7.4 s | 0.08 A |
+| Boom raising the empty arm, 27 N | 6.6 mm/s | 9.0 s | 0.21 A |
+| R12's 150 g design case, boom 38 N | 6.0 mm/s | 10.0 s | 0.27 A |
+| Boom raising a full bucket of sand, 49 N | 5.4 mm/s | 11.1 s | 0.32 A |
+| Main board's 0.5 A current limit | — | stalls above 86 N | 0.50 A |
+
+The leadscrew is self-locking: lowering a load also takes motor torque, and a stopped drive holds its load with no current. A drive that would need more than the main board's 0.5 A, or more voltage than its duty gives, stalls: lifting a full bucket needs about 42 % duty, and the empty arm about 29 %. A drive pushed against hard ground stalls too, and one at the end of its stroke is switched off by its end stop. The motor's stall current (hidden in the seller's table, 1.1 A assumed), a 0.65 gearbox efficiency, a thread friction of 0.15, 0.3 V and 2.7 Ω lost in the end-stop board, its fuse and the driver, and 1.6 g/cm³ loose sand are assumptions. Digging resistance, the 0.1 s duty ramp and the actuators' fuses are not simulated; actuator_v6's 0.12 A fuse is too small for this motor. The slew and the tracks keep their game speeds.
 
 **The world** is 40.96 m square. Its hard ground comes from `shared/landscape.js`, which the server and the browser both run, on a 160 mm triangle grid that is drawn exactly as the physics sees it. It holds a road loop with spurs, the sand yard, a lake with a beach and a pier, a village, a farm, a crushing plant, wind turbines and about a thousand trees and rocks, all generic low-poly scenery. The start position and the pour zone are on hard ground beside the yard.
 

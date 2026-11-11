@@ -3,6 +3,7 @@ import "./remote.css";
 import QRCode from "qrcode";
 import { AXES, neutral, BUCKET } from "../shared/world.js";
 import { CONFIG } from "../shared/config.js";
+import { DRIVE, strokeTime } from "../shared/drives.js";
 import { decodeFrame, applyTiles } from "../shared/protocol.js";
 import { NAME_LENGTH, cleanName } from "../shared/players.js";
 import { createInputSender } from "./input-sender.js";
@@ -48,6 +49,21 @@ const trackPad = (axis, name) =>
   `<div class="track-pad"><span>${name}<br>TRACK</span><button class="hold" data-axis="${axis}" data-value="1" aria-label="${name} track forward">↑</button><button class="hold" data-axis="${axis}" data-value="-1" aria-label="${name} track reverse">↓</button></div>`;
 const iconText = (name, text) => `${icon(name)}<span>${text}</span>`;
 
+// The arm's leadscrew drives, live: how fast each stroke moves, the load it
+// carries and its motor current (shared/drives.js). Each stroke's direction
+// words: extending first, retracting second.
+const DRIVE_READOUTS = [
+  ["boom", "BOOM ×2", "RAISE", "LOWER"],
+  ["stick", "STICK", "IN", "OUT"],
+  ["bucket", "BUCKET", "CURL", "OPEN"],
+];
+const driveReadouts = `<div class="drives" aria-label="Arm drives"><span class="drives-title">ARM DRIVES · ${DRIVE.label} · ${DRIVE.supply} V</span>${DRIVE_READOUTS.map(
+  ([key, label]) =>
+    `<div class="drive" id="${key}-drive" data-state="idle"><span>${label}</span><strong id="${key}-rate">0.0<small>mm/s</small></strong><em id="${key}-detail">—</em></div>`,
+).join("")}</div>`;
+const seconds = (force) => strokeTime(force).toFixed(1);
+const driveSpec = `<div class="menu-section drive-spec"><span class="eyebrow">ARM DRIVES</span><p>${DRIVE.label} leadscrew drives on the ${DRIVE.supply} V battery; movement speed sets their PWM duty. Each moves as fast as its motor can carry the arm and the sand in the bucket. A full 60 mm stroke at 100 % takes ${seconds(0)} s with no load, ${seconds(38.3)} s at 38 N and ${seconds(60)} s at 60 N. Digging resistance is not simulated.</p></div>`;
+
 // The game fills the window: the world behind, instruments over it.
 function gameScreen() {
   return `<main class="game"><section id="stage" aria-label="Excavator in an open world">
@@ -62,7 +78,7 @@ function gameScreen() {
       <div class="menu-section menu-name"><label for="player-name">Your name</label><input id="player-name" maxlength="${NAME_LENGTH}" autocomplete="nickname" spellcheck="false"></div>
       <div class="menu-section"><span class="eyebrow">HOW TO PLAY</span><p>Drive with <kbd>I</kbd> <kbd>K</kbd> <kbd>J</kbd> <kbd>L</kbd>. The yard is straight ahead: open the bucket, reach out, lower the boom until the teeth touch the sand, crowd the stick, curl fully, lift, swing left to the pour zone and open the bucket. Everything else is yours to explore. The map shows where you are.</p><p class="key-table"><span><kbd>I</kbd> <kbd>K</kbd> drive</span><span><kbd>J</kbd> <kbd>L</kbd> turn</span><span><kbd>W</kbd> <kbd>S</kbd> stick</span><span><kbd>A</kbd> <kbd>D</kbd> slew</span><span><kbd>↑</kbd> <kbd>↓</kbd> boom down / up</span><span><kbd>←</kbd> <kbd>→</kbd> bucket</span><span><kbd>Q</kbd> <kbd>Z</kbd> left track</span><span><kbd>E</kbd> <kbd>C</kbd> right track</span></p></div>
       <div class="speed-control menu-section"><label for="speed">Movement speed</label><output id="speed-value">65%</output><input id="speed" type="range" min="20" max="100" step="5" value="65"></div>
-      <div class="menu-section joint-readouts"><span>STICK <output id="stick-value">0.0 mm</output></span><span>BUCKET <output id="bucket-value">0.0 mm</output></span></div>
+      <div class="menu-section joint-readouts"><span>STICK <output id="stick-value">0.0 mm</output></span><span>BUCKET <output id="bucket-value">0.0 mm</output></span></div>${driveSpec}
       <details class="keyboard-help menu-section"><summary>Hold-to-move buttons <span>↗</span></summary><div class="accessible-controls">${[
         ["boom", "Boom"],
         ["stick", "Stick"],
@@ -81,7 +97,7 @@ function gameScreen() {
       <div class="control-cluster">${stickPad("left-stick", "STICK / SLEW", "STICK OUT", "STICK IN", "L", "R")}${trackPad("leftTrack", "Left")}</div>
       <div class="hud-centre">
         <div class="ownership"><span id="operator-status">Waiting for connection</span><button id="claim" class="button small" disabled>Take control</button></div>
-        <div class="telemetry"><div><span>BUCKET LOAD</span><strong id="load-value">0<small>cm³</small></strong><div class="meter"><i id="load-meter"></i></div></div><div><span>BOOM</span><strong id="boom-value">${CONFIG.arm.default[0].toFixed(1)}<small>mm</small></strong><div class="meter"><i id="boom-meter"></i></div></div><div><span>SLEW</span><strong id="slew-value">0<small>°</small></strong><div class="meter"><i id="slew-meter"></i></div></div><div><span>DELIVERED</span><strong id="deposited-value">0<small>cm³</small></strong><div class="meter meter-empty"></div></div></div>
+        <div class="telemetry"><div><span>BUCKET LOAD</span><strong id="load-value">0<small>cm³</small></strong><div class="meter"><i id="load-meter"></i></div></div><div><span>BOOM</span><strong id="boom-value">${CONFIG.arm.default[0].toFixed(1)}<small>mm</small></strong><div class="meter"><i id="boom-meter"></i></div></div><div><span>SLEW</span><strong id="slew-value">0<small>°</small></strong><div class="meter"><i id="slew-meter"></i></div></div><div><span>DELIVERED</span><strong id="deposited-value">0<small>cm³</small></strong><div class="meter meter-empty"></div></div>${driveReadouts}</div>
         <button id="estop" class="estop" data-estop><span class="stop-icon"></span><span>EMERGENCY STOP</span><kbd>SPACE</kbd></button>
         <button id="resume" class="button resume" hidden>Resume operation</button>
       </div>
@@ -508,6 +524,32 @@ async function start() {
     const element = $(selector);
     if (element.innerHTML !== value) element.innerHTML = value;
   }
+  // Speed, load and current of each arm drive, or what stops it.
+  function showDrives(drives) {
+    DRIVE_READOUTS.forEach(([key, , extend, retract], i) => {
+      const drive = drives?.[i],
+        cell = $(`#${key}-drive`),
+        mode = drive?.state ?? "idle";
+      if (cell.dataset.state !== mode) cell.dataset.state = mode;
+      setReadout(
+        `#${key}-rate`,
+        Math.abs(drive?.rate ?? 0).toFixed(1) + "<small>mm/s</small>",
+      );
+      const load = drive ? `${Math.abs(drive.force).toFixed(0)} N` : "—";
+      setReadout(
+        `#${key}-detail`,
+        !drive
+          ? "—"
+          : mode === "moving"
+            ? `${drive.rate > 0 ? extend : retract} · ${load} · ${drive.current.toFixed(2)} A`
+            : mode === "stalled"
+              ? `STALLED · ${load} · ${drive.current.toFixed(2)} A`
+              : mode === "end"
+                ? "END STOP"
+                : `HOLDS ${load}`,
+      );
+    });
+  }
   function updateUI(next) {
     const ownedBefore = isOwner(),
       stoppedBefore = state?.estop,
@@ -607,6 +649,7 @@ async function start() {
         }[obstacle];
       $("#boom-meter").style.width =
         (state.machine.strokes[0] / 60) * 100 + "%";
+      showDrives(state.stats.drives);
       $("#slew-meter").style.width = (state.machine.slew + 150) / 3 + "%";
       if (scene) {
         scene.setState(state);

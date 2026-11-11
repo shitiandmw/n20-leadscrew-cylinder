@@ -6,6 +6,7 @@ const noStats = () => ({
   load: 0,
   blocked: false,
   obstacle: null,
+  drives: null,
 });
 
 // One in-flight step per room: slow physics cannot block sockets or accumulate

@@ -37,6 +37,15 @@ import {
   localW,
 } from "../shared/bucket-load.js";
 import {
+  DRIVE,
+  armGravity,
+  driveRate,
+  endDrive,
+  freshDrive,
+  holdForces,
+  stallDrive,
+} from "../shared/drives.js";
+import {
   BucketLoad,
   RIM_LIP,
   RIM_FAR,
@@ -90,6 +99,9 @@ const R = WORLD.radius,
   CUT_RATE = 6,
   // Sand leaves over a rim at this speed (mm/s), sliding, before it falls.
   SPILL_SPEED = 90,
+  // The arm's controls, in stroke order, and the travel of its drives (mm).
+  ARM_AXES = ["boom", "stick", "bucket"],
+  ARM_TRAVEL = CONFIG.arm.strokes[0],
   TRACK_HALF_LENGTH = CONFIG.wheel_centres / 2 + CONFIG.sprocket_tip_radius_mm,
   TRACK_Y = CONFIG.track_centres / 2,
   SHOE_HALF = CONFIG.shoe_width / 2,
@@ -151,6 +163,12 @@ class Vehicle {
     this.touchingBed = false;
     this.poseVersion = 0;
     this.bucket = freshPose();
+    // The arm's drives (boom, stick, bucket) and what they carry: gravity in the
+    // arm's plane, the sand's mass and centre, and the load on each drive.
+    this.drives = [freshDrive(), freshDrive(), freshDrive()];
+    this.gravity = new Float64Array(2);
+    this.payload = new Float64Array(3);
+    this.hold = new Float64Array(3);
     this.restart();
   }
 
@@ -164,7 +182,8 @@ class Vehicle {
     this.chassisMoving = false;
     this.drove = false;
     this.bodyMoved = false;
-    this.stats = { load: 0, blocked: false, obstacle: null };
+    for (const drive of this.drives) Object.assign(drive, freshDrive());
+    this.stats = { load: 0, blocked: false, obstacle: null, drives: null };
     this.cutClass.fill(0);
     this.load.clear();
     this.touchingBed = false;
@@ -501,6 +520,17 @@ export class SandSimulation {
     return null;
   }
 
+  // What each arm drive carries: its share of the arm and of the sand in the
+  // bucket, with gravity as the chassis tilts it (shared/drives.js). A stroke
+  // moves at most 0.3 mm in a tick, so once a tick is enough.
+  loadDrives(v) {
+    const payload = v.payload;
+    armGravity(v.machine, v.gravity);
+    payload[0] = v.load.total > 0 ? v.load.total * DRIVE.sandDensity : 0;
+    if (payload[0] > 0) v.load.centre(payload);
+    holdForces(v.machine.strokes, v.gravity, payload, v.hold);
+  }
+
   // Kinematic machine riding on the ground and the sand. The bucket cannot be
   // driven through the hard ground: a motion that would push it deeper stops.
   advanceMachine(dt, v = this.vehicles[0]) {
@@ -521,10 +551,22 @@ export class SandSimulation {
       return true;
     };
     v.bodyMoved = false;
-    for (const [i, key] of ["boom", "stick", "bucket"].entries()) {
-      const old = m.strokes[i];
-      m.strokes[i] = clamp(old + a[key] * 13 * speed * dt, 0, 60);
-      if (m.strokes[i] !== old && !accept()) m.strokes[i] = old;
+    // Each stroke moves as fast as its leadscrew drive can carry its share of the
+    // arm and the sand (loadDrives), at the PWM duty the controls ask for.
+    for (let i = 0; i < 3; i++) {
+      const duty = clamp(a[ARM_AXES[i]] * speed, -1, 1),
+        drive = driveRate(duty, v.hold[i], v.drives[i]),
+        old = m.strokes[i];
+      // At either end of its stroke an end-stop switch cuts the motor, at any duty.
+      if (duty > 0 ? old >= ARM_TRAVEL : duty < 0 && old <= 0) {
+        endDrive(drive);
+        continue;
+      }
+      m.strokes[i] = clamp(old + drive.rate * dt, 0, ARM_TRAVEL);
+      if (m.strokes[i] !== old && !accept()) {
+        m.strokes[i] = old;
+        stallDrive(duty, drive);
+      }
     }
     const slew = m.slew;
     m.slew = clamp(slew + a.slew * 30 * speed * dt, -150, 150);
@@ -1139,6 +1181,7 @@ export class SandSimulation {
       v.blocked = false;
       v.obstacle = null;
       v.load.coverBy(v.frame, this.terrain, v.touchingBed);
+      this.loadDrives(v);
     }
     for (let i = 0; i < SUBSTEPS; i++) this.substep(dt / SUBSTEPS);
     this.terrain.relax(3, 0.5);
@@ -1174,6 +1217,12 @@ export class SandSimulation {
         load: cm3(vehicle.load.total),
         blocked: vehicle.blocked,
         obstacle: vehicle.obstacle,
+        drives: vehicle.drives.map(({ rate, force, current, state }) => ({
+          rate: Math.round(rate * 100) / 100,
+          force: Math.round(force * 10) / 10,
+          current: Math.round(current * 1000) / 1000,
+          state,
+        })),
       };
     return {
       deposited: cm3(this.terrain.volumeIn(z) + landing),

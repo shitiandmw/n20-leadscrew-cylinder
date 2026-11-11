@@ -303,17 +303,20 @@ test(
         check();
       }
     };
-    shake(1.2, { boom: -1 });
-    shake(3, { stick: 1, bucket: 0.3 });
-    shake(2, { bucket: 1, stick: 1 });
+    // The arm's drives move 7-8 mm/s at full duty: each move lasts long enough
+    // to cover the same strokes as at the game's former 13 mm/s, and the bucket's
+    // duty keeps its curl in step with the crowd. The first moves dig in deep.
+    shake(2.33, { boom: -1 });
+    shake(5, { stick: 1, bucket: 0.4 });
+    shake(3.3, { bucket: 1, stick: 1 });
     shake(1.5, { slew: -1 });
-    shake(2, { boom: 1 });
+    shake(3.67, { boom: 1 });
     for (let k = 0; k < 5; k++) {
-      run(0.4, { slew: 1, stick: 1, bucket: -0.5 });
-      run(0.4, { slew: -1, stick: -1, bucket: 0.5 });
+      run(0.4, { slew: 1, stick: 1, bucket: -0.8 });
+      run(0.4, { slew: -1, stick: -1, bucket: 0.8 });
       check();
     }
-    shake(2, { stick: -1, boom: -1 });
+    shake(3.3, { stick: -1, boom: -1 });
     assert.ok(parcels > 0, "some of it spilled");
   },
 );
@@ -720,7 +723,8 @@ test("with no parcels free, spilled sand lands at once", { timeout: 60000 }, () 
   assert.ok(s.stats.load > 200);
   while (s.grains) run(0.1);
   s.freeCount = 0;
-  run(5, { bucket: -1 });
+  // Open fully: 60 mm at the bucket drive's 8 mm/s.
+  run(8, { bucket: -1 });
   assert.equal(s.stats.load, 0);
   assert.equal(s.grains, 0);
   assert.ok(near(s.totalVolume(), volume, 1));
