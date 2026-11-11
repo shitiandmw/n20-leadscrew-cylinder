@@ -7,7 +7,7 @@
    "material": "PETG, 4 perimeters, 15 % gyroid; pause at the pocket rim and pour the shot",
    "print_orientation": "upright on its bottom face, turned 45° on the bed",
    "note": "Cat 320 counterweight. Steel-shot pocket (filled in a print pause), lead channel from the T101 window up to the hood, 2 x M4 inserts in the front face, rear lamp recesses, rear-view camera.",
-   "volume_mm3": 1176502.3,
+   "volume_mm3": 1177558.0,
    "print_bounds_mm": [
     231.5,
     231.5,
@@ -25,14 +25,14 @@
    "material": "PETG, 3 perimeters, 15 % gyroid (2 mm walls print solid)",
    "print_orientation": "on its outer (left) side face",
    "note": "Cab as an open-glass shell (door, rear side, windshield and rear window cut through; open on the boom side), 2 roof lamps, left hood half with the louvres, left skirt and bay (controller board on 4 bosses); hatch seat with 2 magnets; 2 sleeves and a front hook; lap under the right half; USB slot.",
-   "volume_mm3": 264567.8,
+   "volume_mm3": 263858.6,
    "print_bounds_mm": [
     236.7,
     157.0,
     160.0
    ],
    "fits_256_bed": true,
-   "overhang_flatter_than_45deg_mm2": 1913.0,
+   "overhang_flatter_than_45deg_mm2": 1952.0,
    "of_which_pocket_ceiling_mm2": 0,
    "stl_watertight": true,
    "stl_shells": 1,
@@ -43,14 +43,14 @@
    "material": "PETG, 3 perimeters, 15 % gyroid (the tank is solid with infill); tree supports under the guardrail, grab rail and mirror",
    "print_orientation": "on its outer (right) side face",
    "note": "Right hood half, doors, tank with anti-skid tops, stairs (3 grooved treads on a back panel and a stringer), guardrail, grab rail, right mirror, toolbox (switch, fuse, charge jack, lamp), exhaust, right skirt and bay; hatch seat with 2 magnets; 2 sleeves and a front hook.",
-   "volume_mm3": 451001.2,
+   "volume_mm3": 450292.0,
    "print_bounds_mm": [
     204.7,
     150.3,
     153.8
    ],
    "fits_256_bed": true,
-   "overhang_flatter_than_45deg_mm2": 3649.0,
+   "overhang_flatter_than_45deg_mm2": 3689.0,
    "of_which_pocket_ceiling_mm2": 0,
    "stl_watertight": true,
    "stl_shells": 1,
@@ -96,15 +96,15 @@
    "name": "B106_battery_hatch",
    "material": "PETG, 3 perimeters, 15 % gyroid",
    "print_orientation": "upside down: the hatch top on the bed",
-   "note": "The Cat's raised engine hood, as a lift-off hatch carrying the battery: 3 Keystone 1043 holders glued to 2 standoff ribs (cells facing down), the BMS on an end wall, 4 magnets.",
-   "volume_mm3": 29255.8,
+   "note": "The Cat's raised engine hood, as a lift-off hatch carrying the battery: 3 Keystone 1043 holders snapped between the sled walls against 2 standoff ribs (cells facing down), the HX-3S-01 BMS taped to the +Y wall, the XT30U-F lead, 4 magnets.",
+   "volume_mm3": 29295.8,
    "print_bounds_mm": [
     70.8,
     109.4,
     27.5
    ],
    "fits_256_bed": true,
-   "overhang_flatter_than_45deg_mm2": 108.0,
+   "overhang_flatter_than_45deg_mm2": 180.0,
    "of_which_pocket_ceiling_mm2": 0,
    "stl_watertight": true,
    "stl_shells": 1,
@@ -129,7 +129,7 @@
    "step_roundtrip": true
   }
  ],
- "assembly_solids": 196,
+ "assembly_solids": 348,
  "bed": {
   "B101_counterweight": {
    "bounds": [
@@ -190,76 +190,76 @@
  },
  "mass": {
   "shot": {
-   "kg": 0.7345076143775772,
-   "cm3": 163.22391430612825,
-   "fill_z": 129.924,
+   "kg": 0.7296904650632039,
+   "cm3": 162.153436680712,
+   "fill_z": 129.848,
    "pocket_area_mm2": 9100.403495846625,
    "pocket_floor_z": 108.0,
    "floors_z": [
-    115.98,
+    116.06,
     108.0
    ],
-   "left_kg": 0.2855865766673619,
-   "right_kg": 0.44892103771021524,
+   "left_kg": 0.2823366579892431,
+   "right_kg": 0.4473538070739607,
    "floors_note": "left and right pocket floors: the shot is deeper on the heavier-needing side, so it zeroes the lateral CG as well as the fore-aft one (rev B)",
-   "pause_height_above_bed_mm": 24.924000000000007,
+   "pause_height_above_bed_mm": 24.848000000000013,
    "density_kg_mm3": 4.5e-06,
    "note": "sized so the upper CG is on the swing axis with the arm stretched (as concept B1), sideways too"
   },
   "prints_g": {
-   "B101": 452.6,
-   "B102": 336.0,
-   "B103": 340.6,
+   "B101": 452.7,
+   "B102": 335.1,
+   "B103": 339.7,
    "B104": 46.0,
    "B105": 17.4,
-   "B106": 36.7,
+   "B106": 36.9,
    "B107": 1.2
   },
-  "body_kg": 2.297048470116052,
+  "body_kg": 2.3041527756860334,
   "upper": {
-   "kg": 5.120801471100692,
+   "kg": 5.127905776670672,
    "centre_mm": [
-    -5.867855458937419e-05,
-    -0.0009078199777024123,
-    178.2159204377441
+    -5.859377438597765e-05,
+    -5.638426663467672e-05,
+    178.16711800842586
    ],
-   "inertia_about_swing_axis_kgm2": 0.1536645295850425,
+   "inertia_about_swing_axis_kgm2": 0.15383620895983613,
    "centre_arm_tucked_bound_mm": [
-    -42.61038916710071,
-    -0.00010081878496850352,
-    142.68615168351937
+    -42.551355858737,
+    0.0007494988901379505,
+    142.68657292270296
    ]
   },
   "machine": {
-   "kg": 9.598456669631695,
-   "cg_x_arm_stretched_mm": -1.466226073257107,
-   "cg_x_arm_tucked_bound_mm": -24.198947651319532
+   "kg": 9.782617661194848,
+   "cg_x_arm_stretched_mm": -1.1362563535871473,
+   "cg_x_arm_tucked_bound_mm": -23.441026979078597
   },
   "lateral": {
-   "upper_cg_y_mm": -0.0009078199777024123,
+   "upper_cg_y_mm": -5.638426663467672e-05,
    "limit_mm": 1.0,
-   "hatch_with_battery_kg": 0.22049824178748223,
+   "hatch_with_battery_kg": 0.2226627742128166,
    "moments_kg_m_about_x": {
-    "counterweight": 0.00102,
-    "hatch": -9e-05,
-    "left": 0.04957,
-    "right": -0.03967,
-    "shot": -0.01199,
+    "counterweight": 0.00103,
+    "hatch": -0.00015,
+    "left": 0.05045,
+    "right": -0.04037,
+    "shot": -0.01211,
     "wiring_and_fixings": 0.00115,
-    "turntable_arm60_motor (rest of the upper)": 1e-05
+    "turntable_arm60_motor (rest of the upper)": -0.0
    },
    "note": "Y + = machine left. The battery rides on the centreline in the hatch (rev B); the cab and controller (left) against the tank, toolbox and switch gear (right)."
   }
  },
  "static": {
-  "pairs_tested": 192,
+  "pairs_tested": 259,
   "hits": []
  },
  "swing_sweep": {
   "step_deg": 15,
   "ok": true,
   "body_lowest_z": 100.49999989999999,
-  "chassis_parts_below": 630,
+  "chassis_parts_below": 650,
   "swept_against": [],
   "rows": [
    {
@@ -388,27 +388,27 @@
   "hatch_off": [
    {
     "lift": 1,
-    "pairs_tested": 25,
+    "pairs_tested": 49,
     "hits": []
    },
    {
     "lift": 3,
-    "pairs_tested": 25,
+    "pairs_tested": 49,
     "hits": []
    },
    {
     "lift": 10,
-    "pairs_tested": 25,
+    "pairs_tested": 45,
     "hits": []
    },
    {
     "lift": 30,
-    "pairs_tested": 20,
+    "pairs_tested": 40,
     "hits": []
    },
    {
     "lift": 60,
-    "pairs_tested": 5,
+    "pairs_tested": 17,
     "hits": []
    }
   ],
@@ -454,37 +454,37 @@
    {
     "slide": 2,
     "lift": 0,
-    "pairs_tested": 50,
+    "pairs_tested": 54,
     "hits": []
    },
    {
     "slide": 5,
     "lift": 0,
-    "pairs_tested": 47,
+    "pairs_tested": 52,
     "hits": []
    },
    {
     "slide": 10.0,
     "lift": 0,
-    "pairs_tested": 43,
+    "pairs_tested": 48,
     "hits": []
    },
    {
     "slide": 10.0,
     "lift": 5,
-    "pairs_tested": 42,
+    "pairs_tested": 47,
     "hits": []
    },
    {
     "slide": 10.0,
     "lift": 20,
-    "pairs_tested": 13,
+    "pairs_tested": 18,
     "hits": []
    },
    {
     "slide": 10.0,
     "lift": 60,
-    "pairs_tested": 3,
+    "pairs_tested": 8,
     "hits": []
    }
   ],
@@ -602,7 +602,7 @@
   ],
   "charge_plug_path": [
    {
-    "pairs_tested": 2,
+    "pairs_tested": 0,
     "hits": []
    }
   ],
@@ -626,7 +626,7 @@
   "battery sled (hatch underside) to the halves, lifting path": 0.601,
   "hatch plate edges to the hood skin (side and front gaps)": 0.3,
   "battery (cells, holders, BMS, lead) to the halves": 1.076,
-  "battery cells to T101 (the frame top below)": 57.092,
+  "battery cells to T101 (the frame top below)": 56.643,
   "cab interior to the cab shell, above its floor plate": 0.3,
   "cab interior right pillar to the ARM60 base": 3.304,
   "operator to the cab interior, above the seat (hands to joysticks, back to backrest)": 0.619,
@@ -634,10 +634,10 @@
   "left handrail pegs to their pillar holes (radial; the handle stands 2.2 off the cab side)": 0.1,
   "grab rail to the ARM60 base": 13.5,
   "grab rail to the ARM60 arm (stretched)": 56.84,
-  "main board parts to the left half (the PCB sits on its 4 bosses)": 1.619,
-  "main board mated plugs to the left half": 2.683,
+  "main board parts to the left half (the PCB sits on its 4 bosses)": 2.923,
+  "main board mated plugs to the left half": 2.13,
   "controller PCB edges to the left half walls": 4.0,
-  "fuse holder to the right half": 3.891,
+  "fuse holder to the right half": 2.0,
   "body tail radius (largest radius behind the axis)": 225.2,
   "body front radius (largest radius ahead of the axis)": 187.8,
   "body lowest point Z": 100.5,

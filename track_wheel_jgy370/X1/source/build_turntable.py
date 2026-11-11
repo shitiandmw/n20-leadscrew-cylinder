@@ -421,14 +421,23 @@ def brep_cached(tag, build, root=MODEL_CACHE):
     meta = d / 'meta.json'
     if meta.exists():
         m = json.loads(meta.read_text())
-        return {n: {**info['data'], 'shape': cq.Workplane(obj=cq.Shape.importBrep(str(d / info['file'])))} for n, info in m.items()}
+        out = {}
+        for n, info in m.items():
+            out[n] = {**info['data'], 'shape': cq.Workplane(obj=cq.Shape.importBrep(str(d / info['file'])))}
+            if info.get('envelope'):
+                out[n]['envelope'] = cq.Workplane(obj=cq.Shape.importBrep(str(d / info['envelope'])))
+        return out
     items = build()
     d.mkdir(parents=True, exist_ok=True)
     m = {}
     for i, (n, it) in enumerate(items.items()):
         f = f'{i:04d}.brep'
         one(it['shape']).exportBrep(str(d / f))
-        m[n] = dict(file=f, data={k: (list(v) if isinstance(v, tuple) else v) for k, v in it.items() if k != 'shape'})
+        env = None
+        if it.get('envelope') is not None:                       # a simpler shape the interference checks use (x1_body.electronics)
+            env = f'{i:04d}_env.brep'
+            one(it['envelope']).exportBrep(str(d / env))
+        m[n] = dict(file=f, envelope=env, data={k: (list(v) if isinstance(v, tuple) else v) for k, v in it.items() if k not in ('shape', 'envelope')})
     meta.write_text(json.dumps(m))
     return items
 

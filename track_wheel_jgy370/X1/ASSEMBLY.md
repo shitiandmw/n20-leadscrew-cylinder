@@ -31,7 +31,7 @@ No tightening torque or payload has been qualified for these printed joints. Est
 ## 4. Wiring
 
 1. Route the four motor leads through the Ø25 centre passage, clear of fasteners and rotating parts. Retain service slack.
-2. Reverse the right motor electrically or in the controller so both tracks drive forward together.
+2. Wire both motors the same way (motor + to the plug's pin 1). The right motor is mounted mirrored, and the main board's firmware inverts channel 2 for it (`controller/firmware`, channel table); do not reverse its leads as well, or the two inversions cancel. If a track still runs backwards on the bench, use the console's `flip` command.
 3. Leave X102 off until the slewing-bearing nuts and upper-drive hardware have been installed through the open underside.
 
 ## 5. Slewing bearing and upper drive

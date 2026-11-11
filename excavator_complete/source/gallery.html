@@ -1,0 +1,41 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>X1 excavator: connector and battery-pack models</title>
+<!-- Written by excavator_complete/source/build_connectors.py from gallery.html; do not edit the output by hand. -->
+<style>
+body{margin:0;background:#eef1ef;color:#18303a;font:13px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+header{background:#18333c;color:#fff;padding:10px 20px}header h1{font-size:19px;margin:0}header p{margin:3px 0 0;opacity:.85;font-size:12.5px}
+main{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;padding:14px}
+.card{background:#fbfcfb;border:1px solid #d6dedb;border-radius:8px;overflow:hidden}.card canvas{display:block;width:100%;height:230px;background:linear-gradient(#f7f8f6,#e3e7e4)}
+.card .t{padding:8px 10px 10px}.card b{font-size:13.5px}.card small{display:block;color:#5d7076;margin-top:2px}
+footer{padding:6px 20px 16px;color:#5d7076;font-size:11.5px}
+</style></head><body>
+<header><h1>Connector and battery-pack models of the complete X1 excavator</h1>
+<p>Each model drawn from its maker's drawing (track_wheel_jgy370/X1/source/stdparts.py); drag to turn, wheel to zoom. The same models sit in their places in 3D_preview.html and in step/connectors/*.step. Types, mates, contacts and locations: CONNECTORS.md.</p></header>
+<main id="main"></main>
+<footer>The board-side headers (S2B/S4B-XH-A, S3B/S4B-PH-K-S) are drawn here from the JST catalogue; on the board itself the viewer uses KiCad's own models from the board STEP. The MINI FHM holder's body is an envelope from photographs.</footer>
+<script>__THREE__</script><script>__ORBIT__</script><script>
+'use strict';
+const G=__DATA__;
+const main=document.getElementById('main');
+function b64f(s){const b=atob(s),a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return a.buffer}
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true,alpha:true});renderer.outputEncoding=THREE.sRGBEncoding;renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));
+const cards=[];
+for(const m of G.models){const card=document.createElement('div');card.className='card';const cv=document.createElement('canvas');card.appendChild(cv);
+ const t=document.createElement('div');t.className='t';t.innerHTML=`<b>${m.title}</b><small>${m.sub}</small><small>${m.size}</small>`;card.appendChild(t);main.appendChild(card);
+ const scene=new THREE.Scene();scene.add(new THREE.HemisphereLight(0xffffff,0x9aa5a5,.9));for(const [p,i] of [[[3,-2,5],.9],[[-3,3,2],.5],[[2,4,-1],.3]]){const l=new THREE.DirectionalLight(0xffffff,i);l.position.set(...p);scene.add(l)}
+ const grp=new THREE.Group();scene.add(grp);const box=new THREE.Box3();
+ for(const p of m.parts){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(b64f(p.v)),3));g.setIndex(new THREE.BufferAttribute(p.wide?new Uint32Array(b64f(p.t)):new Uint16Array(b64f(p.t)),1));g.computeVertexNormals();
+  const col=new THREE.Color(...p.color);const metal=p.kind==='metal';const mesh=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:col,metalness:metal?.75:.08,roughness:metal?.3:.45}));grp.add(mesh);box.expandByObject(mesh)}
+ const c=box.getCenter(new THREE.Vector3()),r=box.getSize(new THREE.Vector3()).length()/2;grp.position.sub(c);
+ const camera=new THREE.PerspectiveCamera(28,1.3,.5,2000);camera.up.set(0,0,1);camera.position.set(r*1.9,-r*2.2,r*1.6);
+ const controls=new THREE.OrbitControls(camera,cv);controls.target.set(0,0,0);controls.update();
+ cards.push({cv,scene,camera,controls,dirty:true});controls.addEventListener('change',()=>{cards[cards.length-1].dirty=true});
+ cv.addEventListener('pointerenter',()=>{const k=cards.find(x=>x.cv===cv);k.dirty=true})}
+let idx=0;
+function frame(){const w=cards[0].cv.clientWidth,h=cards[0].cv.clientHeight;
+ for(const k of cards){if(!k.dirty)continue;renderer.setSize(w,h,false);k.camera.aspect=w/h;k.camera.updateProjectionMatrix();renderer.render(k.scene,k.camera);
+  const ctx=k.cv.getContext('2d');k.cv.width=renderer.domElement.width;k.cv.height=renderer.domElement.height;ctx.drawImage(renderer.domElement,0,0);k.dirty=false}
+ requestAnimationFrame(frame)}
+window.gallery={count:cards.length,redraw:()=>{for(const k of cards)k.dirty=true}};
+requestAnimationFrame(frame);
+</script></body></html>

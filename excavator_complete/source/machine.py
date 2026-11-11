@@ -22,6 +22,7 @@ SYS = dict(   # key: (label, source folder, revision)
     body=('Upper body', 'track_wheel_jgy370/X1', 'B1 rev B (Cat 320 trace): B101-B107, steel shot'),
     electronics=('Battery and main board', 'track_wheel_jgy370/X1/controller', 'main board rev A (ESP32-S3, 7 x DRV8876), 3S 18650 pack'),
     arm=('Excavator arm', 'excavator_arm_r12', 'R12 Rev. D4 (Cat 325 pins, Cat bucket US 8,201,350), 4 x V6-U60; B01X mount (new)'),
+    wiring=('Wiring harness and connectors', 'excavator_complete', 'harness.py (new): 4 drive cables with loops at O and E, slip ring, swing, battery, lamps; W01 clamps; connectors.py models'),
 )
 
 
@@ -71,6 +72,10 @@ def load():
         b = p['body']
         add(p['name'], 'arm', 'upper' if b == 'base' else 'arm:' + b, p['v'], p['t'], p['color'], p['kind'], body=b)
     add(b01x['name'], 'arm', 'upper', b01x['v'], b01x['t'], b01x['color'], 'printed', body='base', new=True)
+    conn = K.ROOT / 'cad/connectors_mesh.json.gz'            # build_connectors.py: the mated free connectors (12 V link XT30U-F, SM pairs)
+    if conn.exists():
+        for p in K.load_gz(conn)['parts']:
+            add(p['name'], 'wiring', p['mover'], p['v'], p['t'], p['color'], 'connector', joint=p['joint'], new=True)
     # R12 base-body meshes are in the O frame: move them into the vehicle frame once
     for p in parts:
         if p.get('body') == 'base':

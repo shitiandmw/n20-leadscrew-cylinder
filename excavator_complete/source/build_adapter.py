@@ -9,6 +9,13 @@ bores) and replaces the flange with a 10 mm base plate:
   - 10 mm thick, as the ARM60 base: the bolt length and the M6 thread past the nut stay as checked.
 O therefore sits 59 mm above the rib tops (B01: 55 above its turntable face), at vehicle (30, 0, 195).
 
+Issue 3 (wiring): the plate carries the arm harness (harness.py). T101 has full-width bulkheads under the plate at
+vehicle X -38..-30 and 30..38, so cables can only leave its underside through the gap behind the plate's rear edge. Each
+side therefore has one 8 x 7 slot at vehicle X 0..8 (|Y| 36..43): the stick / bucket cable comes down into it from a Ø6
+post behind it (Ø2.6 tie hole through the post top), and the boom drive's sleeve reaches it along a 5 x 7 trough cut into
+the plate top: a 9 wide mouth at the drive's own |Y| 34 from x 47 back to x 20, where the sleeve lands and slides, then
+easing outboard to the slot at |Y| 39.5. Cable-tie slot pairs across each trough and behind each slot hold the sleeves.
+
 Frame: the R12 'base' body frame (O at the origin, X forward, Z up), as R12's own part STEP files.
 Writes ../step/B01X_boom_foot_bracket.step, ../stl/B01X_boom_foot_bracket.stl (print orientation, plate down),
 ../cad/B01X_mesh.json.gz (viewer and checks) and ../cad/B01X_report.json.
@@ -24,6 +31,7 @@ import trimesh
 from shapely.geometry import box as sbox
 from shapely.ops import unary_union
 import common as K
+import harness as H
 
 sys.path.insert(0, str(K.R12 / 'source'))
 import r12_design as d          # noqa: E402
@@ -56,7 +64,44 @@ def bracket():
     s = C.bore(s, [d.A_W], 1.5 + C.FIT / 2)
     for x, y in BOLTS_O:
         s = s.cut(cq.Workplane('XY').center(x, y).circle(K.BOLT_HOLE_R).extrude(K.BASE_T + 2).translate((0, 0, Z0 - 1)))
+    s = cable_features(s)
     return C.solid(s)
+
+
+def cable_features(s):
+    """Issue 3: the two troughs on the plate top (a 9 mm mouth where the sleeve lands and slides, then 5 wide along the
+    polyline to the slot), the two merged slots, their tie slots and the two loop posts (harness.py)."""
+    T = H.TROUGH
+    zf = Z1 - T['depth']
+    path = T['path']
+    for sy in (1, -1):
+        for (xa, ya), (xb, yb) in zip(path[:-1], path[1:]):
+            L = math.hypot(xb - xa, yb - ya)
+            ang = math.degrees(math.atan2(sy * (yb - ya), xb - xa))
+            w = T['mouth_w'] if xa >= T['mouth_to_x'] - 1e-6 and xb >= T['mouth_to_x'] - 1e-6 else T['w']
+            seg = cq.Workplane('XY').center((xa + xb) / 2, sy * (ya + yb) / 2).slot2D(L + (w - T['w']), w, ang).extrude(T['depth'] + 2).translate((0, 0, zf))
+            s = s.cut(seg)
+        for tx in H.TROUGH_TIES_X:       # a tie pair across the trough at its local centreline
+            for (xa, ya), (xb, yb) in zip(path[:-1], path[1:]):
+                if min(xa, xb) - 1e-6 <= tx <= max(xa, xb) + 1e-6:
+                    yc = ya + (yb - ya) * (tx - xa) / (xb - xa)
+                    break
+            w = T['mouth_w'] if tx >= T['mouth_to_x'] else T['w']
+            for ty in (yc - (w / 2 + 2.0), yc + (w / 2 + 2.0)):
+                s = s.cut(cq.Workplane('XY').rect(H.TIE_SLOT[0], H.TIE_SLOT[1]).extrude(K.BASE_T + 2).translate((tx, sy * ty, Z0 - 1)))
+    for name, (x, y, Lx, Ly) in H.SLOTS.items():
+        slot = cq.Workplane('XY').rect(Lx, Ly).extrude(K.BASE_T + 2).edges('|Z').fillet(2.0).translate((x, y, Z0 - 1))
+        s = s.cut(slot)
+        for dx in (-3.0, 3.0):      # a tie pair behind the slot, where both cables run down together
+            s = s.cut(cq.Workplane('XY').rect(H.TIE_SLOT[1], H.TIE_SLOT[0]).extrude(K.BASE_T + 2).translate((x - 5.5 + dx, y, Z0 - 1)))
+    P = H.POST
+    for sy in (1, -1):
+        post = cq.Workplane('XY').center(P['x'], sy * P['y']).circle(P['r']).extrude(P['top'] - Z1 + .01).translate((0, 0, Z1 - .01))
+        base = cq.Workplane(obj=cq.Solid.makeCone(P['r_base'], P['r'], P['r_base'] - P['r'], cq.Vector(P['x'], sy * P['y'], Z1 - .01), cq.Vector(0, 0, 1)))
+        s = s.union(post).union(base)
+        hole = cq.Workplane('YZ').center(sy * P['y'], P['tie_z']).circle(1.3).extrude(2 * P['r'] + 2).translate((P['x'] - P['r'] - 1, 0, 0))
+        s = s.cut(hole)
+    return s
 
 
 def core():
@@ -116,6 +161,11 @@ def main():
         unchanged_from_B01='foot plates |Y| 20.5-25.5 and outer cheeks |Y| 42.5-47.5 above Z O-49, the O bore Ø6.1 and the A bores Ø3.1 '
                            '(r12_design.foot_parts); A pins pressed in as ASSEMBLY.md',
         replaced='B01 flange 75.8 x 100 x 6 with 4 x Ø4.5 (M4) holes',
+        cable_features=dict(issue=3, slots={k: dict(x_O=v[0], y=v[1], length_x=v[2], width_y=v[3], x_vehicle=v[0] + K.O_X) for k, v in H.SLOTS.items()},
+                            troughs=dict(centreline_O=[list(p) for p in H.TROUGH['path']], width=H.TROUGH['w'], depth=H.TROUGH['depth'],
+                                         mouth=dict(from_x_O=H.TROUGH['mouth_to_x'], width=H.TROUGH['mouth_w']), tie_pairs_x_O=list(H.TROUGH_TIES_X)),
+                            tie_slots='%g x %g: two pairs across each trough, one pair behind each slot' % H.TIE_SLOT,
+                            posts=dict(x_O=H.POST['x'], y=H.POST['y'], d=2 * H.POST['r'], top_z_O=H.POST['top'], top_z_vehicle=H.POST['top'] + K.O_Z, tie_hole_d=2.6, x_vehicle=H.POST['x'] + K.O_X)),
         b01_volume_mm3=round(Vb, 1),
         seconds=round(time.time() - t0, 1))
     assert rep['watertight'] and rep['single_shell'] and rep['step_roundtrip_valid'], rep

@@ -4,7 +4,7 @@ Each X101 arm runs straight at its full 28 mm width into the track main plate an
 
 ![Current chassis](images/X1_iso.png)
 
-The R3 turntable sits on the RU66 seat, and the upper body B1 rev B sits on it. The body is traced from the Cat 320: three main prints (counterweight, left half with the cab, right half with the tank), four small ones, and the 18650 battery on the swing centreline under a lift-off hatch. See [TURNTABLE.md](TURNTABLE.md) and [BODY.md](BODY.md).
+The R3 turntable sits on the RU66 seat, and the upper body B1 rev B sits on it. The body is traced from the Cat 320: three main prints (counterweight, left half with the cab, right half with the tank), four small ones, and the 18650 battery on the swing centreline under a lift-off hatch. Rev B issue 2 (2026-11-07) adds a cable notch in each half's inboard hood wall for the arm harness of the complete machine (`excavator_complete/WIRING.md`). See [TURNTABLE.md](TURNTABLE.md) and [BODY.md](BODY.md).
 
 **Control system: spec C1 issue 4; main board rev A designed (schematic, PCB and firmware).**
 - The main board sits in the left bay: ESP32-S3, 7 × DRV8876, 6 V / 5 V / 3.3 V rails, lamps, buzzer and an expansion header.

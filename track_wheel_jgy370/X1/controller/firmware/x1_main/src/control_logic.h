@@ -81,8 +81,13 @@ float ramp_toward(float v, float target, uint32_t dt_ms, uint16_t full_scale_ms)
 struct Config {
   uint32_t link_timeout_ms = x1link::LINK_TIMEOUT_MS;  // S1
   float dead_band = 0.12f;                             // the app's 12 %
-  float stall_fraction = 0.90f;                        // S4: at or above 90 % of the limit...
+  float stall_fraction = 0.90f;                        // S4: at or above 90 % of the stalled current at this duty...
   uint32_t stall_ms = 2000;                            // ...for 2 s
+  // A stalled brushed motor at duty D draws D x Vbat / R (no back-EMF), capped by the driver's limit. The JGY-370-1260 is
+  // 12 V / 1.3 A at stall (vendor table): 9.2 ohm. Below stall_min_a the stalled current heats the motor little and a loaded
+  // running motor comes too close to it, so S4 is not judged there (0.4 A = 2 x the rated 0.2 A).
+  float motor_ohm = 9.2f;                              // 12 V track and swing motors; measure on the bench
+  float stall_min_a = 0.40f;
   float vbat_tau_ms = 2000.f;                          // S5: first-order filter, 2 s time constant
   float vbat_warn_v = 10.5f, vbat_warn_clear_v = 10.7f;
   float vbat_stop_v = 9.6f, vbat_stop_clear_v = 10.5f;  // the stop holds until the battery is above 10.5 V

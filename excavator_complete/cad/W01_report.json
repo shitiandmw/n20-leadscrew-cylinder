@@ -1,0 +1,18 @@
+{
+ "part": "W01_cable_clamp",
+ "valid": true,
+ "watertight": true,
+ "volume_mm3": 192.82,
+ "mass_g": 0.24,
+ "size_mm": [
+  8.0,
+  7.0,
+  5.5
+ ],
+ "bore_d": 3.2,
+ "snap_slot_w": 2.4,
+ "cable_centre_above_face_mm": 1.75,
+ "print": "PETG, 100 % infill, base down, no supports",
+ "fixing": "CA glue on the base; the sleeve snaps in from the top",
+ "frame": "x along the cable, z out of the glued face (the base is at z 0)"
+}

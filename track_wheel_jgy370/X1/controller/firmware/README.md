@@ -97,7 +97,7 @@ All these values are starting points from the spec, in `Config` in `control_logi
 | S1 link loss | No valid packet for 350 ms: the swing ramps down over its 0.4 s, every other channel stops at once | A valid packet, then all inputs centred |
 | S2 EMERGENCY STOP | Latched when the handle's ESTOP bit is set. It stops everything, and the swing ramps as in S1. The latch survives a link loss. | A fresh RESUME press, with ESTOP released and all inputs centred |
 | S3 power-up | The drivers stay asleep (nSLEEP low) until a valid packet arrives with all inputs centred | — |
-| S4 stall | A 12 V channel (tracks, swing) at 90 % or more of its board limit (1.034 A or 0.602 A, from the pin header) for 2 s is switched off | Its input returns to centre |
+| S4 stall | A 12 V channel (tracks, swing) at 90 % or more of the current a stalled motor would draw at its present duty, for 2 s, is switched off. That current is duty × battery voltage / 9.2 Ω (the JGY-370-1260's 12 V / 1.3 A stall figure), capped at the board limit (1.034 A or 0.602 A, from the pin header). Below a stalled current of 0.4 A (about 30 % duty at 12 V) the rule is not applied. | Its input returns to centre |
 | S5 battery | A 2 s first-order filter on VBAT. Below 10.5 V: warning (cleared above 10.7 V). Below 9.6 V: motors stop. | The filtered battery voltage back above 10.5 V |
 | S6 nFAULT | Low for 4 ms or more stops everything; it is reported. The line is ignored for 5 ms after nSLEEP rises. | RESUME with the line high |
 
@@ -156,6 +156,7 @@ The NVS namespace is `x1main`. Its keys are `peer`, `lmk`, `chan`, `ioff` (offse
 
 ## Interpretations of the spec
 
+- **S4 follows the duty.** The spec says "90 % of its limit"; the driver only reaches its limit when duty × Vbat / R exceeds it, so at the default 65 % speed a stalled track motor draws about 0.85 A, under 90 % of 1.03 A, and a fixed threshold would never trip. The firmware therefore compares the current with 90 % of the stalled current at the present duty, and does not judge below a stalled current of 0.4 A (twice the rated 0.2 A), where a loaded running motor comes too close to it. `Config::motor_ohm` (9.2 Ω) is the vendor stall figure; measure it on the bench.
 - **Ramp time = full scale.** "0.3 s" is the time from 0 to 100 % duty, so a track at 65 % speed gets there in about 0.2 s.
 - **Dead band.** It is applied as the app does it: no rescaling, so the output jumps from 0 to 12 %. The ramp smooths that jump. The machine applies the band even if the handle already has.
 - **S5 filter.** "2 s filtered" is a first-order filter with a 2 s time constant. A step from 12 V to 9 V warns after about 1.4 s and stops after about 3.2 s. The stop holds until the filtered voltage is back above 10.5 V. That needs a charged pack, not just a resting one; without that hold, the stop would cycle as the voltage recovered.

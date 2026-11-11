@@ -475,11 +475,10 @@ void test_stall_cutout() {
   r.mA[TRACK_L] = high;
   r.run(100);  // the current filter settles
   r.press(BTN_LEFT_FWD);
-  r.step();  // first non-zero duty: the 2 s start here
-  r.run(1996);
+  r.run(92);  // the ramp reaches 31 % duty at 92 ms: the stalled-current estimate (duty x 12 V / 9.2 ohm) passes 0.4 A and the 2 s start
+  r.run(1998);
   assert(!r.c.stall_cut(TRACK_L) && r.d(TRACK_L) == 1.f);
-  r.step();
-  r.step();  // 2 s at >= 90 % of the limit (S4)
+  r.step();  // 2 s at >= 90 % of the stalled current (S4)
   assert(r.c.stall_cut(TRACK_L) && r.d(TRACK_L) == 0.f);
   assert(r.c.faults() & F_STALL);
   r.mA[TRACK_L] = 0;
@@ -511,6 +510,37 @@ void test_stall_cutout() {
   r.press(BTN_LEFT_FWD);
   r.run(5000);
   assert(!r.c.stall_cut(TRACK_L) && r.d(TRACK_L) == 1.f);
+  // At part duty the stall threshold follows the duty: a stalled JGY-370 at 65 % of 12 V draws 0.65 x 12 / 9.2 = 0.85 A,
+  // under 90 % of the 1.03 A limit, and must still be cut; a loaded running motor (0.3 A) must not be.
+  r.release(BTN_LEFT_FWD);
+  r.mA[TRACK_L] = 0;
+  r.run(100);
+  r.in.speed_pct = 65;
+  r.send();
+  r.mA[TRACK_L] = 850;
+  r.press(BTN_LEFT_FWD);
+  r.run(2600);
+  assert(r.c.stall_cut(TRACK_L) && r.d(TRACK_L) == 0.f);
+  r.release(BTN_LEFT_FWD);
+  r.mA[TRACK_L] = 300;
+  r.run(100);
+  r.press(BTN_LEFT_FWD);
+  r.run(5000);
+  assert(!r.c.stall_cut(TRACK_L) && near(r.d(TRACK_L), 0.65f));
+  // Below the judging floor (stalled current under 0.4 A, here 25 % duty: 0.33 A) nothing is cut, even at that current.
+  r.release(BTN_LEFT_FWD);
+  r.in.speed_pct = 25;
+  r.send();
+  r.mA[TRACK_L] = 330;
+  r.run(100);
+  r.press(BTN_LEFT_FWD);
+  r.run(5000);
+  assert(!r.c.stall_cut(TRACK_L) && near(r.d(TRACK_L), 0.25f));
+  r.release(BTN_LEFT_FWD);
+  r.mA[TRACK_L] = 0;
+  r.in.speed_pct = 100;
+  r.send();
+  r.run(100);
   // The swing (12 V) is covered; the 6 V actuators are not (they have their own PTCs).
   r.mA[SWING] = 0.95f * limit_mA(SWING);
   r.mA[STICK] = 0.95f * limit_mA(STICK);
@@ -811,8 +841,8 @@ void test_millis_wrap() {
   s.mA[TRACK_L] = 0.95f * limit_mA(TRACK_L);
   s.run(100);
   s.press(BTN_LEFT_FWD);
-  s.step();
-  s.run(1996);
+  s.run(92);  // judged from 31 % duty (see test_stall_cutout)
+  s.run(1998);
   assert(s.now < 0x1000u && !s.c.stall_cut(TRACK_L));
   s.run(4);
   assert(s.c.stall_cut(TRACK_L));

@@ -1,0 +1,1004 @@
+{
+ "method": "Tubes of the cable radius (3 mm sleeve modelled at \u00d83.5) along harness.py routes; FCL collision and distance against the viewer meshes (chord error 0.05-0.15 mm) over R12's 5 x 5 x 5 stroke grid and the dig cycle every 2 s (447 poses). Loops are circular arcs of fixed length between their clamps, bulging away from pin A (O) and pin D (E); the boom-drive sleeves slide in their slots (cubic from the exit direction to vertical).",
+ "rules": {
+  "clearance_mm": 1.0,
+  "min_bend_radius_mm": 9.0,
+  "loop_slack_min_mm": 4.0
+ },
+ "arm_cables": {
+  "stick exit": {
+   "cable": "stick",
+   "kind": "exit",
+   "states": 447,
+   "overlaps": 0,
+   "overlapping_parts": [],
+   "min_clear_mm": 10.829,
+   "at": "grid [60.0, 60.0, 0.0]",
+   "closest": "B02_boom",
+   "length_mm": {
+    "min": 43.88,
+    "max": 45.45
+   },
+   "host_gap_mm": {
+    "min": 6.48,
+    "max": 6.488
+   },
+   "min_bend_radius_mm": 5.03,
+   "pass": true
+  },
+  "stick exit landing": {
+   "cable": "stick",
+   "kind": "landing",
+   "states": 447,
+   "overlaps": 0,
+   "overlapping_parts": [],
+   "min_clear_mm": 1000000000.0,
+   "at": null,
+   "closest": null,
+   "length_mm": {
+    "min": 30.61,
+    "max": 30.61
+   },
+   "host_gap_mm": {
+    "min": 0.001,
+    "max": 0.003
+   },
+   "pass": true
+  },
+  "stick lane (boom left side)": {
+   "cable": "stick",
+   "kind": "fixed",
+   "states": 447,
+   "overlaps": 0,
+   "overlapping_parts": [],
+   "min_clear_mm": 13.717,
+   "at": "grid [15.0, 0.0, 0.0]",
+   "closest": "boom_L_V6_rod_eye",
+   "length_mm": {
+    "min": 202.28,
+    "max": 202.28
+   },
+   "host_gap_mm": {
+    "min": 0.0,
+    "max": 0.0
+   },
+   "pass": true
+  },
+  "stick loop at O": {
+   "cable": "stick",
+   "kind": "loop",
+   "states": 447,
+   "overlaps": 0,
+   "overlapping_parts": [],
+   "min_clear_mm": 10.838,
+   "at": "grid [60.0, 0.0, 0.0]",
+   "closest": "B102_left_half",
+   "length_mm": {
+    "min": 91.97,
+    "max": 91.99
+   },
+   "host_gap_mm": {
+    "min": 3.829,
+    "max": 4.816
+   },
+   "min_bend_radius_mm": 42.77,
+   "chord_mm": {
+    "min": 75.26,
+    "max": 86.6
+   },
+   "sagitta_mm": {
+    "min": 13.36,
+    "max": 22.44
+   },
+   "cable_length_mm": 92.0,
+   "slack_at_longest_chord_mm": 5.4,
+   "pass": true
+  },
+  "stick post to slot S3": {
+   "cable": "stick",
+   "kind": "fixed",
+   "states": 447,
+   "overlaps": 0,
+   "overlapping_parts": [],
+   "min_clear_mm": 10.736,
+   "at": "grid [0.0, 0.0, 0.0]",
+   "closest": "T101_centre_frame",
+   "length_mm": {
+    "min": 24.83,
+    "max": 24.83
+   },
+   "host_gap_mm": {
+    "min": 0.0,
+    "max": 0.0
+   },
+   "pass": true
+  },
+  "bucket exit": {
+   "cable": "bucket",
+   "kind": "exit",
+   "states": 447,
+   "overlaps": 0,
+   "overlapping_parts": [],
+   "min_clear_mm": 11.139,
+   "at": "grid [15.0, 60.0, 15.0]",
+   "closest": "B03_stick",
+   "length_mm": {
+    "min": 39.89,
+    "max": 40.6
+   },
+   "host_gap_mm": {
+    "min": 4.982,
+    "max": 5.786
+   },
+   "min_bend_radius_mm": 6.0,
+   "pass": true
+  },
+  "bucket exit landing": {
+   "cable": "bucket",
+   "kind": "landing",
+   "states": 447,
+   "overlaps": 0,
+   "overlapping_parts": [],
+   "min_clear_mm": 24.767,
+   "at": "grid [60.0, 60.0, 0.0]",
+   "closest": "B02_boom",
+   "length_mm": {
+    "min": 26.27,
+    "max": 26.27
+   },
+   "host_gap_mm": {
+    "min": 0.002,
+    "max": 0.087
+   },
+   "pass": true
+  },
+  "bucket loop at E": {
+   "cable": "bucket",
+   "kind": "loop",
+   "states": 447,
+   "overlaps": 0,
+   "overlapping_parts": [],
+   "min_clear_mm": 19.347,
+   "at": "grid [0.0, 60.0, 60.0]",
+   "closest": "bucket_V6_body",
+   "length_mm": {
+    "min": 109.96,
+    "max": 109.98
+   },
+   "host_gap_mm": {
+    "min": 1.793,
+    "max": 4.493
+   },
+   "min_bend_radius_mm": 54.5,
+   "chord_mm": {
+    "min": 92.26,
+    "max": 101.89
+   },
+   "sagitta_mm": {
+    "min": 17.81,
+    "max": 25.47
+   },
+   "cable_length_mm": 110.0,
+   "slack_at_longest_chord_mm": 8.11,
+   "pass": true
+  },
+  "bucket lane (boom right side)": {
+   "cable": "bucket",
+   "kind": "fixed",
+   "states": 447,
+   "overlaps": 0,
+   "overlapping_parts": [],
+   "min_clear_mm": 14.0,
+   "at": "grid [15.0, 0.0, 0.0]",
+   "closest": "boom_R_V6_rod_eye",
+   "length_mm": {
+    "min": 319.87,
+    "max": 319.87
+   },
+   "host_gap_mm": {
+    "min": 0.0,
+    "max": 0.0
+   },
+   "pass": true
+  },
+  "bucket loop at O": {
+   "cable": "bucket",
+   "kind": "loop",
+   "states": 447,
+   "overlaps": 0,
+   "overlapping_parts": [],
+   "min_clear_mm": 10.838,
+   "at": "grid [60.0, 0.0, 0.0]",
+   "closest": "B103_right_half",
+   "length_mm": {
+    "min": 91.97,
+    "max": 91.99
+   },
+   "host_gap_mm": {
+    "min": 3.829,
+    "max": 4.816
+   },
+   "min_bend_radius_mm": 42.77,
+   "chord_mm": {
+    "min": 75.26,
+    "max": 86.6
+   },
+   "sagitta_mm": {
+    "min": 13.36,
+    "max": 22.44
+   },
+   "cable_length_mm": 92.0,
+   "slack_at_longest_chord_mm": 5.4,
+   "pass": true
+  },
+  "bucket post to slot S4": {
+   "cable": "bucket",
+   "kind": "fixed",
+   "states": 447,
+   "overlaps": 0,
+   "overlapping_parts": [],
+   "min_clear_mm": 10.736,
+   "at": "grid [0.0, 0.0, 0.0]",
+   "closest": "T101_centre_frame",
+   "length_mm": {
+    "min": 24.83,
+    "max": 24.83
+   },
+   "host_gap_mm": {
+    "min": 0.0,
+    "max": 0.0
+   },
+   "pass": true
+  },
+  "boom_L drop": {
+   "cable": "boom_L",
+   "kind": "drop",
+   "states": 447,
+   "overlaps": 0,
+   "overlapping_parts": [],
+   "min_clear_mm": 8.191,
+   "at": "cycle [8.019, 41.713, 29.885]",
+   "closest": "spacer_A1_L",
+   "length_mm": {
+    "min": 12.64,
+    "max": 32.91
+   },
+   "host_gap_mm": {
+    "min": 0.089,
+    "max": 0.089
+   },
+   "min_bend_radius_mm": 7.69,
+   "slide_travel_mm": 20.27,
+   "trough_entry_x_O": [
+    25.0,
+    35.34
+   ],
+   "always_in_trough_and_bends_ok": true,
+   "second_bend_radius_min_mm": 7.69,
+   "pass": true
+  },
+  "boom_R drop": {
+   "cable": "boom_R",
+   "kind": "drop",
+   "states": 447,
+   "overlaps": 0,
+   "overlapping_parts": [],
+   "min_clear_mm": 8.191,
+   "at": "cycle [8.019, 41.713, 29.885]",
+   "closest": "spacer_A1_R",
+   "length_mm": {
+    "min": 12.64,
+    "max": 32.91
+   },
+   "host_gap_mm": {
+    "min": 0.089,
+    "max": 0.089
+   },
+   "min_bend_radius_mm": 7.69,
+   "slide_travel_mm": 20.27,
+   "trough_entry_x_O": [
+    25.0,
+    35.34
+   ],
+   "always_in_trough_and_bends_ok": true,
+   "second_bend_radius_min_mm": 7.69,
+   "pass": true
+  }
+ },
+ "static_cables": [
+  {
+   "name": "slip ring rotor leads",
+   "to": "J102",
+   "r_mm": 2.2,
+   "length_mm": 181.3,
+   "clear_mm": 4.281,
+   "closest": "hub_screw_M4x20_4",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "slip_ring_6way_rotor",
+     "T106_rotor_dog_TPU",
+     "T104_hub_adapter",
+     "T101_centre_frame",
+     "board_plugs",
+     "board_parts",
+     "board_plugs",
+     "board_parts",
+     "controller_PCB"
+    ],
+    "nearest": "slip_ring_6way_rotor",
+    "mm": 0.0,
+    "overlaps": [
+     "slip_ring_6way_rotor"
+    ]
+   }
+  },
+  {
+   "name": "swing motor leads",
+   "to": "J103",
+   "r_mm": 1.3,
+   "length_mm": 183.8,
+   "clear_mm": 6.964,
+   "closest": "sleeve_screw_M3x12_0",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "JGY370_motor_can",
+     "JGY370_lead_space",
+     "T101_centre_frame",
+     "B101_counterweight",
+     "B102_left_half",
+     "B103_right_half",
+     "board_plugs",
+     "board_parts",
+     "board_plugs",
+     "board_parts",
+     "controller_PCB"
+    ],
+    "nearest": "JGY370_motor_can",
+    "mm": 0.0,
+    "overlaps": [
+     "JGY370_motor_can"
+    ]
+   }
+  },
+  {
+   "name": "12 V link (switch to board)",
+   "to": "J101",
+   "r_mm": 2.0,
+   "length_mm": 438.8,
+   "clear_mm": 1.575,
+   "closest": "T101_centre_frame",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "board_parts",
+     "board_plugs",
+     "main_switch",
+     "fuse_holder_5A",
+     "B103_right_half",
+     "controller_PCB",
+     "board_link_XT30U-F",
+     "board_plugs",
+     "board_parts",
+     "controller_PCB"
+    ],
+    "nearest": "fuse_holder_5A",
+    "mm": 0.0,
+    "overlaps": [
+     "main_switch_terminals",
+     "board_link_XT30U-F_wire_pos",
+     "board_link_XT30U-F_wire_neg",
+     "fuse_holder_5A"
+    ]
+   }
+  },
+  {
+   "name": "battery feed (fuse to hatch socket)",
+   "to": "XT30 socket",
+   "r_mm": 2.0,
+   "length_mm": 239.0,
+   "clear_mm": 4.003,
+   "closest": "T101_centre_frame",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "fuse_holder_5A",
+     "main_switch",
+     "B103_right_half",
+     "feed_socket_XT30"
+    ],
+    "nearest": "fuse_holder_5A_leads",
+    "mm": 0.0,
+    "overlaps": [
+     "feed_socket_XT30_wire_pos",
+     "fuse_holder_5A",
+     "fuse_holder_5A_leads"
+    ]
+   }
+  },
+  {
+   "name": "battery hatch lead",
+   "to": "XT30 plug",
+   "r_mm": 2.0,
+   "length_mm": 19.6,
+   "clear_mm": 2.216,
+   "closest": "holder_1043_1",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "battery_lead_XT30",
+     "B106_battery_hatch",
+     "battery_BMS_HX3S01"
+    ],
+    "nearest": "B106_battery_hatch",
+    "mm": 0.0,
+    "overlaps": [
+     "battery_lead_XT30_wire_pos",
+     "battery_lead_XT30_wire_neg",
+     "B106_battery_hatch"
+    ]
+   }
+  },
+  {
+   "name": "toolbox lamp pair",
+   "to": "J108",
+   "r_mm": 1.3,
+   "length_mm": 425.4,
+   "clear_mm": 3.731,
+   "closest": "T101_centre_frame",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "board_plugs",
+     "board_parts",
+     "B103_right_half",
+     "main_switch",
+     "fuse_holder_5A",
+     "SM-LAMP",
+     "board_plugs",
+     "board_parts",
+     "controller_PCB"
+    ],
+    "nearest": "SM-LAMP_SMP-02V-BC_wire_2",
+    "mm": 0.0,
+    "overlaps": [
+     "B103_right_half",
+     "SM-LAMP_SMR-02V-B_housing",
+     "SM-LAMP_SMR-02V-B_pins",
+     "SM-LAMP_SMR-02V-B_wire_1",
+     "SM-LAMP_SMR-02V-B_wire_2",
+     "SM-LAMP_SMP-02V-BC_housing",
+     "SM-LAMP_SMP-02V-BC_wire_1",
+     "SM-LAMP_SMP-02V-BC_wire_2"
+    ]
+   }
+  },
+  {
+   "name": "roof lamps pair",
+   "to": "J108",
+   "r_mm": 0.5,
+   "length_mm": 347.0,
+   "clear_mm": 6.5,
+   "closest": "T101_centre_frame",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "board_plugs",
+     "board_parts",
+     "B102_left_half",
+     "B104_cab_interior",
+     "B107_left_handrail",
+     "board_plugs",
+     "board_parts",
+     "controller_PCB"
+    ],
+    "nearest": "B102_left_half",
+    "mm": 0.0,
+    "overlaps": [
+     "B102_left_half"
+    ]
+   }
+  },
+  {
+   "name": "left track motor leads",
+   "to": "JST SM 2-pin in the carbody",
+   "r_mm": 1.3,
+   "length_mm": 181.3,
+   "clear_mm": 6.2,
+   "closest": "J901_H_frame (left track)",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "J909_housing (left track)",
+     "JGY370_terminal_space (left track)",
+     "JGY370_motor_can (left track)",
+     "X101_X_frame",
+     "reserved cable route (left motor leads)",
+     "SM-L"
+    ],
+    "nearest": "SM-L_SMP-02V-BC_wire_2",
+    "mm": 0.0,
+    "overlaps": [
+     "reserved cable route (left motor leads)",
+     "SM-L_SMP-02V-BC_housing",
+     "SM-L_SMP-02V-BC_wire_1",
+     "SM-L_SMP-02V-BC_wire_2"
+    ]
+   }
+  },
+  {
+   "name": "right track motor leads",
+   "to": "JST SM 2-pin in the carbody",
+   "r_mm": 1.3,
+   "length_mm": 181.3,
+   "clear_mm": 6.2,
+   "closest": "J901_H_frame (right track)",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "J909_housing (right track)",
+     "JGY370_terminal_space (right track)",
+     "JGY370_motor_can (right track)",
+     "X101_X_frame",
+     "reserved cable route (right motor leads)",
+     "SM-R"
+    ],
+    "nearest": "SM-R_SMP-02V-BC_housing",
+    "mm": 0.0,
+    "overlaps": [
+     "SM-R_SMP-02V-BC_wire_1",
+     "SM-R_SMP-02V-BC_wire_2",
+     "reserved cable route (right motor leads)",
+     "SM-R_SMP-02V-BC_housing"
+    ]
+   }
+  },
+  {
+   "name": "slip ring stator leads",
+   "to": "2 x JST SM 2-pin",
+   "r_mm": 2.2,
+   "length_mm": 36.1,
+   "clear_mm": 6.488,
+   "closest": "SM-R_SMR-02V-B_wire_1",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "slip_ring_6way_stator",
+     "X101_X_frame",
+     "SM-L"
+    ],
+    "nearest": "SM-L_SMP-02V-BC_housing",
+    "mm": 0.0,
+    "overlaps": [
+     "slip_ring_6way_stator",
+     "SM-L_SMR-02V-B_housing",
+     "SM-L_SMR-02V-B_wire_1",
+     "SM-L_SMR-02V-B_wire_2",
+     "SM-L_SMP-02V-BC_housing"
+    ]
+   }
+  },
+  {
+   "name": "slip ring stator leads (right pair)",
+   "to": "JST SM 2-pin",
+   "r_mm": 2.2,
+   "length_mm": 36.1,
+   "clear_mm": 6.488,
+   "closest": "SM-L_SMR-02V-B_wire_1",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "slip_ring_6way_stator",
+     "X101_X_frame",
+     "SM-R"
+    ],
+    "nearest": "SM-R_SMP-02V-BC_housing",
+    "mm": 0.0,
+    "overlaps": [
+     "slip_ring_6way_stator",
+     "SM-R_SMR-02V-B_housing",
+     "SM-R_SMR-02V-B_wire_1",
+     "SM-R_SMR-02V-B_wire_2",
+     "SM-R_SMP-02V-BC_housing"
+    ]
+   }
+  },
+  {
+   "name": "J104 cable in the trough and under the plate",
+   "to": "J104",
+   "r_mm": 1.75,
+   "length_mm": 219.3,
+   "clear_mm": 2.331,
+   "closest": "B102_left_half",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "board_plugs",
+     "board_parts",
+     "controller_PCB",
+     "T101_centre_frame",
+     "B01X_boom_foot_bracket"
+    ],
+    "nearest": "B01X_boom_foot_bracket",
+    "mm": 0.0,
+    "overlaps": [
+     "B01X_boom_foot_bracket"
+    ]
+   }
+  },
+  {
+   "name": "J105 cable in the trough and under the plate",
+   "to": "J105",
+   "r_mm": 1.75,
+   "length_mm": 314.2,
+   "clear_mm": 3.253,
+   "closest": "B103_right_half",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "board_plugs",
+     "board_parts",
+     "controller_PCB",
+     "T101_centre_frame",
+     "B01X_boom_foot_bracket"
+    ],
+    "nearest": "B01X_boom_foot_bracket",
+    "mm": 0.0,
+    "overlaps": [
+     "B01X_boom_foot_bracket"
+    ]
+   }
+  },
+  {
+   "name": "J106 cable under the plate",
+   "to": "J106",
+   "r_mm": 1.75,
+   "length_mm": 193.5,
+   "clear_mm": 2.308,
+   "closest": "B102_left_half",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "board_plugs",
+     "board_parts",
+     "controller_PCB",
+     "T101_centre_frame",
+     "B01X_boom_foot_bracket"
+    ],
+    "nearest": "B01X_boom_foot_bracket",
+    "mm": 0.75,
+    "overlaps": []
+   }
+  },
+  {
+   "name": "J107 cable under the plate",
+   "to": "J107",
+   "r_mm": 1.75,
+   "length_mm": 300.1,
+   "clear_mm": 3.6,
+   "closest": "B102_left_half",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "board_plugs",
+     "board_parts",
+     "controller_PCB",
+     "T101_centre_frame",
+     "B01X_boom_foot_bracket"
+    ],
+    "nearest": "B01X_boom_foot_bracket",
+    "mm": 0.75,
+    "overlaps": []
+   }
+  },
+  {
+   "name": "slip ring rotor leads (plug tail)",
+   "to": "J102",
+   "r_mm": 0.45,
+   "length_mm": 18.9,
+   "clear_mm": 6.722,
+   "closest": "B102_left_half",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "slip_ring_6way_rotor",
+     "T106_rotor_dog_TPU",
+     "T104_hub_adapter",
+     "T101_centre_frame",
+     "board_plugs",
+     "board_parts",
+     "board_plugs",
+     "board_parts",
+     "controller_PCB"
+    ],
+    "nearest": "board_plugs_wires_orange",
+    "mm": 0.353,
+    "overlaps": []
+   }
+  },
+  {
+   "name": "swing motor leads (plug tail)",
+   "to": "J103",
+   "r_mm": 0.45,
+   "length_mm": 18.9,
+   "clear_mm": 46.1,
+   "closest": "ballast_steel_shot",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "JGY370_motor_can",
+     "JGY370_lead_space",
+     "T101_centre_frame",
+     "B101_counterweight",
+     "B102_left_half",
+     "B103_right_half",
+     "board_plugs",
+     "board_parts",
+     "board_plugs",
+     "board_parts",
+     "controller_PCB"
+    ],
+    "nearest": "board_plugs_wires_black",
+    "mm": 0.353,
+    "overlaps": []
+   }
+  },
+  {
+   "name": "toolbox lamp pair (plug tail)",
+   "to": "J108",
+   "r_mm": 0.45,
+   "length_mm": 19.5,
+   "clear_mm": 1.072,
+   "closest": "T101_centre_frame",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "board_plugs",
+     "board_parts",
+     "B103_right_half",
+     "main_switch",
+     "fuse_holder_5A",
+     "SM-LAMP",
+     "board_plugs",
+     "board_parts",
+     "controller_PCB"
+    ],
+    "nearest": "board_plugs_wires_orange",
+    "mm": 0.04,
+    "overlaps": []
+   }
+  },
+  {
+   "name": "roof lamps pair (plug tail)",
+   "to": "J108",
+   "r_mm": 0.45,
+   "length_mm": 19.5,
+   "clear_mm": 1.072,
+   "closest": "T101_centre_frame",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "board_plugs",
+     "board_parts",
+     "B102_left_half",
+     "B104_cab_interior",
+     "B107_left_handrail",
+     "board_plugs",
+     "board_parts",
+     "controller_PCB"
+    ],
+    "nearest": "board_plugs_wires_orange",
+    "mm": 0.04,
+    "overlaps": []
+   }
+  },
+  {
+   "name": "J104 cable in the trough and under the plate (plug tail)",
+   "to": "J104",
+   "r_mm": 0.45,
+   "length_mm": 18.9,
+   "clear_mm": 6.722,
+   "closest": "B102_left_half",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "board_plugs",
+     "board_parts",
+     "controller_PCB",
+     "T101_centre_frame",
+     "B01X_boom_foot_bracket"
+    ],
+    "nearest": "board_plugs_wires_black",
+    "mm": 0.353,
+    "overlaps": []
+   }
+  },
+  {
+   "name": "J105 cable in the trough and under the plate (plug tail)",
+   "to": "J105",
+   "r_mm": 0.45,
+   "length_mm": 18.9,
+   "clear_mm": 6.722,
+   "closest": "B102_left_half",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "board_plugs",
+     "board_parts",
+     "controller_PCB",
+     "T101_centre_frame",
+     "B01X_boom_foot_bracket"
+    ],
+    "nearest": "board_plugs_wires_black",
+    "mm": 0.353,
+    "overlaps": []
+   }
+  },
+  {
+   "name": "J106 cable under the plate (plug tail)",
+   "to": "J106",
+   "r_mm": 0.45,
+   "length_mm": 18.9,
+   "clear_mm": 6.722,
+   "closest": "B102_left_half",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "board_plugs",
+     "board_parts",
+     "controller_PCB",
+     "T101_centre_frame",
+     "B01X_boom_foot_bracket"
+    ],
+    "nearest": "board_plugs_wires_black",
+    "mm": 0.353,
+    "overlaps": []
+   }
+  },
+  {
+   "name": "J107 cable under the plate (plug tail)",
+   "to": "J107",
+   "r_mm": 0.45,
+   "length_mm": 18.9,
+   "clear_mm": 6.722,
+   "closest": "B102_left_half",
+   "hits": [],
+   "touches": {
+    "expected": [
+     "board_plugs",
+     "board_parts",
+     "controller_PCB",
+     "T101_centre_frame",
+     "B01X_boom_foot_bracket"
+    ],
+    "nearest": "board_plugs_wires_black",
+    "mm": 0.353,
+    "overlaps": []
+   }
+  }
+ ],
+ "space": {
+  "S3": {
+   "x_vehicle": 4.0,
+   "y": 39.5,
+   "first_part_below_plate": "T101_centre_frame",
+   "its_top_z": 109.99000000000001,
+   "plate_bottom_z": 136.0,
+   "clear_height_mm": 26.0,
+   "ok": true
+  },
+  "S4": {
+   "x_vehicle": 4.0,
+   "y": -39.5,
+   "first_part_below_plate": "T101_centre_frame",
+   "its_top_z": 109.99000000000001,
+   "plate_bottom_z": 136.0,
+   "clear_height_mm": 26.0,
+   "ok": true
+  },
+  "middle_compartment_left": {
+   "box": [
+    -28.0,
+    8.0,
+    38.0,
+    54.0,
+    111.0,
+    135.0
+   ],
+   "parts_inside": [],
+   "ok": true
+  },
+  "middle_compartment_right": {
+   "box": [
+    -28.0,
+    8.0,
+    -54.0,
+    -38.0,
+    111.0,
+    135.0
+   ],
+   "parts_inside": [],
+   "ok": true
+  },
+  "rise_gap_left": {
+   "box": [
+    -29.0,
+    -22.0,
+    39.0,
+    55.0,
+    110.0,
+    154.0
+   ],
+   "parts_inside": [],
+   "ok": true
+  },
+  "rise_gap_right": {
+   "box": [
+    -29.0,
+    -22.0,
+    -55.0,
+    -39.0,
+    110.0,
+    154.0
+   ],
+   "parts_inside": [],
+   "ok": true
+  },
+  "crossing_over_hub_well": {
+   "x": [
+    -38,
+    -28
+   ],
+   "y": [
+    -45,
+    45
+   ],
+   "z": [
+    139,
+    149
+   ],
+   "parts_inside": [],
+   "ok": true
+  },
+  "rib_crossing": {
+   "x_band": [
+    -40.0,
+    -25.0
+   ],
+   "used_x": [
+    -36.0,
+    -32.0
+   ],
+   "cables": 4,
+   "note": "two cables per X, stacked at Z 141 and 145"
+  },
+  "bay_over_plugs": {
+   "plug_top_z": 117.7,
+   "run_z": 122.0,
+   "run_y": 76.0,
+   "plug_face_y": 72.0,
+   "hood_underside_z": ">= 136.3 (hood front wall bottom) / 198.8"
+  }
+ },
+ "routed_lengths_mm": {
+  "stick": 606.2,
+  "bucket": 932.1,
+  "boom_L": 295.1,
+  "boom_R": 390.1,
+  "slip ring rotor leads": 200.2,
+  "swing motor leads": 202.7,
+  "12 V link (switch to board)": 438.8,
+  "battery feed (fuse to hatch socket)": 239.0,
+  "battery hatch lead": 19.6,
+  "toolbox lamp pair": 444.9,
+  "roof lamps pair": 366.5,
+  "left track motor leads": 181.3,
+  "right track motor leads": 181.3,
+  "slip ring stator leads": 36.1,
+  "slip ring stator leads (right pair)": 36.1
+ },
+ "wire_list_rows": 14,
+ "status": "PASS",
+ "seconds": 140.7
+}

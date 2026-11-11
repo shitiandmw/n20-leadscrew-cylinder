@@ -23,11 +23,15 @@ button.on{background:#18333c;color:#fff;border-color:#18333c}button:focus-visibl
 .metric{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #e3e8e6;padding:3px 0}.metric b{text-align:right;font-variant-numeric:tabular-nums}
 .chk{display:flex;gap:6px;margin:3px 0;font-size:12px}.chk .y{color:var(--ok);font-weight:700}.chk .n{color:var(--warn);font-weight:700}
 .note{font-size:11.5px;color:var(--sub);margin:6px 0}#part{min-height:36px;color:#40585e}
+#labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}.lbl{position:absolute;transform:translate(-50%,-100%);background:rgba(24,48,58,.92);color:#fff;border-radius:5px;padding:3px 7px;font-size:11.5px;white-space:nowrap;line-height:1.3}
+.lbl small{display:block;color:#cfe3e8;font-size:10.5px}.lbl:after{content:'';position:absolute;left:50%;bottom:-6px;margin-left:-5px;border:5px solid transparent;border-top-color:rgba(24,48,58,.92);border-bottom:0}
+#conn{list-style:none;margin:0;padding:0;max-height:260px;overflow:auto}#conn li{display:flex;gap:6px;align-items:baseline;padding:3px 6px;border-radius:4px;cursor:pointer;font-size:12px}#conn li:hover{background:#e6eeec}#conn li b{min-width:62px}#conn li small{color:var(--sub);margin-left:auto;white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11px;margin:4px 0}.legend span i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;vertical-align:middle}
 @media (max-width:860px){main{flex-direction:column}#stage{height:60vh;flex:none}aside{width:auto;border-left:0;border-top:1px solid var(--line)}}
 </style></head><body>
 <header><h1>X1 excavator: the complete machine, current revisions</h1>
 <p>J9 tracks on the X1 revision F X-frame &middot; THK RU66 slewing ring &middot; R3 turntable and swing drive &middot; body B1 rev B with the main board rev A &middot; R12 Rev. D4 arm on the new B01X mount &middot; 1:15 Cat 320</p></header>
-<main><div id="stage"><div id="hud"><div class="t" id="hud-t"></div><div class="p" id="hud-p"></div><div class="m" id="hud-m"></div></div><div id="caption"></div></div>
+<main><div id="stage"><div id="labels"></div><div id="hud"><div class="t" id="hud-t"></div><div class="p" id="hud-p"></div><div class="m" id="hud-m"></div></div><div id="caption"></div></div>
 <aside>
 <h2>Mode</h2>
 <div class="seg" role="group" aria-label="Mode"><button data-mode="demo" class="on">Work cycle</button><button data-mode="build">Assembly order</button><button data-mode="manual">Manual</button></div>
@@ -39,7 +43,9 @@ button.on{background:#18333c;color:#fff;border-color:#18333c}button:focus-visibl
 </div>
 <div id="p-build" hidden>
 <div class="row"><button id="bprev">&#9664; Back</button><button id="bplay" style="flex:1">&#9654; Play all steps</button><button id="bnext">Next &#9654;</button></div>
+<div class="row" style="font-size:12px"><label><input type="checkbox" id="bcam" checked> camera follows the step</label><label><input type="checkbox" id="blab" checked> labels (model numbers)</label></div>
 <ol id="bsteps"></ol>
+<p class="note">The installation sequence of ASSEMBLY.md: each step's parts move in along their fitting direction; the halves and the hatch are built on the bench (shown beside the machine) and then go on as one. Connector and battery-pack models are named on the labels; the full list is in CONNECTORS.md.</p>
 </div>
 <div id="p-manual" hidden>
 <div class="ctl"><div class="h"><span>Boom pair (2 drives)</span><output id="o0"></output></div><input id="k0" type="range" min="0" max="60" step="0.1" aria-label="Boom stroke"><small>extend: boom up</small></div>
@@ -50,19 +56,24 @@ button.on{background:#18333c;color:#fff;border-color:#18333c}button:focus-visibl
 <div class="row"><select id="wp" style="flex:1" aria-label="Arm waypoint"></select></div>
 </div>
 <h2>Views</h2>
-<div class="views"><button data-view="iso">3/4 front</button><button data-view="side">Side</button><button data-view="front">Front</button><button data-view="top">Top</button><button data-view="rear">3/4 rear</button><button data-view="cab">Cab</button><button data-view="mount">Arm mount</button><button data-view="inside">Inside the body</button><button data-view="under">Underside</button><button data-view="exploded">Exploded</button></div>
+<div class="views"><button data-view="iso">3/4 front</button><button data-view="side">Side</button><button data-view="front">Front</button><button data-view="top">Top</button><button data-view="rear">3/4 rear</button><button data-view="cab">Cab</button><button data-view="mount">Arm mount</button><button data-view="inside">Inside the body</button><button data-view="under">Underside</button><button data-view="harness">Harness</button><button data-view="connectors">Board plugs</button><button data-view="pack">Battery pack</button><button data-view="exploded">Exploded</button></div>
 <h2>Structure layers</h2><div id="layers"></div>
 <div class="row"><label><input type="checkbox" id="xray"> See-through body</label><label><input type="checkbox" id="ground" checked> Ground</label></div>
+<h2>Connectors</h2><ol id="conn"></ol><p class="note">Click a joint to fly to it. Fixed side &larr; free side; the types, contacts and crimp tools are in CONNECTORS.md.</p>
+<h2>Standard parts</h2>
+<div class="row"><label><input type="checkbox" id="stdp"> Mark bought parts</label><select id="stdcat" aria-label="Standard part category"></select></div>
+<div class="legend" id="stdleg"></div><p class="note">Bearings, the slewing and slip rings, motors, magnets, heat-set inserts, springs, pins, the battery pack, connectors and fasteners, at their places (STANDARD_PARTS.md). Click a marker to read it.</p>
 <h2>Drives now</h2><div id="drives"></div>
 <h2>Key numbers</h2><div id="metrics"></div>
 <h2>Integration checks</h2><div id="checks"></div>
 <h2>Part</h2><div id="part"><small>Click a part to identify it.</small></div>
-<p class="note">Nominal CAD from each subsystem folder; nothing here has been printed or run under power. B01X, the R12 mount on T101, is new in this folder and still needs your review. See README.md.</p>
+<p class="note">Nominal CAD from each subsystem folder; nothing here has been printed or run under power. B01X (the R12 mount on T101, now with the cable troughs and posts), the harness and the W01 clamps are new in this folder. See README.md, WIRING.md and ASSEMBLY.md.</p>
 </aside></main>
 <script>__THREE__</script><script>__ORBIT__</script><script>
 'use strict';
 const D=__DATA__,C=D.cfg,V=C.j9,TY=C.track_y;const $=id=>document.getElementById(id);
 const state={mode:'demo',tau:0,playing:false,loop:true,view:'iso',strokes:[...C.default],swing:0,travel:0,build:{k:D.steps.length-1,f:1,playing:false},explode:0,ready:false,renders:0};
+const SID={};D.steps.forEach((s,i)=>SID[s.id]=i);const GRP=D.groups;
 // ---------------- renderer
 const stage=$('stage'),scene=new THREE.Scene();scene.background=new THREE.Color('#eef1ef');
 const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.outputEncoding=THREE.sRGBEncoding;renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));stage.prepend(renderer.domElement);
@@ -70,7 +81,8 @@ const camera=new THREE.PerspectiveCamera(30,1,2,12000);camera.up.set(0,0,1);cons
 scene.add(new THREE.HemisphereLight(0xffffff,0x8a9696,.8));for(const [p,i] of [[[520,-380,900],.85],[[-520,520,480],.55],[[380,620,-200],.3]]){const l=new THREE.DirectionalLight(0xffffff,i);l.position.set(...p);scene.add(l)}
 const decode=(s,T)=>{const b=atob(s),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new T(u.buffer)};
 function geometry(p){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(decode(p.v,Float32Array),3));g.setIndex(new THREE.BufferAttribute(decode(p.t,p.wide?Uint32Array:Uint16Array),1));g.computeVertexNormals();return g}
-function mat(c,kind,srgb){const col=new THREE.Color(...c);if(srgb)col.convertSRGBToLinear();return new THREE.MeshStandardMaterial({color:col,metalness:kind==='printed'?.05:kind==='electronics'?.15:.35,roughness:.6})}
+function mat(c,kind,srgb){const col=new THREE.Color(...c);if(srgb)col.convertSRGBToLinear();const met={printed:.05,electronics:.2,connector:.12,cable:.05,ballast:.4}[kind],rou={printed:.62,electronics:.45,connector:.42,cable:.55,hardware:.38}[kind];
+ return new THREE.MeshStandardMaterial({color:col,metalness:met===undefined?.35:met,roughness:rou===undefined?.5:rou})}
 // ---------------- ground
 const ground=new THREE.Mesh(new THREE.PlaneGeometry(2600,2600),new THREE.MeshStandardMaterial({color:0xb9b096,roughness:1,transparent:true,opacity:.55,depthWrite:false,side:THREE.DoubleSide}));ground.position.set(200,0,-.05);scene.add(ground);
 const grid=new THREE.GridHelper(2600,52,0x9d9478,0xb0a88d);grid.rotation.x=Math.PI/2;grid.position.set(200,0,.2);grid.material.transparent=true;grid.material.opacity=.45;scene.add(grid);
@@ -82,7 +94,7 @@ const armMount=new THREE.Group();upperG.add(armMount);        // B01X, R12's fix
 const armRoot=new THREE.Group();armRoot.position.set(...C.O);armMount.add(armRoot);
 const armG={};function armGroup(b){if(!armG[b]){armG[b]=new THREE.Group();armRoot.add(armG[b])}return armG[b]}
 const meshes=[],tracks=[];
-const SYSCOL={track:'#3f4a4f',xframe:'#4d86a0',slew:'#d87a2c',turntable:'#6c9bc3',body:'#e8b52f',electronics:'#2a9d5c',arm:'#c9902a'};
+const SYSCOL={track:'#3f4a4f',xframe:'#4d86a0',slew:'#d87a2c',turntable:'#6c9bc3',body:'#e8b52f',electronics:'#2a9d5c',arm:'#c9902a',wiring:'#c8102e'};
 // tracks (the J9 module twice; the right one mirrored, as the J901/J909 right prints)
 const modGeo=D.module.map(p=>({p,g:geometry(p),m:mat(p.color,p.kind)})),linkGeo=D.link.map(p=>({g:geometry(p),m:mat(p.color,'printed')}));
 function buildTrack(side){const outer=new THREE.Group();root.add(outer);const g=new THREE.Group();outer.add(g);g.position.set(0,side*TY,0);if(side<0)g.scale.set(1,-1,1);const label=side>0?'left':'right',groups={};
@@ -96,11 +108,45 @@ function buildTrack(side){const outer=new THREE.Group();root.add(outer);const g=
 buildTrack(1);buildTrack(-1);
 for(const p of D.parts){const m=new THREE.Mesh(geometry(p),mat(p.color,p.kind,p.sys==='arm'));   // R12 colours are sRGB (as its own viewer); X1's are used as given
 const lab=D.sys[p.sys].label;
- m.userData={name:p.name.replace(/_/g,' '),sys:p.sys,step:p.step,app:p.app,exp:p.exp,part:p.part,mover:p.mover,isNew:p.new,kind:p.kind,label:lab};
+ m.userData={name:p.name.replace(/_/g,' '),sys:p.sys,step:p.step,app:p.app,exp:p.exp,grp:p.grp,joint:p.joint,part:p.part,mover:p.mover,isNew:p.new,kind:p.kind,label:lab};
  if(p.mover==='ground')root.add(m);else if(p.mover==='pinion')pinI.add(m);else if(p.mover.startsWith('arm:'))armGroup(p.mover.slice(4)).add(m);
- else if(p.sys==='arm')armMount.add(m);else upperG.add(m);meshes.push(m)}
+ else if(p.mover==='armbase'||p.sys==='arm')armMount.add(m);else upperG.add(m);meshes.push(m)}
 // payload: 150 g of sand as a mound in the bucket (a cue; MuJoCo carries it as a point mass)
 const pay=new THREE.Mesh(new THREE.SphereGeometry(1,24,16),new THREE.MeshStandardMaterial({color:0x9c7a45,roughness:1}));pay.scale.set(22,26,15);pay.position.set(...C.payload.com);pay.userData={name:'payload, 150 g of sand (shown from the curl to the dump)',sys:'arm'};armGroup('bucket').add(pay);
+// ---------------- moving cables (twin of harness.py: loops of fixed length, V6 exits, boom-drive drops)
+const WD=D.wiring,wireDyn=new THREE.Group();armRoot.add(wireDyn);
+const V3=p=>new THREE.Vector3(p[0],p[1],p[2]);
+const vsub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],vadd=(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]],vmul=(a,k)=>[a[0]*k,a[1]*k,a[2]*k],vdot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+const vlen=a=>Math.hypot(a[0],a[1],a[2]),vunit=a=>{const l=vlen(a)||1;return [a[0]/l,a[1]/l,a[2]/l]},vcross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+function bodyToO(P,frame,p){if(frame==='base')return p.slice();const q=P[frame],c=Math.cos(q[2]),s=Math.sin(q[2]);return [q[0]+p[0]*c-p[2]*s,p[1],q[1]+p[0]*s+p[2]*c]}
+function arcFixedLength(p0,p1,L,bulge,n){const c=vlen(vsub(p1,p0));if(L<=c+1e-6){const o=[];for(let i=0;i<=n;i++)o.push(vadd(p0,vmul(vsub(p1,p0),i/n)));return o}
+ let lo=1e-6,hi=Math.PI-1e-6;for(let i=0;i<80;i++){const m=0.5*(lo+hi);if(Math.sin(m)/m>c/L)lo=m;else hi=m}const a=0.5*(lo+hi),R=L/(2*a),e=vunit(vsub(p1,p0));
+ let b=vsub(bulge,vmul(e,vdot(bulge,e)));b=vunit(b);const m=vmul(vadd(p0,p1),0.5),cen=vsub(m,vmul(b,R*Math.cos(a))),o=[];
+ for(let i=0;i<=n;i++){const t=-a+2*a*i/n;o.push(vadd(cen,vadd(vmul(b,R*Math.cos(t)),vmul(e,R*Math.sin(t)))))}return o}
+function roundCorners(pts,r,n=6){const o=[pts[0]];for(let i=1;i<pts.length-1;i++){const a=pts[i-1],b=pts[i],c=pts[i+1],u0=vunit(vsub(a,b)),u1=vunit(vsub(c,b));
+ const cs=Math.max(-1,Math.min(1,vdot(u0,u1))),ang=Math.acos(cs);if(ang>Math.PI-1e-3||ang<1e-3){o.push(b);continue}
+ const td=Math.min(r/Math.tan(ang/2),0.45*vlen(vsub(a,b)),0.45*vlen(vsub(c,b))),rr=td*Math.tan(ang/2),pin=vadd(b,vmul(u0,td)),pout=vadd(b,vmul(u1,td)),bis=vunit(vadd(u0,u1));
+ const cen=vadd(b,vmul(bis,rr/Math.sin(ang/2))),v0=vsub(pin,cen),v1=vsub(pout,cen);for(let k=0;k<=n;k++){const s=k/n;o.push(vadd(cen,vmul(vunit(vadd(vmul(v0,1-s),vmul(v1,s))),rr)))}}
+ o.push(pts[pts.length-1]);return o}
+function arcPts(p,a0,turn,R,n){const side=turn<0?-1:1,cx=p[0]+R*Math.cos(a0+side*Math.PI/2),cz=p[2]+R*Math.sin(a0+side*Math.PI/2),o=[];
+ for(let k=1;k<=n;k++){const a=a0+turn*k/n;o.push([cx+R*Math.cos(a-side*Math.PI/2),p[1],cz+R*Math.sin(a-side*Math.PI/2)])}return o}
+function exitFace(W,d){const a=W[d.a],b=W[d.b],ux=b[0]-a[0],uz=b[1]-a[1],L=Math.hypot(ux,uz),u=[ux/L,0,uz/L],nl=[-u[2],0,u[0]],out=vmul(nl,d.side);
+ return {face:[a[0]+7*u[0]+9.8*out[0],d.yc,a[1]+7*u[2]+9.8*out[2]],out}}
+function dropPath(p0,t0,ty){const n=12,a0=Math.atan2(t0[2],t0[0]);let turn=(-Math.PI/2-a0+Math.PI)%(2*Math.PI);if(turn<0)turn+=2*Math.PI;turn-=Math.PI;let pts=[p0.slice()];
+ if(Math.abs(turn)>3*Math.PI/180)pts=pts.concat(arcPts(pts[pts.length-1],a0,turn,WD.min_bend_r,n));let p=pts[pts.length-1];const h=p[2]-WD.trough_z,R2=Math.min(WD.min_bend_r,h);
+ if(h>R2+1e-6)pts.push([p[0],p[1],WD.trough_z+R2]);p=pts[pts.length-1];pts=pts.concat(arcPts(p,-Math.PI/2,-Math.PI/2,R2,n));
+ const cum=[0];for(let i=1;i<pts.length;i++)cum.push(cum[i-1]+vlen(vsub(pts[i],pts[i-1])));const T=cum[cum.length-1]||1,y0=p0[1];
+ return pts.map((q,i)=>{const u=cum[i]/T;return [q[0],y0+(ty-y0)*(3*u*u-2*u*u*u),q[2]]})}
+function curveLength(pts){let L=0;for(let i=1;i<pts.length;i++)L+=vlen(vsub(pts[i],pts[i-1]));return L}
+const wireMat=new THREE.MeshStandardMaterial({color:new THREE.Color(0.78,0.12,0.10),metalness:.05,roughness:.6}),wireMeshes=[],wireLen={};
+function wireMesh(name){const m=new THREE.Mesh(new THREE.BufferGeometry(),wireMat);m.userData={name,sys:'wiring',step:SID.arm,mover:'armdyn',kind:'cable',label:D.sys.wiring.label,isNew:true};wireDyn.add(m);meshes.push(m);wireMeshes.push(m);return m}
+const wireSet=[];for(const lp of WD.loops)wireSet.push({kind:'loop',d:lp,m:wireMesh(lp.name)});for(const ex of WD.exits)wireSet.push({kind:'exit',d:ex,m:wireMesh(ex.name)});for(const dr of WD.drops)wireSet.push({kind:'drop',d:dr,m:wireMesh(dr.name)});
+function updateWiring(sol){const P=sol.P,W=sol.W;for(const w of wireSet){let pts;const d=w.d;
+ if(w.kind==='loop'){const a=bodyToO(P,d.a.frame,d.a.p),b=bodyToO(P,d.b.frame,d.b.p),aw=bodyToO(P,d.away.frame,d.away.p),mid=vmul(vadd(a,b),0.5);pts=arcFixedLength(a,b,d.L,vsub(mid,aw),24)}
+ else if(w.kind==='exit'){const {face,out}=exitFace(W,d),p1=vadd(face,vmul(out,d.stub));pts=roundCorners([face,p1,bodyToO(P,d.host,d.p2),bodyToO(P,d.host,d.land)],d.R)}
+ else{const {face,out}=exitFace(W,d);pts=dropPath(face,out,d.trough_y)}
+ wireLen[d.name]=curveLength(pts);const g=new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts.map(V3),false,'centripetal'),Math.max(24,pts.length*2),WD.tube_r,8,false);
+ w.m.geometry.dispose();w.m.geometry=g}}
 // ---------------- R12 kinematics (twin of excavator_arm_r12/source/build_viewer_r12.py)
 function look(key,s){const rows=C.tables[key].rows,x=Math.min(Math.max(s/C.step,0),rows.length-1.000001),i=Math.floor(x),f=x-i,a=rows[i],b=rows[i+1];return a.map((v,j)=>v+(b[j]-v)*f)}
 function compose(p,r){const c=Math.cos(p[2]),s=Math.sin(p[2]);return [p[0]+c*r[0]-s*r[1],p[1]+s*r[0]+c*r[1],p[2]+r[2]]}
@@ -113,7 +159,7 @@ let trace=null;
 async function loadTrace(){const bin=Uint8Array.from(atob(D.trace),c=>c.charCodeAt(0));const buf=await new Response(new Blob([bin]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();trace=JSON.parse(new TextDecoder().decode(buf))}
 function sample(t){const fr=trace.frames,x=Math.min(Math.max(t*trace.record_hz,0),fr.length-1.000001),i=Math.floor(x),f=x-i,a=fr[i],b=fr[i+1],L=(u,v)=>u.map((q,j)=>q+(v[j]-q)*f);
  const pose=L(a.pose,b.pose),P={base:[0,0,0]};trace.bodies.forEach((n,j)=>P[n]=pose.slice(3*j,3*j+3));return {P,W:pinsOf(P),s:L(a.s,b.s),f:L(a.f,b.f),tip:L(a.tip,b.tip)}}
-function applyArm(sol){for(const [n,p] of Object.entries(sol.P)){const g=armG[n];if(!g)continue;g.position.set(p[0],0,p[1]);g.rotation.set(0,-p[2],0)}dirty=true}
+function applyArm(sol){for(const [n,p] of Object.entries(sol.P)){const g=armG[n];if(!g)continue;g.position.set(p[0],0,p[1]);g.rotation.set(0,-p[2],0)}updateWiring(sol);dirty=true}
 // ---------------- tracks: chain phase from travel (ground run stays on the ground)
 const P=V.pins,N=P.length,CW=[V.drive,V.idler],R=V.pitch_r;
 function onCircle(p,c){return Math.abs(Math.hypot(p[0]-c[0],p[1]-c[1])-R)<1e-4}
@@ -124,13 +170,17 @@ function setTravel(x){state.travel=x;root.position.x=x;const ph=((-x/V.pitch)%N+
 function setSwing(deg){state.swing=deg;upperG.rotation.z=deg*Math.PI/180;pinO.rotation.z=C.ratio*deg*Math.PI/180;dirty=true}
 // ---------------- assembly order and exploded view
 const ease=u=>u<=0?0:u>=1?1:u*u*(3-2*u);
+function eOf(st){const B=state.build;return B.k<st?0:B.k>st?1:ease(B.f)}      // how far a step's motion has gone: 0 not started, 1 done
+function groupOff(g){if(!g||state.mode!=='build')return [0,0,0];const G=GRP[g],k=1-eOf(G.step);return G.app.map(v=>v*k)}
 function placeParts(){const e=state.explode,B=state.build,building=state.mode==='build';
  for(const m of meshes){const u=m.userData;if(u.step===undefined)continue;let off=[0,0,0];
-  if(u.mover==='ground'||u.mover==='upper'||u.mover==='pinion'){if(u.sys!=='arm'){off=u.exp.map(v=>v*e);if(building&&u.step===B.k)off=u.app.map(v=>v*(1-ease(B.f)))}}
+  if(u.mover==='ground'||u.mover==='upper'||u.mover==='pinion'){if(u.sys!=='arm'){
+   if(building){const k=1-eOf(u.step);off=u.app.map(v=>v*k);if(u.grp){const go=groupOff(u.grp);off=off.map((v,i)=>v+go[i])}}
+   else off=u.exp.map(v=>v*e)}}
   if(u.mover!=='pinion')m.position.set(...off)}
- pinI.position.set(-C.pinion_axis[0],-C.pinion_axis[1],building&&B.k===3?90*(1-ease(B.f)):0);
- for(const tr of tracks){let y=tr.side*90*e;if(building&&B.k===0)y=tr.side*120*(1-ease(B.f));tr.outer.position.set(0,y,0)}
- let a=[60*e,0,170*e];if(building&&B.k===4)a=[0,0,140*(1-ease(B.f))];armMount.position.set(...a);upperG.position.z=105*e;visible();dirty=true}
+ pinI.position.set(-C.pinion_axis[0],-C.pinion_axis[1],building&&B.k===SID.turntable?90*(1-ease(B.f)):0);
+ for(const tr of tracks){let y=tr.side*90*e;if(building&&B.k===SID.tracks)y=tr.side*120*(1-ease(B.f));tr.outer.position.set(0,y,0)}
+ let a=[60*e,0,170*e];if(building&&B.k===SID.arm)a=[0,0,140*(1-ease(B.f))];armMount.position.set(...a);upperG.position.z=105*e;visible();placeLabels();dirty=true}
 // ---------------- layers, visibility
 const ui={xray:$('xray'),ground:$('ground')},layerOn={};
 $('layers').innerHTML=Object.entries(D.sys).map(([k,s])=>`<div class="layer"><span class="sw" style="background:${SYSCOL[k]}"></span><input type="checkbox" id="L-${k}" checked><label for="L-${k}"><b>${s.label}</b><br><small>${s.revision} &middot; ${s.folder}</small></label><button data-iso="${k}" title="Show only this layer">only</button></div>`).join('')+'<div class="row"><button id="Lall">Show all layers</button></div>';
@@ -139,10 +189,10 @@ document.querySelectorAll('[data-iso]').forEach(b=>b.addEventListener('click',()
 $('Lall').addEventListener('click',()=>{for(const k of Object.keys(D.sys)){layerOn[k]=true;$('L-'+k).checked=true}visible()});
 let viewHide=[];
 function visible(){const B=state.build,building=state.mode==='build';
- for(const m of meshes){const u=m.userData;let on=layerOn[u.sys]&&!viewHide.includes(u.sys);if(building){const st=u.sys==='track'?0:u.sys==='arm'?4:u.step;if(st!==undefined&&st>B.k)on=false}
+ for(const m of meshes){const u=m.userData;let on=layerOn[u.sys]&&!viewHide.includes(u.sys);if(building){const st=u.sys==='track'?SID.tracks:u.sys==='arm'?SID.arm:u.step;if(st!==undefined&&st>B.k)on=false}
   if(u.sys==='body'&&state.view==='inside'&&u.kind==='printed'&&!/B104|B105|B107/.test(u.name))on=false;m.visible=on}
  const pt=state.mode==='demo'&&trace&&state.armT>=C.payload.payload_from&&state.armT<=C.payload.payload_to;pay.visible=!!pt&&layerOn.arm&&!viewHide.includes('arm');
- ground.visible=grid.visible=ui.ground.checked&&state.explode<.01;
+ ground.visible=grid.visible=ui.ground.checked&&state.explode<.01;if(typeof updateMarkers==='function')updateMarkers();
  for(const m of meshes){const u=m.userData;if(u.sys==='body'&&u.kind==='printed'){const x=ui.xray.checked;if(m.material.transparent!==x){m.material.transparent=x;m.material.opacity=x?.25:1;m.material.depthWrite=!x;m.material.needsUpdate=true}}}dirty=true}
 ui.xray.addEventListener('change',visible);ui.ground.addEventListener('change',visible);
 // ---------------- views
@@ -156,9 +206,12 @@ const VIEWS={
  mount:{pos:[470,-470,430],target:[50,0,160],cap:'The arm mount. B01X (dark) is R12\'s boom-foot bracket B01 above its flange, unchanged, on a 10 mm base plate with the ARM60 base\'s footprint and bolt pattern: it sits on the T101 rib tops with the 4 existing M6 x 40 bolts. The foot plates carry pin O; the outer cheeks carry the boom drives\' rear pins A.',hide:['body','electronics']},
  inside:{pos:[-560,640,700],target:[-60,0,150],cap:'Inside the body (the shells hidden; cab interior, operator and handrail kept). The 3S 18650 pack hangs under the battery hatch on the centreline. The main board rev A (ESP32-S3, 7 x DRV8876: 2 tracks, swing, 4 arm drives) is in the left bay; switch, fuse and charge jack in the toolbox; steel shot in the counterweight.'},
  under:{pos:[420,-520,-330],target:[0,0,40],cap:'Underside: the belly cover closes the carbody; each X-frame arm arches over the motor pod and ends in the track main plate\'s seat.'},
+ harness:{pos:[430,300,400],target:[0,20,170],cap:'The harness. The four drive cables run in the B01X troughs and slots (the boom drives\' sleeves slide in the troughs), loop round pin O to the posts, and go on along the boom\'s side faces in W01 clamps; the bucket cable loops round pin E. Under the plate they rise through the notches in the hood wall into the left bay. Red: 3 mm sleeves; dark: motor leads; orange: battery; green: lamps.',xray:true},
+ connectors:{pos:[-30,20,250],target:[-85,86,116],cap:'The board plugs, as fitted: six JST XHP-2 and one XHP-4 housings in the S2B/S4B-XH-A side-entry headers, the PHR-3 in the S3B-PH-K-S (J108), the empty S4B-PH-K-S (J109), and the Amass XT30U-F of the 12 V link on the XT30PW-M at the front edge. KiCad\'s own JST models on the board; the housings from the JST catalogue drawings. Click a joint in the Connectors list for any other one.',xray:true,labels:true},
+ pack:{pos:[-60,-230,440],target:[-110,0,205],cap:'The battery pack under the hatch B106 (the hood shown see-through): three Keystone 1043 holders snapped between the sled walls against the standoff ribs, three Samsung INR18650-35E cells facing down, the HX-3S-01 BMS taped to the +Y wall, the 150 mm lead with its XT30U-F plugged into the feed\'s XT30U-M in the hood cavity.',xray:true,labels:true},
  exploded:{pos:[1500,1380,1180],target:[60,0,250],cap:'Exploded by subsystem: tracks out sideways, the belly cover and slip ring down, the RU66 and ring gear up, the turntable lifted, the counterweight back, the body halves out, the battery hatch up and the arm with B01X lifted forward. Use the layer list to isolate one subsystem.',explode:true}};
 let explodeTarget=0;
-function setView(v){const was=state.view;state.view=v;const s=VIEWS[v];camera.position.set(...s.pos);controls.target.set(...s.target);controls.update();viewHide=s.hide||[];
+function setView(v){const was=state.view;state.view=v;const s=VIEWS[v];flight=null;camera.position.set(...s.pos);controls.target.set(...s.target);controls.update();viewHide=s.hide||[];if(s.xray!==undefined)ui.xray.checked=s.xray;viewLabels=!!s.labels;
  document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('on',b.dataset.view===v));explodeTarget=s.explode?1:0;
  if(s.explode){if(state.mode==='demo')pause();if(state.mode!=='build'){setSwing(0);setTravel(0)}}
  else if(was==='exploded'){state.explode=0;if(state.mode==='demo')seek(state.tau);else if(state.mode==='manual')manual()}
@@ -189,8 +242,12 @@ $('time').addEventListener('input',e=>{pause();seek(+e.target.value)});
 // ---------------- assembly order
 $('bsteps').innerHTML=D.steps.map((s,i)=>`<li data-b="${i}"><span>${i+1}. ${s.title}</span></li>`).join('');
 document.querySelectorAll('[data-b]').forEach(li=>li.addEventListener('click',()=>{state.build.playing=false;setBuild(+li.dataset.b,1)}));
-function setBuild(k,f){state.build.k=k;state.build.f=f;document.querySelectorAll('[data-b]').forEach(li=>li.classList.toggle('on',+li.dataset.b===k));placeParts();
- $('hud-t').textContent=`Assembly step ${k+1}/${D.steps.length}: ${D.steps[k].title}`;$('hud-p').textContent='Order from X1 ASSEMBLY.md, TURNTABLE.md, BODY.md and R12 ASSEMBLY.md';$('hud-m').textContent='Parts of the current step move in along their fitting direction.';
+let lastBuildK=-1;
+function setBuild(k,f){state.build.k=k;state.build.f=f;document.querySelectorAll('[data-b]').forEach(li=>li.classList.toggle('on',+li.dataset.b===k));
+ if(k!==lastBuildK){const st=D.steps[k];const go=st.grp?(()=>{const G=GRP[st.grp];return G.step>k?G.app:[0,0,0]})():[0,0,0];
+  if($('bcam').checked)flyTo(st.cam.pos.map((v,i)=>v+go[i]),st.cam.target.map((v,i)=>v+go[i]),1.1);ui.xray.checked=!!st.xray;lastBuildK=k}
+ placeParts();
+ $('hud-t').textContent=`Installation step ${k+1}/${D.steps.length}: ${D.steps[k].title}`;$('hud-p').textContent='Order from excavator_complete/ASSEMBLY.md section 2 (X1, TURNTABLE, BODY and R12 guides, WIRING.md, CONNECTORS.md)';$('hud-m').textContent='Parts of the current step move in along their fitting direction; sub-assemblies (halves, hatch) are built beside the machine and go on as one.';
  $('caption').textContent=D.steps[k].caption;dirty=true}
 $('bprev').addEventListener('click',()=>{state.build.playing=false;setBuild(Math.max(0,state.build.k-1),1)});$('bnext').addEventListener('click',()=>{state.build.playing=false;setBuild(Math.min(D.steps.length-1,state.build.k+1),0)});
 $('bplay').addEventListener('click',()=>{state.build.playing=!state.build.playing;if(state.build.playing){if(state.build.k===D.steps.length-1&&state.build.f>=1)setBuild(0,0)}$('bplay').innerHTML=state.build.playing?'&#10074;&#10074; Pause':'&#9654; Play all steps'});
@@ -207,7 +264,7 @@ $('wp').addEventListener('change',e=>{if(e.target.value==='')return;state.stroke
 function setMode(m){state.mode=m;pause();state.build.playing=false;$('bplay').innerHTML='&#9654; Play all steps';document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('on',b.dataset.mode===m));
  for(const k of ['demo','build','manual'])$('p-'+k).hidden=k!==m;
  if(state.view==='exploded'){explodeTarget=0;state.explode=0;state.view='iso';setView('iso')}
- if(m==='demo')seek(state.tau);else if(m==='build'){setSwing(0);setTravel(0);applyArm(kinematic(C.default));pay.visible=false;setBuild(state.build.k,state.build.f)}
+ if(m==='demo')seek(state.tau);else if(m==='build'){setSwing(0);setTravel(0);applyArm(kinematic(C.default));pay.visible=false;lastBuildK=-1;setBuild(state.build.k,state.build.f)}
  else{const e=evalT(state.tau);if(trace){const s=sample(e.armT).s;state.strokes=[s[0],s[2],s[3]].map(v=>Math.round(v*10)/10)}state.swing=Math.round(e.sw);state.travel=Math.round(e.x);manual()}
  placeParts();return m}
 document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
@@ -225,23 +282,59 @@ $('checks').innerHTML=ck(IC.interface.pass,`B01X on T101: rib tops Z ${IC.interf
  ck(FS.penetrations===0,`Carry pose swung all round (5° steps): ${FS.penetrations} overlaps`)+
  ck(true,'Stroke grid over the lower: '+Object.entries(EV).map(([k,v])=>`${k.replace('swing ','')}° ${v.poses_touching}/${v.poses}`).join(', ')+' poses reach a track or the frame (an operating limit, not a fault)')+
  ck(BAL.all_inside,`Static balance: the CG stays inside the track footprint in ${BAL.states} states; worst margin ${BAL.worst_static.margin_mm} mm`)+
+ (D.wiring_check?ck(D.wiring_check.status==='PASS',`Harness: ${D.wiring_check.status}; every moving cable >= ${Math.min(...Object.values(D.wiring_check.cables).map(c=>c.min_clear_mm)).toFixed(1)} mm from other parts over ${Object.values(D.wiring_check.cables)[0].states} poses; fixed runs >= ${D.wiring_check.static_min_clear_mm.toFixed(1)} mm (wiring_check.json)`):'')+
+ (D.assembly_check?ck(D.assembly_check.status==='PASS',`Assembly inspection: ${D.assembly_check.status}; pin O ${D.assembly_check.pin_O}; arm unit, M6 keys, body halves and hatch paths clear (assembly_check.json)`):'')+
  Object.entries(D.subsystem_reports).map(([k,v])=>ck(/pass|true/i.test(v.status),`${k}: ${v.status} <small>(${v.file})</small>`)).join('')+
  `<div class="note">${BAL.note}</div>`;
+// ---------------- labels (model numbers of the connectors and the battery pack, per installation step)
+let viewLabels=false,focusJoint=null,focusUntil=0;const lblBox=$('labels'),lblEls=D.labels.map(l=>{const d=document.createElement('div');d.className='lbl';d.innerHTML=`${l.text}<small>${l.sub}</small>`;d.hidden=true;lblBox.appendChild(d);return d});
+const _v=new THREE.Vector3();
+function labelWorld(l){const go=groupOff(l.grp);_v.set(l.pos[0]+go[0],l.pos[1]+go[1],l.pos[2]+go[2]);(l.joint==='SM-L'||l.joint==='SM-R'?root:upperG).localToWorld(_v);return _v}
+function labelOn(l,i){if(focusJoint&&l.joint===focusJoint&&performance.now()<focusUntil)return true;if(state.mode==='build')return $('blab').checked&&l.step===state.build.k&&state.build.f>.6;
+ return viewLabels&&(state.view==='connectors'?/^J1/.test(l.joint):state.view==='pack'?['HOLDER','CELL','BMS','FEED'].includes(l.joint):false)}
+function placeLabels(){const w=stage.clientWidth,h=stage.clientHeight;D.labels.forEach((l,i)=>{const el=lblEls[i];if(!labelOn(l,i)){el.hidden=true;return}const p=labelWorld(l).project(camera);
+ if(p.z>1){el.hidden=true;return}el.hidden=false;el.style.left=((p.x+1)/2*w)+'px';el.style.top=((1-p.y)/2*h-8)+'px'})}
+// ---------------- camera flight
+let flight=null;function flyTo(pos,target,secs){flight={p0:camera.position.clone(),t0:controls.target.clone(),p1:new THREE.Vector3(...pos),t1:new THREE.Vector3(...target),s:0,d:secs||1}}
+function stepFlight(dt){if(!flight)return;flight.s=Math.min(1,flight.s+dt/flight.d);const u=ease(flight.s);camera.position.lerpVectors(flight.p0,flight.p1,u);controls.target.lerpVectors(flight.t0,flight.t1,u);controls.update();dirty=true;if(flight.s>=1)flight=null}
+// ---------------- connectors panel: fly to a joint
+const JOINTS=D.catalogue.joints.filter(j=>j.qty>0);
+$('conn').innerHTML=JOINTS.map(j=>`<li data-j="${j.id}"><b>${j.id}</b><span>${j.fixed.split(' (')[0]} &larr; ${j.free.split(' (')[0]}</span><small>${j.circuit.length>28?j.circuit.slice(0,26)+'…':j.circuit}</small></li>`).join('');
+function showJoint(id){const j=JOINTS.find(x=>x.id===id);if(!j)return;const grp=(D.labels.find(l=>l.joint===id)||{}).grp;const go=groupOff(grp);const t=new THREE.Vector3(j.pos[0]+go[0],j.pos[1]+go[1],j.pos[2]+go[2]);
+ (id==='SM-L'||id==='SM-R'?root:upperG).localToWorld(t);const d=new THREE.Vector3(j.mate_dir[0],j.mate_dir[1],j.mate_dir[2]).multiplyScalar(-1);const up=new THREE.Vector3(0,0,1);
+ let dir=d.clone().multiplyScalar(.7).add(up.multiplyScalar(.8));if(Math.abs(d.z)>.5)dir=new THREE.Vector3(.8,-.6,.9);dir.normalize().multiplyScalar(130);
+ ui.xray.checked=true;viewHide=(id==='SM-L'||id==='SM-R')?['xframe','slew','turntable','body','electronics','arm']:[];/* the carbody joints sit under the slewing ring: shown with the structure hidden */visible();flyTo(t.clone().add(dir).toArray(),t.toArray(),1.0);focusJoint=id;focusUntil=performance.now()+6000;placeLabels();dirty=true}
+document.querySelectorAll('[data-j]').forEach(li=>li.addEventListener('click',()=>showJoint(li.dataset.j)));
+// ---------------- standard parts: markers at every bought part
+const MCOL={bearing:'#e63946',"slip ring":'#f4a261',motor:'#2a9d8f',hub:'#8ab17d',magnet:'#9b5de5',insert:'#f15bb5',spring:'#00bbf9',pin:'#577590',collar:'#3d5a80',bushing:'#8d99ae',cell:'#ef476f',"battery holder":'#ffd166',BMS:'#06d6a0',board:'#118ab2',connector:'#f77f00',fastener:'#adb5bd',other:'#6c757d'};
+const mtex={};function markerTex(col){if(mtex[col])return mtex[col];const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');g.beginPath();g.arc(32,32,26,0,Math.PI*2);g.fillStyle=col;g.fill();g.lineWidth=6;g.strokeStyle='#fff';g.stroke();g.beginPath();g.arc(32,32,8,0,Math.PI*2);g.fillStyle='#fff';g.fill();const t=new THREE.CanvasTexture(c);mtex[col]=t;return t}
+const markers=[],cats={};
+for(const r of D.stdparts){cats[r.cat]=(cats[r.cat]||0)+1;const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:markerTex(MCOL[r.cat]||MCOL.other),depthTest:false,transparent:true}));sp.scale.set(7,7,1);sp.position.set(...r.pos);sp.renderOrder=5;
+ sp.userData={name:`${r.des} — ${r.name.replace(/_/g,' ')}`,sys:r.sys,cat:r.cat,marker:true};sp.visible=false;
+ let parent=root;if(r.mover==='track'){const tr=tracks.find(t=>t.side===r.side);parent=tr?tr.outer:root}else if(r.mover==='upper'||r.mover==='pinion'||r.mover==='armbase')parent=upperG;else if(r.mover&&r.mover.startsWith('arm:'))parent=armGroup(r.mover.slice(4));
+ parent.add(sp);markers.push(sp)}
+$('stdcat').innerHTML='<option value="">all categories</option>'+Object.keys(cats).sort().map(c=>`<option value="${c}">${c} (${cats[c]})</option>`).join('');
+$('stdleg').innerHTML=Object.keys(cats).sort().map(c=>`<span><i style="background:${MCOL[c]||MCOL.other}"></i>${c} ${cats[c]}</span>`).join('');
+function updateMarkers(){const on=$('stdp').checked,cat=$('stdcat').value;for(const sp of markers)sp.visible=on&&(!cat||sp.userData.cat===cat)&&layerOn[sp.userData.sys]!==false;dirty=true}
+$('stdp').addEventListener('change',updateMarkers);$('stdcat').addEventListener('change',updateMarkers);
 // ---------------- picking
 const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();renderer.domElement.addEventListener('click',e=>{const r=renderer.domElement.getBoundingClientRect();mouse.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);ray.setFromCamera(mouse,camera);
- const pick=meshes.filter(m=>{let o=m;while(o){if(!o.visible)return false;o=o.parent}return true});const hit=ray.intersectObjects(pick,false)[0];
- $('part').innerHTML=hit?`<b>${hit.object.userData.name}</b>${hit.object.userData.isNew?' <small>(new in this folder)</small>':''}<br><small>${D.sys[hit.object.userData.sys].label} &middot; ${D.sys[hit.object.userData.sys].folder}</small>`:'<small>Click a part to identify it.</small>'});
+ const pick=meshes.concat(markers).filter(m=>{let o=m;while(o){if(!o.visible)return false;o=o.parent}return true});const hit=ray.intersectObjects(pick,false)[0];
+ $('part').innerHTML=hit?`<b>${hit.object.userData.name}</b>${hit.object.userData.isNew?' <small>(new in this folder)</small>':''}${hit.object.userData.joint?' <small>(joint '+hit.object.userData.joint+', see CONNECTORS.md)</small>':''}<br><small>${(D.sys[hit.object.userData.sys]||{label:'standard part'}).label}${D.sys[hit.object.userData.sys]?' &middot; '+D.sys[hit.object.userData.sys].folder:''}</small>`:'<small>Click a part or a marker to identify it.</small>'});
 // ---------------- loop
 function resize(){const w=stage.clientWidth,h=stage.clientHeight;renderer.setSize(w,h);camera.aspect=w/Math.max(1,h);camera.updateProjectionMatrix();dirty=true}new ResizeObserver(resize).observe(stage);
-function render(){renderer.render(scene,camera);state.renders++;dirty=false}
+function render(){renderer.render(scene,camera);placeLabels();state.renders++;dirty=false}
 let last=performance.now();
 function frame(now){const dt=Math.min((now-last)/1000,.1);last=now;
  if(state.playing){let t=state.tau+dt;if(t>=TOTAL){if(state.loop)t=0;else{t=TOTAL;pause()}}seek(t)}
  if(Math.abs(state.explode-explodeTarget)>1e-3){const st=dt*1.4;state.explode=state.explode<explodeTarget?Math.min(explodeTarget,state.explode+st):Math.max(explodeTarget,state.explode-st);placeParts()}
- if(state.build.playing){let f=state.build.f+dt/1.6,k=state.build.k;if(f>=1.35){if(k<D.steps.length-1){k++;f=0}else{f=1;state.build.playing=false;$('bplay').innerHTML='&#9654; Play all steps'}}setBuild(k,Math.min(f,1));state.build.f=f}
+ if(state.build.playing){let f=state.build.f+dt/2.2,k=state.build.k;if(f>=1.6){if(k<D.steps.length-1){k++;f=0}else{f=1;state.build.playing=false;$('bplay').innerHTML='&#9654; Play all steps'}}setBuild(k,Math.min(f,1));state.build.f=f}
+ stepFlight(dt);if(focusJoint&&performance.now()>focusUntil){focusJoint=null;placeLabels()}
  if(dirty)render();requestAnimationFrame(frame)}
 window.demo={explodeNow:()=>{state.explode=explodeTarget;placeParts()},setExplode:e=>{state.explode=e;explodeTarget=e;placeParts()},setCamera:(p,t)=>{camera.position.set(...p);controls.target.set(...t);controls.update();dirty=true},setView,setMode,seek,play,pause,setBuild,setSwing,setTravel,render,kinematic,applyArm,manual,
- setStrokes:s=>{state.strokes=[...s];manual()},layers:(k,on)=>{layerOn[k]=on;$('L-'+k).checked=on;visible()},
+ setStrokes:s=>{state.strokes=[...s];manual()},layers:(k,on)=>{layerOn[k]=on;$('L-'+k).checked=on;visible()},wiringLengths:()=>({...wireLen}),wiringRef:D.wiring_ref,
+ flyTo,showJoint,finishFlight:()=>{if(flight){camera.position.copy(flight.p1);controls.target.copy(flight.t1);controls.update();flight=null;dirty=true}},stdparts:(on,cat)=>{$('stdp').checked=on;$('stdcat').value=cat||'';updateMarkers()},
+ markers:()=>markers.filter(m=>m.visible).length,labelsShown:()=>lblEls.filter(e=>!e.hidden).length,stepIds:D.steps.map(s=>s.id),joints:JOINTS.map(j=>j.id),labelJoints:[...new Set(D.labels.map(l=>l.joint))],catalogue:D.catalogue,
  state:()=>({mode:state.mode,view:state.view,tau:state.tau,total:TOTAL,real:REAL,playing:state.playing,swing:state.swing,travel:state.travel,armT:state.armT,build:{...state.build},explode:state.explode,
   meshes:meshes.length,visible:meshes.filter(m=>{let o=m;while(o){if(!o.visible)return false;o=o.parent}return true}).length,payload:pay.visible,ready:state.ready,renders:state.renders,
   armRootWorld:(()=>{const v=new THREE.Vector3();armRoot.getWorldPosition(v);return [v.x,v.y,v.z]})(),tip:(()=>{const g=armG.bucket;if(!g)return null;const v=new THREE.Vector3(...C.pins.T,0);v.set(C.pins.T[0],0,C.pins.T[1]);g.localToWorld(v);return [v.x,v.y,v.z]})(),

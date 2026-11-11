@@ -159,7 +159,7 @@ You asked for the shape of an actual bucket. D4 replaces the bucket with the one
 4. **Printer bed.** The boom is 408 mm long. Below a 410 mm bed, split it at S (sheet 3).
 5. **Still open from the drawings:**
    - the X1 track limit: keep the boom above 4 mm of stroke when slewed over a track
-   - cable routing
+   - cable routing: done on the X1 machine in `excavator_complete/WIRING.md` (side-face lanes with W01 clamps, loops round O and E, the drives' sleeve exits)
    - testing pin and collar fits on the actual printer
 
 ## Rebuild

@@ -19,7 +19,7 @@ Every outline is copied from the real Caterpillar 320 (sources in `excavator_arm
 
 `x1_body.py` imports the concept script's numbers, so the drawings and the CAD cannot drift apart.
 
-**Status (2026-11-04):** rev B is modelled, and every check in `body_validation.json` passes. Nothing has been printed, assembled or powered.
+**Status (2026-11-07):** rev B issue 2 is modelled (the harness notch in each half's inboard hood wall, see Wiring), and every check in `body_validation.json` passes. Nothing has been printed, assembled or powered.
 
 ![Body B1 on X1](images/X1_body.png)
 
@@ -41,8 +41,8 @@ Every outline is copied from the real Caterpillar 320 (sources in `excavator_arm
    - The mass stage solves both balances together. **The upper's CG is now on the swing axis both ways: X 0.0, Y 0.0.** Before the trim it was 2.3 mm left: the cab, its interior and the controller are all on the left.
 2. **The battery is easy to get at.**
    - Lift the hatch off the hood top by hand. It is held by 4 magnet pairs, and a finger notch at its rear edge gives you a grip.
-   - The three cells hang under the hatch in three Keystone 1043 spring holders, cells facing down. Turn the hatch over and pull the cells out of the springs or press new ones in. No tools, no soldering.
-   - The BMS rides on the hatch. A 150 mm lead with an XT30 connects it to the machine.
+   - The three cells hang under the hatch in three Keystone 1043 spring holders (snapped into the hatch's sled), cells facing down. Turn the hatch over and pull the cells out of the springs or press new ones in. No tools, no soldering.
+   - The BMS (HX-3S-01, 3S 10 A) rides on the hatch. A 150 mm lead with an Amass XT30U-F connects it to the feed's XT30U-M hanging in the hood cavity.
 3. **The cab glass is cut out, and there is a seat and an operator.**
    - B102's cab is now a shell with real openings: the door's upper and lower glass, the rear side window, the windshield and the rear window.
    - Inside are B104 (seat, consoles, joysticks, levers, pedals, monitor) and B105, a seated operator in a hard hat.
@@ -159,9 +159,9 @@ Copper shot (about 5.4 g/cm³) also works. Weigh the same 735 g, keep the same l
   - An arm out and down to a 12 × 12 mirror at Y −133 to −145. It stays inside the body's width, so it prints with the half.
 - **Exhaust stack:** Ø9.5 to Z 231.7, at X −122.9, Y −126.3.
 - **Toolbox:** X 18.1 to 57.9, top at Z 164.8.
-  - The main rocker switch is in its top, in a 19 × 13 cut-out.
-  - The 5.5 × 2.1 charge jack (M8) is in its front face.
-  - The fuse is inside. A Ø12 hole in the deck takes the wires down into the bay.
+  - The main rocker switch (KCD1-101) is in its top, in a 19 × 13 cut-out.
+  - The 5.5 × 2.1 metal charge jack (DC-022B pattern, M8 thread, Ø8 hole, nut and lock washer outside) is in its front face; the wall is 2.0 mm (the jack takes up to 2.1).
+  - The fuse (Littelfuse MINI FHM in-line holder, 5 A MINI fuse) sits on the toolbox floor on VHB tape beside the Ø12 hole in the deck that takes the wires down into the bay.
   - **Rev B:** a Ø6 lamp low on its front, inboard (render 009).
 - **Skirt and bay:** the wiring from the hatch lead to the toolbox. In rev A this bay held the battery, which is now in the hatch.
 
@@ -188,11 +188,11 @@ Copper shot (about 5.4 g/cm³) also works. Weigh the same 735 g, keep the same l
   - It seats on the halves' ledges at Z 217.0, with 0.3 mm gaps to the hood skin.
 - **Under the plate:**
   - Two end walls and two 4 mm standoff ribs.
-  - The three Keystone 1043 holders (77.05 × 20.65 × 14.86, DigiKey data) are glued to the ribs, open side down.
-  - The BMS sits on the +Y end wall, the XT30 lead on the −Y end wall.
+  - The three Keystone 1043 holders (77.05 × 20.65 × 14.86, Keystone drawing rev C; THM version with PC pins) press up between the two sled walls against the ribs and snap behind 1.0 × 0.8 lips on the walls (12 long under each end wall), open side down; no glue. Their PC pins (Ø1.57 × 3.3, at 71.64 pitch) point up into the 4 mm standoff space and carry the series links and the BMS taps.
+  - The HX-3S-01 BMS (50 × 16) is taped (1 mm VHB) to the outer face of the +Y sled wall; the XT30U-F lead leaves at the −Y side. The whole pack, the connectors and the toolbox parts are drawn from the makers' drawings (`source/stdparts.py`), the main board from its KiCad STEP (`source/board_step.py`).
 - **Fixing:** 4 Ø6 × 2 magnets in the plate, over 4 in the halves' ledges.
 - **Lifting:** a finger notch at the rear edge.
-- **Mass:** the hatch with the battery is 220 g. Its CG is on the centreline, 110 mm behind the swing axis, at Z 205.
+- **Mass:** the hatch with the battery is 223 g (hatch 37 g, three cells 150 g, holders, BMS and lead). Its CG is on the centreline, 110 mm behind the swing axis, at Z 205.
 
 ### B107 left handrail and mirror (rev B)
 - **What it is:** the grab handle on the cab's front-left pillar, with the left mirror on its top (renders 009 and 027).
@@ -221,19 +221,22 @@ Copper shot (about 5.4 g/cm³) also works. Weigh the same 735 g, keep the same l
 | Steel shot, poured (about 4.5 g/cm³), or copper shot | 735 g | Counterweight pocket |
 | Thin CA or laminating epoxy | a few g | Locks the shot's top layer; the magnets; B104, B105 and B107 if loose |
 | 18650 Li-ion cell, flat or button top, up to 65.3 mm long (unprotected cells are fine: the BMS protects them) | 3 | In the hatch (3S1P) |
-| Keystone 1043 single 18650 holder (or an equivalent at most 77.1 × 20.7 × 14.9) | 3 | Glued under the hatch |
-| 3S BMS board (about 45 × 16) | 1 | On the hatch's end wall |
-| XT30 plug pair, with a 150 mm lead | 2 | The battery lead from the hatch; the 12 V link between the halves |
+| Keystone 1043 single 18650 holder, THM (PC pins) | 3 | Snapped into the hatch sled, open side down |
+| HX-3S-01 3S 10 A BMS board (50 × 16) | 1 | On the hatch's +Y sled wall, VHB tape |
+| Amass XT30U-F (2) and XT30U-M (1) | 3 | The hatch lead (female) into the feed socket (male) in the hood cavity; the 12 V link's female onto the board's XT30PW-M |
 | X1 main board rev A, 96 × 64, JLCPCB-assembled ([controller/main_board](controller/main_board/DESIGN.md)) | 1 | Left bay: ESP32-S3, 7 × DRV8876, the rails; USB-C at the skirt slot |
-| Mini rocker switch, KCD1 size (19 × 13 cut-out) | 1 | Toolbox top |
-| Inline blade fuse holder with a 5 A fuse | 1 | Inside the toolbox |
-| 5.5 × 2.1 panel DC jack, M8 thread | 1 | Toolbox front; charge with a 12.6 V CC/CV Li-ion charger (3S) |
+| Rocker switch KCD1-101 (21.2 × 15.1 bezel, 19 × 13 cut-out) | 1 | Toolbox top |
+| Littelfuse MINI FHM in-line fuse holder with a 5 A MINI fuse | 1 | Toolbox floor, VHB tape |
+| 5.5 × 2.1 metal panel DC jack, M8 thread, Ø8 hole (DC-022B pattern) | 1 | Toolbox front; charge with a 12.6 V CC/CV Li-ion charger (3S) |
 | Wire (silicone, 20 and 26 AWG), heat-shrink | — | About 60 g in the model |
 
-The cell figures are the Samsung INR18650-35E datasheet maxima (Ø18.55, 65.25 long, 50 g). The holder sizes are DigiKey's figures for the Keystone 1043. The main board is modelled from its KiCad layout: the PCB, each part's courtyard box at its netlist height, and the mated plugs of its inboard connectors (`X1_main_board_A_parts.json`). The other electronics are envelopes sized from common modules. Their masses are assumptions, listed in `simulation/body_mass_properties.json`.
+The cell figures are the Samsung INR18650-35E datasheet maxima (Ø18.55, 65.25 long, 50 g). The holders follow the Keystone 1043 drawing (rev C), the connectors the JST and Amass drawings, the switch the Finglai KCD1 drawing (`source/stdparts.py` lists every source). The main board is the KiCad STEP of rev A (`source/board_step.py`: the PCB, every part's 3D model and the mated JST plugs of its inboard headers); its courtyard boxes (`X1_main_board_A_parts.json`) and the old plug envelopes remain the shapes the interference checks use. The fuse holder's body is the one envelope taken from photographs. Masses are assumptions, listed in `simulation/body_mass_properties.json`; the complete-machine catalogue is `excavator_complete/CONNECTORS.md`.
 
 ## Wiring
 
+The complete harness, including the four arm cables, is routed and checked in `excavator_complete/WIRING.md`. The points below are the body's part of it.
+
+0. **Rev B issue 2 (2026-11-07): harness notch.** The inboard hood's front wall (X −25..−23) of each half has its bottom edge raised to Z 156 over |Y| 38–56 (`x1_body.py HARNESS_NOTCH`). T101's rear bulkhead (X −38..−30) and the B01X plate's rear edge (X −21) leave that wall standing in a 9 mm gap, which is the only way the arm cables can rise out of T101's interior into the hood. Nothing else of the half is in that corner; the body checks were re-run.
 1. **Power:** cells (in the hatch) → BMS (in the hatch) → XT30 lead → fuse → main switch (toolbox) → XT30 link → controller board (12 V bus) → the drivers and the 6 V and 5 V bucks. The charge jack goes to the BMS's charge input through the same lead.
 2. **Balance taps:** solder the BMS's B1 and B2 wires to the joints between the holders. Single-cell holders give direct access to every cell terminal.
 3. **Swing motor:** its leads leave the T101 Ø20 window into the counterweight's channel. They come up and out over the T101 rear bulkhead (the cable notch in the halves' rear walls, |Y| < 14), then go over T101 into the left bay.

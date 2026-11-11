@@ -72,9 +72,9 @@ The board housing is the 9.75 mm side of the 16.1 mm deep body (6.35 mm on the o
 
 ## Assembly order
 
-1. Press pins A into B01. Fit the inner spacers onto them.
+1. Dry-fit pins A in B01 (B01X on the X1 machine, `excavator_complete/`): they go in last, in step 3, because once a pin is through the outer cheek and the foot plate the drive eye between them can no longer be threaded on.
 2. Bond the B08 pads to B02, using the B pin as a jig. Let the glue cure.
-3. Fit the boom to the bracket on pin O, with the shim washers. Then fit both boom drives: rear eyes on A, then spacers, cheek and collars; rod eyes on the B pin.
+3. Fit the boom to the bracket on pin O, with the shim washers. Then each boom drive: hold its rear eye, with a spacer on each side, between the foot plate and the outer cheek, and press pin A in from outside through the cheek, the outer spacer, the eye, the inner spacer and the foot plate; then the collar. Rod eyes on the B pin.
 4. Fit the stick drive to the boom at C. Join the stick to the boom at E, with shims, and the stick-drive rod to the stick at D.
 5. Fit the bucket drive at F. Assemble the linkage at J and R: side links, H-links, the R spacers, and the bucket-drive rod eye between the H-link bosses. Then fit Q through the bucket ears and the torque tube, and H.
 6. Glue the five teeth.

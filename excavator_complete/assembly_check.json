@@ -1,0 +1,288 @@
+{
+ "pin_O_insertion": {
+  "pin": "\u00d86 x 60 at vehicle (30, 0, 195); the pin must be outside (|Y| 30..92) before it enters",
+  "results": {
+   "from the left (cab side)": {
+    "overlaps": [],
+    "gap_mm": 7.203,
+    "clear": true
+   },
+   "from the right (tank side)": {
+    "overlaps": [],
+    "gap_mm": 22.842,
+    "clear": true
+   }
+  },
+  "verdict": "either side: the cab is open on the boom side, so the pin can be pushed in from the left too"
+ },
+ "arm_unit_vertical_path": {
+  "moving": "B01X with the complete R12 arm at the carry pose",
+  "against": "body halves, hatch, electronics, turntable",
+  "steps": {
+   "2 mm up": {
+    "overlaps": [],
+    "gap_mm": 25.739
+   },
+   "5 mm up": {
+    "overlaps": [],
+    "gap_mm": 28.207
+   },
+   "10 mm up": {
+    "overlaps": [],
+    "gap_mm": 32.502
+   },
+   "30 mm up": {
+    "overlaps": [],
+    "gap_mm": 43.604
+   },
+   "60 mm up": {
+    "overlaps": [],
+    "gap_mm": 43.604
+   },
+   "120 mm up": {
+    "overlaps": [],
+    "gap_mm": 51.425
+   }
+  },
+  "clear": true
+ },
+ "m6_key_access": {
+  "tool": "5 mm hex key as a \u00d86 x 120 straight path up from each bolt head, arm and body fitted",
+  "results": {
+   "bolt 0 at (-9, 65)": {
+    "overlaps": [],
+    "gap_mm": 6.007
+   },
+   "bolt 1 at (-9, -65)": {
+    "overlaps": [],
+    "gap_mm": 6.007
+   },
+   "bolt 2 at (99, 65)": {
+    "overlaps": [],
+    "gap_mm": 6.007
+   },
+   "bolt 3 at (99, -65)": {
+    "overlaps": [],
+    "gap_mm": 6.007
+   }
+  },
+  "clear": true
+ },
+ "body_halves_removal": {
+  "note": "as BODY.md paths, but against the R12 arm (carry pose), B01X and its posts",
+  "results": {
+   "left half": {
+    "steps": {
+     "2 mm outboard": {
+      "overlaps": [],
+      "gap_mm": 0.1
+     },
+     "5 mm outboard": {
+      "overlaps": [],
+      "gap_mm": 0.1
+     },
+     "10 mm outboard": {
+      "overlaps": [],
+      "gap_mm": 0.3
+     },
+     "10 mm outboard, 5 mm up": {
+      "overlaps": [],
+      "gap_mm": 0.3
+     },
+     "10 mm outboard, 20 mm up": {
+      "overlaps": [],
+      "gap_mm": 0.3
+     },
+     "10 mm outboard, 60 mm up": {
+      "overlaps": [],
+      "gap_mm": 0.3
+     }
+    },
+    "clear": true
+   },
+   "right half": {
+    "steps": {
+     "2 mm outboard": {
+      "overlaps": [],
+      "gap_mm": 0.1
+     },
+     "5 mm outboard": {
+      "overlaps": [],
+      "gap_mm": 0.1
+     },
+     "10 mm outboard": {
+      "overlaps": [],
+      "gap_mm": 0.3
+     },
+     "10 mm outboard, 5 mm up": {
+      "overlaps": [],
+      "gap_mm": 0.3
+     },
+     "10 mm outboard, 20 mm up": {
+      "overlaps": [],
+      "gap_mm": 0.3
+     },
+     "10 mm outboard, 60 mm up": {
+      "overlaps": [],
+      "gap_mm": 0.3
+     }
+    },
+    "clear": true
+   }
+  },
+  "clear": true
+ },
+ "hatch_lift_vs_arm_poses": {
+  "results": {
+   "carry": {
+    "steps": [
+     {
+      "dz": 1.0,
+      "overlaps": [],
+      "gap_mm": 0.05
+     },
+     {
+      "dz": 10.0,
+      "overlaps": [],
+      "gap_mm": 0.601
+     },
+     {
+      "dz": 60.0,
+      "overlaps": [],
+      "gap_mm": 3.588
+     }
+    ],
+    "clear": true
+   },
+   "reach out, bucket open": {
+    "steps": [
+     {
+      "dz": 1.0,
+      "overlaps": [],
+      "gap_mm": 0.05
+     },
+     {
+      "dz": 10.0,
+      "overlaps": [],
+      "gap_mm": 0.601
+     },
+     {
+      "dz": 60.0,
+      "overlaps": [],
+      "gap_mm": 3.588
+     }
+    ],
+    "clear": true
+   },
+   "penetrate": {
+    "steps": [
+     {
+      "dz": 1.0,
+      "overlaps": [],
+      "gap_mm": 0.05
+     },
+     {
+      "dz": 10.0,
+      "overlaps": [],
+      "gap_mm": 0.601
+     },
+     {
+      "dz": 60.0,
+      "overlaps": [],
+      "gap_mm": 3.588
+     }
+    ],
+    "clear": true
+   },
+   "crowd the stick": {
+    "steps": [
+     {
+      "dz": 1.0,
+      "overlaps": [],
+      "gap_mm": 0.05
+     },
+     {
+      "dz": 10.0,
+      "overlaps": [],
+      "gap_mm": 0.601
+     },
+     {
+      "dz": 60.0,
+      "overlaps": [],
+      "gap_mm": 3.588
+     }
+    ],
+    "clear": true
+   },
+   "curl the bucket": {
+    "steps": [
+     {
+      "dz": 1.0,
+      "overlaps": [],
+      "gap_mm": 0.05
+     },
+     {
+      "dz": 10.0,
+      "overlaps": [],
+      "gap_mm": 0.601
+     },
+     {
+      "dz": 60.0,
+      "overlaps": [],
+      "gap_mm": 3.588
+     }
+    ],
+    "clear": true
+   },
+   "raise": {
+    "steps": [
+     {
+      "dz": 1.0,
+      "overlaps": [],
+      "gap_mm": 0.05
+     },
+     {
+      "dz": 10.0,
+      "overlaps": [],
+      "gap_mm": 0.601
+     },
+     {
+      "dz": 60.0,
+      "overlaps": [],
+      "gap_mm": 3.588
+     }
+    ],
+    "clear": true
+   },
+   "dump": {
+    "steps": [
+     {
+      "dz": 1.0,
+      "overlaps": [],
+      "gap_mm": 0.05
+     },
+     {
+      "dz": 10.0,
+      "overlaps": [],
+      "gap_mm": 0.601
+     },
+     {
+      "dz": 60.0,
+      "overlaps": [],
+      "gap_mm": 3.588
+     }
+    ],
+    "clear": true
+   }
+  },
+  "clear": true
+ },
+ "inboard_plugs_vs_rib": {
+  "plug_wire_end_y": 79.0,
+  "rib_outer_face_y": 69.0,
+  "gap_mm": 10.04,
+  "note": "a mated XHP-2 housing is 7.5 long and needs about 12 mm with its wire bend: it cannot be mated with the half on the machine. Mate the plugs with the half standing beside the machine (BODY.md slack), or fit top-entry headers (B2B-XH-A / B4B-XH-A, DESIGN.md alternatives) on a rev B board."
+ },
+ "status": "PASS",
+ "seconds": 862.0
+}

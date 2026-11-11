@@ -32,6 +32,8 @@ from shapely.geometry import Polygon, LineString, Point, box as sbox
 from shapely.ops import unary_union
 import x1_parts as X
 import x1_turntable as T
+import stdparts as SP                                  # bought parts drawn from their makers' drawings
+import board_step as BS                                # the main board as KiCad exported it (STEP)
 
 sys.path.insert(0, str(X.ROOT / 'body_concept/source'))
 import draw_body_concept as K                          # noqa: E402  concept B1 numbers (Cat 320 traces, Cat -> X1)
@@ -91,9 +93,14 @@ BOARD = dict(x=(-136.0, -40.0), y=(84.0, 148.0), z=(110.0, 111.6))
 # top (spec C1 B4: the slot moves down from Z 123.3, where a devkit on headers had it); plug overmolds to 14.4 x 8.4
 USB = dict(x=-98.0, z=113.2, slot=(15.0, 9.0), r=3.0)
 MAIN_BOARD_PARTS = X.ROOT / 'controller' / 'main_board' / 'X1_main_board_A_parts.json'   # written by check_pcb.py
-PLUG_DEPTH = dict(XH=12.0, PH=10.0)    # mated JST plug and lead bend beyond a side-entry header's face (envelope)
-SWITCH = dict(c=(34.5, -104.5), cut=(19.0, 13.0), bezel=(21.0, 15.0), depth=18.0)
-JACK = dict(y=-141.0, z=150.0, hole_r=4.1)             # 5.5 x 2.1 panel jack, M8 thread
+PLUG_DEPTH = dict(XH=12.0, PH=10.0)    # mated JST plug and lead bend beyond a side-entry header's face (check envelope)
+HEADER_FACE_Y = BOARD['y'][0] + 0.54   # 84.54: mating faces of the side-entry headers (KiCad's JST models, board_step.py)
+BOARD_TOP_Z = BOARD['z'][0] + 1.51     # 111.51: the board top in the KiCad STEP
+SWITCH = dict(c=(34.5, -104.5), cut=(19.0, 13.0), bezel=(21.2, 15.1), depth=18.9)   # KCD1-101 (Finglai drawing)
+JACK = dict(y=-141.0, z=150.0, hole_r=4.1)             # 5.5 x 2.1 metal panel jack, M8 thread, 8 mm hole (DC-022B pattern)
+FUSE_HOLDER = dict(x=30.0, y=-130.0, z0=138.0)         # Littelfuse MINI FHM in-line holder in the toolbox, leads along Y
+FEED_SOCKET = (-100.0, -42.0, 166.0)                   # the mated XT30 pair of the battery feed, hanging in the hood cavity
+BMS = dict(x=-110.0, z=205.0)                          # HX-3S-01 (50 x 16) taped to the +Y sled wall's outer face
 
 # battery hatch B106 (rev B): the flat hood top between the rear face and the slope, on the centreline
 HATCH_HY = 55.0                                        # opening half width (the sleeve bores are at |Y| 65)
@@ -103,7 +110,8 @@ LEDGE_W, LEDGE_T = 6.5, 4.0
 MAGNET = dict(r=3.0, h=2.0, pocket_r=3.1, pocket_h=2.1,                 # Ø6 x 2 N52 discs, glued, 4 pairs
               xy=tuple((x, s*(HATCH_HY - LEDGE_W/2)) for x in (-137.0, -81.0) for s in (1, -1)))
 SLED = dict(x=(-141.8, -78.2), y_in=38.9, t=1.6, z0=192.5, rib_y=20.0, standoff=4.0)
-HOLDER = dict(l=77.05, w=20.65, h=14.86, pitch=21.0, xc=(-131.0, -110.0, -89.0), kg=.006)   # Keystone 1043 (DigiKey data)
+HOLDER = dict(l=77.05, w=20.65, h=14.86, pitch=21.0, xc=(-131.0, -110.0, -89.0), kg=.009)   # Keystone 1043 (drawing rev C; 8.8 g TME)
+SNAP_LIP = dict(len=12.0, depth=1.0, h=0.8)             # the holders snap into the sled: lips under their end walls
 CELL = dict(r=18.55/2, l=65.25, kg=.050)                # Samsung INR18650-35E datasheet maxima (Ø18.55, 65.25, 50 g)
 
 # cab (rev B): glass openings traced in the drawing (glass1/2), the front render (windshield) and the rear view
@@ -282,10 +290,18 @@ def bay_inner_strip(side, front):
     return out
 
 
+HARNESS_NOTCH = dict(y=(38.0, 56.0), z_top=156.0)       # rev B issue 2: the arm harness rises through the hood's inboard front wall here
+
+
 def common_cuts(side):
-    """Cable notch in the rear wall (and the lap) where the counterweight's lead channel comes out."""
+    """Cable notches: in the rear wall (and the lap) where the counterweight's lead channel comes out, and in the inboard
+    hood's front wall where the four arm cables rise out of T101 behind the B01X plate (excavator_complete/WIRING.md).
+    T101's rear bulkhead (X -38..-30) and the plate's rear edge (X -21) leave the wall (X -25..-23) in a 9 mm gap, so the
+    cables need the wall's bottom edge raised to Z 156 over |Y| 38-56; nothing else of the half is there."""
     y = (-LAP - 1, NOTCH) if side > 0 else (-NOTCH, 0.0)
-    return [box(XR - 1, XR + T_W + 2.5, *y, Z_OVER - 1, 154.0)]
+    hy = sorted([side * HARNESS_NOTCH['y'][0], side * HARNESS_NOTCH['y'][1]])
+    return [box(XR - 1, XR + T_W + 2.5, *y, Z_OVER - 1, 154.0),
+            box(HOOD_FRONT - T_W - 1, HOOD_FRONT + 1, *hy, Z_OVER - 1, HARNESS_NOTCH['z_top'])]
 
 
 def hatch_frame(side):
@@ -628,15 +644,21 @@ def operator():
 @lru_cache(None)
 def hatch():
     """The Cat's raised engine hood (rear view 027), 1 mm proud of the hood top, as a lift-off hatch carrying the battery:
-    2 end walls and 2 standoff ribs under the plate; the 3 holders are glued to the ribs, cells facing down. Lift it
-    off (4 magnet pairs), turn it over, change the cells. Printed upside down."""
+    2 side walls and 2 standoff ribs under the plate; the 3 Keystone 1043 holders press up between the walls against the
+    ribs and snap behind lips on the walls, cells facing down; the BMS is taped to a wall. Lift it off (4 magnet pairs),
+    turn it over, change the cells. Printed upside down."""
     hy, zl = HATCH_HY - GAP, Z_LEDGE
     s = [box(XR, S0 - GAP, -hy, hy, zl, zl + HATCH_T).edges('>Z').chamfer(.6)]
     x0, x1 = SLED['x']
     hx0, hx1 = HOLDER['xc'][0] - HOLDER['w']/2, HOLDER['xc'][-1] + HOLDER['w']/2
+    z_lip = zl - SLED['standoff'] - HOLDER['h']                      # 198.16: the holders' open edge (inverted)
     for sg in (1, -1):
         s.append(box(x0, x1, *sorted([sg*SLED['y_in'], sg*(SLED['y_in'] + SLED['t'])]), SLED['z0'], zl + .01))
         s.append(box(hx0, hx1, sg*SLED['rib_y'] - 1.5, sg*SLED['rib_y'] + 1.5, zl - SLED['standoff'], zl + .01))
+        for xc in HOLDER['xc']:                                             # snap lips: 12 long, 1.0 in, 0.8 thick, chamfered lead-in
+            y_in = sg*(SLED['y_in'] - SNAP_LIP['depth'])
+            lip = box(xc - SNAP_LIP['len']/2, xc + SNAP_LIP['len']/2, *sorted([y_in, sg*(SLED['y_in'] + .01)]), z_lip - SNAP_LIP['h'], z_lip)
+            s.append(lip.edges('<Z').edges('>Y' if sg < 0 else '<Y').chamfer(SNAP_LIP['h'] - .1))
     cuts = [zcyl(MAGNET['pocket_r'], zl - .01, zl + MAGNET['pocket_h'], x, y) for x, y in MAGNET['xy']]
     cuts.append(box(XR - 1, XR + 6.0, -9.0, 9.0, zl + 1.5, zl + HATCH_T + 1))                # finger notch at the rear edge
     return cut_all(union_all(s), cuts).clean()
@@ -654,32 +676,38 @@ def handle_mirror():
 
 
 # ------------------------------------------------------------------ bought parts
-def holder(xc):
-    """Keystone 1043 single 18650 holder (77.05 x 20.65 x 14.86), upside down under the hatch: open side down."""
-    zt = Z_LEDGE - SLED['standoff']
-    zb, hw, hl = zt - HOLDER['h'], HOLDER['w']/2, HOLDER['l']/2
-    zc = zt - 1.5 - CELL['r']
-    return (box(xc - hw, xc + hw, -hl, hl, zb, zt).cut(tp.ycyl(CELL['r'] + .2, -CELL['l']/2 - .35, CELL['l']/2 + .35, xc, zc))
-            .cut(box(xc - hw + 1.0, xc + hw - 1.0, -CELL['l']/2 - .35, CELL['l']/2 + .35, zb - 1, zc)))
+def board_kg():
+    return dict(pcb=.022, ics=.010, passives=.003, module=.003, jst=.003, usb=.001, xt30=.002, xt30_pins=.0005)
 
 
 def main_board():
-    """The main board rev A as placed and routed in KiCad: the PCB, its parts as courtyard boxes (heights from the
-    netlist), and the mated plugs of the inboard side-entry connectors. Read from the board's parts file."""
+    """The main board rev A as KiCad exported it (board_step.py: the PCB and every part's 3D model, in colour groups)
+    and the mated harness plugs of its inboard side-entry headers (stdparts: JST XHP-2 / XHP-4 / PHR-3 drawn from the
+    JST catalogue), each with 4 mm of its wires. J109 (expansion) stays empty. The interference checks use the parts'
+    courtyard boxes (X1_main_board_A_parts.json) and the old 12 / 10 mm plug envelopes, not the detailed solids."""
     import json
     d = json.loads(MAIN_BOARD_PARTS.read_text())
     assert d['board'] == dict(x=list(BOARD['x']), y=list(BOARD['y']), z=list(BOARD['z'])), 'main board outline moved'
-    e = {'controller_PCB': (box(*BOARD['x'], *BOARD['y'], *BOARD['z']), PCB_C, .022)}
-    parts, plugs = [], []
+    court = {p['ref']: box(*p['x'], *p['y'], *p['z']) for p in d['parts']}
+    e = {}
+    for g, (s, c, refs) in BS.machine_groups().items():
+        name = 'controller_PCB' if g == 'pcb' else ('board_parts' if g == 'ics' else f'board_parts_{g}')
+        env = box(*BOARD['x'], *BOARD['y'], *BOARD['z']) if g == 'pcb' else _union([court[r] for r in refs if r in court])
+        e[name] = (s, PCB_C if g == 'pcb' else c, board_kg()[g], env)
+    plugs, env, wires = [], [], {}
     for p in d['parts']:
-        b = box(*p['x'], *p['y'], *p['z'])
-        parts.append(b)
         kind = p['value'][:2] if p['value'].startswith(('XH ', 'PH ')) else None      # JST XH / PH headers
-        if kind and abs(p['y'][0] - BOARD['y'][0]) < 0.5:               # side-entry, face on the inboard edge
-            plugs.append(box(*p['x'], BOARD['y'][0] - PLUG_DEPTH[kind], BOARD['y'][0], *p['z']))
-    e['board_parts'] = (_union(parts), MOD_C, .016)
-    if plugs:
-        e['board_plugs'] = (_union(plugs), SW_C, .002 * len(plugs))
+        if kind and abs(p['y'][0] - BOARD['y'][0]) < 0.5 and p['ref'] != 'J109':     # side-entry, face on the inboard edge
+            n = int(p['value'].split()[1][0])
+            xc = sum(p['x']) / 2
+            parts = SP.xh_housing(n, wire_len=4.0) if kind == 'XH' else SP.ph_housing(n, wire_len=4.0)
+            for nm, s, c in SP.place(parts, (xc, HEADER_FACE_Y, BOARD_TOP_Z)):
+                (plugs if nm == 'housing' else wires.setdefault(c, [])).append(s)
+            env.append(box(*p['x'], BOARD['y'][0] - PLUG_DEPTH[kind], BOARD['y'][0], *p['z']))
+    e['board_plugs'] = (_union(plugs), SP.NYLON_WHITE, .002 * len(plugs), _union(env))
+    cname = {SP.RED: 'red', SP.BLACK_WIRE: 'black', (.9, .5, .1): 'orange', (.5, .2, .6): 'purple'}
+    for c, lst in wires.items():
+        e[f'board_plugs_wires_{cname[c]}'] = (_union(lst), c, 0.0, _union(env))
     return e
 
 
@@ -691,26 +719,37 @@ def _union(shapes):
 
 
 def electronics():
-    """Bought electronics: the battery in the hatch (rev B), the controller in the left bay, the switch, fuse and jack in
-    the toolbox. name -> (shape, colour, kg)."""
+    """Bought electronics: the battery pack on the hatch (3 x Keystone 1043 holders with INR18650-35E cells, the HX-3S-01
+    BMS, the XT30U-F hatch lead mated to the XT30U-M feed socket), the main board with its mated plugs in the left bay,
+    and the KCD1-101 switch, the MINI FHM fuse holder and the 5.5 x 2.1 panel jack in the toolbox. Every bought shape
+    comes from stdparts.py (the makers' drawings) or the board's STEP. name -> (shape, colour, kg[, check envelope])."""
     e = {}
-    zc = Z_LEDGE - SLED['standoff'] - 1.5 - CELL['r']
+    zt = Z_LEDGE - SLED['standoff']                      # the holders' base (they hang inverted) against the standoff ribs
+    zc = zt - SP.K1043['base'] - SP.K1043['cell_d'] / 2 - .15
     for i, xc in enumerate(HOLDER['xc']):
-        e[f'cell_18650_{i}'] = (tp.ycyl(CELL['r'], -CELL['l']/2, CELL['l']/2, xc, zc), CELL_C, CELL['kg'])
-        e[f'holder_1043_{i}'] = (holder(xc), HOLD_C, HOLDER['kg'])
+        flip = [((1, 0, 0), 180)] + ([((0, 0, 1), 180)] if i % 2 else [])   # open side down; every other one turned round (series)
+        for n, s, c in SP.place(SP.keystone_1043(), (xc, 0.0, zt), rot=flip):
+            e[f'holder_1043_{i}' + ('' if n == 'cradle' else '_' + n)] = (s, c, HOLDER['kg'] if n == 'cradle' else 0.0)
+        cell = SP.place(SP.cell_18650(), (0.0, SP.K1043['cell_y'], 0.0))            # against the holder's + dimple
+        for n, s, c in SP.place(cell, (xc, 0.0, zc), rot=flip):                       # turned with its holder
+            e[f'cell_18650_{i}' + ('' if n == 'wrap' else '_' + n)] = (s, c, CELL['kg'] if n == 'wrap' else 0.0)
     yo = SLED['y_in'] + SLED['t']
-    e['battery_BMS_3S'] = (box(-132.5, -87.5, yo, yo + 3.5, 197.0, 213.0), BMS_C, .006)
-    e['battery_lead_XT30'] = (box(-116.0, -104.0, -yo - 4.5, -yo, 199.0, 207.0), SW_C, .008)
+    for n, s, c in SP.place(SP.bms_hx3s01(), (BMS['x'], yo, BMS['z']), rot=[((1, 0, 0), -90)]):
+        e['battery_BMS_HX3S01' + ('' if n == 'pcb' else '_' + n)] = (s, c, .004 if n == 'pcb' else 0.0)
+    # the feed pair: the hatch lead's XT30U-F (nose down) in the feed's XT30U-M (mouth up), hanging in the hood cavity
+    for n, s, c in SP.place(SP.xt30u_f(wire_len=4.0), FEED_SOCKET, rot=[((0, 1, 0), -90)]):
+        e['battery_lead_XT30' + ('' if n == 'housing' else '_' + n)] = (s, c, .003 if n == 'housing' else 0.0)
+    for n, s, c in SP.place(SP.xt30u_m(wire_len=4.0), FEED_SOCKET, rot=[((0, 1, 0), -90)]):
+        e['feed_socket_XT30' + ('' if n == 'housing' else '_' + n)] = (s, c, .003 if n == 'housing' else 0.0)
     e.update(main_board())
     sx, sy = SWITCH['c']
-    bw, bh = SWITCH['bezel']; cw_, ch_ = SWITCH['cut']
-    e['main_switch'] = (box(sx - bw/2, sx + bw/2, sy - bh/2, sy + bh/2, B['toolbox_top'], B['toolbox_top'] + 2.2)
-                        .union(box(sx - cw_/2 + .3, sx + cw_/2 - .3, sy - ch_/2 + .3, sy + ch_/2 - .3,
-                                   B['toolbox_top'] - SWITCH['depth'], B['toolbox_top'] + .01)), SW_C, .008)
-    e['fuse_holder_5A'] = (box(24.0, 45.0, -128.0, -116.0, 140.0, 152.0), SW_C, .006)
-    jx = TB_X[1]
-    e['charge_jack'] = (tp.xcyl(5.0, jx, jx + 1.5, JACK['y'], JACK['z']).union(tp.xcyl(3.9, jx - 16.0, jx + .01, JACK['y'], JACK['z']))
-                        .union(tp.xcyl(5.5, jx - 16.0, jx - T_W - .3, JACK['y'], JACK['z'])), SW_C, .006)
+    for n, s, c in SP.place(SP.kcd1_101(), (sx, sy, B['toolbox_top'])):
+        e['main_switch' + ('' if n == 'bezel' else '_' + n)] = (s, c, .006 if n == 'bezel' else 0.0)
+    for n, s, c in SP.place(SP.dc_jack_5521(T_W), (TB_X[1], JACK['y'], JACK['z'])):
+        e['charge_jack' + ('' if n == 'barrel' else '_' + n)] = (s, c, .006 if n == 'barrel' else 0.0)
+    f = FUSE_HOLDER
+    for n, s, c in SP.place(SP.fuse_holder_mini(lead_len=3.0), (f['x'], f['y'], f['z0'])):
+        e['fuse_holder_5A' + ('' if n == 'body' else '_' + n)] = (s, c, .012 if n == 'body' else 0.0)
     return e
 
 
@@ -756,7 +795,8 @@ PRINTED = {   # name: (material and settings, print orientation (axis, deg, note
                       ((0, 0, 1), 0, 'upright on its feet'), 'Seated operator in a hard hat; a peg into the seat.'),
     'B106_battery_hatch': ('PETG, 3 perimeters, 15 % gyroid', ((1, 0, 0), 180, 'upside down: the hatch top on the bed'),
                            "The Cat's raised engine hood, as a lift-off hatch carrying the battery: 3 Keystone 1043 holders "
-                           'glued to 2 standoff ribs (cells facing down), the BMS on an end wall, 4 magnets.'),
+                           'snapped between the sled walls against 2 standoff ribs (cells facing down), the HX-3S-01 BMS taped '
+                           'to the +Y wall, the XT30U-F lead, 4 magnets.'),
     'B107_left_handrail': ('PETG (black), 100 % infill', ((0, 1, 0), 90, 'flat on its side'),
                            "Grab handle on the cab's front-left pillar with the left mirror; 2 pegs into the cab wall."),
 }
@@ -769,16 +809,19 @@ PRINT_SHAPES = dict(B102_left_half=left_half, B103_right_half=right_half, B104_c
 def body_parts(fill_z, swing_deg=0.0, floors=(POCKET_FLOOR, POCKET_FLOOR)):
     """Every body solid in the vehicle frame at swing 0 (or turned with the upper). group 'body'."""
     out = {}
-    def add(n, s, color, kind, kg=None, mat=None, part=None):
+    def add(n, s, color, kind, kg=None, mat=None, part=None, envelope=None):
         if swing_deg:
             s = s.rotate((0, 0, 0), (0, 0, 1), swing_deg)
+            envelope = None if envelope is None else envelope.rotate((0, 0, 0), (0, 0, 1), swing_deg)
         out[n] = dict(shape=s, color=color, group='body', kind=kind, source=part or n, kg=kg, material=mat)
+        if envelope is not None:
+            out[n]['envelope'] = envelope                 # what the interference checks use instead of the detailed shape
     add('B101_counterweight', counterweight(fill_z, floors), CW_C, 'printed')
     for n, f in PRINT_SHAPES.items():
         add(n, f(), PRINT_COLOURS[n], 'printed')
     add('ballast_steel_shot', shot(fill_z, floors), SHOT_C, 'ballast')
-    for n, (s, c, kg) in electronics().items():
-        add(n, s, c, 'electronics', kg=kg)
+    for n, v in electronics().items():
+        add(n, v[0], v[1], 'electronics', kg=v[2], envelope=v[3] if len(v) > 3 else None)
     for n, (s, c, m) in hardware().items():
         add(n, s, c, 'hardware', mat=m)
     return out
@@ -790,7 +833,7 @@ def half_of(n):
         return 'hatch'
     if n.startswith('ledge_magnet'):
         return 'left' if MAGNET['xy'][int(n.split('_')[-1])][1] > 0 else 'right'
-    if n.startswith(('main_switch', 'fuse', 'charge_jack')) or n == 'B103_right_half':
+    if n.startswith(('main_switch', 'fuse', 'charge_jack', 'feed_socket')) or n == 'B103_right_half':
         return 'right'
     if n.startswith(('controller', 'board_', 'B102', 'B104', 'B105', 'B107')):
         return 'left'

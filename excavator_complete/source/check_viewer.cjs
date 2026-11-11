@@ -71,18 +71,48 @@ const shotsOnly = process.argv[2] === 'shots', checksOnly = process.argv[2] === 
         return { ground_shoes: n, flat_run_shoes: nf, max_slip_flat_run_mm: flat, max_slip_all_ground_shoes_mm: worst,
           note: 'a sign error would show 10 mm (twice the 5 mm move); end links follow the sprocket/idler pitch circles', pass: nf > 5 && flat < 1e-6 && worst < 0.5 };
       });
-      // 4. assembly order: each step adds parts; the last shows all
+      // 4. installation order: each step adds parts (or moves a sub-assembly), the last shows all; the step's labels appear; the
+      //    group offsets vanish once the group's step is done
       rep.checks.assembly = await page.evaluate(() => {
-        demo.setMode('build'); const n = [];
-        for (let k = 0; k < 9; k++) { demo.setBuild(k, 1); n.push(demo.state().visible); }
+        demo.setMode('build'); const n = [], lab = [], ids = demo.stepIds;
+        for (let k = 0; k < ids.length; k++) { demo.setBuild(k, 1); n.push(demo.state().visible); lab.push(demo.labelsShown()); }
         const all = demo.state().meshes;
-        return { visible_after_each_step: n, meshes: all, pass: n.every((v, i) => i === 0 || v > n[i - 1]) && n[8] === all };
+        const grows = n.every((v, i) => i === 0 || v >= n[i - 1]), adds = n.filter((v, i) => i > 0 && v > n[i - 1]).length;
+        return { steps: ids, visible_after_each_step: n, labels_per_step: lab, meshes: all,
+          pass: grows && adds >= 9 && n[n.length - 1] === all && lab[ids.indexOf('plugs')] >= 8 && lab[ids.indexOf('pack')] >= 4 && lab[ids.indexOf('cells')] >= 3 };
+      });
+      // 4b. connectors: every joint of the catalogue has a label and the panel can fly to it; markers of the standard parts exist
+      rep.checks.connectors = await page.evaluate(() => {
+        demo.setMode('demo'); demo.seek(0.5);
+        const joints = demo.joints, out = {};
+        for (const j of joints.filter(j => demo.labelJoints.includes(j))) { demo.showJoint(j); demo.finishFlight(); demo.render(); out[j] = demo.labelsShown(); }
+        demo.stdparts(true, ''); const all = demo.markers(); demo.stdparts(true, 'bearing'); const bearings = demo.markers(); demo.stdparts(false, '');
+        const types = demo.catalogue.types.length;
+        return { joints: joints.length, labels_when_shown: out, catalogue_types: types, markers_all: all, markers_bearings: bearings,
+          pass: joints.length >= 14 && Object.values(out).every(v => v >= 1) && types >= 15 && all > 300 && bearings >= 36 };
       });
       // 5. exploded view and back
       rep.checks.exploded = await page.evaluate(() => {
         demo.setMode('demo'); demo.setView('exploded'); demo.explodeNow(); const e = demo.state();
         demo.setView('iso'); demo.explodeNow(); const b = demo.state();
         return { exploded: e.explode, back: b.explode, armRoot_exploded: e.armRootWorld, armRoot_back: b.armRootWorld, pass: e.explode === 1 && b.explode === 0 };
+      });
+      // 6. the moving cables: the page's loops, exits and drops against harness.py's lengths at three poses (same rules, same anchors)
+      rep.checks.wiring = await page.evaluate(() => {
+        demo.setMode('manual'); const rows = []; let worst = 0, n = 0;
+        for (const ref of demo.wiringRef) {
+          demo.setStrokes(ref.strokes); const got = demo.wiringLengths();
+          for (const [name, L] of Object.entries(ref.lengths)) {
+            // the page names them by cable: map harness.py's segment names
+            const key = Object.keys(got).find(k => (name.includes('loop at O') && k.includes('loop at O') && k.startsWith(name.split(' ')[0])) ||
+              (name.includes('loop at E') && k.includes('loop at E')) || (name.endsWith(' exit') && k.includes('exit') && k.startsWith(name.split(' ')[0])) ||
+              (name.endsWith(' drop') && k.includes('drop') && k.startsWith(name.split('_')[0] + ' ' + name.split('_')[1].split(' ')[0])));
+            const g = key ? got[key] : null; const d = g === null ? 1e9 : Math.abs(g - L); worst = Math.max(worst, d); n++;
+            rows.push({ segment: name, page: key, python_mm: L, page_mm: g === null ? null : +g.toFixed(3), diff_mm: +d.toFixed(3) });
+          }
+        }
+        demo.setStrokes(demo.config.default);
+        return { poses: demo.wiringRef.length, segments: n, max_diff_mm: +worst.toFixed(3), rows, pass: n >= 21 && worst < 0.6 };
       });
     }
     // screenshots
@@ -95,10 +125,24 @@ const shotsOnly = process.argv[2] === 'shots', checksOnly = process.argv[2] === 
       ['complete_top', `demo.setMode('demo');demo.seek(0.5);demo.setView('top')`],
       ['arm_mount', `demo.setMode('demo');demo.seek(0.5);demo.setView('mount')`],
       ['inside_body', `demo.setMode('demo');demo.seek(0.5);demo.setView('inside')`],
+      ['harness', `demo.setMode('demo');demo.seek(0.5);demo.setView('harness')`],
+      ['harness_boom_down', `demo.setMode('manual');demo.setStrokes([0,0,0]);demo.setView('harness')`],
+      ['connectors_board_plugs', `demo.setMode('demo');demo.seek(0.5);demo.setView('connectors')`],
+      ['battery_pack', `demo.setMode('demo');demo.seek(0.5);demo.setView('pack')`],
+      ['joint_feed_xt30', `demo.setMode('demo');demo.seek(0.5);demo.showJoint('FEED');demo.finishFlight()`],
+      ['joint_sm_left_track', `demo.setMode('demo');demo.seek(0.5);demo.showJoint('SM-L');demo.finishFlight()`],
+      ['toolbox_switch_fuse_jack', `demo.setMode('demo');demo.seek(0.5);demo.showJoint('JACK');demo.finishFlight()`],
+      ['standard_parts_bearings', `demo.setMode('demo');demo.seek(0.5);demo.setView('iso');demo.stdparts(true,'bearing')`],
+      ['standard_parts_all', `demo.setView('exploded');demo.explodeNow();demo.stdparts(true,'');`],
+      ['install_plugs', `demo.stdparts(false,'');demo.setView('iso');demo.explodeNow();demo.setMode('build');demo.setBuild(demo.stepIds.indexOf('plugs'),0.75);demo.finishFlight()`],
+      ['install_pack', `demo.setMode('build');demo.setBuild(demo.stepIds.indexOf('pack'),0.75);demo.finishFlight()`],
+      ['install_cells', `demo.setMode('build');demo.setBuild(demo.stepIds.indexOf('cells'),0.75);demo.finishFlight()`],
+      ['install_hatch', `demo.setMode('build');demo.setBuild(demo.stepIds.indexOf('hatch'),0.7);demo.finishFlight()`],
+      ['install_right_parts', `demo.setMode('build');demo.setBuild(demo.stepIds.indexOf('right_parts'),0.75);demo.finishFlight()`],
       ['cab', `demo.setMode('demo');demo.seek(0.5);demo.setView('cab')`],
       ['exploded', `demo.setMode('demo');demo.seek(0.5);demo.setView('exploded');demo.explodeNow()`],
-      ['assembly_step2_xframe', `demo.setView('iso');demo.explodeNow();demo.setMode('build');demo.setBuild(1,0.45)`],
-      ['assembly_step5_arm', `demo.setMode('build');demo.setBuild(4,0.5)`],
+      ['assembly_step2_xframe', `demo.setView('iso');demo.explodeNow();demo.setMode('build');demo.setBuild(1,0.45);demo.finishFlight()`],
+      ['assembly_step5_arm', `demo.setMode('build');demo.setBuild(demo.stepIds.indexOf('arm'),0.5);demo.finishFlight()`],
     ];
     for (const [name, js] of (checksOnly ? [] : shots)) {
       const t = Date.now();
@@ -110,6 +154,20 @@ const shotsOnly = process.argv[2] === 'shots', checksOnly = process.argv[2] === 
       console.log('shot', name, (Date.now() - t) / 1000, 's');
     }
     await page.evaluate(() => { demo.setView('iso'); demo.explodeNow(); demo.setMode('demo'); demo.seek(0); });
+    // the connector gallery page (build_connectors.py): every model rendered on its own
+    if (!checksOnly && fs.existsSync(path.join(root, 'connector_gallery.html'))) {
+      const gp = await context.newPage(); gp.setDefaultTimeout(300000);
+      gp.on('pageerror', e => errors.push('gallery: ' + e.message)); gp.on('console', m => { if (m.type() === 'error') errors.push('gallery: ' + m.text()); });
+      await gp.setViewportSize({ width: 1320, height: 1500 });
+      await gp.goto('file://' + path.join(root, 'connector_gallery.html'));
+      await gp.waitForFunction(() => window.gallery && window.gallery.count > 0, null, { timeout: 300000 });
+      await gp.waitForTimeout(4000);
+      const t = Date.now(), file = path.join(imgDir, 'connectors_gallery.png');
+      await gp.screenshot({ path: file, fullPage: true, timeout: 300000 });
+      rep.screenshots.push({ file: 'images/connectors_gallery.png', bytes: fs.statSync(file).size, seconds: (Date.now() - t) / 1000 });
+      rep.gallery_models = await gp.evaluate(() => window.gallery.count);
+      await gp.close();
+    }
     rep.errors = errors; rep.network_requests = network;
     rep.pass = !errors.length && !network.length && Object.values(rep.checks).every(c => c.pass);
   } finally { await browser.close(); }

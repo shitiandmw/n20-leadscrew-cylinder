@@ -13,29 +13,29 @@
   164.0,
   72.0
  ],
- "envelope_mm3": 243562.8,
+ "envelope_mm3": 236890.7,
  "infill_core_mm3": 98854.8,
- "mass_g": 196.3,
+ "mass_g": 187.9,
  "com_mm_O_frame": [
-  13.23,
+  12.88,
   0.0,
-  -48.88
+  -48.58
  ],
  "inertia_kg_mm2": [
   [
-   434.1181,
-   -0.0,
-   9.6696
+   423.5234,
+   0.0,
+   10.5996
   ],
   [
-   -0.0,
-   291.2737,
+   0.0,
+   289.0993,
    -0.0
   ],
   [
-   9.6696,
+   10.5996,
    -0.0,
-   656.7083
+   643.8775
   ]
  ],
  "print_rule": "PETG, 6 perimeters (2.5 mm) + 10 % gyroid infill, as every R12 print: envelope minus 90 % of the plate core",
@@ -75,6 +75,65 @@
  },
  "unchanged_from_B01": "foot plates |Y| 20.5-25.5 and outer cheeks |Y| 42.5-47.5 above Z O-49, the O bore \u00d86.1 and the A bores \u00d83.1 (r12_design.foot_parts); A pins pressed in as ASSEMBLY.md",
  "replaced": "B01 flange 75.8 x 100 x 6 with 4 x \u00d84.5 (M4) holes",
+ "cable_features": {
+  "issue": 3,
+  "slots": {
+   "S3": {
+    "x_O": -26.0,
+    "y": 39.5,
+    "length_x": 8.0,
+    "width_y": 7.0,
+    "x_vehicle": 4.0
+   },
+   "S4": {
+    "x_O": -26.0,
+    "y": -39.5,
+    "length_x": 8.0,
+    "width_y": 7.0,
+    "x_vehicle": 4.0
+   }
+  },
+  "troughs": {
+   "centreline_O": [
+    [
+     47.0,
+     34.0
+    ],
+    [
+     20.0,
+     34.0
+    ],
+    [
+     0.0,
+     37.5
+    ],
+    [
+     -22.0,
+     39.5
+    ]
+   ],
+   "width": 5.0,
+   "depth": 7.0,
+   "mouth": {
+    "from_x_O": 20.0,
+    "width": 9.0
+   },
+   "tie_pairs_x_O": [
+    8.0,
+    30.0
+   ]
+  },
+  "tie_slots": "3.5 x 1.6: two pairs across each trough, one pair behind each slot",
+  "posts": {
+   "x_O": -34.0,
+   "y": 39.5,
+   "d": 6.0,
+   "top_z_O": -26.0,
+   "top_z_vehicle": 169.0,
+   "tie_hole_d": 2.6,
+   "x_vehicle": -4.0
+  }
+ },
  "b01_volume_mm3": 73637.1,
- "seconds": 18.0
+ "seconds": 47.2
 }

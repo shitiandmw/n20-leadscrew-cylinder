@@ -238,7 +238,10 @@ void Controller::update(uint32_t now, const Sense &s) {
       continue;
     }
     d = ramp_toward(d, target[ch], dt, CHANNEL[ch].ramp_ms);
-    if (CHANNEL[ch].vbat && d != 0.f && cur_mA_[ch] >= cfg_.stall_fraction * CHANNEL[ch].limit_a * 1000.f) {
+    // S4: the current a stalled motor would draw at this duty (the driver caps it at its limit); the IPROPI reading
+    // follows the motor current at any duty (low-side sensing in both drive and brake phases, DRV8876 7.3.3.1)
+    const float i_stall = fminf(CHANNEL[ch].limit_a, fabsf(d) * vbat_f_ / cfg_.motor_ohm);
+    if (CHANNEL[ch].vbat && d != 0.f && i_stall >= cfg_.stall_min_a && cur_mA_[ch] >= cfg_.stall_fraction * i_stall * 1000.f) {
       if (!stall_pending_[ch]) {
         stall_pending_[ch] = true;
         stall_since_[ch] = now;

@@ -25,6 +25,7 @@ from shapely.geometry import box as sbox
 import x1_parts as X
 import x1_turntable as T
 import x1_body as Bd
+import board_step as BS
 import build_turntable as BT
 import tw_checks as checks
 import build_track_wheel as export
@@ -93,7 +94,7 @@ def body(swing=0.0):
         return {n: {**d, 'shape': d['shape'].rotate((0, 0, 0), (0, 0, 1), swing)} for n, d in body().items()}
     print('Body', flush=True)
     fz, fl = fill_z(), floors()
-    return brep_cached(f'body_{stamp(SRC / "x1_body.py", SRC / "x1_turntable.py", X.ROOT / "body_concept/source/draw_body_concept.py")}'
+    return brep_cached(f'body_{stamp(SRC / "x1_body.py", SRC / "x1_turntable.py", SRC / "stdparts.py", SRC / "board_step.py", Bd.MAIN_BOARD_PARTS, BS.STEP, X.ROOT / "body_concept/source/draw_body_concept.py")}'
                        f'_{fz:.3f}_{fl[0]:.2f}_{fl[1]:.2f}', lambda: Bd.body_parts(fz, floors=fl), CACHE)
 
 
@@ -129,8 +130,8 @@ def fixed_items():
         vp, v = printed_volume(s, Bd.SKIN[n[:4]])
         rows.append((n, BT.solid_item(s, density=rho*vp/v), f'{Bd.SKIN[n[:4]]} mm perimeters + {Bd.INFILL:.0%} infill '
                      '(thin parts print solid)'))
-    for n, (s, c, kg) in Bd.electronics().items():
-        rows.append((n, BT.solid_item(s, mass=kg), 'bought, mass assumed'))
+    for n, v in Bd.electronics().items():
+        rows.append((n, BT.solid_item(v[0], mass=v[2]), 'bought, mass assumed'))
     for n, (s, c, m) in Bd.hardware().items():
         rows.append((n, BT.solid_item(s, density=DENS[m]), m))
     for n, kg, c in WIRING:
@@ -395,7 +396,23 @@ def static_stage():
     b = body()
     allp = {**upper_tt(), **side_tt(), **b}
     tt_names = set(turntable())
-    return batch_interference([(allp, lambda a, c: (a in tt_names and c in tt_names))])[0]
+    board = ('board_', 'controller_')                     # the board's colour groups share the courtyard envelopes
+    names = sorted(allp, key=len)
+    def stem(n):                                          # the shortest part name this one is a piece of ('charge_jack' for 'charge_jack_lugs')
+        return next((m for m in names if n == m or n.startswith(m + '_')), n)
+    mated = (('battery_lead_XT30', 'feed_socket_XT30'),)  # nested connector pairs (drawn mated)
+    def skip(a, c):
+        if a in tt_names and c in tt_names:
+            return True
+        if a.startswith(board) and c.startswith(board):
+            return True
+        if a.startswith(c + '_') or c.startswith(a + '_'):   # pieces of one bought part (holder and its contacts, a cell and its ends)
+            return True
+        if stem(a) == stem(c):                                # sibling pieces (the jack's body and lugs, the switch's rocker and terminals)
+            return True
+        return any(a.startswith(m) and c.startswith(m) or a.startswith(pr[0]) and c.startswith(pr[1]) or a.startswith(pr[1]) and c.startswith(pr[0])
+                   for pr in mated for m in pr)
+    return batch_interference([(allp, skip)])[0]
 
 
 def sweep_stage(step=15):
@@ -469,7 +486,7 @@ def tools_stage():
         arm_long = X.zcyl(1.6, Bd.CW_BOLT_Z, 260.0, -122.6, y)
         add('counterweight_M4_L_key_halves_off', halves_off, arm_short.union(arm_long))
     jx = Bd.TB_X[1] + 1.5
-    add('charge_plug_path', {**every, **lower_near()}, X.tp.xcyl(5.5, jx + .05, jx + 60, Bd.JACK['y'], Bd.JACK['z']))
+    add('charge_plug_path', {**every, **lower_near()}, X.tp.xcyl(5.5, jx + 7.1, jx + 60, Bd.JACK['y'], Bd.JACK['z']))   # the charger plug's Ø11 overmold butts on the jack's barrel tip, 7 proud of the wall
     u = Bd.USB
     plug = sbox(u['x'] - 6.2, u['z'] - 3.3, u['x'] + 6.2, u['z'] + 3.3).buffer(-2.0).buffer(2.0, 16)    # slim USB-C overmold
     add('USB_C_plug_path', {**every, **lower_near()}, X.tp.xz_prism(plug, 150.7, 200.0))

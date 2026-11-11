@@ -50,18 +50,79 @@
    "pass": true
   },
   "assembly": {
-   "visible_after_each_step": [
-    346,
-    390,
-    449,
-    519,
-    620,
-    626,
-    635,
-    649,
-    662
+   "steps": [
+    "tracks",
+    "xframe",
+    "slewing",
+    "turntable",
+    "arm",
+    "counterweight",
+    "left_parts",
+    "plugs",
+    "left",
+    "right_parts",
+    "right",
+    "pack",
+    "cells",
+    "hatch"
    ],
-   "meshes": 662,
+   "visible_after_each_step": [
+    348,
+    392,
+    467,
+    542,
+    675,
+    682,
+    701,
+    718,
+    720,
+    736,
+    744,
+    759,
+    768,
+    772
+   ],
+   "labels_per_step": [
+    0,
+    0,
+    2,
+    0,
+    0,
+    0,
+    0,
+    8,
+    0,
+    3,
+    1,
+    4,
+    3,
+    1
+   ],
+   "meshes": 772,
+   "pass": true
+  },
+  "connectors": {
+   "joints": 16,
+   "labels_when_shown": {
+    "J101": 1,
+    "J102": 1,
+    "J103": 1,
+    "J104": 1,
+    "J105": 1,
+    "J106": 1,
+    "J107": 1,
+    "J108": 1,
+    "FEED": 1,
+    "SM-L": 1,
+    "SM-R": 1,
+    "SM-LAMP": 1,
+    "SW": 1,
+    "JACK": 1,
+    "FUSE": 1
+   },
+   "catalogue_types": 18,
+   "markers_all": 377,
+   "markers_bearings": 36,
    "pass": true
   },
   "exploded": {
@@ -73,9 +134,164 @@
     470
    ],
    "armRoot_back": [
-    30.00000000249969,
+    34.0130615234375,
     0,
     195
+   ],
+   "pass": true
+  },
+  "wiring": {
+   "poses": 3,
+   "segments": 21,
+   "max_diff_mm": 0.003,
+   "rows": [
+    {
+     "segment": "stick exit",
+     "page": "stick drive cable, exit",
+     "python_mm": 44.134,
+     "page_mm": 44.134,
+     "diff_mm": 0
+    },
+    {
+     "segment": "stick loop at O",
+     "page": "stick drive cable, loop at O",
+     "python_mm": 91.981,
+     "page_mm": 91.983,
+     "diff_mm": 0.002
+    },
+    {
+     "segment": "bucket exit",
+     "page": "bucket drive cable, exit",
+     "python_mm": 40.215,
+     "page_mm": 40.215,
+     "diff_mm": 0
+    },
+    {
+     "segment": "bucket loop at E",
+     "page": "bucket drive cable, loop at E",
+     "python_mm": 109.983,
+     "page_mm": 109.984,
+     "diff_mm": 0.001
+    },
+    {
+     "segment": "bucket loop at O",
+     "page": "bucket drive cable, loop at O",
+     "python_mm": 91.981,
+     "page_mm": 91.983,
+     "diff_mm": 0.002
+    },
+    {
+     "segment": "boom_L drop",
+     "page": "boom L drive cable, drop into the trough",
+     "python_mm": 26.389,
+     "page_mm": 26.389,
+     "diff_mm": 0
+    },
+    {
+     "segment": "boom_R drop",
+     "page": "boom R drive cable, drop into the trough",
+     "python_mm": 26.389,
+     "page_mm": 26.389,
+     "diff_mm": 0
+    },
+    {
+     "segment": "stick exit",
+     "page": "stick drive cable, exit",
+     "python_mm": 44.552,
+     "page_mm": 44.552,
+     "diff_mm": 0
+    },
+    {
+     "segment": "stick loop at O",
+     "page": "stick drive cable, loop at O",
+     "python_mm": 91.986,
+     "page_mm": 91.987,
+     "diff_mm": 0.001
+    },
+    {
+     "segment": "bucket exit",
+     "page": "bucket drive cable, exit",
+     "python_mm": 40.365,
+     "page_mm": 40.365,
+     "diff_mm": 0
+    },
+    {
+     "segment": "bucket loop at E",
+     "page": "bucket drive cable, loop at E",
+     "python_mm": 109.974,
+     "page_mm": 109.976,
+     "diff_mm": 0.002
+    },
+    {
+     "segment": "bucket loop at O",
+     "page": "bucket drive cable, loop at O",
+     "python_mm": 91.986,
+     "page_mm": 91.987,
+     "diff_mm": 0.001
+    },
+    {
+     "segment": "boom_L drop",
+     "page": "boom L drive cable, drop into the trough",
+     "python_mm": 12.643,
+     "page_mm": 12.643,
+     "diff_mm": 0
+    },
+    {
+     "segment": "boom_R drop",
+     "page": "boom R drive cable, drop into the trough",
+     "python_mm": 12.643,
+     "page_mm": 12.643,
+     "diff_mm": 0
+    },
+    {
+     "segment": "stick exit",
+     "page": "stick drive cable, exit",
+     "python_mm": 45.454,
+     "page_mm": 45.454,
+     "diff_mm": 0
+    },
+    {
+     "segment": "stick loop at O",
+     "page": "stick drive cable, loop at O",
+     "python_mm": 91.966,
+     "page_mm": 91.969,
+     "diff_mm": 0.003
+    },
+    {
+     "segment": "bucket exit",
+     "page": "bucket drive cable, exit",
+     "python_mm": 39.888,
+     "page_mm": 39.888,
+     "diff_mm": 0
+    },
+    {
+     "segment": "bucket loop at E",
+     "page": "bucket drive cable, loop at E",
+     "python_mm": 109.965,
+     "page_mm": 109.968,
+     "diff_mm": 0.003
+    },
+    {
+     "segment": "bucket loop at O",
+     "page": "bucket drive cable, loop at O",
+     "python_mm": 91.966,
+     "page_mm": 91.969,
+     "diff_mm": 0.003
+    },
+    {
+     "segment": "boom_L drop",
+     "page": "boom L drive cable, drop into the trough",
+     "python_mm": 32.913,
+     "page_mm": 32.913,
+     "diff_mm": 0
+    },
+    {
+     "segment": "boom_R drop",
+     "page": "boom R drive cable, drop into the trough",
+     "python_mm": 32.913,
+     "page_mm": 32.913,
+     "diff_mm": 0
+    }
    ],
    "pass": true
   }
@@ -83,69 +299,144 @@
  "screenshots": [
   {
    "file": "images/complete_iso.png",
-   "bytes": 302396,
-   "seconds": 51.811
+   "bytes": 324578,
+   "seconds": 158.209
   },
   {
    "file": "images/complete_side_dig.png",
-   "bytes": 212686,
-   "seconds": 4.287
+   "bytes": 203462,
+   "seconds": 12.484
   },
   {
    "file": "images/complete_dump_left.png",
-   "bytes": 319521,
-   "seconds": 6.884
+   "bytes": 350023,
+   "seconds": 16.312
   },
   {
    "file": "images/complete_front.png",
-   "bytes": 195048,
-   "seconds": 9.314
+   "bytes": 180758,
+   "seconds": 11.487
   },
   {
    "file": "images/complete_rear.png",
-   "bytes": 294093,
-   "seconds": 6.709
+   "bytes": 344573,
+   "seconds": 14.309
   },
   {
    "file": "images/complete_top.png",
-   "bytes": 166566,
-   "seconds": 5.592
+   "bytes": 178771,
+   "seconds": 11.788
   },
   {
    "file": "images/arm_mount.png",
-   "bytes": 306615,
-   "seconds": 13.603
+   "bytes": 327039,
+   "seconds": 13.502
   },
   {
    "file": "images/inside_body.png",
-   "bytes": 349097,
-   "seconds": 7.103
+   "bytes": 375537,
+   "seconds": 16.708
+  },
+  {
+   "file": "images/harness.png",
+   "bytes": 421917,
+   "seconds": 20.505
+  },
+  {
+   "file": "images/harness_boom_down.png",
+   "bytes": 387417,
+   "seconds": 21.491
+  },
+  {
+   "file": "images/connectors_board_plugs.png",
+   "bytes": 457231,
+   "seconds": 14.603
+  },
+  {
+   "file": "images/battery_pack.png",
+   "bytes": 374912,
+   "seconds": 18.892
+  },
+  {
+   "file": "images/joint_feed_xt30.png",
+   "bytes": 300349,
+   "seconds": 8.311
+  },
+  {
+   "file": "images/joint_sm_left_track.png",
+   "bytes": 131154,
+   "seconds": 2.394
+  },
+  {
+   "file": "images/toolbox_switch_fuse_jack.png",
+   "bytes": 195196,
+   "seconds": 4.696
+  },
+  {
+   "file": "images/standard_parts_bearings.png",
+   "bytes": 332681,
+   "seconds": 19.709
+  },
+  {
+   "file": "images/standard_parts_all.png",
+   "bytes": 231294,
+   "seconds": 18.6
+  },
+  {
+   "file": "images/install_plugs.png",
+   "bytes": 455533,
+   "seconds": 16.104
+  },
+  {
+   "file": "images/install_pack.png",
+   "bytes": 280550,
+   "seconds": 12.993
+  },
+  {
+   "file": "images/install_cells.png",
+   "bytes": 268241,
+   "seconds": 10
+  },
+  {
+   "file": "images/install_hatch.png",
+   "bytes": 476084,
+   "seconds": 13.395
+  },
+  {
+   "file": "images/install_right_parts.png",
+   "bytes": 405814,
+   "seconds": 14.3
   },
   {
    "file": "images/cab.png",
-   "bytes": 277492,
-   "seconds": 7.781
+   "bytes": 343285,
+   "seconds": 15.598
   },
   {
    "file": "images/exploded.png",
-   "bytes": 216274,
-   "seconds": 6.008
+   "bytes": 216318,
+   "seconds": 12.093
   },
   {
    "file": "images/assembly_step2_xframe.png",
-   "bytes": 251594,
-   "seconds": 5.198
+   "bytes": 256751,
+   "seconds": 10.22
   },
   {
    "file": "images/assembly_step5_arm.png",
-   "bytes": 280788,
-   "seconds": 6.394
+   "bytes": 305931,
+   "seconds": 12.992
+  },
+  {
+   "file": "images/connectors_gallery.png",
+   "bytes": 373782,
+   "seconds": 1.693
   }
  ],
- "sha256": "f5529d8a30275310d5a7372002314b140febb9df9aea3cc688569a44c810ccfa",
- "size_mb": 15.3,
- "load_s": 5.83,
- "meshes": 662,
+ "sha256": "ec8e8ef3be7f6991a2dfa363f3aa54c19537ad85d585def2b791ee8d703d688f",
+ "size_mb": 21.1,
+ "load_s": 9.287,
+ "meshes": 772,
  "timeline": {
   "shown_s": 48.135,
   "real_s": 658.7,
@@ -159,6 +450,7 @@
    "Travel back"
   ]
  },
+ "gallery_models": 20,
  "errors": [],
  "network_requests": [],
  "pass": true
