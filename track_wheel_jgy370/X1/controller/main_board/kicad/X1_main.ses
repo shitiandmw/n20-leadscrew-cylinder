@@ -26,10 +26,6 @@
       (place R123 1220000 -638000 front 90)
       (place R122 1220000 -706000 front 90)
       (place R121 1220000 -674000 front 90)
-      (place R114 1236000 -768000 front 90)
-      (place R113 1220000 -768000 front 90)
-      (place R112 1220000 -836000 front 90)
-      (place R111 1220000 -804000 front 90)
     )
     (component "Connector_JST:JST_PH_S4B-PH-K_1x04_P2.00mm_Horizontal"
       (place J109 1118000 -1172100 front 0)
@@ -70,8 +66,6 @@
       (place R201 1508000 -706000 front 0)
       (place R152 1400000 -916000 front 0)
       (place R151 1400000 -900000 front 0)
-      (place R132 1460000 -870000 front 0)
-      (place R131 1460000 -854000 front 0)
       (place R103 1515000 -846000 front 0)
       (place R102 1515000 -830000 front 0)
       (place R101 1870000 -910000 front 0)
@@ -129,8 +123,6 @@
       (place C203 1508000 -723000 front 0)
       (place C124 1190000 -624500 front 180)
       (place C123 1185000 -676000 front 0)
-      (place C114 1190000 -754500 front 180)
-      (place C113 1185000 -806000 front 0)
     )
     (component Capacitor_SMD:C_0805_2012Metric::1
       (place C372 1477500 -1103000 front 180)
@@ -144,8 +136,6 @@
       (place C141 1470000 -792000 front 0)
       (place C122 1187000 -716000 front 0)
       (place C121 1187000 -694500 front 0)
-      (place C112 1187000 -846000 front 0)
-      (place C111 1187000 -824500 front 0)
       (place C102 1910000 -910000 front 0)
     )
     (component "Package_SO:HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.46x2.31mm_ThermalVias"
@@ -165,7 +155,6 @@
       (place TP151 1366000 -908000 front 0)
       (place TP141 1543000 -760000 front 0)
       (place TP121 1246000 -724000 front 0)
-      (place TP111 1246000 -854000 front 0)
       (place TP102 1946000 -948000 front 0)
       (place TP101 1946000 -912000 front 0)
     )
@@ -179,15 +168,12 @@
       (place C204 1432000 -716000 front 90)
       (place C202 1526000 -680000 front 90)
       (place C151 1426000 -908000 front 90)
-      (place C131 1490000 -862000 front 90)
       (place C127 1236000 -674000 front 90)
-      (place C117 1236000 -804000 front 90)
       (place C103 1546000 -838000 front 90)
     )
     (component "Package_TO_SOT_SMD:SOT-23-6"
       (place U202 1380000 -720000 front 0)
       (place U121 1190000 -650000 front 0)
-      (place U111 1190000 -780000 front 0)
     )
     (component "Connector_USB:USB_C_Receptacle_HRO_TYPE-C-31-M-12"
       (place J201 1380000 -631500 front 180)
@@ -200,8 +186,6 @@
       (place C201 1549000 -690000 front 90)
       (place C126 1136000 -709500 front 270)
       (place C125 1108000 -709500 front 270)
-      (place C116 1136000 -839500 front 270)
-      (place C115 1108000 -839500 front 270)
     )
     (component "X1_main:ESP32-S3-WROOM-1_X1"
       (place U201 1665000 -727500 front 0)
@@ -214,7 +198,6 @@
     )
     (component Inductor_SMD:L_Bourns_SRP6060FA
       (place L121 1128000 -650000 front 180)
-      (place L111 1128000 -780000 front 180)
     )
     (component Capacitor_SMD:CP_Elec_8x10.5
       (place C101 1306000 -788000 front 0)
@@ -344,13 +327,7 @@
             1810950 -884750
           )
         )
-        (wire
-          (path F.Cu 4000
-            1177935 -793250
-            1178625 -792560
-            1178625 -789500
-          )
-        )
+
         (wire
           (path F.Cu 4000
             1817950 -886000
@@ -366,58 +343,7 @@
           )
         )
       )
-      (net +6V
-        (wire
-          (path F.Cu 4000
-            1246000 -867375
-            1242186 -863561
-            1242186 -859847
-            1238807 -856468
-            1237170 -856468
-            1236000 -855298
-            1236000 -811750
-          )
-        )
-        (wire
-          (path F.Cu 4000
-            1108000 -807500
-            1107750 -807250
-            1107750 -780000
-          )
-        )
-        (wire
-          (path F.Cu 4000
-            1218986 -804000
-            1220000 -805014
-            1220000 -812250
-          )
-        )
-        (via "Via[0-3]_450:200_um" 1218986 -804000
-        )
-        (wire
-          (path B.Cu 4000
-            1242435 -804496
-            1219482 -804496
-            1218986 -804000
-          )
-        )
-        (via "Via[0-3]_450:200_um" 1242435 -804496
-        )
-        (wire
-          (path F.Cu 4000
-            1236000 -811750
-            1242435 -805315
-            1242435 -804496
-          )
-        )
-        (wire
-          (path F.Cu 4000
-            1122000 -824800
-            1135950 -824800
-            1136000 -824750
-          )
-        )
-      )
+
       (net +3V3
         (wire
           (path F.Cu 4000
@@ -904,35 +830,7 @@
           )
         )
       )
-      (net "/Power input and rails/FB_110"
-        (wire
-          (path F.Cu 1500
-            1201375 -789500
-            1207625 -795750
-            1220000 -795750
-          )
-        )
-        (wire
-          (path F.Cu 1500
-            1227573 -796250
-            1220500 -796250
-            1220000 -795750
-          )
-        )
-        (wire
-          (path F.Cu 1500
-            1236000 -796250
-            1227573 -796250
-          )
-        )
-        (wire
-          (path F.Cu 1500
-            1220000 -844250
-            1227573 -836677
-            1227573 -796250
-          )
-        )
-      )
+
       (net "/Power input and rails/FB_120"
         (wire
           (path F.Cu 1500
@@ -3416,41 +3314,7 @@
           )
         )
       )
-      (net V6_SNS
-        (wire
-          (path F.Cu 1500
-            1567733 -751100
-            1567733 -759242
-            1515000 -811975
-            1515000 -833015
-            1510990 -837025
-            1504762 -837025
-            1497746 -844041
-            1497746 -862004
-            1490000 -869750
-          )
-        )
-        (wire
-          (path F.Cu 1500
-            1490000 -869750
-            1474250 -854000
-            1468250 -854000
-          )
-        )
-        (wire
-          (path F.Cu 1500
-            1577500 -751100
-            1567733 -751100
-          )
-        )
-        (wire
-          (path F.Cu 1500
-            1451750 -870000
-            1467750 -854000
-            1468250 -854000
-          )
-        )
-      )
+
       (net VBAT_SNS
         (wire
           (path F.Cu 1500

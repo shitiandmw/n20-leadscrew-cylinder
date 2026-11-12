@@ -1,6 +1,6 @@
 # X1 main board firmware (machine side)
 
-Firmware for the X1 main control board, rev A: an ESP32-S3-WROOM-1-N8 and seven DRV8876 drivers in PH/EN mode. It follows [../SPEC.md](../SPEC.md) (spec C1): the channel table in section 2, the control mapping in section 4, safety S1–S6, the radio link L1–L3, the handle's packet contents (H1) and the firmware points F1, F2 and F4. The board facts come from [../main_board/DESIGN.md](../main_board/DESIGN.md) and [../main_board/PINMAP.md](../main_board/PINMAP.md).
+Firmware for the X1 main control board, rev B: an ESP32-S3-WROOM-1-N8 and seven DRV8876 drivers in PH/EN mode, all on the battery bus (rev B moved the four arm actuators, now 12 V N20 motors, from the 6 V buck to VBAT). It follows [../SPEC.md](../SPEC.md) (spec C1): the channel table in section 2, the control mapping in section 4, safety S1–S6, the radio link L1–L3, the handle's packet contents (H1) and the firmware points F1, F2 and F4. The board facts come from [../main_board/DESIGN.md](../main_board/DESIGN.md) and [../main_board/PINMAP.md](../main_board/PINMAP.md).
 
 **Status:** the host tests pass and the sketch compiles for the ESP32-S3. Nothing has run on hardware yet.
 
@@ -83,10 +83,10 @@ The ramp times are for a full-scale change: 0.3 s for the tracks, 0.4 s for the 
 ### Boom pair (SPEC 4)
 
 - Both sides get the same command.
-- **Balancing.** The side drawing more current has its duty trimmed down at 5 % per second, up to 15 %. Differences within 10 mA count as matched. The trims reset when the boom reverses. Currents are not judged for the first 0.3 s of a move, or below 15 % duty.
-- **End stops.** If one side reads under 25 mA (its end stop has opened), its trim is dropped and the other side keeps being driven. If the other side does not stop within 10 s, that is a boom fault.
-- **Imbalance fault.** If the difference stays over 40 mA for 3 s, the boom stops and the fault is reported. The other channels keep working. RESUME clears it.
-- **Re-sync button.** A press drives both sides towards the retract end stops (boom down) at the movement speed, until both read zero current. It stops early on a second press, on any boom input, on a link loss, or after 120 s (reported). Imbalance is not judged while it runs. A press also clears a boom fault, because re-syncing is the remedy.
+- **Balancing.** The side drawing more current has its duty trimmed down at 5 % per second, up to 15 %. Differences within 30 mA count as matched (the 12 V N20 1:50 actuator draws about 4.9 mA per newton, so 30 mA is about 6 N). The trims reset when the boom reverses. Currents are not judged for the first 0.3 s of a move, or below 15 % duty.
+- **End stops.** If one side reads under 40 mA (its end stop has opened; the actuator draws 80 mA even without load), its trim is dropped and the other side keeps being driven. If the other side does not stop within 3 s, that is a boom fault: at 4–9 mm/s that covers the 3.4 mm spread of two units' end stops.
+- **Imbalance fault.** If the difference stays over 130 mA (about 27 N) for 3 s, the boom stops and the fault is reported. The other channels keep working. RESUME clears it.
+- **Re-sync button.** A press drives both sides towards the retract end stops (boom down) at the movement speed, until both read zero current. It stops early on a second press, on any boom input, on a link loss, or after 30 s (reported; a full 60 mm stroke takes 7–14 s). Imbalance is not judged while it runs. A press also clears a boom fault, because re-syncing is the remedy.
 
 All these values are starting points from the spec, in `Config` in `control_logic.h`, to be tuned on the bench.
 
@@ -97,7 +97,7 @@ All these values are starting points from the spec, in `Config` in `control_logi
 | S1 link loss | No valid packet for 350 ms: the swing ramps down over its 0.4 s, every other channel stops at once | A valid packet, then all inputs centred |
 | S2 EMERGENCY STOP | Latched when the handle's ESTOP bit is set. It stops everything, and the swing ramps as in S1. The latch survives a link loss. | A fresh RESUME press, with ESTOP released and all inputs centred |
 | S3 power-up | The drivers stay asleep (nSLEEP low) until a valid packet arrives with all inputs centred | — |
-| S4 stall | A 12 V channel (tracks, swing) at 90 % or more of the current a stalled motor would draw at its present duty, for 2 s, is switched off. That current is duty × battery voltage / 9.2 Ω (the JGY-370-1260's 12 V / 1.3 A stall figure), capped at the board limit (1.034 A or 0.602 A, from the pin header). Below a stalled current of 0.4 A (about 30 % duty at 12 V) the rule is not applied. | Its input returns to centre |
+| S4 stall | Any channel (all seven are 12 V since board rev B) at 90 % or more of the current a stalled motor would draw at its present duty, for 2 s, is switched off. That current is duty × battery voltage / R, capped at the board limit (1.034, 0.602 or 0.497 A, from the pin header). R is 9.2 Ω for the tracks and swing (the JGY-370-1260's 12 V / 1.3 A stall figure) and 13 Ω for the V6 actuators (the N20 12 V 1:50 winding plus the actuator's PTC, MOSFET, Schottky and cable). Below a stalled current of 0.4 A (about 30 % duty at 12 V for the tracks, 43 % for the actuators) the rule is not applied. | Its input returns to centre |
 | S5 battery | A 2 s first-order filter on VBAT. Below 10.5 V: warning (cleared above 10.7 V). Below 9.6 V: motors stop. | The filtered battery voltage back above 10.5 V |
 | S6 nFAULT | Low for 4 ms or more stops everything; it is reported. The line is ignored for 5 ms after nSLEEP rises. | RESUME with the line high |
 
@@ -120,7 +120,7 @@ All these values are starting points from the spec, in `Config` in `control_logi
 
 ### Telemetry (10 Hz)
 
-Telemetry carries: state bits (armed, link, E-stop, pairing, re-sync, bench), fault bits, filtered battery, the 6 V rail, the RSSI of the last control packet, control packets per second, and per channel the signed duty, current and flags (stall cut, boom cut, PH level, at end stop). See `x1_link.h`.
+Telemetry carries: state bits (armed, link, E-stop, pairing, re-sync, bench), fault bits, filtered battery, a reserved field (the 6 V rail on rev A; 0 now, kept so the packet layout is unchanged), the RSSI of the last control packet, control packets per second, and per channel the signed duty, current and flags (stall cut, boom cut, PH level, at end stop). See `x1_link.h`.
 
 ## Radio and pairing (SPEC 6)
 
@@ -156,14 +156,14 @@ The NVS namespace is `x1main`. Its keys are `peer`, `lmk`, `chan`, `ioff` (offse
 
 ## Interpretations of the spec
 
-- **S4 follows the duty.** The spec says "90 % of its limit"; the driver only reaches its limit when duty × Vbat / R exceeds it, so at the default 65 % speed a stalled track motor draws about 0.85 A, under 90 % of 1.03 A, and a fixed threshold would never trip. The firmware therefore compares the current with 90 % of the stalled current at the present duty, and does not judge below a stalled current of 0.4 A (twice the rated 0.2 A), where a loaded running motor comes too close to it. `Config::motor_ohm` (9.2 Ω) is the vendor stall figure; measure it on the bench.
+- **S4 follows the duty.** The spec says "90 % of its limit"; the driver only reaches its limit when duty × Vbat / R exceeds it, so at the default 65 % speed a stalled track motor draws about 0.85 A, under 90 % of 1.03 A, and a fixed threshold would never trip. The firmware therefore compares the current with 90 % of the stalled current at the present duty, and does not judge below a stalled current of 0.4 A (twice the rated 0.2 A), where a loaded running motor comes too close to it. `Config::motor_ohm` (9.2 Ω) is the vendor stall figure and `Config::actuator_ohm` (13 Ω) an estimate; measure both on the bench. An actuator at full duty is cut at 0.45 A (90 % of its 0.497 A limit), which a loaded actuator reaches at about 75 N; lifting a full bucket takes about 0.32 A.
 - **Ramp time = full scale.** "0.3 s" is the time from 0 to 100 % duty, so a track at 65 % speed gets there in about 0.2 s.
 - **Dead band.** It is applied as the app does it: no rescaling, so the output jumps from 0 to 12 %. The ramp smooths that jump. The machine applies the band even if the handle already has.
 - **S5 filter.** "2 s filtered" is a first-order filter with a 2 s time constant. A step from 12 V to 9 V warns after about 1.4 s and stops after about 3.2 s. The stop holds until the filtered voltage is back above 10.5 V. That needs a charged pack, not just a resting one; without that hold, the stop would cycle as the voltage recovered.
 - **What RESUME clears.** It clears the E-stop latch, and also the latched boom, re-sync and driver faults. It is the one "acknowledge" button on the handle.
 - **Re-arming.** Every stop (S1, S2, S5, S6, pairing) leaves the machine disarmed until the inputs are centred, as at power-up (S3).
 - **Re-sync speed.** The re-sync runs at the movement speed setting.
-- **The boom's thresholds** (10 mA match band, 25 mA end-stop level, 0.3 s blank, 15 % minimum duty, 10 s and 120 s timeouts) are mine; the spec gives only 15 %, 40 mA and 3 s.
+- **The boom's thresholds** (30 mA match band, 40 mA end-stop level, 0.3 s blank, 15 % minimum duty, 3 s and 30 s timeouts) are mine; the spec gives only 15 %, the imbalance level and 3 s. Rev B scaled the current thresholds by 3.2 for the 12 V actuator (4.9 mA/N against 1.5 mA/N for the 6 V one) and the timeouts to its 7–14 s stroke.
 - **The bench drive and `flip`** are extra. Without a handle (parked), the console is the only way to run a motor on the bench.
 
 ## Verified and not verified

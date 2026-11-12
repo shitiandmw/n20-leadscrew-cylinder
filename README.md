@@ -1,11 +1,11 @@
 # n20-leadscrew-cylinder
 
-**A 3D-printable linear actuator for a model excavator that looks like a hydraulic cylinder.** It is driven by a standard N20 gearmotor with an integrated M3 leadscrew, used exactly as bought.
+**A 3D-printable linear actuator for a model excavator that looks like a hydraulic cylinder.** It is driven by a standard N20 gearmotor with an integrated M3 leadscrew, used exactly as bought. That is the actuator_v5 design described below; the current [two-wire V6](actuator_v6/README.md) (rev 6.2) uses the 12 V 1:50 N20 with an M4 × 0.7 leadscrew.
 
 **The [complete X1 excavator](excavator_complete/README.md) puts the current revision of every subsystem together.** It combines:
 - the J9 tracks and the X1 revision F X-frame;
 - the RU66 slewing ring and the R3 turntable;
-- body B1 rev B with the main board rev A;
+- body B1 rev B with the main board rev B (all seven motor drivers on the 12 V battery);
 - the R12 arm.
 
 It has an offline 3D demonstration with a scripted work cycle (travel, dig, swing, dump), the assembly order, an exploded view, layer-by-layer structure and the harness. Whole-machine checks cover clashes, the swing envelope, static balance, every cable's route over the arm's poses and the assembly moves that only exist on the combined machine. R12 sits on a new adapter, B01X, which replaces the ARM60 base on the turntable and now carries the arm cables. The folder also holds the whole machine's [wiring](excavator_complete/WIRING.md), [connector catalogue](excavator_complete/CONNECTORS.md) (every connector by type and model, with realistic models and a [gallery](excavator_complete/connector_gallery.html)), [standard parts and where they sit](excavator_complete/STANDARD_PARTS.md), [parts list](excavator_complete/BOM.md), [installation sequence](excavator_complete/ASSEMBLY.md) (animated in the viewer) and the [control circuit check](excavator_complete/CONTROL_CHECK.md).

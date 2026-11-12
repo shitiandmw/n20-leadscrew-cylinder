@@ -7,7 +7,7 @@ memory:
   - firmware/x1_main/src (control_logic.h, x1_link.h, x1_main_pins.h) and x1_main.ino: timings,
     thresholds, ramps, current limits; the simulator gets them as FACTS;
   - main_board/source/netlist.py: which driver feeds which socket, the socket roles;
-  - main_board/X1_main_board_A_parts.json: part boxes for the board tour's highlights;
+  - main_board/X1_main_board_<rev>_parts.json: part boxes for the board tour's highlights;
   - main_board/source/build_pcb.py CONN_LABELS: the socket names printed on the board.
 The prose in guide_template.html quotes some of those numbers; check_prose() fails the build when a
 source changes and the text no longer matches.
@@ -70,16 +70,18 @@ def firmware_facts():
                       ("boom_imbalance_ms", "boom_imbalance_ms"), ("boom_end_timeout_ms", "boom_end_timeout_ms"),
                       ("bench_max_ms", "bench_max_ms")]:
         f[key] = num(h, rf"\b{name} = ([\d.]+)f?[;,]", name)
-    # channels: names and limits from the generated pin map, ramps and the 12 V flag from CHANNEL[]
+    for key in ("motor_ohm", "actuator_ohm", "stall_min_a"):     # S4: the stalled-current estimate
+        f[key] = num(h, rf"\b{key} = ([\d.]+)f?;", key)
+    # channels: names and limits from the generated pin map, ramps and the actuator flag from CHANNEL[]
     limits = re.findall(r'\{"([^"]+)", \d+, \d+, \d+, [\d.]+f, ([\d.]+)f\}', pins)
     makes = re.findall(r"detail::make\((\w+), (\d+), (true|false), (true|false)\)", h)
     assert len(limits) == 7 and len(makes) == 7, (limits, makes)
     poles = {"TRACK_L": ("back", "forward"), "TRACK_R": ("back", "forward"), "SWING": ("left", "right"),
              "BOOM_L": ("lower", "raise"), "BOOM_R": ("lower", "raise"), "STICK": ("out", "in"),
              "BUCKET": ("open", "curl")}
-    f["channels"] = [dict(name=name, limit_a=float(lim), ramp_ms=int(ramp), vbat=vb == "true",
+    f["channels"] = [dict(name=name, limit_a=float(lim), ramp_ms=int(ramp), actuator=act == "true",
                           neg=poles[key][0], pos=poles[key][1])
-                     for (name, lim), (key, ramp, _inv, vb) in zip(limits, makes)]
+                     for (name, lim), (key, ramp, _inv, act) in zip(limits, makes)]
     return f
 
 
@@ -97,7 +99,8 @@ def check_prose(t, f):
         f"0.{ch['Stick']['ramp_ms'] // 100} s for the arm",
         f"<b>{ch['Track left']['limit_a']:.2f} A</b> for the tracks", f"<b>{ch['Swing']['limit_a']:.1f} A</b> for the swing",
         f"<b>{ch['Stick']['limit_a']:.1f} A</b> for the arm",
-        f"for <b>{f['stall_ms'] / 1000:g} seconds</b>", f"at {pct(f['stall_fraction'])} of its current limit for {f['stall_ms'] / 1000:g} s",
+        f"for <b>{f['stall_ms'] / 1000:g} seconds</b>", f"{pct(f['stall_fraction'])} of the current it would draw blocked at that speed (never more than its "
+        f"current limit) for {f['stall_ms'] / 1000:g} s",
         f"Below {f['warn_v']:g} V: warning beeps", f"Below {f['stop_v']:g} V: motors stop",
         f"back above {f['stop_clear_v']:g} V", f"averaged over about {f['vbat_tau_ms'] / 1000:g} s",
         f"No valid command for {f['link_timeout_ms'] / 1000:g} s", f"radio lost for {f['link_timeout_ms'] / 1000:g} s",
@@ -124,7 +127,7 @@ def conn_labels():
 
 
 def board_parts():
-    d = json.loads(read(MB / "X1_main_board_A_parts.json"))
+    d = json.loads(read(MB / f"X1_main_board_{NL.REV}_parts.json"))
     # machine coordinates to the layout frame: u = X + 136 (rear edge forward), v = 148 - Y (outboard inward)
     return {p["ref"]: (p["x"][0] + 136, p["x"][1] + 136, 148 - p["y"][1], 148 - p["y"][0]) for p in d["parts"]}
 
@@ -196,12 +199,9 @@ def tour(parts, f, labels):
          "The round can (C101, 220 µF) is a small reservoir. It covers the sudden gulps of current when motors start, "
          "so the voltage on the board stays steady.",
          [["C101"]])
-    zone("6 V converter",
-         "Turns the battery voltage into 6 V for the four arm actuators (boom left and right, stick, bucket). "
-         "The grey square is its coil; together with chip U111 it works like an electrical gearbox. Up to 3 A.",
-         [group(parts, 11)])
     zone("5 V converter",
-         "The same circuit set to 5 V. It feeds the lamps, the buzzer, the expansion port and the 3.3 V regulator. Up to 3 A.",
+         "Turns the battery voltage into 5 V for the lamps, the buzzer, the expansion port and the 3.3 V regulator. "
+         "The grey square is its coil; together with chip U121 it works like an electrical gearbox. Up to 3 A.",
          [group(parts, 12)])
     zone("3.3 V regulator",
          "Makes the clean, steady 3.3 V the brain needs (U141). Two small diodes let it take power from the 5 V converter "
@@ -225,8 +225,9 @@ def tour(parts, f, labels):
          [["D201", "D202", "R205", "R206"]])
     zone("Seven motor drivers",
          "One identical driver cell per motor: a DRV8876 chip with its capacitors and the resistor that sets its current "
-         "limit (section 4). The three on the right run at battery voltage (tracks, swing); the four on the left at 6 V (the arm). "
-         "The small resistors above them make the shared reference for the current limits and measure the battery and the 6 V rail.",
+         "limit (section 4). All seven run at battery voltage: the three on the right drive the tracks and the swing, the four "
+         "on the left the arm's actuators. The small resistors above them make the shared reference for the current limits "
+         "and measure the battery.",
          [group(parts, int(drv[k][1:3])) for k in cells], glabels=[short[k] for k in cells])
     zone("Motor sockets",
          "The motor plugs go in along this edge, which faces the middle of the machine. Each socket's name is printed under it "
@@ -279,7 +280,7 @@ def tour(parts, f, labels):
 
 def overview_motors(f):
     ch = f["channels"]
-    rows = [(c["name"], "12 V" if c["vbat"] else "6 V", "#2a9d5c") for c in ch]
+    rows = [(c["name"], "12 V", "#2a9d5c") for c in ch]      # every motor runs at battery voltage (board rev B)
     rows += [("2 lamp outputs", "5 V", "#d4a500"), ("Buzzer", "5 V", "#d4a500")]
     s = ['<text x="700" y="42" font-size="15" font-weight="700" fill="#2a9d5c">Motors and outputs</text>']
     for i, (name, volts, col) in enumerate(rows):
@@ -334,8 +335,7 @@ def wiring_svg(parts, labels, drv):
              f'<text x="{X(96) + 12}" y="{Y(12) + 33}" font-size="12" fill="#5b6b78">(front of the machine)</text>')
     for r in drv.values():
         o.append(box(r, "#1c1c1c"))
-    for r in ("L111", "L121"):
-        o.append(box(r, "#5d6670"))
+    o.append(box("L121", "#5d6670"))
     o.append(box("C101", "#e8ecef", rx=20))
     o.append(box("LS401", "#1c1c1c", rx=6))
     o.append(f'<text x="{X(48)}" y="{Y(30) + 5}" text-anchor="middle" font-size="13" fill="#d7eadb">seen from above, parts side up</text>')
@@ -371,7 +371,7 @@ def wiring_svg(parts, labels, drv):
         assert role[r]  # every socket has a netlist role
     o.append('<g font-size="12.5"><text x="20" y="60" font-weight="700">Wire colours</text>'
              '<rect x="20" y="72" width="12" height="12" fill="#e4572e"/><text x="38" y="83">12 V motors</text>'
-             '<rect x="20" y="92" width="12" height="12" fill="#f08c2e"/><text x="38" y="103">6 V actuators</text>'
+             '<rect x="20" y="92" width="12" height="12" fill="#f08c2e"/><text x="38" y="103">12 V arm actuators</text>'
              '<rect x="20" y="112" width="12" height="12" fill="#2f6fde"/><text x="38" y="123">5 V outputs</text></g>')
     o.append("</svg>")
     return "\n".join(o)
@@ -385,7 +385,7 @@ def main():
     check_prose(t, f)
     parts = board_parts()
     labels = conn_labels()
-    top, bottom = MB / "X1_main_board_A_top.png", MB / "X1_main_board_A_bottom.png"
+    top, bottom = MB / f"X1_main_board_{NL.REV}_top.png", MB / f"X1_main_board_{NL.REV}_bottom.png"
     assert png_size(top) == (RW, RH) and png_size(bottom) == (RW, RH), "render size changed: update PX/CX/CY"
     zones, drv = tour(parts, f, labels)
     x0, y0 = px(-3, -4.5, "top")                        # crop: the board and the markers above it
@@ -403,6 +403,7 @@ def main():
         "%%TOUR_JSON%%": json.dumps(zones, ensure_ascii=False),
         "%%FACTS_JSON%%": json.dumps(f, ensure_ascii=False),
         "%%RENDER_JSON%%": json.dumps(dict(w=RW, h=RH, px_per_mm=PX)),
+        "%%BOARD_REV%%": NL.REV,
     }
     for k, v in sub.items():
         assert k in t, k

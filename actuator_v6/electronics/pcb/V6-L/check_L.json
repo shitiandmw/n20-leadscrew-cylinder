@@ -1,16 +1,16 @@
 {
   "variant": "L",
   "board_mm": [
-    101.6,
+    101.4,
     8.0
   ],
   "thickness_mm": 0.8,
   "layers": 2,
-  "parts": 15,
-  "part_numbers": 9,
+  "parts": 17,
+  "part_numbers": 10,
   "drc_errors": [],
   "drc_notes": [
-    "45 track segments, 347 mm of track, 19 vias"
+    "48 track segments, 348 mm of track, 19 vias"
   ],
   "rules": {
     "clearance": 0.2,
@@ -26,62 +26,62 @@
   },
   "gerber_readback": {
     "GTL": {
-      "pixels": 266863,
+      "pixels": 270304,
       "mismatch_fraction": 0.0,
       "extent_mm": [
         0.35,
         0.5,
-        100.9,
+        100.7,
         7.0
       ]
     },
     "GBL": {
-      "pixels": 37831,
+      "pixels": 39704,
       "mismatch_fraction": 0.0,
       "extent_mm": [
-        0.8,
+        0.95,
         0.5,
-        97.9,
+        97.4,
         6.55
       ]
     },
     "GTS": {
-      "pixels": 65736,
+      "pixels": 72456,
       "mismatch_fraction": 0.0,
       "extent_mm": [
         0.3,
         0.85,
-        100.95,
+        100.75,
         7.05
       ]
     },
     "GTP": {
-      "pixels": 43240,
+      "pixels": 48712,
       "mismatch_fraction": 0.0,
       "extent_mm": [
-        2.1,
+        2.3,
         0.9,
-        100.9,
+        100.7,
         6.8
       ]
     },
     "GTO": {
-      "pixels": 12896,
+      "pixels": 12649,
       "mismatch_fraction": 0.0,
       "extent_mm": [
         0.782,
         0.196,
-        97.53,
+        94.8,
         7.804
       ]
     },
     "GBO": {
-      "pixels": 23853,
+      "pixels": 23864,
       "mismatch_fraction": 0.0,
       "extent_mm": [
-        36.354,
+        36.365,
         2.176,
-        66.646,
+        66.635,
         5.673
       ]
     }
@@ -89,7 +89,7 @@
   "readback_worst_mismatch": 0.0,
   "kicad": "actuator_v6_L.kicad_pcb",
   "hall_u_mm": [
-    3.7,
-    99.3
+    3.9000000000000004,
+    99.1
   ]
 }

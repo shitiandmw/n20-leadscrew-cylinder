@@ -17,7 +17,7 @@ from shapely.geometry import Polygon, GeometryCollection
 from shapely.ops import unary_union
 
 from gear_spec import CENTRES, STAGES, RATIOS, PART_BODIES
-from n20_screw_motor import n20_core_part
+from n20_screw_motor import n20_core_part, SCREW, JOURNAL_R, THREAD_START
 from n20_geartrain import cylinder
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -62,7 +62,7 @@ def main():
             hits.append(dict(a=an, b=bn, volume_mm3=v))
     report['rest_pose'] = dict(pairs=math.comb(len(shapes), 2), collisions=hits, tolerance_mm3=1e-7)
     check(not hits, 'motor parts overlap at zero pose')
-    a, b = shapes['motor_gear_4'], shapes['motor_leadscrew_M3']
+    a, b = shapes['motor_gear_4'], shapes['motor_leadscrew_M4']
     report['keyed_output'] = dict(gap_mm=a.distance(b), fused_solids=len(a.fuse(b).Solids()), overlap_mm3=overlap(a, b))
     check(report['keyed_output']['gap_mm'] < 1e-7 and report['keyed_output']['fused_solids'] == 1,
           'output wheel is not connected to the screw')
@@ -74,7 +74,8 @@ def main():
         'input': [(.5,-24.8,-6.75),(3.2,-21.8,-11),(.65,-9.35,-9.15),(.9,-7.85,-6.95)],
         'compound_a': [(.45,-9,0),(.59,-8.1,-7.95),(.59,-1.05,-.9),(2.52,-7.85,-6.95),(.9,-5.85,-4.95)],
         'compound_b': [(.45,-9,0),(.59,-8.1,-7.95),(.59,-1.05,-.9),(2.52,-5.85,-4.95),(.9,-3.85,-2.75)],
-        'output': [(1.5,-4.83,40),(1.75,-4.83,-4.73),(1.9,-3.95,-2.65),(2.52,-3.85,-2.75)]}
+        'output': [(JOURNAL_R,-4.83,THREAD_START),(SCREW['major']/2,THREAD_START,40),
+                   (1.75,-4.83,-4.73),(1.9,-3.95,-2.65),(2.52,-3.85,-2.75)]}
     supports = {}
     for body, sections in layers.items():
         cells = [cylinder(r, z0, z1, CENTRES[body]).val() for r, z0, z1 in sections]
@@ -154,7 +155,7 @@ def main():
     report['passed'] = not failures
     report['limitations'] = ['Illustrative 27:1 gearbox; commercial tooth counts are unknown.',
                             'Prescribed gear motion; no load, backlash reversal or manufacturing fit simulation.',
-                            'The existing V6 pitch-ring thread is retained above Z=0.7 mm.']
+                            f'The V6 M4 thread is a pitch-ring profile from Z={THREAD_START:g} mm, not a helix.']
     (ROOT/'motor_validation.json').write_text(json.dumps(report, indent=2)+'\n')
     print(json.dumps(dict(passed=report['passed'], failures=failures)), flush=True)
     return 0 if report['passed'] else 1

@@ -154,7 +154,7 @@ def aim(direction, target, distance, lens=85, roll=0.0, ground_z=GROUND):
     ground.location.z = ground_z
 
 
-HIDE_IN_BOARD = ("motor_", "M3_brass_nut", "M2x10_rod_eye", "M1.6", "05_rod_eye")
+HIDE_IN_BOARD = ("motor_", "M4_brass_nut", "M2x10_rod_eye", "M1.6", "05_rod_eye")
 
 
 def pose(travel=None, mode="exterior", only=None, hide=()):

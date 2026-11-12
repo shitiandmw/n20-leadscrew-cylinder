@@ -7,7 +7,7 @@ Each X101 arm runs straight at its full 28 mm width into the track main plate an
 The R3 turntable sits on the RU66 seat, and the upper body B1 rev B sits on it. The body is traced from the Cat 320: three main prints (counterweight, left half with the cab, right half with the tank), four small ones, and the 18650 battery on the swing centreline under a lift-off hatch. Rev B issue 2 (2026-11-07) adds a cable notch in each half's inboard hood wall for the arm harness of the complete machine (`excavator_complete/WIRING.md`). See [TURNTABLE.md](TURNTABLE.md) and [BODY.md](BODY.md).
 
 **Control system: spec C1 issue 4; main board rev A designed (schematic, PCB and firmware).**
-- The main board sits in the left bay: ESP32-S3, 7 × DRV8876, 6 V / 5 V / 3.3 V rails, lamps, buzzer and an expansion header.
+- The main board (rev B) sits in the left bay: ESP32-S3, 7 × DRV8876 on the battery, 5 V / 3.3 V rails, lamps, buzzer and an expansion header.
 - Its KiCad 9 schematic is complete and checked: ERC clean, and KiCad's netlist matches the source netlist pin for pin. The BOM uses verified LCSC parts.
 - The 4-layer, 96 × 64 mm PCB is routed. KiCad's DRC finds no errors and no unconnected items, and the board matches the schematic. Gerbers, drill files, BOM and CPL for JLCPCB are in `controller/main_board/fab/`; nothing has been ordered. See [controller/main_board/DESIGN.md](controller/main_board/DESIGN.md).
 - Its firmware (`controller/firmware/`) compiles for the ESP32-S3 and its logic tests pass; it has not run on hardware.

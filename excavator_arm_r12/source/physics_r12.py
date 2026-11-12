@@ -6,10 +6,12 @@ Model
     mass and inertias come from the CAD (../simulation/mass_properties.json).
   - Loops are closed by site-to-site pin constraints: each rod eye to its pin (B left and right, D,
     R) and the H-link to the bucket at Q.
-  - Each drive is a DC-motor line along its slide: F = F_stall (u - v / v_no-load), u in [-1, 1],
-    F_stall 201 N, v_no-load 1.25 mm/s, clamped at the 51 N continuous (fuse hold) rating. The
-    rotor inertia reflected through the gearbox and the 0.5 mm lead is a slide armature of
-    tau * F_stall / v_no-load (tau = 20 ms assumed), about 3.2 t: without it the 7.6 g rod against
+  - Each drive is a DC-motor line along its slide: F = F_stall (u - v / v_no-load), u in [-1, 1].
+    The 12 V N20 1:50 on an M4 x 0.7 leadscrew (actuator_v6 rev 6.2) at the X1's 11.1 V nominal,
+    through the V6 board's Schottky and 1.7 ohm, as in excavator_app/shared/drives.js: F_stall 158 N
+    at zero speed, v_no-load 8.17 mm/s, clamped at the 55 N continuous (fuse hold) rating. The
+    rotor inertia reflected through the gearbox and the 0.7 mm lead is a slide armature of
+    tau * F_stall / v_no-load (tau = 20 ms assumed), about 390 kg: without it the 7 g rod against
     the motor's back-EMF line is numerically unstable.
   - Each drive has its own stroke feedback: u = v_ref / v0 + Kp e + Ki integral(e). The boom pair
     gets one shared reference and two separate controllers.
@@ -39,9 +41,9 @@ ROOT = d.rc.ROOT
 SIM = ROOT / 'simulation'
 MASS = json.loads((SIM / 'mass_properties.json').read_text())['bodies']
 MM = 1e-3
-F_STALL, V0, F_FUSE = 201.0, 1.25e-3, 51.0          # N, m/s, N
+F_STALL, V0, F_FUSE = 158.0, 8.17e-3, d.ACT['thrust_cont']   # N, m/s, N
 MOTOR_TAU = 0.020                                    # s, assumed N20 mechanical time constant
-SLIDE_ARMATURE = MOTOR_TAU * F_STALL / V0            # kg: rotor inertia reflected through gearbox and 0.5 mm lead
+SLIDE_ARMATURE = MOTOR_TAU * F_STALL / V0            # kg: rotor inertia reflected through gearbox and 0.7 mm lead
 KP, KI = 2.0 / MM, 1.0 / MM                          # u per m, u per m s
 DT = 1e-3
 G = 9.81

@@ -1,7 +1,7 @@
 """Have KiCad 9 check the generated schematic, and compare KiCad's netlist with netlist.py.
 
 Runs kicad-cli in the official kicad/kicad:9.0 Docker image: ERC, netlist export and the PDF.
-Writes X1_main_board_A_schematic.pdf and X1_main_board_A_schematic_checks.json next to the
+Writes X1_main_board_<rev>_schematic.pdf and X1_main_board_<rev>_schematic_checks.json next to the
 board folder's README. Exit status 1 if anything fails.
 
     python check_kicad.py

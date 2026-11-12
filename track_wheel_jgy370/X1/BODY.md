@@ -224,20 +224,20 @@ Copper shot (about 5.4 g/cm³) also works. Weigh the same 735 g, keep the same l
 | Keystone 1043 single 18650 holder, THM (PC pins) | 3 | Snapped into the hatch sled, open side down |
 | HX-3S-01 3S 10 A BMS board (50 × 16) | 1 | On the hatch's +Y sled wall, VHB tape |
 | Amass XT30U-F (2) and XT30U-M (1) | 3 | The hatch lead (female) into the feed socket (male) in the hood cavity; the 12 V link's female onto the board's XT30PW-M |
-| X1 main board rev A, 96 × 64, JLCPCB-assembled ([controller/main_board](controller/main_board/DESIGN.md)) | 1 | Left bay: ESP32-S3, 7 × DRV8876, the rails; USB-C at the skirt slot |
+| X1 main board rev B, 96 × 64, JLCPCB-assembled ([controller/main_board](controller/main_board/DESIGN.md)) | 1 | Left bay: ESP32-S3, 7 × DRV8876, the rails; USB-C at the skirt slot |
 | Rocker switch KCD1-101 (21.2 × 15.1 bezel, 19 × 13 cut-out) | 1 | Toolbox top |
 | Littelfuse MINI FHM in-line fuse holder with a 5 A MINI fuse | 1 | Toolbox floor, VHB tape |
 | 5.5 × 2.1 metal panel DC jack, M8 thread, Ø8 hole (DC-022B pattern) | 1 | Toolbox front; charge with a 12.6 V CC/CV Li-ion charger (3S) |
 | Wire (silicone, 20 and 26 AWG), heat-shrink | — | About 60 g in the model |
 
-The cell figures are the Samsung INR18650-35E datasheet maxima (Ø18.55, 65.25 long, 50 g). The holders follow the Keystone 1043 drawing (rev C), the connectors the JST and Amass drawings, the switch the Finglai KCD1 drawing (`source/stdparts.py` lists every source). The main board is the KiCad STEP of rev A (`source/board_step.py`: the PCB, every part's 3D model and the mated JST plugs of its inboard headers); its courtyard boxes (`X1_main_board_A_parts.json`) and the old plug envelopes remain the shapes the interference checks use. The fuse holder's body is the one envelope taken from photographs. Masses are assumptions, listed in `simulation/body_mass_properties.json`; the complete-machine catalogue is `excavator_complete/CONNECTORS.md`.
+The cell figures are the Samsung INR18650-35E datasheet maxima (Ø18.55, 65.25 long, 50 g). The holders follow the Keystone 1043 drawing (rev C), the connectors the JST and Amass drawings, the switch the Finglai KCD1 drawing (`source/stdparts.py` lists every source). The main board is the KiCad STEP (`source/board_step.py`: the PCB, every part's 3D model and the mated JST plugs of its inboard headers); its courtyard boxes (`X1_main_board_B_parts.json`) and the old plug envelopes remain the shapes the interference checks use. The body scene and checks were last built with rev A's STEP. Rev B (2026-11-10) keeps that board's outline, holes, connectors and every part position, and only removes 16 parts (the 6 V buck's 13 and the 6 V sense's 3), so the fit results stand until the next body rebuild. The fuse holder's body is the one envelope taken from photographs. Masses are assumptions, listed in `simulation/body_mass_properties.json`; the complete-machine catalogue is `excavator_complete/CONNECTORS.md`.
 
 ## Wiring
 
 The complete harness, including the four arm cables, is routed and checked in `excavator_complete/WIRING.md`. The points below are the body's part of it.
 
 0. **Rev B issue 2 (2026-11-07): harness notch.** The inboard hood's front wall (X −25..−23) of each half has its bottom edge raised to Z 156 over |Y| 38–56 (`x1_body.py HARNESS_NOTCH`). T101's rear bulkhead (X −38..−30) and the B01X plate's rear edge (X −21) leave that wall standing in a 9 mm gap, which is the only way the arm cables can rise out of T101's interior into the hood. Nothing else of the half is in that corner; the body checks were re-run.
-1. **Power:** cells (in the hatch) → BMS (in the hatch) → XT30 lead → fuse → main switch (toolbox) → XT30 link → controller board (12 V bus) → the drivers and the 6 V and 5 V bucks. The charge jack goes to the BMS's charge input through the same lead.
+1. **Power:** cells (in the hatch) → BMS (in the hatch) → XT30 lead → fuse → main switch (toolbox) → XT30 link → controller board (12 V bus) → the seven drivers and the 5 V buck. The charge jack goes to the BMS's charge input through the same lead.
 2. **Balance taps:** solder the BMS's B1 and B2 wires to the joints between the holders. Single-cell holders give direct access to every cell terminal.
 3. **Swing motor:** its leads leave the T101 Ø20 window into the counterweight's channel. They come up and out over the T101 rear bulkhead (the cable notch in the halves' rear walls, |Y| < 14), then go over T101 into the left bay.
 4. **Track motors:** their 4 leads come up the slip ring through the hub. They go over T101 into the left bay.

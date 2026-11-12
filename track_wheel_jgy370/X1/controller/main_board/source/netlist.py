@@ -1,4 +1,4 @@
-"""X1 main board, revision A: parts, pins and nets (the single source of truth).
+"""X1 main board, revision B: parts, pins and nets (the single source of truth).
 
 Everything downstream reads this module: the KiCad schematic generator, the design checks, the BOM,
 the PCB and the firmware pin map. Pin numbers are the footprint pad numbers, which match the KiCad
@@ -11,7 +11,7 @@ Datasheet facts used here are quoted in DESIGN.md with their source and page.
 from collections import OrderedDict, defaultdict
 import sys
 
-REV = "A"
+REV = "B"                # B: the arm actuators are 12 V N20 motors on VBAT; the 6 V buck is gone
 TITLE = "X1 main board"
 
 # ---- part kinds ------------------------------------------------------------------------------
@@ -151,22 +151,22 @@ CHANNELS = [   # GPIOs chosen by where the module pad faces the channel's driver
     dict(key="TL", name="Track left", vm="VBAT", r_ipropi=2.4e3, conn=("J102", 1, 2), en=35, ph=36, adc=1),
     dict(key="TR", name="Track right", vm="VBAT", r_ipropi=2.4e3, conn=("J102", 3, 4), en=37, ph=38, adc=2),
     dict(key="SW", name="Swing", vm="VBAT", r_ipropi=4.12e3, conn=("J103", 1, 2), en=15, ph=16, adc=5),
-    dict(key="BL", name="Boom left", vm="+6V", r_ipropi=4.99e3, conn=("J104", 1, 2), en=21, ph=47, adc=10),
-    dict(key="BR", name="Boom right", vm="+6V", r_ipropi=4.99e3, conn=("J105", 1, 2), en=13, ph=14, adc=9),
-    dict(key="ST", name="Stick", vm="+6V", r_ipropi=4.99e3, conn=("J106", 1, 2), en=11, ph=12, adc=3),
-    dict(key="BK", name="Bucket", vm="+6V", r_ipropi=4.99e3, conn=("J107", 1, 2), en=17, ph=18, adc=6),
+    dict(key="BL", name="Boom left", vm="VBAT", r_ipropi=4.99e3, conn=("J104", 1, 2), en=21, ph=47, adc=10),
+    dict(key="BR", name="Boom right", vm="VBAT", r_ipropi=4.99e3, conn=("J105", 1, 2), en=13, ph=14, adc=9),
+    dict(key="ST", name="Stick", vm="VBAT", r_ipropi=4.99e3, conn=("J106", 1, 2), en=11, ph=12, adc=3),
+    dict(key="BK", name="Bucket", vm="VBAT", r_ipropi=4.99e3, conn=("J107", 1, 2), en=17, ph=18, adc=6),
 ]
 LIMIT_TARGET_A = dict(TL=1.0, TR=1.0, SW=0.6, BL=0.5, BR=0.5, ST=0.5, BK=0.5)   # SPEC.md M2
 
 # Other signals on the module (GPIO -> net)
 GPIO_MISC = OrderedDict([
-    (8, "VBAT_SNS"), (7, "V6_SNS"), (4, "BUZ_PWM"), (48, "NSLEEP"), (39, "NFAULT"), (40, "LED_STAT"),
+    (8, "VBAT_SNS"), (4, "BUZ_PWM"), (48, "NSLEEP"), (39, "NFAULT"), (40, "LED_STAT"),
     (41, "EXP_TX"), (42, "EXP_RX"), (45, "LAMP1_PWM"), (46, "LAMP2_PWM"), (0, "BOOT"),
     (19, "USB_DN"), (20, "USB_DP"), (43, "TXD0"), (44, "RXD0"),
 ])
 
 # Net voltage ceilings (V) for the rating rule: normal maximum, and transient (TVS clamp) maximum.
-NET_VMAX = {"VBAT_IN": 12.6, "VBAT": 12.6, "+6V": 6.1, "+5V": 5.2, "+5V_EXP": 5.2, "+5V_LAMP": 5.2,
+NET_VMAX = {"VBAT_IN": 12.6, "VBAT": 12.6, "+5V": 5.2, "+5V_EXP": 5.2, "+5V_LAMP": 5.2,
             "VBUS": 5.25, "+3V3": 3.4, "LDO_IN": 5.25, "VREF": 2.6}
 VBAT_TRANSIENT = 24.4   # SMBJ15A clamping voltage at Ipp (PARTS_SOURCES.md)
 
@@ -221,8 +221,9 @@ def build():
     n.add("TP101", "TP", {1: "VBAT"}, "test: VBAT", s)
     n.add("TP102", "TP", {1: "GND"}, "test: GND", s)
 
-    # Two identical TPS54302 bucks: 6 V for the actuators, 5 V for logic, lamps and expansion.
-    for base, out, rbot, label in ((110, "+6V", 11e3, "6 V"), (120, "+5V", 13.3e3, "5 V")):
+    # TPS54302 buck: 5 V for logic, lamps and expansion. (Revision A had a second one, U111, for 6 V
+    # actuators; the arm's V6 actuators now use the 12 V N20 motor and run from VBAT like the tracks.)
+    for base, out, rbot, label in ((120, "+5V", 13.3e3, "5 V"),):
         u, sw, fb, en, bst = f"U{base + 1}", f"SW_{base}", f"FB_{base}", f"EN_{base}", f"BST_{base}"
         n.add(u, "TPS54302", {1: "GND", 2: sw, 3: "VBAT", 4: fb, 5: en, 6: bst}, f"{label} 3 A buck", s)
         n.add(f"C{base + 1}", "C10U", {1: "VBAT", 2: "GND"}, f"{label} buck input", s)
@@ -238,10 +239,7 @@ def build():
         n.add(f"R{base + 3}", R(100e3), {1: "VBAT", 2: en}, f"{label} enable / UVLO, upper", s)
         n.add(f"R{base + 4}", R(22e3), {1: en, 2: "GND"}, f"{label} enable / UVLO, lower", s)
         n.add(f"TP{base + 1}", "TP", {1: out}, f"test: {out}", s)
-    n.add("C130", "C22U", {1: "+6V", 2: "GND"}, "6 V bus, at the actuator drivers", s)
-    n.add("R131", R(100e3), {1: "+6V", 2: "V6_SNS"}, "6 V sense, upper", s)
-    n.add("R132", R(22e3), {1: "V6_SNS", 2: "GND"}, "6 V sense, lower", s)
-    n.add("C131", "C100N", {1: "V6_SNS", 2: "GND"}, "6 V sense filter", s)
+    n.add("C130", "C22U", {1: "VBAT", 2: "GND"}, "VBAT bulk at the four actuator drivers", s)
 
     # 3.3 V: LDO fed from 5 V or from USB VBUS through Schottky diodes (flashing with no battery,
     # and no back-feed into the synchronous buck).
@@ -371,7 +369,7 @@ def rules(n):
     dup = {g: u for g, u in gpio_use.items() if len(u) > 1}
     out.append(("each GPIO has one use", not dup, dup or f"{len(gpio_use)} GPIO used of 36"))
     gpio_of = {net: g for g, net in GPIO_MISC.items()}
-    analog = sorted([ch["adc"] for ch in CHANNELS] + [gpio_of["VBAT_SNS"], gpio_of["V6_SNS"]])
+    analog = sorted([ch["adc"] for ch in CHANNELS] + [gpio_of["VBAT_SNS"]])
     out.append(("analog inputs on ADC1 only (ADC2 is shared with Wi-Fi)", set(analog) <= ADC1_GPIO,
                 "GPIO " + ", ".join(map(str, analog))))
     enables = [ch["en"] for ch in CHANNELS] + [gpio_of["NSLEEP"]]

@@ -39,14 +39,15 @@ FP = {
 
 PARTS = {  # value, footprint, height, MPN, LCSC, body colour
     "U": ("DRV5033AJQDBZR", "SOT-23", 1.12, "TI DRV5033AJQDBZR", "C85151", "#222222"),
-    "Q": ("AO3400A", "SOT-23", 1.25, "AOS AO3400A", "C20917", "#222222"),
+    "Q": ("IRLML0060TRPBF", "SOT-23", 1.12, "Infineon IRLML0060TRPBF", "C67274", "#222222"),
     "D_SIG": ("1N4148WS", "SOD-323", 1.1, "JSCJ 1N4148WS", "C2128", "#222222"),
     "D_SCH": ("B5819WS", "SOD-323", 1.1, "JSCJ B5819WS", "C22624", "#222222"),
-    "D_TVS": ("SMF7.0CA", "SOD-123F", 1.08, "MDD SMF7.0CA (bidirectional)", "C123795", "#2b2b2b"),
-    "F": ("0.12 A PPTC", "1206", 0.85, "Bourns MF-NSMF012-2", "C163517", "#3c5a8a"),
+    "D_TVS": ("SMF15CA", "SOD-123F", 1.08, "MDD SMF15CA (bidirectional)", "C123803", "#2b2b2b"),
+    "F": ("0.35 A PPTC", "1206", 0.85, "Bourns MF-NSMF035X-2", "C208468", "#3c5a8a"),
     "C1U": ("1 µF 50 V X5R", "0603", 0.9, "Samsung CL10A105KB8NNNC", "C15849", "#b08a5a"),
     "C100N": ("100 nF 50 V X7R", "0603", 0.9, "Yageo CC0603KRX7R9BB104", "C14663", "#b08a5a"),
     "R1M": ("1 MΩ 1 %", "R0603", 0.45, "UNI-ROYAL 0603WAF1004T5E", "C22935", "#1a1a1a"),
+    "R220": ("220 Ω 1 %", "R0603", 0.45, "UNI-ROYAL 0603WAF2200T5E", "C22962", "#1a1a1a"),
 }
 
 # Each part: ref -> (kind, {pad: net}, role). Nets follow the simulation netlist.
@@ -55,8 +56,10 @@ COMPONENTS = {
     "U2": ("U", {"1": "VCC_EXT", "2": "G_EXT", "3": "B"}, "extend-end Hall switch"),
     "Q1": ("Q", {"1": "G_RET", "2": "A", "3": "A_SW"}, "blocks retract (lead A)"),
     "Q2": ("Q", {"1": "G_EXT", "2": "B", "3": "MOT-"}, "blocks extend (lead B)"),
-    "D1": ("D_SIG", {"1": "VCC_RET", "2": "B"}, "feeds U1 from lead B"),
-    "D2": ("D_SIG", {"1": "VCC_EXT", "2": "A"}, "feeds U2 from lead A"),
+    "D1": ("D_SIG", {"1": "VD_RET", "2": "B"}, "feeds U1 from lead B"),
+    "D2": ("D_SIG", {"1": "VD_EXT", "2": "A"}, "feeds U2 from lead A"),
+    "R3": ("R220", {"1": "VD_RET", "2": "VCC_RET"}, "U1 supply: limits its rise to < 2 V/µs at 12 V"),
+    "R4": ("R220", {"1": "VD_EXT", "2": "VCC_EXT"}, "U2 supply: limits its rise to < 2 V/µs at 12 V"),
     "C1": ("C1U", {"1": "VCC_RET", "2": "A"}, "U1 supply hold / bypass"),
     "C2": ("C1U", {"1": "VCC_EXT", "2": "B"}, "U2 supply hold / bypass"),
     "R1": ("R1M", {"1": "VCC_RET", "2": "G_RET"}, "Q1 gate pull-up"),
@@ -71,7 +74,7 @@ COMPONENTS = {
     "J_M+": ("WIRE", {"1": "MOT+"}, "to motor terminal +"),
     "J_M-": ("WIRE", {"1": "MOT-"}, "to motor terminal -"),
 }
-NETS = ["A", "B", "MOT+", "MOT-", "A_SW", "G_RET", "G_EXT", "VCC_RET", "VCC_EXT"]
+NETS = ["A", "B", "MOT+", "MOT-", "A_SW", "G_RET", "G_EXT", "VCC_RET", "VCC_EXT", "VD_RET", "VD_EXT"]
 POWER_NETS = {"A", "B", "MOT+", "MOT-", "A_SW"}
 
 
@@ -82,18 +85,19 @@ def placement(variant):
     u2 = d["hall_z"][1] - LY.PCB_Z0
     p = {
         "J_A": (1.1, 2.45, 0), "J_M+": (1.1, 0.82, 0), "J_M-": (1.1, -0.82, 0), "J_B": (1.1, -2.45, 0),
-        "U1": (u1, 0.0, 180), "C1": (u1, -2.25, 180),
-        "R1": (u1 + 2.85, 0.0, 90), "D1": (u1 + 3.45, -2.25, 0),
-        "Q1": (u1 + 7.0, 1.55, 0), "D4": (u1 + 7.0, -1.05, 180),
-        "F1": (u1 + 11.6, 1.75, 0), "C3": (u1 + 11.0, -2.25, 0), "D3": (u1 + 15.7, -1.2, 270),
-        "U2": (u2, 0.0, 0), "C2": (u2, -2.25, 0),
-        "R2": (u2 - 2.85, 0.0, 270), "D2": (u2 - 3.45, -2.25, 180),
-        "Q2": (u2 - 7.0, 1.55, 180), "D5": (u2 - 7.0, -1.05, 0),
+        "U1": (u1, 0.0, 180), "C1": (u1, -2.25, 180), "R1": (u1 + 2.85, 0.0, 90),
+        # supply chain along the lower edge: C1 - R3 - D1 (12 V: R3 limits the Hall supply's rise)
+        "R3": (u1 + 2.75, -2.25, 180), "D1": (u1 + 5.65, -2.25, 0),
+        "Q1": (u1 + 9.2, 1.55, 0), "D4": (u1 + 9.2, -1.05, 180),
+        "F1": (u1 + 13.8, 1.75, 0), "C3": (u1 + 13.2, -2.25, 0), "D3": (u1 + 17.9, -1.2, 270),
+        "U2": (u2, 0.0, 0), "C2": (u2, -2.25, 0), "R2": (u2 - 2.85, 0.0, 270),
+        "R4": (u2 - 2.75, -2.25, 0), "D2": (u2 - 5.65, -2.25, 180),
+        "Q2": (u2 - 9.2, 1.55, 180), "D5": (u2 - 9.2, -1.05, 0),
     }
     return p
 
 
-ROUTE_ORDER = ["MOT-", "B", "A", "MOT+", "A_SW", "G_RET", "VCC_RET", "G_EXT", "VCC_EXT"]
+ROUTE_ORDER = ["MOT-", "B", "A", "MOT+", "A_SW", "G_RET", "VD_RET", "VCC_RET", "G_EXT", "VD_EXT", "VCC_EXT"]
 
 
 def routes(variant, force=False):

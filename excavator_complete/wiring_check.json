@@ -158,7 +158,7 @@
    "states": 447,
    "overlaps": 0,
    "overlapping_parts": [],
-   "min_clear_mm": 19.347,
+   "min_clear_mm": 18.435,
    "at": "grid [0.0, 60.0, 60.0]",
    "closest": "bucket_V6_body",
    "length_mm": {
@@ -257,7 +257,7 @@
    "overlaps": 0,
    "overlapping_parts": [],
    "min_clear_mm": 8.191,
-   "at": "cycle [8.019, 41.713, 29.885]",
+   "at": "cycle [8.019, 41.712, 29.885]",
    "closest": "spacer_A1_L",
    "length_mm": {
     "min": 12.64,
@@ -284,7 +284,7 @@
    "overlaps": 0,
    "overlapping_parts": [],
    "min_clear_mm": 8.191,
-   "at": "cycle [8.019, 41.713, 29.885]",
+   "at": "cycle [8.019, 41.712, 29.885]",
    "closest": "spacer_A1_R",
    "length_mm": {
     "min": 12.64,
@@ -1000,5 +1000,5 @@
  },
  "wire_list_rows": 14,
  "status": "PASS",
- "seconds": 140.7
+ "seconds": 64.2
 }

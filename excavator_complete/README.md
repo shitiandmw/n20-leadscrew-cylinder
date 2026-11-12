@@ -24,12 +24,12 @@ It is rendered from the same page. Its provenance is in `video_validation.json`.
 | Slewing ring, ring gear and slip ring | THK RU66, X103 (m1.5 × 80) and a 6-way 2 A slip ring | `track_wheel_jgy370/X1` |
 | Turntable and swing drive | R3 issue 3: T101–T106, with the JGY-370 swing motor at 4:1 | `track_wheel_jgy370/X1` |
 | Upper body | B1 rev B, traced from the Cat 320: B101–B107 and the steel shot | `track_wheel_jgy370/X1` |
-| Battery and main board | Main board rev A (ESP32-S3, 7 × DRV8876) and a 3S 18650 pack under the hatch | `track_wheel_jgy370/X1/controller` |
+| Battery and main board | Main board rev B (ESP32-S3, 7 × DRV8876, all on the 12 V bus) and a 3S 18650 pack under the hatch | `track_wheel_jgy370/X1/controller` |
 | Excavator arm | R12 Rev. D4: Cat 325 pins and the Caterpillar bucket of US 8,201,350, driven by 4 × V6-U60 | `excavator_arm_r12` |
 | **Arm mount (new)** | **B01X issue 3**, described below | this folder |
 | **Harness (new)** | `source/harness.py`: 4 drive cables (loops at O and E, troughs and slots in B01X), slip ring, swing, battery, lamps; 15 × **W01** clamps | this folder, [WIRING.md](WIRING.md) |
 
-The meshes are read from those folders when the demonstration is built, so a rebuild there flows through here. Nothing has been printed, assembled or run under power.
+The meshes are read from those folders when the demonstration is built, so a rebuild there flows through here. One exception for now: X1's body scene was last built with the main board rev A's STEP. Rev B keeps its outline, holes, connectors and part positions and only drops the 6 V buck and its sense (16 small parts), so the board shown has those parts too until X1's body is rebuilt (X1/BODY.md). Nothing has been printed, assembled or run under power.
 
 ## What changed: R12 replaces the ARM60
 
@@ -127,13 +127,13 @@ The method is FCL mesh-mesh collision and distance on the viewer meshes. Their c
 - The machine weighs 9.20 kg: the upper 4.54 kg and the lower 4.66 kg.
 - R12 with B01X weighs 1.06 kg, by R12's print rule. The ARM60 with its base weighed 1.64 kg, but X1's mass file counts it at full PETG density.
 - The body's steel-shot pocket was sized to put the upper's CG on the swing axis with the heavier ARM60 stretched forward.
-  - With R12 in its stretched pose ("reach out", strokes 32 / 6 / 8), the upper's CG is at X −0.1 mm, still on the axis. R12 is lighter but reaches further, and the two effects cancel.
-  - The shot therefore needs no trim (the computed trim is 4 g).
-  - In the other poses the CG sits 4–14 mm behind the axis: 8.9 mm in the carry pose, 13.8 mm when raised.
+  - With R12 in its stretched pose ("reach out", strokes 32 / 6 / 8), the upper's CG is at X +0.2 mm, still on the axis. R12 is lighter but reaches further, and the two effects cancel.
+  - The shot therefore needs no trim (the computed correction is 6 g of shot added).
+  - In the other poses the CG sits 4–14 mm behind the axis: 8.6 mm in the carry pose, 13.6 mm when raised.
   - These figures are in `integration_check.json`, under `balance.upper_cg_mm_by_waypoint` and `shot_trim_estimate`.
 - The masses come from the subsystem mass files. The ARM60's centre of mass is estimated from its meshes at uniform density, so these figures are estimates. Nothing has been weighed.
 
-**Also checked on the whole machine** (2026-11-07):
+**Also checked on the whole machine** (2026-11-07; the integration, wiring and assembly checks re-run on 2026-11-10 after the 12 V drive update and on 2026-11-11 after the V6 end caps moved to M1 heat-set inserts, and on 2026-11-12 after the V6 rear-cap hook and the rebase onto main's J9 track-kit update, all PASS):
 - [wiring_check.json](wiring_check.json), PASS: every cable of [WIRING.md](WIRING.md) as a tube against every part, the four arm cables over the same 447 poses; loops never taut and bent on R ≥ 9; see WIRING.md 3.
 - [assembly_check.json](assembly_check.json), PASS: pin O from either side with the body on, the arm unit lowered onto T101 with the body on, the hex key on the four M6 bolts, each body half out and up past the R12 arm, the hatch at every dig pose; see ASSEMBLY.md 1.
 - [CONTROL_CHECK.md](CONTROL_CHECK.md): the main board's rules and calculations re-run, the DRV8876 and ESP32-S3 datasheets read against the netlist, the firmware tests re-run; one protection rule (S4) fixed.

@@ -30,21 +30,18 @@
  },
  "power_budget": {
   "tracks_and_swing_A": 2.6,
-  "actuators_stalled_A": 1.278,
+  "actuators_stalled_A": 2.0,
   "logic_lamps_A": 0.336,
-  "worst_case_A": 4.213,
+  "worst_case_A": 4.936,
   "fuse_A": 5.0,
   "worst_under_fuse": true,
-  "with_4g_A": 5.371,
+  "with_4g_A": 6.093,
   "with_4g_note": "over the 5 A fuse: review the fuse in the 4G phase",
-  "rail_6v_A": 2.0,
-  "rail_6v_rating_A": 3.0,
-  "rail_6v_ok": true,
   "rail_5v_logic_A": 0.58,
   "rail_5v_with_reserve_A": 2.58,
   "rail_5v_rating_A": 3.0,
   "rail_5v_ok": true,
-  "assumptions": "every channel at its limit, actuators stalled at 0.46 A, bucks 90% efficient, battery at 9.6 V"
+  "assumptions": "every channel at its limit, actuators stalled at 0.5 A, 5 V buck 90% efficient, battery at 9.6 V"
  },
  "current_sense": {
   "vref": 2.5,
@@ -83,7 +80,7 @@
     ]
    }
   ],
-  "actuator_run_V": 0.6
+  "actuator_run_V": 0.4
  },
  "pin_budget": {
   "module": "ESP32-S3-WROOM-1-N8",
@@ -227,13 +224,13 @@
  "link_timeout_ms": 350,
  "spec_quotes": {
   "worst_case_A": {
-   "spec": 4.2,
-   "computed": 4.213,
+   "spec": 4.9,
+   "computed": 4.936,
    "ok": true
   },
   "with_4g_A": {
-   "spec": 5.4,
-   "computed": 5.371,
+   "spec": 6.1,
+   "computed": 6.093,
    "ok": true
   },
   "rail_5v_logic_A": {
@@ -257,8 +254,8 @@
    "ok": true
   },
   "v_ipropi_run_V": {
-   "spec": 0.6,
-   "computed": 0.6,
+   "spec": 0.4,
+   "computed": 0.4,
    "ok": true
   },
   "gpio_used": {

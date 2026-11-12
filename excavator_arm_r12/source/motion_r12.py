@@ -8,7 +8,8 @@ import math
 import numpy as np
 import r12_design as d
 
-PEAK_SPEED = 0.80          # mm/s planned peak stroke rate (no-load drive speed 1.25 mm/s)
+PEAK_SPEED = 0.80          # mm/s planned peak stroke rate: planned for the earlier 6 V drive (1.25 mm/s without
+                           # load) and kept; the 12 V drive runs 8.2 mm/s without load, 6.2 mm/s at the 150 g case
 DWELL = 3.0                # s at each waypoint
 WAYPOINTS = [              # name, (boom, stick, bucket) strokes in mm
     ('carry', (45.0, 38.0, 50.0)),

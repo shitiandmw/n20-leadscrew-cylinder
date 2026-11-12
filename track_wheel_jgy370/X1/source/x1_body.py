@@ -92,7 +92,7 @@ BOARD = dict(x=(-136.0, -40.0), y=(84.0, 148.0), z=(110.0, 111.6))
 # main board rev A (controller/main_board): USB-C receptacle on the board's outboard edge, centred 1.6 above the board
 # top (spec C1 B4: the slot moves down from Z 123.3, where a devkit on headers had it); plug overmolds to 14.4 x 8.4
 USB = dict(x=-98.0, z=113.2, slot=(15.0, 9.0), r=3.0)
-MAIN_BOARD_PARTS = X.ROOT / 'controller' / 'main_board' / 'X1_main_board_A_parts.json'   # written by check_pcb.py
+MAIN_BOARD_PARTS = X.ROOT / 'controller' / 'main_board' / 'X1_main_board_B_parts.json'   # written by check_pcb.py
 PLUG_DEPTH = dict(XH=12.0, PH=10.0)    # mated JST plug and lead bend beyond a side-entry header's face (check envelope)
 HEADER_FACE_Y = BOARD['y'][0] + 0.54   # 84.54: mating faces of the side-entry headers (KiCad's JST models, board_step.py)
 BOARD_TOP_Z = BOARD['z'][0] + 1.51     # 111.51: the board top in the KiCad STEP
@@ -684,7 +684,7 @@ def main_board():
     """The main board rev A as KiCad exported it (board_step.py: the PCB and every part's 3D model, in colour groups)
     and the mated harness plugs of its inboard side-entry headers (stdparts: JST XHP-2 / XHP-4 / PHR-3 drawn from the
     JST catalogue), each with 4 mm of its wires. J109 (expansion) stays empty. The interference checks use the parts'
-    courtyard boxes (X1_main_board_A_parts.json) and the old 12 / 10 mm plug envelopes, not the detailed solids."""
+    courtyard boxes (X1_main_board_B_parts.json) and the old 12 / 10 mm plug envelopes, not the detailed solids."""
     import json
     d = json.loads(MAIN_BOARD_PARTS.read_text())
     assert d['board'] == dict(x=list(BOARD['x']), y=list(BOARD['y']), z=list(BOARD['z'])), 'main board outline moved'

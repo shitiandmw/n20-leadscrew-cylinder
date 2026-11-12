@@ -15,24 +15,24 @@
     35.0
    ],
    "mujoco_force_N": {
-    "boom_L": 27.91,
-    "boom_R": 51.0,
-    "stick": -18.24,
+    "boom_L": 24.2,
+    "boom_R": 55.0,
+    "stick": -18.27,
     "bucket": -4.69
    },
    "virtual_work_N": {
-    "boom_each": 39.48,
-    "stick": -18.26,
+    "boom_each": 39.63,
+    "stick": -18.29,
     "bucket": -4.69
    },
-   "boom_pair_sum_N": 78.91,
+   "boom_pair_sum_N": 79.2,
    "stroke_error_mm": [
     -0.5,
-    -0.4901,
+    -0.4872,
     0.0,
     0.0
    ],
-   "residual_boom_moment_Nm": -0.7851
+   "residual_boom_moment_Nm": -1.0472
   }
  }
 }

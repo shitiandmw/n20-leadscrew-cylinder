@@ -12,14 +12,14 @@
    "side_link": 0.010134,
    "h_link": 0.007504,
    "bucket": 0.085396,
-   "boom_L_barrel": 0.050692,
-   "boom_L_rod": 0.0076,
-   "boom_R_barrel": 0.050692,
-   "boom_R_rod": 0.0076,
-   "stick_barrel": 0.050692,
-   "stick_rod": 0.0076,
-   "bucket_barrel": 0.050692,
-   "bucket_rod": 0.0076
+   "boom_L_barrel": 0.053461,
+   "boom_L_rod": 0.006945,
+   "boom_R_barrel": 0.053461,
+   "boom_R_rod": 0.006945,
+   "stick_barrel": 0.053461,
+   "stick_rod": 0.006945,
+   "bucket_barrel": 0.053461,
+   "bucket_rod": 0.006945
   }
  },
  "clash_3d": {
@@ -40,29 +40,29 @@
    },
    {
     "pair": "B01_boom_foot_bracket | boom_L_V6_body",
-    "gap_mm": 1.318,
+    "gap_mm": 1.317,
     "pose": [
-     32.94,
-     8.32,
-     11.04
+     30.96,
+     6.28,
+     8.47
     ]
    },
    {
     "pair": "B01_boom_foot_bracket | boom_R_V6_body",
-    "gap_mm": 1.318,
+    "gap_mm": 1.317,
     "pose": [
-     32.94,
-     8.32,
-     11.04
+     30.96,
+     6.28,
+     8.47
     ]
    },
    {
-    "pair": "B03_stick | bucket_V6_rod_eye",
-    "gap_mm": 2.106,
+    "pair": "B02_boom | stick_V6_front_cap",
+    "gap_mm": 1.966,
     "pose": [
      0.0,
-     0.0,
-     60.0
+     60.0,
+     0.0
     ]
    }
   ]
@@ -82,6 +82,16 @@
     ]
    ],
    [
+    "boom.nose",
+    "cyl.stick.body",
+    1.88,
+    [
+     5.0,
+     60.0,
+     0.0
+    ]
+   ],
+   [
     "bucket.shell",
     "h_link.plate",
     2.02,
@@ -90,21 +100,11 @@
      60.0,
      8.0
     ]
-   ],
-   [
-    "cyl.stick.rod",
-    "stick.head_bridge",
-    2.1,
-    [
-     6.0,
-     60.0,
-     0.0
-    ]
    ]
   ],
   "hold_N_150g": {
-   "boom": 36.5,
-   "stick": 26.0,
+   "boom": 36.6,
+   "stick": 26.1,
    "bucket": 16.6
   },
   "working_ranges_mm": {
@@ -119,43 +119,43 @@
   "payload_150g": {
    "passed": true,
    "peak_force_N": {
-    "boom_L": 38.34,
-    "boom_R": 38.34,
-    "stick": 16.89,
-    "bucket": 14.0
+    "boom_L": 38.5,
+    "boom_R": 38.5,
+    "stick": 16.92,
+    "bucket": 14.01
    },
-   "tracking_mm": 0.0633,
-   "closure_mm": 0.01889,
+   "tracking_mm": 0.0673,
+   "closure_mm": 0.01822,
    "seconds_at_clamp": 0.0
   },
   "unloaded": {
    "passed": true,
    "peak_force_N": {
-    "boom_L": 27.52,
-    "boom_R": 27.52,
-    "stick": 9.1,
-    "bucket": 4.68
+    "boom_L": 27.68,
+    "boom_R": 27.68,
+    "stick": 9.14,
+    "bucket": 4.69
    },
-   "tracking_mm": 0.0485,
-   "closure_mm": 0.01398,
+   "tracking_mm": 0.0516,
+   "closure_mm": 0.01349,
    "seconds_at_clamp": 0.0
   }
  },
  "hold_mujoco_vs_virtual_work_max_diff_N": 0.02,
  "half_step_max_peak_difference_N": 0.0,
  "boom_sync_0p5mm": {
-  "boom_L": 27.91,
-  "boom_R": 51.0,
-  "stick": -18.24,
+  "boom_L": 24.2,
+  "boom_R": 55.0,
+  "stick": -18.27,
   "bucket": -4.69
  },
  "files": {
   "motion_json_sha256": "1414a63b57262c70ea201dde5d87ef2ed11f26dfeb26331cf61842cab7ce089b",
-  "preview_sha256": "b1dab556cae27232e8b999cd5625539ce8cdbfeed03d68225e796c0e613aa011"
+  "preview_sha256": "0d85c625517c623d07d0b468733dca63304d0f6fd22334ed8efb741b54dceee8"
  },
  "browser": {
   "status": "PASS",
-  "html_sha256": "b1dab556cae27232e8b999cd5625539ce8cdbfeed03d68225e796c0e613aa011",
+  "html_sha256": "0d85c625517c623d07d0b468733dca63304d0f6fd22334ed8efb741b54dceee8",
   "kinematics": {
    "cases": 125,
    "max_origin_error_mm": 0.0002743640173559012,
@@ -186,7 +186,7 @@
   ],
   "frames_decoded": 771,
   "chapters": 7,
-  "size_mb": 7.06,
-  "html_sha256": "b1dab556cae27232e8b999cd5625539ce8cdbfeed03d68225e796c0e613aa011"
+  "size_mb": 7.05,
+  "html_sha256": "0d85c625517c623d07d0b468733dca63304d0f6fd22334ed8efb741b54dceee8"
  }
 }

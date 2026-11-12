@@ -214,7 +214,7 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:10px 20px 40p
 <!-- ============================== 3 ============================== -->
 <section id="power">
 <h2><span class="num">3</span>Where the power goes</h2>
-<p class="lead">The battery gives 9 to 12.6 V. Different parts need different voltages, so the board makes three more: 6 V for the arm's actuators, 5 V for lamps, buzzer and the future 4G module, and 3.3 V for the brain. Watch the moving dashes: they show which way the energy flows.</p>
+<p class="lead">The battery gives 9 to 12.6 V. Every motor runs on it directly: the tracks, the swing and the arm's four actuators. Other parts need lower voltages, so the board makes two more: 5 V for lamps, buzzer and the future 4G module, and 3.3 V for the brain. Watch the moving dashes: they show which way the energy flows.</p>
 <div class="seg"><button class="btn on" data-pmode="bat">Running on the battery</button><button class="btn" data-pmode="usb">Only a USB cable plugged in (programming on the desk)</button></div>
 <svg id="powerSvg" viewBox="0 0 1000 560" width="100%" role="img" aria-label="Power flow from the battery through converters to motors and the brain">
   <defs><marker id="pa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5b6b78"/></marker></defs>
@@ -234,13 +234,11 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:10px 20px 40p
       <rect x="640" y="48" width="160" height="64" rx="10" fill="#fff" stroke="#2a9d5c" stroke-width="2"/><text x="720" y="74" font-weight="700">3 drivers at 12 V</text><text x="720" y="94" font-size="12">tracks L + R, swing</text>
       <path class="flow" d="M800,80 L850,80" stroke="#2a9d5c" stroke-width="5"/>
       <text x="920" y="70" font-weight="700" fill="#2a9d5c">track motors</text><text x="920" y="88" font-size="12">up to 1.03 A each</text><text x="920" y="104" font-size="12">swing: 0.6 A</text>
-      <!-- branch B: 6 V -->
-      <path class="flow" d="M500,210 L560,210" stroke="#e4572e" stroke-width="6"/>
-      <rect x="560" y="176" width="120" height="68" rx="10" fill="#f4a259"/><text x="620" y="204" font-weight="700">6 V converter</text><text x="620" y="222" font-size="12">up to 3 A</text>
-      <path class="flow" d="M680,210 L740,210" stroke="#f4a259" stroke-width="6"/>
-      <rect x="740" y="178" width="140" height="64" rx="10" fill="#fff" stroke="#2a9d5c" stroke-width="2"/><text x="810" y="204" font-weight="700">4 drivers at 6 V</text><text x="810" y="222" font-size="12">boom ×2, stick, bucket</text>
-      <path class="flow" d="M880,210 L905,210" stroke="#2a9d5c" stroke-width="5"/>
-      <text x="950" y="204" font-weight="700" fill="#2a9d5c">arm</text><text x="950" y="222" font-size="12">0.5 A each</text>
+      <!-- branch B: the arm, also at 12 V -->
+      <path class="flow" d="M500,210 L640,210" stroke="#e4572e" stroke-width="6"/>
+      <rect x="640" y="178" width="160" height="64" rx="10" fill="#fff" stroke="#2a9d5c" stroke-width="2"/><text x="720" y="204" font-weight="700">4 drivers at 12 V</text><text x="720" y="222" font-size="12">boom ×2, stick, bucket</text>
+      <path class="flow" d="M800,210 L850,210" stroke="#2a9d5c" stroke-width="5"/>
+      <text x="920" y="200" font-weight="700" fill="#2a9d5c">arm actuators</text><text x="920" y="218" font-size="12">up to 0.5 A each</text><text x="920" y="234" font-size="12">own fuse 0.35 A</text>
       <!-- branch C: 5 V -->
       <path class="flow" d="M500,360 L560,360" stroke="#e4572e" stroke-width="6"/>
       <rect x="560" y="326" width="120" height="68" rx="10" fill="#f4a259"/><text x="620" y="354" font-weight="700">5 V converter</text><text x="620" y="372" font-size="12">up to 3 A</text>
@@ -265,9 +263,9 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:10px 20px 40p
   </g>
 </svg>
 <div class="grid3">
-  <div class="card"><h4>Why converters?</h4><p>A converter is like a gearbox for electricity: it swaps voltage for current with little loss. Turning 12 V into 6 V this way wastes far less heat than simply "burning off" the extra volts.</p></div>
+  <div class="card"><h4>Why converters?</h4><p>A converter is like a gearbox for electricity: it swaps voltage for current with little loss. Turning 12 V into 5 V this way wastes far less heat than simply "burning off" the extra volts.</p></div>
   <div class="card"><h4>Protected input</h4><p>If the battery plug is ever wired backwards, a transistor at the input stays closed and nothing is harmed. A clamp swallows the voltage spikes that motors make.</p></div>
-  <div class="card"><h4>Kind to the battery</h4><p>Both converters switch themselves off below about 6.2 V, and the program stops the motors at 9.6 V, so a flat pack is not drained further. The fuse in the toolbox is 5 A; the worst case of every motor stalled at once is 4.3 A.</p></div>
+  <div class="card"><h4>Kind to the battery</h4><p>The converter switches itself off below about 6.2 V, and the program stops the motors at 9.6 V, so a flat pack is not drained further. The fuse in the toolbox is 5 A; the worst case of every motor stalled at once is 4.45 A (5.04 A for the few seconds until the arm's own fuses and the stall rule act).</p></div>
 </div>
 </section>
 
@@ -308,7 +306,7 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:10px 20px 40p
       <text x="12" y="145" font-size="12" fill="#5b6b78">on = power to the motor, off = brake</text>
     </svg>
     <h3>It watches the current too</h3>
-    <p>Each driver measures the motor's current and sends it to the brain on a third wire. If a motor is blocked, the driver itself limits the current: <b>1.03 A</b> for the tracks, <b>0.6 A</b> for the swing, <b>0.5 A</b> for the arm. The program adds a second rule: a track or the swing held at its limit for <b>2 seconds</b> is switched off.</p>
+    <p>Each driver measures the motor's current and sends it to the brain on a third wire. If a motor is blocked, the driver itself limits the current: <b>1.03 A</b> for the tracks, <b>0.6 A</b> for the swing, <b>0.5 A</b> for the arm. The program adds a second rule: a motor that draws about what it would draw if blocked for <b>2 seconds</b> is switched off.</p>
     <p class="cap">The "Brake" setting joins both motor wires together (switches C and D), which stops a motor quickly. "Asleep" opens every switch: the motor is free. While the machine is not armed, all seven drivers sleep.</p>
   </div>
 </div>
@@ -412,9 +410,9 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:10px 20px 40p
   <tr><td><b>Radio lost</b></td><td>No valid command for 0.35 s: every motor stops at once, except the swing, which slows down over 0.4 s to protect its gears.</td><td>The radio returns, then all inputs centred.</td></tr>
   <tr><td><b>EMERGENCY STOP</b></td><td>The red button stops everything and the board remembers it ("latched"), even if the radio drops.</td><td>Release E-STOP, centre the sticks, press RESUME.</td></tr>
   <tr><td><b>Switching on</b></td><td>The motor drivers stay asleep until a valid command arrives with all inputs centred.</td><td>—</td></tr>
-  <tr><td><b>Stalled motor</b></td><td>A track or the swing held at 90 % of its current limit for 2 s is switched off (a blocked track, a rock against the swing).</td><td>Let go: its input returns to centre.</td></tr>
+  <tr><td><b>Stalled motor</b></td><td>A motor drawing 90 % of the current it would draw blocked at that speed (never more than its current limit) for 2 s is switched off (a blocked track, a rock against the swing, a jammed actuator).</td><td>Let go: its input returns to centre.</td></tr>
   <tr><td><b>Battery low</b></td><td>The battery voltage is averaged over about 2 s, so a short dip does not trip it. Below 10.5 V: warning beeps. Below 9.6 V: motors stop.</td><td>The averaged voltage is back above 10.5 V (charge the pack).</td></tr>
-  <tr><td><b>Boom out of step</b></td><td>The two boom cylinders draw clearly different currents (over 40 mA apart) for 3 s, or one reaches its end and the other does not follow within 10 s: the boom stops. The other motors keep working.</td><td>RESUME, or the re-sync button (drives both cylinders fully in to line them up).</td></tr>
+  <tr><td><b>Boom out of step</b></td><td>The two boom cylinders draw clearly different currents (over 130 mA apart) for 3 s, or one reaches its end and the other does not follow within 3 s: the boom stops. The other motors keep working.</td><td>RESUME, or the re-sync button (drives both cylinders fully in to line them up).</td></tr>
   <tr><td><b>Driver fault</b></td><td>Any driver reporting overheating or a short stops everything.</td><td>RESUME, once the fault is gone.</td></tr>
 </table>
 </section>
@@ -452,7 +450,7 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:10px 20px 40p
   </div>
   <div>
     <h3>What the status report contains</h3>
-    <table><tr><td>State</td><td>armed, radio link, E-STOP, pairing, re-sync</td></tr><tr><td>Faults</td><td>stall, battery, driver, boom</td></tr><tr><td>Measurements</td><td>battery voltage, 6 V rail, radio signal strength</td></tr><tr><td>Per motor</td><td>speed, current, flags</td></tr></table>
+    <table><tr><td>State</td><td>armed, radio link, E-STOP, pairing, re-sync</td></tr><tr><td>Faults</td><td>stall, battery, driver, boom</td></tr><tr><td>Measurements</td><td>battery voltage, radio signal strength</td></tr><tr><td>Per motor</td><td>speed, current, flags</td></tr></table>
   </div>
 </div>
 <h3>Pairing: only your handle is obeyed</h3>
@@ -552,7 +550,7 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:10px 20px 40p
   <dt>Actuator</dt><dd>A small motor that pushes a rod in and out (like a hydraulic cylinder). The arm has four: two for the boom, one for the stick, one for the bucket.</dd>
   <dt>Boom, stick, bucket</dt><dd>The three parts of an excavator arm, from the machine outwards. Swing turns the whole upper body.</dd>
   <dt>Armed / disarmed</dt><dd>Armed: the motors follow your commands. Disarmed: the drivers sleep and nothing moves.</dd>
-  <dt>Converter (buck)</dt><dd>A circuit that turns a higher voltage into a lower one efficiently (12 V into 6 V or 5 V).</dd>
+  <dt>Converter (buck)</dt><dd>A circuit that turns a higher voltage into a lower one efficiently (12 V into 5 V).</dd>
   <dt>Regulator (LDO)</dt><dd>A simple circuit that makes a very clean, steady voltage (3.3 V for the brain).</dd>
   <dt>ESP32-S3</dt><dd>The small computer on the board, with a built-in radio.</dd>
   <dt>ESP-NOW</dt><dd>The direct radio link between the handle and the board, on 2.4 GHz like Wi-Fi but without a router.</dd>
@@ -568,7 +566,7 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:10px 20px 40p
 </dl>
 </section>
 </main>
-<footer>Generated by <code>controller/source/build_guide.py</code> from the board files (<code>main_board/</code>), the firmware (<code>firmware/</code>) and BODY.md. Board: X1 main board rev A. Numbers checked against the firmware sources when this page was built.</footer>
+<footer>Generated by <code>controller/source/build_guide.py</code> from the board files (<code>main_board/</code>), the firmware (<code>firmware/</code>) and BODY.md. Board: X1 main board rev %%BOARD_REV%%. Numbers checked against the firmware sources when this page was built.</footer>
 
 <script>
 const TOUR = %%TOUR_JSON%%;
@@ -698,7 +696,7 @@ document.querySelectorAll('[data-pmode]').forEach(b => b.addEventListener('click
 /* ---------------- simulator: the firmware rules ---------------- */
 (function(){
   const F = FACTS;
-  const CH = F.channels;                 // [{name, ramp_ms, limit_a, vbat, neg, pos}]
+  const CH = F.channels;                 // [{name, ramp_ms, limit_a, actuator, neg, pos}]
   const SWING = 2;
   const hs = {lx:0, ly:0, rx:0, ry:0, LF:0, LR:0, RF:0, RR:0, HORN:0, estop:false, resumeUntil:0, speed:65};
   const fw = {link:false, lastRx:-1e9, pkt:null, prevButtons:{}, armed:false, estop:false, vbatF:12.0, warn:false, bstop:false,
@@ -762,12 +760,14 @@ document.querySelectorAll('[data-pmode]').forEach(b => b.addEventListener('click
       else {
         fw.duty[c] = ramp(fw.duty[c], req[c] * speed, dt, CH[c].ramp_ms);
       }
-      // current: a free motor draws a little; a blocked left track sits at its limit
+      // S4: the current a blocked motor would draw at this duty (no back-EMF), capped by its driver's limit
       const d = fw.duty[c];
-      fw.cur[c] = (c === 0 && jam && d !== 0) ? CH[c].limit_a : Math.abs(d) * CH[c].limit_a * 0.25;
-      if (fw.armed && !fw.cut[c] && CH[c].vbat && d !== 0 && fw.cur[c] >= F.stall_fraction * CH[c].limit_a){
+      const iStall = Math.min(CH[c].limit_a, Math.abs(d) * fw.vbatF / (CH[c].actuator ? F.actuator_ohm : F.motor_ohm));
+      // current: a free motor draws a little; a blocked left track draws the blocked current
+      fw.cur[c] = (c === 0 && jam && d !== 0) ? iStall : Math.abs(d) * CH[c].limit_a * 0.25;
+      if (fw.armed && !fw.cut[c] && d !== 0 && iStall >= F.stall_min_a && fw.cur[c] >= F.stall_fraction * iStall){
         if (fw.stallSince[c] === null) fw.stallSince[c] = now;
-        else if (now - fw.stallSince[c] >= F.stall_ms){ fw.cut[c] = true; fw.duty[c] = 0; fw.stallSince[c] = null; log(`${CH[c].name}: at its current limit for ${F.stall_ms / 1000} s, switched off until you let go`); }
+        else if (now - fw.stallSince[c] >= F.stall_ms){ fw.cut[c] = true; fw.duty[c] = 0; fw.stallSince[c] = null; log(`${CH[c].name}: blocked for ${F.stall_ms / 1000} s, switched off until you let go`); }
       } else fw.stallSince[c] = null;
     }
     // the drawing (sped up)

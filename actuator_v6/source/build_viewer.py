@@ -18,6 +18,7 @@ import numpy as np
 import board as BD
 import layout as LY
 import assembly as AS
+from build_v6 import FLIP
 
 HOME = Path(__file__).resolve().parent.parent       # this package: template, behaviour, simulation
 SRC = HOME / "source"
@@ -34,34 +35,49 @@ NET_INFO = {
     "A_SW": "Lead A after Q1 and D4; it runs through the fuse F1 to the motor.",
     "G_RET": "Gate of Q1. R1 pulls it up (Q1 on); U1 pulls it low at the retract end.",
     "G_EXT": "Gate of Q2. R2 pulls it up (Q2 on); U2 pulls it low at the extend end.",
-    "VCC_RET": "Supply of U1, fed from wire B through D1 and held by C1 (only while retracting).",
-    "VCC_EXT": "Supply of U2, fed from wire A through D2 and held by C2 (only while extending).",
+    "VCC_RET": "Supply of U1, fed from wire B through D1 and R3 and held by C1 (only while retracting).",
+    "VCC_EXT": "Supply of U2, fed from wire A through D2 and R4 and held by C2 (only while extending).",
+    "VD_RET": "Between D1 and R3. R3 (220 Ω) limits how fast U1's supply rises when wire B switches to 12 V.",
+    "VD_EXT": "Between D2 and R4. R4 (220 Ω) limits how fast U2's supply rises when wire A switches to 12 V.",
 }
 MECH_INFO = {
-    "01_body": "Printed body (PETG), printed rear end down. Square tube with the motor wall, the board slot, the "
-               f"screw corners, the {LY.PARTITION_T:g} mm partition that keeps the carrier away from the board, and a "
-               "key rib in one bore corner so the rod only goes in with its magnet toward the board.",
-    "02_front_cap": "Printed front cap. Rod guide; its spigot is the hard stop at the extend end. 2 × M2 × 8.",
+    "01_body": "Printed body (PETG), printed front end down. Square tube with the motor wall, the board slot, the "
+               f"screw corners with the M1 heat-set inserts, the {LY.PARTITION_T:g} mm partition that keeps the carrier "
+               "away from the board, a key rib in one bore corner so the rod only goes in with its magnet toward "
+               "the board, and a 2.4 mm motor-side wall whose end reaches into the rear cap: the cap's tooth hooks "
+               "into a notch inside it, so a pull cannot tip the cap about its screws.",
+    "02_front_cap": "Printed front cap. Rod guide; its spigot is the hard stop at the extend end. 2 × M1 × 8 into "
+                    "the front inserts.",
     "03_rear_cap": "Printed rear cap with the rear clevis (Ø3 pin). The cable wires pass a slot in it (a knot "
-                   "inside stops them); its pocket holds the cable clamp. 2 × M2 × 10 through the clamp.",
-    "04_rod": "Printed rod with the nut carrier: brass M3 nut in the hex slot, "
-              f"Ø{LY.MAGNET['d']:g} × {LY.MAGNET['l']:g} magnet in the pocket.",
+                   "inside stops them); its pocket holds the cable clamp. 2 × M1 × 8 through the clamp into the rear "
+                   "inserts on the board side; on the motor side a 45° tooth in a second pocket hooks into the end of "
+                   "the body's wall (fitted 0.8 mm toward the board side, then slid back).",
+    "04_rod": "Printed rod with the nut carrier: thin brass M4 nut in the hex slot, "
+              f"{LY.magnet_label()} block magnet in the pocket.",
     "05_rod_eye": "Printed rod eye (Ø3 pin), held by one M2 × 10 cross screw.",
     "06_cable_clamp": "Printed cable clamp plate. The two rear-cap screws press it onto the 3 mm sleeve: a "
                       "2.6 mm groove with ridges, flared at the mouth so the cable bends gently.",
     "cable_sleeve": "Protective sleeve over the two cable wires: 3 mm OD, 2 mm bore, silicone or PVC tube. "
                     "Gripped by the cable clamp; it leaves the rear cap sideways, on the board side.",
-    "motor_": "N20 gearmotor, 6 V 150 rpm, with its own M3 × 0.5 leadscrew. Unmodified bought part.",
-    "M3_brass_nut": "Brass M3 hex nut (5.5 mm AF), slid into the carrier's slot.",
-    "magnet_": f"Ø{LY.MAGNET['d']:g} × {LY.MAGNET['l']:g} mm {LY.MAGNET['grade']} magnet, magnetised along "
-               "its axis (the travel). Press fit; the Hall switches see it through the partition.",
+    "motor_": "N20 gearmotor, 12 V 1:50 800 rpm, with its own M4 × 0.7 leadscrew (100 mm stock, cut to "
+              "length). Otherwise unmodified bought part.",
+    "M4_brass_nut": "Thin brass M4 hex nut (ISO 4035, 7 mm AF × 2.2 mm), slid into the carrier's slot.",
+    "magnet_": f"{LY.magnet_label()} {LY.MAGNET['grade']} block magnet, magnetised through a 2 mm face, along "
+               "the travel. Press fit; the Hall switches see it through the partition.",
     "M1.6x4_countersunk": "M1.6 × 4 countersunk screw: motor to the body wall.",
-    "M2x8_front_cap": "M2 × 8 pan-head screw: front cap to the body (self-tapping into the 1.6 mm pilot).",
-    "M2x10_rear_cap": "M2 × 10 pan-head screw: cable clamp and rear cap to the body.",
+    "M1_insert": f"M1 brass heat-set insert, {LY.INSERT['length']:g} mm long, {LY.INSERT['od']:g} mm across the "
+                 f"knurl ({LY.INSERT['name']}), pressed with a soldering iron into a {LY.INSERT['hole']:g} mm hole "
+                 "in the body's end face, 0.1 mm below the face.",
+    "M1x8_front_cap": "M1 × 8 pan-head screw, A2-70 stainless, PH000: front cap to the body, into a heat-set insert.",
+    "M1x8_rear_cap": "M1 × 8 pan-head screw, A2-70 stainless, PH000: cable clamp and rear cap to the body, into a "
+                     "heat-set insert.",
     "M2x10_rod_eye": "M2 × 10 pan-head screw through the rod eye and the rod.",
     "PCB_board": "End-stop board: 2 layers, 0.8 mm FR4, 8 mm wide. It rests on the motor wall and is held "
                  "by the front-cap tongue.",
-    "tool_PH1": f"{AS.DRIVERS['PH1']['note']}, for the five M2 pan-head screws (DIN 7985 M2 takes PH1).",
+    "tool_PH1": f"{AS.DRIVERS['PH1']['note']}, for the M2 rod-eye screw (DIN 7985 M2 takes PH1).",
+    "tool_PH000": f"{AS.DRIVERS['PH000']['note']}, for the four M1 cap screws.",
+    "tool_IRON": f"{AS.DRIVERS['IRON']['note']} (your PETG print temperature + 10 °C). It presses the four M1 "
+                 "inserts into the body's end faces before anything else goes in.",
 }
 
 
@@ -120,7 +136,7 @@ def circuit():
                  else PIN_NAMES["diode"] if kind.startswith("D_") and kind != "D_TVS" else {})
         parts[ref] = dict(kind="part", value=value, package=fp, mpn=mpn, lcsc=lcsc, role=role, height_mm=h,
                           pins=[dict(pad=p, name=names.get(p, p), net=n) for p, n in netmap.items()])
-    parts["M1"] = dict(kind="motor", value="N20 6 V 150 rpm", role="the motor (off the board, wires W3 and W4)",
+    parts["M1"] = dict(kind="motor", value="N20 12 V 1:50", role="the motor (off the board, wires W3 and W4)",
                        pins=[dict(pad="+", name="+", net="MOT+"), dict(pad="-", name="−", net="MOT-")])
     members = {}
     for ref, p in parts.items():
@@ -171,7 +187,8 @@ def assembly_data(params):
         LY.VARIANTS.setdefault(v, dict(screw_length=p["screw_length_mm"], stroke=p["stroke_mm"]))
         rep = val.get(v, {})
         plans[v] = AS.plan(LY.derived(v), rep.get("tool_access"))
-        prints[v] = {n: {k: x[k] for k in ("file", "mass_solid_g", "print_extent_mm", "print_setup")}
+        prints[v] = {n: {**{k: x[k] for k in ("file", "mass_solid_g", "print_extent_mm", "print_setup")},
+                         "flip": n.startswith(FLIP)}
                      for n, x in rep.get("parts", {}).items() if n[:2] in ("01", "02", "03", "04", "05", "06")}
     return dict(plans=plans, print=prints)
 

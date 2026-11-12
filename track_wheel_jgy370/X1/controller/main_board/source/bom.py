@@ -1,6 +1,6 @@
 """Bill of materials for the X1 main board, from netlist.py.
 
-Writes fab/X1_main_board_A_BOM_JLCPCB.csv (JLCPCB assembly format) and BOM.md (grouped, with the
+Writes fab/X1_main_board_<rev>_BOM_JLCPCB.csv (JLCPCB assembly format) and BOM.md (grouped, with the
 JLCPCB library type, which decides the per-part loading fee). Test pads and holes are copper only.
 
     python bom.py

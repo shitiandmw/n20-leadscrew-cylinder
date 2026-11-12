@@ -25,9 +25,9 @@ import layout as LY
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "electronics" / "pcb"
 YOFF = LY.PCB_W / 2
-REV = "6.1"                  # partition revision: new Hall positions and board length
+REV = "6.2"                  # 12 V N20 1:50 with the M4 leadscrew: R3/R4, IRLML0060, SMF15CA, 0.35 A PPTC
 MASK_EXP = 0.05
-ZIP_DATE = (2026, 10, 28, 0, 0, 0)       # fixed, so the upload zip only changes with its files
+ZIP_DATE = (2026, 11, 10, 0, 0, 0)       # fixed, so the upload zip only changes with its files
 
 
 # ---- silkscreen ---------------------------------------------------------------------------
@@ -59,7 +59,9 @@ def silkscreen(variant):
         u, v = P[(ref, "1")]["at"]
         if ref in ("J_A", "J_B"):
             top.append(text_polys(lab, u, v + (1.05 if v > 0 else -1.05), 0.6))
-    # polarity marks: cathode bar beside pad 1 of the polarised diodes
+    # polarity marks: cathode bar beyond pad 1 of the polarised diodes; where a neighbour's pad leaves no room
+    # for it (D1 and D2 face R3 and R4 0.3 mm away), a tick along pad 1 on the side of the body instead
+    opening = mask_openings(variant)
     for ref in ("D1", "D2", "D4", "D5"):
         u, v = P[(ref, "1")]["at"]
         u2, v2 = P[(ref, "2")]["at"]
@@ -67,12 +69,27 @@ def silkscreen(variant):
         n = math.hypot(du, dv)
         cu, cv = u + du / n * 0.55, v + dv / n * 0.55
         if abs(du) > abs(dv):
-            top.append(sbox(cu - 0.08, cv - 0.45, cu + 0.08, cv + 0.45))
+            cands = [sbox(cu - 0.08, cv - 0.45, cu + 0.08, cv + 0.45)] + \
+                    [sbox(u - 0.3, v + k * 0.5 - 0.08, u + 0.3, v + k * 0.5 + 0.08) for k in (1, -1)]
         else:
-            top.append(sbox(cu - 0.45, cv - 0.08, cu + 0.45, cv + 0.08))
+            cands = [sbox(cu - 0.45, cv - 0.08, cu + 0.45, cv + 0.08)] + \
+                    [sbox(u + k * 0.5 - 0.08, v - 0.3, u + k * 0.5 + 0.08, v + 0.3) for k in (1, -1)]
+        top.append(next((c for c in cands if c.distance(opening) >= 0.12), cands[0]))
     # SOT-23 needs no pin-1 mark: its 2 + 1 pad pattern only fits one way round
     mid = (d["hall_z"][0] + d["hall_z"][1]) / 2 - LY.PCB_Z0
-    top.append(text_polys(f"V6-{variant}  A+ EXTEND  B+ RETRACT", mid, 1.35, 0.85))
+    # the polarity legend goes in the middle of the widest free stretch of its row (on V6-S the rear cluster
+    # reaches the board's middle)
+    row = sbox(0, 1.35 - 0.6, d["pcb_length"], 1.35 + 0.6)
+    spans = sorted((g.bounds[0], g.bounds[2]) for g in (opening.geoms if hasattr(opening, "geoms") else [opening])
+                   if g.intersects(row))
+    gaps, cur = [], 0.0
+    for a0, a1 in spans:
+        if a0 > cur:
+            gaps.append((cur, a0))
+        cur = max(cur, a1)
+    gaps.append((cur, d["pcb_length"]))
+    g0, g1 = max(gaps, key=lambda g: g[1] - g[0])
+    top.append(text_polys(f"V6-{variant}  A+ EXTEND  B+ RETRACT", (g0 + g1) / 2, 1.35, 0.85))
     bot.append(text_polys(f"ACTUATOR V6-{variant} END-STOP BOARD  REV {REV}", mid, 1.2, 0.9, mirror=True))
     bot.append(text_polys("JLCJLCJLCJLC", mid, -1.3, 0.8, mirror=True))
     return unary_union(top), unary_union(bot)

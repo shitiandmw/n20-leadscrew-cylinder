@@ -6,9 +6,11 @@ the travel.
 
 Printed: 01 body, 02 front cap, 03 rear cap, 04 rod (carrier + rod, one part), 05 rod eye,
 06 cable clamp.
-Load path: the motor is screwed (2 x M1.6, countersunk) to the wall inside the body; the
-leadscrew drives a brass M3 nut held in the carrier; each end cap has 2 x M2 screws into
-the solid corners on the board side; the rod eye is held by one M2 cross screw.
+Load path: the motor is screwed (2 x M1.6, countersunk) to the wall inside the body; its M4
+leadscrew drives a thin brass M4 nut held in the carrier; each end cap has 2 x M1 screws into brass
+heat-set inserts in the solid corners on the board side, and the rear cap also hooks onto the end of the
+motor-side wall (layout.REAR_HOOK), so a pull does not tip it about its screwed side; the rod eye is held by one
+M2 cross screw.
 Cable: the two cable wires leave through a slot in the rear cap (a knot inside stops them) and
 run out sideways in a 3 mm sleeve, which the clamp plate grips under the two rear-cap screws.
 """
@@ -72,14 +74,58 @@ def x_hole(radius, x0, x1, y, z):
 def rr_wire(x0, x1, y0, y1, r, z):
     w = cq.Wire.makePolygon([cq.Vector(x0, y0, z), cq.Vector(x1, y0, z), cq.Vector(x1, y1, z),
                              cq.Vector(x0, y1, z)], close=True)
-    return w.fillet2D(r, w.Vertices())
+    return w.fillet2D(r, w.Vertices()) if r else w
 
 
-def lead_in(x0, x1, y0, y1, r, z_face, depth):
-    """45 degree chamfer cutter for a rounded-rectangle opening in a face at z_face that looks -Z."""
-    wide = rr_wire(x0 - depth - 0.01, x1 + depth + 0.01, y0 - depth - 0.01, y1 + depth + 0.01, r + depth + 0.01,
-                   z_face - 0.01)
-    return cq.Workplane(obj=cq.Solid.makeLoft([wide, rr_wire(x0, x1, y0, y1, r, z_face + depth)], True))
+def lead_in(x0, x1, y0, y1, r, z_face, depth, facing=-1):
+    """45 degree chamfer cutter for a (rounded-)rectangle opening in a face at z_face. facing -1: the face
+    looks -Z (material at z > z_face); +1: it looks +Z. On the bed it takes the first layer's squash."""
+    e = depth + 0.01
+    wide = rr_wire(x0 - e, x1 + e, y0 - e, y1 + e, r + e if r else 0, z_face + facing * 0.01)
+    return cq.Workplane(obj=cq.Solid.makeLoft([wide, rr_wire(x0, x1, y0, y1, r, z_face - facing * depth)], True))
+
+
+def xz_prism(pts, half_y, arc=None):
+    """Prism along Y (|y| <= half_y) from a closed outline of (x, z) points. arc = (i, mid): the edge from
+    point i to point i + 1 is a circular arc through mid."""
+    w = cq.Workplane("XZ").moveTo(*pts[0])
+    for i in range(1, len(pts)):
+        w = w.threePointArc(arc[1], pts[i]) if arc and arc[0] == i - 1 else w.lineTo(*pts[i])
+    return w.close().extrude(half_y, both=True)
+
+
+FRONT_LEAD_IN = 0.3             # the body prints front end down: chamfers at the bore and board-slot mouths
+
+
+def hook_wall_end():
+    """The end of the motor-side wall behind the rear face, with the notch the cap's tooth hooks into
+    (layout.REAR_HOOK). It reaches 1 mm into the body so that it fills the rear-face chamfer."""
+    h, p = L.REAR_HOOK, L.rear_hook_profile()
+    xi, xn, x0, zr, ze, zb = p["xi"], p["xn"], p["x0"], p["zr"], p["ze"], p["zb"]
+    ci, r = h["inner_chamfer"], h["fillet"]
+    pts = [(x0, zr + 1.0), (x0, ze), (xi - ci, ze), (xi, ze + ci), (xi, zb),       # outer face, end, flat head
+           (xn, zb + h["notch"]), (xn, zr - r),                                     # 45 degree bevel, floor
+           (xn + r, zr), (xi, zr), (xi, zr + 1.0)]                                  # fillet, rear face
+    mid = (xn + r - r * math.sqrt(0.5), zr - r + r * math.sqrt(0.5))
+    return xz_prism(pts, h["half_width"], arc=(6, mid))
+
+
+def hook_pocket():
+    """Cutter for the rear cap's pocket. What it leaves between the pocket and the bore is the tooth: a 45 degree
+    bevel on the wall's bevel line, a flat tip with room under it, and a chamfer on the bed. The pocket's two ends
+    get the same chamfer at the cap's face."""
+    h, p = L.REAR_HOOK, L.rear_hook_profile()
+    zr, bc = p["zr"], h["bed_chamfer"]
+    pts = [(p["x0"] - 1.0, zr + 1.0), (p["x0"] - 1.0, p["zp"]), (p["xp"], p["zp"]),
+           (p["xp"], p["zb"] - h["side_room"]), (p["xt"], p["zb"] + p["eng"]),          # pocket, tooth bevel
+           (p["xt"], zr - bc), (p["xt"] + bc, zr), (p["xt"] + bc, zr + 1.0)]          # flat tip, bed chamfer
+    pocket = xz_prism(pts, p["y_pocket"])
+    yp = p["y_pocket"]
+    ends = (cq.Workplane("YZ").polyline([(-yp, zr - bc), (yp, zr - bc), (yp + bc + 1.0, zr + 1.0),
+                                         (-yp - bc - 1.0, zr + 1.0)]).close()
+            .extrude(30.0).translate((-20.0, 0, 0)))
+    mouth = xz_prism(pts, yp + bc + 1.0).intersect(box(30, 30, 1.0 + bc, z=zr + (1.0 - bc) / 2))
+    return pocket.union(mouth.intersect(ends))
 
 
 def key_cut(clear, z0, z1):
@@ -90,19 +136,18 @@ def key_cut(clear, z0, z1):
 
 
 # ---- printed parts -----------------------------------------------------------------------
-def make_body(d):
+def make_body(d, insert_holes=True):
     z0, z1 = d["body_z"]
     bx, by = L.BORE_X, L.BORE_Y
     b = outline(z0, z1, 0.4, 0.4)
     b = b.cut(rr_box(-bx, bx, -by, by, z0 - 1, L.WALL_Z[0], L.BORE_R))          # motor bay
-    b = b.cut(lead_in(-bx, bx, -by, by, L.BORE_R, z0, 0.3))                     # its mouth: bed side
     b = b.cut(rr_box(-bx, bx, -by, by, L.WALL_Z[1], z1 + 1, L.BORE_R))          # carrier bore
     w0, w1 = L.WALL_Z
     k = L.CARRIER_KEY                                                           # key rib, (-X, -Y)
     b = b.union(cq.Workplane("XY").polyline([(-bx - 0.3, -by - 0.3), (-bx - 0.3, -by + k + 0.3),
                                              (-bx + k + 0.3, -by - 0.3)]).close()
                 .extrude(z1 - w1).translate((0, 0, w1)))
-    b = b.cut(cylinder(2.2, w1 - w0 + 2, w0 - 1))                               # bushing + screw
+    b = b.cut(cylinder(L.WALL_HOLE_D / 2, w1 - w0 + 2, w0 - 1))                 # bushing + M4 screw
     for x, y in L.MOTOR_SCREWS:                                                 # M1.6 countersunk
         b = b.cut(cylinder(0.9, w1 - w0 + 2, w0 - 1).translate((x, y, 0)))
         b = b.cut(cone(0.9, 1.65, 0.751).translate((x, y, w1 - 0.75)))
@@ -112,14 +157,23 @@ def make_body(d):
     px = L.PARTITION_X[1]
     b = b.cut(box(sx0 - px + 0.02, 2 * L.OPEN_Y, z1 - w1 + 1,
                   x=(px + sx0) / 2 + 0.01, z=(w1 + z1 + 1) / 2))
+    # The front end is on the bed: lead-ins take the first layer's squash at the bore mouth (the carrier passes it
+    # with 0.15 mm) and at the board slot (0.05 mm). The partition is chamfered on its bore side only, so it is
+    # 0.7 mm thick at the front face; the board ends 0.5 mm inside the body, behind the front cap's tongue.
+    b = b.cut(lead_in(-bx, bx, -by, by, L.BORE_R, z1, FRONT_LEAD_IN, facing=+1))
+    b = b.cut(lead_in(sx0, sx1, -L.SLOT_Y, L.SLOT_Y, 0, z1, FRONT_LEAD_IN, facing=+1))
     # wire channel beside the motor, and the wire passage through the wall
     b = b.cut(box(sx1 - bx + 0.02, 2 * L.OPEN_Y, w0 - z0 + 1, x=(bx + sx1) / 2, z=(z0 - 1 + w0) / 2))
     hx0, hx1, hy0, hy1 = L.WIRE_HOLE
     b = b.cut(box(hx1 - hx0 + 0.02, hy1 - hy0, w1 - w0 + 0.2, x=(hx0 + hx1) / 2 + 0.01, y=(hy0 + hy1) / 2,
                   z=(w0 + w1) / 2))
-    for x, y in L.CAP_SCREWS:
-        b = b.cut(cylinder(L.CAP_SCREW_PILOT / 2, 8.5, z0 - 0.5).translate((x, y, 0)))
-        b = b.cut(cylinder(L.CAP_SCREW_PILOT / 2, 8.5, z1 - 8).translate((x, y, 0)))
+    b = b.union(hook_wall_end())                           # the rear cap hooks onto this (layout.REAR_HOOK)
+    if insert_holes:                                       # heat-set insert holes in both end faces
+        r, h = L.INSERT["hole"] / 2, L.INSERT["hole_depth"]
+        for x, y in L.REAR_INSERTS:
+            b = b.cut(cylinder(r, h + 0.5, z0 - 0.5).translate((x, y, 0)))
+        for x, y in L.FRONT_INSERTS:
+            b = b.cut(cylinder(r, h + 0.5, z1 - h).translate((x, y, 0)))
     return b
 
 
@@ -137,9 +191,10 @@ def make_front_cap(d):
                     x=(L.PCB_X_INNER + L.PCB_X_OUTER) / 2, z=z0 - tongue / 2 + 0.005))
     c = c.cut(cylinder(L.ROD_GUIDE_D / 2, L.FRONT_CAP_T + L.SPIGOT + 1, z0 - L.SPIGOT - 0.5))
     c = c.cut(cone(L.ROD_GUIDE_D / 2, L.ROD_GUIDE_D / 2 + 0.5, 0.51).translate((0, 0, z1 - 0.5)))
-    for x, y in L.CAP_SCREWS:
-        c = c.cut(cylinder(L.CAP_SCREW_CLEAR / 2, L.FRONT_CAP_T + 1, z0 - 0.5).translate((x, y, 0)))
-        c = c.cut(cylinder(2.0, 2.51, z1 - 2.5).translate((x, y, 0)))
+    S = L.CAP_SCREW
+    for x, y in L.FRONT_INSERTS:
+        c = c.cut(cylinder(S["clear"] / 2, L.FRONT_CAP_T + 1, z0 - 0.5).translate((x, y, 0)))
+        c = c.cut(cylinder(S["pocket_d"] / 2, S["pocket_depth"] + 0.01, z1 - S["pocket_depth"]).translate((x, y, 0)))
     return c
 
 
@@ -185,8 +240,9 @@ def make_rear_cap(d):
     c = c.cut(clamp_zone(L.CLAMP_X0 - 0.1, z0 - 1, CLAMP_Z))                     # pocket for the clamp
     c = c.cut(sleeve_groove(+1, L.CLAMP_X0 - 0.1)).union(ridges(+1, (7.9,)))
     c = c.cut(box(1.4, 2.0, z1 - CLAMP_Z + 0.65, x=LEAD_X + 0.2, z=(z1 + CLAMP_Z) / 2 + 0.1))   # wire slot
-    for x, y in L.CAP_SCREWS:
-        c = c.cut(cylinder(L.CAP_SCREW_CLEAR / 2, L.REAR_CAP_T + 1, z0 - 0.5).translate((x, y, 0)))
+    c = c.cut(hook_pocket())                          # takes the end of the motor-side wall; leaves the tooth
+    for x, y in L.REAR_INSERTS:
+        c = c.cut(cylinder(L.CAP_SCREW["clear"] / 2, L.REAR_CAP_T + 1, z0 - 0.5).translate((x, y, 0)))
     return c
 
 
@@ -197,9 +253,10 @@ def make_cable_clamp(d):
     j = clamp_zone(L.CLAMP_X0, zb, CLAMP_Z)
     j = j.faces("<Z").edges().chamfer(0.3)
     j = j.cut(sleeve_groove(-1, L.CLAMP_X0 - 0.1)).union(ridges(-1, (7.3, 8.5)))
-    for x, y in L.CAP_SCREWS:
-        j = j.cut(cylinder(L.CAP_SCREW_CLEAR / 2, L.CLAMP_T + 1, zb - 0.5).translate((x, y, 0)))
-        j = j.cut(cylinder(2.0, 1.81, zb - 0.01).translate((x, y, 0)))
+    S = L.CAP_SCREW
+    for x, y in L.REAR_INSERTS:
+        j = j.cut(cylinder(S["clear"] / 2, L.CLAMP_T + 1, zb - 0.5).translate((x, y, 0)))
+        j = j.cut(cylinder(S["pocket_d"] / 2, S["pocket_depth"] + 0.01, zb - 0.01).translate((x, y, 0)))
     return j
 
 
@@ -222,8 +279,9 @@ def make_rod(d):
     part = part.cut(box(L.CARRIER_X + 1, af, n1 - n0, x=-(L.CARRIER_X + 1) / 2, z=(n0 + n1) / 2))
     m = L.MAGNET
     mz = c0 + m["dz"]
-    part = part.cut(cylinder(m["d"] / 2 + 0.0, m["l"] + 0.05, mz - m["l"] / 2 - 0.025).translate((m["x"], m["y"], 0)))
-    part = part.cut(box(L.CARRIER_X + 0.5 - m["x"], m["d"], m["l"] + 0.05, x=(m["x"] + L.CARRIER_X + 0.5) / 2,
+    # block pocket, open to the +X face so the magnet slides in from the board side (press fit in Y)
+    x0 = m["x"] - m["wx"] / 2
+    part = part.cut(box(L.CARRIER_X + 0.5 - x0, m["wy"], m["l"] + 0.05, x=(x0 + L.CARRIER_X + 0.5) / 2, y=m["y"],
                         z=mz))
     part = part.cut(x_hole(1.1, -5, 5, 0, d["rod_end_z"] - 4.5))                # rod-eye cross screw
     return part
@@ -251,30 +309,48 @@ def countersunk_m16(x, y):
     return head.union(shank)
 
 
-def pan_m2(x, y, z_head_top, direction, length):
-    """Pan-head M2 along Z. direction=+1: head at the top, shank going -Z."""
+def pan_m1(x, y, z_head_top, direction):
+    """M1 pan-head cap screw (layout.CAP_SCREW) along Z. direction=+1: head on top, its top face at
+    z_head_top, shank going -Z; direction=-1: head below, its outer face at z_head_top, shank going +Z."""
+    S = L.CAP_SCREW
+    h, n = S["head_h"], S["length"]
     if direction > 0:
-        head = cylinder(1.9, 1.6, z_head_top - 1.6)
-        shank = cylinder(1.0, length, z_head_top - 1.6 - length)
+        head = cylinder(S["head_d"] / 2, h, z_head_top - h)
+        shank = cylinder(S["d"] / 2, n, z_head_top - h - n)
     else:
-        head = cylinder(1.9, 1.6, z_head_top)
-        shank = cylinder(1.0, length, z_head_top + 1.6)
+        head = cylinder(S["head_d"] / 2, h, z_head_top)
+        shank = cylinder(S["d"] / 2, n, z_head_top + h)
     return head.union(shank).translate((x, y, 0))
+
+
+def heat_set_insert(x, y, z_outer, direction):
+    """M1 brass heat-set insert (layout.INSERT), seated: its outer end face at z_outer, the insert below it
+    (direction=+1, front face) or above it (direction=-1, rear face). Two knurl bands either side of a groove."""
+    I = L.INSERT
+    r, n = I["od"] / 2, I["length"]
+    z0 = z_outer - n if direction > 0 else z_outer
+    part = cylinder(r, n, z0).faces(">Z or <Z").edges().chamfer(0.12)
+    groove = cylinder(r + 0.1, 0.3, z0 + n / 2 - 0.15).cut(cylinder(r - 0.12, 0.4, z0 + n / 2 - 0.2))
+    part = part.cut(groove).cut(cylinder(I["bore"] / 2, n + 1, z0 - 0.5))
+    return part.translate((x, y, 0))
 
 
 def make_hardware(d):
     hw = n20_core_part(d["screw_length_mm"])
     c0 = L.CARRIER_Z0
     n0 = c0 + L.NUT_SLOT_DZ[0] + 0.05
-    hw["M3_brass_nut"] = hex_z(L.NUT_AF, 2.4, n0).cut(cylinder(1.25, 3, n0 - 0.3))
+    hw["M4_brass_nut"] = hex_z(L.NUT_AF, L.NUT_T, n0).cut(cylinder(1.62, L.NUT_T + 0.6, n0 - 0.3))   # D1 3.24
     m = L.MAGNET
-    hw["magnet_D3x2_axial"] = cylinder(m["d"] / 2 - 0.01, m["l"], c0 + m["dz"] - m["l"] / 2).translate((m["x"], m["y"], 0))
+    hw[L.MAGNET_NAME] = box(m["wx"] - 0.02, m["wy"] - 0.02, m["l"], x=m["x"], y=m["y"], z=c0 + m["dz"])
     for i, (x, y) in enumerate(L.MOTOR_SCREWS, start=1):
         hw[f"M1.6x4_countersunk_{i}"] = countersunk_m16(x, y)
-    fz = d["front_cap_z"][1]
-    for i, (x, y) in enumerate(L.CAP_SCREWS, start=1):
-        hw[f"M2x8_front_cap_{i}"] = pan_m2(x, y, fz - 2.5 + 1.6, +1, 8.0)
-        hw[f"M2x10_rear_cap_{i}"] = pan_m2(x, y, CLAMP_Z - L.CLAMP_T + 1.8 - 1.6, -1, L.CLAMP_SCREW_L)
+    fz, S, I = d["front_cap_z"][1], L.CAP_SCREW, L.INSERT
+    for i, (x, y) in enumerate(L.REAR_INSERTS, start=1):
+        hw[f"M1_insert_rear_{i}"] = heat_set_insert(x, y, L.BODY_REAR_Z + I["recess"], -1)
+        hw[f"M1x8_rear_cap_{i}"] = pan_m1(x, y, CLAMP_Z - L.CLAMP_T + S["pocket_depth"] - S["head_h"], -1)
+    for i, (x, y) in enumerate(L.FRONT_INSERTS, start=1):
+        hw[f"M1_insert_front_{i}"] = heat_set_insert(x, y, d["body_z"][1] - I["recess"], +1)
+        hw[f"M1x8_front_cap_{i}"] = pan_m1(x, y, fz - S["pocket_depth"] + S["head_h"], +1)
     seg = sleeve_route(d["rear_eye_z"] - 12.0)
     hw["cable_sleeve"] = sweep(seg, L.SLEEVE_OD).cut(sweep(seg, L.SLEEVE_ID))
     zc = d["rod_end_z"] - 4.5
@@ -284,7 +360,7 @@ def make_hardware(d):
     return hw
 
 
-MOVING = {"04_rod", "05_rod_eye", "M3_brass_nut", "magnet_D3x2_axial", "M2x10_rod_eye"}
+MOVING = {"04_rod", "05_rod_eye", "M4_brass_nut", L.MAGNET_NAME, "M2x10_rod_eye"}
 
 
 # ---- board in 3D ----------------------------------------------------------------------------
@@ -433,8 +509,12 @@ def make_wires(variant):
             knot = route(inside[:5] + [(LEAD_X + 0.4, ys + (yl - ys) * 0.2, -26.8)], 0.9)
             extra = dict(inside_to_clamp_mouth_mm=round(length(route(inside + [(X1, ys, CLAMP_Z)], 0.9)), 1),
                          knot_from_pad_mm=round(length(knot), 0), knot_u=round(length(knot), 2))
-            # while fitted: straight out of the rear of the body, then straight through the rear-cap slot
+            # while fitted: straight out of the rear of the body, then straight through the rear-cap slot; the cap
+            # goes on REAR_HOOK["shift"] toward +X first (the tooth clears the wall end), and the wires go with it
+            sh = L.REAR_HOOK["shift"]
             states = dict(final=seg, pre=open_route(inside[:5], 0.9, length(seg)),
+                          slot_fit=open_route(inside[:5] + [(LEAD_X + sh, ys, -27.2), (LEAD_X + sh, ys, CLAMP_Z)],
+                                              0.9, length(seg)),
                           slot=open_route(inside, 0.9, length(seg)))
         else:
             yt = TERMINAL_Y if end[1] == 2 else -TERMINAL_Y

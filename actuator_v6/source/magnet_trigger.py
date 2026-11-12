@@ -1,6 +1,6 @@
 """Where each DRV5033AJ switches as the carrier magnet passes it (V6 board-mounted Halls).
 
-The Ø3 x 2 mm magnet is magnetised along the travel (Z). The Hall switches sense through
+The 3 x 2 x 2 mm block magnet is magnetised along the travel (Z). The Hall switches sense through
 the 1 mm PETG partition, 2.2 mm from the magnet face to the element, normal to the board (X). With
 an axial magnet that component has one lobe on each side of the magnet and nothing in
 front of it, so an approaching magnet always trips the Hall on the leading flank of the
@@ -31,7 +31,7 @@ U = np.linspace(-15, 15, 1201)                       # include low-threshold rel
 def bx(br, gap_shift=0.0, y_off=0.0):
     m = L.MAGNET
     pts = np.stack([np.full_like(U, L.HALL_X + gap_shift), np.full_like(U, y_off), -U], 1)
-    return magnet_field(pts, (m["x"], m["y"], 0.0), (0, 0, 1), br, ("cyl", m["d"], m["l"]),
+    return magnet_field(pts, (m["x"], m["y"], 0.0), (0, 0, 1), br, L.magnet_field_shape(),
                         n_loops=32, n_seg=96)[:, 0]
 
 
@@ -67,7 +67,7 @@ def run():
     margin_to_hard_stop = round(L.OVERTRAVEL - late, 2)
     res = dict(
         magnet=dict(L.MAGNET, br_T=BR),
-        hall_element_x_mm=L.HALL_X, magnet_face_to_element_mm=round(L.HALL_X - (L.MAGNET["x"] + L.MAGNET["d"] / 2), 2),
+        hall_element_x_mm=L.HALL_X, magnet_face_to_element_mm=round(L.HALL_X - (L.MAGNET["x"] + L.MAGNET["wx"] / 2), 2),
         thresholds_mT=dict(BOP=BOP, BRP=BRP, source="TI DRV5033 datasheet SLIS151, AJ option, -40..125 °C"),
         peak_field_mT=round(float(np.max(np.abs(nominal))), 1),
         nominal_operate_offset_mm={k: operate_offset(nominal, v) for k, v in BOP.items()},
@@ -115,7 +115,7 @@ def plot(nominal, res):
     ax.set_ylim(0, 60)
     ax.set_xlabel("magnet centre − Hall centre along the actuator axis [mm]")
     ax.set_ylabel("|field normal to the board| [mT]")
-    ax.set_title(f"Ø{L.MAGNET['d']:g}×{L.MAGNET['l']:g} mm axial magnet through {L.PARTITION_T:g} mm PETG (model; steel ignored)",
+    ax.set_title(f"{L.magnet_label()} block magnet (axial) through {L.PARTITION_T:g} mm PETG (model; steel ignored)",
                  fontsize=9.5)
     ax.grid(alpha=0.25)
     ax.legend(fontsize=7.5, loc="upper right", frameon=False)

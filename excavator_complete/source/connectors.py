@@ -66,12 +66,12 @@ TYPES = {
 # 'fixed' is the side that stays with the machine part named in 'on'; 'free' is the harness side that is pushed in along
 # 'mate_dir' by 'travel' mm at assembly step 'step' (build_viewer.py STEPS). 'pos' is the mating face / mouth plane (vehicle, mm).
 _xh = lambda j, n, circuit, step, plug: dict(
-    id=j, where='main board rev A, inboard edge (left bay)', circuit=circuit, fixed=f'S{n}B-XH-A', free=f'XHP-{n}', contacts=f'{n} x SXH-001T-P0.6',
+    id=j, where='main board rev B, inboard edge (left bay)', circuit=circuit, fixed=f'S{n}B-XH-A', free=f'XHP-{n}', contacts=f'{n} x SXH-001T-P0.6',
     on='main board', pos=(H.BOARD[j]['x'], H.HEADER_FACE_Y, H.PLUG_Z['XH']), mate_dir=(0, 1, 0), travel=14.0, step=step, drawn_by='x1_body.main_board (board_plugs*)',
     wire=plug, qty=1)
 
 JOINTS = [
-    dict(id='J101', where='main board rev A, front edge (X -40)', circuit='12 V in: switch -> board', fixed='XT30PW-M', free='XT30U-F', contacts='solder cups',
+    dict(id='J101', where='main board rev B, front edge (X -40)', circuit='12 V in: switch -> board', fixed='XT30PW-M', free='XT30U-F', contacts='solder cups',
          on='main board', pos=(-40.54, 133.5, 114.2), mate_dir=(-1, 0, 0), travel=16.0, step='plugs', drawn_by='build_connectors (board_link_XT30U-F*)',
          wire='2 x 20 AWG silicone (the 12 V link)', qty=1),
     _xh('J102', 4, 'tracks (slip ring rotor rings 1-4)', 'plugs', "the slip ring's own 6 leads (4 crimped, 2 taped)"),
@@ -80,12 +80,12 @@ JOINTS = [
     _xh('J105', 2, 'boom drive R', 'plugs', 'V6 cable'),
     _xh('J106', 2, 'stick drive', 'plugs', 'V6 cable'),
     _xh('J107', 2, 'bucket drive', 'plugs', 'V6 cable'),
-    dict(id='J108', where='main board rev A, inboard edge', circuit='lamps: +5 V, roof return, toolbox return', fixed='S3B-PH-K-S', free='PHR-3', contacts='3 x SPH-002T-P0.5S',
+    dict(id='J108', where='main board rev B, inboard edge', circuit='lamps: +5 V, roof return, toolbox return', fixed='S3B-PH-K-S', free='PHR-3', contacts='3 x SPH-002T-P0.5S',
          on='main board', pos=(H.BOARD['J108']['x'], H.HEADER_FACE_Y, H.PLUG_Z['PH']), mate_dir=(0, 1, 0), travel=14.0, step='plugs', drawn_by='x1_body.main_board (board_plugs*)',
          wire='2 x 26 AWG silicone (toolbox lamp) + 26 AWG from the cab splice (roof lamps)', qty=1),
-    dict(id='J109', where='main board rev A, inboard edge', circuit='expansion UART (not fitted)', fixed='S4B-PH-K-S', free='(PHR-4 when used)', contacts='4 x SPH-002T-P0.5S',
+    dict(id='J109', where='main board rev B, inboard edge', circuit='expansion UART (not fitted)', fixed='S4B-PH-K-S', free='(PHR-4 when used)', contacts='4 x SPH-002T-P0.5S',
          on='main board', pos=(H.BOARD['J109']['x'], H.HEADER_FACE_Y, H.PLUG_Z['PH']), mate_dir=(0, 1, 0), travel=0.0, step=None, drawn_by='board STEP (header only)', wire='-', qty=0),
-    dict(id='J201', where='main board rev A, outboard edge, through the B102 slot', circuit='USB service port', fixed='TYPE-C-31-M-12', free='USB-C cable', contacts='-',
+    dict(id='J201', where='main board rev B, outboard edge, through the B102 slot', circuit='USB service port', fixed='TYPE-C-31-M-12', free='USB-C cable', contacts='-',
          on='main board', pos=(-98.0, 148.5, 113.2), mate_dir=(0, -1, 0), travel=0.0, step=None, drawn_by='board STEP', wire='-', qty=1),
     dict(id='FEED', where='hood cavity under the hatch, right of the centreline', circuit='battery pack -> fuse (the hatch lead)', fixed='XT30U-M (on the feed from the fuse)', free='XT30U-F (on the hatch lead)',
          contacts='solder cups', on='right half (feed lead) / hatch (lead)', pos=H.FEED_SOCKET, mate_dir=(0, 0, -1), travel=18.0, step='hatch', drawn_by='x1_body.electronics (battery_lead_XT30*, feed_socket_XT30*)',

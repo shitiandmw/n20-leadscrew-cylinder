@@ -22,6 +22,8 @@ ROOT = d.rc.ROOT
 CHECK = json.loads((ROOT / 'design_check.json').read_text())
 CLASH = json.loads((ROOT / 'cad' / 'clash_check.json').read_text())
 DYN = json.loads((ROOT / 'simulation' / 'payload_150g_report.json').read_text())
+_SYNC = json.loads((ROOT / 'simulation' / 'sync_bias_report.json').read_text())['poses']['boom']['mujoco_force_N']
+SYNC_BOOM_MAX_N = max(_SYNC['boom_L'], _SYNC['boom_R'])           # boom pair with a 0.5 mm feedback-zero error
 import r10_ref                    # R10 (excavator_arm_dual/) for the comparison on sheet 6
 
 SERIES = ['#2a78d6', '#eb6834', '#1baf7a']          # boom, stick, bucket (validated categorical slots 1-3)
@@ -65,7 +67,8 @@ def station_marks(v, rows, lo_ext=3, hi_ext=3):
 
 # ------------------------------------------------------------------ assembled side view
 def actuator_side(v, a, b, z, board=+1):
-    """V6-U60 side view: body 16.1 deep (board housing on the `board` side, 9.75 from the axis)."""
+    """V6-U60 side view: body 17.3 deep (board housing on the `board` side, 9.75 from the axis; 7.55 on the
+    other, the motor-side wall that hooks the rear cap)."""
     a, b = np.asarray(a, float), np.asarray(b, float)
     L = float(np.linalg.norm(b - a))
     u = (b - a) / L
@@ -78,10 +81,11 @@ def actuator_side(v, a, b, z, board=+1):
     quad(L - 11.0, L - 2.0, 4.5, 4.5, COL['rod'], z + 0.01)
     v.poly(Point(*b).buffer(4.5, 32), fc=COL['rod'], lw=0.55, z=z + 0.02)
     v.poly(Point(*a).buffer(4.5, 32), fc=COL['cap'], lw=0.55, z=z + 0.03)
-    quad(6.0, 10.0, 6.35, 6.35, COL['cap'], z + 0.04)
-    quad(10.0, 116.5, 6.35, 6.35, COL['act'], z + 0.05)
-    quad(14.0, 112.0, 9.75, -6.35, '#d77c45', z + 0.06, lw=0.45)        # board housing
-    quad(116.5, 122.5, 6.35, 6.35, COL['cap'], z + 0.07)
+    bk, bb = d.ACT['body_back'], d.ACT['body_board']
+    quad(6.0, 10.0, bk, bk, COL['cap'], z + 0.04)
+    quad(10.0, 116.5, bk, bk, COL['act'], z + 0.05)
+    quad(14.0, 112.0, bb, -bk, '#d77c45', z + 0.06, lw=0.45)            # board housing
+    quad(116.5, 122.5, bk, bk, COL['cap'], z + 0.07)
 
 
 def arm_items(st):
@@ -238,7 +242,7 @@ def sheet1(pdf):
             ('Bucket vs stick', f"{jr['bucket'][0]:+.1f} .. {jr['bucket'][1]:+.1f}"),
             ('Hold force/drive, 150 g', f"{hf['boom']} / {hf['stick']} / {hf['bucket']} N"),
             ('Hold force/drive, empty', f"{hu['boom']} / {hu['stick']} / {hu['bucket']} N"),
-            ('Continuous thrust (fuse)', '51 N per drive'),
+            ('Continuous thrust (fuse)', f"{d.ACT['thrust_cont']:.0f} N per drive"),
             ('Digging depth', f"{wr['dig_depth']:.0f}"),
             ('Reach at ground', f"{wr['reach_ground']:.0f}"),
             ('Cutting height / dump', f"{wr['cut_height']:.0f} / {wr['dump_height']:.0f}"),
@@ -317,9 +321,9 @@ def sheet2(pdf):
         a0, a1 = jr[j]
         rows.append((j, f'{a0:+.1f}', f'{a1:+.1f}', f'{abs(a1 - a0):.1f}', f'{ma[j]:.1f}', f'{hf[j]} N', f'{hu[j]} N'))
     yb = sh.table(x0, yb - 3, [20, 18, 18, 18, 22, 33, 34], rows, rh=4.0)
-    mt, tf = CHECK['min_transmission_deg'], CHECK['tip_force_at_51N']
+    mt, tf = CHECK['min_transmission_deg'], CHECK['tip_force_at_rating']
     sh.notes(x0, yb - 2, [f"Bucket four-bar: minimum transmission angle {mt['Q']}° at Q, {mt['R']}° at R.",
-                          f"At 51 N: tooth force from the bucket drive {tf['bucket_min']}-{tf['bucket_max']} N, from the stick "
+                          f"At {d.ACT['thrust_cont']:.0f} N: tooth force from the bucket drive {tf['bucket_min']}-{tf['bucket_max']} N, from the stick "
                           f"drive {tf['stick_min']}-{tf['stick_max']} N.",
                           'Extension raises the boom, crowds the stick and curls the bucket.'], size=FS['xs'], gap=3.0)
     # charts
@@ -338,8 +342,8 @@ def sheet2(pdf):
     for i in range(3):
         ax.plot(grid, curves[i], color=SERIES[i], lw=1.5, label=names[i])
         ax.text(61, curves[i][-1], names[i].split(' ')[0], fontsize=FS['xs'], color=INK, va='center')
-    ax.axhline(51, color=INK2, lw=0.8, ls=(0, (4, 2)))
-    ax.text(1, 52.5, '51 N continuous thrust', fontsize=FS['xs'], color=INK2)
+    ax.axhline(d.ACT['thrust_cont'], color=INK2, lw=0.8, ls=(0, (4, 2)))
+    ax.text(1, d.ACT['thrust_cont'] + 1.5, f"{d.ACT['thrust_cont']:.0f} N continuous thrust", fontsize=FS['xs'], color=INK2)
     ax.set_xlim(0, 60)
     ax.set_ylim(0, 60)
     ax.set_xlabel('stroke of that drive, mm', fontsize=FS['xs'], color=INK2)
@@ -386,7 +390,7 @@ def sheet2(pdf):
     sh.notes(x2, yb - 2, ['** Cat loading height is measured differently.',
                           f"Boom range {jr['boom'][0]:+.0f}..{jr['boom'][1]:+.0f}° and stick range 90°",
                           '(Cat: ~100-130°) cost the depth; the forces stay',
-                          'under 51 N with margin.'], size=FS['xs'], gap=3.0)
+                          f"under {d.ACT['thrust_cont']:.0f} N with margin."], size=FS['xs'], gap=3.0)
     lim = CHECK['x1_track_limit']
     sh.notes(250, 100, [f"On the X1 crawler, slewed over a track (~90°), the boom must stay above stroke {lim['stroke']:.0f} mm "
                        f"({lim['boom_deg']:+.0f}°): soft limit or operator."], size=FS['xs'])
@@ -501,7 +505,7 @@ def sheet3(pdf):
                                                    f"{r['sigma_MPa']:.2f}") for r in CHECK['boom_sections']]
     sh.table(262, 114, [16, 16, 22, 18], rows, rh=3.7)
     sh.notes(338, 114, ['Bending stress is < 1 MPa in the hold case',
-                        'and a few MPa even at 201 N stall. Walls',
+                        f"and a few MPa even at {d.ACT['thrust_stall']:.0f} N stall. Walls",
                         'are set by stiffness, handling and the pin',
                         'bosses; the bosses and the printed layer',
                         'bond are what need testing.'], size=FS['xs'], gap=3.0)
@@ -814,8 +818,9 @@ def sheet5(pdf):
                         'supports inside the cavity come out through the open mouth.',
                         'Teeth printed separately and glued on.',
                         f'At 150 g the bucket is about {150 / sand * 100:.0f} % full of dry sand. A struck load',
-                        f'({sand:.0f} g) takes each boom drive to about {FULL_SAND_BOOM_N:.0f} N held (2.5D), over',
-                        'the 51 N rating: plan on the rated 150 g.'], size=FS['xs'], gap=3.1)
+                        f'({sand:.0f} g) takes each boom drive to about {FULL_SAND_BOOM_N:.0f} N held (2.5D), '
+                        + ('over' if FULL_SAND_BOOM_N > d.ACT['thrust_cont'] else 'just under'),
+                        f"the {d.ACT['thrust_cont']:.0f} N rating: plan on the rated 150 g."], size=FS['xs'], gap=3.1)
     sh.save(pdf, ROOT / 'images' / 'sheet_5.png')
 
 
@@ -933,7 +938,7 @@ def sheet6(pdf):
             ('Closest clash gap', '-', f"{CHECK['closest_pairs'][0][2]} mm")]
     yb = sh.table(x2, 280, [56, 38, 44], rows, rh=3.9, size=FS['xs'])
     sh.notes(x2, yb - 2, ['Same static method for both (R10: its kinematics + mass report);',
-                          'continuous rating 51 N per drive. R10 masses are CAD values, R12 estimates.'],
+                          f"continuous rating {d.ACT['thrust_cont']:.0f} N per drive. R10 masses are CAD values, R12 estimates."],
              size=FS['xs'], gap=3.0)
     # deviations from the reference
     yb -= 12
@@ -955,7 +960,7 @@ def sheet6(pdf):
                           f"{CHECK['status']}.",
                           f"  Closest: {nice(cp[0][0])} / {nice(cp[0][1])} {cp[0][2]} mm; {nice(cp[1][0])} / {nice(cp[1][1])} "
                           f"{cp[1][2]} mm;",
-                          f"  {nice(cp[2][0])} / {nice(cp[2][1])} {cp[2][2]} mm. Drives with the real 9.75 / 6.35 body.",
+                          f"  {nice(cp[2][0])} / {nice(cp[2][1])} {cp[2][2]} mm. Drives with the real {d.ACT['body_board']:g} / {d.ACT['body_back']:g} body.",
                           'Done: hold forces, levers, four-bar angles, boom bending, stroke study.',
                           f"Done: 3D CAD (step/, stl/); exact mesh clash (FCL) over {CLASH['poses_grid'] + CLASH['poses_cycle']} poses: "
                           f"{CLASH['status']},",
@@ -965,7 +970,7 @@ def sheet6(pdf):
                           f"{abs(DYN['peak_force_N']['stick']):.0f} N, bucket {DYN['peak_force_N']['bucket']:.0f} N.",
                           'Open: fits on the printer; cable routing (board housings as drawn on',
                           '  sheet 1); boom-pair synchronised control (0.5 mm sensor offset',
-                          '  loads one boom drive to 51 N); payload / strength tests. Over an',
+                          f"  loads one boom drive to {SYNC_BOOM_MAX_N:.0f} N); payload / strength tests. Over an",
                           f"  X1 track keep the boom above {CHECK['x1_track_limit']['stroke']:.0f} mm stroke."],
              size=FS['xs'], gap=3.0)
     kv = View(sh, 280, 76, 0.2, label='PIN KEY  1:5 (reference pose)', label_xy=(262, 122))

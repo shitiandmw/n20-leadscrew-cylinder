@@ -81,7 +81,7 @@ def main():
         min_moment_arm_mm=dict(boom=round(min(a[0] for a in arms), 1), stick=round(min(a[1] for a in arms), 1),
                                bucket=round(min(a[2] for a in arms), 1)),
         min_transmission_deg=dict(Q=round(min(t[0] for t in tr), 1), R=round(min(t[1] for t in tr), 1)),
-        tip_force_at_51N=dict(bucket_min=round(min(t['bucket'] for t in tips), 2), bucket_max=round(max(t['bucket'] for t in tips), 2),
+        tip_force_at_rating=dict(bucket_min=round(min(t['bucket'] for t in tips), 2), bucket_max=round(max(t['bucket'] for t in tips), 2),
                               stick_min=round(min(t['stick'] for t in tips), 2), stick_max=round(max(t['stick'] for t in tips), 2)),
         working_ranges_mm={k: round(float(v), 1) for k, v in wr.items()}, dump_pose=list(dump_pose),
         cat320_1_15_mm={k: round(v, 1) for k, v in d.CAT_1_15.items()},

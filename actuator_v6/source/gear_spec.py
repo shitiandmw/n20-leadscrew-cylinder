@@ -21,7 +21,7 @@ STAGES = [
 ]
 PART_BODIES = {'motor_gear_1':'input', 'motor_gear_2':'compound_a',
                'motor_gear_3':'compound_b', 'motor_gear_4':'output',
-               'motor_leadscrew_M3':'output'}
+               'motor_leadscrew_M4':'output'}
 
 
 def phases():
@@ -43,7 +43,7 @@ def phases():
     return ans
 
 
-def transmission(screw_length=40., pitch=.5):
+def transmission(screw_length=75., pitch=.7):
     phase = phases()
     bodies = {k:dict(axis_origin_mm=[*c,0.], axis_direction=[0.,0.,1.],
                     angle_per_output_rad=RATIOS[k], initial_phase_rad=phase[k],

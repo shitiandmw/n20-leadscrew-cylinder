@@ -3,21 +3,21 @@
     "variant": "S",
     "screw_length_mm": 55.0,
     "stroke_mm": 40.0,
-    "nut_front_z": 9.3,
-    "nut_margin_on_screw_mm": 2.2,
+    "nut_front_z": 9.1,
+    "nut_margin_on_screw_mm": 2.4,
     "magnet_end_z": [
       11.0,
       51.0
     ],
     "hall_z": [
-      5.7,
-      56.3
+      5.9,
+      56.1
     ],
     "pcb_z": [
       2.0,
-      58.599999999999994
+      58.4
     ],
-    "pcb_length": 56.6,
+    "pcb_length": 56.4,
     "body_z": [
       -27.5,
       59.0
@@ -34,7 +34,7 @@
     "pin_centres_closed": 120.0,
     "pin_centres_open": 160.0,
     "body_section": [
-      16.1,
+      17.3,
       14.7
     ],
     "partition_thickness_mm": 1.0,
@@ -53,34 +53,40 @@
     "overtravel_mm": 3.0,
     "mechanical_stop_retract_mm": -3.0,
     "mechanical_stop_extend_mm": 43.0,
-    "hall_operate_mm": 5.274999999999999,
-    "hall_release_mm": 6.875,
-    "hall_lead_mm": 5.3,
+    "hall_operate_mm": 5.074999999999999,
+    "hall_release_mm": 6.525,
+    "hall_lead_mm": 5.1,
     "stop_spread_mm": [
-      -2.15,
-      1.65
+      -1.97,
+      1.45
     ],
     "rod_d_mm": 8.0,
     "pin_d_mm": 3.0,
     "wire_od_mm": 0.8,
     "board_t_mm": 0.8,
-    "supply": "2 wires: A+ / B- extends, B+ / A- retracts; 6 V nominal, 7 V max",
+    "supply": "2 wires: A+ / B- extends, B+ / A- retracts; 12 V nominal (3S battery 9.6-12.6 V), 13 V max",
     "buckling": {
       "rod_free_length_extended_mm": 57.5,
-      "euler_pinned_pinned_N": 1019.0,
+      "euler_pinned_pinned_N": 940.0,
       "e_assumed_MPa": 1800.0
     },
     "mechanics": {
-      "screw_pitch_mm": 0.5,
-      "gear_ratio_assumed": 100,
-      "eta_gearbox_assumed": 0.55,
-      "eta_leadscrew_assumed": 0.25,
+      "screw": "M4 x 0.7",
+      "screw_pitch_mm": 0.7,
+      "gear_ratio_assumed": 50,
+      "eta_gearbox_assumed": 0.65,
+      "thread_friction_assumed": 0.15,
+      "eta_leadscrew": 0.263,
       "self_locking": true,
-      "speed_no_load_mm_s": 1.25,
-      "speed_simulated_mm_s": 0.8203,
-      "thrust_at_fuse_hold_N": 51.0,
-      "thrust_at_stall_N": 201.0,
-      "note": "Estimates. Stall thrust lasts only until F1 trips (about 1.6 s in the simulation)."
+      "speed_no_load_mm_s": 9.333,
+      "speed_simulated_mm_s": 6.9033,
+      "speed_simulated_load_N": 49,
+      "supply_simulated_V": 12.6,
+      "thrust_at_fuse_hold_N": 55.0,
+      "thrust_at_fuse_hold_40C_N": 45.0,
+      "thrust_at_X1_limit_N": 85.0,
+      "thrust_at_stall_N": 183.0,
+      "note": "Estimates. On the X1 the board's 0.497 A limit caps the push; on a supply without a limit the stall thrust lasts only until F1 trips (about 1.73 s in the simulation). F1 holds 0.35 A at 23 \u00b0C and 0.30 A at 40 \u00b0C."
     },
     "geartrain": {
       "schema": "n20.geartrain.v1",
@@ -101,7 +107,7 @@
         ]
       ],
       "output_diameter_mm": 3.0,
-      "screw_pitch_mm": 0.5,
+      "screw_pitch_mm": 0.7,
       "screw_length_mm": 55.0,
       "total_reduction": 27.0,
       "signed_input_per_output": -27.0,
@@ -244,7 +250,7 @@
           "initial_phase_rad": 0.0,
           "phase_baked_into_geometry": true
         },
-        "motor_leadscrew_M3": {
+        "motor_leadscrew_M4": {
           "body": "output",
           "axis_origin_mm": [
             0.0,
@@ -304,27 +310,32 @@
         "v6_output_angle": "-travel_mm / screw_pitch_mm * 2*pi",
         "simulation": "prescribed rigid kinematics, no torque/stress/contact dynamics"
       }
-    }
+    },
+    "magnet_size_mm": [
+      3.0,
+      2.0,
+      2.0
+    ]
   },
   "U60": {
     "variant": "U60",
     "screw_length_mm": 75.0,
     "stroke_mm": 60.0,
-    "nut_front_z": 9.3,
-    "nut_margin_on_screw_mm": 2.2,
+    "nut_front_z": 9.1,
+    "nut_margin_on_screw_mm": 2.4,
     "magnet_end_z": [
       11.0,
       71.0
     ],
     "hall_z": [
-      5.7,
-      76.3
+      5.9,
+      76.1
     ],
     "pcb_z": [
       2.0,
-      78.6
+      78.39999999999999
     ],
-    "pcb_length": 76.6,
+    "pcb_length": 76.4,
     "body_z": [
       -27.5,
       79.0
@@ -341,7 +352,7 @@
     "pin_centres_closed": 140.0,
     "pin_centres_open": 200.0,
     "body_section": [
-      16.1,
+      17.3,
       14.7
     ],
     "partition_thickness_mm": 1.0,
@@ -360,34 +371,40 @@
     "overtravel_mm": 3.0,
     "mechanical_stop_retract_mm": -3.0,
     "mechanical_stop_extend_mm": 63.0,
-    "hall_operate_mm": 5.274999999999999,
-    "hall_release_mm": 6.875,
-    "hall_lead_mm": 5.3,
+    "hall_operate_mm": 5.074999999999999,
+    "hall_release_mm": 6.525,
+    "hall_lead_mm": 5.1,
     "stop_spread_mm": [
-      -2.15,
-      1.65
+      -1.97,
+      1.45
     ],
     "rod_d_mm": 8.0,
     "pin_d_mm": 3.0,
     "wire_od_mm": 0.8,
     "board_t_mm": 0.8,
-    "supply": "2 wires: A+ / B- extends, B+ / A- retracts; 6 V nominal, 7 V max",
+    "supply": "2 wires: A+ / B- extends, B+ / A- retracts; 12 V nominal (3S battery 9.6-12.6 V), 13 V max",
     "buckling": {
       "rod_free_length_extended_mm": 77.5,
-      "euler_pinned_pinned_N": 561.0,
+      "euler_pinned_pinned_N": 518.0,
       "e_assumed_MPa": 1800.0
     },
     "mechanics": {
-      "screw_pitch_mm": 0.5,
-      "gear_ratio_assumed": 100,
-      "eta_gearbox_assumed": 0.55,
-      "eta_leadscrew_assumed": 0.25,
+      "screw": "M4 x 0.7",
+      "screw_pitch_mm": 0.7,
+      "gear_ratio_assumed": 50,
+      "eta_gearbox_assumed": 0.65,
+      "thread_friction_assumed": 0.15,
+      "eta_leadscrew": 0.263,
       "self_locking": true,
-      "speed_no_load_mm_s": 1.25,
-      "speed_simulated_mm_s": 0.8203,
-      "thrust_at_fuse_hold_N": 51.0,
-      "thrust_at_stall_N": 201.0,
-      "note": "Estimates. Stall thrust lasts only until F1 trips (about 1.6 s in the simulation)."
+      "speed_no_load_mm_s": 9.333,
+      "speed_simulated_mm_s": 6.9033,
+      "speed_simulated_load_N": 49,
+      "supply_simulated_V": 12.6,
+      "thrust_at_fuse_hold_N": 55.0,
+      "thrust_at_fuse_hold_40C_N": 45.0,
+      "thrust_at_X1_limit_N": 85.0,
+      "thrust_at_stall_N": 183.0,
+      "note": "Estimates. On the X1 the board's 0.497 A limit caps the push; on a supply without a limit the stall thrust lasts only until F1 trips (about 1.73 s in the simulation). F1 holds 0.35 A at 23 \u00b0C and 0.30 A at 40 \u00b0C."
     },
     "geartrain": {
       "schema": "n20.geartrain.v1",
@@ -408,7 +425,7 @@
         ]
       ],
       "output_diameter_mm": 3.0,
-      "screw_pitch_mm": 0.5,
+      "screw_pitch_mm": 0.7,
       "screw_length_mm": 75.0,
       "total_reduction": 27.0,
       "signed_input_per_output": -27.0,
@@ -551,7 +568,7 @@
           "initial_phase_rad": 0.0,
           "phase_baked_into_geometry": true
         },
-        "motor_leadscrew_M3": {
+        "motor_leadscrew_M4": {
           "body": "output",
           "axis_origin_mm": [
             0.0,
@@ -611,27 +628,32 @@
         "v6_output_angle": "-travel_mm / screw_pitch_mm * 2*pi",
         "simulation": "prescribed rigid kinematics, no torque/stress/contact dynamics"
       }
-    }
+    },
+    "magnet_size_mm": [
+      3.0,
+      2.0,
+      2.0
+    ]
   },
   "L": {
     "variant": "L",
     "screw_length_mm": 100.0,
     "stroke_mm": 85.0,
-    "nut_front_z": 9.3,
-    "nut_margin_on_screw_mm": 2.2,
+    "nut_front_z": 9.1,
+    "nut_margin_on_screw_mm": 2.4,
     "magnet_end_z": [
       11.0,
       96.0
     ],
     "hall_z": [
-      5.7,
-      101.3
+      5.9,
+      101.1
     ],
     "pcb_z": [
       2.0,
-      103.6
+      103.39999999999999
     ],
-    "pcb_length": 101.6,
+    "pcb_length": 101.4,
     "body_z": [
       -27.5,
       104.0
@@ -648,7 +670,7 @@
     "pin_centres_closed": 165.0,
     "pin_centres_open": 250.0,
     "body_section": [
-      16.1,
+      17.3,
       14.7
     ],
     "partition_thickness_mm": 1.0,
@@ -667,34 +689,40 @@
     "overtravel_mm": 3.0,
     "mechanical_stop_retract_mm": -3.0,
     "mechanical_stop_extend_mm": 88.0,
-    "hall_operate_mm": 5.274999999999999,
-    "hall_release_mm": 6.875,
-    "hall_lead_mm": 5.3,
+    "hall_operate_mm": 5.074999999999999,
+    "hall_release_mm": 6.525,
+    "hall_lead_mm": 5.1,
     "stop_spread_mm": [
-      -2.15,
-      1.65
+      -1.97,
+      1.45
     ],
     "rod_d_mm": 8.0,
     "pin_d_mm": 3.0,
     "wire_od_mm": 0.8,
     "board_t_mm": 0.8,
-    "supply": "2 wires: A+ / B- extends, B+ / A- retracts; 6 V nominal, 7 V max",
+    "supply": "2 wires: A+ / B- extends, B+ / A- retracts; 12 V nominal (3S battery 9.6-12.6 V), 13 V max",
     "buckling": {
       "rod_free_length_extended_mm": 102.5,
-      "euler_pinned_pinned_N": 321.0,
+      "euler_pinned_pinned_N": 296.0,
       "e_assumed_MPa": 1800.0
     },
     "mechanics": {
-      "screw_pitch_mm": 0.5,
-      "gear_ratio_assumed": 100,
-      "eta_gearbox_assumed": 0.55,
-      "eta_leadscrew_assumed": 0.25,
+      "screw": "M4 x 0.7",
+      "screw_pitch_mm": 0.7,
+      "gear_ratio_assumed": 50,
+      "eta_gearbox_assumed": 0.65,
+      "thread_friction_assumed": 0.15,
+      "eta_leadscrew": 0.263,
       "self_locking": true,
-      "speed_no_load_mm_s": 1.25,
-      "speed_simulated_mm_s": 0.8203,
-      "thrust_at_fuse_hold_N": 51.0,
-      "thrust_at_stall_N": 201.0,
-      "note": "Estimates. Stall thrust lasts only until F1 trips (about 1.6 s in the simulation)."
+      "speed_no_load_mm_s": 9.333,
+      "speed_simulated_mm_s": 6.9033,
+      "speed_simulated_load_N": 49,
+      "supply_simulated_V": 12.6,
+      "thrust_at_fuse_hold_N": 55.0,
+      "thrust_at_fuse_hold_40C_N": 45.0,
+      "thrust_at_X1_limit_N": 85.0,
+      "thrust_at_stall_N": 183.0,
+      "note": "Estimates. On the X1 the board's 0.497 A limit caps the push; on a supply without a limit the stall thrust lasts only until F1 trips (about 1.73 s in the simulation). F1 holds 0.35 A at 23 \u00b0C and 0.30 A at 40 \u00b0C."
     },
     "geartrain": {
       "schema": "n20.geartrain.v1",
@@ -715,7 +743,7 @@
         ]
       ],
       "output_diameter_mm": 3.0,
-      "screw_pitch_mm": 0.5,
+      "screw_pitch_mm": 0.7,
       "screw_length_mm": 100.0,
       "total_reduction": 27.0,
       "signed_input_per_output": -27.0,
@@ -858,7 +886,7 @@
           "initial_phase_rad": 0.0,
           "phase_baked_into_geometry": true
         },
-        "motor_leadscrew_M3": {
+        "motor_leadscrew_M4": {
           "body": "output",
           "axis_origin_mm": [
             0.0,
@@ -918,6 +946,11 @@
         "v6_output_angle": "-travel_mm / screw_pitch_mm * 2*pi",
         "simulation": "prescribed rigid kinematics, no torque/stress/contact dynamics"
       }
-    }
+    },
+    "magnet_size_mm": [
+      3.0,
+      2.0,
+      2.0
+    ]
   }
 }

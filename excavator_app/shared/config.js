@@ -25951,6 +25951,6 @@ export const CONFIG = {
       "payload_from": 300.9375,
       "payload_to": 465.9
     },
-    "thrust_cont": 51.0
+    "thrust_cont": 55.0
   }
 };

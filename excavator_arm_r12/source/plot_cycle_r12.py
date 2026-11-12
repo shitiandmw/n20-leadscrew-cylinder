@@ -42,9 +42,12 @@ def main():
     for v, name in ends:
         y = max(v, y + 5)
         a1.text(t[-1] + 6, y, name, va='center', fontsize=8.5, color=INK)
-    pk = [(fv[np.argmax(np.abs(fv))], name) for k, sv, fv, name in series]
-    for v, name in pk:
-        i = int(np.argmax(np.abs([x for x in series if x[3] == name][0][2])))
+    settled = t > 1.0                      # as the reports: peaks after the initial settling second
+    pk = []
+    for k, sv, fv, name in series:
+        i = int(np.argmax(np.where(settled, np.abs(fv), -1.0)))
+        pk.append((fv[i], name, i))
+    for v, name, i in pk:
         a2.annotate(f'{name.split(" ")[0]} peak {v:.1f} N', (t[i], v), xytext=(0, 9 if v > 0 else -13), textcoords='offset points',
                     ha='center', fontsize=8, color=INK)
     a1.set_ylim(-2, 62)
@@ -52,9 +55,9 @@ def main():
     for v in (d.ACT['thrust_cont'], -d.ACT['thrust_cont']):
         a2.hlines(v, 0, t[-1], color=MUTED, lw=1.2, ls=(0, (4, 3)))
     a2.hlines(0, 0, t[-1], color='#c4cacd', lw=1)
-    a2.text(t[-1] + 6, d.ACT['thrust_cont'], '51 N rating', va='center', fontsize=8.5, color=INK2)
-    a2.text(t[-1] + 6, -d.ACT['thrust_cont'], '−51 N', va='center', fontsize=8.5, color=INK2)
-    a2.set_ylim(-58, 58)
+    a2.text(t[-1] + 6, d.ACT['thrust_cont'], f"{d.ACT['thrust_cont']:.0f} N rating", va='center', fontsize=8.5, color=INK2)
+    a2.text(t[-1] + 6, -d.ACT['thrust_cont'], f"−{d.ACT['thrust_cont']:.0f} N", va='center', fontsize=8.5, color=INK2)
+    a2.set_ylim(-62, 62)
     a2.set_ylabel('drive force (N), + = push')
     a2.set_xlabel('time (s)')
     rep = json.loads((ROOT / 'simulation' / 'payload_150g_report.json').read_text())

@@ -31,7 +31,7 @@ INK, MUTED, NET, FRAME = "#1d2a30", "#5f6f75", "#1f5f8b", "#8d989c"
 IC_FILL, TAG_FILL, BLOCK = "#f5f7f8", "#eaf2f8", "#b9c3c7"
 WIRE = {"W1": ("#d7261e", "red"), "W2": ("#222222", "black"), "W3": ("#f07c12", "orange"),
         "W4": ("#8e3bc9", "purple")}
-DATE = "2026-10-28"
+DATE = "2026-11-10"
 
 
 def expected_netlist():
@@ -294,7 +294,7 @@ class Sheet:
         for y in (3.3, 2.5, 1.6):
             self.line((x0, y), (x1, y), FRAME, 0.7)
         self.text((x0 + 0.3, 3.9), self.title, 10.5, weight="bold")
-        self.text((x0 + 0.3, 3.5), "Two-wire actuator V6  ·  N20 6 V 150 rpm gearmotor with M3 leadscrew",
+        self.text((x0 + 0.3, 3.5), "Two-wire actuator V6  ·  N20 12 V 1:50 800 rpm gearmotor with M4 leadscrew",
                   6.0, MUTED)
         self.text((x0 + 0.3, 3.05), "Board: 2 layers, 0.8 mm FR4, 8 mm wide, all parts on one side.", 6.0)
         lengths = [f"{p['pcb_length']:g} mm (V6-{v})" for v, p in VARIANTS.items()]
@@ -335,14 +335,15 @@ class Sheet:
 
 # ---------------------------------------------------------------------------------------------
 X_C, X_PIN, BOX_X, X_S, X_G, X_D, X_DK, X_DA = 5.2, 7.0, (6.4, 9.2), 9.6, 10.35, 11.1, 11.5, 13.1
+X_FA = 14.7                            # feed diode anode; R3 / R4 sit between X_DK and X_DA
 VALUES = {k: v[0] for k, v in BD.PARTS.items()}
 
 
 def stop_cell(s, sign, y0, refs, feed_net, end_name):
     """One end stop. sign=+1 draws it above its rail (U1 on lead A), -1 below (U2 on lead B):
-    Hall switch, gate pull-up, hold capacitor, feed diode from the other lead, and the MOSFET in
-    the lead with its Schottky bypass."""
-    u, q, r, c, dfeed, dpar = refs
+    Hall switch, gate pull-up, hold capacitor, feed diode and series resistor from the other lead,
+    and the MOSFET in the lead with its Schottky bypass."""
+    u, q, r, c, dfeed, dpar, rfeed = refs
     y_cell, y_out, y_vcc = y0 + sign * 1.9, y0 + sign * 3.85, y0 + sign * 5.8
     lo, hi = sorted((y0 + sign * 2.9, y0 + sign * 4.8))
     box = (BOX_X[0], lo, BOX_X[1], hi)
@@ -363,8 +364,10 @@ def stop_cell(s, sign, y0, refs, feed_net, end_name):
         s.dot(pt)
     s.part("C", c, (X_C, y_vcc), (X_C, y_cell), VALUES["C1U"].replace(" X5R", ""), side="left")
     s.part("R", r, (X_G, y_vcc), (X_G, y_out), VALUES["R1M"].replace(" 1 %", ""))
-    s.part("D", dfeed, (X_DA, y_vcc), (X_DK, y_vcc), VALUES["D_SIG"], pins=("2", "1"), side="top")
-    s.flag((X_DA, y_vcc), feed_net, "right")
+    s.part("R", rfeed, (X_DK, y_vcc), (X_DA, y_vcc), VALUES["R220"].replace(" 1 %", ""), pins=("2", "1"),
+           side="bottom")                                  # under the wire: the diode's label is above it
+    s.part("D", dfeed, (X_FA, y_vcc), (X_DA, y_vcc), VALUES["D_SIG"], pins=("2", "1"), side="top")
+    s.flag((X_FA, y_vcc), feed_net, "right")
     # MOSFET in the lead: drain on the motor side, source on the cable side, gate toward the cell
     fet = elm.NFet(bulk=True).theta(90).flip() if sign > 0 else elm.NFet(bulk=True).theta(-90)
     e = s.d.add(fet.at((X_D, y0)))
@@ -372,7 +375,7 @@ def stop_cell(s, sign, y0, refs, feed_net, end_name):
     s.pins[f"{q}.1"], s.pins[f"{q}.2"], s.pins[f"{q}.3"] = key(gate), key((X_S, y0)), key((X_D, y0))
     s.hit_element(q, e)
     s.wire((X_G, y_out), gate)
-    s.text((X_D + 0.3, y0 + sign * 1.3), f"{q}  AO3400A", 7.0, va="center")
+    s.text((X_D + 0.3, y0 + sign * 1.3), f"{q}  {VALUES['Q'][:9]}", 7.0, va="center")
     s.text((X_D + 0.3, y0 + sign * 0.92), "N-MOSFET", 5.6, MUTED, va="center")
     yp = y0 - sign * 1.1                                          # Schottky across the MOSFET
     s.wire((X_S, y0), (X_S, yp))
@@ -415,18 +418,18 @@ def draw():
     s.dot((3.4, yB))
     s.text((7.4, yA + 0.12), "A", 5.8, NET, ha="center", va="bottom")
     s.text((7.4, yB - 0.12), "B", 5.8, NET, ha="center", va="top")
-    stop_cell(s, +1, yA, ("U1", "Q1", "R1", "C1", "D1", "D4"), "B", "retract")
-    stop_cell(s, -1, yB, ("U2", "Q2", "R2", "C2", "D2", "D5"), "A", "extend")
+    stop_cell(s, +1, yA, ("U1", "Q1", "R1", "C1", "D1", "D4", "R3"), "B", "retract")
+    stop_cell(s, -1, yB, ("U2", "Q2", "R2", "C2", "D2", "D5", "R4"), "A", "extend")
     xf0, xf1, xc3, xd3, xj, xm = 12.9, 14.9, 15.7, 17.0, 18.9, 21.7
     s.wire((X_D, yA), (xf0, yA))
     s.text(((X_D + xf0) / 2, yA - 0.12), "A_SW", 5.8, NET, ha="center", va="top")
-    s.part("PTC", "F1", (xf0, yA), (xf1, yA), "0.12 A PPTC", side="top", gap=0.55)
+    s.part("PTC", "F1", (xf0, yA), (xf1, yA), VALUES["F"], side="top", gap=0.55)
     s.wire((xf1, yA), (xc3, yA), (xd3, yA), (xj, yA))
     s.wire((X_D, yB), (xc3, yB), (xd3, yB), (xj, yB))
     for pt in ((xc3, yA), (xd3, yA), (xc3, yB), (xd3, yB), (xj, yA), (xj, yB)):
         s.dot(pt)
     s.part("C", "C3", (xc3, yA), (xc3, yB), "100 nF", side="left")
-    s.part("TVS", "D3", (xd3, yA), (xd3, yB), "SMF7.0CA\n±7 V TVS")
+    s.part("TVS", "D3", (xd3, yA), (xd3, yB), "SMF15CA\n±15 V TVS")
     s.text(((xd3 + xj) / 2, yA + 0.12), "MOT+", 5.8, NET, ha="center", va="bottom")
     s.text((13.3, yB + 0.12), "MOT−", 5.8, NET, ha="center", va="bottom")
     s.pad("J_M+", (xj, yA), "J_M+")
@@ -438,7 +441,7 @@ def draw():
     s.text(((xj + xm) / 2 + 0.2, yB - 0.16), "W4 purple", 5.6, MUTED, ha="center", va="top")
     s.hit("W3", (xj + 0.2, yA - 0.1, xm, yA + 0.1), 0.12)
     s.hit("W4", (xj + 0.2, yB - 0.1, xm, yB + 0.1), 0.12)
-    s.part("M", "M1", (xm, yA), (xm, yB), "N20 6 V", side="left", pins=("+", "-"), gap=0.8)
+    s.part("M", "M1", (xm, yA), (xm, yB), "N20 12 V", side="left", pins=("+", "-"), gap=0.8)
     s.text((xm + 0.25, yA - 0.35), "+", 7.5, MUTED)
     s.text((xm + 0.25, yB + 0.35), "−", 7.5, MUTED)
     notes(s)
@@ -461,21 +464,25 @@ NOTES = [
     ("the current around the switch that is off.", False),
     ("", False),
     ("Each Hall switch is fed from the other wire", False),
-    ("through D1 / D2, so it only runs while its own", False),
-    ("direction is driven. C1 / C2 hold its supply.", False),
+    ("through D1 + R3 / D2 + R4, so it only runs", False),
+    ("while its own direction is driven. C1 / C2", False),
+    ("hold its supply; R3 / R4 keep its rise well", False),
+    ("below the DRV5033's 2 V/µs limit.", False),
     ("", False),
     ("PROTECTION", True),
-    ("F1: resettable fuse, 0.12 A hold. A jammed rod", False),
-    ("trips it in about 1.6 s (simulated); it resets", False),
-    ("when the power is removed for a few seconds.", False),
+    ("F1: resettable fuse, 0.35 A hold, 0.75 A trip.", False),
+    ("A jammed rod (about 1 A at 12.6 V) trips it", False),
+    ("in about 1.7 s (simulated); it resets when the", False),
+    ("power is removed for a few seconds.", False),
     ("D3 clamps the motor's switch-off spike; C3", False),
     ("suppresses brush noise.", False),
     ("", False),
     ("DRIVE", True),
     ("Any H-bridge or reversing (DPDT) switch.", False),
-    ("6 V nominal, 7 V maximum (D3). PWM up to", False),
-    ("20 kHz simulated. Stopped at an end, the", False),
-    ("board draws about 2.2 mA (the Hall switch).", False),
+    ("12 V nominal (3S), 13 V maximum (F1, D3).", False),
+    ("PWM up to 20 kHz simulated. Stopped at an", False),
+    ("end, the board draws about 3 mA (the Hall", False),
+    ("switch).", False),
 ]
 
 

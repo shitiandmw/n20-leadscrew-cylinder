@@ -69,30 +69,35 @@ def channel(key):
     return next(c for c in NL.CHANNELS if c["key"] == key)
 
 
+ACTUATORS = ("BL", "BR", "ST", "BK")    # the four V6-U60 arm actuators (12 V N20, on VBAT since revision B)
 BUDGET = dict(  # same assumptions as the spec budget (../source/draw_control_spec.py), board values for limits
-    eff=0.90, act_stall=0.46, esp_peak=0.35, lamp=0.10, buzzer=0.10, expansion=2.0, fuse=5.0)
+    # act_cont: the V6 actuator's own PTC (Bourns MF-NSMF035X-2) holds 0.35 A; a stalled actuator above that
+    # is cut by its PTC or by the firmware's stall cut-out (S4) within seconds
+    eff=0.90, act_cont=0.35, esp_peak=0.35, lamp=0.10, buzzer=0.10, expansion=2.0, fuse=5.0)
 
 
 def power_budget():
-    """Battery current, worst case (SPEC P4): tracks and swing at their regulation limits, actuators
-    stalled at their own stall current (below the 0.5 A board limit), radio peak, both lamps, buzzer;
-    bucks 90 % efficient; battery at the 9.6 V stop voltage."""
+    """Battery current, worst case (SPEC P4): tracks and swing at their regulation limits, the four
+    actuators at their own PTC's hold current (below the 0.5 A board limit), radio peak, both lamps,
+    buzzer; 5 V buck 90 % efficient; battery at the 9.6 V stop voltage. peak_A has every channel at its
+    board limit at once, which a stalled actuator reaches only until its PTC or the stall cut-out acts."""
     b, v = BUDGET, VBAT["stop"]
-    i_vbat = sum(itrip(c) for c in NL.CHANNELS if c["vm"] == "VBAT")
-    p6 = 4 * b["act_stall"] * buck_vout(110)
+    i_ts = sum(itrip(c) for c in NL.CHANNELS if c["key"] not in ACTUATORS)
+    i_act = sum(min(itrip(c), b["act_cont"]) for c in NL.CHANNELS if c["key"] in ACTUATORS)
+    i_act_lim = sum(itrip(c) for c in NL.CHANNELS if c["key"] in ACTUATORS)
     i5 = b["esp_peak"] + 2 * b["lamp"] + b["buzzer"]          # 3.3 V comes from 5 V through the LDO
-    p5 = i5 * buck_vout(120)
-    i_total = i_vbat + (p6 + p5) / b["eff"] / v
+    i5_bat = i5 * buck_vout(120) / b["eff"] / v
+    i_total = i_ts + i_act + i5_bat
     i_exp = b["expansion"] * buck_vout(120) / b["eff"] / v
-    return dict(tracks_swing_A=i_vbat, rail6_W=p6, rail5_A=i5, rail5_with_expansion_A=i5 + b["expansion"],
-                rail6_limit_A=sum(itrip(c) for c in NL.CHANNELS if c["vm"] == "+6V"),
-                total_A=i_total, with_expansion_A=i_total + i_exp, fuse_A=b["fuse"])
+    return dict(tracks_swing_A=i_ts, actuators_A=i_act, actuators_at_limit_A=i_act_lim, rail5_A=i5,
+                rail5_with_expansion_A=i5 + b["expansion"], total_A=i_total, peak_A=i_ts + i_act_lim + i5_bat,
+                with_expansion_A=i_total + i_exp, fuse_A=b["fuse"])
 
 
 if __name__ == "__main__":
     print(f"VREF {vref():.3f} V")
     for c in NL.CHANNELS:
         print(f"{c['key']}: ITRIP {itrip(c):.3f} A")
-    for b in (110, 120):
+    for b in (120,):
         print(f"buck {b}: Vout {buck_vout(b):.3f} V, UVLO {buck_uvlo(b)}, ripple {buck_ripple(buck_vout(b)):.3f} A")
     print(power_budget())

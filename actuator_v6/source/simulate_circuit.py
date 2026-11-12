@@ -8,9 +8,11 @@ conduct the other way, so the motor can always reverse out of that end. F1 (PTC)
 series with the motor. The external driver is a generic H-bridge, because the part is
 meant to work with any DC motor driver.
 
-Motor and PTC values are assumptions for an N20 6 V 150 rpm gearmotor (listed in
-results.json). The Hall switch is behavioural: open-drain output, released (high
-impedance) for its 50 µs power-on time, operate/release points from the magnet model.
+Motor and PTC values are assumptions for the 12 V N20 1:50 800 rpm gearmotor with its M4 x 0.7
+leadscrew (listed in results.json), the same motor model as excavator_app/shared/drives.js. The
+supply is the X1's full 3S battery, 12.6 V, the worst case for every voltage stress. The Hall
+switch is behavioural: open-drain output, released (high impedance) for its 50 µs power-on time,
+operate/release points from the magnet model.
 """
 from pathlib import Path
 import json
@@ -25,21 +27,42 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "electronics" / "simulation"
 NGSPICE = shutil.which("ngspice") or str(Path.home() / ".local/envs/spice/bin/ngspice")
 
-MOTOR = dict(VS=6.0, Rm=13.0, Lm=0.3e-3, k=0.0037, J=3e-9, Tf=1.3e-4, Tload=3.0e-4, ratio=100, pitch=0.5)
-# F1 = Bourns MF-NSMF012-2: hold 0.12 A, trip 0.29 A, 1.35-8.5 ohm, <= 0.2 s to trip at 1 A.
+# 12 V N20 1:50, seller's table row "1:50, 12 V": 800 rpm and 0.08 A without load. Its stall current is
+# hidden in the screenshot; 1.1 A (the 1000 rpm row beside it) is assumed, so Rm = 12 / 1.1. k from the
+# no-load point; Tf is the no-load current's torque. Tload is the boom drive lifting a full bucket, 49 N
+# (excavator_app/shared/drives.js): 49 N x 0.423 mN·m/N at the screw / (50 x 0.65) at the motor.
+MOTOR = dict(VS=12.6, Rm=10.9, Lm=0.2e-3, k=0.002656, J=3e-9, Tf=2.1e-4, Tload=6.4e-4, ratio=50, pitch=0.7,
+             I0=0.08)
+# F1 = Bourns MF-NSMF035X-2: 16 V, hold 0.35 A, trip 0.75 A, 0.30-1.4 ohm, <= 0.14 s to trip at 3.5 A.
 # Thermal model fitted to the slow corner (it switches only at the trip current), the worst case
-# for protection: Rth puts the switch point at 0.29 A, Cth gives 0.2 s at 1 A.
-PTC_R0, PTC_TSW, PTC_IHOLD, PTC_ITRIP = 2.0, 115.0, 0.12, 0.29
+# for protection: Rth puts the switch point at 0.75 A, Cth gives 0.14 s at 3.5 A.
+PTC_R0, PTC_TSW, PTC_IHOLD, PTC_ITRIP = 0.65, 115.0, 0.35, 0.75
 PTC = dict(R0=PTC_R0, Rth=round((PTC_TSW - 25) / (PTC_ITRIP ** 2 * PTC_R0), 1),
-           Cth=round(0.2 * 1.0 ** 2 * PTC_R0 / (PTC_TSW - 25), 5), Tsw=PTC_TSW, dT=2.5, K=2e4)
+           Cth=round(0.14 * 3.5 ** 2 * PTC_R0 / (PTC_TSW - 25), 5), Tsw=PTC_TSW, dT=2.5, K=2e4)
+R_HALL = 220.0          # R3, R4: in series with D1, D2; keep the Hall VCC ramp under 2 V/µs
 ENDS = dict(XTR=0.0, XTE=45.0, XSR=-2.0, XSE=48.0, hyst=0.4)
+# Slope monitor (not on the board): each Hall's VCC through a 0.1 µs high-pass, so V(sl) = tau x dVCC/dt for
+# anything slower than 0.1 µs. ngspice's deriv() on the solver's own time points is not usable here: at the
+# PWM edges the steps shrink to femtoseconds and microvolt solver noise reads as thousands of V/µs.
+SLOPE_TAU = 1e-7
+SLOPE_MONITOR = f"""
+* ---- slope monitors (measurement only): V(sl) = {SLOPE_TAU:g} s x d(VCC)/dt ----
+BSL2 sl2a 0 V = V(ve,pb)
+CSL2 sl2a sl2 1n
+RSL2 sl2 0 {SLOPE_TAU / 1e-9:g}
+BSL1 sl1a 0 V = V(vr,pa)
+CSL1 sl1a sl1 1n
+RSL1 sl1 0 {SLOPE_TAU / 1e-9:g}
+"""
+# Creep is judged from this long after the end stop opens: the 800 rpm motor coasts about 12 ms to rest.
+CREEP_FROM = 0.05
 
 MODELS = """
-.model nfet NMOS (LEVEL=1 VTO=1.05 KP=8.8 LAMBDA=0.01 RD=0.004 RS=0.004 IS=1e-18)
+.model nfet NMOS (LEVEL=1 VTO=1.7 KP=9.9 LAMBDA=0.01 RD=0.04 RS=0.04 IS=1e-18)
 .model dbody D (IS=3.7e-13 N=1 RS=0.05 CJO=100p TT=10n)
 .model dsch D (IS=5e-7 N=1.05 RS=0.12 CJO=50p)
 .model dsig D (IS=2.52n RS=0.568 N=1.752 CJO=4p M=0.4 TT=20n BV=75)
-.model dtvs D (IS=1e-12 N=1 RS=0.3 BV=10.0 IBV=1m CJO=200p)
+.model dtvs D (IS=1e-12 N=1 RS=0.36 BV=17.9 IBV=1m CJO=100p)
 .model ddrv D (IS=1e-12 RS=0.03 N=1.2 CJO=200p)
 .model sdrv SW (VT=0.5 VH=0.05 RON=0.25 ROFF=1e7)
 .model swhall SW (VT=0.5 VH=0.05 RON=40 ROFF=1e10)
@@ -54,13 +77,13 @@ def board(schottky=True):
 * ---- Q1 in lead A (source = pad A): gates retract (B positive) ----
 MQ1 n1 g1 pa pa nfet
 DQ1 pa n1 dbody
-CQ1gs g1 pa 600p
-CQ1gd g1 n1 70p
+CQ1gs g1 pa 270p
+CQ1gd g1 n1 21p
 * ---- Q2 in lead B (source = pad B): gates extend (A positive) ----
 MQ2 mb g2 pb pb nfet
 DQ2 pb mb dbody
-CQ2gs g2 pb 600p
-CQ2gd g2 mb 70p
+CQ2gs g2 pb 270p
+CQ2gd g2 mb 21p
 {'DS4 pa n1 dsch' if schottky else '* no D4'}
 {'DS5 pb mb dsch' if schottky else '* no D5'}
 * ---- F1 PTC between Q1 and motor (+); thermal node tptc in degC ----
@@ -74,7 +97,8 @@ C3 ma mb 100n
 DT1 ma nt dtvs
 DT2 mb nt dtvs
 * ---- U2 extend-end Hall: VCC from pad A via D2, GND = pad B, OUT pulls G2 ----
-D2 pa ve dsig
+D2 pa ve0 dsig
+R4 ve0 ve {R_HALL}
 C2 ve pb 1u
 R2 ve g2 1meg
 RI2 ve pb 2k
@@ -84,7 +108,8 @@ CPG2 pgd2 pb 1n
 BCT2 ct2 0 V = 0.5*(1+tanh((V(pgd2,pb)-0.5)/0.05))*V(mag2)
 SO2 g2 pb ct2 0 swhall
 * ---- U1 retract-end Hall: VCC from pad B via D1, GND = pad A, OUT pulls G1 ----
-D1 pb vr dsig
+D1 pb vr0 dsig
+R3 vr0 vr {R_HALL}
 C1 vr pa 1u
 R1 vr g1 1meg
 RI1 vr pa 2k
@@ -213,6 +238,7 @@ def netlist(name, sc, outfile):
     lines = [f"* V6 end-stop board: {sc['title']}", MODELS,
              driver(sc["windows"], sc.get("pwm"), sc.get("brake", 1)), board(sc.get("schottky", True)),
              motor(sc.get("jam", False)),
+             SLOPE_MONITOR,
              f".ic V(x)={sc['x0']} V(w)=0 V(tptc)=25 V(ve)=0 V(vr)=0 V(pgd1)=0 V(pgd2)=0",
              ".control", "set noaskquit", "option numdgt=7 reltol=1e-3 abstol=1e-10 vntol=1e-5 itl4=60 method=gear rshunt=1e12"]
     tstop, tmax = sc["tstop"], sc["tmax"]
@@ -222,6 +248,10 @@ def netlist(name, sc, outfile):
               "let vgs2 = v(g2)-v(pb)", "let vcc1 = v(vr)-v(pa)", "let vcc2 = v(ve)-v(pb)", "let vm = v(ma)-v(mb)",
               "let ibat = -i(vs)",
               "meas tran vds_max MAX vds2", "meas tran vds1_max MAX vds1", "meas tran vcc_max MAX vcc2",
+              "meas tran vcc1_max MAX vcc1", "meas tran vgs2_max MAX vgs2", "meas tran vgs1_max MAX vgs1",
+              # DRV5033 absolute maximum: VCC may rise at most 2 V/µs while it is above 5 V (slope monitor, V/s)
+              f"let ramp2 = v(sl2) / {SLOPE_TAU:g} * (vcc2 gt 5)", f"let ramp1 = v(sl1) / {SLOPE_TAU:g} * (vcc1 gt 5)",
+              "meas tran ramp2_max MAX ramp2", "meas tran ramp1_max MAX ramp1",
               "meas tran vm_max MAX vm", "meas tran vm_min MIN vm", "meas tran x_final FIND v(x) AT=" + f"{tstop - 1e-4:.6g}",
               "meas tran tptc_max MAX v(tptc)"]
     if "t_rev" in sc:
@@ -275,25 +305,32 @@ def evaluate(name, sc, m, raw):
     keep = {k: round(v, 6) for k, v in m.items()}
     out["measured"] = keep
     checks = {}
-    checks["vds_max_below_25V"] = m.get("vds_max", 0) < 25 and m.get("vds1_max", 0) < 25
-    checks["hall_vcc_below_36V"] = m.get("vcc_max", 0) < 36
+    # Q1/Q2 are 60 V parts; D4/D5 (B5819WS) across them are 40 V parts: keep 20 % margin on the diodes.
+    checks["vds_max_below_32V"] = m.get("vds_max", 0) < 32 and m.get("vds1_max", 0) < 32
+    checks["hall_vcc_below_36V"] = max(m.get("vcc_max", 0), m.get("vcc1_max", 0)) < 36
+    checks["gate_below_14.4V"] = max(m.get("vgs2_max", 0), m.get("vgs1_max", 0)) < 14.4     # IRLML0060: ±16 V
+    ramp = max(m.get("ramp2_max", 0), m.get("ramp1_max", 0)) / 1e6                          # V/µs
+    out["hall_vcc_ramp_max_V_per_us"] = round(ramp, 4)
+    checks["hall_vcc_ramp_below_2V_per_us"] = ramp < 2.0
     if "t_rev" in sc:
         end = sc["end"]
         target = ENDS["XTE"] if end == "E" else ENDS["XTR"]
         over = (m["x_at_rev"] - target) if end == "E" else (target - m["x_at_rev"])
         if name != "powerup_at_end":
             out["stop_overshoot_mm"] = round(over, 4)
-        checks["stops_within_0.05mm_of_trip"] = over < 0.05 if name != "powerup_at_end" else True
+        # The 800 rpm motor coasts on after its end stop opens; the hard stop is 3 mm beyond the end and
+        # the Hall spread uses at most 1.65 mm of that (magnet_trigger.json).
+        checks["stops_within_0.5mm_of_trip"] = over < 0.5 if name != "powerup_at_end" else True
         moved_back = (m["x_min_after"] < m["x_at_rev"] - 0.01) if end == "E" else (m["x_min_after"] > m["x_at_rev"] + 0.01)
         checks["reverses_out_of_end"] = bool(moved_back)
-        # While blocked the average motor current must be ~0 and any peak must stay below the
-        # no-load current (35 mA), i.e. far below what overcomes friction; the rod must not creep.
+        # While blocked the average motor current must be ~0 and any peak must stay well below the
+        # no-load current (80 mA), i.e. far below what overcomes friction; the rod must not creep.
         peak = max(abs(m["i_blocked"]), abs(m["i_blocked_min"]))
         out["blocked_peak_current_mA"] = round(peak * 1e3, 2)
         checks["no_motor_current_while_blocked"] = abs(m["i_blocked_avg"]) < 2e-3 and peak < 30e-3
         if "t_trip" in m:
             t, x = raw[:, 0], raw[:, 1]
-            creep = float(np.interp(sc["t_rev"] - 0.001, t, x) - np.interp(m["t_trip"] + 0.005, t, x))
+            creep = float(np.interp(sc["t_rev"] - 0.001, t, x) - np.interp(m["t_trip"] + CREEP_FROM, t, x))
             out["creep_while_blocked_um"] = round(creep * 1e3, 3)
             checks["no_creep_while_blocked"] = abs(creep) < 1e-3
         out["supply_current_while_blocked_mA"] = round(m["ibat_blocked"] * 1e3, 3)
@@ -366,17 +403,24 @@ def main():
         return
     OUT.mkdir(parents=True, exist_ok=True)
     results = dict(assumptions=dict(
-        motor=dict(MOTOR, note="N20 6 V 150 rpm, 1:100 assumed: 13 ohm winding (stall about 0.46 A), "
-                               "k = 3.7 mV/(rad/s); load 0.3 mN·m at the motor (about 0.08 A extra)."),
-        ptc=dict(PTC, part="Bourns MF-NSMF012-2 (1206)", hold_A=PTC_IHOLD, trip_A=PTC_ITRIP,
-                 note="Slow corner: switches only at the 0.29 A trip current; Cth from 0.2 s at 1 A. Real parts "
-                      "trip somewhere between 0.12 and 0.29 A, and sooner when warm."),
-        ends_mm=ENDS, hall="DRV5033-like: open drain, 50 µs power-on (output released), 2.7 mA supply"),
+        motor=dict(MOTOR, note="N20 12 V 1:50 800 rpm (seller's table; 0.08 A without load), M4 x 0.7 "
+                               "leadscrew: 10.9 ohm winding (the hidden stall current assumed 1.1 A at 12 V), "
+                               "k = 2.66 mV/(rad/s); load 0.64 mN·m at the motor, the boom drive lifting a full "
+                               "bucket (49 N, about 0.24 A extra). Supply 12.6 V, the full 3S battery."),
+        ptc=dict(PTC, part="Bourns MF-NSMF035X-2 (1206, 16 V)", hold_A=PTC_IHOLD, trip_A=PTC_ITRIP,
+                 note="Slow corner: switches only at the 0.75 A trip current; Cth from 0.14 s at 3.5 A. Real parts "
+                      "trip somewhere between 0.35 and 0.75 A, and sooner when warm (hold 0.30 A at 40 °C)."),
+        hall_supply=f"R3, R4 = {R_HALL:.0f} ohm in series with D1, D2 (DRV5033 VCC ramp limit 2 V/µs above 5 V)",
+        ends_mm=ENDS, hall="DRV5033-like: open drain, 50 µs power-on (output released), 2.7 mA supply",
+        mosfet="IRLML0060-like: Vth 1.7 V, 92 mΩ at 10 V and 116 mΩ at 4.5 V (datasheet maxima), Ciss 290 pF",
+        tvs="SMF15CA, worst case high: 18.5 V at 1 mA, 24.4 V at 8.2 A"),
         scenarios={})
-    with tempfile.TemporaryDirectory() as tmp:
+    from concurrent.futures import ThreadPoolExecutor
+    with tempfile.TemporaryDirectory() as tmp, ThreadPoolExecutor(max_workers=4) as pool:
         work = Path(tmp)
+        runs = {name: pool.submit(run_one, name, sc, work) for name, sc in SCENARIOS.items()}
         for name, sc in SCENARIOS.items():
-            m, raw = run_one(name, sc, work)
+            m, raw = runs[name].result()
             r = evaluate(name, sc, m, raw)
             results["scenarios"][name] = r
             plot(name, sc, raw, sc["title"])

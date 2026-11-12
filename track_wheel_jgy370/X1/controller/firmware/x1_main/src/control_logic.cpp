@@ -131,7 +131,6 @@ void Controller::update(uint32_t now, const Sense &s) {
   else if (vbat_f_ >= cfg_.vbat_warn_clear_v) batt_warn_ = false;
   if (vbat_f_ < cfg_.vbat_stop_v) batt_stop_ = true;
   else if (vbat_f_ >= cfg_.vbat_stop_clear_v) batt_stop_ = false;
-  v6_ = float(s.v6_adc_mV) / x1pins::V6_DIVIDER / 1000.f;
 
   // Currents: IPROPI V = I x 1000 uA/A x R, so I[mA] = 1000 x mV / R.
   for (int ch = 0; ch < NUM_CH; ++ch) {
@@ -240,8 +239,9 @@ void Controller::update(uint32_t now, const Sense &s) {
     d = ramp_toward(d, target[ch], dt, CHANNEL[ch].ramp_ms);
     // S4: the current a stalled motor would draw at this duty (the driver caps it at its limit); the IPROPI reading
     // follows the motor current at any duty (low-side sensing in both drive and brake phases, DRV8876 7.3.3.1)
-    const float i_stall = fminf(CHANNEL[ch].limit_a, fabsf(d) * vbat_f_ / cfg_.motor_ohm);
-    if (CHANNEL[ch].vbat && d != 0.f && i_stall >= cfg_.stall_min_a && cur_mA_[ch] >= cfg_.stall_fraction * i_stall * 1000.f) {
+    const float ohm = CHANNEL[ch].actuator ? cfg_.actuator_ohm : cfg_.motor_ohm;
+    const float i_stall = fminf(CHANNEL[ch].limit_a, fabsf(d) * vbat_f_ / ohm);
+    if (d != 0.f && i_stall >= cfg_.stall_min_a && cur_mA_[ch] >= cfg_.stall_fraction * i_stall * 1000.f) {
       if (!stall_pending_[ch]) {
         stall_pending_[ch] = true;
         stall_since_[ch] = now;
@@ -395,7 +395,6 @@ uint16_t Controller::faults() const {
     if (stall_cut_[ch]) f |= F_STALL;
   if (batt_stop_) f |= F_BATTERY_LOW;
   if (batt_warn_) f |= F_BATTERY_WARN;
-  if (vbat_f_ >= 7.5f && v6_ < cfg_.v6_low_v) f |= F_RAIL_6V_LOW;
   return f;
 }
 
@@ -407,7 +406,7 @@ void Controller::make_telemetry(x1link::Telemetry &t, int8_t rssi_dBm) {
   t.ack_seq = pkt_.seq;
   t.faults = faults();
   t.vbat_mV = uint16_t(clampf(vbat_f_ * 1000.f + 0.5f, 0.f, 65535.f));
-  t.v6_mV = uint16_t(clampf(v6_ * 1000.f + 0.5f, 0.f, 65535.f));
+  t.v6_mV = 0;  // reserved since main board rev B: there is no 6 V rail
   t.rssi_dBm = rssi_dBm;
   t.rx_per_s = rx_per_s_;
   for (int ch = 0; ch < NUM_CH; ++ch) {
@@ -458,12 +457,12 @@ size_t Controller::describe(char *buf, size_t n) const {
   appendf(buf, n, k, "state: %s, link %s%s%s%s%s\n", armed_ ? "ARMED" : "disarmed", link_ ? "up" : "down",
           estop_ ? ", E-STOP latched" : "", pairing_ ? ", pairing" : "", resync_ ? ", boom re-sync" : "",
           bench_ ? ", bench drive" : "");
-  appendf(buf, n, k, "battery: %.2f V (2 s filtered)%s%s; 6 V rail %.2f V\n", double(vbat_f_),
-          batt_stop_ ? " LOW: motors stopped" : "", batt_warn_ && !batt_stop_ ? " low: warning" : "", double(v6_));
+  appendf(buf, n, k, "battery: %.2f V (2 s filtered)%s%s\n", double(vbat_f_),
+          batt_stop_ ? " LOW: motors stopped" : "", batt_warn_ && !batt_stop_ ? " low: warning" : "");
   const uint16_t f = faults();
   appendf(buf, n, k, "faults: 0x%04x", unsigned(f));
   static const char *const names[] = {"driver(latched)", "nFAULT-low", "boom", "resync-timeout",
-                                      "stall",           "battery-low", "battery-warn", "6V-rail-low"};
+                                      "stall",           "battery-low", "battery-warn", "reserved"};
   for (int i = 0; i < 8; ++i)
     if (f & (1u << i)) appendf(buf, n, k, " %s", names[i]);
   appendf(buf, n, k, "\n");

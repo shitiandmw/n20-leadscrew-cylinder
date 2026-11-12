@@ -2,7 +2,8 @@
 
 The motor in V6-S, V6-U60 and V6-L now uses the meshed gearbox supplied in
 `n20_geartrain (1).zip`. Open `3D_preview.html` and select **Motor gears** to
-inspect it. **Extend** and **Retract** run this view at 0.02× playback speed;
+inspect it. **Extend** and **Retract** run this view at 0.004× playback speed
+(the 12 V motor turns about five times faster than the earlier 6 V one);
 leaving the view restores the previous playback speed. Drag to orbit.
 
 ## What changed
@@ -19,11 +20,14 @@ leaving the view restores the previous playback speed. Drag to orbit.
 - The offline viewer, three assembly STEP files and their scene meshes are
   updated. The external screw lengths remain 55 / 75 / 100 mm. Printed parts,
   circuit, wiring and all non-motor scene geometry are preserved.
+- Rev 6.2 (10 November 2026): the motor is now the 12 V 1:50 version with an
+  M4 × 0.7 screw (cut from 100 mm). The gear view keeps the archive's
+  illustrative train; the screw, the bushing and the wall hole follow the M4.
 
 The archive's 27:1 tooth counts are illustrative; they are not measured
-commercial N20 internals. This update does not change the existing electrical
-or load model. The existing V6 display thread above Z=0.7 mm remains a revolved
-pitch-ring profile. The optional helical screw and unrelated archive content
+commercial N20 internals, and the real motor is 1:50. This update does not change the existing electrical
+or load model. The V6 display thread starts at Z=0.8 mm, so the M4 shoulder runs
+0.1 mm clear of the bushing face, and remains a revolved pitch-ring profile. The optional helical screw and unrelated archive content
 are not imported. These metal gearbox internals are not printable replacement
 parts or manufacturing drawings. Backlash reversal and load dynamics are not
 simulated.
@@ -68,6 +72,6 @@ overlaps remain below 0.00000016 mm². Continuous rotation envelopes clear all
 fixed supports, with a minimum radial clearance of 0.015 mm in this model.
 All three complete actuator builds pass their existing fit and motion checks.
 
-The existing assembly video and older overview images predate this motor update; use the
-updated interactive preview, STEP assemblies, `images/core_part.png` and `images/motor_gears.png`
-for the replacement gear geometry.
+The Blender renders in `images/` (`core_part.png` among them) predate rev 6.2 and still show
+the M3 screw; use the interactive preview, the assembly video (re-recorded on 11 November
+2026), the STEP assemblies and `images/motor_gears.png` for the current motor.

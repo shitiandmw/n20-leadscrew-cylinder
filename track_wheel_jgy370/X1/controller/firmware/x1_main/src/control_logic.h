@@ -25,14 +25,14 @@ struct ChannelSpec {
   float limit_a;       // the driver's current limit (ITRIP) from the board
   uint16_t ramp_ms;    // time for a full-scale change of duty (SPEC 2)
   bool invert;         // PH inverted: the right track is mounted mirrored
-  bool vbat;           // 12 V channel: the S4 stall cut-out applies
+  bool actuator;       // V6 arm actuator (12 V N20, on VBAT since main board rev B): S4 uses Config::actuator_ohm
 };
 
 namespace detail {
-constexpr ChannelSpec make(int i, uint16_t ramp_ms, bool invert, bool vbat) {
+constexpr ChannelSpec make(int i, uint16_t ramp_ms, bool invert, bool actuator) {
   return ChannelSpec{x1pins::CHANNELS[i].name, x1pins::CHANNELS[i].en, x1pins::CHANNELS[i].ph,
                      x1pins::CHANNELS[i].isns, x1pins::CHANNELS[i].r_ipropi_ohm, x1pins::CHANNELS[i].limit_a,
-                     ramp_ms, invert, vbat};
+                     ramp_ms, invert, actuator};
 }
 constexpr bool pins_are(int i, int en, int ph, int isns) {
   return x1pins::CHANNELS[i].en == en && x1pins::CHANNELS[i].ph == ph && x1pins::CHANNELS[i].isns == isns;
@@ -50,13 +50,13 @@ static_assert(detail::pins_are(BUCKET, x1pins::EN_BK, x1pins::PH_BK, x1pins::ISN
 
 // SPEC 2: ramps 0.3 s tracks, 0.4 s swing (mandatory), 0.1 s actuators.
 inline constexpr ChannelSpec CHANNEL[NUM_CH] = {
-    detail::make(TRACK_L, 300, false, true),
-    detail::make(TRACK_R, 300, true, true),
-    detail::make(SWING, 400, false, true),
-    detail::make(BOOM_L, 100, false, false),
-    detail::make(BOOM_R, 100, false, false),
-    detail::make(STICK, 100, false, false),
-    detail::make(BUCKET, 100, false, false),
+    detail::make(TRACK_L, 300, false, false),
+    detail::make(TRACK_R, 300, true, false),
+    detail::make(SWING, 400, false, false),
+    detail::make(BOOM_L, 100, false, true),
+    detail::make(BOOM_R, 100, false, true),
+    detail::make(STICK, 100, false, true),
+    detail::make(BUCKET, 100, false, true),
 };
 
 // The app's six axes (excavator_app/shared/world.js AXES), -1..1, with the app's signs:
@@ -85,34 +85,37 @@ struct Config {
   uint32_t stall_ms = 2000;                            // ...for 2 s
   // A stalled brushed motor at duty D draws D x Vbat / R (no back-EMF), capped by the driver's limit. The JGY-370-1260 is
   // 12 V / 1.3 A at stall (vendor table): 9.2 ohm. Below stall_min_a the stalled current heats the motor little and a loaded
-  // running motor comes too close to it, so S4 is not judged there (0.4 A = 2 x the rated 0.2 A).
+  // running motor comes too close to it, so S4 is not judged there (0.4 A = 2 x the rated 0.2 A; for the actuators it is
+  // above their own PTC's 0.35 A hold current).
   float motor_ohm = 9.2f;                              // 12 V track and swing motors; measure on the bench
+  // V6 actuator: N20 12 V 1:50 winding 10.9 ohm (1.1 A stall assumed) plus its board (PTC 0.65 ohm, MOSFET, the
+  // Schottky's 0.35 V counted as 0.4 ohm) and cable: 13 ohm. At full duty the 0.5 A driver limit caps it.
+  float actuator_ohm = 13.0f;                          // measure on the bench
   float stall_min_a = 0.40f;
   float vbat_tau_ms = 2000.f;                          // S5: first-order filter, 2 s time constant
   float vbat_warn_v = 10.5f, vbat_warn_clear_v = 10.7f;
   float vbat_stop_v = 9.6f, vbat_stop_clear_v = 10.5f;  // the stop holds until the battery is above 10.5 V
-  float v6_low_v = 5.5f;                                // report only
   float current_tau_ms = 20.f;                          // current filter
   uint32_t nfault_debounce_ms = 4;                      // S6
   uint32_t nfault_wake_blank_ms = 5;                    // nFAULT ignored just after nSLEEP rises
-  // Boom pair (SPEC 4)
+  // Boom pair (SPEC 4). The 12 V N20 1:50 actuator draws 0.08 A without load and about 4.9 mA per newton of thrust
+  // (actuator_v6 build_v6.py mechanics), so the current thresholds are in that scale.
   float boom_trim_max = 0.15f;          // at most 15 % off the leading side's duty
   float boom_trim_rate = 0.05f;         // trim change per second ("slowly")
-  float boom_balance_tol_mA = 10.f;     // currents count as matched within this
-  float boom_imbalance_mA = 40.f;       // imbalance fault: difference over 40 mA...
+  float boom_balance_tol_mA = 30.f;     // currents count as matched within this (about 6 N)
+  float boom_imbalance_mA = 130.f;      // imbalance fault: difference over 130 mA (about 27 N)...
   uint32_t boom_imbalance_ms = 3000;    // ...for 3 s
-  float boom_zero_mA = 25.f;            // below this a side's end stop has opened
+  float boom_zero_mA = 40.f;            // below this a side's end stop has opened (half the no-load current)
   float boom_min_duty = 0.15f;          // below this duty the currents are not judged
   uint32_t boom_blank_ms = 300;         // start-up inrush is not judged
-  uint32_t boom_end_timeout_ms = 10000; // one side at its end, the other must follow within this
-  uint32_t resync_timeout_ms = 120000;  // re-sync button: full stroke is 50-75 s at full duty
+  uint32_t boom_end_timeout_ms = 3000;  // one side at its end, the other must follow within this (3.4 mm spread)
+  uint32_t resync_timeout_ms = 30000;   // re-sync button: a full 60 mm stroke takes 7-14 s at full duty
   uint32_t bench_max_ms = 10000;        // console bench drive
 };
 
 struct Sense {
   uint16_t isns_mV[NUM_CH] = {};  // ADC millivolts at each IPROPI filter, channel order
   uint16_t vbat_adc_mV = 0;       // battery divider output
-  uint16_t v6_adc_mV = 0;         // 6 V rail divider output
   bool nfault_low = false;        // shared nFAULT line is low
 };
 
@@ -158,7 +161,6 @@ class Controller {
   bool battery_warn() const { return batt_warn_; }
   bool battery_stop() const { return batt_stop_; }
   float battery_v() const { return vbat_f_; }
-  float rail_6v() const { return v6_; }
   float duty(Ch ch) const { return duty_[ch]; }
   float current_mA(Ch ch) const { return cur_mA_[ch]; }
   bool stall_cut(Ch ch) const { return stall_cut_[ch]; }
@@ -213,7 +215,7 @@ class Controller {
   uint32_t nfault_since_ = 0;
   bool awake_ = false;
   uint32_t wake_ms_ = 0;
-  float vbat_f_ = 0, v6_ = 0;
+  float vbat_f_ = 0;
   bool batt_warn_ = false, batt_stop_ = false;
 
   // channels

@@ -7,8 +7,8 @@ KiCad coordinates are (ORIGIN + u, ORIGIN + v).
 
 Floor plan (see DESIGN.md "PCB layout"):
 - outboard edge: ESP32-S3 module at the front corner, antenna at the edge, 15 mm from its side edge
-  to the USB-C shell and 14 mm to the front boss screw (SPEC C3); USB-C at machine X -98; the two
-  bucks and the bulk capacitor at the rear corner, with the RESET button beside the USB-C;
+  to the USB-C shell and 14 mm to the front boss screw (SPEC C3); USB-C at machine X -98; the 5 V
+  buck and the bulk capacitor at the rear corner, with the RESET button beside the USB-C;
 - under the module: only tracks (its bottom pads fan out straight down to the drivers);
 - front edge: XT30, with the reverse-polarity FET and TVS behind it;
 - inboard edge: tracks XH-4, boom L, boom R, stick, bucket, swing (XH-2), lamps PH-3, expansion PH-4;
@@ -91,16 +91,12 @@ def buck_cell(b, cu, cv):
     put(f"C{b + 7}", cu + 4.6, cv + 2.4, 90)         # feed-forward
     put(f"R{b + 2}", cu + 3.0, cv + 5.6, 90)         # FB divider, lower
     put(f"TP{b + 1}", cu + 5.6, cv + 7.4, 0)
-    out = "+6V" if b == 110 else "+5V"
+    out = "+5V"
     sw = [(cu - 4.95, cv - 0.45), (cu - 1.7, cv - 0.45), (cu - 1.7, cv + 0.45), (cu - 4.95, cv + 0.45)]
     vout = [(cu - 9.6, cv + 2.2), (cu - 4.4, cv + 2.2), (cu - 4.4, cv + 5.3), (cu - 9.6, cv + 5.3)]
-    # the 6 V output pour is stitched down to the +6V area of inner layer 2; 5 V leaves by traces
-    vias = [(out, cu - 6.8, cv + 3.1), (out, cu - 6.8, cv + 4.3)] if out == "+6V" else []
     strap(f"SW_{b}", 0.9, (cu - 4.18, cv), (cu - 1.6, cv))                         # IC SW pin to inductor
     strap(out, 1.2, (cu - 8.2, cv + 2.4), (cu - 8.2, cv + 4.48), (cu - 5.4, cv + 4.48))  # inductor to output caps
-    if vias:
-        strap(out, 0.6, (cu - 8.2, cv + 3.1), (cu - 6.8, cv + 3.1))
-    return [(f"SW_{b}", "F.Cu", 6, sw), (out, "F.Cu", 6, vout)], vias
+    return [(f"SW_{b}", "F.Cu", 6, sw), (out, "F.Cu", 6, vout)], []         # 5 V leaves by traces
 
 
 def place_all():
@@ -151,20 +147,16 @@ def place_all():
     strap("VBAT", 2.0, (82.5, 28.6), (82.5, 32.3))                                 # ... down to the vias
     strap("VBAT", 0.8, (81.3, 31.2), (83.7, 31.2))
     strap("VBAT", 0.8, (81.9, 32.3), (83.1, 32.3))
-    # ---- the two bucks at the rear-outboard corner (5 V above, 6 V below, nearer the +6V plane)
-    for b, cv in ((120, 5.0), (110, 18.0)):
-        p, vv = buck_cell(b, 19.0, cv)
-        pours += p
-        vias += vv
-    put("C101", 30.6, 18.8, 0)           # VBAT bulk, beside the bucks' inputs
-    put("C130", 46.0, 31.2, 0)           # 6 V bus at the actuator drivers
-    # battery and 6 V sense, VREF
+    # ---- the 5 V buck at the rear-outboard corner (revision A had the 6 V buck below it, at v = 18)
+    p, vv = buck_cell(120, 19.0, 5.0)
+    pours += p
+    vias += vv
+    put("C101", 30.6, 18.8, 0)           # VBAT bulk, beside the buck's input
+    put("C130", 46.0, 31.2, 0)           # VBAT bulk at the actuator drivers (revision A: the 6 V bus)
+    # battery sense, VREF
     put("R102", 51.5, 23.0, 0)
     put("R103", 51.5, 24.6, 0)
     put("C103", 54.6, 23.8, 90)
-    put("R131", 46.0, 25.4, 0)           # 6 V sense, in the room left by the buttons; GPIO7 is a left-side pad
-    put("R132", 46.0, 27.0, 0)
-    put("C131", 49.0, 26.2, 90)
     put("R151", 40.0, 30.0, 0)
     put("R152", 40.0, 31.6, 0)
     put("C151", 42.6, 30.8, 90)
@@ -237,32 +229,23 @@ NETCLASSES = {
     # motor outputs: 0.4 mm matches the DRV8876 pin; 1.0 A on 1 oz outer copper rises about 10 C
     "Motor": (0.4, 0.15, ["OUT1_*", "OUT2_*"]),
     # supply branches; the trunks are planes and pours
-    "Supply": (0.4, 0.15, ["VBAT", "+6V", "+3V3", "LDO_IN", "VBUS", "+5V_LAMP", "SW_1*", "BST_1*"]),
+    "Supply": (0.4, 0.15, ["VBAT", "+3V3", "LDO_IN", "VBUS", "+5V_LAMP", "SW_1*", "BST_1*"]),
     "Supply5": (0.8, 0.2, ["+5V", "+5V_EXP"]),
     "Input": (1.5, 0.2, ["VBAT_IN"]),
 }
 
-# ---- copper zones (u, v polygons). Inner 1 is a solid ground plane; inner 2 carries the supplies:
-# +6V from the 6 V buck's output (rear, v 20-32) along a band under the module to the four actuator
-# drivers (u 41-76); VBAT everywhere else, including the swing driver's cell (u < 40.5), which is on
-# the battery. The two inner-2 polygons do not overlap, so the router (which knows nothing of zone
-# priority) sees the same split as the zone fill.
-V6_AREA = [(0.0, 20.0), (15.8, 20.0), (15.8, 27.5), (76.2, 27.5), (76.2, 52.2), (41.0, 52.2), (41.0, 32.0),
-           (0.0, 32.0)]
-SPLIT_GAP = 0.6                       # VBAT edge to +6V edge on inner 2
-_g = SPLIT_GAP
-VBAT_AREA = [(0.0, 0.0), (W, 0.0), (W, H), (0.0, H), (0.0, 32.0 + _g), (41.0 - _g, 32.0 + _g), (41.0 - _g, 52.2 + _g),
-             (76.2 + _g, 52.2 + _g), (76.2 + _g, 27.5 - _g), (15.8 + _g, 27.5 - _g), (15.8 + _g, 20.0 - _g), (0.0, 20.0 - _g)]
+# ---- copper zones (u, v polygons). Inner 1 is a solid ground plane; inner 2 is VBAT, which feeds all
+# seven H-bridges and the 5 V buck. (Revision A split inner 2 for a +6V area under the module.)
+VBAT_AREA = [(0.0, 0.0), (W, 0.0), (W, H), (0.0, H)]
 PLANES = [
     # (net, layer, priority, polygon)
     ("GND", "In1.Cu", 0, [(0, 0), (W, 0), (W, H), (0, H)]),
     ("VBAT", "In2.Cu", 0, VBAT_AREA),
-    ("+6V", "In2.Cu", 0, V6_AREA),
     # input pour: XT30 pin 1 to the FET drains
     ("VBAT_IN", "F.Cu", 5, [(80.4, 14.6), (85.6, 14.6), (85.6, 24.4), (80.4, 24.4)]),
 ]
 PLANE_CLEARANCE = 0.3
-FANOUT_WIDTH = {"GND": 0.3, "VBAT": 0.4, "+6V": 0.4}   # plane nets, fanned out to their planes (pcb_make.py)
+FANOUT_WIDTH = {"GND": 0.3, "VBAT": 0.4}   # plane nets, fanned out to their planes (pcb_make.py)
 # GND is hidden from the router: its ~120 fan-out vias would block both signal layers. Its pads are joined
 # after routing, by the ground pours and a fan-out among the routed tracks.
 ROUTER_HIDDEN = ["GND"]
@@ -278,8 +261,8 @@ SOLID_PADS = ["J201.S1"]
 # the nearest spot clear of silk, pads and the other references (found by a search on the board,
 # 2026-11-06; DRC then reports no silk overlap and no silk over copper).
 REF_AT = {
-    "J201": (0.0, 5.99, 0), "U202": (0.0, 3.41, 90), "F401": (0.0, 3.0, 0), "U111": (0.0, -3.92, 0),
-    "U121": (0.0, -3.92, 0), "L111": (-4.17, 0.0, 90), "L121": (-4.17, 0.0, 90), "J102": (0.0, -3.53, 0),
+    "J201": (0.0, 5.99, 0), "U202": (0.0, 3.41, 90), "F401": (0.0, 3.0, 0),
+    "U121": (0.0, -3.92, 0), "L121": (-4.17, 0.0, 90), "J102": (0.0, -3.53, 0),
 }
 HOLE_KEEPOUT_R = 3.2                  # no tracks or vias under the M2.5 screw heads (outer layers)
 

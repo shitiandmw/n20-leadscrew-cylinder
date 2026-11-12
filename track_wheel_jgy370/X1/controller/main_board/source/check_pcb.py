@@ -7,9 +7,9 @@
 - Gerbers and drill files (zip for JLCPCB), the JLCPCB placement file (CPL), the board STEP with
   KiCad's 3D models, top and bottom renders, and a layer-by-layer PDF.
 
-Writes into ../ : X1_main_board_A_pcb_checks.json, X1_main_board_A.step, X1_main_board_A_top.png,
-X1_main_board_A_bottom.png, X1_main_board_A_layout.pdf, X1_main_board_A_parts.json (part envelopes for
-the body CAD), and fab/ (gerbers zip, CPL).
+Writes into ../ (STEM = X1_main_board_<rev>): STEM_pcb_checks.json, STEM.step, STEM_top.png,
+STEM_bottom.png, STEM_layout.pdf, STEM_parts.json (part envelopes for the body CAD), and fab/ (gerbers
+zip, CPL).
 
     python check_pcb.py
 """
@@ -41,7 +41,7 @@ PROJECT = "X1_main"
 IMAGE = "kicad/kicad:9.0"
 MODEL_DIR = Path(os.environ.get("KICAD9_3DMODEL_DIR", "/tmp/kicad-3d"))
 MODEL_URL = "https://gitlab.com/kicad/libraries/kicad-packages3D/-/raw/9.0.0/"
-ZIP_DATE = (2026, 11, 5, 0, 0, 0)
+ZIP_DATE = (2026, 11, 10, 0, 0, 0)
 # footprints whose 3D model is not in kicad-packages3D 9.0: a stock model of the same body, or one of
 # ours from models_3d.py (kicad/3d/)
 STAND_INS = {

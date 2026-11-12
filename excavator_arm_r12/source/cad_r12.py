@@ -34,7 +34,7 @@ ROOT = d.rc.ROOT
 REPO = ROOT.parent
 RHO_PETG, RHO_STEEL = 1.27e-6, 7.85e-6          # kg/mm^3
 WALL, INFILL = d.T_WALL, d.PRINT_INFILL
-ACT_INTERNAL_KG = 0.035                           # N20 motor, M3 screw, board, wires per drive (assumed, as R10)
+ACT_INTERNAL_KG = 0.035                           # N20 motor, M4 screw, board, wires per drive (assumed, as R10)
 ACT_ROD_INSERTS_KG = 0.0012                       # brass nut + magnet in the rod carrier
 FIT = 0.1                                         # bore = pin + FIT (running fit; press fits noted in ASSEMBLY.md)
 COLORS = dict(yellow=(0.95, 0.74, 0.22), yellow2=(0.88, 0.64, 0.16), dark=(0.20, 0.23, 0.26), steel=(0.66, 0.70, 0.74),

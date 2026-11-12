@@ -131,20 +131,29 @@
   },
   {
    "pair": "B01_boom_foot_bracket | boom_L_V6_body",
-   "gap_mm": 1.318,
+   "gap_mm": 1.317,
    "pose": [
-    32.94,
-    8.32,
-    11.04
+    30.96,
+    6.28,
+    8.47
    ]
   },
   {
    "pair": "B01_boom_foot_bracket | boom_R_V6_body",
-   "gap_mm": 1.318,
+   "gap_mm": 1.317,
    "pose": [
-    32.94,
-    8.32,
-    11.04
+    30.96,
+    6.28,
+    8.47
+   ]
+  },
+  {
+   "pair": "B02_boom | stick_V6_front_cap",
+   "gap_mm": 1.966,
+   "pose": [
+    0.0,
+    60.0,
+    0.0
    ]
   },
   {
@@ -166,30 +175,21 @@
    ]
   },
   {
+   "pair": "B03_stick | bucket_V6_body",
+   "gap_mm": 2.831,
+   "pose": [
+    0.0,
+    0.0,
+    60.0
+   ]
+  },
+  {
    "pair": "B02_boom | stick_V6_rod",
    "gap_mm": 2.841,
    "pose": [
     0.0,
     60.0,
     0.0
-   ]
-  },
-  {
-   "pair": "B02_boom | stick_V6_front_cap",
-   "gap_mm": 3.138,
-   "pose": [
-    0.0,
-    60.0,
-    0.0
-   ]
-  },
-  {
-   "pair": "B03_stick | bucket_V6_body",
-   "gap_mm": 3.178,
-   "pose": [
-    0.0,
-    0.0,
-    15.0
    ]
   },
   {
@@ -213,6 +213,15 @@
   {
    "pair": "B03_stick | bucket_V6_rod",
    "gap_mm": 3.606,
+   "pose": [
+    0.0,
+    0.0,
+    60.0
+   ]
+  },
+  {
+   "pair": "B03_stick | bucket_V6_front_cap",
+   "gap_mm": 3.854,
    "pose": [
     0.0,
     0.0,
@@ -267,6 +276,15 @@
    ]
   },
   {
+   "pair": "B02_boom | stick_V6_rear_cap",
+   "gap_mm": 0.65,
+   "pose": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
    "pair": "B02_boom | stick_V6_cable_clamp",
    "gap_mm": 0.65,
    "pose": [
@@ -295,15 +313,6 @@
   },
   {
    "pair": "B01_boom_foot_bracket | boom_L_V6_rear_cap",
-   "gap_mm": 1.15,
-   "pose": [
-    0.0,
-    0.0,
-    0.0
-   ]
-  },
-  {
-   "pair": "B01_boom_foot_bracket | boom_L_V6_cable_clamp",
    "gap_mm": 1.15,
    "pose": [
     0.0,
@@ -443,5 +452,5 @@
   }
  ],
  "note": "Pairs are classed by where their closest points are (see check_cad.py). A pair is listed once, under the class of its overall closest points at its worst pose. The in-plane list therefore gives the side-view clearances that remain when no lateral face or pin fit is closer.",
- "seconds": 31.2
+ "seconds": 212.9
 }

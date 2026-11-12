@@ -82,7 +82,7 @@
       "valid": true,
       "count": 1
     },
-    "motor_leadscrew_M3": {
+    "motor_leadscrew_M4": {
       "valid": true,
       "count": 1
     }
@@ -116,7 +116,7 @@
     "output": {
       "outside_envelope_mm3": 0.0,
       "collisions": {},
-      "minimum_clearance_mm": 0.024999999999990256
+      "minimum_clearance_mm": 0.024999999999990374
     }
   },
   "variants": {
@@ -212,6 +212,6 @@
   "limitations": [
     "Illustrative 27:1 gearbox; commercial tooth counts are unknown.",
     "Prescribed gear motion; no load, backlash reversal or manufacturing fit simulation.",
-    "The existing V6 pitch-ring thread is retained above Z=0.7 mm."
+    "The V6 M4 thread is a pitch-ring profile from Z=0.8 mm, not a helix."
   ]
 }

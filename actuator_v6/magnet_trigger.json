@@ -1,10 +1,12 @@
 {
   "magnet": {
-    "d": 3.0,
+    "shape": "box",
+    "wy": 3.0,
+    "wx": 2.0,
     "l": 2.0,
     "axis": "Z (along the travel)",
     "grade": "N35",
-    "x": 3.3,
+    "x": 3.8,
     "y": 0.0,
     "dz": 6.0,
     "br_T": {
@@ -28,25 +30,25 @@
     },
     "source": "TI DRV5033 datasheet SLIS151, AJ option, -40..125 \u00b0C"
   },
-  "peak_field_mT": 24.1,
+  "peak_field_mT": 27.4,
   "nominal_operate_offset_mm": {
-    "min": 7.225,
-    "typ": 5.274999999999999,
-    "max": 4.049999999999999
+    "min": 6.824999999999999,
+    "typ": 5.074999999999999,
+    "max": 3.9749999999999996
   },
   "nominal_release_offset_mm": {
-    "min": 10.2,
-    "typ": 6.875,
-    "max": 6.025
+    "min": 9.575,
+    "typ": 6.525,
+    "max": 5.75
   },
-  "hall_lead_used_mm": 5.3,
+  "hall_lead_used_mm": 5.1,
   "stop_position_spread_mm": {
-    "earliest": -2.15,
-    "latest": 1.65,
+    "earliest": -1.97,
+    "latest": 1.45,
     "note": "relative to the nominal end position, all corners: BOP 3-12 mT, N35-N42, gap \u00b10.35 mm, carrier 0.3 mm off-centre in Y"
   },
   "overtravel_mm": 3.0,
-  "margin_latest_stop_to_hard_stop_mm": 1.35,
+  "margin_latest_stop_to_hard_stop_mm": 1.55,
   "corners_evaluated": 54,
   "partition_thickness_mm": 1.0,
   "partition_material": "Unfilled, non-magnetic PETG; permeability approximated as air",

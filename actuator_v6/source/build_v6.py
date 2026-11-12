@@ -24,10 +24,11 @@ import cadquery as cq
 import numpy as np
 import layout as L
 import board as BD
-from cad_utils import box, cylinder
+from cad_utils import box, cylinder, rr_box
 import design_v6 as DS
 import assembly as AS
 from gear_spec import transmission
+from n20_screw_motor import SCREW
 from design_v6 import make_design
 
 HOME = Path(__file__).resolve().parent.parent       # this package: shared inputs
@@ -35,19 +36,29 @@ ROOT = HOME                                          # output package (--root, o
 PETG_DENSITY = 1.27            # g/cm3
 
 PRINT_SETTINGS = {
-    "01_body": "PETG, rear end down (flat face, chamfered motor-bay mouth), 5 mm brim, 0.2 mm layers, 3 walls, "
-               "25 % gyroid, no supports. The motor wall bridges the motor bay; its countersinks, the carrier "
-               "stop and the board rest are top surfaces.",
+    "01_body": "PETG, front end down (chamfered bore and board-slot mouths), 5 mm brim, 0.2 mm layers, 3 walls, "
+               "25 % gyroid, no supports. The motor wall bridges the carrier bore, so the motor seat is a top "
+               "surface; the M1.6 countersinks (45° cones) and the board rest are on the bridge's underside. The end "
+               "of the motor-side wall stands 1.6 mm above the rear face, and the bevel of its notch prints as a 45° "
+               "overhang (0.12 mm layers for the last 2 mm make it 5 layers instead of 3). The four 1.7 mm insert "
+               "holes run straight into the end faces.",
     "02_front_cap": "PETG, outer face down, 0.16 mm, 4 walls, 40 % gyroid, no supports.",
-    "03_rear_cap": "PETG, flat front face down (clevis up), 0.16 mm, 4 walls, 60 % gyroid, no supports.",
+    "03_rear_cap": "PETG, flat front face down (clevis up), 0.16 mm, 4 walls, 60 % gyroid, no supports. The pocket "
+                   "for the end of the body's wall is bridged; the tooth's tip and the pocket's two ends are "
+                   "chamfered 0.2 mm on the bed for the first layer (0.12 mm layers for the first 2 mm are optional).",
     "04_rod": "PETG, carrier down, 0.16 mm, 100 % infill, 3 mm brim; slow the last 20 mm of the L rod.",
     "05_rod_eye": "PETG, socket opening down, 0.16 mm, 100 % infill, no supports.",
     "06_cable_clamp": "PETG, flat back down (groove up), 0.16 mm, 100 % infill, no supports.",
-    "08_fit_body_wall": "As 01_body, rear end down. Checks the motor bay, the M1.6 countersinks, the board "
+    "08_fit_body_wall": "As 01_body, front end down. Checks the motor bay, the M1.6 countersinks, the board "
                         "groove and the key rib.",
     "09_fit_carrier": "As 04_rod. Checks the nut slot, the magnet pocket and the slide in 08 (one way round only).",
+    "10_fit_insert_rear": "As 01_body, front end down: the last 5 mm of the rear end with the end of the motor-side "
+                          "wall on top. Press an M1 insert into each hole, then try the rear cap: set it on 0.8 mm "
+                          "toward the board side, slide it back, and its tooth must drop into the notch.",
+    "11_fit_insert_front": "As 01_body, front end down: the last 5 mm of the front end, with the bore and slot "
+                           "lead-ins. Press an M1 insert into each hole; they have 0.7 mm of wall.",
 }
-FLIP = ("02_", "03_")                        # printed upside down (model +Z on the bed)
+FLIP = ("01_", "02_", "03_", "08_", "10_", "11_")   # printed upside down (model +Z on the bed)
 
 
 # ---- looks (shared by the viewer and the Blender render) ------------------------------------
@@ -68,7 +79,8 @@ def look(name, meta=None):
         return hex_rgb(meta["colour"]), mat
     printed = {"01_body": ((0.93, 0.42, 0.09), "paint"), "04_rod": ((0.80, 0.82, 0.84), "silver"),
                "06_cable_clamp": ((0.30, 0.31, 0.33), "plastic"),
-               "08_fit_body_wall": ((0.93, 0.42, 0.09), "paint"), "09_fit_carrier": ((0.80, 0.82, 0.84), "silver")}
+               "08_fit_body_wall": ((0.93, 0.42, 0.09), "paint"), "09_fit_carrier": ((0.80, 0.82, 0.84), "silver"),
+               "10_fit_insert_rear": ((0.93, 0.42, 0.09), "paint"), "11_fit_insert_front": ((0.93, 0.42, 0.09), "paint")}
     if name in printed:
         return printed[name]
     if name[:2].isdigit():
@@ -79,9 +91,11 @@ def look(name, meta=None):
              ("motor_bushing", (0.74, 0.56, 0.32), "brass"),
              ("motor_gear", (0.60, 0.62, 0.64), "steel"), ("motor_leadscrew", (0.74, 0.76, 0.78), "steel"),
              ("brass_nut", (0.84, 0.66, 0.32), "brass"), ("magnet", (0.76, 0.77, 0.79), "steel"),
+             ("M1_insert", (0.86, 0.66, 0.30), "brass"), ("M1x", (0.72, 0.73, 0.75), "steel"),
              ("M1.6", (0.72, 0.73, 0.75), "steel"), ("M2", (0.72, 0.73, 0.75), "steel"),
              ("cable_sleeve", (0.16, 0.16, 0.17), "wire"), ("tool_PH0_handle", (0.78, 0.12, 0.10), "plastic"),
-             ("tool_PH1_handle", (0.93, 0.66, 0.10), "plastic"), ("tool_", (0.80, 0.81, 0.83), "steel")]
+             ("tool_PH1_handle", (0.93, 0.66, 0.10), "plastic"), ("tool_PH000_handle", (0.12, 0.33, 0.70), "plastic"),
+             ("tool_IRON_handle", (0.10, 0.10, 0.11), "plastic"), ("tool_", (0.80, 0.81, 0.83), "steel")]
     for key, color, mat in table:
         if key in name:
             return color, mat
@@ -158,7 +172,7 @@ def scene_items(d):
                                  blade_len_mm=round(AS.blade_length(k, d["params"]), 1))
             if name in rotors:
                 extra["geartrain_rotation"] = rotors[name]
-            tol, ang = ((0.01, 0.1) if kind == "board" else (0.04, 0.35) if name == "motor_leadscrew_M3"
+            tol, ang = ((0.01, 0.1) if kind == "board" else (0.04, 0.35) if name == "motor_leadscrew_M4"
                         else (0.06, 0.25) if kind == "tool" else (0.03, 0.1))
             items.append(dict(name=name, kind=kind, material=mat, color=[round(c, 4) for c in color],
                               moving=part_name(name) in d["moving"],
@@ -177,8 +191,12 @@ def orient_for_print(name, shape):
 def fit_samples(d):
     b, r = d["printed"]["01_body"], d["printed"]["04_rod"]
     c0 = L.CARRIER_Z0
+    zr, zf = d["params"]["body_z"]
     return {"08_fit_body_wall": b.intersect(box(40, 40, 18, z=-1.0)),                    # z -10 .. 8
-            "09_fit_carrier": r.intersect(box(40, 40, L.CARRIER_LEN + 1.5, z=c0 + (L.CARRIER_LEN + 1.5) / 2))}
+            "09_fit_carrier": r.intersect(box(40, 40, L.CARRIER_LEN + 1.5, z=c0 + (L.CARRIER_LEN + 1.5) / 2)),
+            "10_fit_insert_rear": b.intersect(box(40, 40, 7.0, z=zr + 1.5)),          # both ends, insert holes;
+                                                                                       # the rear with the hook
+            "11_fit_insert_front": b.intersect(box(40, 40, 5.0, z=zf - 2.5))}
 
 
 def step_name(n):
@@ -240,14 +258,14 @@ def export_assembly(d, step_dir):
 
 
 # ---- validation --------------------------------------------------------------------------------
-# Intended overlaps: screw threads cut into their pilot holes, and the nut on the leadscrew.
-INTENDED = [("01_body", "M2x8_front_cap_", "M2 thread in the 1.6 mm pilot (front cap screw)"),
-            ("01_body", "M2x10_rear_cap_", "M2 thread in the 1.6 mm pilot (rear cap screw, through the clamp)"),
+# Intended overlaps: inserts in their holes, screw threads in the inserts and pilots, the nut on the leadscrew.
+INTENDED = [("01_body", "M1_insert_", "heat-set insert: 2.0 mm knurl pressed into the 1.7 mm hole"),
+            ("M1_insert_", "M1x8_", "M1 cap screw in its insert's thread"),
             ("03_rear_cap", "cable_sleeve", "sleeve squeezed 0.4 mm in the clamp groove, ridges bite in"),
             ("06_cable_clamp", "cable_sleeve", "sleeve squeezed 0.4 mm in the clamp groove, ridges bite in"),
             ("motor_gearbox_frame", "M1.6x4_countersunk_", "M1.6 thread in the gearbox's tapped hole (modelled 1.4)"),
             ("05_rod_eye", "M2x10_rod_eye", "M2 thread in the 1.7 mm pilot of the rod eye"),
-            ("M3_brass_nut", "motor_leadscrew_M3", "nut on the leadscrew thread")]
+            ("M4_brass_nut", "motor_leadscrew_M4", "nut on the leadscrew thread")]
 
 
 def intended(a, b):
@@ -318,6 +336,76 @@ def tool_access(d):
     return out
 
 
+def cap_inserts(d):
+    """The end-cap screws' heat-set inserts: the PETG round each 2.0 mm knurl (on the body section at the
+    insert's mid-length, the holes left out), the hole open straight to its face, each screw through its whole
+    insert and short of the hole bottom. Insert makers ask for a boss of at least 1.5x the knurl diameter."""
+    p, hw, body = d["params"], d["hardware"], d["printed"]["01_body"]
+    I = L.INSERT
+    plain = DS.make_body(p, insert_holes=False)
+    out = {}
+    for end, pts, face, sgn in (("rear", L.REAR_INSERTS, L.BODY_REAR_Z, 1), ("front", L.FRONT_INSERTS, p["body_z"][1], -1)):
+        z_mid = face + sgn * (I["recess"] + I["length"] / 2)
+        edges = cq.Workplane(obj=cq.Compound.makeCompound(plain.section(z_mid).edges().vals()))
+        bottom = face + sgn * I["hole_depth"]
+        for i, (x, y) in enumerate(pts, start=1):
+            room = dist(cq.Workplane(obj=cq.Vertex.makeVertex(x, y, z_mid)), edges)
+            ins, scr = hw[f"M1_insert_{end}_{i}"].val().BoundingBox(), hw[f"M1x8_{end}_cap_{i}"].val().BoundingBox()
+            tip = scr.zmax if sgn > 0 else scr.zmin
+            in_insert = min(tip, ins.zmax) - ins.zmin if sgn > 0 else ins.zmax - max(tip, ins.zmin)
+            lo, hi = sorted((bottom - sgn * 0.01, face - sgn * 5.0))
+            probe = cylinder(I["hole"] / 2 - 0.02, hi - lo, lo).translate((x, y, 0))
+            c = dict(at=[x, y], wall_round_knurl_mm=round(room - I["od"] / 2, 3),
+                     boss_to_knurl=round(2 * room / I["od"], 2), hole_open_to_face=overlap(probe, body) < 1e-6,
+                     screw_in_insert_mm=round(in_insert, 3), screw_tip_to_hole_bottom_mm=round(sgn * (bottom - tip), 3))
+            c["pass"] = (c["boss_to_knurl"] >= 1.5 and c["hole_open_to_face"]
+                         and c["screw_in_insert_mm"] >= I["length"] - 0.01 and c["screw_tip_to_hole_bottom_mm"] >= 0.3)
+            out[f"{end}_{i}"] = c
+    return out
+
+
+def rear_hook(d):
+    """The rear cap's hook on the end of the motor-side wall (layout.REAR_HOOK). On the solids: the tooth catches
+    the wall when the cap is pulled 0.05 mm, wedges if the cap is pushed toward the motor side and leaves it free
+    toward the board side; the cap goes on as ASSEMBLY.md says (SHIFT toward +X along the axis, then slid back)
+    without touching anything fitted before it; the room round the tooth and the wall end; the wall left at the
+    notch; and the motor's way in from the rear stays clear."""
+    h, p = L.REAR_HOOK, L.rear_hook_profile()
+    pr, hw = d["printed"], d["hardware"]
+    body, cap = pr["01_body"], pr["03_rear_cap"]
+    on = lambda *pt: cq.Workplane(obj=cq.Vertex.makeVertex(*pt))
+    zr, xi, x0 = p["zr"], p["xi"], p["x0"]
+    z_floor = zr - h["fillet"] - (h["floor"] - h["fillet"]) / 2          # middle of the notch's straight floor
+    rooms = dict(tip=dist(on(p["xt"], 0, z_floor), body),
+                 side=dist(on(xi, 0, (p["ze"] + h["inner_chamfer"] + p["zb"] - h["side_room"]) / 2), cap),
+                 end=dist(on((x0 + xi) / 2, 0, p["ze"]), cap),
+                 y_end=dist(on((x0 + xi) / 2, p["y_wall"], (p["ze"] + zr) / 2), cap))
+    want = dict(tip=h["tip_room"], side=h["side_room"], end=h["end_room"], y_end=h["y_room"])
+    slab = box(xi - x0 + 0.5, 20, 0.01, x=(x0 - 0.5 + xi) / 2, z=z_floor)
+    left = sum(s.Volume() for s in body.intersect(slab).solids().vals()) / 0.01 / (2 * p["y_wall"])
+    before = {n: s for n, s in itertools.chain(pr.items(), hw.items(), ((n, s) for n, (s, m) in d["board"].items()))
+              if n == "01_body" or n.startswith(("M1_insert_rear", "motor_", "M1.6x4", "PCB_"))}
+    sh = h["shift"]
+    path = ([(sh, 0.0, z) for z in (-8.0, -4.0, -2.0, -1.0, -0.5, -0.2, 0.0)]
+            + [(x, 0.0, 0.0) for x in (0.6, 0.4, 0.2, 0.1, 0.0)])
+    hits = [[list(o), n, round(v, 4)] for o in path for n, s in before.items()
+            if (v := overlap(cap.translate(o), s)) > 0.002]
+    motor_way = rr_box(-L.BORE_X + 0.15, L.BORE_X - 0.15, -L.BORE_Y + 0.15, L.BORE_Y - 0.15, zr - 30, -0.01, 0.6)
+    r = dict(engagement_mm=round(p["eng"], 3), contact_along_bevel_mm=round(p["eng"] * math.sqrt(2), 3),
+             bevel_deg=45, width_mm=round(2 * p["y_wall"], 2), wall_left_at_notch_mm=round(left, 3),
+             pull_0p05_overlap_mm3=round(overlap(cap.translate((0, 0, -0.05)), body), 4),
+             toward_motor_side_0p05_overlap_mm3=round(overlap(cap.translate((-0.05, 0, 0)), body), 4),
+             toward_board_side_0p05_overlap_mm3=round(overlap(cap.translate((0.05, 0, 0)), body), 4),
+             rooms_mm={k: round(v, 3) for k, v in rooms.items()}, rooms_wanted_mm=want,
+             fitting=dict(shift_mm=sh, positions=len(path), hits=hits),
+             motor_way_in_overlap_mm3=round(overlap(motor_way, body), 4))
+    r["pass"] = (r["pull_0p05_overlap_mm3"] > 0.1 and r["toward_motor_side_0p05_overlap_mm3"] > 0.1
+                 and r["toward_board_side_0p05_overlap_mm3"] == 0 and not hits and r["motor_way_in_overlap_mm3"] == 0
+                 and all(abs(rooms[k] - want[k]) < 0.01 for k in want)
+                 and abs(left - (L.BODY_X[0] * -1 - L.BORE_X - h["notch"])) < 0.01)
+    return r
+
+
 def validate(d):
     p, pr, hw = d["params"], d["printed"], d["hardware"]
     board = {n: s for n, (s, m) in d["board"].items()}
@@ -372,13 +460,14 @@ def validate(d):
                        knot_from_pad_mm=m["knot_from_pad_mm"])
         rep["wire_end_contacts"].append(rec)
     rep["board_rests_on_motor_wall_gap_mm"] = round(dist(board["PCB_board"], pr["01_body"]), 4)
-    # Cable clamp: the sleeve is squeezed by both halves; the screws keep a full thread in the body.
-    tip = min(hw[f"M2x10_rear_cap_{i}"].val().BoundingBox().zmax for i in (1, 2))
+    # Cable clamp: the sleeve is squeezed by both halves.
     squeeze = {n: v for a, b, v, why in rep["intended_contacts"] for n in (a, b)
                if "cable_sleeve" in (a, b) and n != "cable_sleeve"}
     rep["cable_clamp"] = dict(sleeve_od_mm=L.SLEEVE_OD, groove_height_mm=round(L.SLEEVE_OD - L.CLAMP_SQUEEZE, 2),
                               grip_length_mm=round(L.BODY_X[1] - 0.6 - DS.SLEEVE_X0, 2),
-                              squeezed_by=sorted(squeeze), rear_screw_thread_in_body_mm=round(tip - L.BODY_REAR_Z, 2))
+                              squeezed_by=sorted(squeeze))
+    rep["cap_inserts"] = cap_inserts(d)
+    rep["rear_hook"] = rear_hook(d)
     # Carrier key: turned 180 degrees about the axis, the rod would hit the key rib.
     wrong = pr["04_rod"].rotate((0, 0, 0), (0, 0, 1), 180)
     rep["carrier_key_blocks_wrong_way_mm3"] = round(overlap(wrong, pr["01_body"]), 3)
@@ -410,11 +499,11 @@ def validate(d):
         rep["motion"].append(dict(travel_mm=round(t, 2), interferences=hits))
     # running clearance between the moving carrier/magnet and the board parts
     near = {n: s for n, s in board.items() if d["board"][n][1]["kind"] in ("part", "part_leads")}
-    rep["carrier_to_board_parts_min_gap_mm"] = round(min(dist(movers[m], s) for m in ("04_rod", "magnet_D3x2_axial")
+    rep["carrier_to_board_parts_min_gap_mm"] = round(min(dist(movers[m], s) for m in ("04_rod", L.MAGNET_NAME)
                                                          for s in near.values()), 3)
     # The partition must be solid over the entire circuit cavity, including behind the Halls.
     px0, px1 = L.PARTITION_X
-    z0, z1 = L.WALL_Z[1], p["body_z"][1]
+    z0, z1 = L.WALL_Z[1], p["body_z"][1] - DS.FRONT_LEAD_IN          # full 1 mm up to the front lead-in
     wall = box(px1 - px0, 2 * L.OPEN_Y, z1 - z0, x=(px0 + px1) / 2, z=(z0 + z1) / 2)
     expected = wall.val().Volume()
     actual = sum(s.Volume() for s in pr["01_body"].intersect(wall).solids().vals())
@@ -429,12 +518,13 @@ def validate(d):
     board_play = L.PCB_X_INNER - L.SLOT_X[0]
     component_gap = min(dist(wall, s) for s in near.values())
     rep["partition"] = dict(thickness_mm=L.PARTITION_T, z_mm=[z0, z1],
+                            front_lead_in_mm=DS.FRONT_LEAD_IN,
                             continuous=True, volume_mm3=round(actual, 3),
                             component_gap_mm=round(component_gap, 3),
                             component_gap_with_board_play_mm=round(component_gap - board_play, 3),
                             carrier_envelope_gap_mm=round(dist(envelope, wall), 3),
                             carrier_envelope_to_components_mm=round(min(dist(envelope, s) for s in near.values()), 3),
-                            note="Nominal full-stroke envelope; the printed partition is a sliding guide, not a load-bearing PCB support. Print error and flex require physical checks.")
+                            note="Nominal full-stroke envelope; the printed partition is a sliding guide, not a load-bearing PCB support. Print error and flex require physical checks. The body prints front end down: the bore's lead-in takes the partition's last 0.3 mm at the front face down to 0.7 mm on the bore side; the board ends 0.5 mm inside the body.")
     assert component_gap - board_play >= 0.24, "component cavity has inadequate board-placement clearance"
     assert dist(envelope, wall) >= 0.149, "partition reduces the existing carrier guide clearance"
     rep["all_checks_pass"] = (not rep["fixed_interferences"] and not rep["moving_assembly_interferences"]
@@ -445,7 +535,8 @@ def validate(d):
                               and all(c.get("leaves_through_clamp", True) and c.get("runs_in_sleeve", True)
                                       for c in rep["wire_end_contacts"])
                               and len(rep["cable_clamp"]["squeezed_by"]) == 2
-                              and rep["cable_clamp"]["rear_screw_thread_in_body_mm"] >= 5.0
+                              and all(c["pass"] for c in rep["cap_inserts"].values())
+                              and rep["rear_hook"]["pass"]
                               and rep["carrier_key_blocks_wrong_way_mm3"] > 1.0
                               and rep["board_rests_on_motor_wall_gap_mm"] < 1e-4
                               and rep["carrier_to_board_parts_min_gap_mm"] >= 0.2
@@ -455,22 +546,38 @@ def validate(d):
 
 
 # ---- parameters ------------------------------------------------------------------------------
+NO_LOAD_RPM = 800              # the 12 V 1:50 N20 at 12 V (seller's table)
+X1_CURRENT_LIMIT_A = 0.497     # the X1 main board's DRV8876 limit for each actuator channel
+
+
 def mechanics(sim):
-    """Hand estimates from the simulation's motor model (see the README for the assumptions)."""
+    """Hand estimates from the simulation's motor model, with the leadscrew model of the excavator app
+    (excavator_app/shared/drives.js): M4 x 0.7 steel in brass, thread friction 0.15, gearbox 0.65."""
     m = sim["assumptions"]["motor"]
-    pitch, ratio = m["pitch"], m["ratio"]
-    eta_gear, eta_screw, i0 = 0.55, 0.25, 0.04            # gearbox, M3 steel screw in brass, no-load current
+    pitch, ratio, i0 = m["pitch"], m["ratio"], m["I0"]
+    eta_gear, mu = 0.65, 0.15
+    dp = SCREW["major"] - 0.6495 * pitch                                    # pitch diameter
+    lead_angle = math.atan(pitch / (math.pi * dp))
+    friction_angle = math.atan(mu / math.cos(math.radians(30)))
+    eta_screw = math.tan(lead_angle) / math.tan(lead_angle + friction_angle)
     torque_out = lambda i: max(0.0, i - i0) * m["k"] * ratio * eta_gear
     thrust = lambda i: 2 * math.pi * torque_out(i) * eta_screw / (pitch / 1000)
-    stall_a = sim["scenarios"]["jam_mid_stroke"]["measured"]["i_stall"]
+    jam = sim["scenarios"]["jam_mid_stroke"]
+    stall_a = jam["measured"]["i_stall"]
     ptc = sim["assumptions"]["ptc"]
-    return dict(screw_pitch_mm=pitch, gear_ratio_assumed=ratio, eta_gearbox_assumed=eta_gear,
-                eta_leadscrew_assumed=eta_screw, self_locking=eta_screw < 0.5,
-                speed_no_load_mm_s=round(150 * pitch / 60, 3),
+    return dict(screw=SCREW["name"], screw_pitch_mm=pitch, gear_ratio_assumed=ratio, eta_gearbox_assumed=eta_gear,
+                thread_friction_assumed=mu, eta_leadscrew=round(eta_screw, 3), self_locking=friction_angle > lead_angle,
+                speed_no_load_mm_s=round(NO_LOAD_RPM * pitch / 60, 3),
                 speed_simulated_mm_s=sim["scenarios"]["mid_speed"]["speed_mm_s"],
+                speed_simulated_load_N=49,
+                supply_simulated_V=m["VS"],
                 thrust_at_fuse_hold_N=round(thrust(ptc["hold_A"]), 0),
+                thrust_at_fuse_hold_40C_N=round(thrust(0.30), 0),
+                thrust_at_X1_limit_N=round(thrust(X1_CURRENT_LIMIT_A), 0),
                 thrust_at_stall_N=round(thrust(stall_a), 0),
-                note="Estimates. Stall thrust lasts only until F1 trips (about 1.6 s in the simulation).")
+                note=f"Estimates. On the X1 the board's {X1_CURRENT_LIMIT_A} A limit caps the push; on a supply "
+                     f"without a limit the stall thrust lasts only until F1 trips (about {jam['ptc_trip_time_s']} s "
+                     "in the simulation). F1 holds 0.35 A at 23 °C and 0.30 A at 40 °C.")
 
 
 def buckling(d):
@@ -490,9 +597,9 @@ def parameters(d, trig, sim):
              hall_release_mm=trig["nominal_release_offset_mm"]["typ"], hall_lead_mm=L.HALL_LEAD,
              stop_spread_mm=[trig["stop_position_spread_mm"]["earliest"], trig["stop_position_spread_mm"]["latest"]],
              rod_d_mm=L.ROD_D, pin_d_mm=3.0, wire_od_mm=L.WIRE_OD, board_t_mm=L.PCB_T,
-             supply="2 wires: A+ / B- extends, B+ / A- retracts; 6 V nominal, 7 V max",
+             supply="2 wires: A+ / B- extends, B+ / A- retracts; 12 V nominal (3S battery 9.6-12.6 V), 13 V max",
              buckling=buckling(p), mechanics=mechanics(sim),
-             geartrain=transmission(p["screw_length_mm"]))
+             geartrain=transmission(p["screw_length_mm"], SCREW["pitch"]))
     return p
 
 

@@ -425,69 +425,69 @@
    ]
   },
   "r12_added": {
-   "kg": 1.0507,
+   "kg": 1.0591,
    "base_body_with_B01X_kg": 0.2114
   },
   "upper_with_r12_carry_pose": {
-   "kg": 4.534,
+   "kg": 4.542,
    "cg_mm": [
-    -9.0,
+    -8.6,
     0.0,
-    164.4
+    164.6
    ]
   },
   "upper_cg_mm_by_waypoint": {
    "carry": [
-    -9.0,
+    -8.6,
     0.0,
-    164.4
+    164.6
    ],
    "reach out, bucket open": [
-    -0.2,
+    0.2,
     0.0,
-    155.1
+    155.2
    ],
    "penetrate": [
-    -4.6,
+    -4.2,
     0.0,
     127.3
    ],
    "crowd the stick": [
-    -12.4,
+    -12.0,
     0.0,
-    124.4
+    124.3
    ],
    "curl the bucket": [
-    -12.2,
+    -11.8,
     0.0,
     129.7
    ],
    "raise": [
-    -13.9,
+    -13.6,
     0.0,
-    172.4
+    172.7
    ],
    "dump": [
-    -13.1,
+    -12.8,
     0.0,
-    180.4
+    180.7
    ]
   },
   "shot_trim_estimate": {
    "reference_pose": "reach out, bucket open [32.0, 6.0, 8.0] (R12 stretched, as the ARM60 was when the shot was sized)",
-   "upper_cg_x_mm": -0.2,
+   "upper_cg_x_mm": 0.2,
    "shot_centre_x_mm": -166.1,
-   "shot_to_remove_kg": 0.007,
+   "shot_to_remove_kg": -0.006,
    "note": "Removing this much shot (uniformly, at the pocket centre) would put the upper CG back on the swing axis in that pose. Not applied: the body is unchanged in this folder."
   },
   "machine_carry_pose": {
-   "kg": 9.188,
+   "kg": 9.197,
    "cg_mm": [
-    -5.7,
+    -5.5,
     0.0,
-    107.2
+    107.3
    ],
-   "margin_mm": 114.3
+   "margin_mm": 114.5
   },
   "footprint_mm": {
    "x": [
@@ -500,7 +500,7 @@
    ]
   },
   "worst_static": {
-   "margin_mm": 106.4,
+   "margin_mm": 106.5,
    "strokes": [
     60.0,
     60.0,
@@ -509,16 +509,16 @@
    "swing_deg": 0,
    "payload": false,
    "cg_mm": [
-    -13.6,
+    -13.5,
     0.0,
-    114.3
+    114.5
    ]
   },
   "states": 2000,
-  "cycle_min_margin_mm": 111.4,
+  "cycle_min_margin_mm": 111.2,
   "all_inside": true,
   "note": "The body's shot pocket was sized to put the upper CG on the swing axis with the 1.64 kg ARM60 stretched forward. R12 with B01X is lighter, so the upper CG moves rearward (upper_cg_mm_by_waypoint, shot_trim_estimate). The machine stays inside its footprint in every case here."
  },
  "status": "PASS",
- "seconds": 490.3
+ "seconds": 336.4
 }

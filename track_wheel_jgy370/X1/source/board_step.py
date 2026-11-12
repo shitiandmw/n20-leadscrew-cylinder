@@ -1,4 +1,4 @@
-"""The main board rev A as KiCad exported it (controller/main_board/X1_main_board_A.step: the PCB and every part's 3D
+"""The main board as KiCad exported it (controller/main_board/X1_main_board_B.step: the PCB and every part's 3D
 model, KiCad's own library models for the JST headers and the passives, the project's models for the XT30PW-M, USB-C,
 buzzer and tact switches), read once and split into colour groups for the body CAD and the viewers.
 
@@ -29,7 +29,7 @@ from OCP.TopAbs import TopAbs_SOLID
 from OCP.TopoDS import TopoDS
 
 HERE = Path(__file__).resolve().parent
-STEP = HERE.parent / 'controller' / 'main_board' / 'X1_main_board_A.step'
+STEP = HERE.parent / 'controller' / 'main_board' / 'X1_main_board_B.step'
 OFFSET = (-136.0, 84.0, 110.0)           # STEP -> machine (x1_body.BOARD)
 
 COLOURS = dict(pcb=(.10, .36, .22), jst=(.93, .92, .86), xt30=(.93, .72, .10), xt30_pins=(.85, .66, .22), usb=(.80, .81, .80),

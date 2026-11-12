@@ -109,13 +109,13 @@ The shared R12 linkage solver uses 0.1 mm tables across the complete 0–60 mm a
 
 | At full duty | Speed | 60 mm stroke | Current |
 | --- | --- | --- | --- |
-| No load | 8.1 mm/s | 7.4 s | 0.08 A |
-| Boom raising the empty arm, 27 N | 6.6 mm/s | 9.0 s | 0.21 A |
-| R12's 150 g design case, boom 38 N | 6.0 mm/s | 10.0 s | 0.27 A |
-| Boom raising a full bucket of sand, 49 N | 5.4 mm/s | 11.1 s | 0.32 A |
+| No load | 8.2 mm/s | 7.3 s | 0.08 A |
+| Boom raising the empty arm, 27 N | 6.8 mm/s | 8.9 s | 0.21 A |
+| R12's 150 g design case, boom 38 N | 6.2 mm/s | 9.7 s | 0.27 A |
+| Boom raising a full bucket of sand, 49 N | 5.6 mm/s | 10.7 s | 0.32 A |
 | Main board's 0.5 A current limit | — | stalls above 86 N | 0.50 A |
 
-The leadscrew is self-locking: lowering a load also takes motor torque, and a stopped drive holds its load with no current. A drive that would need more than the main board's 0.5 A, or more voltage than its duty gives, stalls: lifting a full bucket needs about 42 % duty, and the empty arm about 29 %. A drive pushed against hard ground stalls too, and one at the end of its stroke is switched off by its end stop. The motor's stall current (hidden in the seller's table, 1.1 A assumed), a 0.65 gearbox efficiency, a thread friction of 0.15, 0.3 V and 2.7 Ω lost in the end-stop board, its fuse and the driver, and 1.6 g/cm³ loose sand are assumptions. Digging resistance, the 0.1 s duty ramp and the actuators' fuses are not simulated; actuator_v6's 0.12 A fuse is too small for this motor. The slew and the tracks keep their game speeds.
+The leadscrew is self-locking: lowering a load also takes motor torque, and a stopped drive holds its load with no current. A drive that would need more than the main board's 0.5 A, or more voltage than its duty gives, stalls: lifting a full bucket needs about 40 % duty, and the empty arm about 27 %. A drive pushed against hard ground stalls too, and one at the end of its stroke is switched off by its end stop. The motor's stall current (hidden in the seller's table, 1.1 A assumed), a 0.65 gearbox efficiency, a thread friction of 0.15, 0.35 V and 1.7 Ω lost in the end-stop board (actuator_v6 rev 6.2: its Schottky, 0.35 A fuse and MOSFET), the cable and the driver, and 1.6 g/cm³ loose sand are assumptions. Digging resistance, the 0.1 s duty ramp and the trip of the actuators' fuses are not simulated; the fuse holds 0.35 A, about 55 N. The slew and the tracks keep their game speeds.
 
 **The world** is 40.96 m square. Its hard ground comes from `shared/landscape.js`, which the server and the browser both run, on a 160 mm triangle grid that is drawn exactly as the physics sees it. It holds a road loop with spurs, the sand yard, a lake with a beach and a pier, a village, a farm, a crushing plant, wind turbines and about a thousand trees and rocks, all generic low-poly scenery. The start position and the pour zone are on hard ground beside the yard.
 

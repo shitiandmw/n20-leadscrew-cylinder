@@ -135,19 +135,17 @@ def power_sheet(page):
     sh.text(f"VBAT_SNS = VBAT x {k:.4f}\n12.6 V -> {12.6 * k:.2f} V, 9.6 V -> {9.6 * k:.2f} V\n"
             "(ADC1, 0-2.9 V at 12 dB)", (X + 54) * G, (Y + 4) * G)
 
-    # Two TPS54302 bucks
-    for i, base in enumerate((110, 120)):
-        bx, by = 8, 42 + i * 26
-        out = "+6V" if base == 110 else "+5V"
-        start, stop = CA.buck_uvlo(base)
-        sh.text(f"{'6 V for the four actuators' if base == 110 else '5 V for logic, lamps, buzzer and expansion'}: "
-                f"TPS54302, 3 A, 400 kHz. Vout = 0.596 V x (1 + R{base + 1}/R{base + 2}) = {CA.buck_vout(base):.3f} V. "
-                f"Enable divider R{base + 3}/R{base + 4}: on at {start:.2f} V, off at {stop:.2f} V.",
-                bx * G, (by - 5) * G)
-        buck(sh, base, out, bx, by)
+    # TPS54302 buck (revision A had a second one, U111, for the 6 V actuators; they now run from VBAT)
+    base, bx, by = 120, 8, 42
+    start, stop = CA.buck_uvlo(base)
+    sh.text(f"5 V for logic, lamps, buzzer and expansion: TPS54302, 3 A, 400 kHz. "
+            f"Vout = 0.596 V x (1 + R{base + 1}/R{base + 2}) = {CA.buck_vout(base):.3f} V. "
+            f"Enable divider R{base + 3}/R{base + 4}: on at {start:.2f} V, off at {stop:.2f} V.",
+            bx * G, (by - 5) * G)
+    buck(sh, base, "+5V", bx, by)
 
     # 3.3 V LDO, diode-OR input
-    X, Y = 8, 102
+    X, Y = 8, 76
     sh.text("3.3 V: AP2112K-3.3 fed from 5 V or from USB VBUS through Schottky diodes (flashing without the "
             "battery; nothing back-feeds the 5 V buck).", X * G, (Y - 6) * G)
     sh.pwr(P(X, Y), "+5V", (-1, 0))
@@ -169,7 +167,7 @@ def power_sheet(page):
     sh.place("TP141", (X + 33) * G, Y * G, side="r")
     sh.pwr(P(X + 38, Y), "+3V3")
 
-    # VREF and 6 V sense
+    # VREF
     X, Y = 96, 44
     sh.text(f"VREF = 3.3 V x 10k / 13.3k = {CA.vref():.3f} V, shared by the seven drivers (sets ITRIP).",
             X * G, (Y - 6) * G)
@@ -187,32 +185,25 @@ def power_sheet(page):
     sh.lab(P(X + 10, Y + 3), "VREF", (1, 0), stub=3 * G)
 
     X, Y = 96, 66
-    sh.text("6 V rail: bulk at the drivers and a sense divider (ADC1).", X * G, (Y - 6) * G)
-    sh.pwr(P(X, Y - 1), "+6V")
-    sh.w(P(X, Y - 1), P(X + 10, Y - 1))
-    shunt(sh, "C130", X + 2, Y - 1, "+6V")
-    t, b = shunt(sh, "R131", X + 10, Y - 1, "+6V")
-    t2, b2, _ = vert(sh, "R132", X + 10, Y + 5, "V6_SNS")
-    sh.w(b, t2)
-    sh.gnd(b2)
-    sh.w(P(X + 10, Y + 4), P(X + 15, Y + 4))
-    ct, cb, _ = vert(sh, "C131", X + 15, Y + 5, "V6_SNS")
-    sh.w(P(X + 15, Y + 4), ct)
-    sh.gnd(cb)
-    sh.lab(P(X + 15, Y + 4), "V6_SNS", (1, 0), stub=3 * G)
+    sh.text("VBAT bulk at the four actuator drivers (12 V N20 actuators, revision B).", X * G, (Y - 6) * G)
+    sh.pwr(P(X, Y - 1), "VBAT")
+    sh.w(P(X, Y - 1), P(X + 2, Y - 1))
+    shunt(sh, "C130", X + 2, Y - 1, "VBAT")
 
     # Power flags: these nets are fed by connectors or inductors (passive pins)
     X, Y = 98, 88
     sh.text("ERC power flags (nets fed through connectors, FETs or inductors)", X * G, (Y - 5) * G)
-    for i, n in enumerate(["GND", "VBAT", "+6V", "+5V", "VBUS"]):
+    flags = ["GND", "VBAT", "+5V", "VBUS"]
+    for i, n in enumerate(flags):
         p = P(X + i * 5, Y)
         sh.flag(p)
         sh.pwr(P(X + i * 5, Y + 2), n) if n != "GND" else sh.gnd(P(X + i * 5, Y + 2))
         sh.w(p, P(X + i * 5, Y + 2))
-    p = P(X + 25, Y)
+    xl = X + len(flags) * 5
+    p = P(xl, Y)
     sh.flag(p)
-    sh.w(p, P(X + 25, Y + 2))
-    sh.lab(P(X + 25, Y + 2), "LDO_IN", (0, 1))
+    sh.w(p, P(xl, Y + 2))
+    sh.lab(P(xl, Y + 2), "LDO_IN", (0, 1))
     return sh
 
 
@@ -262,8 +253,7 @@ def mcu_sheet(page):
             bold=True)
     sh.text("Straps: GPIO0 pulled up (hold BOOT at reset for download mode). GPIO45/46 held low by the lamp gate "
             "pull-downs (VDD_SPI 3.3 V, SPI boot).\nGPIO3 (JTAG strap) is ignored with the default eFuse. "
-            f"Analog inputs on ADC1 only: GPIO{ADC_LIST} driver currents, GPIO{GP['VBAT_SNS']} battery, "
-            f"GPIO{GP['V6_SNS']} 6 V rail.\n"
+            f"Analog inputs on ADC1 only: GPIO{ADC_LIST} driver currents, GPIO{GP['VBAT_SNS']} battery.\n"
             "Enables and nSLEEP avoid GPIO18/19 (high glitch at power-up) and GPIO0/39/43/44 (pulled up at reset).",
             15, 20)
     X, Y = 62, 50                         # module centre
@@ -516,7 +506,7 @@ def io_sheet(page):
 
 # ---- root and files ----------------------------------------------------------------------------
 def root_sheet(sheets):
-    items = [[S("text"), "X1 main board: ESP32-S3 controller, seven DRV8876 H-bridges, 6 V / 5 V / 3.3 V rails",
+    items = [[S("text"), "X1 main board: ESP32-S3 controller, seven DRV8876 H-bridges, 5 V / 3.3 V rails",
               [S("exclude_from_sim"), S("no")], [S("at"), 20, 25, 0],
               [S("effects"), K.font(2.5, True), [S("justify"), S("left"), S("top")]], [S("uuid"), K.uid("root", "t")]],
              [S("text"), "Requirements: ../SPEC.md (spec C1). Design notes, calculations and sources: DESIGN.md.\n"

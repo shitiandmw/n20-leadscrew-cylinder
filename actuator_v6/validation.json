@@ -5,27 +5,27 @@
     "intended_contacts": [
       [
         "01_body",
-        "M2x8_front_cap_1",
-        5.0894,
-        "M2 thread in the 1.6 mm pilot (front cap screw)"
+        "M1_insert_rear_1",
+        1.2697,
+        "heat-set insert: 2.0 mm knurl pressed into the 1.7 mm hole"
       ],
       [
         "01_body",
-        "M2x10_rear_cap_1",
-        6.5596,
-        "M2 thread in the 1.6 mm pilot (rear cap screw, through the clamp)"
+        "M1_insert_rear_2",
+        1.2697,
+        "heat-set insert: 2.0 mm knurl pressed into the 1.7 mm hole"
       ],
       [
         "01_body",
-        "M2x8_front_cap_2",
-        5.0894,
-        "M2 thread in the 1.6 mm pilot (front cap screw)"
+        "M1_insert_front_1",
+        1.2697,
+        "heat-set insert: 2.0 mm knurl pressed into the 1.7 mm hole"
       ],
       [
         "01_body",
-        "M2x10_rear_cap_2",
-        6.5596,
-        "M2 thread in the 1.6 mm pilot (rear cap screw, through the clamp)"
+        "M1_insert_front_2",
+        1.2697,
+        "heat-set insert: 2.0 mm knurl pressed into the 1.7 mm hole"
       ],
       [
         "03_rear_cap",
@@ -50,6 +50,30 @@
         "M1.6x4_countersunk_2",
         0.377,
         "M1.6 thread in the gearbox's tapped hole (modelled 1.4)"
+      ],
+      [
+        "M1_insert_rear_1",
+        "M1x8_rear_cap_1",
+        0.5089,
+        "M1 cap screw in its insert's thread"
+      ],
+      [
+        "M1_insert_rear_2",
+        "M1x8_rear_cap_2",
+        0.5089,
+        "M1 cap screw in its insert's thread"
+      ],
+      [
+        "M1_insert_front_1",
+        "M1x8_front_cap_1",
+        0.5089,
+        "M1 cap screw in its insert's thread"
+      ],
+      [
+        "M1_insert_front_2",
+        "M1x8_front_cap_2",
+        0.5089,
+        "M1 cap screw in its insert's thread"
       ],
       [
         "05_rod_eye",
@@ -143,14 +167,148 @@
       "squeezed_by": [
         "03_rear_cap",
         "06_cable_clamp"
-      ],
-      "rear_screw_thread_in_body_mm": 5.8
+      ]
+    },
+    "cap_inserts": {
+      "rear_1": {
+        "at": [
+          7.45,
+          5.3
+        ],
+        "wall_round_knurl_mm": 1.05,
+        "boss_to_knurl": 2.05,
+        "hole_open_to_face": true,
+        "screw_in_insert_mm": 1.802,
+        "screw_tip_to_hole_bottom_mm": 0.5,
+        "pass": true
+      },
+      "rear_2": {
+        "at": [
+          7.45,
+          -5.3
+        ],
+        "wall_round_knurl_mm": 1.05,
+        "boss_to_knurl": 2.05,
+        "hole_open_to_face": true,
+        "screw_in_insert_mm": 1.802,
+        "screw_tip_to_hole_bottom_mm": 0.5,
+        "pass": true
+      },
+      "front_1": {
+        "at": [
+          6.85,
+          5.65
+        ],
+        "wall_round_knurl_mm": 0.7,
+        "boss_to_knurl": 1.7,
+        "hole_open_to_face": true,
+        "screw_in_insert_mm": 1.802,
+        "screw_tip_to_hole_bottom_mm": 0.5,
+        "pass": true
+      },
+      "front_2": {
+        "at": [
+          6.85,
+          -5.65
+        ],
+        "wall_round_knurl_mm": 0.7,
+        "boss_to_knurl": 1.7,
+        "hole_open_to_face": true,
+        "screw_in_insert_mm": 1.802,
+        "screw_tip_to_hole_bottom_mm": 0.5,
+        "pass": true
+      }
+    },
+    "rear_hook": {
+      "engagement_mm": 0.45,
+      "contact_along_bevel_mm": 0.636,
+      "bevel_deg": 45,
+      "width_mm": 10.9,
+      "wall_left_at_notch_mm": 1.8,
+      "pull_0p05_overlap_mm3": 0.2453,
+      "toward_motor_side_0p05_overlap_mm3": 0.2725,
+      "toward_board_side_0p05_overlap_mm3": 0,
+      "rooms_mm": {
+        "tip": 0.15,
+        "side": 0.15,
+        "end": 0.3,
+        "y_end": 0.1
+      },
+      "rooms_wanted_mm": {
+        "tip": 0.15,
+        "side": 0.15,
+        "end": 0.3,
+        "y_end": 0.1
+      },
+      "fitting": {
+        "shift_mm": 0.8,
+        "positions": 12,
+        "hits": []
+      },
+      "motor_way_in_overlap_mm3": 0,
+      "pass": true
     },
     "carrier_key_blocks_wrong_way_mm3": 12.955,
     "board_front_end_to_cap_tongue_mm": 0.1,
     "tool_access": {
+      "M1_insert_rear_1": {
+        "step": "3",
+        "tool": "IRON",
+        "blade_d_mm": 4.0,
+        "blade_len_mm": 45.0,
+        "min_blade_len_mm": 0.1,
+        "hits": [],
+        "nearest": [
+          {
+            "part": "01_body",
+            "mm": 0.409
+          }
+        ]
+      },
+      "M1_insert_rear_2": {
+        "step": "3",
+        "tool": "IRON",
+        "blade_d_mm": 4.0,
+        "blade_len_mm": 45.0,
+        "min_blade_len_mm": 0.1,
+        "hits": [],
+        "nearest": [
+          {
+            "part": "01_body",
+            "mm": 0.409
+          }
+        ]
+      },
+      "M1_insert_front_1": {
+        "step": "3",
+        "tool": "IRON",
+        "blade_d_mm": 4.0,
+        "blade_len_mm": 45.0,
+        "min_blade_len_mm": 0.1,
+        "hits": [],
+        "nearest": [
+          {
+            "part": "01_body",
+            "mm": 0.409
+          }
+        ]
+      },
+      "M1_insert_front_2": {
+        "step": "3",
+        "tool": "IRON",
+        "blade_d_mm": 4.0,
+        "blade_len_mm": 45.0,
+        "min_blade_len_mm": 0.1,
+        "hits": [],
+        "nearest": [
+          {
+            "part": "01_body",
+            "mm": 0.409
+          }
+        ]
+      },
       "M1.6x4_countersunk_1": {
-        "step": "5.2",
+        "step": "6.2",
         "tool": "PH0",
         "blade_d_mm": 3.0,
         "blade_len_mm": 70.0,
@@ -162,8 +320,8 @@
             "mm": 0.15
           },
           {
-            "part": "motor_leadscrew_M3",
-            "mm": 1.5
+            "part": "motor_leadscrew_M4",
+            "mm": 1.0
           },
           {
             "part": "motor_gearbox_frame",
@@ -180,7 +338,7 @@
         ]
       },
       "M1.6x4_countersunk_2": {
-        "step": "5.2",
+        "step": "6.2",
         "tool": "PH0",
         "blade_d_mm": 3.0,
         "blade_len_mm": 70.0,
@@ -192,8 +350,8 @@
             "mm": 0.15
           },
           {
-            "part": "motor_leadscrew_M3",
-            "mm": 1.5
+            "part": "motor_leadscrew_M4",
+            "mm": 1.0
           },
           {
             "part": "motor_gearbox_frame",
@@ -205,76 +363,76 @@
           }
         ]
       },
-      "M2x10_rear_cap_1": {
-        "step": "6.5",
-        "tool": "PH1",
-        "blade_d_mm": 4.5,
-        "blade_len_mm": 80.0,
-        "min_blade_len_mm": 19.2,
+      "M1x8_rear_cap_1": {
+        "step": "7.5",
+        "tool": "PH000",
+        "blade_d_mm": 2.5,
+        "blade_len_mm": 40.0,
+        "min_blade_len_mm": 8.5,
         "hits": [],
         "nearest": [
           {
             "part": "06_cable_clamp",
-            "mm": 0.666
+            "mm": 0.711
           },
           {
             "part": "03_rear_cap",
-            "mm": 2.311
+            "mm": 2.44
           }
         ]
       },
-      "M2x10_rear_cap_2": {
-        "step": "6.5",
-        "tool": "PH1",
-        "blade_d_mm": 4.5,
-        "blade_len_mm": 80.0,
-        "min_blade_len_mm": 19.2,
+      "M1x8_rear_cap_2": {
+        "step": "7.5",
+        "tool": "PH000",
+        "blade_d_mm": 2.5,
+        "blade_len_mm": 40.0,
+        "min_blade_len_mm": 8.5,
         "hits": [],
         "nearest": [
           {
             "part": "06_cable_clamp",
-            "mm": 0.666
+            "mm": 0.711
           },
           {
             "part": "03_rear_cap",
-            "mm": 2.311
+            "mm": 2.44
           }
         ]
       },
-      "M2x8_front_cap_1": {
-        "step": "8.2",
-        "tool": "PH1",
-        "blade_d_mm": 4.5,
-        "blade_len_mm": 80.0,
-        "min_blade_len_mm": 12.9,
+      "M1x8_front_cap_1": {
+        "step": "9.2",
+        "tool": "PH000",
+        "blade_d_mm": 2.5,
+        "blade_len_mm": 40.0,
+        "min_blade_len_mm": 12.3,
         "hits": [],
         "nearest": [
           {
             "part": "02_front_cap",
-            "mm": 0.474
+            "mm": 0.711
           }
         ]
       },
-      "M2x8_front_cap_2": {
-        "step": "8.2",
-        "tool": "PH1",
-        "blade_d_mm": 4.5,
-        "blade_len_mm": 80.0,
-        "min_blade_len_mm": 12.9,
+      "M1x8_front_cap_2": {
+        "step": "9.2",
+        "tool": "PH000",
+        "blade_d_mm": 2.5,
+        "blade_len_mm": 40.0,
+        "min_blade_len_mm": 12.3,
         "hits": [],
         "nearest": [
           {
             "part": "02_front_cap",
-            "mm": 0.474
+            "mm": 0.711
           }
         ]
       },
       "M2x10_rod_eye": {
-        "step": "8.3",
+        "step": "9.3",
         "tool": "PH1",
         "blade_d_mm": 4.5,
         "blade_len_mm": 80.0,
-        "min_blade_len_mm": 3.7,
+        "min_blade_len_mm": 3.6,
         "hits": [],
         "nearest": [
           {
@@ -288,20 +446,21 @@
         ]
       }
     },
-    "carrier_to_board_parts_min_gap_mm": 1.45,
+    "carrier_to_board_parts_min_gap_mm": 1.58,
     "partition": {
       "thickness_mm": 1.0,
       "z_mm": [
         2.0,
-        59.0
+        58.7
       ],
+      "front_lead_in_mm": 0.3,
       "continuous": true,
-      "volume_mm3": 370.5,
-      "component_gap_mm": 0.3,
-      "component_gap_with_board_play_mm": 0.25,
+      "volume_mm3": 368.55,
+      "component_gap_mm": 0.43,
+      "component_gap_with_board_play_mm": 0.38,
       "carrier_envelope_gap_mm": 0.15,
-      "carrier_envelope_to_components_mm": 1.45,
-      "note": "Nominal full-stroke envelope; the printed partition is a sliding guide, not a load-bearing PCB support. Print error and flex require physical checks."
+      "carrier_envelope_to_components_mm": 1.58,
+      "note": "Nominal full-stroke envelope; the printed partition is a sliding guide, not a load-bearing PCB support. Print error and flex require physical checks. The body prints front end down: the bore's lead-in takes the partition's last 0.3 mm at the front face down to 0.7 mm on the bore side; the board ends 0.5 mm inside the body."
     },
     "all_checks_pass": true,
     "parts": {
@@ -312,13 +471,13 @@
         "components": 1,
         "zero_height_facets_removed": 0,
         "print_extent_mm": [
-          16.1,
+          17.3,
           14.7,
-          86.5
+          88.1
         ],
-        "volume_mm3": 8018.9,
-        "mass_solid_g": 10.18,
-        "print_setup": "PETG, rear end down (flat face, chamfered motor-bay mouth), 5 mm brim, 0.2 mm layers, 3 walls, 25 % gyroid, no supports. The motor wall bridges the motor bay; its countersinks, the carrier stop and the board rest are top surfaces."
+        "volume_mm3": 9607.8,
+        "mass_solid_g": 12.2,
+        "print_setup": "PETG, front end down (chamfered bore and board-slot mouths), 5 mm brim, 0.2 mm layers, 3 walls, 25 % gyroid, no supports. The motor wall bridges the carrier bore, so the motor seat is a top surface; the M1.6 countersinks (45\u00b0 cones) and the board rest are on the bridge's underside. The end of the motor-side wall stands 1.6 mm above the rear face, and the bevel of its notch prints as a 45\u00b0 overhang (0.12 mm layers for the last 2 mm make it 5 layers instead of 3). The four 1.7 mm insert holes run straight into the end faces."
       },
       "02_front_cap": {
         "file": "stl/V6-S/02_front_cap.stl",
@@ -327,12 +486,12 @@
         "components": 1,
         "zero_height_facets_removed": 0,
         "print_extent_mm": [
-          16.1,
+          17.3,
           14.7,
           7.0
         ],
-        "volume_mm3": 1057.2,
-        "mass_solid_g": 1.34,
+        "volume_mm3": 1224.1,
+        "mass_solid_g": 1.55,
         "print_setup": "PETG, outer face down, 0.16 mm, 4 walls, 40 % gyroid, no supports."
       },
       "03_rear_cap": {
@@ -342,13 +501,13 @@
         "components": 1,
         "zero_height_facets_removed": 0,
         "print_extent_mm": [
-          16.1,
+          17.3,
           14.7,
           14.5
         ],
-        "volume_mm3": 1289.7,
-        "mass_solid_g": 1.64,
-        "print_setup": "PETG, flat front face down (clevis up), 0.16 mm, 4 walls, 60 % gyroid, no supports."
+        "volume_mm3": 1327.6,
+        "mass_solid_g": 1.69,
+        "print_setup": "PETG, flat front face down (clevis up), 0.16 mm, 4 walls, 60 % gyroid, no supports. The pocket for the end of the body's wall is bridged; the tooth's tip and the pocket's two ends are chamfered 0.2 mm on the bed for the first layer (0.12 mm layers for the first 2 mm are optional)."
       },
       "04_rod": {
         "file": "stl/V6-S/04_rod.stl",
@@ -361,8 +520,8 @@
           12.0,
           72.0
         ],
-        "volume_mm3": 3424.4,
-        "mass_solid_g": 4.35,
+        "volume_mm3": 3030.8,
+        "mass_solid_g": 3.85,
         "print_setup": "PETG, carrier down, 0.16 mm, 100 % infill, 3 mm brim; slow the last 20 mm of the L rod."
       },
       "05_rod_eye": {
@@ -391,8 +550,8 @@
           14.7,
           3.0
         ],
-        "volume_mm3": 125.6,
-        "mass_solid_g": 0.16,
+        "volume_mm3": 159.7,
+        "mass_solid_g": 0.2,
         "print_setup": "PETG, flat back down (groove up), 0.16 mm, 100 % infill, no supports."
       },
       "08_fit_body_wall": {
@@ -402,13 +561,13 @@
         "components": 1,
         "zero_height_facets_removed": 0,
         "print_extent_mm": [
-          16.1,
+          17.3,
           14.7,
           18.0
         ],
-        "volume_mm3": 1829.0,
-        "mass_solid_g": 2.32,
-        "print_setup": "As 01_body, rear end down. Checks the motor bay, the M1.6 countersinks, the board groove and the key rib."
+        "volume_mm3": 2140.8,
+        "mass_solid_g": 2.72,
+        "print_setup": "As 01_body, front end down. Checks the motor bay, the M1.6 countersinks, the board groove and the key rib."
       },
       "09_fit_carrier": {
         "file": "stl/fit_samples/09_fit_carrier.stl",
@@ -421,9 +580,39 @@
           12.0,
           11.5
         ],
-        "volume_mm3": 1019.7,
-        "mass_solid_g": 1.3,
+        "volume_mm3": 936.7,
+        "mass_solid_g": 1.19,
         "print_setup": "As 04_rod. Checks the nut slot, the magnet pocket and the slide in 08 (one way round only)."
+      },
+      "10_fit_insert_rear": {
+        "file": "stl/fit_samples/10_fit_insert_rear.stl",
+        "watertight": true,
+        "winding_consistent": true,
+        "components": 1,
+        "zero_height_facets_removed": 0,
+        "print_extent_mm": [
+          17.3,
+          14.7,
+          6.6
+        ],
+        "volume_mm3": 537.0,
+        "mass_solid_g": 0.68,
+        "print_setup": "As 01_body, front end down: the last 5 mm of the rear end with the end of the motor-side wall on top. Press an M1 insert into each hole, then try the rear cap: set it on 0.8 mm toward the board side, slide it back, and its tooth must drop into the notch."
+      },
+      "11_fit_insert_front": {
+        "file": "stl/fit_samples/11_fit_insert_front.stl",
+        "watertight": true,
+        "winding_consistent": true,
+        "components": 1,
+        "zero_height_facets_removed": 0,
+        "print_extent_mm": [
+          17.3,
+          14.7,
+          5.0
+        ],
+        "volume_mm3": 530.5,
+        "mass_solid_g": 0.67,
+        "print_setup": "As 01_body, front end down: the last 5 mm of the front end, with the bore and slot lead-ins. Press an M1 insert into each hole; they have 0.7 mm of wall."
       }
     },
     "all_meshes_pass": true
@@ -434,27 +623,27 @@
     "intended_contacts": [
       [
         "01_body",
-        "M2x8_front_cap_1",
-        5.0894,
-        "M2 thread in the 1.6 mm pilot (front cap screw)"
+        "M1_insert_rear_1",
+        1.2697,
+        "heat-set insert: 2.0 mm knurl pressed into the 1.7 mm hole"
       ],
       [
         "01_body",
-        "M2x10_rear_cap_1",
-        6.5596,
-        "M2 thread in the 1.6 mm pilot (rear cap screw, through the clamp)"
+        "M1_insert_rear_2",
+        1.2697,
+        "heat-set insert: 2.0 mm knurl pressed into the 1.7 mm hole"
       ],
       [
         "01_body",
-        "M2x8_front_cap_2",
-        5.0894,
-        "M2 thread in the 1.6 mm pilot (front cap screw)"
+        "M1_insert_front_1",
+        1.2697,
+        "heat-set insert: 2.0 mm knurl pressed into the 1.7 mm hole"
       ],
       [
         "01_body",
-        "M2x10_rear_cap_2",
-        6.5596,
-        "M2 thread in the 1.6 mm pilot (rear cap screw, through the clamp)"
+        "M1_insert_front_2",
+        1.2697,
+        "heat-set insert: 2.0 mm knurl pressed into the 1.7 mm hole"
       ],
       [
         "03_rear_cap",
@@ -479,6 +668,30 @@
         "M1.6x4_countersunk_2",
         0.377,
         "M1.6 thread in the gearbox's tapped hole (modelled 1.4)"
+      ],
+      [
+        "M1_insert_rear_1",
+        "M1x8_rear_cap_1",
+        0.5089,
+        "M1 cap screw in its insert's thread"
+      ],
+      [
+        "M1_insert_rear_2",
+        "M1x8_rear_cap_2",
+        0.5089,
+        "M1 cap screw in its insert's thread"
+      ],
+      [
+        "M1_insert_front_1",
+        "M1x8_front_cap_1",
+        0.5089,
+        "M1 cap screw in its insert's thread"
+      ],
+      [
+        "M1_insert_front_2",
+        "M1x8_front_cap_2",
+        0.5089,
+        "M1 cap screw in its insert's thread"
       ],
       [
         "05_rod_eye",
@@ -572,14 +785,148 @@
       "squeezed_by": [
         "03_rear_cap",
         "06_cable_clamp"
-      ],
-      "rear_screw_thread_in_body_mm": 5.8
+      ]
+    },
+    "cap_inserts": {
+      "rear_1": {
+        "at": [
+          7.45,
+          5.3
+        ],
+        "wall_round_knurl_mm": 1.05,
+        "boss_to_knurl": 2.05,
+        "hole_open_to_face": true,
+        "screw_in_insert_mm": 1.802,
+        "screw_tip_to_hole_bottom_mm": 0.5,
+        "pass": true
+      },
+      "rear_2": {
+        "at": [
+          7.45,
+          -5.3
+        ],
+        "wall_round_knurl_mm": 1.05,
+        "boss_to_knurl": 2.05,
+        "hole_open_to_face": true,
+        "screw_in_insert_mm": 1.802,
+        "screw_tip_to_hole_bottom_mm": 0.5,
+        "pass": true
+      },
+      "front_1": {
+        "at": [
+          6.85,
+          5.65
+        ],
+        "wall_round_knurl_mm": 0.7,
+        "boss_to_knurl": 1.7,
+        "hole_open_to_face": true,
+        "screw_in_insert_mm": 1.802,
+        "screw_tip_to_hole_bottom_mm": 0.5,
+        "pass": true
+      },
+      "front_2": {
+        "at": [
+          6.85,
+          -5.65
+        ],
+        "wall_round_knurl_mm": 0.7,
+        "boss_to_knurl": 1.7,
+        "hole_open_to_face": true,
+        "screw_in_insert_mm": 1.802,
+        "screw_tip_to_hole_bottom_mm": 0.5,
+        "pass": true
+      }
+    },
+    "rear_hook": {
+      "engagement_mm": 0.45,
+      "contact_along_bevel_mm": 0.636,
+      "bevel_deg": 45,
+      "width_mm": 10.9,
+      "wall_left_at_notch_mm": 1.8,
+      "pull_0p05_overlap_mm3": 0.2453,
+      "toward_motor_side_0p05_overlap_mm3": 0.2725,
+      "toward_board_side_0p05_overlap_mm3": 0,
+      "rooms_mm": {
+        "tip": 0.15,
+        "side": 0.15,
+        "end": 0.3,
+        "y_end": 0.1
+      },
+      "rooms_wanted_mm": {
+        "tip": 0.15,
+        "side": 0.15,
+        "end": 0.3,
+        "y_end": 0.1
+      },
+      "fitting": {
+        "shift_mm": 0.8,
+        "positions": 12,
+        "hits": []
+      },
+      "motor_way_in_overlap_mm3": 0,
+      "pass": true
     },
     "carrier_key_blocks_wrong_way_mm3": 12.955,
     "board_front_end_to_cap_tongue_mm": 0.1,
     "tool_access": {
+      "M1_insert_rear_1": {
+        "step": "3",
+        "tool": "IRON",
+        "blade_d_mm": 4.0,
+        "blade_len_mm": 45.0,
+        "min_blade_len_mm": 0.1,
+        "hits": [],
+        "nearest": [
+          {
+            "part": "01_body",
+            "mm": 0.409
+          }
+        ]
+      },
+      "M1_insert_rear_2": {
+        "step": "3",
+        "tool": "IRON",
+        "blade_d_mm": 4.0,
+        "blade_len_mm": 45.0,
+        "min_blade_len_mm": 0.1,
+        "hits": [],
+        "nearest": [
+          {
+            "part": "01_body",
+            "mm": 0.409
+          }
+        ]
+      },
+      "M1_insert_front_1": {
+        "step": "3",
+        "tool": "IRON",
+        "blade_d_mm": 4.0,
+        "blade_len_mm": 45.0,
+        "min_blade_len_mm": 0.1,
+        "hits": [],
+        "nearest": [
+          {
+            "part": "01_body",
+            "mm": 0.409
+          }
+        ]
+      },
+      "M1_insert_front_2": {
+        "step": "3",
+        "tool": "IRON",
+        "blade_d_mm": 4.0,
+        "blade_len_mm": 45.0,
+        "min_blade_len_mm": 0.1,
+        "hits": [],
+        "nearest": [
+          {
+            "part": "01_body",
+            "mm": 0.409
+          }
+        ]
+      },
       "M1.6x4_countersunk_1": {
-        "step": "5.2",
+        "step": "6.2",
         "tool": "PH0",
         "blade_d_mm": 3.0,
         "blade_len_mm": 90.0,
@@ -591,8 +938,8 @@
             "mm": 0.15
           },
           {
-            "part": "motor_leadscrew_M3",
-            "mm": 1.5
+            "part": "motor_leadscrew_M4",
+            "mm": 1.0
           },
           {
             "part": "motor_gearbox_frame",
@@ -609,7 +956,7 @@
         ]
       },
       "M1.6x4_countersunk_2": {
-        "step": "5.2",
+        "step": "6.2",
         "tool": "PH0",
         "blade_d_mm": 3.0,
         "blade_len_mm": 90.0,
@@ -621,8 +968,8 @@
             "mm": 0.15
           },
           {
-            "part": "motor_leadscrew_M3",
-            "mm": 1.5
+            "part": "motor_leadscrew_M4",
+            "mm": 1.0
           },
           {
             "part": "motor_gearbox_frame",
@@ -634,76 +981,76 @@
           }
         ]
       },
-      "M2x10_rear_cap_1": {
-        "step": "6.5",
-        "tool": "PH1",
-        "blade_d_mm": 4.5,
-        "blade_len_mm": 80.0,
-        "min_blade_len_mm": 19.2,
+      "M1x8_rear_cap_1": {
+        "step": "7.5",
+        "tool": "PH000",
+        "blade_d_mm": 2.5,
+        "blade_len_mm": 40.0,
+        "min_blade_len_mm": 8.5,
         "hits": [],
         "nearest": [
           {
             "part": "06_cable_clamp",
-            "mm": 0.666
+            "mm": 0.711
           },
           {
             "part": "03_rear_cap",
-            "mm": 2.311
+            "mm": 2.44
           }
         ]
       },
-      "M2x10_rear_cap_2": {
-        "step": "6.5",
-        "tool": "PH1",
-        "blade_d_mm": 4.5,
-        "blade_len_mm": 80.0,
-        "min_blade_len_mm": 19.2,
+      "M1x8_rear_cap_2": {
+        "step": "7.5",
+        "tool": "PH000",
+        "blade_d_mm": 2.5,
+        "blade_len_mm": 40.0,
+        "min_blade_len_mm": 8.5,
         "hits": [],
         "nearest": [
           {
             "part": "06_cable_clamp",
-            "mm": 0.666
+            "mm": 0.711
           },
           {
             "part": "03_rear_cap",
-            "mm": 2.311
+            "mm": 2.44
           }
         ]
       },
-      "M2x8_front_cap_1": {
-        "step": "8.2",
-        "tool": "PH1",
-        "blade_d_mm": 4.5,
-        "blade_len_mm": 80.0,
-        "min_blade_len_mm": 12.9,
+      "M1x8_front_cap_1": {
+        "step": "9.2",
+        "tool": "PH000",
+        "blade_d_mm": 2.5,
+        "blade_len_mm": 40.0,
+        "min_blade_len_mm": 12.3,
         "hits": [],
         "nearest": [
           {
             "part": "02_front_cap",
-            "mm": 0.474
+            "mm": 0.711
           }
         ]
       },
-      "M2x8_front_cap_2": {
-        "step": "8.2",
-        "tool": "PH1",
-        "blade_d_mm": 4.5,
-        "blade_len_mm": 80.0,
-        "min_blade_len_mm": 12.9,
+      "M1x8_front_cap_2": {
+        "step": "9.2",
+        "tool": "PH000",
+        "blade_d_mm": 2.5,
+        "blade_len_mm": 40.0,
+        "min_blade_len_mm": 12.3,
         "hits": [],
         "nearest": [
           {
             "part": "02_front_cap",
-            "mm": 0.474
+            "mm": 0.711
           }
         ]
       },
       "M2x10_rod_eye": {
-        "step": "8.3",
+        "step": "9.3",
         "tool": "PH1",
         "blade_d_mm": 4.5,
         "blade_len_mm": 80.0,
-        "min_blade_len_mm": 3.7,
+        "min_blade_len_mm": 3.6,
         "hits": [],
         "nearest": [
           {
@@ -717,20 +1064,21 @@
         ]
       }
     },
-    "carrier_to_board_parts_min_gap_mm": 1.45,
+    "carrier_to_board_parts_min_gap_mm": 1.58,
     "partition": {
       "thickness_mm": 1.0,
       "z_mm": [
         2.0,
-        79.0
+        78.7
       ],
+      "front_lead_in_mm": 0.3,
       "continuous": true,
-      "volume_mm3": 500.5,
-      "component_gap_mm": 0.3,
-      "component_gap_with_board_play_mm": 0.25,
+      "volume_mm3": 498.55,
+      "component_gap_mm": 0.43,
+      "component_gap_with_board_play_mm": 0.38,
       "carrier_envelope_gap_mm": 0.15,
-      "carrier_envelope_to_components_mm": 1.45,
-      "note": "Nominal full-stroke envelope; the printed partition is a sliding guide, not a load-bearing PCB support. Print error and flex require physical checks."
+      "carrier_envelope_to_components_mm": 1.58,
+      "note": "Nominal full-stroke envelope; the printed partition is a sliding guide, not a load-bearing PCB support. Print error and flex require physical checks. The body prints front end down: the bore's lead-in takes the partition's last 0.3 mm at the front face down to 0.7 mm on the bore side; the board ends 0.5 mm inside the body."
     },
     "all_checks_pass": true,
     "parts": {
@@ -741,13 +1089,13 @@
         "components": 1,
         "zero_height_facets_removed": 0,
         "print_extent_mm": [
-          16.1,
+          17.3,
           14.7,
-          106.5
+          108.1
         ],
-        "volume_mm3": 9883.6,
-        "mass_solid_g": 12.55,
-        "print_setup": "PETG, rear end down (flat face, chamfered motor-bay mouth), 5 mm brim, 0.2 mm layers, 3 walls, 25 % gyroid, no supports. The motor wall bridges the motor bay; its countersinks, the carrier stop and the board rest are top surfaces."
+        "volume_mm3": 11825.3,
+        "mass_solid_g": 15.02,
+        "print_setup": "PETG, front end down (chamfered bore and board-slot mouths), 5 mm brim, 0.2 mm layers, 3 walls, 25 % gyroid, no supports. The motor wall bridges the carrier bore, so the motor seat is a top surface; the M1.6 countersinks (45\u00b0 cones) and the board rest are on the bridge's underside. The end of the motor-side wall stands 1.6 mm above the rear face, and the bevel of its notch prints as a 45\u00b0 overhang (0.12 mm layers for the last 2 mm make it 5 layers instead of 3). The four 1.7 mm insert holes run straight into the end faces."
       },
       "02_front_cap": {
         "file": "stl/V6-U60/02_front_cap.stl",
@@ -756,12 +1104,12 @@
         "components": 1,
         "zero_height_facets_removed": 0,
         "print_extent_mm": [
-          16.1,
+          17.3,
           14.7,
           7.0
         ],
-        "volume_mm3": 1057.2,
-        "mass_solid_g": 1.34,
+        "volume_mm3": 1224.1,
+        "mass_solid_g": 1.55,
         "print_setup": "PETG, outer face down, 0.16 mm, 4 walls, 40 % gyroid, no supports."
       },
       "03_rear_cap": {
@@ -771,13 +1119,13 @@
         "components": 1,
         "zero_height_facets_removed": 0,
         "print_extent_mm": [
-          16.1,
+          17.3,
           14.7,
           14.5
         ],
-        "volume_mm3": 1289.7,
-        "mass_solid_g": 1.64,
-        "print_setup": "PETG, flat front face down (clevis up), 0.16 mm, 4 walls, 60 % gyroid, no supports."
+        "volume_mm3": 1327.6,
+        "mass_solid_g": 1.69,
+        "print_setup": "PETG, flat front face down (clevis up), 0.16 mm, 4 walls, 60 % gyroid, no supports. The pocket for the end of the body's wall is bridged; the tooth's tip and the pocket's two ends are chamfered 0.2 mm on the bed for the first layer (0.12 mm layers for the first 2 mm are optional)."
       },
       "04_rod": {
         "file": "stl/V6-U60/04_rod.stl",
@@ -790,8 +1138,8 @@
           12.0,
           92.0
         ],
-        "volume_mm3": 4190.7,
-        "mass_solid_g": 5.32,
+        "volume_mm3": 3674.2,
+        "mass_solid_g": 4.67,
         "print_setup": "PETG, carrier down, 0.16 mm, 100 % infill, 3 mm brim; slow the last 20 mm of the L rod."
       },
       "05_rod_eye": {
@@ -820,8 +1168,8 @@
           14.7,
           3.0
         ],
-        "volume_mm3": 125.6,
-        "mass_solid_g": 0.16,
+        "volume_mm3": 159.7,
+        "mass_solid_g": 0.2,
         "print_setup": "PETG, flat back down (groove up), 0.16 mm, 100 % infill, no supports."
       }
     },
@@ -833,27 +1181,27 @@
     "intended_contacts": [
       [
         "01_body",
-        "M2x8_front_cap_1",
-        5.0894,
-        "M2 thread in the 1.6 mm pilot (front cap screw)"
+        "M1_insert_rear_1",
+        1.2697,
+        "heat-set insert: 2.0 mm knurl pressed into the 1.7 mm hole"
       ],
       [
         "01_body",
-        "M2x10_rear_cap_1",
-        6.5596,
-        "M2 thread in the 1.6 mm pilot (rear cap screw, through the clamp)"
+        "M1_insert_rear_2",
+        1.2697,
+        "heat-set insert: 2.0 mm knurl pressed into the 1.7 mm hole"
       ],
       [
         "01_body",
-        "M2x8_front_cap_2",
-        5.0894,
-        "M2 thread in the 1.6 mm pilot (front cap screw)"
+        "M1_insert_front_1",
+        1.2697,
+        "heat-set insert: 2.0 mm knurl pressed into the 1.7 mm hole"
       ],
       [
         "01_body",
-        "M2x10_rear_cap_2",
-        6.5596,
-        "M2 thread in the 1.6 mm pilot (rear cap screw, through the clamp)"
+        "M1_insert_front_2",
+        1.2697,
+        "heat-set insert: 2.0 mm knurl pressed into the 1.7 mm hole"
       ],
       [
         "03_rear_cap",
@@ -878,6 +1226,30 @@
         "M1.6x4_countersunk_2",
         0.377,
         "M1.6 thread in the gearbox's tapped hole (modelled 1.4)"
+      ],
+      [
+        "M1_insert_rear_1",
+        "M1x8_rear_cap_1",
+        0.5089,
+        "M1 cap screw in its insert's thread"
+      ],
+      [
+        "M1_insert_rear_2",
+        "M1x8_rear_cap_2",
+        0.5089,
+        "M1 cap screw in its insert's thread"
+      ],
+      [
+        "M1_insert_front_1",
+        "M1x8_front_cap_1",
+        0.5089,
+        "M1 cap screw in its insert's thread"
+      ],
+      [
+        "M1_insert_front_2",
+        "M1x8_front_cap_2",
+        0.5089,
+        "M1 cap screw in its insert's thread"
       ],
       [
         "05_rod_eye",
@@ -971,14 +1343,148 @@
       "squeezed_by": [
         "03_rear_cap",
         "06_cable_clamp"
-      ],
-      "rear_screw_thread_in_body_mm": 5.8
+      ]
+    },
+    "cap_inserts": {
+      "rear_1": {
+        "at": [
+          7.45,
+          5.3
+        ],
+        "wall_round_knurl_mm": 1.05,
+        "boss_to_knurl": 2.05,
+        "hole_open_to_face": true,
+        "screw_in_insert_mm": 1.802,
+        "screw_tip_to_hole_bottom_mm": 0.5,
+        "pass": true
+      },
+      "rear_2": {
+        "at": [
+          7.45,
+          -5.3
+        ],
+        "wall_round_knurl_mm": 1.05,
+        "boss_to_knurl": 2.05,
+        "hole_open_to_face": true,
+        "screw_in_insert_mm": 1.802,
+        "screw_tip_to_hole_bottom_mm": 0.5,
+        "pass": true
+      },
+      "front_1": {
+        "at": [
+          6.85,
+          5.65
+        ],
+        "wall_round_knurl_mm": 0.7,
+        "boss_to_knurl": 1.7,
+        "hole_open_to_face": true,
+        "screw_in_insert_mm": 1.802,
+        "screw_tip_to_hole_bottom_mm": 0.5,
+        "pass": true
+      },
+      "front_2": {
+        "at": [
+          6.85,
+          -5.65
+        ],
+        "wall_round_knurl_mm": 0.7,
+        "boss_to_knurl": 1.7,
+        "hole_open_to_face": true,
+        "screw_in_insert_mm": 1.802,
+        "screw_tip_to_hole_bottom_mm": 0.5,
+        "pass": true
+      }
+    },
+    "rear_hook": {
+      "engagement_mm": 0.45,
+      "contact_along_bevel_mm": 0.636,
+      "bevel_deg": 45,
+      "width_mm": 10.9,
+      "wall_left_at_notch_mm": 1.8,
+      "pull_0p05_overlap_mm3": 0.2453,
+      "toward_motor_side_0p05_overlap_mm3": 0.2725,
+      "toward_board_side_0p05_overlap_mm3": 0,
+      "rooms_mm": {
+        "tip": 0.15,
+        "side": 0.15,
+        "end": 0.3,
+        "y_end": 0.1
+      },
+      "rooms_wanted_mm": {
+        "tip": 0.15,
+        "side": 0.15,
+        "end": 0.3,
+        "y_end": 0.1
+      },
+      "fitting": {
+        "shift_mm": 0.8,
+        "positions": 12,
+        "hits": []
+      },
+      "motor_way_in_overlap_mm3": 0,
+      "pass": true
     },
     "carrier_key_blocks_wrong_way_mm3": 12.955,
     "board_front_end_to_cap_tongue_mm": 0.1,
     "tool_access": {
+      "M1_insert_rear_1": {
+        "step": "3",
+        "tool": "IRON",
+        "blade_d_mm": 4.0,
+        "blade_len_mm": 45.0,
+        "min_blade_len_mm": 0.1,
+        "hits": [],
+        "nearest": [
+          {
+            "part": "01_body",
+            "mm": 0.409
+          }
+        ]
+      },
+      "M1_insert_rear_2": {
+        "step": "3",
+        "tool": "IRON",
+        "blade_d_mm": 4.0,
+        "blade_len_mm": 45.0,
+        "min_blade_len_mm": 0.1,
+        "hits": [],
+        "nearest": [
+          {
+            "part": "01_body",
+            "mm": 0.409
+          }
+        ]
+      },
+      "M1_insert_front_1": {
+        "step": "3",
+        "tool": "IRON",
+        "blade_d_mm": 4.0,
+        "blade_len_mm": 45.0,
+        "min_blade_len_mm": 0.1,
+        "hits": [],
+        "nearest": [
+          {
+            "part": "01_body",
+            "mm": 0.409
+          }
+        ]
+      },
+      "M1_insert_front_2": {
+        "step": "3",
+        "tool": "IRON",
+        "blade_d_mm": 4.0,
+        "blade_len_mm": 45.0,
+        "min_blade_len_mm": 0.1,
+        "hits": [],
+        "nearest": [
+          {
+            "part": "01_body",
+            "mm": 0.409
+          }
+        ]
+      },
       "M1.6x4_countersunk_1": {
-        "step": "5.2",
+        "step": "6.2",
         "tool": "PH0",
         "blade_d_mm": 3.0,
         "blade_len_mm": 115.0,
@@ -990,8 +1496,8 @@
             "mm": 0.15
           },
           {
-            "part": "motor_leadscrew_M3",
-            "mm": 1.5
+            "part": "motor_leadscrew_M4",
+            "mm": 1.0
           },
           {
             "part": "motor_gearbox_frame",
@@ -1008,7 +1514,7 @@
         ]
       },
       "M1.6x4_countersunk_2": {
-        "step": "5.2",
+        "step": "6.2",
         "tool": "PH0",
         "blade_d_mm": 3.0,
         "blade_len_mm": 115.0,
@@ -1020,8 +1526,8 @@
             "mm": 0.15
           },
           {
-            "part": "motor_leadscrew_M3",
-            "mm": 1.5
+            "part": "motor_leadscrew_M4",
+            "mm": 1.0
           },
           {
             "part": "motor_gearbox_frame",
@@ -1033,76 +1539,76 @@
           }
         ]
       },
-      "M2x10_rear_cap_1": {
-        "step": "6.5",
-        "tool": "PH1",
-        "blade_d_mm": 4.5,
-        "blade_len_mm": 80.0,
-        "min_blade_len_mm": 19.2,
+      "M1x8_rear_cap_1": {
+        "step": "7.5",
+        "tool": "PH000",
+        "blade_d_mm": 2.5,
+        "blade_len_mm": 40.0,
+        "min_blade_len_mm": 8.5,
         "hits": [],
         "nearest": [
           {
             "part": "06_cable_clamp",
-            "mm": 0.666
+            "mm": 0.711
           },
           {
             "part": "03_rear_cap",
-            "mm": 2.311
+            "mm": 2.44
           }
         ]
       },
-      "M2x10_rear_cap_2": {
-        "step": "6.5",
-        "tool": "PH1",
-        "blade_d_mm": 4.5,
-        "blade_len_mm": 80.0,
-        "min_blade_len_mm": 19.2,
+      "M1x8_rear_cap_2": {
+        "step": "7.5",
+        "tool": "PH000",
+        "blade_d_mm": 2.5,
+        "blade_len_mm": 40.0,
+        "min_blade_len_mm": 8.5,
         "hits": [],
         "nearest": [
           {
             "part": "06_cable_clamp",
-            "mm": 0.666
+            "mm": 0.711
           },
           {
             "part": "03_rear_cap",
-            "mm": 2.311
+            "mm": 2.44
           }
         ]
       },
-      "M2x8_front_cap_1": {
-        "step": "8.2",
-        "tool": "PH1",
-        "blade_d_mm": 4.5,
-        "blade_len_mm": 80.0,
-        "min_blade_len_mm": 12.9,
+      "M1x8_front_cap_1": {
+        "step": "9.2",
+        "tool": "PH000",
+        "blade_d_mm": 2.5,
+        "blade_len_mm": 40.0,
+        "min_blade_len_mm": 12.3,
         "hits": [],
         "nearest": [
           {
             "part": "02_front_cap",
-            "mm": 0.474
+            "mm": 0.711
           }
         ]
       },
-      "M2x8_front_cap_2": {
-        "step": "8.2",
-        "tool": "PH1",
-        "blade_d_mm": 4.5,
-        "blade_len_mm": 80.0,
-        "min_blade_len_mm": 12.9,
+      "M1x8_front_cap_2": {
+        "step": "9.2",
+        "tool": "PH000",
+        "blade_d_mm": 2.5,
+        "blade_len_mm": 40.0,
+        "min_blade_len_mm": 12.3,
         "hits": [],
         "nearest": [
           {
             "part": "02_front_cap",
-            "mm": 0.474
+            "mm": 0.711
           }
         ]
       },
       "M2x10_rod_eye": {
-        "step": "8.3",
+        "step": "9.3",
         "tool": "PH1",
         "blade_d_mm": 4.5,
         "blade_len_mm": 80.0,
-        "min_blade_len_mm": 3.7,
+        "min_blade_len_mm": 3.6,
         "hits": [],
         "nearest": [
           {
@@ -1116,20 +1622,21 @@
         ]
       }
     },
-    "carrier_to_board_parts_min_gap_mm": 1.45,
+    "carrier_to_board_parts_min_gap_mm": 1.58,
     "partition": {
       "thickness_mm": 1.0,
       "z_mm": [
         2.0,
-        104.0
+        103.7
       ],
+      "front_lead_in_mm": 0.3,
       "continuous": true,
-      "volume_mm3": 663.0,
-      "component_gap_mm": 0.3,
-      "component_gap_with_board_play_mm": 0.25,
+      "volume_mm3": 661.05,
+      "component_gap_mm": 0.43,
+      "component_gap_with_board_play_mm": 0.38,
       "carrier_envelope_gap_mm": 0.15,
-      "carrier_envelope_to_components_mm": 1.45,
-      "note": "Nominal full-stroke envelope; the printed partition is a sliding guide, not a load-bearing PCB support. Print error and flex require physical checks."
+      "carrier_envelope_to_components_mm": 1.58,
+      "note": "Nominal full-stroke envelope; the printed partition is a sliding guide, not a load-bearing PCB support. Print error and flex require physical checks. The body prints front end down: the bore's lead-in takes the partition's last 0.3 mm at the front face down to 0.7 mm on the bore side; the board ends 0.5 mm inside the body."
     },
     "all_checks_pass": true,
     "parts": {
@@ -1140,13 +1647,13 @@
         "components": 1,
         "zero_height_facets_removed": 0,
         "print_extent_mm": [
-          16.1,
+          17.3,
           14.7,
-          131.5
+          133.1
         ],
-        "volume_mm3": 12214.5,
-        "mass_solid_g": 15.51,
-        "print_setup": "PETG, rear end down (flat face, chamfered motor-bay mouth), 5 mm brim, 0.2 mm layers, 3 walls, 25 % gyroid, no supports. The motor wall bridges the motor bay; its countersinks, the carrier stop and the board rest are top surfaces."
+        "volume_mm3": 14597.1,
+        "mass_solid_g": 18.54,
+        "print_setup": "PETG, front end down (chamfered bore and board-slot mouths), 5 mm brim, 0.2 mm layers, 3 walls, 25 % gyroid, no supports. The motor wall bridges the carrier bore, so the motor seat is a top surface; the M1.6 countersinks (45\u00b0 cones) and the board rest are on the bridge's underside. The end of the motor-side wall stands 1.6 mm above the rear face, and the bevel of its notch prints as a 45\u00b0 overhang (0.12 mm layers for the last 2 mm make it 5 layers instead of 3). The four 1.7 mm insert holes run straight into the end faces."
       },
       "02_front_cap": {
         "file": "stl/V6-L/02_front_cap.stl",
@@ -1155,12 +1662,12 @@
         "components": 1,
         "zero_height_facets_removed": 0,
         "print_extent_mm": [
-          16.1,
+          17.3,
           14.7,
           7.0
         ],
-        "volume_mm3": 1057.2,
-        "mass_solid_g": 1.34,
+        "volume_mm3": 1224.1,
+        "mass_solid_g": 1.55,
         "print_setup": "PETG, outer face down, 0.16 mm, 4 walls, 40 % gyroid, no supports."
       },
       "03_rear_cap": {
@@ -1170,13 +1677,13 @@
         "components": 1,
         "zero_height_facets_removed": 0,
         "print_extent_mm": [
-          16.1,
+          17.3,
           14.7,
           14.5
         ],
-        "volume_mm3": 1289.7,
-        "mass_solid_g": 1.64,
-        "print_setup": "PETG, flat front face down (clevis up), 0.16 mm, 4 walls, 60 % gyroid, no supports."
+        "volume_mm3": 1327.6,
+        "mass_solid_g": 1.69,
+        "print_setup": "PETG, flat front face down (clevis up), 0.16 mm, 4 walls, 60 % gyroid, no supports. The pocket for the end of the body's wall is bridged; the tooth's tip and the pocket's two ends are chamfered 0.2 mm on the bed for the first layer (0.12 mm layers for the first 2 mm are optional)."
       },
       "04_rod": {
         "file": "stl/V6-L/04_rod.stl",
@@ -1189,8 +1696,8 @@
           12.0,
           117.0
         ],
-        "volume_mm3": 5148.7,
-        "mass_solid_g": 6.54,
+        "volume_mm3": 4478.5,
+        "mass_solid_g": 5.69,
         "print_setup": "PETG, carrier down, 0.16 mm, 100 % infill, 3 mm brim; slow the last 20 mm of the L rod."
       },
       "05_rod_eye": {
@@ -1219,8 +1726,8 @@
           14.7,
           3.0
         ],
-        "volume_mm3": 125.6,
-        "mass_solid_g": 0.16,
+        "volume_mm3": 159.7,
+        "mass_solid_g": 0.2,
         "print_setup": "PETG, flat back down (groove up), 0.16 mm, 100 % infill, no supports."
       }
     },

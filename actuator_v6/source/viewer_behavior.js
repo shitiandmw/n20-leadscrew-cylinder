@@ -179,7 +179,7 @@
     if (it.kind === 'cutaway') return mode === 'board' ? 'show' : 'hide';
     if (it.kind === 'printed') return mode === 'exterior' || (mode === 'internal' && it.moving) ? 'show' : 'hide';
     if (mode === 'board') {
-      if (/^(motor_leadscrew|M3_brass_nut|M2x10_rod_eye|M1\.6)/.test(n)) return 'hide';
+      if (/^(motor_leadscrew|M4_brass_nut|M2x10_rod_eye|M1\.6)/.test(n)) return 'hide';
       if (n.startsWith('motor_')) return 'ghost';
     }
     if (mode === 'exterior' && it.kind === 'board') return 'hide';      // inside the closed body
@@ -199,9 +199,9 @@
       board: {dir: [0.0, 0.2, 1.0], target: [zb - 2.5, 0, -8], zoom: fit / (P.pcb_length * 1.42),
               label: 'CIRCUIT BOARD, SEEN FROM THE BORE<br>body and partition cut away · parts face the magnet'},
       core: {dir: [-0.45, 0.55, 0.7], target: [-12 - CENTRE, 0, 0], zoom: fit / 55,
-             label: 'CORE PART, UNCHANGED<br>N20 gearmotor: 9 mm gearbox · 15 mm can · M3 leadscrew from the gearbox'},
+             label: 'CORE PART, UNCHANGED<br>12 V N20 gearmotor, 1:50: 9 mm gearbox · 15 mm can · M4 leadscrew from the gearbox'},
       gears: {dir: [0.7, 0.55, 0.65], target: [-4.8 - CENTRE, 1.1, 0], zoom: fit / 22,
-              label: 'MESHED MOTOR GEARS · 27:1<br>three 18:54 stages · illustrative internal tooth counts · drag to orbit'},
+              label: 'MESHED MOTOR GEARS · 27:1 MODEL<br>three 18:54 stages · illustrative tooth counts (the real gearbox is 1:50) · drag to orbit'},
       printed: {dir: [-0.12, 0.42, 0.9], target: [0, bedView.height * 0.36, 0], zoom: fit / bedView.span,
                 label: `PRINTED PARTS · V6-${V}<br>the six parts as they sit on the print bed (the STL orientation) · click one for its settings`},
       assembly: {label: asmLabel()},
@@ -223,7 +223,7 @@
     if (m === 'assembly' || m === 'printed') drive(0);
     if (m === 'gears' && mode !== 'gears') {
       speedBeforeGears = $('speed').value;
-      $('speed').value = '0.02';
+      $('speed').value = '0.004';
     } else if (mode === 'gears' && m !== 'gears' && speedBeforeGears !== null) {
       $('speed').value = speedBeforeGears;
       speedBeforeGears = null;
@@ -249,12 +249,12 @@
     partLabels.forEach(l => l.remove());
     partLabels.clear();
     bed.children.slice().forEach(c => { bed.remove(c); c.geometry.dispose(); c.material.dispose(); });
-    // viewer up = the print direction; 02 and 03 print upside down (build_v6.FLIP)
+    // viewer up = the print direction; parts flagged "flip" print upside down (build_v6.FLIP)
     const up = new THREE.Matrix4().set(0, 0, -1, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 1);
     const flip = new THREE.Matrix4().set(0, 0, -1, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1);
     const parts = [...meshes.values()].filter(m => m.userData.kind === 'printed').sort((a, b) => a.name.localeCompare(b.name));
     const boxes = parts.map(m => {
-      const r = /^0[23]_/.test(m.name) ? flip : up;
+      const r = ((ASM.print[V] || {})[m.name] || {}).flip ? flip : up;
       return {m, r, b: m.geometry.boundingBox.clone().applyMatrix4(r)};
     });
     const gap = 9, width = boxes.reduce((w, x) => w + x.b.max.x - x.b.min.x, 0) + gap * (boxes.length - 1);
@@ -691,9 +691,10 @@
     const nets = new Set(), parts = new Map();
     if (S.drive === 0) return {nets, parts};
     const ext = S.drive > 0;
-    const [uOwn, qOwn, dSup] = ext ? ['U2', 'Q2', 'D2'] : ['U1', 'Q1', 'D1'];
+    const [uOwn, qOwn, dSup, rSup] = ext ? ['U2', 'Q2', 'D2', 'R4'] : ['U1', 'Q1', 'D1', 'R3'];
     const uState = ext ? S.u2 : S.u1;
     parts.set(dSup, 'flow');
+    parts.set(rSup, 'flow');
     if (uState) { parts.set(uOwn, 'trig'); parts.set(qOwn, 'off'); }
     if (S.tripped) parts.set('F1', 'off');
     if (conducting() && !S.tripped) {
@@ -824,7 +825,7 @@
     if (ref === 'Q2') return S.drive > 0 ? (S.u2 ? 'off: blocks extending' : 'on: carries the extend current')
       : S.drive < 0 ? 'bypassed: D5 and the body diode carry the retract current' : 'idle';
     if (ref === 'F1') return S.tripped ? 'tripped (hot, high resistance)' : S.jam && S.stallS > 0
-      ? `heating at ${SIMD.stall_mA} mA (${S.stallS.toFixed(1)} of ${SIMD.trip_s} s)` : 'cold, about 2 Ω';
+      ? `heating at ${SIMD.stall_mA} mA (${S.stallS.toFixed(1)} of ${SIMD.trip_s} s)` : 'cold, about 0.65 Ω';
     return null;
   }
   let cardSig = '';
@@ -852,9 +853,9 @@
     if (!selected) {
       el.innerHTML = `<h2>Board parts</h2><p class="role">Click a part in the schematic or the 3D view. Board view shows
         the board from the bore side, with the parts facing you.</p><table>
-        <tr><td>Retract end</td><td>${['U1', 'C1', 'R1', 'D1', 'Q1', 'D4'].map(r => chip('part', r)).join('')}</td></tr>
+        <tr><td>Retract end</td><td>${['U1', 'C1', 'R1', 'D1', 'R3', 'Q1', 'D4'].map(r => chip('part', r)).join('')}</td></tr>
         <tr><td>Motor side</td><td>${['F1', 'C3', 'D3', 'M1'].map(r => chip('part', r)).join('')}</td></tr>
-        <tr><td>Extend end</td><td>${['U2', 'C2', 'R2', 'D2', 'Q2', 'D5'].map(r => chip('part', r)).join('')}</td></tr>
+        <tr><td>Extend end</td><td>${['U2', 'C2', 'R2', 'D2', 'R4', 'Q2', 'D5'].map(r => chip('part', r)).join('')}</td></tr>
         <tr><td>Wires</td><td>${['W1', 'W2', 'W3', 'W4'].map(w => chip('wire', w, `${w} ${CIR.wires[w].colour}`)).join('')}</td></tr></table>`;
       return;
     }
@@ -1013,8 +1014,8 @@
       ? `At the extend end (${q(S.travel)} mm): U2 sees the magnet and holds Q2's gate low, so no motor current flows; the board draws about ${SIMD.blocked_supply_mA.toFixed(1)} mA. Reverse to retract.`
       : `At the retract end (${q(S.travel)} mm): U1 sees the magnet and holds Q1's gate low, so no motor current flows; the board draws about ${SIMD.blocked_supply_mA.toFixed(1)} mA. Reverse to extend.`;
     if (S.jam) return `Rod jammed: the motor stalls at about ${SIMD.stall_mA} mA and F1 heats up; it trips after about ${SIMD.trip_s} s.`;
-    return ext ? 'Extending: A → D4 → F1 → motor → Q2 → B. U2 is powered through D2 and has not seen the magnet yet.'
-      : 'Retracting: B → D5 → motor → F1 → Q1 → A. U1 is powered through D1 and has not seen the magnet yet.';
+    return ext ? 'Extending: A → D4 → F1 → motor → Q2 → B. U2 is powered through D2 and R4 and has not seen the magnet yet.'
+      : 'Retracting: B → D5 → motor → F1 → Q1 → A. U1 is powered through D1 and R3 and has not seen the magnet yet.';
   }
 
   function resize() {

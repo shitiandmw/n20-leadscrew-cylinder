@@ -1,11 +1,12 @@
 {
- "checked": "2026-10-30",
+ "checked": "2026-11-12",
  "variants": {
   "S": {
    "printed_labels": 6,
    "print_card": true,
    "steps": [
     "body",
+    "inserts",
     "board",
     "motor",
     "motor_screws",
@@ -20,14 +21,18 @@
     "rod_eye",
     "done"
    ],
-   "duration_s": 102.5,
+   "duration_s": 122.5,
+   "insert_iron": [
+    "tool_IRON_blade",
+    "tool_IRON_handle"
+   ],
    "motor_screw_driver": [
     "tool_PH0_blade",
     "tool_PH0_handle"
    ],
    "rear_screw_driver": [
-    "tool_PH1_blade",
-    "tool_PH1_handle"
+    "tool_PH000_blade",
+    "tool_PH000_handle"
    ],
    "board_step_wires": [
     "W1",
@@ -56,6 +61,7 @@
    "print_card": true,
    "steps": [
     "body",
+    "inserts",
     "board",
     "motor",
     "motor_screws",
@@ -70,14 +76,18 @@
     "rod_eye",
     "done"
    ],
-   "duration_s": 102.5,
+   "duration_s": 122.5,
+   "insert_iron": [
+    "tool_IRON_blade",
+    "tool_IRON_handle"
+   ],
    "motor_screw_driver": [
     "tool_PH0_blade",
     "tool_PH0_handle"
    ],
    "rear_screw_driver": [
-    "tool_PH1_blade",
-    "tool_PH1_handle"
+    "tool_PH000_blade",
+    "tool_PH000_handle"
    ],
    "board_step_wires": [
     "W1",
@@ -106,6 +116,7 @@
    "print_card": true,
    "steps": [
     "body",
+    "inserts",
     "board",
     "motor",
     "motor_screws",
@@ -120,14 +131,18 @@
     "rod_eye",
     "done"
    ],
-   "duration_s": 102.5,
+   "duration_s": 122.5,
+   "insert_iron": [
+    "tool_IRON_blade",
+    "tool_IRON_handle"
+   ],
    "motor_screw_driver": [
     "tool_PH0_blade",
     "tool_PH0_handle"
    ],
    "rear_screw_driver": [
-    "tool_PH1_blade",
-    "tool_PH1_handle"
+    "tool_PH000_blade",
+    "tool_PH000_handle"
    ],
    "board_step_wires": [
     "W1",

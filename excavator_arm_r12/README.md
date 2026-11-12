@@ -1,10 +1,16 @@
 # R12 excavator arm: CAD and motion simulation
 
-R12 is built on **real excavator geometry**: Cat 325 pin positions from a Caterpillar patent and Cat 320 outlines traced from the manufacturer's render, both scaled to a Cat 320 at 1:15. All four drives are the same model, **V6-U60** (60 mm stroke, stock M3 × 0.5 screw 75 mm long, 140–200 mm between pins).
+R12 is built on **real excavator geometry**: Cat 325 pin positions from a Caterpillar patent and Cat 320 outlines traced from the manufacturer's render, both scaled to a Cat 320 at 1:15. All four drives are the same model, **V6-U60** (60 mm stroke, 140–200 mm between pins), since actuator_v6 rev 6.2 with the 12 V N20 1:50 gearmotor and its M4 × 0.7 screw cut to 75 mm.
 
 **Status:** the approved drawing set is now modelled in 3D (CAD in CadQuery) and simulated (MuJoCo), at drawing revision **D4**. D4 replaces the bucket with a 1:15 copy of a real Caterpillar bucket (see *The bucket, Rev. D4*).
 - The exact 3D clash check found one real interference that the drawing-stage check could not see. It is fixed; see *What the 3D model changed*.
 - Nothing has been printed yet.
+- **Drive update, 2026-11-10:** the V6-U60 now has the 12 V N20 1:50 motor and an M4 × 0.7 screw. Its outside is unchanged, so the geometry and fits stand. The drive model and ratings changed: 55 N continuous (was 51 N), 208 N stall (was 201 N), 8.2 mm/s without load (was 1.25 mm/s). The V6 solids, CAD, checks, simulations, drawings, viewer and video were rebuilt. The dig-cycle plan was kept (see *Findings*, Speed).
+- **V6 end caps, 2026-11-11:** each V6-U60 end cap is now held by two M1 screws in brass heat-set inserts (see `actuator_v6/README.md`). The outside is unchanged. The CAD, clash checks, simulations, viewer and video were rebuilt with the new solids; the barrel gains 0.18 g, and every figure in this README rounds the same.
+- **V6 rear-cap hook, 2026-11-12:** the V6-U60 body is now 1.2 mm wider on its motor side (17.30 × 14.70 mm), so that the end of its wall can hook the rear cap (see `actuator_v6/README.md`). The barrel weighs 53.5 g (was 50.9 g). The CAD, clash checks, simulations, drawings, viewer and video were rebuilt.
+  - The 3D clash check passes, and the closest gaps are unchanged (1.10 and 1.32 mm).
+  - In the side view, the stick drive's body now clears the boom nose by 1.88 mm (3.05 mm before; 1.0 mm required).
+  - The heavier barrels raise the boom drives' cycle peak to 38.5 N and their worst static hold to 39.6 N (38.3 and 39.4 N before). The other figures round the same or change by 0.1 N.
 
 ## Open these first
 
@@ -46,7 +52,7 @@ R12 is built on **real excavator geometry**: Cat 325 pin positions from a Caterp
 | Stick | 191 g | B03, 161.2 g |
 | Bucket | 85 g | B06, 74.9 g, + 5 × B07 tooth, 1.2 g |
 | Side links / H-links | 10 g / 7.5 g | B04, B05 |
-| Each V6-U60 | 51 g barrel + 7.6 g rod | (V6 parts from `actuator_v6`) |
+| Each V6-U60 | 53.5 g barrel + 6.9 g rod | (V6 parts from `actuator_v6`, rev 6.2) |
 
 - **Printed parts:** PETG, 6 perimeters (2.5 mm) + 10 % gyroid. Masses count exactly that: the solid envelope minus 90 % of its core. The 15 printed parts weigh about 637 g in total.
 - **Validity:** every part is a valid, watertight single solid and survives a STEP export/import round trip.
@@ -64,7 +70,7 @@ R12 is built on **real excavator geometry**: Cat 325 pin positions from a Caterp
 
 ## Dig cycle and dynamics
 
-Each segment of the cycle is a minimum-jerk move. Its duration is set so the fastest drive peaks at 0.8 mm/s, below the 1.25 mm/s no-load speed. Each waypoint has a 3 s dwell.
+Each segment of the cycle is a minimum-jerk move. Its duration is set so the fastest drive peaks at 0.8 mm/s, a plan made for the earlier 6 V drive (1.25 mm/s without load) and kept for the 12 V one (8.2 mm/s). Each waypoint has a 3 s dwell.
 
 | # | Phase | Boom / stick / bucket stroke, mm |
 |---|---|---|
@@ -82,20 +88,20 @@ The whole cycle takes **643 s**. The tooth reaches 279 mm below the ground (the 
 ### The MuJoCo model
 
 - **Bodies and loops:** rigid bodies with the CAD mass and inertia. The two closed loops (boom pair, bucket four-bar) are pin-to-pin equality constraints.
-- **Drives:** each drive is a slide with a DC-motor force law: 201 N stall, 1.25 mm/s no load, linear in between.
-- **Reflected rotor inertia:** 3216 kg equivalent, from an assumed 20 ms mechanical time constant.
-- **Force clamp:** 51 N, the continuous rating, used as a fuse.
+- **Drives:** each drive is a slide with a DC-motor force law, linear between 158 N at standstill and 8.17 mm/s without load. That is the 12 V N20 1:50 on the M4 × 0.7 screw at the X1's 11.1 V nominal, through the V6 board's Schottky diode and 1.7 Ω, the model of `excavator_app/shared/drives.js`.
+- **Reflected rotor inertia:** 387 kg equivalent, from an assumed 20 ms mechanical time constant.
+- **Force clamp:** 55 N, the continuous rating (the V6 fuse's 0.35 A hold), used as a fuse.
 - **Control:** PI position control on each stroke.
 - **Solver:** 1 ms step, implicitfast. The payload is 150 g in the bucket.
 
 | Scenario | Peak boom (each) | Peak stick | Peak bucket | Tracking | Pin closure | At clamp |
 |---|---|---|---|---|---|---|
-| 150 g payload | **38.3 N** | 16.9 N | 14.0 N | ≤ 0.063 mm | ≤ 0.019 mm | 0 s |
-| Empty | 27.5 N | 9.1 N | 4.7 N | ≤ 0.049 mm | ≤ 0.014 mm | 0 s |
+| 150 g payload | **38.5 N** | 16.9 N | 14.0 N | ≤ 0.067 mm | ≤ 0.019 mm | 0 s |
+| Empty | 27.7 N | 9.1 N | 4.7 N | ≤ 0.052 mm | ≤ 0.014 mm | 0 s |
 
 Cross-checks:
 - **Static holds** at the three worst poses agree with the virtual-work statics within 0.02 N:
-  - boom 39.5 N each at 60 / 15 / 35
+  - boom 39.6 N each at 60 / 15 / 35
   - stick 27.6 N at 0 / 60 / 45
   - bucket 16.6 N at 40 / 55 / 60
 - **Halving the time step** changes no peak force (0.00 N over the first 160 s).
@@ -144,18 +150,18 @@ You asked for the shape of an actual bucket. D4 replaces the bucket with the one
 - **Size.** The back reaches 74 mm from the hinge–tooth line, as a real bucket of this tip radius does. D3's back stopped at 30 mm, with its lip bar 17 mm out on the other side.
   - Struck capacity is **247 cm³** (0.83 m³ at full size, a normal Cat 320 bucket). That holds about 395 g of dry sand, so the rated 150 g fills it to about 38 %.
 - **Mass.** B06 is 74.9 g (D3: 65.1 g) and each tooth 1.2 g, so the drive forces rise slightly (tables above).
-- **A full struck load of sand** would take each boom drive to about 56 N held (2.5D estimate), above the 51 N rating. Plan on 150 g, or a half-full bucket of sand.
+- **A full struck load of sand** would take each boom drive to about 56 N held (2.5D estimate), just above the 55 N rating. Plan on 150 g, or a half-full bucket of sand.
 
 ## Findings that need a decision
 
 1. **Boom-pair synchronisation is required.**
-   - At the worst hold pose a 0.5 mm offset between the two boom position sensors loads the drives to 51 N (clamped) and 28 N instead of 39.5 N each.
+   - At the worst hold pose a 0.5 mm offset between the two boom position sensors loads the drives to 55 N (clamped) and 24 N instead of 39.6 N each.
    - Control both boom drives from one shared target, with closed-loop correction on each drive (`ASSEMBLY.md`).
 2. **Margin.**
-   - The boom pair is the limit: the cycle peak is 38.3 N and the worst static hold is 39.5 N, about 23 % below the 51 N rating.
+   - The boom pair is the limit: the cycle peak is 38.5 N and the worst static hold is 39.6 N, about 28 % below the 55 N rating.
    - The stick and bucket drives have large margins.
-   - Soil forces are not modelled. At 51 N the tooth force is 3.6–15.3 N from the bucket drive and 7.3–14.6 N from the stick drive, so digging firm soil is not realistic; loose sand is.
-3. **Speed.** One cycle takes almost 11 minutes. The N20 screw drives are slow (1.25 mm/s with no load), and the cycle peaks at 0.8 mm/s to keep a speed margin under load. A cycle at full speed would take about 7 minutes.
+   - Soil forces are not modelled. At 55 N the tooth force is 3.9–16.5 N from the bucket drive and 7.8–15.7 N from the stick drive, so digging firm soil is not realistic; loose sand is.
+3. **Speed.** One cycle takes almost 11 minutes. It was planned for the earlier 6 V drive (1.25 mm/s with no load) and peaks at 0.8 mm/s. The 12 V drive runs about 8.2 mm/s with no load and 6.2 mm/s at the 150 g boom load (excavator_app), so the same cycle planned at 6.2 mm/s would take under 2 minutes. The plan was kept, so the cycle, its video and the complete machine's replay stay as they were. Changing `PEAK_SPEED` in `source/motion_r12.py` and rerunning the steps below re-plans it.
 4. **Printer bed.** The boom is 408 mm long. Below a 410 mm bed, split it at S (sheet 3).
 5. **Still open from the drawings:**
    - the X1 track limit: keep the boom above 4 mm of stroke when slewed over a track

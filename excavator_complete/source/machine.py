@@ -20,7 +20,7 @@ SYS = dict(   # key: (label, source folder, revision)
     slew=('Slewing ring, ring gear and slip ring', 'track_wheel_jgy370/X1', 'THK RU66, X103 m1.5 x 80, 6-way 2 A slip ring (R3/R2)'),
     turntable=('Turntable and swing drive', 'track_wheel_jgy370/X1', 'R3 issue 3: T101-T106, JGY-370 swing motor'),
     body=('Upper body', 'track_wheel_jgy370/X1', 'B1 rev B (Cat 320 trace): B101-B107, steel shot'),
-    electronics=('Battery and main board', 'track_wheel_jgy370/X1/controller', 'main board rev A (ESP32-S3, 7 x DRV8876), 3S 18650 pack'),
+    electronics=('Battery and main board', 'track_wheel_jgy370/X1/controller', 'main board rev B (ESP32-S3, 7 x DRV8876), 3S 18650 pack'),
     arm=('Excavator arm', 'excavator_arm_r12', 'R12 Rev. D4 (Cat 325 pins, Cat bucket US 8,201,350), 4 x V6-U60; B01X mount (new)'),
     wiring=('Wiring harness and connectors', 'excavator_complete', 'harness.py (new): 4 drive cables with loops at O and E, slip ring, swing, battery, lamps; W01 clamps; connectors.py models'),
 )

@@ -1,6 +1,6 @@
 """Electrical design checks for the X1 main board, against the datasheet limits in calcs.py.
 
-Writes X1_main_board_A_design_checks.json (all_pass and every value with its limit).
+Writes X1_main_board_<rev>_design_checks.json (all_pass and every value with its limit).
 
     python check_design.py
 """
@@ -38,13 +38,13 @@ def main():
               f"<= {drv['i_ipropi_max'] * 1e3} mA", it * drv["a_ipropi"] <= drv["i_ipropi_max"], "mA")
     check("IPROPI voltage at ITRIP (= VREF) inside the ADC1 range at 12 dB", vref, f"<= {esp['adc_max_12db']}",
           vref <= esp["adc_max_12db"], "V")
-    run = 0.12 * CA.channel("BL")["r_ipropi"] * drv["a_ipropi"]
-    check("Actuator running current (0.12 A) reads above the ADC floor", run, ">= 0.3 V", run >= 0.3, "V",
-          "about 0.6 V; the IPROPI offset error below 0.15 A is +/-7.5 mA (6 % of 0.12 A)")
+    run = 0.08 * CA.channel("BL")["r_ipropi"] * drv["a_ipropi"]
+    check("Actuator no-load current (0.08 A, 12 V N20 1:50) reads above the ADC floor", run, ">= 0.3 V", run >= 0.3,
+          "V", "about 0.4 V; the IPROPI offset error below 0.15 A is +/-7.5 mA (9 % of 0.08 A)")
     check("VBAT channels: battery and transient inside VM", CA.TVS_CLAMP, f"<= {drv['vm_max']} (abs {drv['vm_abs']})",
           CA.TVS_CLAMP <= drv["vm_max"], "V")
-    check("6 V channels: VM above the driver UVLO", CA.buck_vout(110), f">= {drv['uvlo_rise_max']}",
-          CA.buck_vout(110) >= drv["uvlo_rise_max"], "V")
+    check("VBAT channels: battery stop voltage above the driver UVLO", CA.VBAT["stop"], f">= {drv['uvlo_rise_max']}",
+          CA.VBAT["stop"] >= drv["uvlo_rise_max"], "V", "all seven drivers, including the 12 V actuators")
     check("PWM frequency", PWM_HZ / 1e3, f"<= {drv['f_pwm_max'] / 1e3}", PWM_HZ <= drv["f_pwm_max"], "kHz")
     check("ESP32 3.3 V logic high above the DRV8876 VIH", 3.3 * 0.8, f">= {drv['vih_min']}",
           3.3 * 0.8 >= drv["vih_min"], "V", "ESP32-S3 VOH min 0.8 x VDD")
@@ -56,10 +56,10 @@ def main():
     check("Track driver junction at the 1 A limit, 60 C inside the body", tj, "< 150 (TSD 160)", tj < 150, "C",
           f"{p:.2f} W, R_theta_JA {drv['r_theta_ja']} C/W as in the datasheet example (4-layer board, pad vias)")
 
-    for base, name in ((110, "6 V"), (120, "5 V")):
+    for base, name in ((120, "5 V"),):
         vo = CA.buck_vout(base)
         start, stop = CA.buck_uvlo(base)
-        check(f"{name} buck output", vo, "6.0 / 5.0 +/- 3 %", abs(vo / (6.0 if base == 110 else 5.0) - 1) <= 0.03, "V")
+        check(f"{name} buck output", vo, "5.0 +/- 3 %", abs(vo / 5.0 - 1) <= 0.03, "V")
         check(f"{name} buck input max (TVS clamp) inside VIN", CA.TVS_CLAMP, f"<= {buck['vin_max']}",
               CA.TVS_CLAMP <= buck["vin_max"], "V")
         check(f"{name} buck starts below the lowest battery voltage", start, f"< {CA.VBAT['min']}",
@@ -79,7 +79,6 @@ def main():
         check(f"{name} buck: feed-forward capacitor (TI Eq. 16) vs the 68 pF fitted", cff, "68 pF within 35 %",
               abs(68 / cff - 1) <= 0.35, "pF", f"crossover {fo_nom / 1e3:.1f} kHz with the nominal 44 uF")
     bud = CA.power_budget()
-    check("6 V rail load: four actuators at the board limit", bud["rail6_limit_A"], "<= 3 A", bud["rail6_limit_A"] <= 3.0, "A")
     check("5 V rail load with the 2 A expansion reserve", bud["rail5_with_expansion_A"], "<= 3 A",
           bud["rail5_with_expansion_A"] <= 3.0, "A")
     vin = CA.ldo_input()
@@ -98,9 +97,9 @@ def main():
           12.6 * k <= esp["adc_max_12db"], "V")
     check("Battery sense resolution at the 9.6 V stop", 9.6 * k / 4095 * 1 / k * 1000, "<= 10 mV/LSB",
           2.9 / 4095 / k * 1000 <= 10, "mV")
-    check("6 V sense inside the ADC range", CA.buck_vout(110) * CA.divider("R131", "R132"), "<= 2.9",
-          CA.buck_vout(110) * CA.divider("R131", "R132") <= 2.9, "V")
     check("Worst-case battery current under the 5 A fuse (SPEC P4)", bud["total_A"], "< 5", bud["total_A"] < 5, "A",
+          f"actuators at their PTC hold current, 0.35 A each; every channel at its board limit at once: "
+          f"{bud['peak_A']:.2f} A, for the seconds until a stalled actuator's PTC or the stall cut-out (S4) acts; "
           f"with a 2 A expansion load: {bud['with_expansion_A']:.2f} A (fuse reviewed in the 4G phase)")
     rds, vgs = 0.013, 9.0
     p_q = bud["total_A"] ** 2 * rds

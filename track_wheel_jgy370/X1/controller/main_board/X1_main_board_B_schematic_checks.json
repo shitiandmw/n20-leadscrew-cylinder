@@ -1,0 +1,35 @@
+{
+ "board": "X1 main board rev B",
+ "kicad": "9.0.9",
+ "all_pass": true,
+ "checks": [
+  {
+   "name": "KiCad ERC: no errors or warnings except the accepted ones",
+   "ok": true,
+   "findings": [],
+   "accepted": []
+  },
+  {
+   "name": "KiCad netlist equals netlist.py, net by net and pin by pin",
+   "ok": true,
+   "nets": 106,
+   "named_in_drawing": 59,
+   "wired_only": 47,
+   "unmatched": [],
+   "wrong_name": [],
+   "extra": []
+  },
+  {
+   "name": "components, footprints and LCSC numbers match netlist.py",
+   "ok": true,
+   "parts": 145,
+   "problems": [],
+   "extra": []
+  },
+  {
+   "name": "every assembled part has a verified LCSC number",
+   "ok": true,
+   "tbd": []
+  }
+ ]
+}

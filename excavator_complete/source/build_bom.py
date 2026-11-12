@@ -53,13 +53,13 @@ add(P, 'B06_bucket', 1, 'PETG; supports inside the cavity', 'R12/ASSEMBLY.md', '
 add(P, 'B07_tooth', 5, 'PETG; glued with CA', 'R12/ASSEMBLY.md')
 add(P, 'B08_B_pad', 2, 'PETG; bonded to the boom on the B pin', 'R12/ASSEMBLY.md')
 add(P, 'R12 pin spacers (A1, A2, C1, D1, F1, J1, R1, left and right)', 14, 'PETG tubes Ø7 on Ø3 pins', 'R12/ASSEMBLY.md pin stacks')
-add(P, 'V6-U60 01_body', 4, 'PETG, rear end down, 3 walls, 25 %; check the 1 mm partition prints solid', 'actuator_v6/BOM.md')
+add(P, 'V6-U60 01_body', 4, 'PETG, front end down, 3 walls, 25 %; check the 1 mm partition prints solid', 'actuator_v6/BOM.md')
 add(P, 'V6-U60 02_front_cap', 4, 'PETG, 4 walls, 40 %', 'actuator_v6/BOM.md')
 add(P, 'V6-U60 03_rear_cap', 4, 'PETG, 4 walls, 60 %', 'actuator_v6/BOM.md')
 add(P, 'V6-U60 04_rod', 4, 'PETG, 100 %', 'actuator_v6/BOM.md')
 add(P, 'V6-U60 05_rod_eye', 4, 'PETG, 100 %', 'actuator_v6/BOM.md')
 add(P, 'V6-U60 06_cable_clamp', 4, 'PETG, 100 %', 'actuator_v6/BOM.md')
-add(P, 'V6 fit samples 08, 09', 1, 'print once before the actuators', 'actuator_v6/BOM.md')
+add(P, 'V6 fit samples 08–11', 1, 'print once before the actuators; 10 and 11 try the M1 inserts, 10 also the rear-cap hook', 'actuator_v6/BOM.md')
 n_clamps = len(H.clamps(None)) if False else 15
 add(P, 'W01_cable_clamp', n_clamps + 3, 'PETG, 100 %; 8 x 7 x 5.5; glued with CA, the 3 mm sleeve snaps in', 'excavator_complete (new)', f'{n_clamps} fitted (6 boom left lane, 8 boom right lane, 1 stick) + 3 spare')
 
@@ -69,8 +69,8 @@ add(B, 'JGY-370-1260 12 V worm gear motor, 200:1, 30 rpm', 3, 'motor only, no br
 add(B, 'Pololu #1999 universal mounting hub, 6 mm, M3', 3, 'sold in pairs: 2 packs', 'J9/BOM.md, X1/TURNTABLE.md', '2 sprockets + pinion; set screws supplied')
 add(B, 'THK RU66 cross-roller ring', 1, 'Ø35 bore, Ø95, 15 high (catalogue A18-20/21)', 'X1/BOM.md', 'see references/thk_ru66/SOURCE.md before substituting')
 add(B, '6-way 2 A flanged slip ring', 1, 'Ø22 body, Ø44 flange, Ø7.8 rotor (seller drawing)', 'X1/TURNTABLE.md', 'rings 1-4 used')
-add(B, 'N20 gearmotor with M3 x 0.5 leadscrew, 75 mm, 6 V 150 rpm', 4, 'used unmodified', 'actuator_v6/BOM.md', 'V6-U60 drives')
-add(B, 'V6-U60 end-stop board (PCBA, 76.6 x 8 mm)', 4, 'electronics/pcb/V6-U60; panelised with rails', 'actuator_v6/BOM.md', 'order a spare or two')
+add(B, 'N20 gearmotor 12 V 1:50 800 rpm with M4 x 0.7 leadscrew (100 mm stock)', 4, 'screw cut to 75 mm; otherwise unmodified', 'actuator_v6/BOM.md', 'V6-U60 drives')
+add(B, 'V6-U60 end-stop board (PCBA, 76.4 x 8 mm)', 4, 'electronics/pcb/V6-U60; panelised with rails', 'actuator_v6/BOM.md', 'order a spare or two')
 add(B, '6800ZZ bearing 10 x 19 x 5', 2, '', 'J9/BOM.md')
 add(B, '624ZZ bearing 4 x 13 x 5', 28, '', 'J9/BOM.md')
 add(B, '608ZZ bearing 8 x 22 x 7', 4, '', 'J9/BOM.md')
@@ -91,8 +91,8 @@ add(B, 'Steel pin Ø3 x 58', 1, 'pin Q', 'R12 sheet 6')
 add(B, 'Shaft collar Ø6 bore, Ø11 x 4, set screw', 6, 'O, E, H', 'R12 sheet 6')
 add(B, 'Shaft collar Ø3 bore, Ø7 x 3, set screw', 16, 'A..Q', 'R12 sheet 6')
 add(B, 'Shim washer Ø6 / Ø11 x 0.4 steel', 6, 'O, E, H', 'R12 sheet 6')
-add(B, 'M3 hex nut, brass, 5.5 AF x 2.4', 4, 'V6 rod carriers', 'actuator_v6/BOM.md')
-add(B, 'NdFeB magnet N35 Ø3 x 2, axial', 4, 'V6 carriers', 'actuator_v6/BOM.md')
+add(B, 'M4 thin hex nut, brass (ISO 4035), 7 AF x 2.2', 4, 'V6 rod carriers', 'actuator_v6/BOM.md')
+add(B, 'NdFeB block magnet N35 3 x 2 x 2, magnetised through 2 mm', 4, 'V6 carriers', 'actuator_v6/BOM.md')
 add(B, 'NdFeB disc magnet Ø6 x 2 (N42/N52)', 8, 'hatch and ledges', 'X1/BODY.md')
 add(B, 'Steel shot (about 4.5 g/cm3), poured', '735 g', 'counterweight pocket, 286 g left / 449 g right', 'X1/BODY.md')
 add(B, 'Felt Ø8 x 3', 2, 'drag pads', 'X1/TURNTABLE.md')
@@ -104,14 +104,15 @@ add(B, 'Rocker switch KCD1-101 (SPST, 21.2 x 15.1 bezel, 19 x 13 cut-out)', 1, '
 add(B, 'Littelfuse MINI FHM in-line fuse holder 0FHM0001ZXJ + MINI blade fuse 5 A', 1, 'toolbox floor, VHB tape; 14 AWG leads spliced to 20 AWG', 'CONNECTORS.md')
 add(B, '5.5 x 2.1 mm metal panel DC jack, M8 thread (DC-022B pattern)', 1, 'toolbox front, Ø8 hole, nut and lock washer outside; 12.6 V CC/CV charger', 'CONNECTORS.md')
 add(B, 'VHB double-sided foam tape 1 mm', '0.1 m', 'BMS and fuse holder', 'CONNECTORS.md')
-add(B, 'X1 main board rev A, 96 x 64, JLCPCB-assembled', 1, '148 parts; see main_board/BOM.md and fab/', 'X1/controller/main_board/BOM.md')
+add(B, 'X1 main board rev B, 96 x 64, JLCPCB-assembled', 1, '132 parts; see main_board/BOM.md and fab/', 'X1/controller/main_board/BOM.md')
 add(B, 'Thin CA glue / laminating epoxy', 1, 'shot lock, magnets, teeth, pads, clamps W01', 'X1/BODY.md, R12')
 
 # ------------------------------------------------------------------ bought: screws, nuts, inserts
 S = 'Screws, nuts, washers, inserts'
 add(S, 'M1.6 x 4 countersunk, PH0 (DIN 965)', 8, 'V6 motor screws', 'actuator_v6/BOM.md')
-add(S, 'M2 x 8 pan head', 8, 'V6 front caps', 'actuator_v6/BOM.md')
-add(S, 'M2 x 10 pan head', 12, 'V6 cable clamps (8) and rod eyes (4)', 'actuator_v6/BOM.md')
+add(S, 'M1 x 8 pan head, A2-70 stainless, PH000', 16, 'V6 front caps (8), V6 cable clamps (8)', 'actuator_v6/BOM.md')
+add(S, 'M1 heat-set insert, 1.8 mm long x 2 mm knurl (M1 x 1.8 x 2)', 16, 'V6 bodies, both end faces', 'actuator_v6/BOM.md')
+add(S, 'M2 x 10 pan head', 4, 'V6 rod eyes', 'actuator_v6/BOM.md')
 add(S, 'M2.5 x 6 self-tapping', 4, 'main board to the bay bosses', 'X1/BODY.md')
 add(S, 'M3 x 6 socket (ISO 4762)', 8, 'track motors to the inner walls', 'J9/BOM.md')
 add(S, 'M3 x 8 button head (ISO 7380)', 12, 'track housings (8), swing motor (4)', 'J9/BOM.md, X1/TURNTABLE.md')
@@ -164,7 +165,7 @@ add(W, '100 nF 50 V ceramic capacitor', 3, 'across each JGY-370 motor\'s tabs (b
 add(W, 'Cable tie 2.5 x 100 mm', 16, 'B01X troughs (4), slots (2), posts (2), bay and hood slack (8)', 'WIRING.md')
 add(W, 'Heat-shrink 2.4 and 4.8 mm', '0.5 m', 'joints and the slip-ring spare leads', 'WIRING.md')
 add(W, 'Nut-holding tool, 7 mm, within Ø11.2', 1, 'track joint nuts', 'X1/ASSEMBLY.md', 'tool, not a part')
-add(W, 'Hex L-keys 1.5, 2, 2.5 (90 mm long), 3 (20 mm short leg / 80 mm arm), 5 mm; PH0 driver with a 3 mm x 100 mm blade; PH1', 1, 'see ASSEMBLY.md', 'subsystem guides', 'tools')
+add(W, 'Hex L-keys 1.5, 2, 2.5 (90 mm long), 3 (20 mm short leg / 80 mm arm), 5 mm; PH0 driver with a 3 mm x 100 mm blade; PH1; PH000 precision driver', 1, 'see ASSEMBLY.md', 'subsystem guides', 'tools')
 
 
 def main():
@@ -173,7 +174,7 @@ def main():
         if r['group'] not in groups:
             groups.append(r['group'])
     md = ['# Parts list of the complete X1 excavator', '',
-          'One machine: two J9 tracks on the X1 revision F frame, the R3 turntable, body B1 rev B (issue 2), main board rev A, the R12 arm '
+          'One machine: two J9 tracks on the X1 revision F frame, the R3 turntable, body B1 rev B (issue 2), main board rev B, the R12 arm '
           'with four V6-U60 drives on B01X (issue 3), the harness of [WIRING.md](WIRING.md) and the connectors of [CONNECTORS.md](CONNECTORS.md). Generated by `source/build_bom.py`; '
           'the same rows are in [BOM.csv](BOM.csv). Each row names the subsystem BOM it is taken from; those BOMs stay authoritative '
           'for print settings and part sources.', '']

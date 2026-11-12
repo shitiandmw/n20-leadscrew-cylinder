@@ -30,7 +30,6 @@ struct Rig {
   explicit Rig(uint32_t t0 = 1000, const Config &cfg = Config()) : c(cfg), now(t0), next_tx(t0) {
     in.speed_pct = SPEED_DEFAULT;
     battery(12.0f);
-    s.v6_adc_mV = uint16_t(std::lround(6000.f * x1pins::V6_DIVIDER));
     c.update(now, s);  // power-up, no packet yet
   }
   void battery(float v) { s.vbat_adc_mV = vbat_adc(v); }
@@ -180,7 +179,7 @@ void test_channel_table() {
     assert(CHANNEL[ch].r_ipropi_ohm == x1pins::CHANNELS[ch].r_ipropi_ohm);
     assert(std::strcmp(CHANNEL[ch].name, x1pins::CHANNELS[ch].name) == 0);
     assert(CHANNEL[ch].invert == (ch == TRACK_R));  // only the mirrored right track
-    assert(CHANNEL[ch].vbat == (ch <= SWING));      // tracks and swing are on VBAT
+    assert(CHANNEL[ch].actuator == (ch >= BOOM_L));  // the four V6 actuators (12 V since main board rev B)
   }
   assert(CHANNEL[TRACK_L].ramp_ms == 300 && CHANNEL[TRACK_R].ramp_ms == 300 && CHANNEL[SWING].ramp_ms == 400);
   for (int ch = BOOM_L; ch <= BUCKET; ++ch) assert(CHANNEL[ch].ramp_ms == 100);
@@ -541,15 +540,19 @@ void test_stall_cutout() {
   r.in.speed_pct = 100;
   r.send();
   r.run(100);
-  // The swing (12 V) is covered; the 6 V actuators are not (they have their own PTCs).
+  // The swing and, since main board rev B, the 12 V actuators are covered. An actuator stalled at full duty would
+  // draw 12 V / 13 ohm, capped at its 0.5 A limit; one lifting a full bucket (49 N) runs at about 0.32 A.
   r.mA[SWING] = 0.95f * limit_mA(SWING);
   r.mA[STICK] = 0.95f * limit_mA(STICK);
+  r.mA[BUCKET] = 320.f;
   r.in.lx = 1000;
   r.in.ly = -1000;
+  r.in.rx = 1000;
   r.send();
   r.run(2500);
   assert(r.c.stall_cut(SWING) && r.d(SWING) == 0.f);
-  assert(!r.c.stall_cut(STICK) && r.d(STICK) == 1.f);
+  assert(r.c.stall_cut(STICK) && r.d(STICK) == 0.f);
+  assert(!r.c.stall_cut(BUCKET) && std::fabs(r.d(BUCKET)) == 1.f);
 }
 
 void test_low_battery() {
@@ -640,27 +643,27 @@ void test_boom_balance() {
   Rig r;
   r.arm();
   r.in.speed_pct = 100;
-  r.mA[BOOM_L] = r.mA[BOOM_R] = 120;
+  r.mA[BOOM_L] = r.mA[BOOM_R] = 200;
   r.run(100);
   r.in.ry = -1000;  // right stick back: RAISE = boom +
   r.send();
   r.run(1000);
   assert(r.d(BOOM_L) == 1.f && r.d(BOOM_R) == 1.f && r.c.boom_trim(0) == 0.f && !r.c.boom_fault());
   assert(r.c.outputs().ph[BOOM_L] == 1 && r.c.outputs().ph[BOOM_R] == 1);  // same command to both
-  // The left side draws 35 mA more: it is ahead, so its duty is trimmed down slowly.
-  r.mA[BOOM_L] = 155;
+  // The left side draws 100 mA more: it is ahead, so its duty is trimmed down slowly.
+  r.mA[BOOM_L] = 300;
   r.run(1000);
   assert(near(r.c.boom_trim(0), 0.05f, 0.004f) && r.c.boom_trim(1) == 0.f);
   assert(near(r.d(BOOM_L), 1.f - r.c.boom_trim(0), 1e-4f) && r.d(BOOM_R) == 1.f);
   r.run(4000);
   assert(r.c.boom_trim(0) == 0.15f && near(r.d(BOOM_L), 0.85f, 1e-4f));  // capped at 15 %
-  assert(!r.c.boom_fault());  // 35 mA is under the 40 mA fault level
-  // Within the 10 mA tolerance the trim holds.
-  r.mA[BOOM_R] = 150;
+  assert(!r.c.boom_fault());  // 100 mA is under the 130 mA fault level
+  // Within the 30 mA tolerance the trim holds.
+  r.mA[BOOM_R] = 280;
   r.run(1000);
   assert(r.c.boom_trim(0) == 0.15f);
   // Now the right side leads: the left trim is given back first.
-  r.mA[BOOM_R] = 175;
+  r.mA[BOOM_R] = 360;
   r.run(1000);
   assert(near(r.c.boom_trim(0), 0.10f, 0.004f) && r.c.boom_trim(1) == 0.f);
   // Reversing starts the trims afresh.
@@ -674,12 +677,12 @@ void test_boom_imbalance_fault() {
   Rig r;
   r.arm();
   r.in.speed_pct = 100;
-  r.mA[BOOM_L] = 200;
-  r.mA[BOOM_R] = 120;
+  r.mA[BOOM_L] = 360;
+  r.mA[BOOM_R] = 200;
   r.run(100);
   r.in.ry = -1000;
   r.press(BTN_LEFT_FWD);  // drive a track at the same time
-  r.run(3200);            // judged from 0.3 s: 2.9 s over 40 mA
+  r.run(3200);            // judged from 0.3 s: 2.9 s over 130 mA
   assert(!r.c.boom_fault() && r.d(BOOM_R) == 1.f);
   r.run(200);
   assert(r.c.boom_fault());
@@ -697,7 +700,7 @@ void test_boom_imbalance_fault() {
   r.run(40);
   r.release(BTN_RESUME);
   assert(!r.c.boom_fault());
-  r.mA[BOOM_L] = 120;
+  r.mA[BOOM_L] = 200;
   r.in.ry = -1000;
   r.send();
   r.run(500);
@@ -708,8 +711,8 @@ void test_boom_end_stops() {
   Rig r;
   r.arm();
   r.in.speed_pct = 100;
-  r.mA[BOOM_L] = 140;
-  r.mA[BOOM_R] = 120;
+  r.mA[BOOM_L] = 260;
+  r.mA[BOOM_R] = 200;
   r.run(100);
   r.in.ry = -1000;
   r.send();
@@ -717,7 +720,7 @@ void test_boom_end_stops() {
   assert(r.c.boom_trim(0) > 0.f);
   // The left end stop opens: its current drops to zero. The right side is driven on, untrimmed.
   r.mA[BOOM_L] = 0;
-  r.run(5000);
+  r.run(2500);
   assert(!r.c.boom_fault() && r.c.boom_trim(0) == 0.f && r.d(BOOM_R) == 1.f);
   Telemetry t;
   r.c.make_telemetry(t, 0);
@@ -726,16 +729,16 @@ void test_boom_end_stops() {
   r.mA[BOOM_R] = 0;
   r.run(15000);
   assert(!r.c.boom_fault() && r.c.boom_trim(0) == 0.f && r.c.boom_trim(1) == 0.f);
-  // One side at its end and the other never arriving: a fault after 10 s.
+  // One side at its end and the other never arriving: a fault after 3 s.
   Rig e;
   e.arm();
   e.in.speed_pct = 100;
   e.mA[BOOM_L] = 0;
-  e.mA[BOOM_R] = 120;
+  e.mA[BOOM_R] = 200;
   e.run(100);
   e.in.ry = -1000;
   e.send();
-  e.run(10200);
+  e.run(3200);
   assert(!e.c.boom_fault());
   e.run(200);
   assert(e.c.boom_fault() && e.d(BOOM_R) == 0.f);
@@ -744,7 +747,7 @@ void test_boom_end_stops() {
 void test_boom_resync() {
   Rig r;
   r.arm();
-  r.mA[BOOM_L] = r.mA[BOOM_R] = 120;
+  r.mA[BOOM_L] = r.mA[BOOM_R] = 200;
   r.run(100);
   // One press drives both sides to the retract end stops (boom down) at the movement speed.
   r.press(BTN_RESYNC);
@@ -755,7 +758,7 @@ void test_boom_resync() {
   assert(r.c.state_bits() & ST_RESYNC);
   assert(r.c.outputs().ph[BOOM_L] == 0 && r.c.outputs().ph[BOOM_R] == 0);
   // The imbalance check is off during a re-sync (the sides are expected to differ).
-  r.mA[BOOM_L] = 200;
+  r.mA[BOOM_L] = 360;
   r.run(4000);
   assert(!r.c.boom_fault() && r.c.resync_active());
   // Left reaches its end: the right keeps going at full (untrimmed) duty.
@@ -769,7 +772,7 @@ void test_boom_resync() {
   r.run(100);
   assert(r.d(BOOM_L) == 0.f && r.d(BOOM_R) == 0.f && !r.c.boom_fault() && !r.c.resync_failed());
   // A boom input cancels it, and the boom follows the stick.
-  r.mA[BOOM_L] = r.mA[BOOM_R] = 120;
+  r.mA[BOOM_L] = r.mA[BOOM_R] = 200;
   r.press(BTN_RESYNC);
   r.run(40);
   r.release(BTN_RESYNC);
@@ -791,11 +794,11 @@ void test_boom_resync() {
   r.run(200);
   assert(!r.c.resync_active() && r.d(BOOM_L) == 0.f);
   r.release(BTN_RESYNC);
-  // It gives up after 120 s and reports it.
+  // It gives up after 30 s and reports it.
   r.press(BTN_RESYNC);
   r.run(40);
   r.release(BTN_RESYNC);
-  r.run(119800);
+  r.run(29800);
   assert(r.c.resync_active());
   r.run(400);
   assert(!r.c.resync_active() && r.c.resync_failed() && (r.c.faults() & F_RESYNC_TIMEOUT));
@@ -805,8 +808,8 @@ void test_boom_resync() {
   Rig f;
   f.arm();
   f.in.speed_pct = 100;
-  f.mA[BOOM_L] = 200;
-  f.mA[BOOM_R] = 120;
+  f.mA[BOOM_L] = 360;
+  f.mA[BOOM_R] = 200;
   f.in.ry = -1000;
   f.send();
   f.run(4000);
@@ -873,7 +876,7 @@ void test_telemetry() {
   Telemetry u;
   assert(validate(reinterpret_cast<const uint8_t *>(&t), sizeof t, u) == Check::OK);
   assert(u.state == (ST_ARMED | ST_LINK) && u.faults == 0 && u.rssi_dBm == -57);
-  assert(u.vbat_mV > 11950 && u.vbat_mV < 12050 && u.v6_mV > 5950 && u.v6_mV < 6050);
+  assert(u.vbat_mV > 11950 && u.vbat_mV < 12050 && u.v6_mV == 0);  // v6_mV is reserved since main board rev B
   assert(u.ch[STICK].duty_pct == -100 && !(u.ch[STICK].flags & CH_PH));
   assert(u.ch[STICK].current_mA >= 119 && u.ch[STICK].current_mA <= 121);
   assert(u.rx_per_s >= 48 && u.rx_per_s <= 53 && u.ack_seq == uint16_t(r.seq - 1));  // 50/s plus manual sends
@@ -889,10 +892,9 @@ void test_telemetry() {
   r.handle = false;
   r.run(400);
   assert(r.c.outputs().lamp[0] && !r.c.outputs().buzzer);
-  // 6 V rail low with the battery up is reported.
-  r.s.v6_adc_mV = uint16_t(std::lround(4000.f * x1pins::V6_DIVIDER));
+  // There is no 6 V rail since main board rev B: its reserved fault bit is never set.
   r.step();
-  assert(r.c.faults() & F_RAIL_6V_LOW);
+  assert(!(r.c.faults() & F_RAIL_6V_LOW));
   // Current offsets are removed before scaling.
   r.c.set_current_offset(STICK, 50.f);
   r.run(200);

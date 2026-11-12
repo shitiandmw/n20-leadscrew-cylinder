@@ -49,12 +49,12 @@ test("drive loads match the R12 arm's virtual-work statics", () => {
 test("a drive slows under load, holds by itself and stalls past its limits", () => {
   assert.equal(SCREW.selfLocking, true);
   // 800 rpm on a 0.7 mm lead is 9.3 mm/s at 12 V; the 11.1 V battery and the
-  // circuit's losses leave about 8.1 mm/s.
+  // circuit's losses leave about 8.2 mm/s.
   const free = driveRate(1, 0);
-  assert.ok(near(free.rate, 8.15, 0.05), `${free.rate}`);
-  assert.ok(near(strokeTime(0), 7.37, 0.05));
-  // R12's 38.3 N boom peak takes a full stroke in about 10 s.
-  assert.ok(near(strokeTime(38.3), 9.99, 0.05));
+  assert.ok(near(free.rate, 8.17, 0.05), `${free.rate}`);
+  assert.ok(near(strokeTime(0), 7.34, 0.05));
+  // R12's 38.3 N boom peak takes a full stroke in about 9.7 s.
+  assert.ok(near(strokeTime(38.3), 9.7, 0.05));
   let last = Infinity;
   for (const force of [0, 10, 20, 40, 60, 80]) {
     const { rate, current, state } = driveRate(1, force);

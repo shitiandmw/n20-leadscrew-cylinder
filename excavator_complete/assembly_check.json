@@ -41,7 +41,7 @@
    },
    "120 mm up": {
     "overlaps": [],
-    "gap_mm": 51.425
+    "gap_mm": 51.028
    }
   },
   "clear": true
@@ -284,5 +284,5 @@
   "note": "a mated XHP-2 housing is 7.5 long and needs about 12 mm with its wire bend: it cannot be mated with the half on the machine. Mate the plugs with the half standing beside the machine (BODY.md slack), or fit top-entry headers (B2B-XH-A / B4B-XH-A, DESIGN.md alternatives) on a rev B board."
  },
  "status": "PASS",
- "seconds": 862.0
+ "seconds": 680.9
 }

@@ -101,8 +101,8 @@ body.record .canvas-label{font-size:13px;left:28px;top:20px}
 <span class="tag">V6 · general purpose · 2 wires · printable</span></header>
 <main><aside><div class="eyebrow">N20 LEADSCREW ACTUATOR</div>
 <h1>Two wires in, end stops built in</h1>
-<p class="intro">The unmodified N20 gearmotor with its own M3 leadscrew sits in a square printed body held by screws. A small board in the side slot carries two Hall switches that see the magnet through a 1 mm printed partition: the rod stops by itself at both ends, and reversing the polarity always drives it back out.</p>
-<div class="specs"><div class="spec"><span>Stroke</span><b id="spec-stroke">–</b></div><div class="spec"><span>Pin centres</span><b id="spec-pins">–</b></div><div class="spec"><span>Body section</span><b id="spec-body">–</b></div><div class="spec"><span>Speed (6 V)</span><b id="spec-speed">–</b></div><div class="spec"><span>Thrust (est.)</span><b id="spec-force">–</b></div></div>
+<p class="intro">The unmodified 12 V N20 gearmotor with its own M4 leadscrew sits in a square printed body held by screws. A small board in the side slot carries two Hall switches that see the magnet through a 1 mm printed partition: the rod stops by itself at both ends, and reversing the polarity always drives it back out.</p>
+<div class="specs"><div class="spec"><span>Stroke</span><b id="spec-stroke">–</b></div><div class="spec"><span>Pin centres</span><b id="spec-pins">–</b></div><div class="spec"><span>Body section</span><b id="spec-body">–</b></div><div class="spec"><span>Speed (12 V)</span><b id="spec-speed">–</b></div><div class="spec"><span>Thrust (est.)</span><b id="spec-force">–</b></div></div>
 <div class="legend"><strong>Two wires</strong>
 <div class="item"><span class="wsw" style="background:#d7261e"></span>W1 red · A (A+ extends)</div>
 <div class="item"><span class="wsw" style="background:#222"></span>W2 black · B (B+ retracts)</div>
@@ -123,7 +123,7 @@ body.record .canvas-label{font-size:13px;left:28px;top:20px}
 <div class="controls"><div><div class="readouts"><span>Rod out <b id="travel-value">0.0</b>mm</span><span class="small">Pin centres <b id="length-value">–</b>mm</span><span class="small">Motor <b id="current-value">0</b>mA</span></div>
 <input id="travel" aria-label="Rod travel in millimetres" type="range" min="-2" max="42" step="0.05" value="0"><div class="range-ends"><span>retracted · 0 mm</span><span id="range-max">extended</span></div></div>
 <div class="drive"><button id="drive-ext">A+ &nbsp;B−<small>extend</small></button><button id="drive-off">Off<small>open</small></button><button id="drive-ret">B+ &nbsp;A−<small>retract</small></button>
-<div class="opts"><label>Playback <select id="speed"><option value="0.02">0.02× · gears</option><option value="0.1">0.1×</option><option value="1">1×</option><option value="5">5×</option><option value="10" selected>10×</option><option value="25">25×</option></select></label><button id="jam">Jam the rod</button></div></div>
+<div class="opts"><label>Playback <select id="speed"><option value="0.004">0.004× · gears</option><option value="0.1">0.1×</option><option value="0.25">0.25×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="5">5×</option></select></label><button id="jam">Jam the rod</button></div></div>
 <div class="signals"><span class="signal"><span class="led" id="led-u1"></span><span id="sig-u1"></span></span><span class="signal"><span class="led" id="led-u2"></span><span id="sig-u2"></span></span><span class="signal"><span class="led" id="led-f1"></span><span id="sig-f1"></span></span></div>
 <div class="status" id="status"></div></div>
 <div class="asm" id="asm"><div class="asm-bar"><button id="asm-prev" aria-label="Previous step">⏮</button><button id="asm-play" aria-label="Play">▶</button><button id="asm-next" aria-label="Next step">⏭</button>

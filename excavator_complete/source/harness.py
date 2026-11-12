@@ -57,7 +57,7 @@ TIE_SLOT = (3.5, 1.6)
 SLOT_T = SLOTS['S3'][3]
 
 # ------------------------------------------------------------------ connectors on the main board (vehicle, swing 0)
-# From main_board/X1_main_board_A_parts.json and the board STEP (x1_body.main_board): the inboard JST headers face -Y with
+# From main_board/X1_main_board_B_parts.json and the board STEP (x1_body.main_board): the inboard JST headers face -Y with
 # their mating faces at Y 84.54; the mated housings (XHP-2/-4, PHR-3) stand 1.5 proud, to Y 83.04, and 4 mm of their
 # wires are drawn with them (stdparts.py), so a cable tube ends at Y 79.0. The XT30PW-M is on the front edge (X -40) and
 # mates from +X; the XT30U-F of the 12 V link is drawn by build_connectors.py at its mouth.

@@ -1,6 +1,8 @@
-# X1 control system: spec C1, issue 4
+# X1 control system: spec C1, issue 5
 
-**Status:** the requirements for the main board, which is now designed to them: the schematic is complete and checked, in [main_board/DESIGN.md](main_board/DESIGN.md). The PCB layout is in progress.
+**Status:** the requirements for the main board, which is designed to them: rev B's schematic, routed PCB and manufacturing files are generated and checked, in [main_board/DESIGN.md](main_board/DESIGN.md).
+
+**Issue 5 (2026-11-10, 12 V actuators):** the arm's V6-U60 actuators now use the 12 V N20 1:50 800 rpm gearmotor with an M4 × 0.7 leadscrew (actuator_v6 rev 6.2). They run from VBAT like the other three channels, so the 6 V buck and its sense input are gone (main board rev B). The actuator rows of section 2, the rails and budget (P2, P4), the boom pair's numbers and the stall cut-out (S4), which now covers the actuators too, change with it.
 
 **Issue 4 (2026-11-05, PCB layout):** the board's floor plan moved two things. The tracks' JST-XH 4-pin went from the front edge to the inboard edge (C1, C2), and the module went to the front end of the outboard edge (C3).
 
@@ -56,14 +58,14 @@ Coordinates are the X1 machine frame in mm: X forward, Y to the left, Z up.
 | 1 Left track | JGY-370-1260 12 V 200:1 (rated 0.2 A, stall 1.3 A) | VBAT | 1.0 A | 0.3 s | J9 README → Motor choice; open item 7 (reverse stall against the idler) |
 | 2 Right track | same; the motor is mounted mirrored, so the firmware inverts its direction | VBAT | 1.0 A | 0.3 s | X1 decisions → Right track |
 | 3 Swing | same motor; the worm gear self-locks | VBAT | 0.6 A | **0.4 s, mandatory** | TURNTABLE.md: 204 N on a pinion tooth without the ramp, 35 N with it |
-| 4 Boom left | V6-U60 two-wire actuator (N20 6 V, 7 V maximum), with its own Hall end stops and a 0.12 A PTC | 6 V | 0.5 A (backstop) | 0.1 s | actuator_v6 README; simulation/results.json |
-| 5 Boom right | same | 6 V | 0.5 A | 0.1 s | |
-| 6 Stick | same | 6 V | 0.5 A | 0.1 s | |
-| 7 Bucket | same | 6 V | 0.5 A | 0.1 s | |
+| 4 Boom left | V6-U60 two-wire actuator (N20 12 V 1:50, M4 × 0.7 leadscrew, 13 V maximum), with its own Hall end stops and a 0.35 A PTC | VBAT | 0.5 A (backstop) | 0.1 s | actuator_v6 README; simulation/results.json |
+| 5 Boom right | same | VBAT | 0.5 A | 0.1 s | |
+| 6 Stick | same | VBAT | 0.5 A | 0.1 s | |
+| 7 Bucket | same | VBAT | 0.5 A | 0.1 s | |
 
 - The two track motors reach the board through the 6-way slip ring. They use 4 of its rings; 2 are spare.
-- An actuator runs at about 0.12 A and stalls at about 0.35 A (simulated). Its own PTC trips on a jam in about 1.6 s. The board's 0.5 A limit only guards the wiring.
-- Actuator speed is 0.82–1.25 mm/s, so a full 60 mm stroke takes 50–75 s. That is set by the actuator, not by the board.
+- An actuator draws about 0.08 A free and 0.32 A raising the boom with a full bucket (49 N). Blocked at 12.6 V it would draw about 1 A, which the board's 0.5 A limit caps. Its own PTC holds 0.35 A (about 55 N) and trips by 0.75 A: on a 1 A jam in about 1.7 s (simulated without the board's limit). At the board's 0.5 A it may hold, so S4 also watches the actuators.
+- Actuator speed at full duty is about 8.2 mm/s free and 5.6 mm/s raising a full bucket (excavator_app README), so a full 60 mm stroke takes 7–11 s. That is set by the actuator, not by the board.
 - **PWM:** 20 kHz, drive and brake (slow decay). The V6 end-stop circuit passes simulation at this setting (`actuator_v6/electronics/simulation/results.json`, case `pwm20k_brake`).
 
 ## 3. Main board requirements
@@ -74,14 +76,14 @@ Coordinates are the X1 machine frame in mm: X forward, Y to the left, Z up.
   - Reverse-polarity protection with a P-MOSFET.
   - A TVS diode and bulk capacitors for motor transients.
 - **P2. Rails:**
-  - VBAT, 9.0–12.6 V, unregulated: the track and swing drivers.
-  - **6 V buck, 3 A:** 4 actuators × 0.5 A limit = 2.0 A.
+  - VBAT, 9.0–12.6 V, unregulated: all seven drivers (tracks, swing and, since issue 5, the four actuators).
   - **5 V buck, 3 A:** logic, lamps and buzzer (about 0.6 A), plus 2 A kept in reserve for the expansion header (section 8).
   - **3.3 V low-noise regulator (LDO), at least 0.5 A:** the ESP32-S3 and the analog references.
 - **P3. Battery voltage:** read through a divider into the ADC.
 - **P4. Budget (checked in the JSON):**
-  - Worst case, every channel at its limit at 9.6 V: **4.2 A**, under the 5 A fuse.
-  - Adding a 4G stick later (5 V, 2 A) would raise this to about 5.4 A. The fuse is reviewed in that phase.
+  - Worst case, every channel at its limit at 9.6 V: **4.9 A**, under the 5 A fuse. A blocked actuator stays at its 0.5 A limit only until its own PTC or S4 switches it off.
+  - The board's own calculation (main_board/DESIGN.md), with its exact limits: 4.45 A with the actuators at their PTC's 0.35 A hold, and 5.04 A for the moment every channel is at its limit.
+  - Adding a 4G stick later (5 V, 2 A) would raise the worst case to about 6.1 A. The fuse is reviewed in that phase.
 
 ### Motor drivers
 
@@ -92,7 +94,7 @@ Coordinates are the X1 machine frame in mm: X forward, Y to the left, Z up.
   - 2.5 kΩ for 1.0 A;
   - 4.17 kΩ for 0.6 A;
   - 5.0 kΩ for 0.5 A.
-  - At each limit the IPROPI voltage is 2.5 V, inside the ESP32-S3 ADC range at 12 dB attenuation. An actuator running at 0.12 A gives 0.6 V.
+  - At each limit the IPROPI voltage is 2.5 V, inside the ESP32-S3 ADC range at 12 dB attenuation. An actuator running free at 0.08 A gives 0.4 V.
 - **M3.** Phase/enable mode: one PWM pin and one direction pin per channel. The sleep line is shared, and the fault line is shared open-drain.
 
 ### Controller
@@ -168,10 +170,10 @@ The control mapping copies the Sand/Lab phone remote (`excavator_app/client/main
 The V6 has no position feedback, so the two sides are kept together from current alone:
 
 1. **Same command** to both channels.
-2. **Load balancing:** the side drawing more current is ahead and carrying more of the boom. Its duty is trimmed down slowly, by at most 15 %, until the currents match. This also helps keep each actuator under its PTC hold current of 0.12 A.
+2. **Load balancing:** the side drawing more current is ahead and carrying more of the boom. Its duty is trimmed down slowly, by at most 15 %, until the currents match. This also helps keep each actuator under its PTC hold current of 0.35 A.
 3. **Re-sync at the ends:** when one side's current drops to zero (its end stop has opened), the other side keeps being driven until it stops too.
 4. **Re-sync from the handle:** one button drives both sides to the retract end stops.
-5. **Imbalance fault:** if the difference stays over 40 mA for 3 s, the boom stops and the handle reports a fault. Both values are starting points, to be tuned on the bench.
+5. **Imbalance fault:** if the difference stays over 130 mA (about 27 N) for 3 s, the boom stops and the handle reports a fault. Both values are starting points, to be tuned on the bench.
 
 **Limit:** this keeps the sides close, not exactly equal. A possible later upgrade is in open item 2.
 
@@ -180,7 +182,7 @@ The V6 has no position feedback, so the two sides are kept together from current
 - **S1. Link loss:** no valid packet for 350 ms (the app's input watchdog) stops every channel. The swing ramps down over its 0.4 s to protect the pinion; the others stop at once.
 - **S2. EMERGENCY STOP on the handle:** latching, as in the app. It stops everything, with the swing ramping as in S1. Only RESUME clears it, and only with all inputs centred, matching the app's "Resume operation".
 - **S3. Power-up:** the machine stays disarmed until a paired handle connects with all inputs centred. Nothing moves on boot.
-- **S4. Stall cut-out:** a 12 V channel held at 90 % or more of its limit for 2 s is switched off, and stays off until its input returns to centre. This protects the closed track motor pods (J9 open item 8).
+- **S4. Stall cut-out:** a channel drawing 90 % or more of the current its motor would draw stalled at the present duty (duty × battery voltage / winding resistance, capped by the channel's limit) for 2 s is switched off, and stays off until its input returns to centre. It is not judged while that estimate is under 0.4 A. This protects the closed track motor pods (J9 open item 8) and, since issue 5, the actuators (13 Ω estimate), whose PTC may hold at the board's 0.5 A.
 - **S5. Low battery:**
   - warning at 3.5 V per cell (10.5 V), shown on the handle with vibration;
   - motors stop at 3.2 V per cell (9.6 V).
@@ -246,7 +248,7 @@ Not designed or implemented in this phase. The only provisions are these:
    - The TI DRV8214 (motor supply up to 11 V, I²C) counts commutation ripple and so gives relative motor position without a sensor.
    - The rule was to switch only if two checks passed: LCSC stock, and proof that the ripple survives the V6's PTC and MOSFET path. The second needs a simulation or a bench test, which has not been done.
    - Rev A therefore keeps one driver type, the DRV8876, for all seven channels. Its I²C interface would also need two GPIO, and all 36 are now used.
-   - The DRV8214 remains a rev B option if the bench shows the current balance is not good enough.
+   - Rev B (issue 5) keeps the DRV8876 too. The DRV8214 also could not take the 12.6 V actuator supply (11 V maximum); a ripple-counting driver for a later revision would need a higher-voltage part.
 3. The DRV8876 is an LCSC "extended" part, which carries a one-time fee at JLCPCB. Check its stock before ordering.
 4. Radio range from inside the PETG body, near the steel shot. Test on the bench.
 5. Connector orientation and plug clearance in the bay (B5). Fix in CAD.

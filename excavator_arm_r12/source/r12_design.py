@@ -21,9 +21,17 @@ import bucket_ref as BREF
 SCALE = 15.0
 BOOM, STICK, TIP_R, BUCKET_W = rc.BOOM, rc.STICK, rc.TIP_R, 1200 / SCALE
 TURNTABLE_Z, GROUND_Z, SWING_X = -55.0, -155.0, -30.0
-ACT = dict(name='V6-U60', closed=140.0, stroke=60.0, open=200.0, eye_r=4.5, cap_s=6.0, body_end_s=122.5, body_half=8.05,
-           body_board=9.75, body_back=6.35, body_half_y=7.35,
-           rod_r=4.0, socket_r=5.5, socket_s=(4.0, 14.5), eye_t=6.0, boss_r=3.6, thrust_cont=51.0, thrust_stall=201.0, mass_barrel=0.051, barrel_cg_s=75.6, mass_rod=0.006,
+# Drive thrust: actuator_v6 rev 6.2, the 12 V N20 1:50 gearmotor on an M4 x 0.7 leadscrew (the same motor model as
+# excavator_app/shared/drives.js, about 204 N per ampere above the 0.08 A no-load current). Continuous: 55 N at its
+# PTC's 0.35 A hold. Stall: 208 N at the motor's 1.1 A stall current from 12 V; the X1 main board's 0.5 A limit caps
+# it at about 86 N, so 208 N is the structural worst case on a bench supply.
+# Body section 17.3 x 14.7: 9.75 on the board side, 7.55 on the other since the V6 motor-side wall became 2.4 mm
+# (2026-11-11, its end hooks the rear cap). body_half, half the depth, only sizes the bucket-base search; it still
+# picks F_S = (5, 47), with the drive body 1.73 mm off the stick (1.5 required). mass_barrel follows the CAD
+# (simulation/mass_properties.json: 53.5 g with the thicker wall, 50.9 g before).
+ACT = dict(name='V6-U60', closed=140.0, stroke=60.0, open=200.0, eye_r=4.5, cap_s=6.0, body_end_s=122.5, body_half=8.65,
+           body_board=9.75, body_back=7.55, body_half_y=7.35,
+           rod_r=4.0, socket_r=5.5, socket_s=(4.0, 14.5), eye_t=6.0, boss_r=3.6, thrust_cont=55.0, thrust_stall=208.0, mass_barrel=0.053, barrel_cg_s=75.6, mass_rod=0.006,
            rod_cg_s=129.9)
 RHO, T_WALL, PAYLOAD = 1.27e-6, 2.5, 0.150
 PRINT_INFILL = 0.10                  # boxes print as 6 perimeters (2.5 mm) + 10 % gyroid infill
@@ -579,7 +587,7 @@ def foot_parts():
 
 def actuator_shapes(a, b, board=+1):
     """Side-view envelope of one drive between rear pin a and rod pin b (world). The body section
-    is 16.1 deep: 9.75 on the board side, 6.35 on the other; `board` = +1 puts the board on the
+    is 17.3 deep: 9.75 on the board side, 7.55 on the other; `board` = +1 puts the board on the
     left of a->b."""
     a, b = np.asarray(a, float), np.asarray(b, float)
     L = float(np.linalg.norm(b - a))

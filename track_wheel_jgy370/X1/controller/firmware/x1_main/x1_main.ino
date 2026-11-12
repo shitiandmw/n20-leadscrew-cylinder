@@ -79,7 +79,7 @@ static size_t line_len = 0;
 static char text[1800];
 
 static const uint8_t ADC_PINS[] = {x1pins::ISNS_TL, x1pins::ISNS_TR, x1pins::ISNS_SW,  x1pins::ISNS_BL, x1pins::ISNS_BR,
-                                   x1pins::ISNS_ST, x1pins::ISNS_BK, x1pins::VBAT_SNS, x1pins::V6_SNS};
+                                   x1pins::ISNS_ST, x1pins::ISNS_BK, x1pins::VBAT_SNS};
 
 // ---- motor PWM: MCPWM on the seven EN pins -----------------------------------------------------
 
@@ -155,7 +155,6 @@ static Sense read_sense() {
   Sense s;
   for (int ch = 0; ch < NUM_CH; ++ch) s.isns_mV[ch] = uint16_t(analogReadMilliVolts(CHANNEL[ch].isns));
   s.vbat_adc_mV = uint16_t(analogReadMilliVolts(x1pins::VBAT_SNS));
-  s.v6_adc_mV = uint16_t(analogReadMilliVolts(x1pins::V6_SNS));
   s.nfault_low = digitalRead(x1pins::NFAULT) == LOW;
   return s;
 }

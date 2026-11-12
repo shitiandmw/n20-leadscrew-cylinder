@@ -62,7 +62,7 @@ label.tg{display:inline-flex;align-items:center;gap:4px;margin-right:10px;font-s
 <h2>Drive force over the cycle</h2>
 <div class="legend" id="legend"></div>
 <div id="chart"><div id="tip"></div></div>
-<div class="note" id="chartnote">Click the chart to jump to a time. Dashed line: 51 N continuous rating of the V6-U60 (stall 201 N).</div>
+<div class="note" id="chartnote">Click the chart to jump to a time.</div>
 <h2>Checks</h2><div class="checks" id="checks"></div>
 <h2>Model</h2>
 <p class="note">Meshes are the CAD solids from <code>cad_r12.py</code> (STEP in <code>step/</code>). In the cycle modes every body is placed from the MuJoCo trace (10 Hz, linearly interpolated): what you see is the integrated dynamics, including the boom-pair closure. Manual mode uses the closed-form kinematics. Printed parts: PETG, 6 perimeters (2.5 mm) + 10 % gyroid. Soil forces are not modelled: the cycle moves the payload through air.</p>
@@ -71,6 +71,8 @@ label.tg{display:inline-flex;align-items:center;gap:4px;margin-right:10px;font-s
 <script>
 'use strict';
 const MESHES=__MESHES__,C=__CONFIG__,TRACES=__TRACES__;
+const CHART_NOTE=`Click the chart to jump to a time. Dashed line: ${C.thrust_cont} N continuous rating of the V6-U60 (stall ${C.thrust_stall} N).`;
+document.getElementById('chartnote').textContent=CHART_NOTE;
 const $=id=>document.getElementById(id);
 const DRV=['Boom L','Boom R','Stick','Bucket'],SERIES=[{k:'boom',name:'Boom (each)',col:'var(--s1)',hex:'#2a78d6'},{k:'stick',name:'Stick',col:'var(--s2)',hex:'#eb6834'},{k:'bucket',name:'Bucket',col:'var(--s3)',hex:'#1baf7a'}];
 const state={mode:'payload_150g',time:0,playing:false,speed:20,view:'oblique',strokes:[...C.default],xray:false,pins:false,ready:false,renders:0};
@@ -127,7 +129,7 @@ function setView(v){state.view=v;const H=(ENV.z1-ENV.z0)/0.78,cx=(ENV.x0+ENV.x1)
  else orbit(-52,20,1700);
  groundLine.visible=v==='side';document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===v));needsRender=true;}
 
-// ---------- chart (SVG): three series + 51 N rating, hover crosshair, click to seek
+// ---------- chart (SVG): three series + the continuous rating, hover crosshair, click to seek
 const CH={W:344,H:178,l:34,r:64,t:10,b:24,y0:-30,y1:56};let chartEls=null;
 const cx_=t=>CH.l+(t/C.duration)*(CH.W-CH.l-CH.r),cy_=f=>CH.t+(CH.y1-f)/(CH.y1-CH.y0)*(CH.H-CH.t-CH.b);
 function seriesOf(fr){const b=Math.abs(fr.f[0])>=Math.abs(fr.f[1])?fr.f[0]:fr.f[1];return [b,fr.f[2],fr.f[3]];}
@@ -135,7 +137,7 @@ function buildChart(tr){const ns='http://www.w3.org/2000/svg',el=(n,a,p)=>{const
  const box=$('chart');box.querySelectorAll('svg').forEach(s=>s.remove());const svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox',`0 0 ${CH.W} ${CH.H}`);svg.setAttribute('role','img');svg.setAttribute('aria-label','Drive forces over the dig cycle');box.prepend(svg);
  for(const f of [-25,0,25,50]){el('line',{x1:CH.l,x2:CH.W-CH.r,y1:cy_(f),y2:cy_(f),stroke:f===0?'#c4cacd':'#eceff0','stroke-width':1});const t=el('text',{x:CH.l-5,y:cy_(f)+3.5,'text-anchor':'end','font-size':9,fill:'#68737b'});t.textContent=f;}
  el('line',{x1:CH.l,x2:CH.W-CH.r,y1:cy_(C.thrust_cont),y2:cy_(C.thrust_cont),stroke:'#8a949b','stroke-width':1.2,'stroke-dasharray':'4 3'});
- const rl=el('text',{x:CH.W-CH.r+4,y:cy_(C.thrust_cont)+3,'font-size':9,fill:'#52514e'});rl.textContent='51 N rating';
+ const rl=el('text',{x:CH.W-CH.r+4,y:cy_(C.thrust_cont)+3,'font-size':9,fill:'#52514e'});rl.textContent=`${C.thrust_cont} N rating`;
  for(const p of C.phases){el('line',{x1:cx_(p.start),x2:cx_(p.start),y1:CH.t,y2:CH.H-CH.b,stroke:'#f0f2f3','stroke-width':1});}
  for(const s of [0,200,400,600]){const t=el('text',{x:cx_(s),y:CH.H-CH.b+13,'text-anchor':'middle','font-size':9,fill:'#68737b'});t.textContent=s+(s===600?' s':'');}
  const yl=el('text',{x:4,y:CH.t+4,'font-size':9,fill:'#68737b'});yl.textContent='N';
@@ -154,14 +156,14 @@ function buildChart(tr){const ns='http://www.w3.org/2000/svg',el=(n,a,p)=>{const
  hit.addEventListener('pointerleave',()=>{hov.setAttribute('visibility','hidden');tip.style.display='none';});
  hit.addEventListener('click',ev=>{seek(tAt(ev));});
  chartEls={svg,cur};}
-$('legend').innerHTML=SERIES.map(S=>`<span><span class="sw" style="background:${S.hex}"></span>${S.name}</span>`).join('')+'<span><span class="sw" style="background:#8a949b"></span>51 N rating</span>';
+$('legend').innerHTML=SERIES.map(S=>`<span><span class="sw" style="background:${S.hex}"></span>${S.name}</span>`).join('')+`<span><span class="sw" style="background:#8a949b"></span>${C.thrust_cont} N rating</span>`;
 
 // ---------- UI
 $('time').max=C.duration;$('phase').innerHTML=C.phases.map((p,i)=>`<option value="${i}">${i+1}. ${p.title}</option>`).join('');
 $('wp').innerHTML='<option value="">Go to a cycle waypoint…</option>'+C.waypoints.map((w,i)=>`<option value="${i}">${w.name} (${w.strokes_mm.join(' / ')})</option>`).join('');
 const R=C.reports;$('checks').innerHTML=[
  [`3D CAD clash (FCL, exact meshes): ${C.clash.penetrations} penetrations over ${C.clash.poses} poses, ${C.clash.parts} parts; closest side-view gap ${C.clash.min_inplane.toFixed(2)} mm`],
- [`MuJoCo, 150 g: peak boom ${R.payload_150g.peak_force_N.boom_L.toFixed(1)} N each, stick ${R.payload_150g.peak_force_N.stick.toFixed(1)} N, bucket ${R.payload_150g.peak_force_N.bucket.toFixed(1)} N (rating 51 N)`],
+ [`MuJoCo, 150 g: peak boom ${R.payload_150g.peak_force_N.boom_L.toFixed(1)} N each, stick ${R.payload_150g.peak_force_N.stick.toFixed(1)} N, bucket ${R.payload_150g.peak_force_N.bucket.toFixed(1)} N (rating ${C.thrust_cont} N)`],
  [`Tracking ≤ ${R.payload_150g.tracking_mm.toFixed(3)} mm, pin closure ≤ ${R.payload_150g.closure_mm.toFixed(3)} mm, ${R.payload_150g.clamp_s} s at the force clamp`],
  [`Empty: boom ${R.unloaded.peak_force_N.boom_L.toFixed(1)} N, stick ${R.unloaded.peak_force_N.stick.toFixed(1)} N, bucket ${R.unloaded.peak_force_N.bucket.toFixed(1)} N`]
 ].map(([t])=>`<div><span class="ok">✓</span><span>${t}</span></div>`).join('')+`<div><span style="color:#b15b00;font-weight:700">!</span><span>${C.sync_note}</span></div>`;
@@ -185,7 +187,7 @@ function render(){renderer.render(scene,camera);state.renders++;needsRender=fals
 function seek(t,quiet){state.time=Math.min(C.duration,Math.max(0,t));const s=update();if(quiet){scene.updateMatrixWorld(true);needsRender=false;}else render();return s;}
 async function setMode(m){state.mode=m;stop();document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===m));
  $('manual').hidden=m!=='manual';$('transport').hidden=m==='manual';
- if(m!=='manual'){trace=await loadTrace(m);buildChart(trace);$('chartnote').textContent='Click the chart to jump to a time. Dashed line: 51 N continuous rating of the V6-U60 (stall 201 N).';}
+ if(m!=='manual'){trace=await loadTrace(m);buildChart(trace);$('chartnote').textContent=CHART_NOTE;}
  else{if(!trace){trace=await loadTrace('payload_150g');buildChart(trace);}$('chartnote').textContent='Manual mode: the chart shows the last replayed cycle; forces are not computed for manual poses.';}
  update();render();return state.mode;}
 function stop(){state.playing=false;$('play').textContent='▶ Play';}

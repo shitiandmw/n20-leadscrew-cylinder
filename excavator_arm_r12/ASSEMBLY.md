@@ -57,7 +57,7 @@ The exact 3D check (`cad/clash_check.json`) found this. The side-view drawing ch
 
 ## Drives
 
-There are four identical V6-U60 drives: 60 mm stroke, 140 to 200 mm between pins, stock M3 × 0.5 screw 75 mm long.
+There are four identical V6-U60 drives: 60 mm stroke, 140 to 200 mm between pins, the 12 V N20 1:50 gearmotor with its M4 × 0.7 screw cut to 75 mm (actuator_v6 rev 6.2).
 
 | Drive | Rear pin → rod pin | Y centre | Board housing, side view |
 |---|---|---|---|
@@ -66,9 +66,9 @@ There are four identical V6-U60 drives: 60 mm stroke, 140 to 200 mm between pins
 | Stick | C → D | 0 | left of the line C→D |
 | Bucket | F → R | 0 | left of the line F→R |
 
-The board housing is the 9.75 mm side of the 16.1 mm deep body (6.35 mm on the other side). These board sides are the ones checked for clearance. If a housing is flipped, run `check_cad.py` again.
+The board housing is the 9.75 mm side of the 17.3 mm deep body (7.55 mm on the other side). These board sides are the ones checked for clearance. If a housing is flipped, run `check_cad.py` again.
 
-**The boom pair must be synchronised in closed loop.** Both boom drives push on one rigid boom. A 0.5 mm difference between their position sensors at the worst holding pose loads one drive to 51 N and the other to 28 N, where they should share about 39.5 N each (`simulation/sync_bias_report.json`). Use one shared position target and correct each drive's error separately, or average their sensors and add a cross-coupling term. Do not drive the two boom drives open-loop from one PWM signal.
+**The boom pair must be synchronised in closed loop.** Both boom drives push on one rigid boom. A 0.5 mm difference between their position sensors at the worst holding pose loads one drive to its 55 N clamp and the other to 24 N, where they should share about 39.6 N each (`simulation/sync_bias_report.json`). Use one shared position target and correct each drive's error separately, or average their sensors and add a cross-coupling term. Do not drive the two boom drives open-loop from one PWM signal.
 
 ## Assembly order
 

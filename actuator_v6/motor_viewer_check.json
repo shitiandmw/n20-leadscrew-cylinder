@@ -3,7 +3,7 @@
   "results": {
     "S": {
       "poses": 45,
-      "maxPivotError": 2.220446049250313e-16,
+      "maxPivotError": 4.965068306494546e-16,
       "maxRotationError": 1.1102230246251565e-16,
       "slow": true,
       "restoredSpeed": true,
@@ -12,7 +12,7 @@
     },
     "U60": {
       "poses": 45,
-      "maxPivotError": 2.220446049250313e-16,
+      "maxPivotError": 4.965068306494546e-16,
       "maxRotationError": 1.1102230246251565e-16,
       "slow": true,
       "restoredSpeed": true,
@@ -21,7 +21,7 @@
     },
     "L": {
       "poses": 45,
-      "maxPivotError": 2.220446049250313e-16,
+      "maxPivotError": 4.965068306494546e-16,
       "maxRotationError": 1.1102230246251565e-16,
       "slow": true,
       "restoredSpeed": true,
@@ -29,19 +29,5 @@
       "restoredRotors": true
     }
   },
-  "errors": [],
-  "layout": [
-    {
-      "width": 390,
-      "buttonsFit": true
-    },
-    {
-      "width": 980,
-      "buttonsFit": true
-    },
-    {
-      "width": 1280,
-      "buttonsFit": true
-    }
-  ]
+  "errors": []
 }

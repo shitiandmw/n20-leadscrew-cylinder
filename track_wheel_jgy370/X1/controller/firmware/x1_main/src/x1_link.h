@@ -73,10 +73,10 @@ enum Fault : uint16_t {
   F_DRIVER_LINE = 1u << 1,   // nFAULT is low now
   F_BOOM = 1u << 2,          // boom pair imbalance (or one side never reached its end stop)
   F_RESYNC_TIMEOUT = 1u << 3,
-  F_STALL = 1u << 4,         // S4: a 12 V channel is cut; see the channel flags
+  F_STALL = 1u << 4,         // S4: a channel is cut; see the channel flags
   F_BATTERY_LOW = 1u << 5,   // S5: motors stopped (9.6 V)
   F_BATTERY_WARN = 1u << 6,  // S5: warning (10.5 V); the handle vibrates
-  F_RAIL_6V_LOW = 1u << 7,   // 6 V actuator rail low while the battery is up (report only)
+  F_RAIL_6V_LOW = 1u << 7,   // reserved: never set since main board rev B (it had a 6 V actuator rail)
 };
 
 // ChannelReport.flags
@@ -116,7 +116,7 @@ struct Telemetry {
   uint16_t ack_seq;     // seq of the last control packet accepted
   uint16_t faults;      // Fault bits
   uint16_t vbat_mV;     // battery, 2 s filtered (the value S5 acts on)
-  uint16_t v6_mV;       // 6 V actuator rail
+  uint16_t v6_mV;       // reserved, 0 since main board rev B (was the 6 V actuator rail)
   int8_t rssi_dBm;      // of the last control packet; 0 = none yet
   uint8_t rx_per_s;     // control packets accepted in the last second (50 expected)
   ChannelReport ch[7];  // x1pins::CHANNELS order: track L, track R, swing, boom L, boom R, stick, bucket

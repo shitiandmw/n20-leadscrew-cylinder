@@ -7,6 +7,8 @@ Sheet 2  main board concept in the B102 left bay: top view in machine coordinate
 The handle is parked (issue 3): its appearance will restart from a real, cited product reference, so the
 issue-2 handle sheet and its face-layout checks were removed. Issue 4 redraws sheet 2 to the PCB layout's floor plan
 (main_board/source/layout.py): the module at the front end of the outboard edge, the tracks' XH-4 on the inboard edge.
+Issue 5 (2026-11-10): the arm's V6-U60 actuators use the 12 V N20 1:50 motor with an M4 leadscrew, so they run from
+VBAT like the other three channels and the 6 V buck is gone.
 
 A concept, not a schematic or a layout. The board outline, holes, USB position and bay heights are read from
 ../../source/x1_body.py (as text, so CadQuery is not needed) and checked against the values used here.
@@ -28,7 +30,7 @@ PDF = OUT / 'X1_control_spec_C1.pdf'
 PNG = [OUT / f'X1_control_spec_C1_sheet{k}.png' for k in (1, 2)]
 CHECKS = OUT / 'X1_control_spec_C1_checks.json'
 FIG = (16.5, 11.7)                                       # A3 landscape, as the other X1 concept sheets
-DATE = '2026-11-05'
+DATE = '2026-11-10'
 
 # ---------------------------------------------------------------- data (sources in SPEC.md) --------------------
 # Bay and board, as used here; checked against x1_body.py below.
@@ -45,19 +47,19 @@ CHANNELS = [  # name, motor, rail, limit A, ramp s
     ('Left track', 'JGY-370-1260', 'VBAT', 1.0, 0.3),
     ('Right track', 'JGY-370-1260 (mirrored)', 'VBAT', 1.0, 0.3),
     ('Swing', 'JGY-370-1260 (worm)', 'VBAT', 0.6, 0.4),
-    ('Boom left', 'V6-U60', '6V', 0.5, 0.1),
-    ('Boom right', 'V6-U60', '6V', 0.5, 0.1),
-    ('Stick', 'V6-U60', '6V', 0.5, 0.1),
-    ('Bucket', 'V6-U60', '6V', 0.5, 0.1)]
+    ('Boom left', 'V6-U60', 'VBAT', 0.5, 0.1),
+    ('Boom right', 'V6-U60', 'VBAT', 0.5, 0.1),
+    ('Stick', 'V6-U60', 'VBAT', 0.5, 0.1),
+    ('Bucket', 'V6-U60', 'VBAT', 0.5, 0.1)]
 V_BAT_MIN, V_BAT_NOM, V_BAT_MAX = 9.6, 10.8, 12.6        # motor stop at 3.2 V/cell; 3S nominal; full
 EFF = 0.90                                               # buck efficiency assumed for the budget
-ACT_STALL = 0.46                                         # V6 13-ohm winding estimate (sim measured 0.354 A)
-ACT_RUN = 0.12                                           # V6 mid-stroke simulation, 0.116 A
+ACT_STALL = 0.5                                          # 12 V V6 stalled: 12.6 V / 13 ohm, held at the 0.5 A limit
+ACT_RUN = 0.08                                           # 12 V N20 1:50 without load (seller's table); 0.32 A lifting
 ESP_PEAK, LAMP_I, BUZ_I = 0.35, 0.10, 0.03               # A at 3.3 V (radio peak), per lamp at 5 V, buzzer at 5 V
 EXP_RESERVE = 2.0                                        # A at 5 V on the expansion header (later 4G stick)
 FUSE = 5.0
 VREF, A_IPROPI, ADC_MAX = 2.5, 1000e-6, 3.1              # DRV8876 AIPROPI 1000 uA/A; S3 ADC1 at 12 dB, about 3.1 V
-RAIL_6V, RAIL_5V = 3.0, 3.0                              # buck ratings in the spec
+RAIL_5V = 3.0                                            # buck rating in the spec
 
 # Connectors: name, edge, width along the edge, depth into the board (approximate housings)
 XH = lambda n: (n - 1)*2.5 + 4.9                         # JST XH housing width
@@ -76,8 +78,8 @@ PIN_USE = {'ADC1: 7 currents + VBAT': 8, 'motor PWM + direction': 14, 'nSLEEP + 
 LINK_TIMEOUT_MS = 350                                    # as the Sand/Lab app's input watchdog
 
 # Values quoted in SPEC.md; the checks below must reproduce them.
-SPEC_QUOTES = {'worst_case_A': 4.2, 'with_4g_A': 5.4, 'rail_5v_logic_A': 0.6, 'r_ipropi_1A_ohm': 2500,
-               'r_ipropi_0.6A_ohm': 4170, 'r_ipropi_0.5A_ohm': 5000, 'v_ipropi_run_V': 0.6, 'gpio_used': 33,
+SPEC_QUOTES = {'worst_case_A': 4.9, 'with_4g_A': 6.1, 'rail_5v_logic_A': 0.6, 'r_ipropi_1A_ohm': 2500,
+               'r_ipropi_0.6A_ohm': 4170, 'r_ipropi_0.5A_ohm': 5000, 'v_ipropi_run_V': 0.4, 'gpio_used': 33,
                'gpio_total': 36, 'height_room_mm': 22.4, 'usb_new_z': 113.2,
                'link_timeout_ms': 350}
 
@@ -95,9 +97,8 @@ def read_x1_body():
 
 
 def budget():
-    i12 = sum(c[3] for c in CHANNELS if c[2] == 'VBAT')
-    act_w = 4*ACT_STALL*6.0
-    i_act = act_w/EFF/V_BAT_MIN
+    i12 = sum(c[3] for c in CHANNELS if not c[1].startswith('V6'))
+    i_act = sum(min(c[3], ACT_STALL) for c in CHANNELS if c[1].startswith('V6'))   # straight from VBAT
     i5 = ESP_PEAK + 2*LAMP_I + BUZ_I                       # 3.3 V comes from the 5 V rail through the LDO
     i_logic = 5.0*i5/EFF/V_BAT_MIN
     worst = i12 + i_act + i_logic
@@ -105,10 +106,9 @@ def budget():
     return dict(tracks_and_swing_A=round(i12, 3), actuators_stalled_A=round(i_act, 3), logic_lamps_A=round(i_logic, 3),
                 worst_case_A=round(worst, 3), fuse_A=FUSE, worst_under_fuse=worst < FUSE,
                 with_4g_A=round(worst + i_4g, 3), with_4g_note='over the 5 A fuse: review the fuse in the 4G phase',
-                rail_6v_A=round(4*0.5, 2), rail_6v_rating_A=RAIL_6V, rail_6v_ok=4*0.5 <= RAIL_6V,
                 rail_5v_logic_A=round(i5, 3), rail_5v_with_reserve_A=round(i5 + EXP_RESERVE, 3),
                 rail_5v_rating_A=RAIL_5V, rail_5v_ok=i5 + EXP_RESERVE <= RAIL_5V,
-                assumptions=f'every channel at its limit, actuators stalled at {ACT_STALL} A, bucks {EFF:.0%} '
+                assumptions=f'every channel at its limit, actuators stalled at {ACT_STALL} A, 5 V buck {EFF:.0%} '
                             f'efficient, battery at {V_BAT_MIN} V')
 
 
@@ -182,7 +182,7 @@ def run_checks():
     tol = {'r_ipropi_0.6A_ohm': 10}
     r['spec_quotes'] = {k: dict(spec=v, computed=computed[k], ok=abs(computed[k] - v) <= tol.get(k, 0.05 + 0.02*abs(v)))
                         for k, v in SPEC_QUOTES.items()}
-    flags = [r['board_matches_x1_body']['ok'], bud['worst_under_fuse'], bud['rail_6v_ok'], bud['rail_5v_ok'],
+    flags = [r['board_matches_x1_body']['ok'], bud['worst_under_fuse'], bud['rail_5v_ok'],
              all(x['within_adc'] for x in cs['rows']), r['pin_budget']['ok'], cn['inboard']['fits'], cn['front']['fits'],
              r['height']['ok'], r['usb_slot']['inside_skirt'],
              all(v['ok'] for v in r['spec_quotes'].values())]
@@ -202,7 +202,7 @@ def sheet(title, sub, n):
     ax.add_patch(Rectangle((5, 5), 410, 287, fill=False, lw=1.2, ec=C['edge']))
     ax.text(10, 285, title, fontsize=17, weight='bold', va='top')
     ax.text(10, 276.5, sub, fontsize=10.5, va='top', color='#444')
-    ax.text(410, 285, f'X1 control system · spec C1 issue 4 · sheet {n}/2', fontsize=10, ha='right', va='top')
+    ax.text(410, 285, f'X1 control system · spec C1 issue 5 · sheet {n}/2', fontsize=10, ha='right', va='top')
     ax.text(410, 278, f'{DATE} · concept for sign-off, not a schematic or layout', fontsize=9, ha='right', va='top',
             color='#666')
     return fig, ax
@@ -255,13 +255,13 @@ def sheet1(pdf, chk):
     ax.text(12, 80, 'Power budget at 9.6 V (checked in the JSON)', fontsize=9.6, weight='bold', va='top')
     rows = [('Load', 'A from battery'),
             ('Tracks 2 × 1.0 A + swing 0.6 A (limits)', f"{bud['tracks_and_swing_A']:.2f}"),
-            ('4 actuators stalled, via 6 V buck', f"{bud['actuators_stalled_A']:.2f}"),
+            ('4 actuators stalled at 0.5 A, on VBAT', f"{bud['actuators_stalled_A']:.2f}"),
             ('ESP32-S3, lamps, buzzer, via 5 V', f"{bud['logic_lamps_A']:.2f}"),
             ('Worst case, all at once', f"{bud['worst_case_A']:.2f}  < 5 A fuse"),
             ('Later: + 4G stick 5 V × 2 A', f"{bud['with_4g_A']:.2f}  review fuse then")]
     table(ax, 12, 73, rows, (74, 30), fs=8.3, rh=6.0)
-    ax.text(12, 33, f"Assumes every channel at its limit, actuators stalled\nat {ACT_STALL} A, bucks {EFF:.0%} efficient, "
-            f"battery at {V_BAT_MIN} V.\nTypical heavy use is far lower: an actuator runs at\nabout 0.12 A, the JGY-370 is "
+    ax.text(12, 33, f"Assumes every channel at its limit, actuators stalled\nat {ACT_STALL} A, 5 V buck {EFF:.0%} efficient, "
+            f"battery at {V_BAT_MIN} V.\nTypical heavy use is far lower: an actuator runs at\n0.08-0.32 A, the JGY-370 is "
             "rated 0.2 A.", fontsize=7.8, va='top', color='#555', linespacing=1.3)
 
     # main board
@@ -274,7 +274,7 @@ def sheet1(pdf, chk):
     block(ax, 138, 200, 74, 45, 'Power entry', ['XT30 in (12 V link)', 'P-FET reverse-polarity protection',
                                                'TVS + bulk capacitors', 'VBAT 9.0–12.6 V', 'divider → ADC (battery)'],
           C['power'])
-    block(ax, 222, 200, 76, 45, 'Rails', ['VBAT 9.0–12.6 V → 3 drivers', '6 V buck, 3 A → 4 actuators', '5 V buck, 3 A → logic, lamps,',
+    block(ax, 222, 200, 76, 45, 'Rails', ['VBAT 9.0–12.6 V → all 7 drivers', '5 V buck, 3 A → logic, lamps,',
                                           '      buzzer + 2 A expansion reserve', '3.3 V LDO ≥ 0.5 A → ESP32-S3',
                                           '2.5 V reference → current limits'], C['power'])
     block(ax, 138, 122, 74, 66, 'ESP32-S3-WROOM-1-N8', ['PCB antenna at the outboard edge', 'USB-C, native USB (flash, logs)',
@@ -283,7 +283,7 @@ def sheet1(pdf, chk):
                                                        '33 of 36 GPIO (preliminary)'], C['mcu'])
     block(ax, 222, 150, 76, 40, '3 × DRV8876 on VBAT', ['ch 1  left track     1.0 A', 'ch 2  right track   1.0 A',
                                                        'ch 3  swing          0.6 A, 0.4 s ramp'], C['drv'], fs=8.3)
-    block(ax, 222, 93, 76, 49, '4 × DRV8876 on 6 V', ['ch 4  boom left      0.5 A', 'ch 5  boom right    0.5 A',
+    block(ax, 222, 93, 76, 49, '4 × DRV8876 on VBAT', ['ch 4  boom left      0.5 A', 'ch 5  boom right    0.5 A',
                                                      'ch 6  stick            0.5 A', 'ch 7  bucket          0.5 A',
                                                      'boom pair: same command,', 'current balance, end re-sync'],
           C['drv'], fs=8.3)
@@ -292,7 +292,7 @@ def sheet1(pdf, chk):
                                            '(reserved for the later 4G link)'], C['out'])
     ax.text(222, 84, 'All 7 channels: PWM 20 kHz,\ndrive / brake (slow decay)\nlimit = 2.5 V ÷ (R × 1000 µA/A)\n'
             'R = 2.5 k / 4.17 k / 5.0 kΩ; IPROPI 2.5 V at limit', fontsize=7.6, va='top', linespacing=1.3)
-    ax.text(138, 47, 'Link loss 350 ms → stop · E-STOP latches, RESUME clears · disarmed at power-up\nstall at limit 2 s → channel off · '
+    ax.text(138, 47, 'Link loss 350 ms → stop · E-STOP latches, RESUME clears · disarmed at power-up\nstalled 2 s → channel off · '
             'low battery: warn 10.5 V, stop 9.6 V', fontsize=8.2, va='top', linespacing=1.35, color=C['red'])
     # internal arrows
     arrow(ax, (212, 224), (222, 224))
@@ -300,7 +300,7 @@ def sheet1(pdf, chk):
     arrow(ax, (260, 200), (260, 190))
     ax.plot([298, 301.5, 301.5], [207, 207, 125], color='#333', lw=1.1)
     arrow(ax, (301.5, 125), (298, 125))
-    ax.text(300.8, 146, '6 V', fontsize=7.5, ha='right', va='center')
+    ax.text(300.8, 146, 'VBAT', fontsize=7.5, ha='right', va='center')
     arrow(ax, (212, 170), (222, 170), both=True)
     arrow(ax, (212, 130), (222, 125), both=True)
     ax.text(213.5, 147, 'PWM, DIR\nIPROPI', fontsize=7.2, ha='left', va='center', color='#555')
@@ -313,8 +313,8 @@ def sheet1(pdf, chk):
     block(ax, 318, 168, 92, 30, 'Swing motor', ['JGY-370-1260, worm, self-locking', 'on the turntable (no slip ring)'],
           C['load'])
     block(ax, 318, 100, 92, 58, 'ARM60: 4 × V6-U60 actuators', ['boom left + boom right (paired)', 'stick · bucket',
-                                                                 'two wires each; Hall end stops', 'and 0.12 A PTC inside',
-                                                                 '0.82–1.25 mm/s, leadscrew self-locks'], C['load'])
+                                                                 'N20 12 V 1:50, M4 leadscrew', 'Hall end stops, 0.35 A PTC inside',
+                                                                 '4.4–9.3 mm/s, leadscrew self-locks'], C['load'])
     block(ax, 318, 64, 92, 26, 'Lamps', ['roof work lamps · toolbox lamp'], C['load'])
     block(ax, 318, 18, 92, 38, 'LATER: 4G stick (Debian)', ['serial via the expansion header,', 'or Wi-Fi on a fixed channel',
                                                            'not designed in this phase'], C['later'], ls='--', ec='#888')
@@ -352,13 +352,13 @@ def sheet2(pdf, chk):
         for y in (by[0] + HOLE_INSET, by[1] - HOLE_INSET):
             t.add_patch(Circle((x, y), HOLE_D/2, fc='white', ec='#333', lw=0.8))
             t.add_patch(Circle((x, y), 3.0, fill=False, ec='#999', lw=0.5, ls=':'))
-    zones = [((-134, 120), 28, 26, '6 V + 5 V\nbucks', C['power']),
+    zones = [((-134, 120), 28, 26, '5 V buck', C['power']),
              ((-105, 120), 24, 20, 'USB-C ESD,\n3.3 V LDO,\nbuttons', C['mcu']),
              ((-80, 120), 21, 26, 'ESP32-S3\nmodule', C['mcu']),
              ((-57, 112), 15, 28, 'input\nprot.', C['power']),
              ((-130, 94), 24, 22, 'lamps,\nbuzzer', C['out']),
              ((-105, 94), 9, 22, 'swing\nDRV\n(VBAT)', C['drv']),
-             ((-95, 94), 36, 22, '4 × DRV8876 (6 V)\nthermal pads + vias', C['drv']),
+             ((-95, 94), 36, 22, '4 × DRV8876 (VBAT)\nthermal pads + vias', C['drv']),
              ((-58, 94), 16, 18, 'tracks\n2 × DRV\n(VBAT)', C['drv'])]
     for (x, y), w, h, s, fc in zones:
         t.add_patch(Rectangle((x, y), w, h, fc=fc, ec='#555', lw=0.7, alpha=0.9))
@@ -448,7 +448,7 @@ def main():
     CHECKS.write_text(json.dumps(chk, indent=1, ensure_ascii=False))
     with PdfPages(PDF) as pdf:
         sheet1(pdf, chk); sheet2(pdf, chk)
-        d = pdf.infodict(); d['Title'] = 'X1 control system, spec C1 issue 4'; d['Subject'] = 'Concept for sign-off'
+        d = pdf.infodict(); d['Title'] = 'X1 control system, spec C1 issue 5'; d['Subject'] = 'Concept for sign-off'
     bad = [k for k, v in chk['spec_quotes'].items() if not v['ok']]
     print('all_pass', chk['all_pass'], '| spec quote mismatches:', bad or 'none')
     print('budget', chk['power_budget']['worst_case_A'], chk['power_budget']['with_4g_A'],

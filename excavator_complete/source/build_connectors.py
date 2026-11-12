@@ -181,7 +181,7 @@ def classify(name):
     if n.startswith(('board_plugs', 'board_parts_jst', 'board_parts_xt30', 'board_parts_usb')):
         return 'connector', 'see CONNECTORS.md'
     if n.startswith(('controller_PCB', 'board_parts')):
-        return 'board', 'X1 main board rev A (ESP32-S3-WROOM-1, 7 x DRV8876, JST headers, XT30PW-M, USB-C)'
+        return 'board', 'X1 main board rev B (ESP32-S3-WROOM-1, 7 x DRV8876, JST headers, XT30PW-M, USB-C)'
     if n.startswith(('main_switch',)):
         return 'connector', 'KCD1-101 rocker switch'
     if n.startswith('charge_jack'):

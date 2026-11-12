@@ -4,6 +4,16 @@
 
 **Result.** The board design holds up: every rule and calculation re-runs clean, the schematic matches the datasheet pin for pin, and the datasheet confirms the current-sensing assumption the firmware depends on. One firmware protection rule did not work as the spec intended and is fixed (S4). Three design points are flagged for a rev B board; none blocks ordering rev A.
 
+**Update 2026-11-10: main board rev B.** The arm's V6-U60 actuators now use the 12 V N20 1:50 motor with an M4 leadscrew. Rev B therefore:
+- moves their four DRV8876s from the 6 V buck to VBAT;
+- removes the buck (U111 and its parts) and the 6 V sense (R131, R132, C131 on GPIO7).
+
+The firmware changed with it:
+- the S4 stall cut-out now covers the actuators, using a 13 Ω stall estimate;
+- the boom thresholds are rescaled to the new motor's current.
+
+The battery budget is 4.45 A with the actuators at their own PTC's 0.35 A hold, and 5.04 A briefly with every channel at its limit (main_board/DESIGN.md). The three items in section 5 are still open: rev B changes neither the headers nor the 3.3 V supply, and its fuse margin is in item 3. The tables below are the rev A record.
+
 ## 1. What was re-run
 
 | Check | Command | Result |
@@ -48,7 +58,7 @@ The PDFs were read directly (text extracted with PyMuPDF), not from memory.
 
 1. **Side-entry inboard headers sit 3 mm from the T101 rib.** A mated XH plug is 12 mm long and its wires leave toward the rib, so plugs can only be mated with the left half standing beside the machine (BODY.md's 150 mm slack is for this), and the wires bend 90° in 3 mm. DESIGN.md already lists top-entry alternatives (B2B-XH-A C158012, B4B-XH-A C144395, B3B-PH-K-S C131339, B4B-PH-K-S C131334) with the same pad pattern; use them on rev B so plugs go in from above with the half in place. The body's bay height allows it (plug top about Z 125 against the hood at 136.3).
 2. **3.3 V LDO heat.** 600 mA from 4.6 V with 184 °C/W: fine at the assumed 0.15 A average, but a long Wi-Fi burst at 0.5 A would be 0.65 W. Bench item, as DESIGN.md says; a 3.3 V buck is the rev B fallback.
-3. **Fuse margin.** 4.33 A worst case against a 5 A fuse; the later 4G stick takes it to 5.5 A (spec P4). Review with that phase.
+3. **Fuse margin.** 4.33 A worst case against a 5 A fuse; the later 4G stick takes it to 5.5 A (spec P4). Review with that phase. Rev B, with the actuators on VBAT: 4.45 A with the actuators at their PTC's 0.35 A hold, 5.04 A for the moment every channel is at its limit, about 6.1 A with the 4G stick (spec P4, issue 5).
 
 ## 6. Not verified here
 

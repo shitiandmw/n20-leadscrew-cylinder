@@ -267,7 +267,7 @@ def sheet2(pdf, results):
             ('Closest side-view gap (concept check)', '-', f"{r['gap']:.1f} mm")]
     sh.heading(x2, yb - 12, 'Numbers (same static method for both)')
     yb = sh.table(x2, yb - 15, [72, 50, 76], rows, rh=4.2, align=['left', 'right', 'right'], size=FS['xs'] + 0.3)
-    sh.notes(x2, yb - 2, ['Hold = worst static thrust per drive over the stroke grid, gravity only; rating 51 N continuous.',
+    sh.notes(x2, yb - 2, [f"Hold = worst static thrust per drive over the stroke grid, gravity only; rating {d.ACT['thrust_cont']:.0f} N continuous.",
                           'R10 masses are its CAD values; R12 masses are PETG estimates.',
                           'Working range on the X1 crawler (boom-foot pin 155 above ground).'], size=FS['xs'], gap=3.0)
     sh.heading(x2, yb - 15, 'Open at concept stage, closed in the detailed drawings')

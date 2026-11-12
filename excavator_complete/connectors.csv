@@ -1,14 +1,14 @@
 id,where,circuit,fixed_side,free_side,contacts,wire,x,y,z,push_dir,travel_mm,step,drawn_by
-J101,"main board rev A, front edge (X -40)",12 V in: switch -> board,XT30PW-M,XT30U-F,solder cups,2 x 20 AWG silicone (the 12 V link),-40.54,133.5,114.2,-1 0 0,16.0,plugs,build_connectors (board_link_XT30U-F*)
-J102,"main board rev A, inboard edge (left bay)",tracks (slip ring rotor rings 1-4),S4B-XH-A,XHP-4,4 x SXH-001T-P0.6,"the slip ring's own 6 leads (4 crimped, 2 taped)",-53.95,84.54,114.65,0 1 0,14.0,plugs,x1_body.main_board (board_plugs*)
-J103,"main board rev A, inboard edge (left bay)",swing motor,S2B-XH-A,XHP-2,2 x SXH-001T-P0.6,2 x 26 AWG silicone,-101.45,84.54,114.65,0 1 0,14.0,plugs,x1_body.main_board (board_plugs*)
-J104,"main board rev A, inboard edge (left bay)",boom drive L,S2B-XH-A,XHP-2,2 x SXH-001T-P0.6,V6 cable: 2 x 28 AWG PTFE in the 3 mm sleeve,-65.45,84.54,114.65,0 1 0,14.0,plugs,x1_body.main_board (board_plugs*)
-J105,"main board rev A, inboard edge (left bay)",boom drive R,S2B-XH-A,XHP-2,2 x SXH-001T-P0.6,V6 cable,-74.45,84.54,114.65,0 1 0,14.0,plugs,x1_body.main_board (board_plugs*)
-J106,"main board rev A, inboard edge (left bay)",stick drive,S2B-XH-A,XHP-2,2 x SXH-001T-P0.6,V6 cable,-83.45,84.54,114.65,0 1 0,14.0,plugs,x1_body.main_board (board_plugs*)
-J107,"main board rev A, inboard edge (left bay)",bucket drive,S2B-XH-A,XHP-2,2 x SXH-001T-P0.6,V6 cable,-92.45,84.54,114.65,0 1 0,14.0,plugs,x1_body.main_board (board_plugs*)
-J108,"main board rev A, inboard edge","lamps: +5 V, roof return, toolbox return",S3B-PH-K-S,PHR-3,3 x SPH-002T-P0.5S,2 x 26 AWG silicone (toolbox lamp) + 26 AWG from the cab splice (roof lamps),-110.7,84.54,114.0,0 1 0,14.0,plugs,x1_body.main_board (board_plugs*)
-J109,"main board rev A, inboard edge",expansion UART (not fitted),S4B-PH-K-S,(PHR-4 when used),4 x SPH-002T-P0.5S,-,-121.2,84.54,114.0,0 1 0,0.0,,board STEP (header only)
-J201,"main board rev A, outboard edge, through the B102 slot",USB service port,TYPE-C-31-M-12,USB-C cable,-,-,-98.0,148.5,113.2,0 -1 0,0.0,,board STEP
+J101,"main board rev B, front edge (X -40)",12 V in: switch -> board,XT30PW-M,XT30U-F,solder cups,2 x 20 AWG silicone (the 12 V link),-40.54,133.5,114.2,-1 0 0,16.0,plugs,build_connectors (board_link_XT30U-F*)
+J102,"main board rev B, inboard edge (left bay)",tracks (slip ring rotor rings 1-4),S4B-XH-A,XHP-4,4 x SXH-001T-P0.6,"the slip ring's own 6 leads (4 crimped, 2 taped)",-53.95,84.54,114.65,0 1 0,14.0,plugs,x1_body.main_board (board_plugs*)
+J103,"main board rev B, inboard edge (left bay)",swing motor,S2B-XH-A,XHP-2,2 x SXH-001T-P0.6,2 x 26 AWG silicone,-101.45,84.54,114.65,0 1 0,14.0,plugs,x1_body.main_board (board_plugs*)
+J104,"main board rev B, inboard edge (left bay)",boom drive L,S2B-XH-A,XHP-2,2 x SXH-001T-P0.6,V6 cable: 2 x 28 AWG PTFE in the 3 mm sleeve,-65.45,84.54,114.65,0 1 0,14.0,plugs,x1_body.main_board (board_plugs*)
+J105,"main board rev B, inboard edge (left bay)",boom drive R,S2B-XH-A,XHP-2,2 x SXH-001T-P0.6,V6 cable,-74.45,84.54,114.65,0 1 0,14.0,plugs,x1_body.main_board (board_plugs*)
+J106,"main board rev B, inboard edge (left bay)",stick drive,S2B-XH-A,XHP-2,2 x SXH-001T-P0.6,V6 cable,-83.45,84.54,114.65,0 1 0,14.0,plugs,x1_body.main_board (board_plugs*)
+J107,"main board rev B, inboard edge (left bay)",bucket drive,S2B-XH-A,XHP-2,2 x SXH-001T-P0.6,V6 cable,-92.45,84.54,114.65,0 1 0,14.0,plugs,x1_body.main_board (board_plugs*)
+J108,"main board rev B, inboard edge","lamps: +5 V, roof return, toolbox return",S3B-PH-K-S,PHR-3,3 x SPH-002T-P0.5S,2 x 26 AWG silicone (toolbox lamp) + 26 AWG from the cab splice (roof lamps),-110.7,84.54,114.0,0 1 0,14.0,plugs,x1_body.main_board (board_plugs*)
+J109,"main board rev B, inboard edge",expansion UART (not fitted),S4B-PH-K-S,(PHR-4 when used),4 x SPH-002T-P0.5S,-,-121.2,84.54,114.0,0 1 0,0.0,,board STEP (header only)
+J201,"main board rev B, outboard edge, through the B102 slot",USB service port,TYPE-C-31-M-12,USB-C cable,-,-,-98.0,148.5,113.2,0 -1 0,0.0,,board STEP
 FEED,"hood cavity under the hatch, right of the centreline",battery pack -> fuse (the hatch lead),XT30U-M (on the feed from the fuse),XT30U-F (on the hatch lead),solder cups,"2 x 20 AWG silicone, 150 mm lead",-100.0,-42.0,166.0,0 0 -1,18.0,hatch,"x1_body.electronics (battery_lead_XT30*, feed_socket_XT30*)"
 SM-L,"carbody, left of the slip ring",left track motor <- slip ring stator rings 1-2,SMR-02V-B (stator leads),SMP-02V-BC (motor leads),2 x SYM-001T-P0.6 + 2 x SHF-001T-0.8BS,2 x 26 AWG silicone,0.0,30.0,52.0,0 -1 0,14.0,slewing,build_connectors (SM-L*)
 SM-R,"carbody, right of the slip ring",right track motor <- rings 3-4,SMR-02V-B (stator leads),SMP-02V-BC (motor leads),2 x SYM-001T-P0.6 + 2 x SHF-001T-0.8BS,2 x 26 AWG silicone,0.0,-30.0,52.0,0 1 0,14.0,slewing,build_connectors (SM-R*)

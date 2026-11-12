@@ -16,9 +16,9 @@ import { CONFIG } from "./config.js";
 // - Supply: the X1's 3S battery at 11.1 V nominal, switched by the main board's
 //   DRV8876 (PWM duty = stick × movement speed, as in the X1 firmware), with
 //   its 0.5 A current limit per actuator channel. The actuator's own end-stop
-//   board drops 0.3 V across a Schottky diode; its resettable fuse and the driver
-//   add 2.7 Ω. The fuse would need a larger rating for this motor than the
-//   0.12 A one in actuator_v6; it is not modelled.
+//   board (actuator_v6 rev 6.2) drops 0.35 V across a Schottky diode; its
+//   resettable fuse (0.65 Ω, 0.35 A hold), its MOSFET, the cable and the driver
+//   add 1.7 Ω. The fuse's trip is not modelled.
 // - Masses: excavator_arm_r12/simulation/mass_properties.json, the same bodies
 //   and frames as the R12 MuJoCo model. Sand weighs 1.6 g per cm³ loose.
 export const DRIVE = Object.freeze({
@@ -33,8 +33,8 @@ export const DRIVE = Object.freeze({
   screwDiameter: 4,
   friction: 0.15,
   supply: 11.1,
-  diodeDrop: 0.3,
-  seriesResistance: 2.7,
+  diodeDrop: 0.35,
+  seriesResistance: 1.7,
   currentLimit: 0.5,
   sandDensity: 1.6e-6,
 });

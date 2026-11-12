@@ -221,7 +221,7 @@ Every place that takes a bought standard component: bearings and the slewing rin
 
 | Part | Designation | Subsystem | Position X, Y, Z |
 |---|---|---|---|
-| controller PCB | X1 main board rev A (ESP32-S3-WROOM-1, 7 x DRV8876, JST headers, XT30PW-M, USB-C) | electronics | -76.3, 109.3, 110.8 |
+| controller PCB | X1 main board rev B (ESP32-S3-WROOM-1, 7 x DRV8876, JST headers, XT30PW-M, USB-C) | electronics | -76.3, 109.3, 110.8 |
 
 ## Connector (13)
 

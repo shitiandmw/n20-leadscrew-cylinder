@@ -17,6 +17,7 @@ const opt = (k, d) => { const i = argv.indexOf(`--${k}`); return i < 0 ? d : arg
 async function open(record) {
   const browser = await chromium.launch({args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader']});
   const page = await browser.newPage({viewport: {width: 1280, height: 720}, deviceScaleFactor: record ? 1.5 : 1});
+  page.setDefaultTimeout(600000);    // software WebGL on a busy machine: loading and a 1920 x 1080 frame can take minutes
   const errors = [];
   page.on('pageerror', e => errors.push(String(e)));
   page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
@@ -45,6 +46,7 @@ async function check() {
       // drivers show while their screws go in, and only then
       const at = (id, f) => { const s = steps.find(x => x.id === id); return A.assembly.seek(s.start + s.dur * f); };
       const tools = st => st.visible.filter(n => n.startsWith('tool_'));
+      r.insert_iron = tools(at('inserts', 0.15));
       r.motor_screw_driver = tools(at('motor_screws', 0.3));
       r.rear_screw_driver = tools(at('rear_screws', 0.3));
       r.board_step_wires = at('board', 0.5).tubes;
@@ -59,6 +61,7 @@ async function check() {
       A.setMode('exterior');
       r.extend_stops = A.simulate(1, 120).u2 === true;
       r.pass = r.printed_labels === 6 && r.print_card && r.motor_screw_driver.length === 2 && r.rear_screw_driver.length === 2
+        && r.insert_iron.length === 2 && r.insert_iron.every(n => n.startsWith('tool_IRON'))
         && r.board_step_wires.length === 4 && r.end_tools === 0 && r.end_tubes.length === 5 && !r.end_missing.length
         && !r.end_extra.length && r.extend_stops;
       return r;

@@ -63,7 +63,7 @@ STEPS = [
         'bolts, the cables fed into T101 and up through the hood-wall notches.', ([470, -470, 430], [50, 0, 160])),
     _st('counterweight', 'Counterweight', 'Counterweight B101, its steel shot poured in during a print pause, with 2 x M4 x 12 from inside T101; the swing motor leads '
         'run up its channel.', ([-720, -520, 420], [-120, 0, 150])),
-    _st('left_parts', 'Left half on the bench', 'B102 with the main board rev A on its 4 bosses (the KiCad model: ESP32-S3-WROOM-1, 7 x DRV8876, the JST S2B/S4B-XH-A and '
+    _st('left_parts', 'Left half on the bench', 'B102 with the main board rev B on its 4 bosses (the KiCad model: ESP32-S3-WROOM-1, 7 x DRV8876, the JST S2B/S4B-XH-A and '
         'S3B/S4B-PH-K-S side-entry headers on the inboard edge, the Amass XT30PW-M on the front edge, the USB-C through the slot), the cab interior B104, operator B105, '
         'handrail B107, the two ledge magnets, the roof-lamp wires through the Ø2 hole in the cab\'s rear wall; the toolbox-lamp cable from J108 ends in the lamp joint\'s SMR-02V-B.', ([-260, 560, 440], [-90, 110, 150]), grp='left'),
     _st('plugs', 'Plug the harness into the board', 'With the half standing beside the machine: the six XHP-2 (J103 swing, J104 boom L, J105 boom R, J106 stick, J107 bucket), '

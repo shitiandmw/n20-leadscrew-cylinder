@@ -1,9 +1,9 @@
 {
- "dsn_sha256": "ac71f4b5a01182a42b312333c964186aac16400462e33c2fdd9e33b405f83141",
+ "dsn_sha256": "da2d5b54b49ec791cece5b36ecae363f3abaeac17ea8ea68e4b914ab0ee5bb48",
  "session": "X1_main.ses",
- "routed_by": "ghcr.io/freerouting/freerouting:2.1.0, 40 min",
- "note": "build_pcb.py imports this session while the DSN it exports still has this hash",
- "repair_dsn_sha256": "793aac2d9b97c6a39bcb8ccaa3ae78b1714ea7e5698591ec437f0a193e263fcf",
+ "routed_by": "ghcr.io/freerouting/freerouting:2.1.0, 40 min (rev A); for rev B the wiring of the removed 6 V buck and 6 V sense nets was filtered out of that session and the rest imported with --ses",
+ "note": "build_pcb.py imports these sessions while the DSNs it exports still have these hashes",
+ "repair_dsn_sha256": "0820277ddbb7770bd0c8ee66645b9f51068fa3c3373bcaa18730c5bdcc1ee03a",
  "repair_session": "X1_main_repair.ses",
  "repair_routed_by": "ghcr.io/freerouting/freerouting:2.1.0, 6 min"
 }
