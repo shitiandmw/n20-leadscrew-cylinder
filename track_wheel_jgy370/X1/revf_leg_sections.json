@@ -3,7 +3,7 @@
   "geometry_calculation_pass": true,
   "source_and_step_sha256": {
     "track_wheel_jgy370/X1/source/check_arc_sections.py": "3f63a18adba3ec62d52ba0cf6e45b8e2c93b79f5cd598b777f56c853d7f2a3de",
-    "track_wheel_jgy370/X1/source/refresh_revf.py": "73c44627c4f6eebf34c561b906da45225395ea7a5958ef1b80233096b4d93f81",
+    "track_wheel_jgy370/X1/source/refresh_revf.py": "f567e28a6b6e85361f8318b9f3f5c011d33612b9cefb9e5eabdf01a731e44ddd",
     "track_wheel_jgy370/X1/source/x1_parts.py": "0b77d36a20ea1cbd402639453f9035d8462df5845023dcf6594439b7fac0fc47",
     "track_wheel_jgy370/J9/source/j9_mounts.py": "d18f32025d34729409c6a9d046674dacd05e27033de9c9136c229bc9b0564ff3",
     "track_wheel_jgy370/X1/step/X101_X_frame.step": "6b1ec27ddd8826b87174378405e12db393bce725350cb364996ff3c9fb13a34d"
@@ -442,5 +442,5 @@
   "method": "Exact OpenCascade BRep section of the positive-X arm at each stated vehicle Y plane. Adaptive surface integration gives area and centroidal inertia. I/c uses the more distant extreme fibre for each coordinate axis.",
   "scope": "Sampled geometric section properties, not a continuous minimum search or structural acceptance gate. These separate-axis values do not model combined bending, shear, torsion, stress concentrations, fastener preload, material anisotropy, print defects or fatigue. No payload rating is claimed.",
   "not_strength_validation": true,
-  "elapsed_s": 23.51
+  "elapsed_s": 23.31
 }

@@ -3,7 +3,8 @@
 Unchanged assembly components keep their original B-reps, names, placements and
 colours. Previous joint hardware is replaced by x1_parts.mount_hardware().
 STEP exports are checked before replacing existing files.
-Run after exporting X101 and the left/right J901/J909 parts.
+Run after exporting X101, the left/right J901/J909 parts, J904 and J906.
+J904 (the roller) is placed at the seven roller stations of each track and J906 (the idler wheel) at the idler.
 """
 import argparse
 import gzip
@@ -333,9 +334,13 @@ def main():
              'J901_H_frame': J9/'step/J901_H_frame.step',
              'J909_housing': J9/'step/J909_housing.step',
              'J901_H_frame_right': ROOT/'step/J901_H_frame_right.step',
-             'J909_housing_right': ROOT/'step/J909_housing_right.step'}
+             'J909_housing_right': ROOT/'step/J909_housing_right.step',
+             'J904_roller': J9/'step/J904_roller.step',
+             'J906_idler_wheel': J9/'step/J906_idler_wheel.step'}
     assert not (args.scenes_only and args.preview_only), 'Choose only one scene refresh mode'
-    needed = {'X101_X_frame', 'J901_H_frame', 'J909_housing'} if args.scenes_only or args.preview_only else set(paths)
+    needed = ({'X101_X_frame', 'J901_H_frame', 'J909_housing', 'J904_roller', 'J906_idler_wheel'}
+              if args.scenes_only or args.preview_only
+              else set(paths))
     parts = {name: part(p) for name, p in paths.items() if name in needed}
     hardware = X.mount_hardware()
     # Refresh cosmetic housing attachments if the current geometry moved them
@@ -349,6 +354,11 @@ def main():
             p9.INSERT_M3['r'], 1.5, p9.RIM_Y[0], p9.RIM_Y[0]+p9.INSERT_M3['length'], hx, hz).val()
         track_hardware[f'housing_screw_M3x8_{index}'] = p9.screw_y(
             1.5, p9.M3_BUTTON, p9.SKIRT_Y[0], 8.0, hx, hz, 1).val()
+    # The rollers and the idler wheel are refreshed with the hardware above: the same names in the J9 assembly and
+    # scene, L_/R_ copies in X1. Each is the delivered export at its station, placed as in J9.unit().
+    for x, z, station in p9.ROLLERS:
+        track_hardware[f'J904_roller_{station}'] = parts['J904_roller'].translate((x, 0, z))
+    track_hardware['J906_idler_wheel'] = parts['J906_idler_wheel'].translate((p9.IDLER_X, 0, p9.AXLE_Z))
     if args.preview_only:
         refresh_scenes(parts['X101_X_frame'], parts['J901_H_frame'], parts['J909_housing'], hardware,
                        X.TRACK_Y, track_hardware)

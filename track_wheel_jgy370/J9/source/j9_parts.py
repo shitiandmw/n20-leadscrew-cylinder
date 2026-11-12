@@ -52,6 +52,10 @@ PORT = dict(r=2.75, boss_r=4.5, length=3.0)
 RIM_Y = (SKIRT_Y[1], -WALL_OUT)          # rim on the inner wall that closes the gap behind the skirt
 BOSS_COUNTERBORE = 2.0                   # gearbox screw bosses (Ø7 x 2) nest in the wall
 ROLLER_BOSS = dict(r=2.8, h=0.7)         # wall bosses touching only the 624 inner rings
+# J904 centre bore. Each 624ZZ seat ends on a shoulder of this bore, so the shoulder must clear the inner ring's
+# face (SKF 624-2Z d1 = 6.95) yet still back the outer ring (Da max = 11.2). The earlier Ø6.0 also touched the
+# stationary inner ring, so a side load pressed the turning roller against it.
+ROLLER_BORE_R = 4.0
 M4_HEAD = dict(r=3.5, h=4.0)             # ISO 4762 M4
 M3_HEAD = dict(r=2.75, h=3.0)            # ISO 4762 M3
 M3_BUTTON = dict(r=2.85, h=1.65)         # ISO 7380 M3
@@ -212,17 +216,33 @@ def jgy370():
 
 # ================================================================ rollers, idler, yoke
 def roller():
-    r = yring(ROLLER_R, 3.0, -ROLLER_HALF_W, ROLLER_HALF_W)
+    r = yring(ROLLER_R, ROLLER_BORE_R, -ROLLER_HALF_W, ROLLER_HALF_W)
     for s in (-1, 1):
         y0, y1 = sorted([s*FLANGE_IN, s*ROLLER_HALF_W])
-        r = r.union(yring(FLANGE_R, 3.0, y0, y1))
+        r = r.union(yring(FLANGE_R, ROLLER_BORE_R, y0, y1))
         y0, y1 = sorted([s*(ROLLER_HALF_W - B624['B']), s*(ROLLER_HALF_W + 1)])
         r = r.cut(ycyl(B624['D']/2, y0, y1))
     return r.clean()
 
 
+IDLER_SEAT = dict(d=22.2, y0=3.0, y1=10.5)   # 608 press seat against the central web; the bearing sits at |Y| 3..10
+IDLER_ENTRY = dict(d=22.6, chamfer=0.6)       # slide-in bore from the seat out through each face
+
+
 def idler_wheel():
-    return tp.idler_wheel()                                 # J8/R5 07_idler_wheel, unchanged
+    """J8/R5 07_idler_wheel with its two 608 seats opened to the faces.
+
+    The inherited wheel left a 12 mm long Ø16.4 neck outboard of each Ø22.2 seat, so a 608 (Ø22)
+    could not get in from either side. Each face now has a Ø22.6 slide-in bore with a 0.6 mm x 45°
+    mouth chamfer, down to the unchanged Ø22.2 press seat; the central web still stops both outer
+    rings. Bearing positions, spacers, pin and yoke are unchanged.
+    """
+    w = tp.idler_wheel()
+    r, c, face = IDLER_ENTRY['d']/2, IDLER_ENTRY['chamfer'], tp.ex.GUIDE_OUTER_Y
+    for s in (-1, 1):
+        pts = [(0, IDLER_SEAT['y1']), (r, IDLER_SEAT['y1']), (r, face - c), (r + c + 1, face + 1), (0, face + 1)]
+        w = w.cut(cq.Workplane('XY').polyline([(x, s*y) for x, y in pts]).close().revolve(360, (0, 0, 0), (0, 1, 0)))
+    return w.clean()
 
 
 def idler_spacer(side=1):
@@ -421,9 +441,11 @@ PRINTED = {
     'J903_journal_plug': (journal_plug, DARK, 1, 'PETG or PA12, 100 % infill, standing on its end',
                           'Ø9.95 journal in the 6800ZZ. The M3 x 50 screw clamps it and the sprocket to the motor shaft.'),
     'J904_roller': (roller, DARK, 7, 'PETG, 4 walls, 40 % infill, on its side',
-                    'Road and support roller: Ø22 tread, Ø26 guide flanges, 46 wide, two 624ZZ seats.'),
+                    'Road and support roller: Ø22 tread, Ø26 guide flanges, 46 wide, two 624ZZ seats; '
+                    'Ø8 centre bore so the seat shoulders bear only on the outer rings.'),
     'J906_idler_wheel': (idler_wheel, DARK, 1, 'As J8 07_idler_wheel',
-                         'Unchanged J8/R5 07_idler_wheel: Ø70.5 centre drum, rails, guide flanges, two 608 seats.'),
+                         'J8/R5 07_idler_wheel outline (Ø70.5 centre drum, rails, guide flanges); its two 608 seats open to the faces: '
+                         'Ø22.6 slide-in bore, Ø22.2 x 7.5 press seat against the central web.'),
     'J907_idler_spacer': (idler_spacer, STEEL, 2, 'PETG, 100 % infill',
                           'Ø11 x 13.9 tube between the yoke arm and the 608 inner ring; locates the idler.'),
     'J908_U_yoke': (u_yoke, YOKE_C, 1, 'PETG or PA12, 4 walls, 50 % infill, base on the bed',

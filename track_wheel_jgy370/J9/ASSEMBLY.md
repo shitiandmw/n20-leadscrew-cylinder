@@ -11,7 +11,10 @@ For X1, install the motor and all road/support rollers with their axles first (s
    - Clean the shallow chassis-support seats and plain mounting holes. Prepare four M4 nuts (AF7 × 3.2 mm) and eight Ø9/Ø4.4 × 0.8 mm washers per track for the X1 connection. The nuts remain external and must be held with a socket; no chassis heat-set inserts or captive nut pockets are fitted.
 2. **6800ZZ.** Press it into the outer-wall seat from the outside until it sits on the 1 mm lip. Its face ends flush with the wall.
 3. **Rollers.** Press two 624ZZ into each of the seven rollers, flush with the roller faces.
-4. **Idler.** Press two 608 into the idler wheel (as J8).
+4. **Idler.** Fit a 608 from each face of the idler wheel.
+   - Each bearing slides in by hand through the Ø22.6 bore.
+   - Press the last 7.5 mm with a Ø20–21 mm tube or socket on the outer ring, not on the shield, until the bearing stops against the central web, 13 mm below the face.
+   - The web's underside prints as a bridge: trim any sag before fitting the bearing on the bed side.
 5. **Sprocket and hub.**
    1. Put the Pololu hub's flange into the recess in the sprocket's inner face, boss outward.
    2. Line up every other hub hole with the sprocket's three counterbores.
@@ -65,10 +68,18 @@ For X1, install the motor and all road/support rollers with their axles first (s
 
 ## 7. Track
 
-1. Assemble the 34 links as for R4/J8: pins, bushings, clips.
-2. Wrap the chain around the sprocket, the rollers and the idler.
-3. Push the idler back toward its **recoil stop** (4.2 mm travel; the yoke meets the groove ends) to gain slack.
-4. Join the last pin, fit its clips, and release. The spring sets the tension at about 77 N.
+The chain goes on in one piece. Step 9 of [install_animation.html](install_animation.html) shows each move, and [TRACK_KIT.md](TRACK_KIT.md) lists them.
+
+1. Join the 34 links into one straight strip on the bench, grousers down. For each joint:
+   - Lay the next link down just ahead of the strip and push it back until its outer plates straddle the inner ears of the last link. The rounded plate ends slide into the hollowed ones, so a link only goes on along the strip.
+   - Drop a **bushing** in between those inner ears from above. At Ø6 it cannot pass the Ø3.2 pin holes, so it always goes in before its pin.
+   - Push a **Ø3 × 56 pin** through plate, ear, bushing, ear and plate.
+   - Push an **E-clip** onto each groove from the side, open side first.
+2. Leave the last joint open. Drop its bushing between the free inner ears at the far end of the strip. Push a **Ø3 × 24 dummy pin** (an offcut of the pin rod) through ears and bushing until it sits inside both ears. On the top run those ears open downward, out of reach, and the dummy pin keeps the bushing in.
+3. Lay the strip under the lifted track and set the track on it. Wrap the rear end round the sprocket and forward over the support rollers.
+4. Push the idler back to its **recoil stop** (4.2 mm travel; the yoke meets the groove ends) and hold it there.
+5. Wrap the front end round the idler and over the top. Hold it in a low arch so that it lands a few millimetres short of the rear end. Press the arch flat: the front end slides along the run until its ears are between the rear end's outer plates.
+6. Push the last pin in from outboard; it pushes the dummy pin out on the inboard side. Fit the last two clips and release the idler. The spring sets the tension at about 77 N.
 
 ## 8. Housing
 

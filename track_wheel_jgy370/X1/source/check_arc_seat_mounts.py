@@ -124,7 +124,8 @@ def verify_proofs(allow_pending_track=False):
         reports[path.name] = d
     exports = reports['revf_part_exports.json']['exports']
     assert {row['name'] for row in exports} == {
-        'X101_X_frame', 'J901_H_frame', 'J909_housing', 'J901_H_frame_right', 'J909_housing_right'}
+        'X101_X_frame', 'J901_H_frame', 'J909_housing', 'J901_H_frame_right', 'J909_housing_right',
+        'J904_roller', 'J906_idler_wheel'}
     assert all(row['step_roundtrip'] and row['stl_watertight'] and row['matches_current_source'] and
                row['solids'] == 1 and row['stl_components'] == 1 for row in exports)
     if not allow_pending_track:

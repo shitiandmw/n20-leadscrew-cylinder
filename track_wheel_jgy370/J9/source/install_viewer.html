@@ -1,0 +1,267 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>J9 track installation: two tracks, revision F</title><style>
+*{box-sizing:border-box}body{margin:0;background:#eef1ef;color:#203a42;font:14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{background:#18333c;color:#fff;padding:9px 20px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}header h1{font-size:19px;margin:0}header p{margin:0;opacity:.82}
+main{display:flex;height:calc(100vh - 47px)}#stage{flex:1;position:relative;min-width:0;overflow:hidden}#stage canvas{display:block;touch-action:none}
+#labels{position:absolute;inset:0;pointer-events:none}#labels svg{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible}
+.lab{position:absolute;left:0;top:0;background:rgba(24,51,60,.9);color:#fff;font-size:12px;line-height:1.35;padding:2px 7px;border-radius:3px;white-space:nowrap}
+#caption{position:absolute;left:12px;right:12px;bottom:12px;background:rgba(255,255,255,.93);padding:8px 12px 9px;border-radius:5px;max-width:940px;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+#caption b{font-size:15px}#caption .n{color:#c66f0b;margin-right:6px}#capText{display:block;margin-top:2px}
+#bars{display:flex;gap:3px;margin-top:7px}#bars i{flex:1;height:7px;background:#d5dcd9;border-radius:2px;position:relative;overflow:hidden;cursor:pointer}
+#bars i span{position:absolute;inset:0;background:#e08a1e;transform-origin:left center;transform:scaleX(0)}#bars i.cur{outline:1px solid #b56a10}
+aside{width:430px;overflow:auto;background:#fbfcfb;border-left:1px solid #d5dcd9;padding:10px 16px 24px}
+.seg{display:flex;flex-wrap:wrap;gap:0;margin:2px 0 8px}.seg button{flex:1;padding:6px 8px;border:1px solid #9fb2b3;background:#fff;cursor:pointer;font:inherit;margin-left:-1px}
+.seg button:first-child{border-radius:4px 0 0 4px;margin-left:0}.seg button:last-child{border-radius:0 4px 4px 0}.seg button.on{background:#18333c;color:#fff;border-color:#18333c}
+.tabs{display:flex;gap:6px;border-bottom:1px solid #d5dcd9;margin:4px 0 10px}.tabs button{border:0;background:none;padding:6px 10px;font:inherit;cursor:pointer;border-bottom:3px solid transparent;color:#40585e}
+.tabs button.on{border-bottom-color:#e08a1e;color:#18333c;font-weight:600}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:6px}.controls button{padding:5px 11px;border:1px solid #9fb2b3;background:#fff;border-radius:4px;cursor:pointer;font:inherit}
+.controls button#play{background:#e08a1e;border-color:#c66f0b;color:#fff;font-weight:600;min-width:84px}.controls select{font:inherit;padding:3px}.controls label{font-size:13px;color:#40585e}
+#scrub{width:100%;margin:2px 0 8px}
+ol#steplist{margin:0 0 10px;padding:0;list-style:none;counter-reset:s}ol#steplist li{padding:3px 8px;border-radius:4px;cursor:pointer;display:flex;gap:8px;align-items:baseline}
+ol#steplist li:hover{background:#eef1ef}ol#steplist li.skip{opacity:.55;font-style:italic}#bars i.skip{background:repeating-linear-gradient(45deg,#d5dcd9 0 3px,#eef1ef 3px 6px)}ol#steplist li.cur{background:#18333c;color:#fff}ol#steplist li .k{width:20px;text-align:right;opacity:.75}
+.badge{display:inline-block;font-size:11px;font-style:normal;padding:0 6px;border-radius:9px;background:#d9e5f3;color:#24476b;margin-left:6px;vertical-align:1px}
+li.cur .badge{background:#3c5c66;color:#fff}
+#card h2{font-size:16px;margin:10px 0 4px}#card h3{font-size:13px;margin:10px 0 4px;color:#40585e;text-transform:uppercase;letter-spacing:.04em}
+#card ol,#card ul{margin:0;padding-left:20px}#card li{margin:3px 0}#card .check li{color:#7a3f00}#card .src,#card .tools{color:#5b6f73;font-size:13px;margin:8px 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:5px}.chip{border:1px solid #c9d3d1;border-radius:4px;padding:1px 7px;font-size:13px;background:#fff}
+.chip i{font-style:normal;font-size:11px;padding:0 4px;border-radius:3px;margin-left:5px}.chip.printed i{background:#fde2c0;color:#7a4300}.chip.standard i{background:#dfe6ea;color:#33474d}
+#part{margin-top:14px;padding:8px 10px;border:1px dashed #c9d3d1;border-radius:4px;min-height:40px;color:#40585e;font-size:13px}
+#tab-parts h2{font-size:15px;margin:16px 0 6px}#tab-parts h2:first-child{margin-top:4px}#tab-parts table{border-collapse:collapse;width:100%;font-size:12.5px;margin-bottom:6px}
+#tab-parts th,#tab-parts td{border-bottom:1px solid #e3e8e6;padding:4px 5px;text-align:left;vertical-align:top}#tab-parts th{background:#eef1ef}
+#tab-parts td.q{font-weight:700;white-space:nowrap}#tab-parts code{font-size:11.5px;word-break:break-all}#tab-parts ul{padding-left:18px;margin:4px 0}#tab-parts li{margin:3px 0}
+.sum{background:#fff3e2;border:1px solid #f0d2a8;border-radius:4px;padding:6px 10px}small{color:#5b6f73}
+@media (max-width:900px){main{flex-direction:column;height:auto}#stage{height:62vh;flex:none}aside{width:auto;border-left:0;border-top:1px solid #d5dcd9}}
+</style></head><body>
+<header><h1>J9 track installation</h1><p>Two JGY-370 tracks, revision F &middot; step-by-step fitting order &middot; printed and standard parts</p></header>
+<main><div id="stage"><div id="labels"><svg id="leaders"></svg></div>
+<div id="caption"><b><span class="n" id="capNum"></span><span id="capTitle"></span></b><span id="capText"></span><div id="bars"></div></div></div>
+<aside>
+<div class="seg" id="modes" role="group" aria-label="Track"><button data-mode="left" class="on">Left track</button><button data-mode="right">Right track (mirrored)</button><button data-mode="x1">Both on X101</button></div>
+<div class="tabs"><button data-tab="steps" class="on">Steps</button><button data-tab="parts">Parts list</button></div>
+<section id="tab-steps">
+<div class="controls"><button id="prev" title="Previous step (Left arrow)">&#9664; Prev</button><button id="play" title="Play or pause (Space)">&#9654; Play</button><button id="next" title="Next step (Right arrow)">Next &#9654;</button>
+<select id="speed" aria-label="Speed"><option value=".5">0.5x</option><option value="1" selected>1x</option><option value="2">2x</option></select>
+<label><input type="checkbox" id="auto" checked> next step automatically</label></div>
+<input type="range" id="scrub" min="0" max="1000" value="0" aria-label="Progress of this step">
+<ol id="steplist"></ol><div id="card"></div>
+<div id="part"><small>Click a part in the 3D view to identify it. Drag to orbit, scroll to zoom; the camera follows each step until you move it.</small></div>
+</section>
+<section id="tab-parts" hidden></section>
+</aside></main>
+<script>__THREE__</script><script>__ORBIT__</script><script>
+'use strict';
+const DATA=__DATA__,C=DATA.cfg,KIT=DATA.kit,ALL=DATA.steps;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ITEMS={};for(const i of [...KIT.printed,...KIT.optional])ITEMS[i.id]={...i,type:'printed'};for(const i of [...KIT.standard,...KIT.chain,...KIT.joint])ITEMS[i.id]={...i,type:'standard'};
+ITEMS.dummy={id:'dummy',name:'Dummy pin Ø3 x 24 (assembly aid)',type:'tool',spec:'Holds the last bushing between the inner ears until the last pin pushes it out.'};
+// ------------------------------------------------------------------ scene
+const stage=document.getElementById('stage'),scene=new THREE.Scene();scene.background=new THREE.Color('#eef1ef');
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.outputEncoding=THREE.sRGBEncoding;renderer.localClippingEnabled=true;renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));stage.prepend(renderer.domElement);
+const camera=new THREE.PerspectiveCamera(30,1,1,8000);camera.up.set(0,0,1);const controls=new THREE.OrbitControls(camera,renderer.domElement);controls.enableDamping=false;
+let dirty=true;controls.addEventListener('change',()=>dirty=true);
+scene.add(new THREE.HemisphereLight(0xffffff,0x8a9696,.8));for(const [p,i] of [[[180,-420,640],.85],[[-380,380,320],.55],[[300,500,-100],.25]]){const l=new THREE.DirectionalLight(0xffffff,i);l.position.set(...p);scene.add(l)}
+const decode=(s,T)=>{const b=atob(s),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new T(u.buffer)};
+function geometry(p){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(decode(p.v,Float32Array),3));g.setIndex(new THREE.BufferAttribute(decode(p.t,p.wide?Uint32Array:Uint16Array),1));g.computeVertexNormals();return g}
+function mat(c,kind){return new THREE.MeshStandardMaterial({color:new THREE.Color(...c),metalness:kind==='printed'?.05:.35,roughness:.6})}
+const root=new THREE.Group();scene.add(root);
+const unitGeo=DATA.unit.map(geometry),shoeGeo=geometry(DATA.link[0]),HW={};for(const k in DATA.hw)HW[k]=geometry(DATA.hw[k]);
+function buildModule(side){
+ const g=new THREE.Group();if(side<0)g.scale.set(1,-1,1);root.add(g);const piv={};
+ const pivot=(n,x,z)=>{const o=new THREE.Group(),i=new THREE.Group();o.position.set(x,0,z);i.position.set(-x,0,-z);o.add(i);g.add(o);piv[n]={o,i}};
+ pivot('drive',...C.drive);pivot('idler',...C.idler);for(const [n,[x,z]] of Object.entries(C.rollers))pivot(n,x,z);
+ const meshes=[],byName={};
+ DATA.unit.forEach((p,k)=>{const m=new THREE.Mesh(unitGeo[k],mat(p.color,p.kind));m.userData={p,side,anim:p.anim,off:[0,0,0,0]};(piv[p.group]?piv[p.group].i:g).add(m);meshes.push(m);byName[p.name]=m});
+ // the chain: per joint j (pin j, at link j's rear end) a pin, a bushing and two E-clips (2j inboard, 2j+1 outboard), each its own part
+ const shoeMat=mat(DATA.link[0].color,'printed'),hwMat={},shoes=[],pins=[],bushes=[],clips=[];for(const k in HW)hwMat[k]=mat(DATA.hw[k].color,'hardware');
+ const part=(geo,m,ud)=>{const o=new THREE.Mesh(geo,m);o.userData={side,...ud};g.add(o);return o};
+ for(let j=0;j<C.pins.length;j++){shoes.push(part(shoeGeo,shoeMat,{link:j,item:'J910'}));pins.push(part(HW.pin,hwMat.pin,{link:j,item:'trackpin'}));
+  bushes.push(part(HW.bushing,hwMat.bushing,{link:j,item:'bushing'}));for(const c of [-1,1])clips.push(part(HW.clip,hwMat.clip,{link:j,item:'clip',clipSide:c}))}
+ const dummy=part(HW.dummy,hwMat.dummy,{item:'dummy'});
+ return {g,side,piv,meshes,byName,shoes,pins,bushes,clips,dummy,shoeMat,hwMat,spring:byName.recoil_spring,yoke:byName.J908_U_yoke,cut:new THREE.Plane()}}
+const L=buildModule(1),R=buildModule(-1);
+const chassisGroup=new THREE.Group();root.add(chassisGroup);const chassisByName={};
+const chassis=DATA.chassis.map(p=>{const m=new THREE.Mesh(geometry(p),mat(p.color,p.kind));m.userData={p,side:0,anim:p.anim,off:[0,0,0,0]};chassisGroup.add(m);chassisByName[p.name]=m;return m});
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(1,1),new THREE.MeshBasicMaterial({color:'#b7c4bd',transparent:true,opacity:.45,side:THREE.DoubleSide}));ground.position.z=-.05;scene.add(ground);
+// ------------------------------------------------------------------ the chain path (as 3D_preview.html)
+const P=C.pins,N=P.length,CIRC=[C.drive,C.idler],PR=C.pitch_r;
+const onCircle=(p,c)=>Math.abs(Math.hypot(p[0]-c[0],p[1]-c[1])-PR)<1e-4;
+function interp(a,b,f){for(const c of CIRC){if(onCircle(a,c)&&onCircle(b,c)){let ta=Math.atan2(a[1]-c[1],a[0]-c[0]),tb=Math.atan2(b[1]-c[1],b[0]-c[0]);if(tb<ta)tb+=2*Math.PI;const t=ta+(tb-ta)*f;return [c[0]+PR*Math.cos(t),c[1]+PR*Math.sin(t)]}}return [a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f]}
+function placeChain(M,phase){const k=Math.floor(phase),f=phase-k,q=[];for(let j=0;j<N;j++)q.push(interp(P[(j+k)%N],P[(j+k+1)%N],f));
+ for(let j=0;j<N;j++){const a=q[j],b=q[(j+1)%N],ang=Math.atan2(b[1]-a[1],b[0]-a[0]);M.shoes[j].position.set((a[0]+b[0])/2,0,(a[1]+b[1])/2);M.shoes[j].rotation.set(0,-ang,0);
+  M.pins[j].position.set(a[0],0,a[1]);M.bushes[j].position.set(a[0],0,a[1]);const mu=ang+CA.mouth[j];
+  for(const s of [0,1]){const c=M.clips[2*j+s];c.position.set(a[0],(2*s-1)*CA.clip_y,a[1]);c.rotation.set(0,-mu,0)}}
+ const w=-phase*Math.PI/6;M.piv.drive.o.rotation.y=w;M.piv.idler.o.rotation.y=w;for(const g of Object.keys(C.rollers))M.piv[g].o.rotation.y=-phase*C.pitch/C.roller_r}
+// ------------------------------------------------------------------ fitting the chain (J9/ASSEMBLY.md 7)
+// The links are joined into one flat strip with one joint left open, on the bench under the lifted track; the track is set down on the
+// strip; the rear end is wrapped round the sprocket and, with the idler held back at its recoil stop, the front end round the idler;
+// the last pin goes in from outboard where the two ends meet on top. Wrapping bends each joint from straight to its CAD angle, in
+// turn outward from the link that stays on the bottom run, so the free end stays straight and tangent to the wheel (C.chain_anim).
+// Each joint of the strip is made as a person can: the next link is put down ahead of the strip's end and pushed back along it (its
+// rounded plate ends slide into the last link's hollowed ones); the bushing drops in between the inner ears from above (it cannot pass
+// the pin holes); the pin goes through from outboard; the E-clips go on square to the pin, open side first. The far end's free ears
+// take the last bushing, held by a dummy pin; the front end comes over in a low arch, lands short and is pressed flat along the run;
+// the last pin pushes the dummy out inboard.
+const ease=x=>x<=0?0:x>=1?1:x*x*(3-2*x);
+const CA=C.chain_anim,TH=[],LEN=[];for(let j=0;j<N;j++){const a=P[j],b=P[(j+1)%N];TH.push(Math.atan2(b[1]-a[1],b[0]-a[0]));LEN.push(Math.hypot(b[0]-a[0],b[1]-a[1]))}
+const BEND=TH.map((v,k)=>{let d=v-TH[(k+N-1)%N];while(d>Math.PI)d-=2*Math.PI;while(d<=-Math.PI)d+=2*Math.PI;return d});
+const span=(x,w)=>w[1]>w[0]?ease((x-w[0])/(w[1]-w[0])):+(x>=w[0]),liftAt=x=>CA.lift*(span(x,CA.t.lift)-span(x,CA.t.lower));
+function fitChain(M,x){const th=[],A=[],off=[],o=CA.open,a0=CA.anchor,h=liftAt(x),arch=span(x,CA.arch.on)-span(x,CA.arch.off),
+  wb=k=>(CA.joints[k]?span(x,CA.joints[k])*BEND[k]:0)+arch*(CA.arch.joints[k]||0);th[a0]=TH[a0];A[a0]=P[a0];
+ for(let j=a0,n=(a0+1)%N;n!==o;j=n,n=(n+1)%N){th[n]=th[j]+wb(n);A[n]=[A[j][0]+LEN[j]*Math.cos(th[j]),A[j][1]+LEN[j]*Math.sin(th[j])]}
+ for(let j=a0,p=(a0+N-1)%N;j!==o;j=p,p=(p+N-1)%N){th[p]=th[j]-wb(j);A[p]=[A[j][0]-LEN[p]*Math.cos(th[p]),A[j][1]-LEN[p]*Math.sin(th[p])]}
+ for(let i=0;i<N;i++){const j=(o+i)%N,k=CA.links[i],c=Math.cos(th[j]),sn=Math.sin(th[j]),ah=(1-span(x,[k[1],k[2]]))*CA.ahead[i],up=(1-span(x,[k[0],k[1]]))*CA.up,s=M.shoes[j];
+  off[j]=[ah*c,ah*sn+up-h];s.visible=x>=k[0];s.position.set(A[j][0]+LEN[j]/2*c+off[j][0],0,A[j][1]+LEN[j]/2*sn+off[j][1]);s.rotation.set(0,-th[j],0)}
+ const ok=(o+N-1)%N,F=[A[ok][0]+LEN[ok]*Math.cos(th[ok])+off[ok][0],A[ok][1]+LEN[ok]*Math.sin(th[ok])+off[ok][1]];   // the far end's free ears
+ for(let i=0;i<N;i++){const j=(o+i)%N,base=i?[A[j][0]+off[j][0],A[j][1]+off[j][1]]:F,b=CA.bush[i],p=CA.pin[i],cw=CA.clips[i],bu=M.bushes[j],q=M.pins[j];
+  bu.visible=x>=b[0];bu.position.set(base[0],0,base[1]+(1-span(x,b))*CA.bush_up);
+  q.visible=x>=p[0];q.position.set(base[0],CA.pin_out*(1-span(x,p)),base[1]);
+  const mu=th[j]+CA.mouth[j],d=(1-span(x,cw))*CA.clip_off;
+  for(const s of [0,1]){const cl=M.clips[2*j+s];cl.visible=x>=cw[0];cl.position.set(base[0]-d*Math.cos(mu),(2*s-1)*CA.clip_y,base[1]-d*Math.sin(mu));cl.rotation.set(0,-mu,0)}}
+ const D=CA.dummy,dm=M.dummy,lp=M.pins[o];let y=D.out*(1-span(x,D.t));if(lp.visible)y=Math.min(y,lp.position.y-CA.pin_half-D.half);
+ dm.visible=x>=D.t[0]&&x<D.gone;dm.position.set(F[0],y,F[1])}
+// ------------------------------------------------------------------ steps and part motion
+const CHAIN=ALL.findIndex(s=>s.id==='chain');
+function evalAnim(A,k,t){let i=-1;for(let j=0;j<A.length;j++)if(A[j].s<=k)i=j;if(i<0)return null;const K=A[i].keys;
+ if(A[i].s<k)return K[K.length-1];if(t<K[0][0])return i>0?A[i-1].keys[A[i-1].keys.length-1]:null;
+ for(let j=1;j<K.length;j++)if(t<=K[j][0]){const a=K[j-1],b=K[j],f=ease((t-a[0])/Math.max(1e-9,b[0]-a[0]));return [t,a[1]+(b[1]-a[1])*f,a[2]+(b[2]-a[2])*f,a[3]+(b[3]-a[3])*f]}
+ return K[K.length-1]}
+let mode='left',list=[],cur=0,t=0,playing=false,speed=1,auto=true,runPhase=0,hold=0;
+const stepsFor=m=>ALL.map((s,gi)=>({...s,gi,skip:!!s.x1only&&m!=='x1'}));
+const mods=()=>mode==='left'?[L]:mode==='right'?[R]:[L,R];
+function glow(m,on){const e=on?0x7a3d00:0;if(m.material.emissive.getHex()!==e){m.material.emissive.setHex(e)}}
+function pose(m,k,gi,final,st){const o=evalAnim(m.userData.anim,k,t);m.visible=!!o;if(o){m.userData.off=o;m.position.set(o[1],o[2],o[3])}
+ glow(m,!final&&!st.run&&!!o&&m.userData.anim.some(e=>e.s===gi&&e.keys.length>1))}
+function update(){const st=list[cur],gi=st.gi,final=st.id==='overview'||!!st.run,k=final?1e9:gi,fitting=!final&&gi===CHAIN;
+ for(const M of [L,R])M.g.visible=mods().includes(M);chassisGroup.visible=mode==='x1';root.position.z=fitting?liftAt(t):0;root.updateMatrixWorld(true);
+ for(const M of mods()){
+  for(const m of M.meshes)pose(m,k,gi,final,st);
+  const cut=st.id==='tensioner'&&t>=.5,fm=M.byName.J901_H_frame.material;M.g.updateMatrixWorld();
+  if(cut){M.cut.set(new THREE.Vector3(0,-1,0),0).applyMatrix4(M.g.matrixWorld);fm.clippingPlanes=[M.cut]}else fm.clippingPlanes=null;
+  if(fm.side!==(cut?THREE.DoubleSide:THREE.FrontSide)){fm.side=cut?THREE.DoubleSide:THREE.FrontSide;fm.needsUpdate=true}
+  const S=C.spring,sp=M.spring;if(sp.visible){const len=M.yoke.visible?Math.min(S.free,S.set+M.yoke.userData.off[1]):S.free,s=len/S.set;sp.scale.x=s;sp.position.x=S.x0*(1-s)+sp.userData.off[1]}
+  placeChain(M,st.run?runPhase:0);
+  if(fitting)fitChain(M,t);else{const on=final||gi>CHAIN;for(const a of [M.shoes,M.pins,M.bushes,M.clips])for(const m of a)m.visible=on;M.dummy.visible=false}
+  glow({material:M.shoeMat},fitting)}   // the steel parts keep their own colours, so pin, bushing, clips and dummy pin stay distinct
+ if(mode==='x1')for(const m of chassis)pose(m,k,gi,final,st);
+ root.updateMatrixWorld(true);dirty=true}
+// ------------------------------------------------------------------ camera
+let camTween=null,userCam=false,camIdx=-1;controls.addEventListener('start',()=>{userCam=true;camTween=null});
+function camsFor(st){let c=mode==='x1'?st.camsX1:st.cams;if(mode==='right')c=c.map(([a,p,q])=>[a,[p[0],-p[1],p[2]],[q[0],-q[1],q[2]]]);return c}
+function flyTo(c,ms){if(!ms){camera.position.set(...c[1]);controls.target.set(...c[2]);controls.update();camTween=null;dirty=true;return}
+ camTween={p0:camera.position.clone(),q0:controls.target.clone(),p1:new THREE.Vector3(...c[1]),q1:new THREE.Vector3(...c[2]),s:performance.now(),d:ms}}
+function camFollow(instant){if(userCam)return;const cs=camsFor(list[cur]);let i=0;for(let j=0;j<cs.length;j++)if(t>=cs[j][0])i=j;if(i!==camIdx||instant){camIdx=i;flyTo(cs[i],instant?0:1300)}}
+// ------------------------------------------------------------------ labels with leader lines
+const labelsDiv=document.getElementById('labels'),svg=document.getElementById('leaders');let labelEls=[];
+function buildLabels(){for(const e of labelEls)e.el.remove();labelEls=(list[cur].labels||[]).map(l=>{const el=document.createElement('div');el.className='lab';el.textContent=l.text;labelsDiv.appendChild(el);return {l,el}})}
+const V=new THREE.Vector3();
+function anchorWorld(l){const M=mode==='right'?R:L;if(l.t0!==undefined&&(t<l.t0||t>l.t1+1e-9))return null;
+ if(l.part.includes(':')){const [kind,j]=l.part.split(':'),o=({link:M.shoes,pins:M.pins,bush:M.bushes,clip:M.clips,dummy:[M.dummy]})[kind][+j];if(!o||!o.visible||!M.g.visible)return null;o.getWorldPosition(V);return V}
+ const m=M.byName[l.part]||chassisByName[l.part];if(!m||!m.visible||!m.parent.visible||(m.userData.side===0&&!chassisGroup.visible)||(m.userData.side!==0&&!M.g.visible))return null;
+ const o=m.userData.off;V.set(l.at[0]+o[1],l.at[1]+o[2],l.at[2]+o[3]);return (m.userData.side===0?chassisGroup:M.g).localToWorld(V)}
+function updateLabels(){const w=stage.clientWidth,h=stage.clientHeight,cap=document.getElementById('caption').offsetHeight;camera.updateMatrixWorld();
+ const items=[];for(const e of labelEls){const p=anchorWorld(e.l);if(!p){e.el.style.display='none';e.shown=false;continue}p.project(camera);
+  if(p.z>1||p.x<-1.1||p.x>1.1||p.y<-1.1||p.y>1.1){e.el.style.display='none';e.shown=false;continue}
+  e.el.style.display='block';const ax=(p.x+1)/2*w,ay=(1-p.y)/2*h;items.push({e,ax,ay,bw:e.el.offsetWidth,bh:e.el.offsetHeight})}
+ for(const it of items){it.x=it.ax+(it.ax>w*.62?-it.bw-22:22);it.y=it.ay-it.bh-18}
+ items.sort((a,b)=>a.y-b.y);
+ for(let i=0;i<items.length;i++){const a=items[i];a.x=Math.max(4,Math.min(w-a.bw-4,a.x));a.y=Math.max(4,Math.min(h-cap-a.bh-30,a.y));
+  for(let j=0;j<i;j++){const b=items[j];if(a.x<b.x+b.bw+4&&b.x<a.x+a.bw+4&&a.y<b.y+b.bh+3)a.y=b.y+b.bh+3}}
+ let s='';for(const it of items){it.e.el.style.transform=`translate(${Math.round(it.x)}px,${Math.round(it.y)}px)`;it.e.shown=true;it.e.box=[it.x,it.y,it.bw,it.bh];it.e.anchor=[it.ax,it.ay];
+  const ex=it.x+(it.x+it.bw/2<it.ax?it.bw:0),ey=it.y+it.bh/2;
+  s+=`<line x1="${it.ax}" y1="${it.ay}" x2="${ex}" y2="${ey}" stroke="#18333c" stroke-width="1.3"/><circle cx="${it.ax}" cy="${it.ay}" r="3.2" fill="#e08a1e" stroke="#18333c" stroke-width="1"/>`}
+ svg.innerHTML=s}
+// ------------------------------------------------------------------ panel
+const $=id=>document.getElementById(id);
+function itemName(id){const i=ITEMS[id];if(!i)return id;if(id==='J901'||id==='J909'){if(mode==='right')return i.name+' (right, mirrored print)';if(mode==='x1')return i.name+' (left and right prints)'}return i.name}
+function itemFile(id){const i=ITEMS[id];if(!i||!i.files)return '';return mode==='right'&&i.files.right?i.files.right:i.files.left||i.files.both||i.files.chassis}
+function chip([id,q]){const i=ITEMS[id]||{type:'standard'};const f=itemFile(id);return `<span class="chip ${i.type}"${f?` title="${esc(f)}"`:''}><b>${q}&times;</b> ${esc(itemName(id))}<i>${i.type==='printed'?'print':'buy'}</i></span>`}
+function renderList(){$('steplist').innerHTML=list.map((s,i)=>`<li data-i="${i}" class="${i===cur?'cur':''}${s.skip?' skip':''}"${s.skip?' title="Only when mounting on X101: click to switch to Both on X101"':''}><span class="k">${i}</span><span>${esc(s.title)}${s.x1only?'<em class="badge">X101 only</em>':''}</span></li>`).join('');
+ $('bars').innerHTML=list.map((s,i)=>`<i data-i="${i}" title="${i}. ${esc(s.title)}${s.skip?' (X101 only)':''}" class="${i===cur?'cur':''}${s.skip?' skip':''}"><span></span></i>`).join('')}
+function renderCard(){const st=list[cur],per=st.id==='xframe'?'whole chassis':(mode==='x1'?'each track':'per track');
+ $('card').innerHTML=`<h2>${cur}. ${esc(st.title)}${st.x1only?'<em class="badge">X101 only</em>':''}</h2>`+
+  (st.items.length?`<h3>Fit in this step (${per})</h3><div class="chips">${st.items.map(chip).join('')}</div>`:'')+
+  `<h3>${st.id==='overview'?'Before you start':'Do'}</h3><ol>${st.do.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`+
+  (st.check.length?`<h3>Check</h3><ul class="check">${st.check.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'')+
+  (st.tools.length?`<p class="tools"><b>Tools:</b> ${st.tools.map(esc).join(', ')}</p>`:'')+`<p class="src">From ${esc(st.source)}</p>`;
+ $('capNum').textContent=cur+'.';$('capTitle').textContent=st.title;$('capText').textContent=st.caption}
+function syncProgress(){const bars=$('bars').children;for(let i=0;i<bars.length;i++)bars[i].firstChild.style.transform=`scaleX(${i<cur?1:i>cur?0:t})`;$('scrub').value=Math.round(t*1000)}
+function syncPlay(){$('play').innerHTML=playing?'&#10074;&#10074; Pause':'&#9654; Play'}
+function go(i,dir){dir=dir||1;i=Math.max(0,Math.min(list.length-1,i));while(list[i]&&list[i].skip)i+=dir;if(!list[i])i=cur;cur=i;t=0;hold=0;camIdx=-1;userCam=false;update();camFollow(false);buildLabels();renderList();renderCard();syncProgress()}
+function setMode(m,to){const at=to===undefined?cur:to;mode=m;list=stepsFor(m);
+ L.g.position.set(0,m==='x1'?C.track_y:0,0);R.g.position.set(0,m==='x1'?-C.track_y:0,0);
+ if(m==='x1'){ground.scale.set(780,640,1);ground.position.set(0,0,-.05)}else{ground.scale.set(780,280,1);ground.position.set(0,m==='right'?10:-10,-.05)}
+ document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('on',b.dataset.mode===m));go(at,-1)}
+function setPlaying(p){playing=p;if(p&&t>=1&&!list[cur].run){if(cur<list.length-1)go(cur+1,1);else go(0)}syncPlay()}
+$('modes').addEventListener('click',e=>{const b=e.target.closest('[data-mode]');if(b)setMode(b.dataset.mode)});
+const pick=i=>{if(list[i].skip)setMode('x1',i);else go(i)};
+$('steplist').addEventListener('click',e=>{const li=e.target.closest('li');if(li)pick(+li.dataset.i)});
+$('bars').addEventListener('click',e=>{const b=e.target.closest('i');if(b)pick(+b.dataset.i)});
+$('prev').addEventListener('click',()=>go(cur-1,-1));$('next').addEventListener('click',()=>go(cur+1,1));$('play').addEventListener('click',()=>setPlaying(!playing));
+$('speed').addEventListener('change',e=>speed=+e.target.value);$('auto').addEventListener('change',e=>auto=e.target.checked);
+$('scrub').addEventListener('input',e=>{t=+e.target.value/1000;update();camFollow(false)});
+window.addEventListener('keydown',e=>{if(e.target.closest('input,select,textarea'))return;if(e.code==='Space'){e.preventDefault();setPlaying(!playing)}else if(e.key==='ArrowRight')go(cur+1,1);else if(e.key==='ArrowLeft')go(cur-1,-1)});
+document.querySelector('.tabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(!b)return;document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('on',x===b));
+ $('tab-steps').hidden=b.dataset.tab!=='steps';$('tab-parts').hidden=b.dataset.tab!=='parts'});
+// click to identify
+const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();let down=null;
+renderer.domElement.addEventListener('pointerdown',e=>down=[e.clientX,e.clientY]);
+renderer.domElement.addEventListener('pointerup',e=>{if(!down||Math.hypot(e.clientX-down[0],e.clientY-down[1])>4)return;const r=renderer.domElement.getBoundingClientRect();
+ mouse.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);ray.setFromCamera(mouse,camera);
+ const objs=[];root.traverseVisible(o=>{if(o.isMesh)objs.push(o)});const hit=ray.intersectObjects(objs,false)[0];
+ if(!hit){$('part').innerHTML='<small>Click a part in the 3D view to identify it.</small>';return}
+ const u=hit.object.userData,id=u.p?u.p.item:u.item,i=ITEMS[id],side=u.side>0?'left track':u.side<0?'right track':'chassis';
+ const nm=u.p?u.p.name:({J910:`J910 shoe, link ${u.link+1} of ${N}`,trackpin:`pin, joint ${u.link+1} of ${N}`,bushing:`bushing, joint ${u.link+1} of ${N}`,
+  clip:`E-clip, joint ${u.link+1} of ${N}, ${u.clipSide<0?'inboard':'outboard'}`,dummy:'removed again: the last pin pushes it out'})[u.item];
+ let f='';if(i&&i.files)f=u.side<0&&i.files.right?i.files.right:i.files.left||i.files.both||i.files.chassis||'';
+ $('part').innerHTML=`<b>${esc(i?i.name:id)}</b> <span class="badge">${i&&i.type==='printed'?'print':i&&i.type==='tool'?'tool':'buy'}</span><br><small>${esc(nm)} &middot; ${side}</small>`+
+  (f?`<br><small>STL: <code>${esc(f)}</code></small>`:'')+(i?`<br><small>${esc(i.spec||i.settings||'')}</small>`:'')});
+// ------------------------------------------------------------------ parts list tab
+function partsTab(){const T=KIT.totals,two='for two tracks';
+ const pr=KIT.printed.flatMap(i=>Object.entries(i.files).map(([side,f])=>{const q=side==='both'?2*i.per_track:i.per_track,fa=i.facts[side];
+  return `<tr><td>${esc(i.name)}${side==='left'?' <small>(left)</small>':side==='right'?' <small>(right, mirrored)</small>':''}<br><small>${esc(i.note)}</small></td><td class="q">${q}</td><td><code>${esc(f.replace('track_wheel_jgy370/',''))}</code><br><small>${fa.size_mm.join(' x ')} mm</small></td><td>${esc(i.settings)}<br><small>${esc(i.orientation)}</small></td></tr>`})).join('');
+ const opt=KIT.optional.map(i=>`<tr><td>${esc(i.name)}</td><td class="q">${i.per_machine}</td><td><code>${esc(i.files.chassis.replace('track_wheel_jgy370/',''))}</code><br><small>${i.facts.chassis.size_mm.join(' x ')} mm</small></td><td>${esc(i.settings)}<br><small>${esc(i.orientation)}</small></td></tr>`).join('');
+ const buy=rows=>rows.map(i=>`<tr><td>${esc(i.name)}</td><td class="q">${i.per_machine||2*i.per_track}${i.buy?` <small>(${esc(i.buy)})</small>`:''}</td><td>${esc(i.spec)}</td></tr>`).join('');
+ const cats=[...new Set(KIT.standard.map(i=>i.cat))];
+ $('tab-parts').innerHTML=`<div class="sum"><b>Print ${T.printed_pieces} parts + ${T.shoes} shoes</b> (${T.printed_files} STL files) &middot; <b>buy ${T.bought} standard parts</b> + chain hardware. All quantities are ${two}.</div>`+
+  `<h2>Parts to print</h2><table><tr><th>Part</th><th>Prints</th><th>STL file and size</th><th>Settings and orientation</th></tr>${pr}</table>`+
+  `<p><small>Only to test the tracks on the chassis:</small></p><table><tr><th>Part</th><th>Prints</th><th>STL file and size</th><th>Settings and orientation</th></tr>${opt}</table>`+
+  `<h2>Print notes</h2><ul>${KIT.notes.map(([h,x,sub])=>`<li><b>${esc(h)}</b> ${esc(x)}${sub.length?`<ul>${sub.map(y=>`<li>${esc(y)}</li>`).join('')}</ul>`:''}</li>`).join('')}</ul>`+
+  cats.map(c=>`<h2>${esc(c)}</h2><table><tr><th>Part</th><th>Qty</th><th>Notes</th></tr>${buy(KIT.standard.filter(i=>i.cat===c))}</table>`).join('')+
+  `<h2>Track chain</h2><table><tr><th>Part</th><th>Qty</th><th>Notes</th></tr>${buy(KIT.chain)}</table>`+
+  `<h2>Only to mount the tracks on X101</h2><table><tr><th>Part</th><th>Qty</th><th>Notes</th></tr>${buy(KIT.joint)}</table>`+
+  `<h2>First powered test (not in the CAD)</h2><table><tr><th>Part</th><th>Qty</th><th>Notes</th></tr>${KIT.bench.map(i=>`<tr><td>${esc(i.name)}</td><td class="q">${esc(i.qty)}</td><td>${esc(i.spec)}</td></tr>`).join('')}</table>`+
+  `<h2>Tools</h2><table><tr><th>Tool</th><th>For</th></tr>${KIT.tools.map(([a,b])=>`<tr><td>${esc(a)}</td><td>${esc(b)}</td></tr>`).join('')}</table>`+
+  `<h2>Still to verify on the real parts</h2><ul>${KIT.verify.map(([a,b])=>`<li><b>${esc(a)}</b> ${esc(b)}</li>`).join('')}</ul>`}
+// ------------------------------------------------------------------ loop
+function resize(){const w=stage.clientWidth,h=stage.clientHeight;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();dirty=true}window.addEventListener('resize',resize);
+function render(){renderer.render(scene,camera);updateLabels();dirty=false}
+let last=performance.now();
+function loop(now){const dt=Math.min(.1,(now-last)/1000);last=now;
+ if(playing){const st=list[cur];
+  if(st.run){runPhase=(runPhase+dt*1.2*speed)%N;t=Math.min(1,t+dt*speed/st.dur);update();syncProgress()}
+  else if(t<1){t=Math.min(1,t+dt*speed/st.dur);update();camFollow(false);syncProgress()}
+  else if(auto&&cur<list.length-1){hold+=dt;if(hold>.9){go(cur+1,1)}}
+  else{playing=false;syncPlay()}}
+ if(camTween){const f=ease((now-camTween.s)/camTween.d);camera.position.lerpVectors(camTween.p0,camTween.p1,f);controls.target.lerpVectors(camTween.q0,camTween.q1,f);controls.update();if(f>=1)camTween=null;dirty=true}
+ if(dirty)render();requestAnimationFrame(loop)}
+partsTab();resize();setMode('left',0);flyTo(camsFor(list[0])[0],0);requestAnimationFrame(loop);
+window.kit={meta:()=>({steps:ALL.map(s=>({id:s.id,title:s.title,x1only:!!s.x1only,labels:(s.labels||[]).length,windows:(s.labels||[]).filter(l=>l.t0!==undefined).map(l=>({text:l.text,t0:l.t0,t1:l.t1}))})),chain:CHAIN,links:N,
+  first:Object.fromEntries(DATA.unit.map(p=>[p.name,Math.min(...p.anim.map(e=>e.s))])),last:Object.fromEntries(DATA.unit.map(p=>[p.name,Math.max(...p.anim.map(e=>e.s))])),
+  chassis:DATA.chassis.map(p=>p.name),spring:C.spring,yokeRest:C.yoke_rest,trackY:C.track_y,
+  chainWindows:[[CA.links[1][0],CA.clips[1][1],400],[CA.links[2][0],CA.clips[3][1],150],[CA.bush[0][0],CA.dummy.t[1],100],[CA.arch.on[0],CA.arch.off[1],400],[CA.pin[0][0],CA.clips[0][1],200]],
+  hw:Object.fromEntries(Object.keys(HW).map(k=>{HW[k].computeBoundingBox();const b=HW[k].boundingBox;return [k,[b.min.x,b.min.y,b.min.z,b.max.x,b.max.y,b.max.z]]}))}),setMode,go,setT:x=>{t=x;update();camFollow(true);render()},play:()=>setPlaying(true),pause:()=>setPlaying(false),render,
+ snap:()=>{userCam=false;camFollow(true);render()},
+ probe:x=>{t=x;update();return {t:x,lift:root.position.z,mods:mods().map(M=>({slide:M.yoke.userData.off[1],
+  shoes:M.shoes.map(s=>[+s.visible,s.position.x,s.position.z,-s.rotation.y]),pins:M.pins.map(q=>[+q.visible,q.position.x,q.position.y,q.position.z]),
+  bushes:M.bushes.map(q=>[+q.visible,q.position.x,q.position.y,q.position.z]),clips:M.clips.map(q=>[+q.visible,q.position.x,q.position.y,q.position.z,-q.rotation.y]),
+  dummy:[+M.dummy.visible,M.dummy.position.x,M.dummy.position.y,M.dummy.position.z]}))}},
+ state:()=>{const vis=[],glowing=[],moved=[];for(const M of mods())for(const m of M.meshes)if(m.visible){vis.push(m.userData.p.name);if(m.material.emissive.getHex())glowing.push(m.userData.p.name);
+   const o=m.userData.off;if(Math.hypot(o[1],o[2],o[3])>1e-6)moved.push([m.userData.p.name,o.slice(1)])}
+  const chas=mode==='x1'?chassis.filter(m=>m.visible).map(m=>[m.userData.p.name,m.userData.off.slice(1)]):[];
+  return {mode,step:list[cur].id,index:cur,steps:list.filter(s=>!s.skip).map(s=>s.id),t,playing,visible:vis,glowing,moved,chassis:chas,
+   cutaway:mods().map(M=>!!M.byName.J901_H_frame.material.clippingPlanes),lift:root.position.z,
+   links:mods().map(M=>M.shoes.filter(s=>s.visible).length),
+   hardware:mods().map(M=>[M.pins,M.bushes,M.clips].map(a=>a.filter(m=>m.visible).length).concat(+M.dummy.visible)),spring_scale:mods().map(M=>M.spring.visible?M.spring.scale.x:null),
+   labels:labelEls.map(e=>({text:e.l.text,shown:!!e.shown,box:e.box||null,anchor:e.anchor||null})),
+   stage:[stage.clientWidth,stage.clientHeight],caption:$('capText').textContent,card:$('card').innerText}}};
+</script></body></html>

@@ -1,0 +1,677 @@
+{
+ "generator": "track_wheel_jgy370/J9/source/build_track_kit.py",
+ "revision": "J9 revision F (X1 revision F mounting)",
+ "inputs_sha256": {
+  "track_wheel_jgy370/J9/source/j9_scene.json.gz": "e7653cdb978d6a2b0cb82047f959e9cd764cc5f05b8dee2a557fa903421d446e",
+  "track_wheel_jgy370/X1/source/x1_scene.json.gz": "63f742cdc029f43de86bde8b2eadd7e2939934195f53f825cc26cd0c30a0d1dc",
+  "track_wheel_jgy370/J9/source/build_track_kit.py": "ebf545f7246558d72ebeea9d24c41aacb55739a574e3171f2f6bd9b00f9028bf"
+ },
+ "stl": {
+  "track_wheel_jgy370/J9/stl/J901_H_frame.stl": {
+   "size_mm": [
+    274.9,
+    63.6,
+    65.5
+   ],
+   "volume_cm3": 296.22,
+   "area_cm2": 854.6,
+   "triangles": 35280,
+   "sha256": "8a71deed2cff2f0928fd3e93f9cc35b4ce34d392d982fdcccc6b322f9842a64f",
+   "revf_export_match": true,
+   "beds": {
+    "220x220": {
+     "fits": true,
+     "margin_per_side_mm": 4.8,
+     "angle_deg": 135.0
+    },
+    "250x210": {
+     "fits": true,
+     "margin_per_side_mm": 10.3,
+     "angle_deg": 142.5
+    },
+    "256x256": {
+     "fits": true,
+     "margin_per_side_mm": 22.8,
+     "angle_deg": 135.0
+    },
+    "300x300": {
+     "fits": true,
+     "margin_per_side_mm": 12.6,
+     "angle_deg": 90.0
+    }
+   }
+  },
+  "track_wheel_jgy370/X1/stl/J901_H_frame_right.stl": {
+   "size_mm": [
+    274.9,
+    63.6,
+    65.5
+   ],
+   "volume_cm3": 296.22,
+   "area_cm2": 854.6,
+   "triangles": 35280,
+   "sha256": "64880cd88a31006270d45259309bf221b6bfc4bcfb1c59c76c110e078977b703",
+   "revf_export_match": true,
+   "beds": {
+    "220x220": {
+     "fits": true,
+     "margin_per_side_mm": 4.8,
+     "angle_deg": 135.0
+    },
+    "250x210": {
+     "fits": true,
+     "margin_per_side_mm": 10.3,
+     "angle_deg": 142.5
+    },
+    "256x256": {
+     "fits": true,
+     "margin_per_side_mm": 22.8,
+     "angle_deg": 135.0
+    },
+    "300x300": {
+     "fits": true,
+     "margin_per_side_mm": 12.6,
+     "angle_deg": 90.0
+    }
+   }
+  },
+  "track_wheel_jgy370/J9/stl/J909_housing.stl": {
+   "size_mm": [
+    286.9,
+    67.0,
+    27.0
+   ],
+   "volume_cm3": 53.02,
+   "area_cm2": 446.7,
+   "triangles": 23750,
+   "sha256": "708c3887fc32aeaf62c1c24c66c5865b5dba6dd56343fae9814da6d15f467359",
+   "revf_export_match": true,
+   "beds": {
+    "220x220": {
+     "fits": false,
+     "margin_per_side_mm": -1.2,
+     "angle_deg": 135.0
+    },
+    "250x210": {
+     "fits": true,
+     "margin_per_side_mm": 4.3,
+     "angle_deg": 142.5
+    },
+    "256x256": {
+     "fits": true,
+     "margin_per_side_mm": 16.8,
+     "angle_deg": 135.0
+    },
+    "300x300": {
+     "fits": true,
+     "margin_per_side_mm": 6.6,
+     "angle_deg": 90.0
+    }
+   }
+  },
+  "track_wheel_jgy370/X1/stl/J909_housing_right.stl": {
+   "size_mm": [
+    286.9,
+    67.0,
+    27.0
+   ],
+   "volume_cm3": 53.02,
+   "area_cm2": 446.7,
+   "triangles": 23750,
+   "sha256": "f509c73d29cbe22dbe584285308dc334c79cd2840db70965d55d23b05b6b8b5a",
+   "revf_export_match": true,
+   "beds": {
+    "220x220": {
+     "fits": false,
+     "margin_per_side_mm": -1.2,
+     "angle_deg": 135.0
+    },
+    "250x210": {
+     "fits": true,
+     "margin_per_side_mm": 4.3,
+     "angle_deg": 142.5
+    },
+    "256x256": {
+     "fits": true,
+     "margin_per_side_mm": 16.8,
+     "angle_deg": 135.0
+    },
+    "300x300": {
+     "fits": true,
+     "margin_per_side_mm": 6.6,
+     "angle_deg": 90.0
+    }
+   }
+  },
+  "track_wheel_jgy370/J9/stl/J902_sprocket.stl": {
+   "size_mm": [
+    81.6,
+    81.6,
+    23.3
+   ],
+   "volume_cm3": 84.74,
+   "area_cm2": 170.4,
+   "triangles": 9144,
+   "sha256": "356b07c5f85126281003931805e755bde58b54ea6c3b190510fa1ce5d1997be8",
+   "revf_export_match": null,
+   "beds": {
+    "220x220": {
+     "fits": true,
+     "margin_per_side_mm": 69.2,
+     "angle_deg": 90.0
+    },
+    "250x210": {
+     "fits": true,
+     "margin_per_side_mm": 64.2,
+     "angle_deg": 90.0
+    },
+    "256x256": {
+     "fits": true,
+     "margin_per_side_mm": 87.2,
+     "angle_deg": 90.0
+    },
+    "300x300": {
+     "fits": true,
+     "margin_per_side_mm": 109.2,
+     "angle_deg": 90.0
+    }
+   }
+  },
+  "track_wheel_jgy370/J9/stl/J903_journal_plug.stl": {
+   "size_mm": [
+    9.9,
+    9.9,
+    26.5
+   ],
+   "volume_cm3": 1.82,
+   "area_cm2": 12.5,
+   "triangles": 840,
+   "sha256": "94c799f809fb7143f05fc0695e654d22c795f7bf20e2418470405238a65648df",
+   "revf_export_match": null,
+   "beds": {
+    "220x220": {
+     "fits": true,
+     "margin_per_side_mm": 105.0,
+     "angle_deg": 90.0
+    },
+    "250x210": {
+     "fits": true,
+     "margin_per_side_mm": 100.0,
+     "angle_deg": 90.0
+    },
+    "256x256": {
+     "fits": true,
+     "margin_per_side_mm": 123.0,
+     "angle_deg": 90.0
+    },
+    "300x300": {
+     "fits": true,
+     "margin_per_side_mm": 145.0,
+     "angle_deg": 90.0
+    }
+   }
+  },
+  "track_wheel_jgy370/J9/stl/J904_roller.stl": {
+   "size_mm": [
+    26.0,
+    26.0,
+    46.0
+   ],
+   "volume_cm3": 14.76,
+   "area_cm2": 57.9,
+   "triangles": 2520,
+   "sha256": "8424eaa741ad7e669ddff7cf0cc125143b9bb0142c84ad93cd59b2c4f9a11fe2",
+   "revf_export_match": true,
+   "beds": {
+    "220x220": {
+     "fits": true,
+     "margin_per_side_mm": 97.0,
+     "angle_deg": 90.0
+    },
+    "250x210": {
+     "fits": true,
+     "margin_per_side_mm": 92.0,
+     "angle_deg": 90.0
+    },
+    "256x256": {
+     "fits": true,
+     "margin_per_side_mm": 115.0,
+     "angle_deg": 90.0
+    },
+    "300x300": {
+     "fits": true,
+     "margin_per_side_mm": 137.0,
+     "angle_deg": 90.0
+    }
+   }
+  },
+  "track_wheel_jgy370/J9/stl/J906_idler_wheel.stl": {
+   "size_mm": [
+    70.5,
+    70.5,
+    46.0
+   ],
+   "volume_cm3": 133.86,
+   "area_cm2": 255.3,
+   "triangles": 5460,
+   "sha256": "cada29045e180706575728612a309623efdc10fd6a338187c00bc1a9e03f9207",
+   "revf_export_match": true,
+   "beds": {
+    "220x220": {
+     "fits": true,
+     "margin_per_side_mm": 74.8,
+     "angle_deg": 90.0
+    },
+    "250x210": {
+     "fits": true,
+     "margin_per_side_mm": 69.8,
+     "angle_deg": 90.0
+    },
+    "256x256": {
+     "fits": true,
+     "margin_per_side_mm": 92.8,
+     "angle_deg": 90.0
+    },
+    "300x300": {
+     "fits": true,
+     "margin_per_side_mm": 114.8,
+     "angle_deg": 90.0
+    }
+   }
+  },
+  "track_wheel_jgy370/J9/stl/J907_idler_spacer.stl": {
+   "size_mm": [
+    11.0,
+    11.0,
+    13.9
+   ],
+   "volume_cm3": 0.59,
+   "area_cm2": 9.2,
+   "triangles": 840,
+   "sha256": "07548f9ff62d3e50e5c552cc508fae678ed3e5dbc5dc8d0f01bcad6223144c0e",
+   "revf_export_match": null,
+   "beds": {
+    "220x220": {
+     "fits": true,
+     "margin_per_side_mm": 104.5,
+     "angle_deg": 90.0
+    },
+    "250x210": {
+     "fits": true,
+     "margin_per_side_mm": 99.5,
+     "angle_deg": 90.0
+    },
+    "256x256": {
+     "fits": true,
+     "margin_per_side_mm": 122.5,
+     "angle_deg": 90.0
+    },
+    "300x300": {
+     "fits": true,
+     "margin_per_side_mm": 144.5,
+     "angle_deg": 90.0
+    }
+   }
+  },
+  "track_wheel_jgy370/J9/stl/J908_U_yoke.stl": {
+   "size_mm": [
+    68.1,
+    54.0,
+    16.0
+   ],
+   "volume_cm3": 12.58,
+   "area_cm2": 67.6,
+   "triangles": 2146,
+   "sha256": "e884035bd5213f6de53b15cbb08c8cfc125db70c9cf484985ef1a5b89d2f9f61",
+   "revf_export_match": null,
+   "beds": {
+    "220x220": {
+     "fits": true,
+     "margin_per_side_mm": 76.0,
+     "angle_deg": 90.0
+    },
+    "250x210": {
+     "fits": true,
+     "margin_per_side_mm": 78.0,
+     "angle_deg": 0.0
+    },
+    "256x256": {
+     "fits": true,
+     "margin_per_side_mm": 94.0,
+     "angle_deg": 90.0
+    },
+    "300x300": {
+     "fits": true,
+     "margin_per_side_mm": 116.0,
+     "angle_deg": 90.0
+    }
+   }
+  },
+  "track_wheel_jgy370/J9/stl/J910_track_shoe_70.stl": {
+   "size_mm": [
+    28.0,
+    70.0,
+    11.0
+   ],
+   "volume_cm3": 5.8,
+   "area_cm2": 50.9,
+   "triangles": 4056,
+   "sha256": "76f3f5eac4827140094b7047ec1a1e31a116592d81c70f92a67b4e813ce3840a",
+   "revf_export_match": null,
+   "beds": {
+    "220x220": {
+     "fits": true,
+     "margin_per_side_mm": 75.0,
+     "angle_deg": 90.0
+    },
+    "250x210": {
+     "fits": true,
+     "margin_per_side_mm": 90.0,
+     "angle_deg": 90.0
+    },
+    "256x256": {
+     "fits": true,
+     "margin_per_side_mm": 93.0,
+     "angle_deg": 90.0
+    },
+    "300x300": {
+     "fits": true,
+     "margin_per_side_mm": 115.0,
+     "angle_deg": 90.0
+    }
+   }
+  },
+  "track_wheel_jgy370/X1/stl/X101_X_frame.stl": {
+   "size_mm": [
+    155.0,
+    275.0,
+    51.0
+   ],
+   "volume_cm3": 493.57,
+   "area_cm2": 1136.9,
+   "triangles": 26768,
+   "sha256": "edac60a6edca0369e0de4b636305db951ecea49281b4c2922f65d26525f3c160",
+   "revf_export_match": true,
+   "beds": {
+    "220x220": {
+     "fits": false,
+     "margin_per_side_mm": -27.5,
+     "angle_deg": 90.0
+    },
+    "250x210": {
+     "fits": false,
+     "margin_per_side_mm": -12.5,
+     "angle_deg": 90.0
+    },
+    "256x256": {
+     "fits": false,
+     "margin_per_side_mm": -9.5,
+     "angle_deg": 90.0
+    },
+    "300x300": {
+     "fits": true,
+     "margin_per_side_mm": 12.5,
+     "angle_deg": 90.0
+    }
+   }
+  }
+ },
+ "scene_counts_per_track": {
+  "J901": 1,
+  "J909": 1,
+  "J902": 1,
+  "J903": 1,
+  "J904": 7,
+  "J906": 1,
+  "J907": 2,
+  "J908": 1,
+  "motor": 1,
+  "M3x6": 4,
+  "M3x50": 1,
+  "hub": 1,
+  "M3x25": 3,
+  "setscrew": 2,
+  "6800ZZ": 1,
+  "624ZZ": 14,
+  "M4x70": 7,
+  "nyloc": 7,
+  "pin8": 1,
+  "608ZZ": 2,
+  "spring": 1,
+  "insert": 4,
+  "M3x8": 4,
+  "J910": 34,
+  "trackpin": 34,
+  "bushing": 34,
+  "clip": 68
+ },
+ "scene_counts_x1_joint": {
+  "X101": 1,
+  "M4x25": 8,
+  "washer4": 16,
+  "nut4": 8
+ },
+ "chain_fitting": {
+  "open_joint_pin": 29,
+  "open_joint_xz": [
+   -0.1,
+   85.36
+  ],
+  "fixed_link": 11,
+  "strip_length_mm": 680.0,
+  "sides": {
+   "front": {
+    "joints": 17,
+    "wheel_joints": 6,
+    "wheel_bend_deg": 180.0,
+    "free_end_mm": 340.0
+   },
+   "rear": {
+    "joints": 16,
+    "wheel_joints": 6,
+    "wheel_bend_deg": 180.0,
+    "free_end_mm": 320.0
+   }
+  },
+  "arch": {
+   "up_links": [
+    23,
+    24,
+    25
+   ],
+   "down_links": [
+    26,
+    27,
+    28
+   ],
+   "deg": 15.0,
+   "lands_short_mm": 4.3
+  },
+  "strip_x": [
+   -320.0,
+   340.0
+  ],
+  "schedule": {
+   "lift": [
+    0,
+    0.03
+   ],
+   "strip": [
+    0.035,
+    0.395
+   ],
+   "lower": [
+    0.4,
+    0.44
+   ],
+   "rear": [
+    0.45,
+    0.57
+   ],
+   "push": [
+    0.58,
+    0.62
+   ],
+   "front": [
+    0.63,
+    0.73
+   ],
+   "close": [
+    0.735,
+    0.76
+   ],
+   "join": [
+    0.77,
+    0.9
+   ],
+   "release": [
+    0.92,
+    0.97
+   ]
+  },
+  "last_joint_access": {
+   "inboard": {
+    "box_min": [
+     -10.1,
+     -55.0,
+     79.4
+    ],
+    "box_max": [
+     14.9,
+     -21.0,
+     120.4
+    ],
+    "clashes": []
+   },
+   "outboard": {
+    "box_min": [
+     -10.1,
+     21.0,
+     79.4
+    ],
+    "box_max": [
+     14.9,
+     75.0,
+     120.4
+    ],
+    "clashes": []
+   }
+  }
+ },
+ "chain_hardware": {
+  "source": "drawn separately; sizes checked against the CAD merged pin + bushing + 2 clips mesh and the shoe (j9_scene.json.gz link)",
+  "pin": "Ø3 x 56",
+  "bushing": "Ø6 OD x Ø3.1 ID x 17",
+  "clip": "Ø6 x 0.6 at Y ±26.5, slotted as wide as the pin so it goes on sideways",
+  "dummy_pin": "Ø3 x 24 (assembly aid, inside the inner ears)",
+  "triangles": {
+   "pin": 160,
+   "bushing": 320,
+   "clip": 316,
+   "dummy": 160
+  }
+ },
+ "steps": [
+  {
+   "id": "overview",
+   "title": "The finished track",
+   "items": {}
+  },
+  {
+   "id": "frame",
+   "title": "Prepare the H-frame",
+   "items": {
+    "J901": 1,
+    "6800ZZ": 1,
+    "insert": 4
+   }
+  },
+  {
+   "id": "motor",
+   "title": "Motor",
+   "items": {
+    "motor": 1,
+    "M3x6": 4
+   }
+  },
+  {
+   "id": "rollers",
+   "title": "Road and support rollers",
+   "items": {
+    "J904": 7,
+    "624ZZ": 14,
+    "M4x70": 7,
+    "nyloc": 7
+   }
+  },
+  {
+   "id": "tensioner",
+   "title": "Tensioner: spring, yoke and idler",
+   "items": {
+    "J906": 1,
+    "J907": 2,
+    "J908": 1,
+    "pin8": 1,
+    "608ZZ": 2,
+    "spring": 1
+   }
+  },
+  {
+   "id": "housing",
+   "title": "Housing over the motor",
+   "items": {
+    "J909": 1,
+    "M3x8": 4
+   }
+  },
+  {
+   "id": "xframe",
+   "title": "Mount both tracks on X101",
+   "items": {
+    "X101": 1,
+    "M4x25": 8,
+    "washer4": 16,
+    "nut4": 8
+   }
+  },
+  {
+   "id": "sprocket",
+   "title": "Sprocket and hub",
+   "items": {
+    "J902": 1,
+    "hub": 1,
+    "M3x25": 3,
+    "setscrew": 2
+   }
+  },
+  {
+   "id": "plug",
+   "title": "Journal plug",
+   "items": {
+    "J903": 1,
+    "M3x50": 1
+   }
+  },
+  {
+   "id": "chain",
+   "title": "Track chain",
+   "items": {
+    "J910": 34,
+    "trackpin": 34,
+    "bushing": 34,
+    "clip": 68
+   }
+  },
+  {
+   "id": "test",
+   "title": "First run",
+   "items": {}
+  }
+ ],
+ "outputs_sha256": {
+  "install_animation.html": "c7db235fc23a347b7ae204b04292fccf1eb717f0b2021be3d441d4c16b60f34e",
+  "TRACK_KIT.md": "ba218ab37d57c0bab43aea925886022ac563d8e9ffbf077e0a4c67543db8466d",
+  "track_kit.csv": "0d425e4a5af5f12dedfe32a6dc1c57a96214ef58455d60841d283bd0ae373d62"
+ },
+ "pass": true
+}

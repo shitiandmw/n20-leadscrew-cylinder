@@ -15,7 +15,7 @@ One machine: two J9 tracks on the X1 revision F frame, the R3 turntable, body B1
 | J902_sprocket | 2 | PETG or PA12, 5 walls, 50 % | J9/BOM.md | one per track |
 | J903_journal_plug | 2 | PETG or PA12, 100 % | J9/BOM.md |  |
 | J904_roller | 14 | PETG, 4 walls, 40 % | J9/BOM.md | 5 road + 2 support rollers per track |
-| J906_idler_wheel | 2 | as J8 | J9/BOM.md |  |
+| J906_idler_wheel | 2 | PETG, flat face on the bed (print as J8) | J9/BOM.md | both 608ZZ seats open to the faces |
 | J907_idler_spacer | 4 | PETG, 100 % | J9/BOM.md |  |
 | J908_U_yoke | 2 | PETG or PA12, 4 walls, 50 % | J9/BOM.md | with the spring piston |
 | J910_track_shoe_70 | 68 | PETG or PA12, grousers on the bed | J9/BOM.md | 34 per track |

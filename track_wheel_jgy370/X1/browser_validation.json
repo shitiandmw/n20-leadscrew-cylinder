@@ -1,7 +1,7 @@
 {
  "pass": true,
- "html_sha256": "ca035678fbd00064b95c371e63439975d15e6c2ffbe2841176527abf68ec5f30",
- "scene_sha256": "4a9545ba6e506ab159cbf083849a0d69130f6431c707e2ba2807dc0e42525de8",
+ "html_sha256": "1217e123a566ad1923a1022f10dd06fc1155e1b71a7b563a8056dcac46fe5947",
+ "scene_sha256": "63f742cdc029f43de86bde8b2eadd7e2939934195f53f825cc26cd0c30a0d1dc",
  "checker_sha256": "eb5fd962c88051aee85d3829ab36475bb064e5ba055546d5acfcaf78a92fa6f8",
  "views": {
   "mounts": "images/X1_mounts.png",
@@ -26,22 +26,22 @@
  "screenshot_sha256": {
   "mounts": "df63578560b3c7c892e640ba242bc426dc417289ef784b4e61f3998c7e0cc6e9",
   "frame": "97ee0500285a0cdd7640f4ba5f91fa54e4f0e909bbcc553d93b7c6e21308dbc5",
-  "iso": "5a98d0047e4f4e6549a39dd9fe554acb9975eb971efde09774150fbe213d325e",
-  "rear": "b4c5a2eb54f0765c92a736ec0a1ab974f2b6e42b0244433c7d923598470f2c88",
-  "front": "5d8c50c573fed5a482fe476e1092945cd2bf8b725847abbaa99308b6830ca516",
-  "top": "fa425b41ddfbd3a72efea9b8027772368456023907181ce8eb5f835b2d658c7a",
-  "seat": "0f2e6b35314ad2d83690dcfff7fa2fdd6cb16a18d5b1cc8666448776f67daa60",
-  "under": "b4aa269f0063e1cd07634b68883a2551a28bfda8449a6adef791b1a510d4a4bf",
-  "springs": "2e59f0a106f557379a6e2481dfaa05d19e58576281732d5556bcd77bbac7cedb",
-  "drive": "6b1f4fa03c531f0bbf9f57b250c30a468e0ce06108a51b38cd6f193a5cdea681",
+  "iso": "1960f13938f0187f20a6193bd8b15200cdc588dff7c746e7a795f0186d092b78",
+  "rear": "d2db11cb39fc5169c0b2781d885ec37e3d36c86eb42237d032569b75bc45cedc",
+  "front": "a024d3241656ca3542db2d89487fd3721ac7f4f1dbe6309faea80c2e36b63acf",
+  "top": "b36a3af6e45884a6d6c213e95e757e224ac06fba2a70965d282c7fa09571503d",
+  "seat": "da4d528f676bd7815ed629964ae2f8a3536918cc6a8cc8e668f38355d1fb803f",
+  "under": "ea15ad9573b470582c8d0cfdaa9e4075dbc307066815fbd2882f5997a363698b",
+  "springs": "4db41d6c908897de12b465fffb20ffbc97a6eea896982137f42fa7ac92e0ab06",
+  "drive": "341246ed8303040b39063d0ba97ceccc22ebee81dabaa435c3e87b7d3c53aa7b",
   "hub": "bb6dbeae1fbbd8c91993804d74b51a104ed4b6924f3b6ae639b75bf8093378c0",
-  "exploded": "42ae47538da07e65cba983894411884bde8e7d116a327d3e2b7b3709cd16606a",
-  "body": "bb24ddeefbeef0eb47c41ca627b225b2d6f6d703fd5c12c2cad6a6f689dfe801",
-  "cab": "79077f9420dcd905ee341974a6d968f684e986938c4dbad67115d31de56706bf",
-  "bodyright": "35ee3730ebec89482ca5944aa418f4d5669d3846e64e019fd55b7d931a364059",
-  "bodyin": "1c831866387b5ec5cfa2c25f7d34d3d84275ac2bcfc60764d6fec2c3747ada93",
-  "service": "8ca3d10812100c7e15ef05913db17ec6f89d148811115ebbcff7b4bbf58f9d66",
-  "drive_swing30": "a387c2bacd98e423b93280cd7d7e270c86af4479725632d368b4408a41f408bf"
+  "exploded": "0c61cfb5b533b5d792bd3759114b1d8b157c2ab64c45cc0be6d8e66e74cffe91",
+  "body": "2de2ddcdbd1acfd647e0c0ecb7663bba9615aadb2e142048c8b85e4556b86dea",
+  "cab": "f23e309991b3c697a3124b1eae0b8fa25b8a0d4aa402366a29253c335b171883",
+  "bodyright": "f71d7346000de136c23bf2a5603a0dc2550543d9427dd05f5eb7a7594f43dfaf",
+  "bodyin": "cc58fe0ca4a4970dc9cebc32c38902aa0bff6639cb9f16f9ecbe03db817b9e5a",
+  "service": "8fe03f5c81260c86ff7827201b0506f4d6de8ce74ec3c6e79828b0851813acba",
+  "drive_swing30": "7233f0539f9e4f108feab4e2fb7116acd48f8a24240757229316a439736aad06"
  },
  "model_views": {
   "mounts": "images/X1_mounts_model.png",
@@ -52,8 +52,8 @@
  "model_screenshot_sha256": {
   "mounts": "bbea2a0186916022b7fe8777d6ef818ea2ff83b4d6b8954cbbff68fcadc4db71",
   "frame": "f409558ff1e4475814feaf9d2fd8f83aeb484faa3f4be56b7cd302770b521cdd",
-  "iso": "146255e37b06f37d498f0e9b2234c94f6d98528d06ff8278287811f89dea6133",
-  "springs": "cb71f8caf408d1305823636b4023234d9ba00daaf635c84e4387896f897f4f9c"
+  "iso": "b2a8d797296209aa70b11171eef09eeeaa3bb14e72277304a283f2f15124819a",
+  "springs": "2a577f976d69eb7302abb6b0b4fae682c4e3c209ab63e88b4bd82a9d15265c91"
  },
  "state": {
   "view": "iso",
@@ -88,8 +88,8 @@
   "swing": 30,
   "pinion_rel_deg": 119.99999999999999,
   "turntable_items": 105,
-  "playback_swing": 85.431,
-  "playback_wait_ms": 11287
+  "playback_swing": 62.414,
+  "playback_wait_ms": 21105
  },
  "body_check": {
   "items": 76,
@@ -97,7 +97,7 @@
   "service_pose": true,
   "hatch_lifted_in_service": true
  },
- "run_phase_after_start": 13.47200000000268,
+ "run_phase_after_start": 0.8440399999986584,
  "errors": [],
  "network": []
 }

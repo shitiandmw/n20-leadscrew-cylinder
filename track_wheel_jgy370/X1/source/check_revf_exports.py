@@ -1,6 +1,6 @@
-"""Verify the five delivered revision F part files without re-exporting them.
+"""Verify the seven delivered revision F part designs without re-exporting them.
 
-For X101, both J901 H-frames and both J909 housings: the STEP imports as one
+For X101, both J901 H-frames, both J909 housings, the J904 roller and the J906 idler wheel: the STEP imports as one
 valid solid that matches the current source construction (strict signature, or
 exact symmetric difference after STEP spline normalisation), and the STL is a
 single watertight component whose volume agrees with the source. X101 must also
@@ -50,7 +50,9 @@ def parts():
             ('J901_H_frame', lambda: P.one(P.h_frame()), track, 'Outer wall on the bed; rotate X by -90 degrees.'),
             ('J909_housing', lambda: P.one(P.housing()), track, 'Skirt inner face on the bed; rotate X by -90 degrees.'),
             ('J901_H_frame_right', lambda: mirror(P.one(P.h_frame())), X.ROOT, 'Outer wall on the bed; rotate X by 90 degrees.'),
-            ('J909_housing_right', lambda: mirror(P.one(P.housing())), X.ROOT, 'Skirt inner face on the bed; rotate X by 90 degrees.')]
+            ('J909_housing_right', lambda: mirror(P.one(P.housing())), X.ROOT, 'Skirt inner face on the bed; rotate X by 90 degrees.'),
+            ('J904_roller', lambda: P.one(P.roller()), track, 'On a flange face; rotate X by -90 degrees.'),
+            ('J906_idler_wheel', lambda: P.one(P.idler_wheel()), track, 'Flat face on the bed; rotate X by -90 degrees.')]
 
 
 def check(name, build, root, orientation):

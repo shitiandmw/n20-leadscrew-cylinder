@@ -24,7 +24,7 @@ add(P, 'J909_housing_right', 1, 'mirrored print of J909', 'X1/BOM.md', 'right tr
 add(P, 'J902_sprocket', 2, 'PETG or PA12, 5 walls, 50 %', 'J9/BOM.md', 'one per track')
 add(P, 'J903_journal_plug', 2, 'PETG or PA12, 100 %', 'J9/BOM.md')
 add(P, 'J904_roller', 14, 'PETG, 4 walls, 40 %', 'J9/BOM.md', '5 road + 2 support rollers per track')
-add(P, 'J906_idler_wheel', 2, 'as J8', 'J9/BOM.md')
+add(P, 'J906_idler_wheel', 2, 'PETG, flat face on the bed (print as J8)', 'J9/BOM.md', 'both 608ZZ seats open to the faces')
 add(P, 'J907_idler_spacer', 4, 'PETG, 100 %', 'J9/BOM.md')
 add(P, 'J908_U_yoke', 2, 'PETG or PA12, 4 walls, 50 %', 'J9/BOM.md', 'with the spring piston')
 add(P, 'J910_track_shoe_70', 68, 'PETG or PA12, grousers on the bed', 'J9/BOM.md', '34 per track')

@@ -52,6 +52,8 @@ X101 remains one part, printed with its bearing seat on the bed. Its current pri
 
 Install the road and support rollers with their axles, the motor and housing first. Hold both tracks at their final spacing and lower the bare X101 frame vertically into their open-top receiving seats; sideways fitting clashes with the motor and housing. Leave the rear sprocket and chain off. Slide each screw and washer sideways into its head slot and push it through; a compact 7 mm nut-holding tool holds the external nut while a 3 mm L-key, handle out of the slot, turns the screw. Fit the sprocket and chain after tightening. Follow [ASSEMBLY.md](ASSEMBLY.md) for the fitting sequence and tool route. For later service, prepare the affected track as specified in ASSEMBLY.md, lower it at least 80 mm relative to the independently supported chassis, then slide it outward.
 
+The print list and standard parts for both tracks are in [J9/TRACK_KIT.md](../J9/TRACK_KIT.md), with an offline [installation animation](../J9/install_animation.html) whose "Both on X101" mode shows this joint step, and a [parts showcase](../J9/parts_showcase.html) with every part's dimensions and material.
+
 Use fit samples for the arm end in its seat, the through-holes and the spring piston before complete prints. No material, infill, layer orientation, payload or tightening torque has been physically qualified.
 
 ## Verification and rebuilding
@@ -62,7 +64,7 @@ All reports below are computed fresh on the delivered revision F files; none inh
 |---|---|
 | [arc_seat_mount_validation.json](arc_seat_mount_validation.json) | Joint seating and contact, fasteners, key and socket access, vertical frame fitting and track service routes, sprocket fitting, idler recoil, chain phases, upper swing, RU66 seat and belly-cover screw access, clearances |
 | [../J9/validation.json](../J9/validation.json) | Every track trial: static fit, drive rotation, idler travel and stop, spring at recoil, chain phases, assembly paths and tools; spring envelope and main-plate seat clearances |
-| [revf_part_exports.json](revf_part_exports.json) | The five changed STEP/STL files match the current source, are single solids and watertight meshes; X101 fills its required envelope |
+| [revf_part_exports.json](revf_part_exports.json) | The seven changed STEP/STL designs (X101, both J901, both J909, J904, J906) match the current source, are single solids and watertight meshes; X101 fills its required envelope |
 | [revf_refresh_validation.json](revf_refresh_validation.json) | The three STEP assemblies and both viewer scenes hold the current parts and joint hardware |
 | [revf_leg_sections.json](revf_leg_sections.json) | Arm cross-section properties (geometry only, not a strength check) |
 | [turntable_validation.json](turntable_validation.json) | The R3 turntable on the revision F chassis: fits, assembly paths, tools and the swing envelope |
@@ -74,7 +76,8 @@ Primary source files are `source/x1_parts.py`, `../J9/source/j9_mounts.py` and `
 ```sh
 python export_arc_frame.py                     # X101 STEP/STL
 python ../../J9/source/export_revf_track.py    # left and mirrored right J901/J909
-python check_revf_exports.py                   # verify the five parts against the source
+(cd ../../J9/source && python -c "import build_j9 as B, j9_parts as P; B.export_parts({n: dict(shape=P.PRINTED[n][0](), color=P.PRINTED[n][1], quantity=P.PRINTED[n][2], material=P.PRINTED[n][3], note=P.PRINTED[n][4]) for n in ('J904_roller', 'J906_idler_wheel')})")   # J904/J906 STEP/STL
+python check_revf_exports.py                   # verify the seven parts against the source
 python refresh_revf.py                         # rebuild assemblies and scenes; --verify only checks them
 python ../../J9/source/check_revf_track.py     # fresh J9 track validation
 python check_arc_sections.py

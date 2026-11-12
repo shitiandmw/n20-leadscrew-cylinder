@@ -1,0 +1,1254 @@
+{
+ "pass": true,
+ "html_sha256": "c7db235fc23a347b7ae204b04292fccf1eb717f0b2021be3d441d4c16b60f34e",
+ "checker_sha256": "4b4ab62c3b3307ef27b4a29757f876f27232cbd845bfab02b65d3de733c3b6d2",
+ "load_seconds": 5.967,
+ "chain_left": {
+  "samples": 2439,
+  "bend_limits_deg": [
+   -12,
+   44.75
+  ],
+  "dummy_half_mm": 12,
+  "flat_strip_t_0": 0.3425,
+  "open_joint_0": 29,
+  "ends_meet_t_0": 0.756797,
+  "last_pin_home_t_0": 0.83,
+  "max_idler_rim_overlap_mm": 0.916,
+  "min_distance_to_finished_loop_mm": -0.027,
+  "deepest_overlap_mm": {
+   "bushing": 0,
+   "pin": 0,
+   "clip": 0,
+   "dummy": 0,
+   "link": 0
+  },
+  "bends_seen_deg": [
+   -3.46,
+   30
+  ],
+  "seconds": {
+   "probe": 143.895,
+   "checks": 18.703
+  }
+ },
+ "chain_right": {
+  "samples": 2439,
+  "bend_limits_deg": [
+   -12,
+   44.75
+  ],
+  "dummy_half_mm": 12,
+  "flat_strip_t_0": 0.3425,
+  "open_joint_0": 29,
+  "ends_meet_t_0": 0.756797,
+  "last_pin_home_t_0": 0.83,
+  "max_idler_rim_overlap_mm": 0.916,
+  "min_distance_to_finished_loop_mm": -0.027,
+  "deepest_overlap_mm": {
+   "bushing": 0,
+   "pin": 0,
+   "clip": 0,
+   "dummy": 0,
+   "link": 0
+  },
+  "bends_seen_deg": [
+   -3.46,
+   30
+  ],
+  "seconds": {
+   "probe": 127.717,
+   "checks": 9.478
+  }
+ },
+ "chain_x1": {
+  "samples": 2439,
+  "bend_limits_deg": [
+   -12,
+   44.75
+  ],
+  "dummy_half_mm": 12,
+  "flat_strip_t_0": 0.3425,
+  "open_joint_0": 29,
+  "ends_meet_t_0": 0.756797,
+  "last_pin_home_t_0": 0.83,
+  "flat_strip_t_1": 0.3425,
+  "open_joint_1": 29,
+  "ends_meet_t_1": 0.756797,
+  "last_pin_home_t_1": 0.83,
+  "max_idler_rim_overlap_mm": 0.916,
+  "min_distance_to_finished_loop_mm": -0.027,
+  "deepest_overlap_mm": {
+   "bushing": 0,
+   "pin": 0,
+   "clip": 0,
+   "dummy": 0,
+   "link": 0
+  },
+  "bends_seen_deg": [
+   -3.46,
+   30
+  ],
+  "seconds": {
+   "probe": 243.793,
+   "checks": 20.415
+  }
+ },
+ "cases": [
+  {
+   "mode": "left",
+   "step": "overview",
+   "t": 0,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 0,
+   "moved": 0
+  },
+  {
+   "mode": "left",
+   "step": "overview",
+   "t": 1,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 0,
+   "moved": 0
+  },
+  {
+   "mode": "left",
+   "step": "frame",
+   "t": 0,
+   "visible": 1,
+   "links": [
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 0
+  },
+  {
+   "mode": "left",
+   "step": "frame",
+   "t": 1,
+   "visible": 8,
+   "links": [
+    0
+   ],
+   "labels_shown": 2,
+   "moved": 0
+  },
+  {
+   "mode": "left",
+   "step": "motor",
+   "t": 0,
+   "visible": 12,
+   "links": [
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 4
+  },
+  {
+   "mode": "left",
+   "step": "motor",
+   "t": 1,
+   "visible": 16,
+   "links": [
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 0
+  },
+  {
+   "mode": "left",
+   "step": "rollers",
+   "t": 0,
+   "visible": 23,
+   "links": [
+    0
+   ],
+   "labels_shown": 2,
+   "moved": 7
+  },
+  {
+   "mode": "left",
+   "step": "rollers",
+   "t": 1,
+   "visible": 79,
+   "links": [
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 0
+  },
+  {
+   "mode": "left",
+   "step": "tensioner",
+   "t": 0,
+   "visible": 80,
+   "links": [
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 1
+  },
+  {
+   "mode": "left",
+   "step": "tensioner",
+   "t": 1,
+   "visible": 91,
+   "links": [
+    0
+   ],
+   "labels_shown": 5,
+   "moved": 11
+  },
+  {
+   "mode": "left",
+   "step": "housing",
+   "t": 0,
+   "visible": 92,
+   "links": [
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 12
+  },
+  {
+   "mode": "left",
+   "step": "housing",
+   "t": 1,
+   "visible": 96,
+   "links": [
+    0
+   ],
+   "labels_shown": 2,
+   "moved": 11
+  },
+  {
+   "mode": "left",
+   "step": "sprocket",
+   "t": 0,
+   "visible": 97,
+   "links": [
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 12
+  },
+  {
+   "mode": "left",
+   "step": "sprocket",
+   "t": 1,
+   "visible": 103,
+   "links": [
+    0
+   ],
+   "labels_shown": 4,
+   "moved": 11
+  },
+  {
+   "mode": "left",
+   "step": "plug",
+   "t": 0,
+   "visible": 104,
+   "links": [
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 12
+  },
+  {
+   "mode": "left",
+   "step": "plug",
+   "t": 1,
+   "visible": 105,
+   "links": [
+    0
+   ],
+   "labels_shown": 2,
+   "moved": 11
+  },
+  {
+   "mode": "left",
+   "step": "chain",
+   "t": 0,
+   "visible": 105,
+   "links": [
+    0
+   ],
+   "labels_shown": 0,
+   "moved": 11
+  },
+  {
+   "mode": "left",
+   "step": "chain",
+   "t": 1,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 0
+  },
+  {
+   "mode": "left",
+   "step": "test",
+   "t": 0,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 0,
+   "moved": 0
+  },
+  {
+   "mode": "left",
+   "step": "test",
+   "t": 1,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 0,
+   "moved": 0
+  },
+  {
+   "mode": "left",
+   "step": "chain",
+   "t": 0.07500000000000001,
+   "visible": 105,
+   "links": [
+    2
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "left",
+   "step": "chain",
+   "t": 0.1125,
+   "visible": 105,
+   "links": [
+    2
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "left",
+   "step": "chain",
+   "t": 0.14,
+   "visible": 105,
+   "links": [
+    2
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "left",
+   "step": "chain",
+   "t": 0.16849999999999998,
+   "visible": 105,
+   "links": [
+    2
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "left",
+   "step": "chain",
+   "t": 0.27249999999999996,
+   "visible": 105,
+   "links": [
+    20
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "left",
+   "step": "chain",
+   "t": 0.4,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "left",
+   "step": "chain",
+   "t": 0.6399999999999999,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "left",
+   "step": "chain",
+   "t": 0.7324999999999999,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "left",
+   "step": "chain",
+   "t": 0.8075,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "left",
+   "step": "chain",
+   "t": 0.8775,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "left",
+   "step": "chain",
+   "t": 0.96,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "right",
+   "step": "overview",
+   "t": 0,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 0,
+   "moved": 0
+  },
+  {
+   "mode": "right",
+   "step": "overview",
+   "t": 1,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 0,
+   "moved": 0
+  },
+  {
+   "mode": "right",
+   "step": "frame",
+   "t": 0,
+   "visible": 1,
+   "links": [
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 0
+  },
+  {
+   "mode": "right",
+   "step": "frame",
+   "t": 1,
+   "visible": 8,
+   "links": [
+    0
+   ],
+   "labels_shown": 2,
+   "moved": 0
+  },
+  {
+   "mode": "right",
+   "step": "motor",
+   "t": 0,
+   "visible": 12,
+   "links": [
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 4
+  },
+  {
+   "mode": "right",
+   "step": "motor",
+   "t": 1,
+   "visible": 16,
+   "links": [
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 0
+  },
+  {
+   "mode": "right",
+   "step": "rollers",
+   "t": 0,
+   "visible": 23,
+   "links": [
+    0
+   ],
+   "labels_shown": 2,
+   "moved": 7
+  },
+  {
+   "mode": "right",
+   "step": "rollers",
+   "t": 1,
+   "visible": 79,
+   "links": [
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 0
+  },
+  {
+   "mode": "right",
+   "step": "tensioner",
+   "t": 0,
+   "visible": 80,
+   "links": [
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 1
+  },
+  {
+   "mode": "right",
+   "step": "tensioner",
+   "t": 1,
+   "visible": 91,
+   "links": [
+    0
+   ],
+   "labels_shown": 5,
+   "moved": 11
+  },
+  {
+   "mode": "right",
+   "step": "housing",
+   "t": 0,
+   "visible": 92,
+   "links": [
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 12
+  },
+  {
+   "mode": "right",
+   "step": "housing",
+   "t": 1,
+   "visible": 96,
+   "links": [
+    0
+   ],
+   "labels_shown": 2,
+   "moved": 11
+  },
+  {
+   "mode": "right",
+   "step": "sprocket",
+   "t": 0,
+   "visible": 97,
+   "links": [
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 12
+  },
+  {
+   "mode": "right",
+   "step": "sprocket",
+   "t": 1,
+   "visible": 103,
+   "links": [
+    0
+   ],
+   "labels_shown": 4,
+   "moved": 11
+  },
+  {
+   "mode": "right",
+   "step": "plug",
+   "t": 0,
+   "visible": 104,
+   "links": [
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 12
+  },
+  {
+   "mode": "right",
+   "step": "plug",
+   "t": 1,
+   "visible": 105,
+   "links": [
+    0
+   ],
+   "labels_shown": 2,
+   "moved": 11
+  },
+  {
+   "mode": "right",
+   "step": "chain",
+   "t": 0,
+   "visible": 105,
+   "links": [
+    0
+   ],
+   "labels_shown": 0,
+   "moved": 11
+  },
+  {
+   "mode": "right",
+   "step": "chain",
+   "t": 1,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 0
+  },
+  {
+   "mode": "right",
+   "step": "test",
+   "t": 0,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 0,
+   "moved": 0
+  },
+  {
+   "mode": "right",
+   "step": "test",
+   "t": 1,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 0,
+   "moved": 0
+  },
+  {
+   "mode": "right",
+   "step": "chain",
+   "t": 0.07500000000000001,
+   "visible": 105,
+   "links": [
+    2
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "right",
+   "step": "chain",
+   "t": 0.1125,
+   "visible": 105,
+   "links": [
+    2
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "right",
+   "step": "chain",
+   "t": 0.14,
+   "visible": 105,
+   "links": [
+    2
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "right",
+   "step": "chain",
+   "t": 0.16849999999999998,
+   "visible": 105,
+   "links": [
+    2
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "right",
+   "step": "chain",
+   "t": 0.27249999999999996,
+   "visible": 105,
+   "links": [
+    20
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "right",
+   "step": "chain",
+   "t": 0.4,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "right",
+   "step": "chain",
+   "t": 0.6399999999999999,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "right",
+   "step": "chain",
+   "t": 0.7324999999999999,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "right",
+   "step": "chain",
+   "t": 0.8075,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "right",
+   "step": "chain",
+   "t": 0.8775,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "right",
+   "step": "chain",
+   "t": 0.96,
+   "visible": 105,
+   "links": [
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 11
+  },
+  {
+   "mode": "x1",
+   "step": "overview",
+   "t": 0,
+   "visible": 210,
+   "links": [
+    34,
+    34
+   ],
+   "labels_shown": 0,
+   "moved": 0
+  },
+  {
+   "mode": "x1",
+   "step": "overview",
+   "t": 1,
+   "visible": 210,
+   "links": [
+    34,
+    34
+   ],
+   "labels_shown": 0,
+   "moved": 0
+  },
+  {
+   "mode": "x1",
+   "step": "frame",
+   "t": 0,
+   "visible": 2,
+   "links": [
+    0,
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 0
+  },
+  {
+   "mode": "x1",
+   "step": "frame",
+   "t": 1,
+   "visible": 16,
+   "links": [
+    0,
+    0
+   ],
+   "labels_shown": 2,
+   "moved": 0
+  },
+  {
+   "mode": "x1",
+   "step": "motor",
+   "t": 0,
+   "visible": 24,
+   "links": [
+    0,
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 8
+  },
+  {
+   "mode": "x1",
+   "step": "motor",
+   "t": 1,
+   "visible": 32,
+   "links": [
+    0,
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 0
+  },
+  {
+   "mode": "x1",
+   "step": "rollers",
+   "t": 0,
+   "visible": 46,
+   "links": [
+    0,
+    0
+   ],
+   "labels_shown": 2,
+   "moved": 14
+  },
+  {
+   "mode": "x1",
+   "step": "rollers",
+   "t": 1,
+   "visible": 158,
+   "links": [
+    0,
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 0
+  },
+  {
+   "mode": "x1",
+   "step": "tensioner",
+   "t": 0,
+   "visible": 160,
+   "links": [
+    0,
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 2
+  },
+  {
+   "mode": "x1",
+   "step": "tensioner",
+   "t": 1,
+   "visible": 182,
+   "links": [
+    0,
+    0
+   ],
+   "labels_shown": 5,
+   "moved": 22
+  },
+  {
+   "mode": "x1",
+   "step": "housing",
+   "t": 0,
+   "visible": 184,
+   "links": [
+    0,
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 24
+  },
+  {
+   "mode": "x1",
+   "step": "housing",
+   "t": 1,
+   "visible": 192,
+   "links": [
+    0,
+    0
+   ],
+   "labels_shown": 2,
+   "moved": 22
+  },
+  {
+   "mode": "x1",
+   "step": "xframe",
+   "t": 0,
+   "visible": 192,
+   "links": [
+    0,
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 22
+  },
+  {
+   "mode": "x1",
+   "step": "xframe",
+   "t": 1,
+   "visible": 192,
+   "links": [
+    0,
+    0
+   ],
+   "labels_shown": 3,
+   "moved": 22
+  },
+  {
+   "mode": "x1",
+   "step": "sprocket",
+   "t": 0,
+   "visible": 194,
+   "links": [
+    0,
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 24
+  },
+  {
+   "mode": "x1",
+   "step": "sprocket",
+   "t": 1,
+   "visible": 206,
+   "links": [
+    0,
+    0
+   ],
+   "labels_shown": 4,
+   "moved": 22
+  },
+  {
+   "mode": "x1",
+   "step": "plug",
+   "t": 0,
+   "visible": 208,
+   "links": [
+    0,
+    0
+   ],
+   "labels_shown": 1,
+   "moved": 24
+  },
+  {
+   "mode": "x1",
+   "step": "plug",
+   "t": 1,
+   "visible": 210,
+   "links": [
+    0,
+    0
+   ],
+   "labels_shown": 2,
+   "moved": 22
+  },
+  {
+   "mode": "x1",
+   "step": "chain",
+   "t": 0,
+   "visible": 210,
+   "links": [
+    0,
+    0
+   ],
+   "labels_shown": 0,
+   "moved": 22
+  },
+  {
+   "mode": "x1",
+   "step": "chain",
+   "t": 1,
+   "visible": 210,
+   "links": [
+    34,
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 0
+  },
+  {
+   "mode": "x1",
+   "step": "test",
+   "t": 0,
+   "visible": 210,
+   "links": [
+    34,
+    34
+   ],
+   "labels_shown": 0,
+   "moved": 0
+  },
+  {
+   "mode": "x1",
+   "step": "test",
+   "t": 1,
+   "visible": 210,
+   "links": [
+    34,
+    34
+   ],
+   "labels_shown": 0,
+   "moved": 0
+  },
+  {
+   "mode": "x1",
+   "step": "chain",
+   "t": 0.07500000000000001,
+   "visible": 210,
+   "links": [
+    2,
+    2
+   ],
+   "labels_shown": 1,
+   "moved": 22
+  },
+  {
+   "mode": "x1",
+   "step": "chain",
+   "t": 0.1125,
+   "visible": 210,
+   "links": [
+    2,
+    2
+   ],
+   "labels_shown": 1,
+   "moved": 22
+  },
+  {
+   "mode": "x1",
+   "step": "chain",
+   "t": 0.14,
+   "visible": 210,
+   "links": [
+    2,
+    2
+   ],
+   "labels_shown": 1,
+   "moved": 22
+  },
+  {
+   "mode": "x1",
+   "step": "chain",
+   "t": 0.16849999999999998,
+   "visible": 210,
+   "links": [
+    2,
+    2
+   ],
+   "labels_shown": 1,
+   "moved": 22
+  },
+  {
+   "mode": "x1",
+   "step": "chain",
+   "t": 0.27249999999999996,
+   "visible": 210,
+   "links": [
+    20,
+    20
+   ],
+   "labels_shown": 1,
+   "moved": 22
+  },
+  {
+   "mode": "x1",
+   "step": "chain",
+   "t": 0.4,
+   "visible": 210,
+   "links": [
+    34,
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 22
+  },
+  {
+   "mode": "x1",
+   "step": "chain",
+   "t": 0.6399999999999999,
+   "visible": 210,
+   "links": [
+    34,
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 22
+  },
+  {
+   "mode": "x1",
+   "step": "chain",
+   "t": 0.7324999999999999,
+   "visible": 210,
+   "links": [
+    34,
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 22
+  },
+  {
+   "mode": "x1",
+   "step": "chain",
+   "t": 0.8075,
+   "visible": 210,
+   "links": [
+    34,
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 22
+  },
+  {
+   "mode": "x1",
+   "step": "chain",
+   "t": 0.8775,
+   "visible": 210,
+   "links": [
+    34,
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 22
+  },
+  {
+   "mode": "x1",
+   "step": "chain",
+   "t": 0.96,
+   "visible": 210,
+   "links": [
+    34,
+    34
+   ],
+   "labels_shown": 1,
+   "moved": 22
+  }
+ ],
+ "skip_logic": true,
+ "playback": {
+  "reached": "chain",
+  "t": 0.00277499999999903
+ },
+ "click_identify": "J901 H-frame print",
+ "parts_tab_rows": [
+  11,
+  1,
+  8,
+  7,
+  3,
+  3,
+  4,
+  9
+ ],
+ "screenshots": {
+  "kit_overview": {
+   "file": "images/kit_overview.png",
+   "sha256": "cd7bf1486d35a5d0a15ccfcadf15a2985df96e827c2aa8f29399188e124344d7"
+  },
+  "kit_rollers": {
+   "file": "images/kit_rollers.png",
+   "sha256": "f5de82ee92b82d1ac518a19e60962c8fcef2871326cb479e665a08e67791a631"
+  },
+  "kit_tensioner": {
+   "file": "images/kit_tensioner.png",
+   "sha256": "572cf87f61d45a0bd75141c8bd18f506a5b66e24fdc306b40528b47effc28602"
+  },
+  "kit_sprocket": {
+   "file": "images/kit_sprocket.png",
+   "sha256": "f49702df2696b70e5b8512bc294d17e1e1d84e13811f167e258e12ed2461d478"
+  },
+  "kit_chain_joint": {
+   "file": "images/kit_chain_joint.png",
+   "sha256": "aca0492b4e415da9ae6da594862586c32bf9583d0810d3da6cb447d1c2016fad"
+  },
+  "kit_chain_clips": {
+   "file": "images/kit_chain_clips.png",
+   "sha256": "19f585aba1132a45be2d2470d60bbb67ce5c81f19b4ce0af2ff0efdf4622bbc7"
+  },
+  "kit_chain_strip": {
+   "file": "images/kit_chain_strip.png",
+   "sha256": "36643cd6c876cdba968ea7319f01f792f53157c909ed54ad2a677c645086d1d0"
+  },
+  "kit_chain_dummy": {
+   "file": "images/kit_chain_dummy.png",
+   "sha256": "28b03fe18a90e8381a5f43882a75352c3a31e91fa6e9734066d7c99a28a26456"
+  },
+  "kit_chain_wrap": {
+   "file": "images/kit_chain_wrap.png",
+   "sha256": "bd39266b1c16741a4c0c2013d90d8ec58dc65d77881a3613a7eef8ea871312e3"
+  },
+  "kit_chain_join": {
+   "file": "images/kit_chain_join.png",
+   "sha256": "00c3057549ceb0a081b9340852a6634b43b0a30d2126ead23bcef63ab1a1fb7a"
+  },
+  "kit_x1_chain": {
+   "file": "images/kit_x1_chain.png",
+   "sha256": "a78426656cf72ccd84aff58bb6df055fbf0dac2da5c7240a85b5ba08883a42fd"
+  },
+  "kit_right_tensioner": {
+   "file": "images/kit_right_tensioner.png",
+   "sha256": "6169bd0fb2852e22d84660c9b7cc74103257db0c62cab25f6bd5760aabe62ebd"
+  },
+  "kit_x1_frame": {
+   "file": "images/kit_x1_frame.png",
+   "sha256": "04b163beb3c30e9f40fad0b4209ff09daf3897f3ee11896dc599f68423061e5e"
+  },
+  "kit_x1_joint": {
+   "file": "images/kit_x1_joint.png",
+   "sha256": "023c282d972d81f22bb8fee447664a23e9a952aac8795003e6161a161fd3aaa9"
+  }
+ },
+ "problems": [],
+ "errors": [],
+ "network": []
+}

@@ -1,5 +1,7 @@
 # JGY-370 single track — J9: one printed H-frame
 
+**Building the tracks:** [TRACK_KIT.md](TRACK_KIT.md) lists what to print and what to buy for both tracks (the right track uses the mirrored J901 and J909 files in `X1/stl`), [install_animation.html](install_animation.html) plays the fitting order step by step, offline, and [parts_showcase.html](parts_showcase.html) shows every part in 3D with its dimensions, material and print settings.
+
 **Status (revision F mounting interface):** J901 has plain 1.5 mm receiving seats for the flat ends of the straight X1 arms, with plain mounting holes and external nuts. A screw on each side of the arm's centre web clamps each connection. J909 has matching clearance openings. The accepted enclosed spring guide is retained. Current track verification and its fresh/inherited scope are recorded in [validation.json](validation.json). Chassis-connection checks are in [X1/arc_seat_mount_validation.json](../X1/arc_seat_mount_validation.json). Nothing has been printed, assembled or run under power yet.
 
 - **Motor:** the JGY-370-1260 12 V 200:1 (30 rpm), motor only. See [Motor choice](#motor-choice).
@@ -176,7 +178,7 @@ Two faults in the previous housing came to light during this redesign. Both are 
 | Axle height / top of track | 44.32 / 92.4 |
 | Road rollers: 5 at X −58, −29, 0, 29, 58; centre Z | 22 (tangent to the ground run) |
 | Support rollers: 2 at X ±35; centre Z; lift of the top run | 70.14; 3.5 |
-| Wheel part | one roller, Ø22 tread / Ø26 flanges × 46, 2 × 624ZZ, M4 bolt |
+| Wheel part | one roller, Ø22 tread / Ø26 flanges × 46, Ø8 centre bore, 2 × 624ZZ, M4 bolt |
 | Main walls / inside gap / original web | Inner plate 10 thick, 8.5 behind the 1.5-deep support seats, with mechanism recesses; outer wall 6 / 48 / 18 × 102 |
 | Spring (R5 part, kept) | 25.8 fitted, 77 N; 21.6 and 104 N at the recoil stop; max 118 N, solid 17.0 |
 | Chain | unchanged: 34 × 20 mm links, Ø3 pins, Ø6 bushings, 12-tooth sprocket form |
@@ -193,6 +195,10 @@ Changes since the concept:
 - **Printed pieces added:** two small ones, the journal plug (1) and the idler spacers (2).
 - **Bought pieces added on 2026-11-03:** the drive hub with its two set screws, and three M3 × 25 screws.
 - **Bought pieces changed on 2026-11-03:** the four housing screws are now M3 × 8 (were M3 × 12). Their inserts sit in standoffs on the inner wall.
+- **Roller changed on 2026-11-11:** the J904 centre bore is now Ø8 (was Ø6).
+  - Each 624ZZ seat ends on a shoulder of that bore. At Ø6 the shoulder also touched the stationary inner ring, whose face is Ø6.95 across (SKF 624-2Z d1). A side load then pressed the turning roller against it.
+  - At Ø8 the shoulder bears only on the outer ring, and still reaches well inside SKF's Ø11.2 limit for backing it.
+  - The seats, tread and flanges are unchanged. Each roller is about 0.8 cm³ (1 g) lighter.
 
 ## Open items: check before relying on them
 
@@ -239,6 +245,8 @@ These are nominal geometry checks. Printed fit, strength, wear, spring friction 
 - `step/` — one STEP per printed part, plus `JGY370_track_J9.step` (the full coloured assembly, 277 solids).
 - `stl/` — print-oriented STL files for each printed part.
 - `BOM.md`, `ASSEMBLY.md`, `validation.json`, `browser_validation.json`.
+- `TRACK_KIT.md`, `track_kit.csv` — print list and standard parts for two tracks; `install_animation.html` — offline installation animation (left, mirrored right, or both on X101). Built by `source/build_track_kit.py` (`--package` also writes `output/track_print_kit.zip`), which cross-checks the list against the STL files and the CAD scene (`track_kit_report.json`); `source/check_track_kit.cjs` checks the animation in Chromium, including that no bushing, pin, E-clip or link passes through another (sections of the CAD shoe), and the fitting order of each joint (`track_kit_browser.json`, `images/kit_*.png`).
+- `parts_showcase.html` — offline parts showcase: every part to print or buy in 3D, on the print bed or as fitted, with a section cut, its dimensions drawn on the model and its material, settings and place in the track. Built by `source/build_parts_showcase.py` from the kit lists (build it after `build_track_kit.py`, before `--package`), which checks every drawn dimension against the STL or CAD mesh and each print file against the CAD scene (`parts_showcase_report.json`); `source/check_parts_showcase.cjs` checks the page in Chromium against `track_kit.csv` and `TRACK_KIT.md` (`parts_showcase_browser.json`, `images/showcase_*.png`).
 - `source/` — the source scripts:
   - `j9_design.py`: layout and the exact chain solver;
   - `j9_parts.py`: CadQuery parts and the assembly;
@@ -259,4 +267,4 @@ python build_viewer.py      # ../3D_preview.html
 NODE_PATH=<playwright node_modules> node check_viewer.cjs   # screenshots + browser_validation.json
 ```
 
-`build_j9.py` reuses `track_wheel/source/tw_parts.py` (geometry helpers, the J8/R5 idler wheel and the R4 sprocket outline), `tw_checks.py` and `build_track_wheel.py`.
+`build_j9.py` reuses `track_wheel/source/tw_parts.py` (geometry helpers, the J8/R5 idler wheel, whose two 608 seats `j9_parts.py` opens to the faces, and the R4 sprocket outline), `tw_checks.py` and `build_track_wheel.py`.

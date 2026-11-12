@@ -7,9 +7,11 @@
     "track_wheel_jgy370/J9/step/J909_housing.step": "605d619f8ad5ca0b2f2b5a52d0f9e5e642103f753afd154f1dbe320f43369542",
     "track_wheel_jgy370/X1/step/J901_H_frame_right.step": "c311dcf725624fcc5450a3d7d47f49291835cd923a7f064a3bc577b70aa744f8",
     "track_wheel_jgy370/X1/step/J909_housing_right.step": "77331fdc2cb0e8a28c5d0dbb0463fac5c30d42d982887cb12c75a907a03eecce",
-    "track_wheel_jgy370/X1/source/refresh_revf.py": "73c44627c4f6eebf34c561b906da45225395ea7a5958ef1b80233096b4d93f81",
+    "track_wheel_jgy370/J9/step/J904_roller.step": "15cf25acb07b5696c4c17f3d4d173ae2c4164099a60da7a826ef77346f0f1b54",
+    "track_wheel_jgy370/J9/step/J906_idler_wheel.step": "d332d152e3b538746ee50d57b74d0d986a1ac5d07c7e7087ef364cf097538f78",
+    "track_wheel_jgy370/X1/source/refresh_revf.py": "f567e28a6b6e85361f8318b9f3f5c011d33612b9cefb9e5eabdf01a731e44ddd",
     "track_wheel_jgy370/X1/source/x1_parts.py": "0b77d36a20ea1cbd402639453f9035d8462df5845023dcf6594439b7fac0fc47",
-    "track_wheel_jgy370/J9/source/j9_parts.py": "0da491a24b9cbb33bb84bd19a036e9b46282b7569f4e20b139be6bf8017d66b2",
+    "track_wheel_jgy370/J9/source/j9_parts.py": "be9d462b9f6bb94d7302b3d7d750a04f93a464c49d4c12d311fcf580fc46d5f6",
     "track_wheel_jgy370/J9/source/j9_mounts.py": "d18f32025d34729409c6a9d046674dacd05e27033de9c9136c229bc9b0564ff3",
     "track_wheel_jgy370/J9/source/j9_design.py": "b952562b77c5fd9c778d52113387a4bfbe071050a057529096e524be026cbdbd",
     "track_wheel/source/tw_parts.py": "0bb01b2c7013a2f2296e3f7176afe62635e563270b250936c40febc0deb9b3e4"
@@ -17,11 +19,19 @@
   "assemblies": [
     {
       "file": "track_wheel_jgy370/J9/step/JGY370_track_J9.step",
-      "sha256": "8a075824869a1a30b36c29178e2792273f7cb55af941bd594cbafb4a440764d9",
+      "sha256": "13024c6561eb923a799d0688ab21f2dd27db252feff6a0f533931289ecc983f7",
       "components": 275,
       "solids": 277,
       "checked_current_parts": [
         "J901_H_frame",
+        "J904_roller_road0",
+        "J904_roller_road1",
+        "J904_roller_road2",
+        "J904_roller_road3",
+        "J904_roller_road4",
+        "J904_roller_support0",
+        "J904_roller_support1",
+        "J906_idler_wheel",
         "J909_housing",
         "housing_screw_M3x8_0",
         "housing_screw_M3x8_2",
@@ -38,17 +48,33 @@
     },
     {
       "file": "track_wheel_jgy370/X1/step/X1_crawler_chassis.step",
-      "sha256": "6f9d869233c6544bef4a47fdb881897d1b95f135a5ef1840d8b70eb33015bf29",
+      "sha256": "5995c10668dbe849fb43b5356db603b745276fa23df65fdf079ebead3961c6e6",
       "components": 626,
       "solids": 630,
       "checked_current_parts": [
         "L_J901_H_frame",
+        "L_J904_roller_road0",
+        "L_J904_roller_road1",
+        "L_J904_roller_road2",
+        "L_J904_roller_road3",
+        "L_J904_roller_road4",
+        "L_J904_roller_support0",
+        "L_J904_roller_support1",
+        "L_J906_idler_wheel",
         "L_J909_housing",
         "L_housing_screw_M3x8_0",
         "L_housing_screw_M3x8_2",
         "L_insert_M3_0",
         "L_insert_M3_2",
         "R_J901_H_frame",
+        "R_J904_roller_road0",
+        "R_J904_roller_road1",
+        "R_J904_roller_road2",
+        "R_J904_roller_road3",
+        "R_J904_roller_road4",
+        "R_J904_roller_support0",
+        "R_J904_roller_support1",
+        "R_J906_idler_wheel",
         "R_J909_housing",
         "R_housing_screw_M3x8_0",
         "R_housing_screw_M3x8_2",
@@ -66,7 +92,7 @@
     },
     {
       "file": "track_wheel_jgy370/X1/step/X1_turntable_assembly.step",
-      "sha256": "48e78e6fade9bd27d345c676b90094c146e58f8a03618f19565f24a49bafa1e8",
+      "sha256": "a798f183db520f688ea9b183cbfa08a5be3b5ba1cb35248843301367fe31e3a9",
       "components": 181,
       "solids": 181,
       "checked_current_parts": [
@@ -84,14 +110,14 @@
   "scenes": [
     {
       "file": "track_wheel_jgy370/J9/source/j9_scene.json.gz",
-      "sha256": "1cec73dc0046c0220e468ae449b94bea01a13b15edbd651757dc43355b9ca9c9"
+      "sha256": "e7653cdb978d6a2b0cb82047f959e9cd764cc5f05b8dee2a557fa903421d446e"
     },
     {
       "file": "track_wheel_jgy370/X1/source/x1_scene.json.gz",
-      "sha256": "4a9545ba6e506ab159cbf083849a0d69130f6431c707e2ba2807dc0e42525de8"
+      "sha256": "63f742cdc029f43de86bde8b2eadd7e2939934195f53f825cc26cd0c30a0d1dc"
     }
   ],
   "scene_problems": [],
-  "seconds": 355.6,
+  "seconds": 378.9,
   "pass": true
 }

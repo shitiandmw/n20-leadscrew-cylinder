@@ -1,0 +1,3031 @@
+{
+ "generator": "track_wheel_jgy370/J9/source/build_parts_showcase.py",
+ "revision": "J9 / X1 revision F mounting stations",
+ "inputs_sha256": {
+  "track_wheel_jgy370/J9/source/j9_scene.json.gz": "e7653cdb978d6a2b0cb82047f959e9cd764cc5f05b8dee2a557fa903421d446e",
+  "track_wheel_jgy370/X1/source/x1_scene.json.gz": "63f742cdc029f43de86bde8b2eadd7e2939934195f53f825cc26cd0c30a0d1dc",
+  "track_wheel_jgy370/J9/source/build_track_kit.py": "ebf545f7246558d72ebeea9d24c41aacb55739a574e3171f2f6bd9b00f9028bf",
+  "track_wheel_jgy370/J9/source/parts_showcase.html": "e5485da1460552232715efd12df70dbca005d5734b7c0d6b09cd78c65d386538",
+  "track_wheel_jgy370/J9/source/build_parts_showcase.py": "a9408d0ffd76aab8a963f64ade2504db99d6da7d9754f62f645738ec27d5f9db"
+ },
+ "right_files_mirror_left": {
+  "J901": {
+   "left": "track_wheel_jgy370/J9/stl/J901_H_frame.stl",
+   "right": "track_wheel_jgy370/X1/stl/J901_H_frame_right.stl",
+   "triangles": 35280,
+   "same_triangles_mirrored": true,
+   "right_sha256": "64880cd88a31006270d45259309bf221b6bfc4bcfb1c59c76c110e078977b703"
+  },
+  "J909": {
+   "left": "track_wheel_jgy370/J9/stl/J909_housing.stl",
+   "right": "track_wheel_jgy370/X1/stl/J909_housing_right.stl",
+   "triangles": 23750,
+   "same_triangles_mirrored": true,
+   "right_sha256": "f509c73d29cbe22dbe584285308dc334c79cd2840db70965d55d23b05b6b8b5a"
+  }
+ },
+ "print_files_against_cad": {
+  "J901_H_frame": {
+   "rot_x_deg": -90,
+   "bbox_error_mm": 0.0,
+   "centroid_error_mm": 0.0005,
+   "volume_ratio": 0.99999
+  },
+  "J909_housing": {
+   "rot_x_deg": -90,
+   "bbox_error_mm": 0.0,
+   "centroid_error_mm": 0.0069,
+   "volume_ratio": 1.0001
+  },
+  "J902_sprocket": {
+   "rot_x_deg": -90,
+   "bbox_error_mm": 0.0,
+   "centroid_error_mm": 0.0002,
+   "volume_ratio": 1.00001
+  },
+  "J903_journal_plug": {
+   "rot_x_deg": -90,
+   "bbox_error_mm": 0.0011,
+   "centroid_error_mm": 0.0011,
+   "volume_ratio": 1.00033
+  },
+  "J904_roller_road0": {
+   "rot_x_deg": -90,
+   "bbox_error_mm": 0.0029,
+   "centroid_error_mm": 0.0029,
+   "volume_ratio": 1.00034
+  },
+  "J904_roller_road1": {
+   "rot_x_deg": -90,
+   "bbox_error_mm": 0.0029,
+   "centroid_error_mm": 0.0029,
+   "volume_ratio": 1.00034
+  },
+  "J904_roller_road2": {
+   "rot_x_deg": -90,
+   "bbox_error_mm": 0.0029,
+   "centroid_error_mm": 0.0029,
+   "volume_ratio": 1.00034
+  },
+  "J904_roller_road3": {
+   "rot_x_deg": -90,
+   "bbox_error_mm": 0.0029,
+   "centroid_error_mm": 0.0029,
+   "volume_ratio": 1.00034
+  },
+  "J904_roller_road4": {
+   "rot_x_deg": -90,
+   "bbox_error_mm": 0.0029,
+   "centroid_error_mm": 0.0029,
+   "volume_ratio": 1.00034
+  },
+  "J904_roller_support0": {
+   "rot_x_deg": -90,
+   "bbox_error_mm": 0.0029,
+   "centroid_error_mm": 0.0029,
+   "volume_ratio": 1.00034
+  },
+  "J904_roller_support1": {
+   "rot_x_deg": -90,
+   "bbox_error_mm": 0.0029,
+   "centroid_error_mm": 0.0029,
+   "volume_ratio": 1.00034
+  },
+  "J906_idler_wheel": {
+   "rot_x_deg": -90,
+   "bbox_error_mm": 0.0079,
+   "centroid_error_mm": 0.0079,
+   "volume_ratio": 1.00034
+  },
+  "J907_idler_spacer_0": {
+   "rot_x_deg": -90,
+   "bbox_error_mm": 0.0012,
+   "centroid_error_mm": 0.0012,
+   "volume_ratio": 1.00033
+  },
+  "J907_idler_spacer_1": {
+   "rot_x_deg": -90,
+   "bbox_error_mm": 0.0012,
+   "centroid_error_mm": 0.0012,
+   "volume_ratio": 1.00033
+  },
+  "J908_U_yoke": {
+   "rot_x_deg": 180,
+   "bbox_error_mm": 0.0018,
+   "centroid_error_mm": 0.0014,
+   "volume_ratio": 1.00006
+  },
+  "link": {
+   "rot_x_deg": 0,
+   "bbox_error_mm": 0.0013,
+   "centroid_error_mm": 0.0006,
+   "volume_ratio": 1.00001
+  },
+  "X101_X_frame": {
+   "rot_x_deg": 180,
+   "bbox_error_mm": 0.0,
+   "centroid_error_mm": 0.0161,
+   "volume_ratio": 0.99999
+  }
+ },
+ "items": [
+  {
+   "id": "J901",
+   "type": "print",
+   "name": "J901 H-frame",
+   "qty": "2 (1 left + 1 right print)",
+   "model": true,
+   "dimensions_drawn": 28,
+   "table_rows": 30
+  },
+  {
+   "id": "J909",
+   "type": "print",
+   "name": "J909 housing with motor pod",
+   "qty": "2 (1 left + 1 right print)",
+   "model": true,
+   "dimensions_drawn": 8,
+   "table_rows": 9
+  },
+  {
+   "id": "J902",
+   "type": "print",
+   "name": "J902 sprocket",
+   "qty": "2 (1 per track)",
+   "model": true,
+   "dimensions_drawn": 10,
+   "table_rows": 11
+  },
+  {
+   "id": "J903",
+   "type": "print",
+   "name": "J903 journal plug",
+   "qty": "2 (1 per track)",
+   "model": true,
+   "dimensions_drawn": 2,
+   "table_rows": 4
+  },
+  {
+   "id": "J904",
+   "type": "print",
+   "name": "J904 roller",
+   "qty": "14 (7 per track)",
+   "model": true,
+   "dimensions_drawn": 5,
+   "table_rows": 6
+  },
+  {
+   "id": "J906",
+   "type": "print",
+   "name": "J906 idler wheel",
+   "qty": "2 (1 per track)",
+   "model": true,
+   "dimensions_drawn": 7,
+   "table_rows": 8
+  },
+  {
+   "id": "J907",
+   "type": "print",
+   "name": "J907 idler spacer",
+   "qty": "4 (2 per track)",
+   "model": true,
+   "dimensions_drawn": 2,
+   "table_rows": 3
+  },
+  {
+   "id": "J908",
+   "type": "print",
+   "name": "J908 U-yoke with spring piston",
+   "qty": "2 (1 per track)",
+   "model": true,
+   "dimensions_drawn": 6,
+   "table_rows": 7
+  },
+  {
+   "id": "J910",
+   "type": "print",
+   "name": "J910 track shoe, 70 mm",
+   "qty": "68 (34 per track)",
+   "model": true,
+   "dimensions_drawn": 10,
+   "table_rows": 11
+  },
+  {
+   "id": "X101",
+   "type": "print-opt",
+   "name": "X101 X-frame (only to test the chassis mounting)",
+   "qty": "1 (only to test the chassis mounting)",
+   "model": true,
+   "dimensions_drawn": 5,
+   "table_rows": 6
+  },
+  {
+   "id": "motor",
+   "type": "buy",
+   "name": "JGY-370-1260 worm gear motor, 12 V, 200:1 (30 rpm)",
+   "qty": "2 (1 per track)",
+   "model": true,
+   "dimensions_drawn": 12,
+   "table_rows": 15
+  },
+  {
+   "id": "hub",
+   "type": "buy",
+   "name": "Pololu #1999 universal aluminium mounting hub, 6 mm shaft, M3 holes",
+   "qty": "2 (1 per track); 1 pack of 2",
+   "model": true,
+   "dimensions_drawn": 5,
+   "table_rows": 6
+  },
+  {
+   "id": "setscrew",
+   "type": "buy",
+   "name": "M3 set screws, supplied with the hub",
+   "qty": "4 (2 per track); supplied",
+   "model": true,
+   "dimensions_drawn": 3,
+   "table_rows": 5
+  },
+  {
+   "id": "6800ZZ",
+   "type": "buy",
+   "name": "6800ZZ ball bearing, 10 x 19 x 5",
+   "qty": "2 (1 per track)",
+   "model": true,
+   "dimensions_drawn": 3,
+   "table_rows": 4
+  },
+  {
+   "id": "624ZZ",
+   "type": "buy",
+   "name": "624ZZ ball bearing, 4 x 13 x 5",
+   "qty": "28 (14 per track)",
+   "model": true,
+   "dimensions_drawn": 3,
+   "table_rows": 4
+  },
+  {
+   "id": "608ZZ",
+   "type": "buy",
+   "name": "608ZZ ball bearing, 8 x 22 x 7",
+   "qty": "4 (2 per track)",
+   "model": true,
+   "dimensions_drawn": 3,
+   "table_rows": 4
+  },
+  {
+   "id": "pin8",
+   "type": "buy",
+   "name": "Steel pin Ø8 x 55 (ISO 2338 8 m6 x 55, or Ø8 shaft cut to 55)",
+   "qty": "2 (1 per track)",
+   "model": true,
+   "dimensions_drawn": 2,
+   "table_rows": 2
+  },
+  {
+   "id": "spring",
+   "type": "buy",
+   "name": "Compression spring Lee Spring C-600-072-1500 (music wire)",
+   "qty": "2 (1 per track)",
+   "model": true,
+   "dimensions_drawn": 2,
+   "table_rows": 8
+  },
+  {
+   "id": "M4x70",
+   "type": "buy",
+   "name": "M4 x 70 socket head screw (ISO 4762)",
+   "qty": "14 (7 per track)",
+   "model": true,
+   "dimensions_drawn": 3,
+   "table_rows": 4
+  },
+  {
+   "id": "nyloc",
+   "type": "buy",
+   "name": "M4 nyloc nut (DIN 985)",
+   "qty": "14 (7 per track)",
+   "model": true,
+   "dimensions_drawn": 3,
+   "table_rows": 4
+  },
+  {
+   "id": "M3x6",
+   "type": "buy",
+   "name": "M3 x 6 socket head screw (ISO 4762)",
+   "qty": "8 (4 per track)",
+   "model": true,
+   "dimensions_drawn": 3,
+   "table_rows": 4
+  },
+  {
+   "id": "M3x25",
+   "type": "buy",
+   "name": "M3 x 25 socket head screw (ISO 4762)",
+   "qty": "6 (3 per track)",
+   "model": true,
+   "dimensions_drawn": 3,
+   "table_rows": 4
+  },
+  {
+   "id": "M3x50",
+   "type": "buy",
+   "name": "M3 x 50 socket head screw (ISO 4762)",
+   "qty": "2 (1 per track)",
+   "model": true,
+   "dimensions_drawn": 3,
+   "table_rows": 4
+  },
+  {
+   "id": "M3x8",
+   "type": "buy",
+   "name": "M3 x 8 button head screw (ISO 7380)",
+   "qty": "8 (4 per track)",
+   "model": true,
+   "dimensions_drawn": 3,
+   "table_rows": 4
+  },
+  {
+   "id": "insert",
+   "type": "buy",
+   "name": "M3 heat-set insert for a Ø4.0 x 5.7 mm hole",
+   "qty": "8 (4 per track)",
+   "model": true,
+   "dimensions_drawn": 2,
+   "table_rows": 3
+  },
+  {
+   "id": "trackpin",
+   "type": "chain",
+   "name": "Track pin Ø3 x 56, silver steel",
+   "qty": "68 (34 per track)",
+   "model": true,
+   "dimensions_drawn": 0,
+   "table_rows": 0
+  },
+  {
+   "id": "bushing",
+   "type": "chain",
+   "name": "Track bushing, steel, Ø6 OD x Ø3.1 ID x 17",
+   "qty": "68 (34 per track)",
+   "model": true,
+   "dimensions_drawn": 3,
+   "table_rows": 3
+  },
+  {
+   "id": "clip",
+   "type": "chain",
+   "name": "E-clip DIN 6799 size 2.3 (for Ø3-4 mm shafts)",
+   "qty": "136 (68 per track)",
+   "model": true,
+   "dimensions_drawn": 2,
+   "table_rows": 3
+  },
+  {
+   "id": "M4x25",
+   "type": "joint",
+   "name": "M4 x 25 socket head screw (ISO 4762), Ø7 x 4 head",
+   "qty": "8 per machine (both tracks)",
+   "model": true,
+   "dimensions_drawn": 3,
+   "table_rows": 4
+  },
+  {
+   "id": "washer4",
+   "type": "joint",
+   "name": "M4 washer, Ø9 / Ø4.4 x 0.8",
+   "qty": "16 per machine (both tracks)",
+   "model": true,
+   "dimensions_drawn": 3,
+   "table_rows": 3
+  },
+  {
+   "id": "nut4",
+   "type": "joint",
+   "name": "M4 hex nut (ISO 4032), 7 mm AF x 3.2",
+   "qty": "8 per machine (both tracks)",
+   "model": true,
+   "dimensions_drawn": 3,
+   "table_rows": 4
+  },
+  {
+   "id": "bench0",
+   "type": "bench",
+   "name": "26 AWG silicone wire, red and black",
+   "qty": "about 0.5 m per motor",
+   "model": false,
+   "dimensions_drawn": 0,
+   "table_rows": 0
+  },
+  {
+   "id": "bench1",
+   "type": "bench",
+   "name": "100 nF 50 V ceramic capacitor",
+   "qty": "1 per motor",
+   "model": false,
+   "dimensions_drawn": 0,
+   "table_rows": 0
+  },
+  {
+   "id": "bench2",
+   "type": "bench",
+   "name": "12 V supply with an adjustable current limit",
+   "qty": "1",
+   "model": false,
+   "dimensions_drawn": 0,
+   "table_rows": 0
+  },
+  {
+   "id": "bench3",
+   "type": "bench",
+   "name": "Reversing switch (DPDT) or a DC motor H-bridge",
+   "qty": "1",
+   "model": false,
+   "dimensions_drawn": 0,
+   "table_rows": 0
+  },
+  {
+   "id": "tool0",
+   "type": "tool",
+   "name": "Hex keys 1.5, 2, 2.5 and 3 mm",
+   "qty": "",
+   "model": false,
+   "dimensions_drawn": 0,
+   "table_rows": 0
+  },
+  {
+   "id": "tool1",
+   "type": "tool",
+   "name": "7 mm spanner or socket",
+   "qty": "",
+   "model": false,
+   "dimensions_drawn": 0,
+   "table_rows": 0
+  },
+  {
+   "id": "tool2",
+   "type": "tool",
+   "name": "Soldering iron with an M3 heat-set insert tip",
+   "qty": "",
+   "model": false,
+   "dimensions_drawn": 0,
+   "table_rows": 0
+  },
+  {
+   "id": "tool3",
+   "type": "tool",
+   "name": "Vise with soft jaws or a small arbor press; for the idler, a tube or socket about Ø20-21 mm across and at least 20 mm long as a drift on the 608ZZ outer ring (not the shield)",
+   "qty": "",
+   "model": false,
+   "dimensions_drawn": 0,
+   "table_rows": 0
+  },
+  {
+   "id": "tool4",
+   "type": "tool",
+   "name": "Calipers",
+   "qty": "",
+   "model": false,
+   "dimensions_drawn": 0,
+   "table_rows": 0
+  },
+  {
+   "id": "tool5",
+   "type": "tool",
+   "name": "E-clip pliers or a small flat screwdriver",
+   "qty": "",
+   "model": false,
+   "dimensions_drawn": 0,
+   "table_rows": 0
+  },
+  {
+   "id": "tool6",
+   "type": "tool",
+   "name": "Paint marker",
+   "qty": "",
+   "model": false,
+   "dimensions_drawn": 0,
+   "table_rows": 0
+  },
+  {
+   "id": "dummy",
+   "type": "tool",
+   "name": "Dummy pin Ø3 x 24: an offcut of the Ø3 pin rod (or any Ø2.5-3 rod), ends deburred",
+   "qty": "1, made from an offcut",
+   "model": true,
+   "dimensions_drawn": 2,
+   "table_rows": 2
+  },
+  {
+   "id": "tool8",
+   "type": "tool",
+   "name": "X1 only: 3 mm L-key with a 20 mm short leg and 80 mm arm; compact 7 mm nut holder within Ø11.2 mm",
+   "qty": "",
+   "model": false,
+   "dimensions_drawn": 0,
+   "table_rows": 0
+  }
+ ],
+ "dimension_checks": [
+  {
+   "item": "J901",
+   "n": 1,
+   "label": "Between the walls (inner faces)",
+   "text": "48",
+   "a": {
+    "face": [
+     21.551,
+     14.679,
+     54.0
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     21.551,
+     14.679,
+     6.0
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "J901",
+   "n": 2,
+   "label": "Inner main plate",
+   "text": "10",
+   "a": {
+    "face": [
+     -28.449,
+     19.679,
+     64.0
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     -28.449,
+     19.679,
+     54.0
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "J901",
+   "n": 3,
+   "label": "Outer wall",
+   "text": "6",
+   "a": {
+    "face": [
+     21.551,
+     19.679,
+     6.0
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     21.551,
+     19.679,
+     0.0
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "J901",
+   "n": 4,
+   "label": "6800ZZ seat",
+   "text": "Ø19 × 5 deep",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    0.0,
+    5.0
+   ]
+  },
+  {
+   "item": "J901",
+   "n": 5,
+   "label": "Hole through the lip",
+   "text": "Ø12",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    5.0,
+    6.0
+   ]
+  },
+  {
+   "item": "J901",
+   "n": 6,
+   "label": "Motor shaft hole",
+   "text": "Ø8",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    54.0,
+    58.2
+   ]
+  },
+  {
+   "item": "J901",
+   "n": 7,
+   "label": "Recess for the gearbox boss",
+   "text": "Ø13.6 × 1.8",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    58.2,
+    60.0
+   ]
+  },
+  {
+   "item": "J901",
+   "n": 8,
+   "label": "Counterbores for the gearbox screw bosses (4)",
+   "text": "Ø7.4 × 2",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    58.0,
+    60.0
+   ]
+  },
+  {
+   "item": "J901",
+   "n": 9,
+   "label": "Motor screw holes (4)",
+   "text": "Ø3.4",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    55.0,
+    58.0
+   ]
+  },
+  {
+   "item": "J901",
+   "n": 10,
+   "label": "Spot faces for the M3 × 6 heads (4)",
+   "text": "Ø6.5 × 1",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    54.0,
+    55.0
+   ]
+  },
+  {
+   "item": "J901",
+   "n": 11,
+   "label": "Motor hole pattern, along the track",
+   "text": "33",
+   "a": {
+    "circle": {
+     "vertices": 210,
+     "max_gap_deg": 3.4,
+     "axial": [
+      55.0,
+      58.0
+     ]
+    },
+    "r": 1.7
+   },
+   "b": {
+    "circle": {
+     "vertices": 210,
+     "max_gap_deg": 3.4,
+     "axial": [
+      55.0,
+      58.0
+     ]
+    },
+    "r": 1.7
+   }
+  },
+  {
+   "item": "J901",
+   "n": 12,
+   "label": "Motor hole pattern, height",
+   "text": "18",
+   "a": {
+    "circle": {
+     "vertices": 210,
+     "max_gap_deg": 3.4,
+     "axial": [
+      55.0,
+      58.0
+     ]
+    },
+    "r": 1.7
+   },
+   "b": {
+    "circle": {
+     "vertices": 210,
+     "max_gap_deg": 3.4,
+     "axial": [
+      55.0,
+      58.0
+     ]
+    },
+    "r": 1.7
+   }
+  },
+  {
+   "item": "J901",
+   "n": 13,
+   "label": "Roller axle holes (7)",
+   "text": "Ø4.4",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    0.0,
+    6.7
+   ]
+  },
+  {
+   "item": "J901",
+   "n": 14,
+   "label": "Head recesses for the axle screws (7)",
+   "text": "Ø7.4 × 4",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    60.0,
+    64.0
+   ]
+  },
+  {
+   "item": "J901",
+   "n": 15,
+   "label": "Roller bosses on the inner faces",
+   "text": "Ø5.6 × 0.7",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    6.0,
+    6.7
+   ]
+  },
+  {
+   "item": "J901",
+   "n": 16,
+   "label": "Road roller pitch",
+   "text": "29",
+   "a": {
+    "circle": {
+     "vertices": 210,
+     "max_gap_deg": 3.4,
+     "axial": [
+      0.0,
+      6.7
+     ]
+    },
+    "r": 2.2
+   },
+   "b": {
+    "circle": {
+     "vertices": 210,
+     "max_gap_deg": 3.4,
+     "axial": [
+      0.0,
+      6.7
+     ]
+    },
+    "r": 2.2
+   }
+  },
+  {
+   "item": "J901",
+   "n": 17,
+   "label": "Support roller spacing",
+   "text": "70",
+   "a": {
+    "circle": {
+     "vertices": 210,
+     "max_gap_deg": 3.4,
+     "axial": [
+      0.0,
+      6.7
+     ]
+    },
+    "r": 2.2
+   },
+   "b": {
+    "circle": {
+     "vertices": 210,
+     "max_gap_deg": 3.4,
+     "axial": [
+      0.0,
+      6.7
+     ]
+    },
+    "r": 2.2
+   }
+  },
+  {
+   "item": "J901",
+   "n": 18,
+   "label": "Spring guide bore",
+   "text": "Ø16.4",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    29.551,
+    58.351
+   ]
+  },
+  {
+   "item": "J901",
+   "n": 19,
+   "label": "Spring guide outside",
+   "text": "Ø21.2",
+   "vertices": 185,
+   "max_gap_deg": 3.4,
+   "axial": [
+    53.551,
+    58.351
+   ]
+  },
+  {
+   "item": "J901",
+   "n": 20,
+   "label": "Spring pilot",
+   "text": "Ø11 × 4",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    29.551,
+    33.551
+   ]
+  },
+  {
+   "item": "J901",
+   "n": 21,
+   "label": "Yoke groove depth (both walls)",
+   "text": "3.2",
+   "a": {
+    "face": [
+     81.551,
+     11.0,
+     6.0
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     81.551,
+     5.5,
+     2.8
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "J901",
+   "n": 22,
+   "label": "Yoke groove height",
+   "text": "16.4",
+   "a": {
+    "face": [
+     81.551,
+     -9.2,
+     4.4
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     81.551,
+     7.2,
+     4.4
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "J901",
+   "n": 23,
+   "label": "Insert holes in the housing standoffs (4)",
+   "text": "Ø4 × 5.7 deep",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    59.8,
+    65.5
+   ]
+  },
+  {
+   "item": "J901",
+   "n": 24,
+   "label": "Housing standoffs (4)",
+   "text": "Ø8",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    64.0,
+    65.5
+   ]
+  },
+  {
+   "item": "J901",
+   "n": 25,
+   "label": "X101 joint seat width (2)",
+   "text": "28.3",
+   "a": {
+    "face": [
+     50.901,
+     19.679,
+     63.2
+    ],
+    "axis": "x"
+   },
+   "b": {
+    "face": [
+     79.201,
+     19.679,
+     63.2
+    ],
+    "axis": "x"
+   }
+  },
+  {
+   "item": "J901",
+   "n": 26,
+   "label": "X101 joint seat depth",
+   "text": "1.5",
+   "a": {
+    "face": [
+     41.551,
+     14.679,
+     64.0
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     65.051,
+     14.679,
+     62.5
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "J901",
+   "n": 27,
+   "label": "X101 joint bolt holes (4)",
+   "text": "Ø4.5",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    54.0,
+    62.5
+   ]
+  },
+  {
+   "item": "J901",
+   "n": 28,
+   "label": "X101 joint bolt spacing",
+   "text": "19",
+   "a": {
+    "circle": {
+     "vertices": 210,
+     "max_gap_deg": 3.4,
+     "axial": [
+      54.0,
+      62.5
+     ]
+    },
+    "r": 2.25
+   },
+   "b": {
+    "circle": {
+     "vertices": 210,
+     "max_gap_deg": 3.4,
+     "axial": [
+      54.0,
+      62.5
+     ]
+    },
+    "r": 2.25
+   }
+  },
+  {
+   "item": "J909",
+   "n": 1,
+   "label": "Skirt thickness",
+   "text": "2.5",
+   "a": {
+    "face": [
+     12.051,
+     -24.32,
+     2.5
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     12.051,
+     -24.32,
+     0.0
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "J909",
+   "n": 2,
+   "label": "Skirt height (middle)",
+   "text": "64",
+   "a": {
+    "face": [
+     12.051,
+     -31.32,
+     1.25
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     12.051,
+     32.68,
+     1.25
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "J909",
+   "n": 3,
+   "label": "Roller bolt access holes (7)",
+   "text": "Ø8",
+   "vertices": 192,
+   "max_gap_deg": 3.8,
+   "axial": [
+    0.0,
+    2.5
+   ]
+  },
+  {
+   "item": "J909",
+   "n": 4,
+   "label": "Screw holes (4)",
+   "text": "Ø3.4",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    0.0,
+    2.5
+   ]
+  },
+  {
+   "item": "J909",
+   "n": 5,
+   "label": "Final-drive drum",
+   "text": "Ø53",
+   "vertices": 154,
+   "max_gap_deg": 100.8,
+   "axial": [
+    3.5,
+    21.5
+   ]
+  },
+  {
+   "item": "J909",
+   "n": 6,
+   "label": "Pod depth from the skirt",
+   "text": "24.5",
+   "a": {
+    "face": [
+     -139.949,
+     0.0,
+     0.0
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     -109.949,
+     16.0,
+     24.5
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "J909",
+   "n": 7,
+   "label": "Tube over the motor can",
+   "text": "Ø30.6",
+   "vertices": 108,
+   "max_gap_deg": 180.0,
+   "axial": [
+    -46.149,
+    -36.849
+   ]
+  },
+  {
+   "item": "J909",
+   "n": 8,
+   "label": "Cable port",
+   "text": "Ø5.5",
+   "vertices": 220,
+   "max_gap_deg": 3.4,
+   "axial": [
+    -24.348,
+    -18.549
+   ]
+  },
+  {
+   "item": "J902",
+   "n": 1,
+   "label": "Tooth tips",
+   "text": "Ø81.64",
+   "vertices": 264,
+   "max_gap_deg": 11.9,
+   "axial": [
+    0.0,
+    17.0
+   ]
+  },
+  {
+   "item": "J902",
+   "n": 2,
+   "label": "Pitch circle (bushing centres)",
+   "text": "Ø77.27",
+   "computed": true
+  },
+  {
+   "item": "J902",
+   "n": 3,
+   "label": "Tooth disc thickness",
+   "text": "17",
+   "a": {
+    "face": [
+     30.0,
+     0.0,
+     17.0
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     30.0,
+     0.0,
+     0.0
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "J902",
+   "n": 4,
+   "label": "Hub boss",
+   "text": "Ø30 × 6.3",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    17.0,
+    23.3
+   ]
+  },
+  {
+   "item": "J902",
+   "n": 5,
+   "label": "Recess for the hub flange",
+   "text": "Ø25.8 × 1 deep",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    22.3,
+    23.3
+   ]
+  },
+  {
+   "item": "J902",
+   "n": 6,
+   "label": "Stop pad for the shaft end",
+   "text": "Ø5.4 × 0.6",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    22.3,
+    22.9
+   ]
+  },
+  {
+   "item": "J902",
+   "n": 7,
+   "label": "Hub screw holes",
+   "text": "3 × Ø3.4 on Ø19.05",
+   "holes": 3,
+   "vertices_each": [
+    210,
+    210,
+    210
+   ]
+  },
+  {
+   "item": "J902",
+   "n": 8,
+   "label": "Counterbores for the M3 heads (3)",
+   "text": "Ø6.2 × 3 deep",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    0.0,
+    3.0
+   ]
+  },
+  {
+   "item": "J902",
+   "n": 9,
+   "label": "Socket for the journal plug",
+   "text": "Ø10.1 × 5 deep",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    0.0,
+    5.0
+   ]
+  },
+  {
+   "item": "J902",
+   "n": 10,
+   "label": "Centre bore",
+   "text": "Ø3.4",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    5.0,
+    22.9
+   ]
+  },
+  {
+   "item": "J903",
+   "n": 1,
+   "label": "Journal",
+   "text": "Ø9.95",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    -0.0,
+    26.5
+   ]
+  },
+  {
+   "item": "J903",
+   "n": 2,
+   "label": "Bore",
+   "text": "Ø3.4",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    -0.0,
+    26.5
+   ]
+  },
+  {
+   "item": "J904",
+   "n": 1,
+   "label": "Tread",
+   "text": "Ø22",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    1.4,
+    44.6
+   ]
+  },
+  {
+   "item": "J904",
+   "n": 2,
+   "label": "Guide flanges",
+   "text": "Ø26 × 1.4",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    -0.0,
+    1.4
+   ]
+  },
+  {
+   "item": "J904",
+   "n": 3,
+   "label": "624ZZ seats (both faces)",
+   "text": "Ø13 × 5 deep",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    -0.0,
+    5.0
+   ]
+  },
+  {
+   "item": "J904",
+   "n": 4,
+   "label": "Centre bore",
+   "text": "Ø8",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    5.0,
+    41.0
+   ]
+  },
+  {
+   "item": "J904",
+   "n": 5,
+   "label": "Between the seats",
+   "text": "36",
+   "a": {
+    "face": [
+     5.003,
+     0.0,
+     41.0
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     5.003,
+     0.0,
+     5.0
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "J906",
+   "n": 1,
+   "label": "Centre drum (bushings run on it)",
+   "text": "Ø70.47",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    16.0,
+    30.0
+   ]
+  },
+  {
+   "item": "J906",
+   "n": 2,
+   "label": "Rails (link running faces)",
+   "text": "Ø66.34",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    1.4,
+    8.0
+   ]
+  },
+  {
+   "item": "J906",
+   "n": 3,
+   "label": "Guide flanges",
+   "text": "Ø70.34 × 1.4",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    -0.0,
+    1.4
+   ]
+  },
+  {
+   "item": "J906",
+   "n": 4,
+   "label": "608ZZ seats (both sides)",
+   "text": "Ø22.2 × 7.5",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    12.5,
+    20.0
+   ]
+  },
+  {
+   "item": "J906",
+   "n": 5,
+   "label": "Slide-in bores (both faces)",
+   "text": "Ø22.6, 0.6 × 45° chamfer",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    0.6,
+    12.5
+   ]
+  },
+  {
+   "item": "J906",
+   "n": 6,
+   "label": "Idler face to the web",
+   "text": "20",
+   "a": {
+    "face": [
+     9.008,
+     0.0,
+     20.0
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     20.008,
+     0.0,
+     0.0
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "J906",
+   "n": 7,
+   "label": "Web bore",
+   "text": "Ø12.4",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    20.0,
+    26.0
+   ]
+  },
+  {
+   "item": "J907",
+   "n": 1,
+   "label": "Outside",
+   "text": "Ø11",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    -0.0,
+    13.9
+   ]
+  },
+  {
+   "item": "J907",
+   "n": 2,
+   "label": "Bore",
+   "text": "Ø8.2",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    -0.0,
+    13.9
+   ]
+  },
+  {
+   "item": "J908",
+   "n": 1,
+   "label": "Idler pin holes",
+   "text": "Ø8.1",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    -27.0,
+    -24.0
+   ]
+  },
+  {
+   "item": "J908",
+   "n": 2,
+   "label": "Arm thickness",
+   "text": "3",
+   "a": {
+    "face": [
+     11.149,
+     -24.0,
+     8.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     11.149,
+     -27.0,
+     8.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "J908",
+   "n": 3,
+   "label": "Arm height",
+   "text": "16",
+   "a": {
+    "face": [
+     11.149,
+     -25.5,
+     16.0
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     11.149,
+     -25.5,
+     -0.0
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "J908",
+   "n": 4,
+   "label": "Between the arms",
+   "text": "48",
+   "a": {
+    "face": [
+     11.149,
+     24.0,
+     8.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     11.149,
+     -24.0,
+     8.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "J908",
+   "n": 5,
+   "label": "Piston",
+   "text": "Ø15.6 × 8",
+   "vertices": 213,
+   "max_gap_deg": 3.4,
+   "axial": [
+    -30.049,
+    -22.039
+   ]
+  },
+  {
+   "item": "J908",
+   "n": 6,
+   "label": "Spring pilot",
+   "text": "Ø11 × 4",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    -34.049,
+    -30.049
+   ]
+  },
+  {
+   "item": "J910",
+   "n": 1,
+   "label": "Pitch",
+   "text": "20",
+   "a": {
+    "circle": {
+     "vertices": 210,
+     "max_gap_deg": 3.4,
+     "axial": [
+      14.0,
+      21.0
+     ]
+    },
+    "r": 1.6
+   },
+   "b": {
+    "circle": {
+     "vertices": 210,
+     "max_gap_deg": 3.4,
+     "axial": [
+      8.7,
+      13.7
+     ]
+    },
+    "r": 1.6
+   }
+  },
+  {
+   "item": "J910",
+   "n": 2,
+   "label": "Pin holes",
+   "text": "Ø3.2",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    14.0,
+    21.0
+   ]
+  },
+  {
+   "item": "J910",
+   "n": 3,
+   "label": "Over the outer plates",
+   "text": "42",
+   "a": {
+    "face": [
+     0.0,
+     -21.0,
+     9.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     0.0,
+     21.0,
+     9.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "J910",
+   "n": 4,
+   "label": "Between the outer plates",
+   "text": "28",
+   "a": {
+    "face": [
+     0.0,
+     -14.0,
+     9.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     0.0,
+     14.0,
+     9.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "J910",
+   "n": 5,
+   "label": "Over the inner ears",
+   "text": "27.4",
+   "a": {
+    "face": [
+     10.0,
+     -13.7,
+     9.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     10.0,
+     13.7,
+     9.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "J910",
+   "n": 6,
+   "label": "Between the inner ears",
+   "text": "17.4",
+   "a": {
+    "face": [
+     10.0,
+     -8.7,
+     9.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     10.0,
+     8.7,
+     9.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "J910",
+   "n": 7,
+   "label": "Plate end hollow",
+   "text": "R4.3",
+   "vertices": 82,
+   "max_gap_deg": 223.1,
+   "axial": [
+    14.0,
+    21.0
+   ]
+  },
+  {
+   "item": "J910",
+   "n": 8,
+   "label": "Shoe plate",
+   "text": "2",
+   "a": {
+    "face": [
+     3.0,
+     30.0,
+     1.0
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     3.0,
+     30.0,
+     3.0
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "J910",
+   "n": 9,
+   "label": "Grousers (3 per shoe)",
+   "text": "1 high × 2 wide",
+   "a": {
+    "face": [
+     3.0,
+     30.0,
+     1.0
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     0.0,
+     30.0,
+     0.0
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "J910",
+   "n": 10,
+   "label": "Holes in the shoe plate (2)",
+   "text": "Ø2.4",
+   "vertices": 215,
+   "max_gap_deg": 3.4,
+   "axial": [
+    0.0,
+    3.0
+   ]
+  },
+  {
+   "item": "X101",
+   "n": 1,
+   "label": "Carbody",
+   "text": "Ø120",
+   "vertices": 522,
+   "max_gap_deg": 21.3,
+   "axial": [
+    0.0,
+    51.0
+   ]
+  },
+  {
+   "item": "X101",
+   "n": 2,
+   "label": "Relief for the RU66 inner ring",
+   "text": "Ø75 × 2.5 deep",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    0.0,
+    2.5
+   ]
+  },
+  {
+   "item": "X101",
+   "n": 3,
+   "label": "RU66 outer-ring holes",
+   "text": "8 × Ø4.5 on Ø83",
+   "holes": 8,
+   "vertices_each": [
+    210,
+    210,
+    210,
+    210,
+    210,
+    210,
+    210,
+    210
+   ]
+  },
+  {
+   "item": "X101",
+   "n": 4,
+   "label": "Cable passage",
+   "text": "Ø25",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    2.5,
+    5.99
+   ]
+  },
+  {
+   "item": "X101",
+   "n": 5,
+   "label": "Arm width (4 arms)",
+   "text": "28",
+   "a": {
+    "face": [
+     49.5,
+     -132.0,
+     20.0
+    ],
+    "axis": "x"
+   },
+   "b": {
+    "face": [
+     77.5,
+     -132.0,
+     20.0
+    ],
+    "axis": "x"
+   }
+  },
+  {
+   "item": "motor",
+   "n": 1,
+   "label": "Gearbox length",
+   "text": "46",
+   "a": {
+    "face": [
+     -43.4,
+     -6.7,
+     10.0
+    ],
+    "axis": "x"
+   },
+   "b": {
+    "face": [
+     2.6,
+     1.8,
+     14.0
+    ],
+    "axis": "x"
+   }
+  },
+  {
+   "item": "motor",
+   "n": 2,
+   "label": "Gearbox height",
+   "text": "32",
+   "a": {
+    "face": [
+     -31.9,
+     -6.7,
+     -16.0
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     -31.9,
+     -6.7,
+     16.0
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "motor",
+   "n": 3,
+   "label": "Gearbox depth",
+   "text": "23",
+   "a": {
+    "face": [
+     -18.9,
+     -18.2,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     -18.9,
+     4.8,
+     0.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "motor",
+   "n": 4,
+   "label": "Centre boss",
+   "text": "Ø13.2 × 1.6",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    4.8,
+    6.4
+   ]
+  },
+  {
+   "item": "motor",
+   "n": 5,
+   "label": "Screw bosses (4)",
+   "text": "Ø7 × 2",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    4.8,
+    6.8
+   ]
+  },
+  {
+   "item": "motor",
+   "n": 6,
+   "label": "Mounting holes, along the gearbox",
+   "text": "33 (4 × M3)",
+   "a": {
+    "circle": {
+     "vertices": 338,
+     "max_gap_deg": 4.3,
+     "axial": [
+      -1.2,
+      6.8
+     ]
+    },
+    "r": 1.5
+   },
+   "b": {
+    "circle": {
+     "vertices": 338,
+     "max_gap_deg": 4.3,
+     "axial": [
+      -1.2,
+      6.8
+     ]
+    },
+    "r": 1.5
+   }
+  },
+  {
+   "item": "motor",
+   "n": 7,
+   "label": "Mounting holes, across",
+   "text": "18",
+   "a": {
+    "circle": {
+     "vertices": 338,
+     "max_gap_deg": 4.3,
+     "axial": [
+      -1.2,
+      6.8
+     ]
+    },
+    "r": 1.5
+   },
+   "b": {
+    "circle": {
+     "vertices": 338,
+     "max_gap_deg": 4.3,
+     "axial": [
+      -1.2,
+      6.8
+     ]
+    },
+    "r": 1.5
+   }
+  },
+  {
+   "item": "motor",
+   "n": 8,
+   "label": "Output shaft",
+   "text": "Ø6, D-flat",
+   "vertices": 350,
+   "max_gap_deg": 4.2,
+   "axial": [
+    6.4,
+    20.4
+   ]
+  },
+  {
+   "item": "motor",
+   "n": 9,
+   "label": "Shaft length from the gearbox face",
+   "text": "15.6",
+   "a": {
+    "face": [
+     -18.9,
+     4.8,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     -28.9,
+     20.4,
+     -2.2
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "motor",
+   "n": 10,
+   "label": "Across the D-flat",
+   "text": "5.5, 12 long",
+   "a": {
+    "face": [
+     -28.9,
+     18.8,
+     2.5
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "circle_edge": {
+     "vertices": 350,
+     "max_gap_deg": 4.2,
+     "axial": [
+      6.4,
+      20.4
+     ]
+    },
+    "r": 3.0
+   }
+  },
+  {
+   "item": "motor",
+   "n": 11,
+   "label": "Motor can",
+   "text": "Ø24",
+   "vertices": 507,
+   "max_gap_deg": 4.3,
+   "axial": [
+    2.6,
+    33.4
+   ]
+  },
+  {
+   "item": "motor",
+   "n": 12,
+   "label": "Can length",
+   "text": "30.8",
+   "a": {
+    "face": [
+     2.6,
+     1.8,
+     14.0
+    ],
+    "axis": "x"
+   },
+   "b": {
+    "face": [
+     33.4,
+     -8.4,
+     6.0
+    ],
+    "axis": "x"
+   }
+  },
+  {
+   "item": "hub",
+   "n": 1,
+   "label": "Flange",
+   "text": "Ø25.4 × 5",
+   "vertices": 563,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -0.4,
+    4.6
+   ]
+  },
+  {
+   "item": "hub",
+   "n": 2,
+   "label": "Boss",
+   "text": "Ø12 × 4.2",
+   "vertices": 567,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -4.6,
+    -0.4
+   ]
+  },
+  {
+   "item": "hub",
+   "n": 3,
+   "label": "Bore",
+   "text": "Ø6",
+   "vertices": 804,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -4.6,
+    4.6
+   ]
+  },
+  {
+   "item": "hub",
+   "n": 4,
+   "label": "Tapped holes",
+   "text": "6 × M3 on Ø19.05",
+   "holes": 6,
+   "vertices_each": [
+    338,
+    338,
+    338,
+    338,
+    338,
+    338
+   ]
+  },
+  {
+   "item": "hub",
+   "n": 5,
+   "label": "Overall length",
+   "text": "9.2",
+   "a": {
+    "face": [
+     4.5,
+     -4.6,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     9.53,
+     4.6,
+     5.5
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "setscrew",
+   "n": 1,
+   "label": "Thread",
+   "text": "M3",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -4.0,
+    4.0
+   ]
+  },
+  {
+   "item": "setscrew",
+   "n": 2,
+   "label": "Flange screw (as modelled)",
+   "text": "8",
+   "a": {
+    "face": [
+     0.0,
+     2.3,
+     -4.0
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     0.0,
+     2.3,
+     4.0
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "setscrew",
+   "n": 3,
+   "label": "Boss screw (as modelled)",
+   "text": "3",
+   "a": {
+    "face": [
+     0.0,
+     -2.3,
+     -4.0
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     0.0,
+     -2.3,
+     -1.0
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "6800ZZ",
+   "n": 1,
+   "label": "Bore d",
+   "text": "Ø10",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -2.5,
+    2.5
+   ]
+  },
+  {
+   "item": "6800ZZ",
+   "n": 2,
+   "label": "Outside D",
+   "text": "Ø19",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -2.5,
+    2.5
+   ]
+  },
+  {
+   "item": "6800ZZ",
+   "n": 3,
+   "label": "Width B",
+   "text": "5",
+   "a": {
+    "face": [
+     9.15,
+     -2.5,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     9.15,
+     2.5,
+     0.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "624ZZ",
+   "n": 1,
+   "label": "Bore d",
+   "text": "Ø4",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -2.5,
+    2.5
+   ]
+  },
+  {
+   "item": "624ZZ",
+   "n": 2,
+   "label": "Outside D",
+   "text": "Ø13",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -2.5,
+    2.5
+   ]
+  },
+  {
+   "item": "624ZZ",
+   "n": 3,
+   "label": "Width B",
+   "text": "5",
+   "a": {
+    "face": [
+     6.15,
+     -2.5,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     6.15,
+     2.5,
+     0.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "608ZZ",
+   "n": 1,
+   "label": "Bore d",
+   "text": "Ø8",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -3.5,
+    3.5
+   ]
+  },
+  {
+   "item": "608ZZ",
+   "n": 2,
+   "label": "Outside D",
+   "text": "Ø22",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -3.5,
+    3.5
+   ]
+  },
+  {
+   "item": "608ZZ",
+   "n": 3,
+   "label": "Width B",
+   "text": "7",
+   "a": {
+    "face": [
+     10.65,
+     -3.5,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     10.65,
+     3.5,
+     0.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "pin8",
+   "n": 1,
+   "label": "Diameter",
+   "text": "Ø8",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -27.5,
+    27.5
+   ]
+  },
+  {
+   "item": "pin8",
+   "n": 2,
+   "label": "Length",
+   "text": "55",
+   "a": {
+    "face": [
+     2.0,
+     -27.5,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     2.0,
+     27.5,
+     0.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "M4x70",
+   "n": 1,
+   "label": "Head",
+   "text": "Ø7 × 4",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -37.0,
+    -33.0
+   ]
+  },
+  {
+   "item": "M4x70",
+   "n": 2,
+   "label": "Thread",
+   "text": "M4",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -33.0,
+    37.0
+   ]
+  },
+  {
+   "item": "M4x70",
+   "n": 3,
+   "label": "Length under the head",
+   "text": "70",
+   "a": {
+    "face": [
+     2.75,
+     -33.0,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     1.0,
+     37.0,
+     0.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "nyloc",
+   "n": 1,
+   "label": "Across flats",
+   "text": "7 AF",
+   "a": {
+    "face": [
+     0.0,
+     0.0,
+     -3.5
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     0.0,
+     0.0,
+     3.5
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "nyloc",
+   "n": 2,
+   "label": "Height",
+   "text": "5",
+   "a": {
+    "face": [
+     3.0,
+     -2.5,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     3.0,
+     2.5,
+     0.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "nyloc",
+   "n": 3,
+   "label": "Thread",
+   "text": "M4",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -2.5,
+    2.5
+   ]
+  },
+  {
+   "item": "M3x6",
+   "n": 1,
+   "label": "Head",
+   "text": "Ø5.5 × 3",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    1.5,
+    4.5
+   ]
+  },
+  {
+   "item": "M3x6",
+   "n": 2,
+   "label": "Thread",
+   "text": "M3",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -4.5,
+    1.5
+   ]
+  },
+  {
+   "item": "M3x6",
+   "n": 3,
+   "label": "Length under the head",
+   "text": "6",
+   "a": {
+    "face": [
+     2.125,
+     1.5,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     0.75,
+     -4.5,
+     0.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "M3x25",
+   "n": 1,
+   "label": "Head",
+   "text": "Ø5.5 × 3",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    11.0,
+    14.0
+   ]
+  },
+  {
+   "item": "M3x25",
+   "n": 2,
+   "label": "Thread",
+   "text": "M3",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -14.0,
+    11.0
+   ]
+  },
+  {
+   "item": "M3x25",
+   "n": 3,
+   "label": "Length under the head",
+   "text": "25",
+   "a": {
+    "face": [
+     2.125,
+     11.0,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     0.75,
+     -14.0,
+     0.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "M3x50",
+   "n": 1,
+   "label": "Head",
+   "text": "Ø5.5 × 3",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    23.5,
+    26.5
+   ]
+  },
+  {
+   "item": "M3x50",
+   "n": 2,
+   "label": "Thread",
+   "text": "M3",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -26.5,
+    23.5
+   ]
+  },
+  {
+   "item": "M3x50",
+   "n": 3,
+   "label": "Length under the head",
+   "text": "50",
+   "a": {
+    "face": [
+     2.125,
+     23.5,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     0.75,
+     -26.5,
+     0.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "M3x8",
+   "n": 1,
+   "label": "Head",
+   "text": "Ø5.7 × 1.65",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -4.825,
+    -3.175
+   ]
+  },
+  {
+   "item": "M3x8",
+   "n": 2,
+   "label": "Thread",
+   "text": "M3",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -3.175,
+    4.825
+   ]
+  },
+  {
+   "item": "M3x8",
+   "n": 3,
+   "label": "Length under the head",
+   "text": "8",
+   "a": {
+    "face": [
+     2.175,
+     -3.175,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     0.75,
+     4.825,
+     0.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "insert",
+   "n": 1,
+   "label": "Hole it goes in (as modelled)",
+   "text": "Ø4 × 5.7",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -2.85,
+    2.85
+   ]
+  },
+  {
+   "item": "insert",
+   "n": 2,
+   "label": "Thread",
+   "text": "M3",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -2.85,
+    2.85
+   ]
+  },
+  {
+   "item": "bushing",
+   "n": 1,
+   "label": "Outside",
+   "text": "Ø6",
+   "vertices": 160,
+   "max_gap_deg": 9.0,
+   "axial": [
+    -8.5,
+    8.5
+   ]
+  },
+  {
+   "item": "bushing",
+   "n": 2,
+   "label": "Bore",
+   "text": "Ø3.1",
+   "vertices": 160,
+   "max_gap_deg": 9.0,
+   "axial": [
+    -8.5,
+    8.5
+   ]
+  },
+  {
+   "item": "bushing",
+   "n": 3,
+   "label": "Length",
+   "text": "17",
+   "a": {
+    "face": [
+     2.3,
+     -8.5,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     2.3,
+     8.5,
+     0.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "clip",
+   "n": 1,
+   "label": "Outside (as modelled)",
+   "text": "Ø6",
+   "vertices": 172,
+   "max_gap_deg": 60.0,
+   "axial": [
+    -0.3,
+    0.3
+   ]
+  },
+  {
+   "item": "clip",
+   "n": 2,
+   "label": "Thickness (as modelled)",
+   "text": "0.6",
+   "a": {
+    "face": [
+     -2.099,
+     -0.3,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     -2.099,
+     0.3,
+     0.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "M4x25",
+   "n": 1,
+   "label": "Head",
+   "text": "Ø7 × 4",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -14.5,
+    -10.5
+   ]
+  },
+  {
+   "item": "M4x25",
+   "n": 2,
+   "label": "Thread",
+   "text": "M4",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -10.5,
+    14.5
+   ]
+  },
+  {
+   "item": "M4x25",
+   "n": 3,
+   "label": "Length under the head",
+   "text": "25",
+   "a": {
+    "face": [
+     2.75,
+     -10.5,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     1.0,
+     14.5,
+     0.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "washer4",
+   "n": 1,
+   "label": "Outside",
+   "text": "Ø9",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -0.4,
+    0.4
+   ]
+  },
+  {
+   "item": "washer4",
+   "n": 2,
+   "label": "Bore",
+   "text": "Ø4.4",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -0.4,
+    0.4
+   ]
+  },
+  {
+   "item": "washer4",
+   "n": 3,
+   "label": "Thickness",
+   "text": "0.8",
+   "a": {
+    "face": [
+     3.3,
+     -0.4,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     3.3,
+     0.4,
+     0.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "nut4",
+   "n": 1,
+   "label": "Across flats",
+   "text": "7 AF",
+   "a": {
+    "face": [
+     0.0,
+     0.0,
+     -3.5
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     0.0,
+     0.0,
+     3.5
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "nut4",
+   "n": 2,
+   "label": "Height",
+   "text": "3.2",
+   "a": {
+    "face": [
+     3.0,
+     -1.6,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     3.0,
+     1.6,
+     0.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "nut4",
+   "n": 3,
+   "label": "Thread",
+   "text": "M4",
+   "vertices": 338,
+   "max_gap_deg": 4.3,
+   "axial": [
+    -1.6,
+    1.6
+   ]
+  },
+  {
+   "item": "dummy",
+   "n": 1,
+   "label": "Diameter",
+   "text": "Ø3",
+   "vertices": 160,
+   "max_gap_deg": 9.0,
+   "axial": [
+    -12.0,
+    12.0
+   ]
+  },
+  {
+   "item": "dummy",
+   "n": 2,
+   "label": "Length",
+   "text": "24",
+   "a": {
+    "face": [
+     0.7,
+     -12.0,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     0.7,
+     12.0,
+     0.0
+    ],
+    "axis": "y"
+   }
+  }
+ ],
+ "spring": {
+  "catalogue": {
+   "od": 15.239999999999998,
+   "wire": 1.8287999999999998,
+   "free": 38.099999999999994,
+   "solid": 17.018,
+   "rate": 6.285302095433072,
+   "max_load": 117.788907968,
+   "set": 25.8,
+   "recoil": 4.2
+  },
+  "cad_fitted": {
+   "x0": 28.0,
+   "y": 0.0,
+   "z": 44.3205,
+   "length": 25.8,
+   "od": 15.24
+  }
+ },
+ "context": {
+  "module_instances": 275,
+  "module_items": {
+   "J901": 1,
+   "J909": 1,
+   "J902": 1,
+   "J903": 1,
+   "J904": 7,
+   "J906": 1,
+   "J907": 2,
+   "J908": 1,
+   "motor": 4,
+   "M3x6": 4,
+   "M3x50": 1,
+   "hub": 1,
+   "M3x25": 3,
+   "setscrew": 2,
+   "6800ZZ": 3,
+   "624ZZ": 42,
+   "M4x70": 7,
+   "nyloc": 7,
+   "pin8": 1,
+   "608ZZ": 6,
+   "insert": 4,
+   "M3x8": 4,
+   "J910": 34,
+   "trackpin": 34,
+   "bushing": 34,
+   "clip": 68,
+   "spring": 1
+  },
+  "x1_instances": 33,
+  "x1_items": {
+   "X101": 1,
+   "M4x25": 8,
+   "washer4": 16,
+   "nut4": 8
+  }
+ },
+ "geometry": {
+  "meshes": 78,
+  "triangles": 156172
+ },
+ "outputs_sha256": {
+  "parts_showcase.html": "b9a3af2b8e7d30168014b0444021785a21973db4833d08b9fbeaea9c8c79633b"
+ },
+ "pass": true
+}

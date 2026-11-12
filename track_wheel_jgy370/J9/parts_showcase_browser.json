@@ -1,0 +1,539 @@
+{
+ "pass": true,
+ "html_sha256": "b9a3af2b8e7d30168014b0444021785a21973db4833d08b9fbeaea9c8c79633b",
+ "checker_sha256": "2a2ab799c13b415756d83960703b3c601dec035aa2b7a0a3617f0b457f3e0478",
+ "items": {
+  "J901": {
+   "coverage": 0.0946,
+   "labels_key": 13,
+   "labels_all": 31,
+   "cut_face_px": 2277,
+   "bed": {
+    "left": {
+     "size": [
+      274.899,
+      63.641,
+      65.5
+     ],
+     "min_z": 0
+    },
+    "right": {
+     "size": [
+      274.899,
+      63.641,
+      65.5
+     ],
+     "min_z": 0
+    }
+   },
+   "track": {
+    "left": 1,
+    "right": 1
+   }
+  },
+  "J909": {
+   "coverage": 0.0507,
+   "labels_key": 8,
+   "labels_all": 11,
+   "cut_face_px": 170,
+   "bed": {
+    "left": {
+     "size": [
+      286.899,
+      67,
+      27
+     ],
+     "min_z": 0
+    },
+    "right": {
+     "size": [
+      286.899,
+      67,
+      27
+     ],
+     "min_z": 0
+    }
+   },
+   "track": {
+    "left": 1,
+    "right": 1
+   }
+  },
+  "J902": {
+   "coverage": 0.1154,
+   "labels_key": 9,
+   "labels_all": 13,
+   "cut_face_px": 11268,
+   "bed": {
+    "left": {
+     "size": [
+      81.641,
+      81.641,
+      23.3
+     ],
+     "min_z": 0
+    }
+   },
+   "track": {
+    "left": 1
+   }
+  },
+  "J903": {
+   "coverage": 0.1146,
+   "labels_key": 5,
+   "labels_all": 5,
+   "cut_face_px": 21611,
+   "bed": {
+    "left": {
+     "size": [
+      9.948,
+      9.949,
+      26.5
+     ],
+     "min_z": 0
+    }
+   },
+   "track": {
+    "left": 1
+   }
+  },
+  "J904": {
+   "coverage": 0.133,
+   "labels_key": 7,
+   "labels_all": 8,
+   "cut_face_px": 19333,
+   "bed": {
+    "left": {
+     "size": [
+      25.994,
+      25.997,
+      46
+     ],
+     "min_z": 0
+    }
+   },
+   "track": {
+    "left": 7
+   }
+  },
+  "J906": {
+   "coverage": 0.1606,
+   "labels_key": 6,
+   "labels_all": 10,
+   "cut_face_px": 17672,
+   "bed": {
+    "left": {
+     "size": [
+      70.458,
+      70.466,
+      46
+     ],
+     "min_z": 0
+    }
+   },
+   "track": {
+    "left": 1
+   }
+  },
+  "J907": {
+   "coverage": 0.1635,
+   "labels_key": 5,
+   "labels_all": 5,
+   "cut_face_px": 10124,
+   "bed": {
+    "left": {
+     "size": [
+      10.998,
+      10.999,
+      13.9
+     ],
+     "min_z": 0
+    }
+   },
+   "track": {
+    "left": 2
+   }
+  },
+  "J908": {
+   "coverage": 0.0963,
+   "labels_key": 7,
+   "labels_all": 9,
+   "cut_face_px": 1390,
+   "bed": {
+    "left": {
+     "size": [
+      68.095,
+      54,
+      16
+     ],
+     "min_z": 0
+    }
+   },
+   "track": {
+    "left": 1
+   }
+  },
+  "J910": {
+   "coverage": 0.0707,
+   "labels_key": 6,
+   "labels_all": 13,
+   "cut_face_px": 5738,
+   "bed": {
+    "left": {
+     "size": [
+      27.997,
+      70,
+      11
+     ],
+     "min_z": 0
+    }
+   },
+   "track": {
+    "left": 34
+   }
+  },
+  "X101": {
+   "coverage": 0.0857,
+   "labels_key": 7,
+   "labels_all": 8,
+   "cut_face_px": 1068,
+   "bed": {
+    "left": {
+     "size": [
+      155,
+      275,
+      51
+     ],
+     "min_z": 0
+    }
+   },
+   "track": {
+    "left": 1
+   }
+  },
+  "motor": {
+   "coverage": 0.1024,
+   "labels_key": 7,
+   "labels_all": 12,
+   "cut_face_px": 9479,
+   "track": {
+    "left": 1
+   }
+  },
+  "hub": {
+   "coverage": 0.131,
+   "labels_key": 4,
+   "labels_all": 5,
+   "cut_face_px": 8023,
+   "track": {
+    "left": 1
+   }
+  },
+  "setscrew": {
+   "coverage": 0.1075,
+   "labels_key": 3,
+   "labels_all": 3,
+   "cut_face_px": 36747,
+   "track": {
+    "left": 2
+   }
+  },
+  "6800ZZ": {
+   "coverage": 0.1311,
+   "labels_key": 3,
+   "labels_all": 3,
+   "cut_face_px": 7776,
+   "track": {
+    "left": 1
+   }
+  },
+  "624ZZ": {
+   "coverage": 0.1523,
+   "labels_key": 3,
+   "labels_all": 3,
+   "cut_face_px": 16125,
+   "track": {
+    "left": 14
+   }
+  },
+  "608ZZ": {
+   "coverage": 0.1464,
+   "labels_key": 3,
+   "labels_all": 3,
+   "cut_face_px": 12684,
+   "track": {
+    "left": 2
+   }
+  },
+  "pin8": {
+   "coverage": 0.0447,
+   "labels_key": 2,
+   "labels_all": 2,
+   "cut_face_px": 19671,
+   "track": {
+    "left": 1
+   }
+  },
+  "spring": {
+   "coverage": 0.0949,
+   "labels_key": 2,
+   "labels_all": 2,
+   "cut_face_px": 1445,
+   "spring": {
+    "free": [
+     38.1,
+     15.24,
+     15.24
+    ],
+    "set": [
+     25.8,
+     15.24,
+     15.24
+    ],
+    "stop": [
+     21.6,
+     15.24,
+     15.24
+    ]
+   },
+   "track": {
+    "left": 1
+   }
+  },
+  "M4x70": {
+   "coverage": 0.0176,
+   "labels_key": 3,
+   "labels_all": 3,
+   "cut_face_px": 7675,
+   "track": {
+    "left": 7
+   }
+  },
+  "nyloc": {
+   "coverage": 0.164,
+   "labels_key": 2,
+   "labels_all": 3,
+   "cut_face_px": 14913,
+   "track": {
+    "left": 7
+   }
+  },
+  "M3x6": {
+   "coverage": 0.1112,
+   "labels_key": 3,
+   "labels_all": 3,
+   "cut_face_px": 34951,
+   "track": {
+    "left": 4
+   }
+  },
+  "M3x25": {
+   "coverage": 0.0389,
+   "labels_key": 3,
+   "labels_all": 3,
+   "cut_face_px": 15464,
+   "track": {
+    "left": 3
+   }
+  },
+  "M3x50": {
+   "coverage": 0.0193,
+   "labels_key": 3,
+   "labels_all": 3,
+   "cut_face_px": 8200,
+   "track": {
+    "left": 1
+   }
+  },
+  "M3x8": {
+   "coverage": 0.0939,
+   "labels_key": 3,
+   "labels_all": 3,
+   "cut_face_px": 28670,
+   "track": {
+    "left": 4
+   }
+  },
+  "insert": {
+   "coverage": 0.1544,
+   "labels_key": 1,
+   "labels_all": 2,
+   "cut_face_px": 12282,
+   "track": {
+    "left": 4
+   }
+  },
+  "trackpin": {
+   "coverage": 0.0163,
+   "cut_face_px": 7511,
+   "track": {
+    "left": 34
+   }
+  },
+  "bushing": {
+   "coverage": 0.1024,
+   "labels_key": 3,
+   "labels_all": 3,
+   "cut_face_px": 19165,
+   "track": {
+    "left": 34
+   }
+  },
+  "clip": {
+   "coverage": 0.0864,
+   "labels_key": 2,
+   "labels_all": 2,
+   "cut_face_px": 3759,
+   "track": {
+    "left": 68
+   }
+  },
+  "M4x25": {
+   "coverage": 0.0473,
+   "labels_key": 3,
+   "labels_all": 3,
+   "cut_face_px": 18694,
+   "track": {
+    "left": 8
+   }
+  },
+  "washer4": {
+   "coverage": 0.1026,
+   "labels_key": 3,
+   "labels_all": 3,
+   "cut_face_px": 3094,
+   "track": {
+    "left": 16
+   }
+  },
+  "nut4": {
+   "coverage": 0.1488,
+   "labels_key": 2,
+   "labels_all": 3,
+   "cut_face_px": 10671,
+   "track": {
+    "left": 8
+   }
+  },
+  "bench0": {
+   "model": false
+  },
+  "bench1": {
+   "model": false
+  },
+  "bench2": {
+   "model": false
+  },
+  "bench3": {
+   "model": false
+  },
+  "tool0": {
+   "model": false
+  },
+  "tool1": {
+   "model": false
+  },
+  "tool2": {
+   "model": false
+  },
+  "tool3": {
+   "model": false
+  },
+  "tool4": {
+   "model": false
+  },
+  "tool5": {
+   "model": false
+  },
+  "tool6": {
+   "model": false
+  },
+  "dummy": {
+   "coverage": 0.0384,
+   "labels_key": 2,
+   "labels_all": 2,
+   "cut_face_px": 17096
+  },
+  "tool8": {
+   "model": false
+  }
+ },
+ "load_seconds": 3.081,
+ "kit": {
+  "csv_rows": 37,
+  "kit_entries": 35,
+  "tools": 9,
+  "page_items": 44
+ },
+ "overview_coverage": 0.2731,
+ "click_identify": {
+  "overview": "J901",
+  "track_view": "J901"
+ },
+ "filters": {
+  "print": 10,
+  "buy": 21,
+  "chain": 5,
+  "none": 12
+ },
+ "search_608": [
+  "J906",
+  "J907",
+  "608ZZ",
+  "tool3"
+ ],
+ "search_m3x25": [
+  "M3x25"
+ ],
+ "thumbnails": {
+  "n": 33,
+  "cards": 33
+ },
+ "screenshots": {
+  "showcase_overview": {
+   "file": "images/showcase_overview.png",
+   "sha256": "aa7589e70d6de552dd56122d01cf847fe030bcde46dd2643923e8bae26782a64"
+  },
+  "showcase_J901": {
+   "file": "images/showcase_J901.png",
+   "sha256": "9a37e0b4ebb94376dfb1683fe77e22ec224ebcb9b3e591430cb04f024406a3f8"
+  },
+  "showcase_J902_all": {
+   "file": "images/showcase_J902_all.png",
+   "sha256": "9eb2c7b598a55e731ae729addf63e3324a25ddb8134a3c7298c9e3328445a575"
+  },
+  "showcase_J906_cut": {
+   "file": "images/showcase_J906_cut.png",
+   "sha256": "7998329059a8b941b5660b8ca05f777005cdd50ba1e52b68afbf48510581d24b"
+  },
+  "showcase_J904_track": {
+   "file": "images/showcase_J904_track.png",
+   "sha256": "85c265e6fc67ec919effcebd2b67e83b0762a8b1472c6f85d0242f9197608efe"
+  },
+  "showcase_J909_right": {
+   "file": "images/showcase_J909_right.png",
+   "sha256": "bcc9b184d0caaf61ed18d4d8da8b0a0f3d112186c268417d6c7df50629327775"
+  },
+  "showcase_spring": {
+   "file": "images/showcase_spring.png",
+   "sha256": "08dbd0d6f9b63a6296b83f54a94f04eabdfbb1187a0e6d23773453be5444c981"
+  },
+  "showcase_X101_joint": {
+   "file": "images/showcase_X101_joint.png",
+   "sha256": "a76607a9056e8fd6ec175b799b5175e3ebe3fc7ed24c759c44bdb0d0c2aaea90"
+  },
+  "showcase_phone": {
+   "file": "images/showcase_phone.png",
+   "sha256": "46854823062060e34bb7a7b7e2e64085e4f72067ebd1d55ef2b29975350e7571"
+  }
+ },
+ "phone": {
+  "sw": 390,
+  "iw": 390,
+  "list": "flex",
+  "labels": 8
+ },
+ "problems": [],
+ "errors": [],
+ "network": []
+}
