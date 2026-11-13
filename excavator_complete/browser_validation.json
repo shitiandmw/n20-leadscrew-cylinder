@@ -67,20 +67,20 @@
     "hatch"
    ],
    "visible_after_each_step": [
-    348,
-    392,
-    467,
-    542,
-    675,
-    682,
-    701,
+    346,
+    390,
+    465,
+    540,
+    673,
+    680,
+    699,
+    716,
     718,
-    720,
-    736,
-    744,
-    759,
-    768,
-    772
+    734,
+    742,
+    757,
+    766,
+    770
    ],
    "labels_per_step": [
     0,
@@ -98,7 +98,7 @@
     3,
     1
    ],
-   "meshes": 772,
+   "meshes": 770,
    "pass": true
   },
   "connectors": {
@@ -121,7 +121,7 @@
     "FUSE": 1
    },
    "catalogue_types": 18,
-   "markers_all": 377,
+   "markers_all": 375,
    "markers_bearings": 36,
    "pass": true
   },
@@ -300,143 +300,143 @@
   {
    "file": "images/complete_iso.png",
    "bytes": 324830,
-   "seconds": 130
+   "seconds": 127.118
   },
   {
    "file": "images/complete_side_dig.png",
-   "bytes": 203501,
-   "seconds": 11.718
+   "bytes": 203503,
+   "seconds": 10.978
   },
   {
    "file": "images/complete_dump_left.png",
    "bytes": 349951,
-   "seconds": 16.896
+   "seconds": 14.609
   },
   {
    "file": "images/complete_front.png",
    "bytes": 180569,
-   "seconds": 11.987
+   "seconds": 12.305
   },
   {
    "file": "images/complete_rear.png",
-   "bytes": 344494,
-   "seconds": 15.207
+   "bytes": 344543,
+   "seconds": 24.078
   },
   {
    "file": "images/complete_top.png",
-   "bytes": 178595,
-   "seconds": 12.914
+   "bytes": 178580,
+   "seconds": 20.526
   },
   {
    "file": "images/arm_mount.png",
-   "bytes": 326516,
-   "seconds": 14.696
+   "bytes": 326517,
+   "seconds": 28.397
   },
   {
    "file": "images/inside_body.png",
    "bytes": 375392,
-   "seconds": 14.994
+   "seconds": 17.993
   },
   {
    "file": "images/harness.png",
    "bytes": 421045,
-   "seconds": 16.399
+   "seconds": 15.906
   },
   {
    "file": "images/harness_boom_down.png",
    "bytes": 387291,
-   "seconds": 16.709
+   "seconds": 16.097
   },
   {
    "file": "images/connectors_board_plugs.png",
    "bytes": 457189,
-   "seconds": 10
+   "seconds": 11.706
   },
   {
    "file": "images/battery_pack.png",
    "bytes": 374870,
-   "seconds": 11.087
+   "seconds": 11.503
   },
   {
    "file": "images/joint_feed_xt30.png",
    "bytes": 300310,
-   "seconds": 4.699
+   "seconds": 4.495
   },
   {
    "file": "images/joint_sm_left_track.png",
    "bytes": 131114,
-   "seconds": 1.089
+   "seconds": 1.283
   },
   {
    "file": "images/toolbox_switch_fuse_jack.png",
    "bytes": 195170,
-   "seconds": 4.112
+   "seconds": 3.997
   },
   {
    "file": "images/standard_parts_bearings.png",
    "bytes": 332905,
-   "seconds": 14.306
+   "seconds": 14.101
   },
   {
    "file": "images/standard_parts_all.png",
-   "bytes": 231187,
-   "seconds": 6.303
+   "bytes": 231272,
+   "seconds": 6.601
   },
   {
    "file": "images/install_plugs.png",
    "bytes": 455532,
-   "seconds": 10.097
+   "seconds": 9.524
   },
   {
    "file": "images/install_pack.png",
    "bytes": 280556,
-   "seconds": 7.2
+   "seconds": 8.1
   },
   {
    "file": "images/install_cells.png",
    "bytes": 268248,
-   "seconds": 7.603
+   "seconds": 8.186
   },
   {
    "file": "images/install_hatch.png",
    "bytes": 475819,
-   "seconds": 14.102
+   "seconds": 14.594
   },
   {
    "file": "images/install_right_parts.png",
    "bytes": 405034,
-   "seconds": 17.896
+   "seconds": 15.011
   },
   {
    "file": "images/cab.png",
    "bytes": 343350,
-   "seconds": 20.187
+   "seconds": 15.184
   },
   {
    "file": "images/exploded.png",
    "bytes": 216182,
-   "seconds": 13.615
+   "seconds": 11.716
   },
   {
    "file": "images/assembly_step2_xframe.png",
    "bytes": 256786,
-   "seconds": 11.004
+   "seconds": 9.005
   },
   {
    "file": "images/assembly_step5_arm.png",
    "bytes": 305694,
-   "seconds": 6.991
+   "seconds": 11.502
   },
   {
    "file": "images/connectors_gallery.png",
    "bytes": 373782,
-   "seconds": 2.581
+   "seconds": 2.157
   }
  ],
- "sha256": "daf4be11d94c6296286a3cac1a0b3572286d97beb43b6f04b933799b8e1155e7",
+ "sha256": "24f221e78036aa53ec32eb3d5c133f9cca4c25828237e4115977ab03db9774dc",
  "size_mb": 21.1,
- "load_s": 8.583,
- "meshes": 772,
+ "load_s": 8.305,
+ "meshes": 770,
  "timeline": {
   "shown_s": 48.135,
   "real_s": 658.7,

@@ -17,7 +17,9 @@ import build_track_wheel as export
 ROOT = P.ROOT
 PETG_G_MM3 = 1.27e-3
 KGF_CM = .0980665                       # N m
-VENDOR_HUB = ROOT.parent / 'references/pololu_1999/pololu-universal-aluminum-mounting-hub-for-6mm-shaft-m3-holes.step'
+# Seller drawing of the Ø32 / Ø6 flange coupling; every value confirmed on the part by the user on 2026-11-12.
+SELLER_HUB = dict(flange_d=32.0, flange_t=4.0, boss_d=14.0, overall=14.0, bore_d=6.0, holes=6, hole_circle_d=23.0,
+                  set_screw_from_boss_end=5.0, drawing='track_wheel_jgy370/references/flange_coupling_32/seller_drawing.jpg')
 # Shop listing options (no-load rpm, rated kg cm) from the user's screenshot; matched to the ZENG WHCD 12 V tables.
 LISTING = [(375, 1.2), (210, 1.7), (150, 1.2), (90, 2.0), (68, 2.8), (40, 4.5), (30, 6.0), (18, 12.0), (6, 25.0)]
 CHOSEN = dict(listing='12V 电机 (motor only) + 每分钟/30转 6KG.CM', model='JGY-370-1260', voltage_V=12, ratio=200)
@@ -25,7 +27,7 @@ CAT320_TOP_KMH, SCALE = 5.7, 15         # Cat 320 spec sheet p. 2; the 60 mm exc
 OLD_BORE_L = 9.1                        # printed D-bore engagement of the 2026-11-02 sprocket (superseded)
 PRINT = {   # axis, angle: how each part lies on the bed
     'J901_H_frame': ((1, 0, 0), -90, 'outer wall face on the bed; support under the inner wall overhangs'),
-    'J902_sprocket': ((1, 0, 0), -90, 'outer disc face on the bed, hub up; no supports'),
+    'J902_sprocket': ((1, 0, 0), -90, 'outer disc face on the bed, recess ring and pad up; no supports'),
     'J903_journal_plug': ((1, 0, 0), -90, 'standing on its end'),
     'J904_roller': ((1, 0, 0), -90, 'on a flange face; no supports'),
     'J906_idler_wheel': ((1, 0, 0), -90, 'as J8 07_idler_wheel'),
@@ -66,23 +68,41 @@ def export_parts(prt):
     return rows
 
 
-def vendor_hub_check():
-    """Place Pololu's own STEP in the J9 pose and compare it with the modelled hub (Ø2.5 tap holes, as the vendor)."""
-    if not VENDOR_HUB.exists():
-        return dict(skipped=f'vendor STEP not found at {VENDOR_HUB}', ok=True)
-    v = cq.importers.importStep(str(VENDOR_HUB)).val()
-    v = v.rotate(cq.Vector(0, 0, 0), cq.Vector(0, 0, 1), 30).rotate(cq.Vector(0, 0, 0), cq.Vector(1, 0, 0), 90)
-    v = v.translate(cq.Vector(D.DRIVE_X, D.HUB_FACE_Y - D.HUB['flange_t']/2, D.AXLE_Z))
-    m = P.one(P.pololu_hub(D.HUB['tap_r']))
-    bv, bm = v.BoundingBox(), m.BoundingBox()
-    dev = max(abs(a - b) for a, b in zip((bv.xmin, bv.xmax, bv.ymin, bv.ymax, bv.zmin, bv.zmax),
-                                         (bm.xmin, bm.xmax, bm.ymin, bm.ymax, bm.zmin, bm.zmax)))
-    only_v, only_m = v.cut(m).Volume(), m.cut(v).Volume()
-    return dict(file=str(VENDOR_HUB.relative_to(P.REPO)), vendor_volume_mm3=round(v.Volume(), 1), model_volume_mm3=round(m.Volume(), 1),
-                bbox_max_deviation_mm=round(dev, 4), vendor_not_in_model_mm3=round(only_v, 2), model_not_in_vendor_mm3=round(only_m, 2),
-                note='Model has sharp edges where the vendor STEP has chamfers, so only model-not-in-vendor volume is expected. '
-                     'A misplaced hole or set screw would show up in both directions.',
-                ok=dev < .02 and only_v < 1.0 and only_m < 30.0)
+def coupling_check():
+    """Probe the modelled coupling (J9 pose) against the seller drawing's values: outline, flange thickness, boss, bore,
+    six holes on the hole circle, and the set screw 5 mm from the boss end, halfway between two holes."""
+    S = SELLER_HUB
+    m = P.one(P.flange_coupling())
+    bb = m.BoundingBox()
+    face = D.HUB_FACE_Y; back = face - S['flange_t']; end = face - S['overall']; ys = end + S['set_screw_from_boss_end']
+
+    def solid(r, deg, y):
+        a = math.radians(deg)
+        return m.isInside(cq.Vector(D.DRIVE_X + r*math.cos(a), y, D.AXLE_Z + r*math.sin(a)))
+    e = .05
+    probes = dict(
+        outline=abs(bb.xlen - S['flange_d']) < 1e-3 and abs(bb.zlen - S['flange_d']) < 1e-3 and abs(bb.ylen - S['overall']) < 1e-3,
+        flange=(solid(S['flange_d']/2 - e, 30, back + e) and solid(S['flange_d']/2 - e, 30, face - e)
+                and not solid(S['flange_d']/2 - e, 30, back - e) and not solid(S['flange_d']/2 + e, 30, face - e)),
+        boss=solid(S['boss_d']/2 - e, 30, end + e) and not solid(S['boss_d']/2 + e, 30, end + e),
+        bore=(not solid(S['bore_d']/2 - e, 30, end + 1) and solid(S['bore_d']/2 + e, 30, end + 1)
+              and not solid(S['bore_d']/2 - e, 30, face - 1)),
+        holes=all(not solid(S['hole_circle_d']/2, a, back + 1) and solid(S['hole_circle_d']/2, a + 30, back + 1)
+                  for a in range(0, 360, 360//S['holes'])),
+        set_screw=(not solid(5.0, 90, ys) and solid(5.0, 90, ys + 2) and solid(5.0, 90, ys - 2) and solid(5.0, 270, ys)))
+    return dict(drawing=S['drawing'], seller_values=S, model_bbox_mm=[round(v, 3) for v in (bb.xlen, bb.ylen, bb.zlen)],
+                volume_mm3=round(m.Volume(), 1), aluminium_mass_g=round(m.Volume()*2.70e-3, 1), probes=probes,
+                ok=all(probes.values()))
+
+
+def hub_set_screws():
+    """Each coupling set screw: length, centre from the shaft tip, and whether its whole Ø3 tip lands on the D flat."""
+    rows = []
+    for d, l in D.HUB_SET_SCREWS:
+        c = D.SHAFT_TIP_Y - (D.HUB_FACE_Y - d)
+        rows.append(dict(length_mm=l, centre_from_shaft_tip_mm=round(c, 2),
+                         on_flat=bool(c - 1.5 >= 0 and c + 1.5 <= D.SHAFT_FLAT['length'])))
+    return rows
 
 
 def drive_option(r):
@@ -204,7 +224,7 @@ def main():
     seq['motor_screw_key_before_sprocket'] = [against(base, {'key': dict(shape=tp.ycyl(1.25, -22, 8, x, z), group='tool')}) for x, z in D.MOTOR_HOLES]
     # 2. Sprocket with its hub (bolted on at the bench) enters radially between the walls 9.6 mm outboard
     #    of its seat, then slides onto the shaft until its pad meets the shaft end.
-    spr_names = ['J902_sprocket', 'Pololu_1999_hub'] + [n for n in inst if n.startswith(('hub_screw_', 'hub_set_screw_'))]
+    spr_names = ['J902_sprocket', 'flange_coupling_32'] + [n for n in inst if n.startswith(('hub_screw_', 'hub_set_screw_'))]
     spr = {n: inst[n] for n in spr_names}
     fixed_drive = {**base, 'JGY370_output_shaft': inst['JGY370_output_shaft']}
     radial = []
@@ -245,7 +265,7 @@ def main():
     c['road roller flanges to web underside'] = round(D.WEB_Z[0] - (D.ROAD_Z + D.FLANGE_R), 3)
     c['support roller flanges to web top'] = round(D.CARRIER_Z - D.FLANGE_R - D.WEB_Z[1], 3)
     c['support rollers to H-frame (walls)'] = min(dist(H, inst[f'J904_roller_support{j}']['shape']) for j in range(2))
-    c['hub boss end to inner wall (1.0 by design)'] = dist(H, inst['Pololu_1999_hub']['shape'])
+    c['hub boss end to inner wall (1.0 by design)'] = dist(H, inst['flange_coupling_32']['shape'])
     c['sprocket to H-frame (tooth tips to the web end)'] = dist(H, inst['J902_sprocket']['shape'])
     c['hub and hub screw tips to motor screw heads'] = min(dist(inst[a]['shape'], inst[f'motor_screw_M3x6_{i}']['shape'])
                                                           for a in spr_names if not a.startswith('J902') for i in range(4))
@@ -293,17 +313,18 @@ def main():
     n = len(D.HUB_SCREW_DEG); rp = D.HUB['pcd_r']/1000
     boss_end = D.HUB_FACE_Y - D.HUB['flange_t'] - D.HUB['boss_h']
     screw_N = {k: round(pick[f'{k}_Nm']/(n*rp), 1) for k in ('rated', 'stall')}
+    tip = D.SPROCKET_Y[1] - P.M3_HEAD['h'] - D.HUB_SCREW_L
+    back = D.HUB_FACE_Y - D.HUB['flange_t']
     rep['drive_hub'] = dict(
-        part='Pololu #1999 universal aluminium mounting hub for 6 mm shaft, M3 holes (sold in pairs with 4 set screws)',
-        sources=['https://www.pololu.com/file/0J667/1999-6mm-m3-hub-dimensions.pdf',
-                 'https://www.pololu.com/file/0J1153/pololu-universal-aluminum-mounting-hub-for-6mm-shaft-m3-holes.step'],
-        vendor_step_check=vendor_hub_check(),
+        part='Ø32 / Ø6 aluminium flange coupling: flange Ø32 x 4 with 6 x M3 tapped holes on Ø23, boss Ø14 x 10, one M3 set screw',
+        sources=[SELLER_HUB['drawing'], 'Every value confirmed on the part by the user on 2026-11-12; the Pololu #1999 hub '
+                                        'used before could not be bought.'],
+        seller_drawing_check=coupling_check(),
         shaft_engagement_mm=round(D.SHAFT_TIP_Y - boss_end, 2),
         boss_end_to_wall_face_mm=round(boss_end + D.WALL_IN, 2),
-        set_screws=[dict(length_mm=l, centre_from_shaft_tip_mm=round(D.SHAFT_TIP_Y - (D.HUB_FACE_Y - d), 2),
-                         on_flat=bool(D.SHAFT_TIP_Y - (D.HUB_FACE_Y - d) - 1.5 >= 0 and D.SHAFT_TIP_Y - (D.HUB_FACE_Y - d) + 1.5 <= D.SHAFT_FLAT['length']))
-                    for d, l in D.HUB_SET_SCREWS],
-        sprocket_screws=dict(count=n, size='ISO 4762 M3 x 25', pitch_circle_mm=round(2*D.HUB['pcd_r'], 2), thread_in_hub_mm=D.HUB['flange_t'],
+        set_screws=hub_set_screws(),
+        sprocket_screws=dict(count=n, size=f'ISO 4762 M3 x {D.HUB_SCREW_L:g}', pitch_circle_mm=round(2*D.HUB['pcd_r'], 2),
+                             thread_in_hub_mm=round(D.HUB_FACE_Y - max(back, tip), 2), tip_past_flange_mm=round(back - tip, 2),
                              force_per_screw_N=screw_N, printed_hole_bearing_MPa={k: round(v/(3*3), 1) for k, v in screw_N.items()},
                              note='Chosen motor at rated and stall torque. Bearing on the printed hole wall over the first 3 mm next to '
                                   'the hub; clamping friction ignored.'),
@@ -311,13 +332,14 @@ def main():
                                 formula='p = 12 T / (L w^2): elastic, linear pressure over the loaded half of the flat',
                                 rated_MPa=pick['old_printed_D_flat_MPa_rated'], stall_MPa=pick['old_printed_D_flat_MPa_stall'],
                                 correction='The 2026-11-02 table used 6T/(L w^2), which understated the pressure by a factor of 2.'),
-        open='Pololu publishes no torque rating for the set screws on a D flat. Mark them and check after the first runs.')
+        open='The coupling has one set screw on the D flat (the Pololu hub had two) and no torque rating. Mark it and check it '
+             'after the first runs and after any stall.')
 
     runs = [rep['static'], rep['spring_at_recoil']] + rot + travel[:2] + phases + seq['motor_screw_key_before_sprocket'] + radial + axial + \
         seq['plug_insertion'] + seq['yoke_insertion'] + seq['housing_screw_driver'] + seq['roller_bolt_through_skirt'] + seq['nyloc_socket'] + \
         [seq['plug_screw_key']] + seq['hub_set_screw_key'] + seq['housing_fitting']
     stop_ok = bool(travel[2]['stop_hits']) and all('U_yoke' in h or 'H_frame' in h for h in travel[2]['stop_hits'])
-    hub_ok = rep['drive_hub']['vendor_step_check']['ok'] and all(s['on_flat'] for s in rep['drive_hub']['set_screws'])
+    hub_ok = rep['drive_hub']['seller_drawing_check']['ok'] and all(s['on_flat'] for s in rep['drive_hub']['set_screws'])
     rep['pass'] = all(not r['hits'] for r in runs) and stop_ok and hub_ok and D.check()['link_error_mm'] < 1e-9 and rep['spring_guide']['pass']
     rep['scope'] = ('Nominal CAD with exact solid intersections; sampled drive rotation, idler recoil, chain phases (conveyor '
                     'approximation on the wraps), assembly paths and tool access. Not a load, fatigue, print-tolerance or powered test.')

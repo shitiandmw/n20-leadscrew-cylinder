@@ -1,7 +1,7 @@
 {
  "pass": true,
- "html_sha256": "9252e7d2bf9402d34de1846d90c930ccaf6bc6088fe89e7ef32c99186fb2b49b",
- "scene_sha256": "e7653cdb978d6a2b0cb82047f959e9cd764cc5f05b8dee2a557fa903421d446e",
+ "html_sha256": "7dc8fc446466f98a0950f74c5998ff88d33dc53b7c198854a983d56eb50daa73",
+ "scene_sha256": "dd618fd7a7fdfb67785a0e26f6a3f733d1daf74d38e7bd6c7284dba1f417bf86",
  "checker_sha256": "57f1802e1d06704ab514a8cf8f91de1c1baf2f07b53e589ad528e5d0a5c24f31",
  "views": {
   "iso": "images/J9_iso.png",
@@ -15,28 +15,28 @@
   "outboard_half_pitch": "images/J9_outboard_half_pitch.png"
  },
  "screenshot_sha256": {
-  "iso": "12c25b226830826449919e27b7574d8e166444d61006b42774fc5f2ba6490fe6",
-  "outboard": "14e20d7077a45f3d560f2030c24c666079592cd393eec192fb81061a237fde46",
+  "iso": "25e33834f16b22268d4fb5bcad129a9aad0ac8d228de034b0b7e83b1193d09cf",
+  "outboard": "b25f2b442725f399329d0ab9057b77af3bed4d4d1805827b05b6f44e2a41d8e7",
   "inboard": "9f7abe6c8bf03dc6f0553ec59b1591ea6e1b4961a898b0d69b893d81f1d72f28",
   "pod": "f1ef6ed8fa45562f77f247abf07e6a9ae0eee11daae54b191c3e97dbf51ef19b",
   "top": "944d9904d7ef51ee233572474163dbd70daa44a4369229ff843db04524db6634",
-  "frame": "af20e6b6a915f4a8262ba4aa9c97297b1d469b20caa1cbf08f63233b2f845701",
+  "frame": "602e2b39aba4eafe22130bd4417070a97b2cd6ee0c37208f8fa714677186d5f9",
   "spring": "7ef8b8ba7cbc83190cdc2b62eb0ae3c89641444780230e910d752081fc12d427",
-  "exploded": "5a338c9c7fdc5364bec9253b0d7e2b6341e9e9589e5d67b55aed121570895e71",
-  "outboard_half_pitch": "5bbf50977047ec69ea1e883a9d5a9662ab1c55787acf1d77e4ee9931c711421f"
+  "exploded": "bede039111bd975c5bd57e70c951095fea719878e6ad8217a4823dbafab6d28f",
+  "outboard_half_pitch": "4e69984411ec965e1b388c2910b24d3fbc4dbcfebaf59f95544407e8480b3b35"
  },
  "state": {
   "view": "outboard",
   "phase": 0.5,
   "exploded": false,
   "track": true,
-  "meshes": 105,
+  "meshes": 104,
   "links": 34,
   "springSection": false,
   "springVisible": true
  },
  "spring_section_and_restoration": true,
- "run_phase_after_start": 0.7211599999999991,
+ "run_phase_after_start": 0.5175200000017881,
  "errors": [],
  "network": []
 }

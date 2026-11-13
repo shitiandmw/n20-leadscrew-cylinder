@@ -37,11 +37,11 @@ Materials and settings for the J9 parts are in [J9's BOM](../J9/BOM.md).
 | M3 × 8 countersunk screw (ISO 10642) | 4 | Belly cover, from below: 5 mm in the insert. |
 | M3 heat-set insert (hole Ø4.0 × 5.7, as J9) | 4 | Cover bosses inside the carbody. |
 
-## Bought for the two tracks: 106 pieces
+## Bought for the two tracks: 104 pieces
 
-These are two revised J9 sets of 53 pieces each; see [J9's BOM](../J9/BOM.md).
+These are two revised J9 sets of 52 pieces each; see [J9's BOM](../J9/BOM.md).
 - **Motors:** two JGY-370-1260 12 V 200:1 motors.
-- **Hubs:** one Pololu #1999 pack, which holds two hubs.
+- **Hubs:** two Ø32 / Ø6 aluminium flange couplings, one per sprocket, each with one M3 set screw. They replace the Pololu #1999 hubs, which could not be bought.
 - **No chassis-boss inserts:** the three M4 inserts per track were removed. The eight joint nuts are counted in X1 above.
 
 ## Track hardware (two J9 tracks)
@@ -70,5 +70,5 @@ These are two revised J9 sets of 53 pieces each; see [J9's BOM](../J9/BOM.md).
 |---|---|---|---|
 | Printed pieces (without the shoes) | 2 (X101, X102) | 30 (the right track's J901 and J909 are the mirrored prints) | 32 |
 | Track shoes | — | 68 | 68 |
-| Bought pieces (without the track hardware) | 73 (including RU66 and joint hardware) | 106 | 179 |
+| Bought pieces (without the track hardware) | 73 (including RU66 and joint hardware) | 104 | 177 |
 | Custom-machined parts | 0 | 0 | 0 |

@@ -51,6 +51,14 @@ The STEP for each print is in `step/` and the print-oriented STL in `stl/`. `ste
 | Slip ring (R2) | M3 × 8 socket; M3 washer; M3 heat-set insert in the collar | 3 each |
 | Bought assemblies | THK RU66 (in BOM.md), 6-way 2 A slip ring, a third JGY-370-1260 12 V 200:1 | 1 each |
 
+**T105 hub availability (2026-11-12).** The Pololu #1999 hub could not be bought. The Ø32 flange coupling now used on the J9 sprockets does not fit here: the shaft leaves 10.4 mm between the pinion and the gearbox boss, and the coupling is 14 mm long. Any substitute must be no bigger than:
+- flange Ø26 × 5.5;
+- boss Ø13;
+- 9.9 mm overall;
+- bore 6 mm.
+
+Its set screw must be in the flange, below the T102 slide: a set screw in the boss sits inside T102's Ø14 hole, where no key reaches it. Only T105's holes would then change. Until then, the CAD shows the Pololu hub.
+
 ## Assembly order (each step checked in CAD)
 
 1. **Slip ring.** X-frame upside down. Press 3 M3 inserts into the collar. Fit the slip ring with its TPU dog T106 on the rotor, then 3 × M3 × 8 with washers. Run the leads through the passage.

@@ -5,7 +5,7 @@
 **Status (revision F mounting interface):** J901 has plain 1.5 mm receiving seats for the flat ends of the straight X1 arms, with plain mounting holes and external nuts. A screw on each side of the arm's centre web clamps each connection. J909 has matching clearance openings. The accepted enclosed spring guide is retained. Current track verification and its fresh/inherited scope are recorded in [validation.json](validation.json). Chassis-connection checks are in [X1/arc_seat_mount_validation.json](../X1/arc_seat_mount_validation.json). Nothing has been printed, assembled or run under power yet.
 
 - **Motor:** the JGY-370-1260 12 V 200:1 (30 rpm), motor only. See [Motor choice](#motor-choice).
-- **Sprocket drive:** the sprocket now bolts to a bought Pololu #1999 aluminium hub on the D-shaft. The printed D-bore was too weak for any useful ratio. See [Drive hub](#drive-hub-replaces-the-printed-d-bore).
+- **Sprocket drive:** the sprocket now bolts to a bought Ø32 / Ø6 aluminium flange coupling on the D-shaft (a Pololu #1999 hub until 2026-11-12). The printed D-bore was too weak for any useful ratio. See [Drive hub](#drive-hub-replaces-the-printed-d-bore).
 - **Motor enclosure:** the housing now closes over the motor with a pod styled on the Cat 320's final drive. See [Motor enclosure](#motor-enclosure).
 - **Chassis interface (revision F):** two plain 1.5 mm deep rectangular seats in the inner main plate receive the flat ends of the X1 arms at X ±63.5. Two screws pass either side of each arm's centre web, with external washers and nuts behind the plate. Use matching revision F X101, J901 and J909 parts.
 - **Spring guide (rev B):** the tension spring is fully contained in a Ø16.4 axial pocket in the main web. An integral Ø15.6 piston on the yoke enters the pocket, retaining the original 25.8 mm spring length and 4.2 mm recoil.
@@ -94,24 +94,25 @@ The torque from any ratio slow enough for a track was too high for a printed D-b
 - **With the chosen motor:** the old 9.1 mm printed bore would see 71 MPa at rated torque and 235 MPa at stall. PETG yields at about 50 MPa.
 - **Correction.** The 2026-11-02 table used 6T / (L·w²), which understated these pressures by half. Even the 40:1 motor would have reached 47 MPa at stall.
 
-![Retained drive-axis section of the unchanged drivetrain](images/J9_drive_section.png)
+![Drive-axis section: shaft, flange coupling, sprocket and journal plug](images/J9_drive_section.png)
 
-J9 now uses a **Pololu #1999 universal aluminium mounting hub** (6 mm bore, M3 holes, sold in pairs).
-- **Datasheet-sized.** The CAD uses Pololu's drawing and STEP model; copies and source links are in `track_wheel_jgy370/references/pololu_1999/` in the original repository. The build places Pololu's STEP in the J9 pose and compares it with the modelled hub:
-  - bounding box within 0.0001 mm;
-  - 0.03 mm³ of vendor material missing from the model;
-  - 16 mm³ of model material where Pololu's part has edge chamfers.
+J9 now uses a **Ø32 / Ø6 aluminium flange coupling** as its drive hub. The Pololu #1999 hub used until 2026-11-12 could not be bought.
+- **Sized from the seller's drawing.** Every value was checked on the real part (`track_wheel_jgy370/references/flange_coupling_32/`):
+  - flange Ø32 × 4 with six M3 tapped holes on a Ø23 circle;
+  - boss Ø14 × 10 (14 overall), bore 6 mm;
+  - one radial M3 set screw in the boss, 5 mm from its end, halfway between two holes.
+  The build probes the modelled coupling against these values: outline, flange, boss, bore, holes and set screw.
 - **On the shaft.**
-  - The hub's boss faces the motor and stops 1.0 mm short of the wall.
+  - The coupling's boss faces the motor and stops 1.0 mm short of the wall, as the Pololu boss did. Its flange face is therefore 4.8 mm further outboard (Y −9.0).
   - The shaft engages it over 8.6 mm.
-  - Both of the hub's M3 set screws point the same way, so both bear on the D-flat: 1.9 mm and 6.5 mm from the shaft end, well inside the 12 mm flat.
+  - The set screw points up onto the D-flat, 3.6 mm from the shaft end, well inside the 12 mm flat.
 - **On the sprocket.**
-  - The Ø25.4 flange sits in a Ø25.8 × 1 mm recess in the sprocket's inner face.
-  - Three **M3 × 25** screws go from the sprocket's outer face into the hub's threads, with heads flush in counterbores.
-  - At the motor's stall torque each screw carries 69 N. That is about 8 MPa on the printed hole wall, ignoring clamp friction.
-- **Axial position.** A printed pad inside the hub bore meets the shaft end. Slide the sprocket on until it stops, then tighten the set screws.
-- **Unchanged.** The plug, the 6800ZZ and the M3 × 50 are as before.
-- **Not rated by Pololu.** Pololu gives no torque rating for the set screws on a D-flat, so this is an item to check on the real part (open item 1).
+  - The Ø32 flange sits in a Ø32.4 × 1 mm recess in a Ø37 × 1.5 ring on the sprocket's inner face. The old Ø30 hub boss is gone.
+  - Three **M3 × 20** screws go from the sprocket's outer face into every other tapped hole (0°, 120°, 240°), with heads flush in counterbores: 4 mm of thread, tip 1.5 mm past the flange.
+  - At the motor's stall torque each screw carries 57 N. That is about 6 MPa on the printed hole wall, ignoring clamp friction.
+- **Axial position.** A printed Ø5.4 × 5.4 pad reaches down the coupling bore to the shaft end. Slide the sprocket on until it stops, then tighten the set screw.
+- **Unchanged.** The plug, the 6800ZZ and the M3 × 50 are as before, and so are J901, J909 and the chain.
+- **Not rated.** The coupling has one set screw (the Pololu hub had two) and the seller gives no torque rating on a D-flat, so this is an item to check on the real part (open item 1).
 
 ## Motor enclosure
 
@@ -183,17 +184,20 @@ Two faults in the previous housing came to light during this redesign. Both are 
 | Spring (R5 part, kept) | 25.8 fitted, 77 N; 21.6 and 104 N at the recoil stop; max 118 N, solid 17.0 |
 | Chain | unchanged: 34 × 20 mm links, Ø3 pins, Ø6 bushings, 12-tooth sprocket form |
 | Motor | JGY-370-1260 12 V 200:1: 30 rpm no load, 22 rpm at 6 kgf·cm rated, 20 kgf·cm stall; 88–120 mm/s track speed |
-| Drive hub | Pololu #1999, Ø25.4 × 9.2; shaft engagement 8.6; 3 × M3 × 25 into the sprocket; 2 M3 set screws on the D-flat |
+| Drive hub | Ø32 / Ø6 flange coupling, Ø32 × 14; shaft engagement 8.6; 3 × M3 × 20 into the sprocket; 1 M3 set screw on the D-flat |
 | Reverse pull the idler holds | 38.7 N before it moves; 51.9 N at its recoil stop |
 | Motor pod | Ø53 drum, Ø30.6 motor tube, 2.5 walls, 0.8 clearance to the motor; drum face 22 proud of the skirt; Ø5.5 cable port |
 
 ## Parts
 
-There are 15 printed pieces (9 designs) and 53 bought pieces, plus the track. The concept estimated 12 + 51; J8 had 148. Full list: [BOM.md](BOM.md).
+There are 15 printed pieces (9 designs) and 52 bought pieces, plus the track. The concept estimated 12 + 51; J8 had 148. Full list: [BOM.md](BOM.md).
 
 Changes since the concept:
 - **Printed pieces added:** two small ones, the journal plug (1) and the idler spacers (2).
 - **Bought pieces added on 2026-11-03:** the drive hub with its two set screws, and three M3 × 25 screws.
+- **Drive hub changed on 2026-11-12:** the Pololu #1999 hub could not be bought. A Ø32 / Ø6 flange coupling with one set screw replaces it, and the sprocket screws are now M3 × 20.
+  - J902 changed to suit: a Ø37 ring with a Ø32.4 recess replaces the Ø30 hub boss, the screw holes moved to a Ø23 circle at the same angles, and the shaft-end pad grew from 0.6 to 5.4 mm.
+  - The teeth are unchanged. The print is 22.9 mm tall (was 23.3) and 2.9 cm³ smaller.
 - **Bought pieces changed on 2026-11-03:** the four housing screws are now M3 × 8 (were M3 × 12). Their inserts sit in standoffs on the inner wall.
 - **Roller changed on 2026-11-11:** the J904 centre bore is now Ø8 (was Ø6).
   - Each 624ZZ seat ends on a shoulder of that bore. At Ø6 the shoulder also touched the stationary inner ring, whose face is Ø6.95 across (SKF 624-2Z d1). A side load then pressed the turning roller against it.
@@ -202,15 +206,15 @@ Changes since the concept:
 
 ## Open items: check before relying on them
 
-1. **Hub set screws on the D-flat.**
-   - Pololu publishes no torque rating for its hub. This motor's stall torque is 1.96 N·m.
-   - Tighten both set screws firmly on the flat and mark them with paint. Check them after the first runs and after any stall.
+1. **Coupling set screw on the D-flat.**
+   - The seller gives no torque rating, and the coupling has one set screw (the Pololu hub had two). This motor's stall torque is 1.96 N·m.
+   - Tighten the set screw firmly on the flat and mark it with paint. Check it after the first runs and after any stall.
    - The pull figures above come from vendor ratings. Measure the real motor's current and pull on the bench.
 2. **Motor screw holes.** The 3 mm thread engagement in the gearbox holes is assumed (as in J8). Measure the real hole depth.
 3. **Print fits.** Check these on test prints and tune them to the printer:
    - the 6800ZZ, 624ZZ and 608 press fits;
    - the Ø9.95 plug in the 6800ZZ;
-   - the Ø25.8 hub recess in the sprocket. Pololu gives no tolerance for the Ø25.4 flange.
+   - the Ø32.4 coupling recess in the sprocket. The seller gives no tolerance for the Ø32 flange.
 4. **Roller bolts.** The rollers float 0.3 mm between small wall bosses. Tighten the nyloc nuts only until snug; clamping the walls would preload the bearings.
 5. **Chassis.**
    - [X1](../X1/README.md) seats the flat ends of two straight arms per track at X ±63.5 in shallow main-plate recesses. Each arm has one screw on each side of its centre web. Fit the road/support rollers and their axles, motor and housing first. Hold both tracks at their final spacing and lower bare X101 vertically into the seats before fastening the joints, with the rear sprocket and chain removed; see the current X1 assembly guide.
@@ -229,7 +233,7 @@ Changes since the concept:
 
 ## Current verification
 
-The revision F `validation.json` is a fresh full run of the `build_j9.py` trial block on the delivered STEP parts (`source/check_revf_track.py`): static interference, drive rotation, idler travel and stop, spring at recoil, chain phases, assembly routes and tool access, with every candidate pair computed. It also checks the clearances of the thickened main-plate seats. The checked source and exported files are bound by SHA-256. Exact counts and minimum clearances are in the report.
+The revision F `validation.json` is a fresh full run of the `build_j9.py` trial block on the delivered STEP parts (`source/check_revf_track.py`): static interference, drive rotation, idler travel and stop, spring at recoil, chain phases, assembly routes and tool access, with every candidate pair computed. It also checks the clearances of the thickened main-plate seats, and probes the modelled flange coupling against the seller drawing's values (outline, flange, boss, bore, six holes, set screw on the shaft flat). The checked source and exported files are bound by SHA-256. Exact counts and minimum clearances are in the report.
 
 `spring_guide_validation.json` checks the complete spring envelope at eleven positions through the 4.2 mm stroke, spring insertion and roller clearance. `browser_validation.json` checks the offline viewer and records its current HTML, scene and screenshots.
 
@@ -255,7 +259,7 @@ These are nominal geometry checks. Printed fit, strength, wear, spring friction 
   - `build_viewer.py`, `viewer.html`, `check_viewer.cjs`: viewer build and test;
   - `draw_layout.py`, `draw_spring_guide.py`: the layout sheet and spring-guide detail;
   - `draw_drive_section.py`: the drive section image.
-- `track_wheel_jgy370/references/pololu_1999/` in the original repository — Pololu's hub drawing and STEP, with their source links. `build_j9.py` compares the model against the STEP.
+- `track_wheel_jgy370/references/flange_coupling_32/` — the seller's drawing of the drive coupling and the values checked on the part. `build_j9.py` probes the model against them. `references/pololu_1999/` keeps the Pololu hub used until 2026-11-12; the X1 turntable pinion is still drawn on it.
 
 ## Rebuild
 

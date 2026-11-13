@@ -1,8 +1,8 @@
 {
  "pass": true,
- "html_sha256": "c7db235fc23a347b7ae204b04292fccf1eb717f0b2021be3d441d4c16b60f34e",
- "checker_sha256": "4b4ab62c3b3307ef27b4a29757f876f27232cbd845bfab02b65d3de733c3b6d2",
- "load_seconds": 5.967,
+ "html_sha256": "4615bf65c98c8256a546a1ff202fbce657dd31275b19563e27e14b02a1fc2d5e",
+ "checker_sha256": "4322d5423440677fbbff45e57817c24361165be5f8ef71f09803c91d284c7759",
+ "load_seconds": 9.02,
  "chain_left": {
   "samples": 2439,
   "bend_limits_deg": [
@@ -28,8 +28,8 @@
    30
   ],
   "seconds": {
-   "probe": 143.895,
-   "checks": 18.703
+   "probe": 109.099,
+   "checks": 15.709
   }
  },
  "chain_right": {
@@ -57,8 +57,8 @@
    30
   ],
   "seconds": {
-   "probe": 127.717,
-   "checks": 9.478
+   "probe": 109.886,
+   "checks": 8.207
   }
  },
  "chain_x1": {
@@ -90,8 +90,8 @@
    30
   ],
   "seconds": {
-   "probe": 243.793,
-   "checks": 20.415
+   "probe": 218.983,
+   "checks": 16.6
   }
  },
  "cases": [
@@ -99,7 +99,7 @@
    "mode": "left",
    "step": "overview",
    "t": 0,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -110,7 +110,7 @@
    "mode": "left",
    "step": "overview",
    "t": 1,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -242,7 +242,7 @@
    "mode": "left",
    "step": "sprocket",
    "t": 1,
-   "visible": 103,
+   "visible": 102,
    "links": [
     0
    ],
@@ -253,7 +253,7 @@
    "mode": "left",
    "step": "plug",
    "t": 0,
-   "visible": 104,
+   "visible": 103,
    "links": [
     0
    ],
@@ -264,7 +264,7 @@
    "mode": "left",
    "step": "plug",
    "t": 1,
-   "visible": 105,
+   "visible": 104,
    "links": [
     0
    ],
@@ -275,7 +275,7 @@
    "mode": "left",
    "step": "chain",
    "t": 0,
-   "visible": 105,
+   "visible": 104,
    "links": [
     0
    ],
@@ -286,7 +286,7 @@
    "mode": "left",
    "step": "chain",
    "t": 1,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -297,7 +297,7 @@
    "mode": "left",
    "step": "test",
    "t": 0,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -308,7 +308,7 @@
    "mode": "left",
    "step": "test",
    "t": 1,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -319,7 +319,7 @@
    "mode": "left",
    "step": "chain",
    "t": 0.07500000000000001,
-   "visible": 105,
+   "visible": 104,
    "links": [
     2
    ],
@@ -330,7 +330,7 @@
    "mode": "left",
    "step": "chain",
    "t": 0.1125,
-   "visible": 105,
+   "visible": 104,
    "links": [
     2
    ],
@@ -341,7 +341,7 @@
    "mode": "left",
    "step": "chain",
    "t": 0.14,
-   "visible": 105,
+   "visible": 104,
    "links": [
     2
    ],
@@ -352,7 +352,7 @@
    "mode": "left",
    "step": "chain",
    "t": 0.16849999999999998,
-   "visible": 105,
+   "visible": 104,
    "links": [
     2
    ],
@@ -363,7 +363,7 @@
    "mode": "left",
    "step": "chain",
    "t": 0.27249999999999996,
-   "visible": 105,
+   "visible": 104,
    "links": [
     20
    ],
@@ -374,7 +374,7 @@
    "mode": "left",
    "step": "chain",
    "t": 0.4,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -385,7 +385,7 @@
    "mode": "left",
    "step": "chain",
    "t": 0.6399999999999999,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -396,7 +396,7 @@
    "mode": "left",
    "step": "chain",
    "t": 0.7324999999999999,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -407,7 +407,7 @@
    "mode": "left",
    "step": "chain",
    "t": 0.8075,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -418,7 +418,7 @@
    "mode": "left",
    "step": "chain",
    "t": 0.8775,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -429,7 +429,7 @@
    "mode": "left",
    "step": "chain",
    "t": 0.96,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -440,7 +440,7 @@
    "mode": "right",
    "step": "overview",
    "t": 0,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -451,7 +451,7 @@
    "mode": "right",
    "step": "overview",
    "t": 1,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -583,7 +583,7 @@
    "mode": "right",
    "step": "sprocket",
    "t": 1,
-   "visible": 103,
+   "visible": 102,
    "links": [
     0
    ],
@@ -594,7 +594,7 @@
    "mode": "right",
    "step": "plug",
    "t": 0,
-   "visible": 104,
+   "visible": 103,
    "links": [
     0
    ],
@@ -605,7 +605,7 @@
    "mode": "right",
    "step": "plug",
    "t": 1,
-   "visible": 105,
+   "visible": 104,
    "links": [
     0
    ],
@@ -616,7 +616,7 @@
    "mode": "right",
    "step": "chain",
    "t": 0,
-   "visible": 105,
+   "visible": 104,
    "links": [
     0
    ],
@@ -627,7 +627,7 @@
    "mode": "right",
    "step": "chain",
    "t": 1,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -638,7 +638,7 @@
    "mode": "right",
    "step": "test",
    "t": 0,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -649,7 +649,7 @@
    "mode": "right",
    "step": "test",
    "t": 1,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -660,7 +660,7 @@
    "mode": "right",
    "step": "chain",
    "t": 0.07500000000000001,
-   "visible": 105,
+   "visible": 104,
    "links": [
     2
    ],
@@ -671,7 +671,7 @@
    "mode": "right",
    "step": "chain",
    "t": 0.1125,
-   "visible": 105,
+   "visible": 104,
    "links": [
     2
    ],
@@ -682,7 +682,7 @@
    "mode": "right",
    "step": "chain",
    "t": 0.14,
-   "visible": 105,
+   "visible": 104,
    "links": [
     2
    ],
@@ -693,7 +693,7 @@
    "mode": "right",
    "step": "chain",
    "t": 0.16849999999999998,
-   "visible": 105,
+   "visible": 104,
    "links": [
     2
    ],
@@ -704,7 +704,7 @@
    "mode": "right",
    "step": "chain",
    "t": 0.27249999999999996,
-   "visible": 105,
+   "visible": 104,
    "links": [
     20
    ],
@@ -715,7 +715,7 @@
    "mode": "right",
    "step": "chain",
    "t": 0.4,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -726,7 +726,7 @@
    "mode": "right",
    "step": "chain",
    "t": 0.6399999999999999,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -737,7 +737,7 @@
    "mode": "right",
    "step": "chain",
    "t": 0.7324999999999999,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -748,7 +748,7 @@
    "mode": "right",
    "step": "chain",
    "t": 0.8075,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -759,7 +759,7 @@
    "mode": "right",
    "step": "chain",
    "t": 0.8775,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -770,7 +770,7 @@
    "mode": "right",
    "step": "chain",
    "t": 0.96,
-   "visible": 105,
+   "visible": 104,
    "links": [
     34
    ],
@@ -781,7 +781,7 @@
    "mode": "x1",
    "step": "overview",
    "t": 0,
-   "visible": 210,
+   "visible": 208,
    "links": [
     34,
     34
@@ -793,7 +793,7 @@
    "mode": "x1",
    "step": "overview",
    "t": 1,
-   "visible": 210,
+   "visible": 208,
    "links": [
     34,
     34
@@ -961,7 +961,7 @@
    "mode": "x1",
    "step": "sprocket",
    "t": 1,
-   "visible": 206,
+   "visible": 204,
    "links": [
     0,
     0
@@ -973,7 +973,7 @@
    "mode": "x1",
    "step": "plug",
    "t": 0,
-   "visible": 208,
+   "visible": 206,
    "links": [
     0,
     0
@@ -985,7 +985,7 @@
    "mode": "x1",
    "step": "plug",
    "t": 1,
-   "visible": 210,
+   "visible": 208,
    "links": [
     0,
     0
@@ -997,7 +997,7 @@
    "mode": "x1",
    "step": "chain",
    "t": 0,
-   "visible": 210,
+   "visible": 208,
    "links": [
     0,
     0
@@ -1009,7 +1009,7 @@
    "mode": "x1",
    "step": "chain",
    "t": 1,
-   "visible": 210,
+   "visible": 208,
    "links": [
     34,
     34
@@ -1021,7 +1021,7 @@
    "mode": "x1",
    "step": "test",
    "t": 0,
-   "visible": 210,
+   "visible": 208,
    "links": [
     34,
     34
@@ -1033,7 +1033,7 @@
    "mode": "x1",
    "step": "test",
    "t": 1,
-   "visible": 210,
+   "visible": 208,
    "links": [
     34,
     34
@@ -1045,7 +1045,7 @@
    "mode": "x1",
    "step": "chain",
    "t": 0.07500000000000001,
-   "visible": 210,
+   "visible": 208,
    "links": [
     2,
     2
@@ -1057,7 +1057,7 @@
    "mode": "x1",
    "step": "chain",
    "t": 0.1125,
-   "visible": 210,
+   "visible": 208,
    "links": [
     2,
     2
@@ -1069,7 +1069,7 @@
    "mode": "x1",
    "step": "chain",
    "t": 0.14,
-   "visible": 210,
+   "visible": 208,
    "links": [
     2,
     2
@@ -1081,7 +1081,7 @@
    "mode": "x1",
    "step": "chain",
    "t": 0.16849999999999998,
-   "visible": 210,
+   "visible": 208,
    "links": [
     2,
     2
@@ -1093,7 +1093,7 @@
    "mode": "x1",
    "step": "chain",
    "t": 0.27249999999999996,
-   "visible": 210,
+   "visible": 208,
    "links": [
     20,
     20
@@ -1105,7 +1105,7 @@
    "mode": "x1",
    "step": "chain",
    "t": 0.4,
-   "visible": 210,
+   "visible": 208,
    "links": [
     34,
     34
@@ -1117,7 +1117,7 @@
    "mode": "x1",
    "step": "chain",
    "t": 0.6399999999999999,
-   "visible": 210,
+   "visible": 208,
    "links": [
     34,
     34
@@ -1129,7 +1129,7 @@
    "mode": "x1",
    "step": "chain",
    "t": 0.7324999999999999,
-   "visible": 210,
+   "visible": 208,
    "links": [
     34,
     34
@@ -1141,7 +1141,7 @@
    "mode": "x1",
    "step": "chain",
    "t": 0.8075,
-   "visible": 210,
+   "visible": 208,
    "links": [
     34,
     34
@@ -1153,7 +1153,7 @@
    "mode": "x1",
    "step": "chain",
    "t": 0.8775,
-   "visible": 210,
+   "visible": 208,
    "links": [
     34,
     34
@@ -1165,7 +1165,7 @@
    "mode": "x1",
    "step": "chain",
    "t": 0.96,
-   "visible": 210,
+   "visible": 208,
    "links": [
     34,
     34
@@ -1177,7 +1177,7 @@
  "skip_logic": true,
  "playback": {
   "reached": "chain",
-  "t": 0.00277499999999903
+  "t": 0
  },
  "click_identify": "J901 H-frame print",
  "parts_tab_rows": [
@@ -1193,59 +1193,59 @@
  "screenshots": {
   "kit_overview": {
    "file": "images/kit_overview.png",
-   "sha256": "cd7bf1486d35a5d0a15ccfcadf15a2985df96e827c2aa8f29399188e124344d7"
+   "sha256": "38c75bfca1031d0dfe9af4215a28eb45ac66b78237e8a57408e04e7f7a805133"
   },
   "kit_rollers": {
    "file": "images/kit_rollers.png",
-   "sha256": "f5de82ee92b82d1ac518a19e60962c8fcef2871326cb479e665a08e67791a631"
+   "sha256": "c8d726548d495d4a4c72e71ca2f9d4bcdfe90297d245c2071cb82babf8d88d57"
   },
   "kit_tensioner": {
    "file": "images/kit_tensioner.png",
-   "sha256": "572cf87f61d45a0bd75141c8bd18f506a5b66e24fdc306b40528b47effc28602"
+   "sha256": "19b0f803c03f1a2599331b8f83a0043b4bed5e98122990db3f7fc5460bf04bff"
   },
   "kit_sprocket": {
    "file": "images/kit_sprocket.png",
-   "sha256": "f49702df2696b70e5b8512bc294d17e1e1d84e13811f167e258e12ed2461d478"
+   "sha256": "ae62c6b45d5c5bc3a28ae7f15573e7de0ef5e4cea7076a89223f675a3b70bc28"
   },
   "kit_chain_joint": {
    "file": "images/kit_chain_joint.png",
-   "sha256": "aca0492b4e415da9ae6da594862586c32bf9583d0810d3da6cb447d1c2016fad"
+   "sha256": "f1ee9e0b419489827d2e9fb965ffc9287027e0da24c81102f6ec3628ad3b1c3b"
   },
   "kit_chain_clips": {
    "file": "images/kit_chain_clips.png",
-   "sha256": "19f585aba1132a45be2d2470d60bbb67ce5c81f19b4ce0af2ff0efdf4622bbc7"
+   "sha256": "e373e132ebc44ccd9548c5a7d97071f6fcbde73c2e540a17d5412cfeba7c9527"
   },
   "kit_chain_strip": {
    "file": "images/kit_chain_strip.png",
-   "sha256": "36643cd6c876cdba968ea7319f01f792f53157c909ed54ad2a677c645086d1d0"
+   "sha256": "c2c51b47a0115efaccbf11afaa199278218811f63397c81e99593622bf80bba3"
   },
   "kit_chain_dummy": {
    "file": "images/kit_chain_dummy.png",
-   "sha256": "28b03fe18a90e8381a5f43882a75352c3a31e91fa6e9734066d7c99a28a26456"
+   "sha256": "774e22ff95cf0ca983b3ff33105dcfc6c5ff81cb3071d69732635e25c5310c46"
   },
   "kit_chain_wrap": {
    "file": "images/kit_chain_wrap.png",
-   "sha256": "bd39266b1c16741a4c0c2013d90d8ec58dc65d77881a3613a7eef8ea871312e3"
+   "sha256": "c30114959c70588d69a1597114e3a888ae6fad308bb7ac22718951d111ad8898"
   },
   "kit_chain_join": {
    "file": "images/kit_chain_join.png",
-   "sha256": "00c3057549ceb0a081b9340852a6634b43b0a30d2126ead23bcef63ab1a1fb7a"
+   "sha256": "cc9fb9c65ec00da5238bcc37f824d74fec912bb17e7cefa69a9dae1eaeec289c"
   },
   "kit_x1_chain": {
    "file": "images/kit_x1_chain.png",
-   "sha256": "a78426656cf72ccd84aff58bb6df055fbf0dac2da5c7240a85b5ba08883a42fd"
+   "sha256": "cda1076adffab363b14d87c22ee59a11cd24c711edbe169edd2a281c823d4245"
   },
   "kit_right_tensioner": {
    "file": "images/kit_right_tensioner.png",
-   "sha256": "6169bd0fb2852e22d84660c9b7cc74103257db0c62cab25f6bd5760aabe62ebd"
+   "sha256": "de40c84596a9192b786bda7649802c1b611ae59925d7b5c0bc3a4e3676f92e6f"
   },
   "kit_x1_frame": {
    "file": "images/kit_x1_frame.png",
-   "sha256": "04b163beb3c30e9f40fad0b4209ff09daf3897f3ee11896dc599f68423061e5e"
+   "sha256": "4f6f18195130892fb983149bdddd8810ab9a6e89efc1fb2e6e52acc6ead6cf31"
   },
   "kit_x1_joint": {
    "file": "images/kit_x1_joint.png",
-   "sha256": "023c282d972d81f22bb8fee447664a23e9a952aac8795003e6161a161fd3aaa9"
+   "sha256": "232ba0f9e4883739a48e064dfb3e413a19d867bbcd8b8d8964e81d0d1bccdcbd"
   }
  },
  "problems": [],

@@ -163,7 +163,7 @@ const legendCount=s=>{const m=(s.legend||'').match(/^(\d+) × /);return m?Number
     const c=await filt(f),want=items.filter(ok).map(i=>i.id);result.filters[f]=c.length;if(JSON.stringify(c)!==JSON.stringify(want))fail(`filter ${f}: ${c}`)}
    await filt('all');if((await cards()).length!==items.length+1)fail('filter all: not every item listed');
    await page.fill('#q','608');let c=await cards();result.search_608=c;if(!c.includes('608ZZ')||c.includes('J904'))fail('search 608: '+c);
-   await page.fill('#q','m3 x 25 socket');c=await cards();result.search_m3x25=c;if(!c.includes('M3x25')||['M3x6','M3x50','M3x8','M4x70'].some(k=>c.includes(k)))fail('search "m3 x 25 socket": '+c);
+   await page.fill('#q','m3 x 20 socket');c=await cards();result.search_m3x20=c;if(!c.includes('M3x20')||['M3x6','M3x50','M3x8','M4x70'].some(k=>c.includes(k)))fail('search "m3 x 20 socket": '+c);
    await page.fill('#q','');
    await page.click('#list .card[data-id="J907"]');s=await page.evaluate(()=>showcase.state());if(s.sel!=='J907')fail('clicking the J907 card opens '+s.sel);
    const body=await page.locator('body').innerText();if(/[㐀-鿿]/.test(body))fail('non-English interface text');

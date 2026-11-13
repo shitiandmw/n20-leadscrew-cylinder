@@ -81,7 +81,7 @@ def gate():
     rows = exports['exports']
     assert {r['name'] for r in rows} == {'X101_X_frame', 'J901_H_frame', 'J909_housing',
                                         'J901_H_frame_right', 'J909_housing_right',
-                                        'J904_roller', 'J906_idler_wheel'}
+                                        'J902_sprocket', 'J904_roller', 'J906_idler_wheel'}
     for row in rows:
         assert (row['pass'] and row['stl_watertight'] and row['stl_components'] == 1 and row['step_roundtrip']
                 and row['solids'] == 1 and row['matches_current_source'])

@@ -1,5 +1,5 @@
-"""Section through the J9 drive axis (plane X = DRIVE_X, seen from the front): JGY-370 shaft, Pololu #1999 hub
-and its set screws, printed sprocket, journal plug, 6800ZZ and the H-frame walls. Writes ../images/J9_drive_section.png."""
+"""Section through the J9 drive axis (plane X = DRIVE_X, seen from the front): JGY-370 shaft, Ø32 flange coupling
+and its set screw, printed sprocket, journal plug, 6800ZZ and the H-frame walls. Writes ../images/J9_drive_section.png."""
 from functools import reduce
 import numpy as np
 import matplotlib
@@ -12,7 +12,7 @@ import j9_design as D
 
 ROOT = P.ROOT
 PARTS = [('J901_H_frame', P.FRAME_C), ('JGY370_gearbox', P.GEARBOX_C), ('JGY370_output_shaft', P.STEEL),
-         ('Pololu_1999_hub', P.HUB_C), ('hub_set_screw_M3x8', (.15, .15, .15)), ('hub_set_screw_M3x3', (.15, .15, .15)),
+         ('flange_coupling_32', P.HUB_C), ('hub_set_screw_M3x4', (.15, .15, .15)),
          ('J902_sprocket', (.42, .44, .46)), ('J903_journal_plug', (.30, .32, .34)), ('sprocket_screw_M3x50', (.15, .15, .15)),
          ('6800ZZ_inner', P.STEEL), ('6800ZZ_outer', P.STEEL), ('6800ZZ_shield', (.2, .2, .2)), ('J909_housing', P.HOUSING_C)]
 
@@ -46,12 +46,12 @@ def main():
              ((-26, z0 + 1.5), (-100, z0 + 6), '6 mm D-shaft,\nflat up'),
              ((-60.5, z0 + 18), (-100, z0 + 38), 'housing J909: drum of\nthe motor pod, hub cap'),
              ((-37, z0 - 30), (-100, z0 - 34), 'housing skirt'),
-             ((-16.3, z0 + 9), (-40, z0 + 46), '2 × M3 set screws on the flat'),
+             ((-18.0, z0 + 6), (-40, z0 + 46), 'M3 set screw on the flat'),
              ((2, z0 + 36), (4, z0 + 46), 'printed sprocket J902'),
              ((27.5, z0 + 7.5), (40, z0 + 24), '6800ZZ in the\nouter wall'),
              ((18, z0 - 3), (40, z0 - 20), 'journal plug J903\n+ M3 × 50'),
-             ((-16.5, z0 - 10), (-62, z0 - 50), 'Pololu #1999 hub (Ø25.4 flange, Ø12 boss)'),
-             ((-14.1, z0 - 2), (-8, z0 - 50), 'printed pad meets the shaft end')]
+             ((-11.0, z0 - 12), (-62, z0 - 50), 'Ø32 flange coupling (Ø14 boss, 14 long)'),
+             ((-12.0, z0 - 2.2), (-8, z0 - 50), 'printed pad down the bore\nmeets the shaft end')]
     for xy, txt_xy, t in notes:
         ax.annotate(t, xy, txt_xy, fontsize=8.5, color='#1d2b2f', arrowprops=dict(arrowstyle='-', lw=.5, color='#1d2b2f'))
     ax.set_xlim(-104, 58); ax.set_ylim(z0 - 53, z0 + 50); ax.set_aspect('equal')

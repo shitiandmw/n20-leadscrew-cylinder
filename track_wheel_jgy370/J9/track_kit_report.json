@@ -2,9 +2,9 @@
  "generator": "track_wheel_jgy370/J9/source/build_track_kit.py",
  "revision": "J9 revision F (X1 revision F mounting)",
  "inputs_sha256": {
-  "track_wheel_jgy370/J9/source/j9_scene.json.gz": "e7653cdb978d6a2b0cb82047f959e9cd764cc5f05b8dee2a557fa903421d446e",
-  "track_wheel_jgy370/X1/source/x1_scene.json.gz": "63f742cdc029f43de86bde8b2eadd7e2939934195f53f825cc26cd0c30a0d1dc",
-  "track_wheel_jgy370/J9/source/build_track_kit.py": "ebf545f7246558d72ebeea9d24c41aacb55739a574e3171f2f6bd9b00f9028bf"
+  "track_wheel_jgy370/J9/source/j9_scene.json.gz": "dd618fd7a7fdfb67785a0e26f6a3f733d1daf74d38e7bd6c7284dba1f417bf86",
+  "track_wheel_jgy370/X1/source/x1_scene.json.gz": "719ef833e722c4c36c0480d9f591df2b5a849981d7cc407a2388a62e453a9b23",
+  "track_wheel_jgy370/J9/source/build_track_kit.py": "9d94e89697d13d19e2e6b8f0b74470e7c831c53b2aa7b6ef47e63bef0cbd58bf"
  },
  "stl": {
   "track_wheel_jgy370/J9/stl/J901_H_frame.stl": {
@@ -147,13 +147,13 @@
    "size_mm": [
     81.6,
     81.6,
-    23.3
+    22.9
    ],
-   "volume_cm3": 84.74,
-   "area_cm2": 170.4,
+   "volume_cm3": 81.84,
+   "area_cm2": 165.7,
    "triangles": 9144,
-   "sha256": "356b07c5f85126281003931805e755bde58b54ea6c3b190510fa1ce5d1997be8",
-   "revf_export_match": null,
+   "sha256": "31781b05cbdc39a4816ac98a2b516f99b25ccfce15a12d920928b6c7ce91c54a",
+   "revf_export_match": true,
    "beds": {
     "220x220": {
      "fits": true,
@@ -420,6 +420,9 @@
   "J901": 1,
   "J909": 1,
   "J902": 1,
+  "hub": 1,
+  "M3x20": 3,
+  "setscrew": 1,
   "J903": 1,
   "J904": 7,
   "J906": 1,
@@ -428,9 +431,6 @@
   "motor": 1,
   "M3x6": 4,
   "M3x50": 1,
-  "hub": 1,
-  "M3x25": 3,
-  "setscrew": 2,
   "6800ZZ": 1,
   "624ZZ": 14,
   "M4x70": 7,
@@ -636,12 +636,12 @@
   },
   {
    "id": "sprocket",
-   "title": "Sprocket and hub",
+   "title": "Sprocket and coupling",
    "items": {
     "J902": 1,
     "hub": 1,
-    "M3x25": 3,
-    "setscrew": 2
+    "M3x20": 3,
+    "setscrew": 1
    }
   },
   {
@@ -669,9 +669,9 @@
   }
  ],
  "outputs_sha256": {
-  "install_animation.html": "c7db235fc23a347b7ae204b04292fccf1eb717f0b2021be3d441d4c16b60f34e",
-  "TRACK_KIT.md": "ba218ab37d57c0bab43aea925886022ac563d8e9ffbf077e0a4c67543db8466d",
-  "track_kit.csv": "0d425e4a5af5f12dedfe32a6dc1c57a96214ef58455d60841d283bd0ae373d62"
+  "install_animation.html": "4615bf65c98c8256a546a1ff202fbce657dd31275b19563e27e14b02a1fc2d5e",
+  "TRACK_KIT.md": "a9800f6291eb9237315644381ad11befebe556a77519d9bcdcba250e74947c41",
+  "track_kit.csv": "092cbf4efb2492a1222096be718d40f2774c75c7768f82fe84c0800d6c9fc6d4"
  },
  "pass": true
 }

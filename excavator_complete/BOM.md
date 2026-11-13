@@ -55,12 +55,13 @@ One machine: two J9 tracks on the X1 revision F frame, the R3 turntable, body B1
 
 ## Bought mechanical
 
-41 lines, 398 pieces.
+42 lines, 398 pieces.
 
 | Part | Qty | Specification | From | Note |
 |---|---|---|---|---|
 | JGY-370-1260 12 V worm gear motor, 200:1, 30 rpm | 3 | motor only, no bracket / speed controller | J9/BOM.md, X1/TURNTABLE.md | 2 tracks + swing |
-| Pololu #1999 universal mounting hub, 6 mm, M3 | 3 | sold in pairs: 2 packs | J9/BOM.md, X1/TURNTABLE.md | 2 sprockets + pinion; set screws supplied |
+| Ø32 / Ø6 aluminium flange coupling (flange Ø32 x 4, 6 x M3 tapped on Ø23, boss Ø14 x 10) | 2 | one M3 set screw supplied with each | J9/BOM.md | 2 sprockets; seller drawing in track_wheel_jgy370/references/flange_coupling_32 |
+| Pololu #1999 universal mounting hub, 6 mm, M3 | 1 | sold in pairs: 1 pack. Could not be bought on 2026-11-12; a substitute must be no bigger: flange max Ø26 x 5.5, boss max Ø13, max 9.9 long, set screw in the flange | X1/TURNTABLE.md | swing pinion; set screws supplied |
 | THK RU66 cross-roller ring | 1 | Ø35 bore, Ø95, 15 high (catalogue A18-20/21) | X1/BOM.md | see references/thk_ru66/SOURCE.md before substituting |
 | 6-way 2 A flanged slip ring | 1 | Ø22 body, Ø44 flange, Ø7.8 rotor (seller drawing) | X1/TURNTABLE.md | rings 1-4 used |
 | N20 gearmotor 12 V 1:50 800 rpm with M4 x 0.7 leadscrew (100 mm stock) | 4 | screw cut to 75 mm; otherwise unmodified | actuator_v6/BOM.md | V6-U60 drives |
@@ -119,7 +120,7 @@ One machine: two J9 tracks on the X1 revision F frame, the R3 turntable, body B1
 | M3 x 10 socket | 4 | pinion to the hub | X1/TURNTABLE.md |  |
 | M3 x 12 socket | 10 | slide clamps (4), push screws (2), body halves (4) | X1/TURNTABLE.md, X1/BODY.md |  |
 | M3 x 12 countersunk (ISO 10642) | 6 | ring gear from below | X1/TURNTABLE.md |  |
-| M3 x 25 socket | 6 | sprockets to the hubs | J9/BOM.md |  |
+| M3 x 20 socket | 6 | sprockets to the couplings | J9/BOM.md |  |
 | M3 x 50 socket | 2 | journal plugs | J9/BOM.md |  |
 | M3 nut | 2 | push-screw locks | X1/TURNTABLE.md |  |
 | M3 washer (ISO 7089) | 7 | slip ring (3), slide clamps (4) | X1/TURNTABLE.md |  |
@@ -174,9 +175,9 @@ One machine: two J9 tracks on the X1 revision F frame, the R3 turntable, body B1
 | | Lines | Pieces |
 |---|---|---|
 | Printed | 44 | 187 |
-| Bought mechanical | 41 | 398 |
+| Bought mechanical | 42 | 398 |
 | Screws, nuts, washers, inserts | 33 | 279 |
 | Harness and electrical | 21 | 43 |
-| **All** | 139 | 907 |
+| **All** | 140 | 907 |
 
 The printed count includes the 68 track shoes and the 18 W01 clamps. No custom-machined part anywhere in the machine.

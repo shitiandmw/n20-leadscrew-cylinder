@@ -2,11 +2,11 @@
  "generator": "track_wheel_jgy370/J9/source/build_parts_showcase.py",
  "revision": "J9 / X1 revision F mounting stations",
  "inputs_sha256": {
-  "track_wheel_jgy370/J9/source/j9_scene.json.gz": "e7653cdb978d6a2b0cb82047f959e9cd764cc5f05b8dee2a557fa903421d446e",
-  "track_wheel_jgy370/X1/source/x1_scene.json.gz": "63f742cdc029f43de86bde8b2eadd7e2939934195f53f825cc26cd0c30a0d1dc",
-  "track_wheel_jgy370/J9/source/build_track_kit.py": "ebf545f7246558d72ebeea9d24c41aacb55739a574e3171f2f6bd9b00f9028bf",
+  "track_wheel_jgy370/J9/source/j9_scene.json.gz": "dd618fd7a7fdfb67785a0e26f6a3f733d1daf74d38e7bd6c7284dba1f417bf86",
+  "track_wheel_jgy370/X1/source/x1_scene.json.gz": "719ef833e722c4c36c0480d9f591df2b5a849981d7cc407a2388a62e453a9b23",
+  "track_wheel_jgy370/J9/source/build_track_kit.py": "9d94e89697d13d19e2e6b8f0b74470e7c831c53b2aa7b6ef47e63bef0cbd58bf",
   "track_wheel_jgy370/J9/source/parts_showcase.html": "e5485da1460552232715efd12df70dbca005d5734b7c0d6b09cd78c65d386538",
-  "track_wheel_jgy370/J9/source/build_parts_showcase.py": "a9408d0ffd76aab8a963f64ade2504db99d6da7d9754f62f645738ec27d5f9db"
+  "track_wheel_jgy370/J9/source/build_parts_showcase.py": "e0b5596e8bc2d9680f8dc87390f41898a8ee07fe15d0684d090363a5b1e560a4"
  },
  "right_files_mirror_left": {
   "J901": {
@@ -40,8 +40,8 @@
   "J902_sprocket": {
    "rot_x_deg": -90,
    "bbox_error_mm": 0.0,
-   "centroid_error_mm": 0.0002,
-   "volume_ratio": 1.00001
+   "centroid_error_mm": 0.0,
+   "volume_ratio": 1.0
   },
   "J903_journal_plug": {
    "rot_x_deg": -90,
@@ -231,20 +231,20 @@
   {
    "id": "hub",
    "type": "buy",
-   "name": "Pololu #1999 universal aluminium mounting hub, 6 mm shaft, M3 holes",
-   "qty": "2 (1 per track); 1 pack of 2",
+   "name": "Ø32 / Ø6 aluminium flange coupling (flange Ø32 x 4, 6 x M3 tapped on Ø23, boss Ø14 x 10)",
+   "qty": "2 (1 per track)",
    "model": true,
    "dimensions_drawn": 5,
-   "table_rows": 6
+   "table_rows": 7
   },
   {
    "id": "setscrew",
    "type": "buy",
-   "name": "M3 set screws, supplied with the hub",
-   "qty": "4 (2 per track); supplied",
+   "name": "M3 set screw, supplied with the coupling",
+   "qty": "2 (1 per track); supplied",
    "model": true,
-   "dimensions_drawn": 3,
-   "table_rows": 5
+   "dimensions_drawn": 2,
+   "table_rows": 4
   },
   {
    "id": "6800ZZ",
@@ -319,9 +319,9 @@
    "table_rows": 4
   },
   {
-   "id": "M3x25",
+   "id": "M3x20",
    "type": "buy",
-   "name": "M3 x 25 socket head screw (ISO 4762)",
+   "name": "M3 x 20 socket head screw (ISO 4762)",
    "qty": "6 (3 per track)",
    "model": true,
    "dimensions_drawn": 3,
@@ -1183,44 +1183,44 @@
   {
    "item": "J902",
    "n": 4,
-   "label": "Hub boss",
-   "text": "Ø30 × 6.3",
+   "label": "Ring round the recess",
+   "text": "Ø37 × 1.5",
    "vertices": 210,
    "max_gap_deg": 3.4,
    "axial": [
     17.0,
-    23.3
+    18.5
    ]
   },
   {
    "item": "J902",
    "n": 5,
-   "label": "Recess for the hub flange",
-   "text": "Ø25.8 × 1 deep",
+   "label": "Recess for the coupling flange",
+   "text": "Ø32.4 × 1 deep",
    "vertices": 210,
    "max_gap_deg": 3.4,
    "axial": [
-    22.3,
-    23.3
+    17.5,
+    18.5
    ]
   },
   {
    "item": "J902",
    "n": 6,
    "label": "Stop pad for the shaft end",
-   "text": "Ø5.4 × 0.6",
+   "text": "Ø5.4 × 5.4",
    "vertices": 210,
    "max_gap_deg": 3.4,
    "axial": [
-    22.3,
+    17.5,
     22.9
    ]
   },
   {
    "item": "J902",
    "n": 7,
-   "label": "Hub screw holes",
-   "text": "3 × Ø3.4 on Ø19.05",
+   "label": "Coupling screw holes",
+   "text": "3 × Ø3.4 on Ø23",
    "holes": 3,
    "vertices_each": [
     210,
@@ -2092,24 +2092,24 @@
    "item": "hub",
    "n": 1,
    "label": "Flange",
-   "text": "Ø25.4 × 5",
-   "vertices": 563,
+   "text": "Ø32 × 4",
+   "vertices": 338,
    "max_gap_deg": 4.3,
    "axial": [
-    -0.4,
-    4.6
+    3.0,
+    7.0
    ]
   },
   {
    "item": "hub",
    "n": 2,
    "label": "Boss",
-   "text": "Ø12 × 4.2",
-   "vertices": 567,
+   "text": "Ø14 × 10",
+   "vertices": 565,
    "max_gap_deg": 4.3,
    "axial": [
-    -4.6,
-    -0.4
+    -7.0,
+    3.0
    ]
   },
   {
@@ -2117,18 +2117,18 @@
    "n": 3,
    "label": "Bore",
    "text": "Ø6",
-   "vertices": 804,
+   "vertices": 571,
    "max_gap_deg": 4.3,
    "axial": [
-    -4.6,
-    4.6
+    -7.0,
+    7.0
    ]
   },
   {
    "item": "hub",
    "n": 4,
    "label": "Tapped holes",
-   "text": "6 × M3 on Ø19.05",
+   "text": "6 × M3 on Ø23",
    "holes": 6,
    "vertices_each": [
     338,
@@ -2143,20 +2143,20 @@
    "item": "hub",
    "n": 5,
    "label": "Overall length",
-   "text": "9.2",
+   "text": "14",
    "a": {
     "face": [
-     4.5,
-     -4.6,
+     5.0,
+     -7.0,
      0.0
     ],
     "axis": "y"
    },
    "b": {
     "face": [
-     9.53,
-     4.6,
-     5.5
+     12.0,
+     7.0,
+     6.1
     ],
     "axis": "y"
    }
@@ -2169,50 +2169,28 @@
    "vertices": 338,
    "max_gap_deg": 4.3,
    "axial": [
-    -4.0,
-    4.0
+    -2.0,
+    2.0
    ]
   },
   {
    "item": "setscrew",
    "n": 2,
-   "label": "Flange screw (as modelled)",
-   "text": "8",
+   "label": "Length (as modelled)",
+   "text": "4",
    "a": {
     "face": [
      0.0,
-     2.3,
-     -4.0
+     0.0,
+     -2.0
     ],
     "axis": "z"
    },
    "b": {
     "face": [
      0.0,
-     2.3,
-     4.0
-    ],
-    "axis": "z"
-   }
-  },
-  {
-   "item": "setscrew",
-   "n": 3,
-   "label": "Boss screw (as modelled)",
-   "text": "3",
-   "a": {
-    "face": [
      0.0,
-     -2.3,
-     -4.0
-    ],
-    "axis": "z"
-   },
-   "b": {
-    "face": [
-     0.0,
-     -2.3,
-     -1.0
+     2.0
     ],
     "axis": "z"
    }
@@ -2538,38 +2516,38 @@
    }
   },
   {
-   "item": "M3x25",
+   "item": "M3x20",
    "n": 1,
    "label": "Head",
    "text": "Ø5.5 × 3",
    "vertices": 338,
    "max_gap_deg": 4.3,
    "axial": [
-    11.0,
-    14.0
+    8.5,
+    11.5
    ]
   },
   {
-   "item": "M3x25",
+   "item": "M3x20",
    "n": 2,
    "label": "Thread",
    "text": "M3",
    "vertices": 338,
    "max_gap_deg": 4.3,
    "axial": [
-    -14.0,
-    11.0
+    -11.5,
+    8.5
    ]
   },
   {
-   "item": "M3x25",
+   "item": "M3x20",
    "n": 3,
    "label": "Length under the head",
-   "text": "25",
+   "text": "20",
    "a": {
     "face": [
      2.125,
-     11.0,
+     8.5,
      0.0
     ],
     "axis": "y"
@@ -2577,7 +2555,7 @@
    "b": {
     "face": [
      0.75,
-     -14.0,
+     -11.5,
      0.0
     ],
     "axis": "y"
@@ -2982,11 +2960,14 @@
   }
  },
  "context": {
-  "module_instances": 275,
+  "module_instances": 274,
   "module_items": {
    "J901": 1,
    "J909": 1,
    "J902": 1,
+   "hub": 1,
+   "M3x20": 3,
+   "setscrew": 1,
    "J903": 1,
    "J904": 7,
    "J906": 1,
@@ -2995,9 +2976,6 @@
    "motor": 4,
    "M3x6": 4,
    "M3x50": 1,
-   "hub": 1,
-   "M3x25": 3,
-   "setscrew": 2,
    "6800ZZ": 3,
    "624ZZ": 42,
    "M4x70": 7,
@@ -3021,11 +2999,11 @@
   }
  },
  "geometry": {
-  "meshes": 78,
-  "triangles": 156172
+  "meshes": 77,
+  "triangles": 155378
  },
  "outputs_sha256": {
-  "parts_showcase.html": "b9a3af2b8e7d30168014b0444021785a21973db4833d08b9fbeaea9c8c79633b"
+  "parts_showcase.html": "cf9e6e46f497fcd9186bc32405d69c841c8ef112ce629d41297b6e892cffd911"
  },
  "pass": true
 }

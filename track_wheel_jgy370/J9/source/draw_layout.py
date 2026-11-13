@@ -98,7 +98,7 @@ def main():
     vdim(ax, 162, 0, chk['track_top_z'], f'{chk["track_top_z"]:.1f} top of track', side=1)
     vdim(ax, -158, 0, D.ROAD_Z, f'{D.ROAD_Z:.0f} road rollers', side=-1)
     vdim(ax, -168, 0, D.CARRIER_Z, f'{D.CARRIER_Z:.2f} support rollers', side=-1)
-    ax.annotate('sprocket on a Pololu hub, JGY-370 D-shaft\n(12 V, 200:1 motor on the inboard wall)', (D.DRIVE_X - 30, D.AXLE_Z + 30), (-175, 112), fontsize=8, arrowprops=dict(arrowstyle='-', lw=.5))
+    ax.annotate('sprocket on a Ø32 flange coupling, JGY-370 D-shaft\n(12 V, 200:1 motor on the inboard wall)', (D.DRIVE_X - 30, D.AXLE_Z + 30), (-175, 112), fontsize=8, arrowprops=dict(arrowstyle='-', lw=.5))
     ax.annotate('idler on a piston U-yoke\nR5 spring in Ø16.4 guide hole\n77 N fitted, recoil stop 4.2 mm', (D.IDLER_X + 20, D.AXLE_Z + 30), (120, 112), fontsize=8, arrowprops=dict(arrowstyle='-', lw=.5))
     ax.annotate('H-frame wall (web dashed)', (-40, 60), (-60, 112), fontsize=8, arrowprops=dict(arrowstyle='-', lw=.5))
     ax.set_xlim(-185, 185); ax.set_ylim(-34, 122)
@@ -134,7 +134,7 @@ def main():
             ('Top of track', '94.4', f'{chk["track_top_z"]:.1f}'),
             ('Sprocket outer support', 'boss in 6800ZZ', 'plug in 6800ZZ'),
             ('Idler axle', 'M8 bolt, wall slots', 'Ø8 pin in yoke'),
-            ('Sprocket on the motor shaft', 'printed D-bore', 'Pololu #1999 hub'),
+            ('Sprocket on the motor shaft', 'printed D-bore', 'Ø32 flange coupling'),
             ('JGY-370-1260 12 V ratio', 'open', '200:1, 30 rpm'),
             ('Motor enclosure', 'thin shroud', 'closed drive pod'),
             ('Spring preload / at recoil stop', '77 N', f'{chk["spring_preload_N"]:.0f} / {chk["spring_at_recoil_N"]:.0f} N')]

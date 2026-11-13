@@ -27,7 +27,7 @@ const SHOT_MS=900000;   // a screenshot under SwiftShader can take minutes when 
 const FITTED_IN=[[/^(J901_H_frame|insert_M3_\d|6800ZZ_\w+)$/,'frame'],[/^(JGY370_\w+|motor_screw_M3x6_\d)$/,'motor'],
  [/^(J904_roller_|624ZZ_|bolt_M4x70_|nyloc_M4_)(road|support)\d/,'rollers'],
  [/^(J906_idler_wheel|608ZZ_\d_\w+|J907_idler_spacer_\d|J908_U_yoke|idler_pin_8x55|recoil_spring)$/,'tensioner'],
- [/^(J909_housing|housing_screw_M3x8_\d)$/,'housing'],[/^(J902_sprocket|Pololu_1999_hub|hub_screw_M3x25_\d|hub_set_screw_M3x\d)$/,'sprocket'],
+ [/^(J909_housing|housing_screw_M3x8_\d)$/,'housing'],[/^(J902_sprocket|flange_coupling_32|hub_screw_M3x20_\d|hub_set_screw_M3x\d)$/,'sprocket'],
  [/^(J903_journal_plug|sprocket_screw_M3x50)$/,'plug']];
 // ------------------------------------------------------------------ the chain goes on as J9/ASSEMBLY.md 7 describes
 // Written here from the guide, with the CAD geometry read from j9_scene.json.gz (not from the page). First the links are joined into
@@ -230,7 +230,8 @@ function labelCheck(tag,st){const shown=st.labels.filter(l=>l.shown);const [w,h]
   const names=Object.keys(meta.first),first={};
   for(const n of names){const m=FITTED_IN.filter(([re])=>re.test(n));if(m.length!==1){fail(`${n}: ${m.length} expected steps`);continue}
    first[n]=sid[m[0][1]];if(meta.first[n]!==first[n])fail(`${n}: the page fits it in ${meta.steps[meta.first[n]].id}, the guide in ${m[0][1]}`)}
-  if(names.length!==105)fail(`${names.length} module parts in the page (105 in the J9 scene)`);
+  const sceneParts=JSON.parse(zlib.gunzipSync(fs.readFileSync(path.join(__dirname,'j9_scene.json.gz')))).unit.length;
+  if(names.length!==sceneParts)fail(`${names.length} module parts in the page (${sceneParts} in the J9 scene)`);
   const cases=[];
   for(const mode of onlyModes){
    const expectSteps=meta.steps.filter(s=>mode==='x1'||!s.x1only).map(s=>s.id);

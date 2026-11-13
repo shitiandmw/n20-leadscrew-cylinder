@@ -86,7 +86,7 @@
    }
   },
   "static_against_the_rest": {
-   "pairs": 619,
+   "pairs": 617,
    "penetrations": [],
    "closest": [
     [
@@ -520,5 +520,5 @@
   "note": "The body's shot pocket was sized to put the upper CG on the swing axis with the 1.64 kg ARM60 stretched forward. R12 with B01X is lighter, so the upper CG moves rearward (upper_cg_mm_by_waypoint, shot_trim_estimate). The machine stays inside its footprint in every case here."
  },
  "status": "PASS",
- "seconds": 336.4
+ "seconds": 285.0
 }

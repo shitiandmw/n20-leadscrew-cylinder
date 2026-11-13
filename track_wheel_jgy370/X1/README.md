@@ -63,9 +63,9 @@ All reports below are computed fresh on the delivered revision F files; none inh
 | Report | What it checks |
 |---|---|
 | [arc_seat_mount_validation.json](arc_seat_mount_validation.json) | Joint seating and contact, fasteners, key and socket access, vertical frame fitting and track service routes, sprocket fitting, idler recoil, chain phases, upper swing, RU66 seat and belly-cover screw access, clearances |
-| [../J9/validation.json](../J9/validation.json) | Every track trial: static fit, drive rotation, idler travel and stop, spring at recoil, chain phases, assembly paths and tools; spring envelope and main-plate seat clearances |
-| [revf_part_exports.json](revf_part_exports.json) | The seven changed STEP/STL designs (X101, both J901, both J909, J904, J906) match the current source, are single solids and watertight meshes; X101 fills its required envelope |
-| [revf_refresh_validation.json](revf_refresh_validation.json) | The three STEP assemblies and both viewer scenes hold the current parts and joint hardware |
+| [../J9/validation.json](../J9/validation.json) | Every track trial: static fit, drive rotation, idler travel and stop, spring at recoil, chain phases, assembly paths and tools; spring envelope and main-plate seat clearances; the drive coupling against the seller drawing |
+| [revf_part_exports.json](revf_part_exports.json) | The eight changed STEP/STL designs (X101, both J901, both J909, J902, J904, J906) match the current source, are single solids and watertight meshes; X101 fills its required envelope |
+| [revf_refresh_validation.json](revf_refresh_validation.json) | The three STEP assemblies and both viewer scenes hold the current parts, the joint hardware and the drive group (J902 on its flange coupling), with no parts of the old hub left |
 | [revf_leg_sections.json](revf_leg_sections.json) | Arm cross-section properties (geometry only, not a strength check) |
 | [turntable_validation.json](turntable_validation.json) | The R3 turntable on the revision F chassis: fits, assembly paths, tools and the swing envelope |
 | [body_validation.json](body_validation.json) | The body B1 on the turntable: fits, the swing sweep over the tracks, assembly and service paths, tools, clearances |
@@ -76,8 +76,8 @@ Primary source files are `source/x1_parts.py`, `../J9/source/j9_mounts.py` and `
 ```sh
 python export_arc_frame.py                     # X101 STEP/STL
 python ../../J9/source/export_revf_track.py    # left and mirrored right J901/J909
-(cd ../../J9/source && python -c "import build_j9 as B, j9_parts as P; B.export_parts({n: dict(shape=P.PRINTED[n][0](), color=P.PRINTED[n][1], quantity=P.PRINTED[n][2], material=P.PRINTED[n][3], note=P.PRINTED[n][4]) for n in ('J904_roller', 'J906_idler_wheel')})")   # J904/J906 STEP/STL
-python check_revf_exports.py                   # verify the seven parts against the source
+(cd ../../J9/source && python -c "import build_j9 as B, j9_parts as P; B.export_parts({n: dict(shape=P.PRINTED[n][0](), color=P.PRINTED[n][1], quantity=P.PRINTED[n][2], material=P.PRINTED[n][3], note=P.PRINTED[n][4]) for n in ('J902_sprocket', 'J904_roller', 'J906_idler_wheel')})")   # J902/J904/J906 STEP/STL
+python check_revf_exports.py                   # verify the eight parts against the source
 python refresh_revf.py                         # rebuild assemblies and scenes; --verify only checks them
 python ../../J9/source/check_revf_track.py     # fresh J9 track validation
 python check_arc_sections.py

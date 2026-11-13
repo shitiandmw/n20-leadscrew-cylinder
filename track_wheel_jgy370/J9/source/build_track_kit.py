@@ -51,7 +51,7 @@ PRINTED = [
          note='Mirror pair: print one of each file.'),
     dict(id='J902', name='J902 sprocket', per_track=1, est=(5, .5, False), files={'both': J9S + 'J902_sprocket.stl'},
          settings='PETG or PA12, 5 walls, 50 % infill.', orientation='Outer disc face on the bed; no supports.',
-         note='Same print on both sides. Ø25.8 recess for the hub flange.'),
+         note='Same print on both sides. Ø32.4 recess for the coupling flange.'),
     dict(id='J903', name='J903 journal plug', per_track=1, est=(0, 1, False), files={'both': J9S + 'J903_journal_plug.stl'},
          settings='PETG or PA12, 100 % infill.', orientation='Standing on its end.', note='Ø9.95 journal in the 6800ZZ inner ring.'),
     dict(id='J904', name='J904 roller', per_track=7, est=(4, .4, False), files={'both': J9S + 'J904_roller.stl'},
@@ -74,15 +74,15 @@ OPTIONAL_PRINTED = [
          settings='PETG or PA12; qualify walls and infill for the load.', orientation='Bearing seat on the bed (as exported); support under the arm decks and head slots.',
          note='Revision F. Needs a bed of at least 300 x 300 mm.'),
 ]
-# Bought parts, per track (J9/BOM.md, 53 pieces). 'step' is where the animation fits them.
+# Bought parts, per track (J9/BOM.md, 52 pieces). 'step' is where the animation fits them.
 STANDARD = [
     dict(id='motor', cat='Drive and bearings', name='JGY-370-1260 worm gear motor, 12 V, 200:1 (30 rpm)', per_track=1,
          spec='Motor only: no L-bracket, no speed controller. Vendor table: 30 rpm no load, 6 kgf·cm rated at 0.2 A, 20 kgf·cm stall at 1.3 A.',
          buy_md='Shop options "12V 电机" (motor only) and "每分钟/30转 6KG.CM" (vendor row JGY-370-1260, 200:1).'),
-    dict(id='hub', cat='Drive and bearings', name='Pololu #1999 universal aluminium mounting hub, 6 mm shaft, M3 holes', per_track=1,
-         spec='Sold in pairs: one pack is enough for both tracks. Each hub comes with its two M3 set screws.', buy='1 pack of 2'),
-    dict(id='setscrew', cat='Drive and bearings', name='M3 set screws, supplied with the hub', per_track=2, spec='Both bear on the motor shaft\'s D-flat.',
-         buy='supplied'),
+    dict(id='hub', cat='Drive and bearings', name='Ø32 / Ø6 aluminium flange coupling (flange Ø32 x 4, 6 x M3 tapped on Ø23, boss Ø14 x 10)', per_track=1,
+         spec='Bore D = 6 mm. Seller drawing: track_wheel_jgy370/references/flange_coupling_32. Comes with one M3 set screw.'),
+    dict(id='setscrew', cat='Drive and bearings', name='M3 set screw, supplied with the coupling', per_track=1,
+         spec='Bears on the motor shaft\'s D-flat. The CAD assumes M3 x 4; up to 4.5 mm long stays below the boss surface.', buy='supplied'),
     dict(id='6800ZZ', cat='Drive and bearings', name='6800ZZ ball bearing, 10 x 19 x 5', per_track=1, spec='Outer support of the sprocket (journal plug).'),
     dict(id='624ZZ', cat='Drive and bearings', name='624ZZ ball bearing, 4 x 13 x 5', per_track=14, spec='Two per roller.'),
     dict(id='608ZZ', cat='Drive and bearings', name='608ZZ ball bearing, 8 x 22 x 7', per_track=2, spec='Idler.'),
@@ -94,7 +94,8 @@ STANDARD = [
     dict(id='M4x70', cat='Screws, nuts and inserts', name='M4 x 70 socket head screw (ISO 4762)', per_track=7, spec='Roller axles, from the inboard side.'),
     dict(id='nyloc', cat='Screws, nuts and inserts', name='M4 nyloc nut (DIN 985)', per_track=7, spec='Roller axles, outboard. Snug only.'),
     dict(id='M3x6', cat='Screws, nuts and inserts', name='M3 x 6 socket head screw (ISO 4762)', per_track=4, spec='Motor to the inner wall, from inside the H.'),
-    dict(id='M3x25', cat='Screws, nuts and inserts', name='M3 x 25 socket head screw (ISO 4762)', per_track=3, spec='Sprocket to the hub.'),
+    dict(id='M3x20', cat='Screws, nuts and inserts', name='M3 x 20 socket head screw (ISO 4762)', per_track=3,
+         spec='Sprocket to the coupling: 4 mm of thread in its flange.'),
     dict(id='M3x50', cat='Screws, nuts and inserts', name='M3 x 50 socket head screw (ISO 4762)', per_track=1,
          spec='Journal plug and sprocket onto the shaft\'s tapped end.'),
     dict(id='M3x8', cat='Screws, nuts and inserts', name='M3 x 8 button head screw (ISO 7380)', per_track=4, spec='Housing to the standoff inserts.'),
@@ -121,7 +122,7 @@ BENCH = [   # not in the CAD: for the first powered test on the bench
     dict(name='Reversing switch (DPDT) or a DC motor H-bridge', qty='1', spec='Both directions are needed.'),
 ]
 TOOLS = [
-    ('Hex keys 1.5, 2, 2.5 and 3 mm', 'hub set screws, M3 button heads, M3 socket heads, M4 socket heads'),
+    ('Hex keys 1.5, 2, 2.5 and 3 mm', 'the coupling set screw, M3 button heads, M3 socket heads, M4 socket heads'),
     ('7 mm spanner or socket', 'M4 nyloc nuts'),
     ('Soldering iron with an M3 heat-set insert tip', 'inserts and motor leads'),
     ('Vise with soft jaws or a small arbor press; for the idler, a tube or socket about Ø20-21 mm across and at least 20 mm long '
@@ -139,7 +140,7 @@ TOOLS = [
 X1_WIDE = [[0, [-480, 650, 520], [0, 40, 40]]]
 STEPS = [
     dict(id='overview', title='The finished track', dur=5,
-         caption='One J9 track: printed H-frame, JGY-370 motor in a closed pod, sprocket on a Pololu hub, 5 road and 2 support rollers, '
+         caption='One J9 track: printed H-frame, JGY-370 motor in a closed pod, sprocket on a Ø32 flange coupling, 5 road and 2 support rollers, '
                  'sprung idler and a 34-link steel-pinned chain. Build two; the right one uses the mirrored J901 and J909 prints.',
          do=['Print and buy everything in the Parts list tab; its quantities are for two tracks.',
              'Use the revision F J901 and J909 files: the left ones from J9/stl, the mirrored right ones from X1/stl.',
@@ -215,17 +216,18 @@ STEPS = [
          tools=['3 mm L-key, 20 mm short leg, 80 mm arm', 'compact 7 mm nut holder within Ø11.2 mm'], source='X1/ASSEMBLY.md 3',
          cams=[[0, [-260, 260, 160], [-110, 0, 45]]],
          camsX1=[[0, [560, -620, 480], [0, 0, 60]], [0.42, [280, 40, 140], [62, 130, 64]], [0.8, [250, 300, 260], [60, 150, 62]]]),
-    dict(id='sprocket', title='Sprocket and hub', dur=12,
-         caption='The Pololu hub bolts into the sprocket on the bench. The pair goes in between the walls from the rear, 9.6 mm outboard, then slides onto the D-shaft.',
-         do=['On the bench, put the hub\'s flange into the Ø25.8 recess in the sprocket\'s inner face, boss pointing away from the sprocket (toward the motor). Line up every other '
-             'hub hole with the three counterbores and fit three M3 x 25 from the sprocket\'s outer face; the heads end flush.',
-             'Start both hub set screws (the long one in the flange, the short one in the boss) but keep them backed out of the bore.',
-             'The set screws must end up on top, where the key reaches them. A worm gearbox usually cannot be turned by hand, so jog the motor to bring the '
+    dict(id='sprocket', title='Sprocket and coupling', dur=12,
+         caption='The flange coupling bolts into the sprocket on the bench. The pair goes in between the walls from the rear, 9.6 mm outboard, then slides onto the D-shaft.',
+         do=['On the bench, put the coupling\'s flange into the Ø32.4 recess in the sprocket\'s inner face, boss pointing away from the sprocket (toward the motor); '
+             'the sprocket\'s centre pad goes into the coupling bore. Line up every other coupling hole with the three counterbores and fit three M3 x 20 from the '
+             'sprocket\'s outer face; the heads end flush.',
+             'Start the coupling\'s set screw but keep it backed out of the bore.',
+             'The set screw must end up on top, where the key reaches it. A worm gearbox usually cannot be turned by hand, so jog the motor to bring the '
              'shaft\'s D-flat to the top.',
-             'Bring the sprocket in between the walls from the rear, about 10 mm outboard of its place so the hub clears the shaft tip. Slide it inboard onto the '
-             'shaft until its centre pad meets the shaft end; the hub boss stops 1 mm short of the wall.',
-             'With a 1.5 mm key straight down between the walls, tighten both set screws firmly on the flat and mark them with a paint line.'],
-         check=['Pololu gives no torque rating for set screws on a D-flat. Recheck them after the first runs and after any stall.'],
+             'Bring the sprocket in between the walls from the rear, about 10 mm outboard of its place so the coupling clears the shaft tip. Slide it inboard onto the '
+             'shaft until its centre pad meets the shaft end; the coupling boss stops 1 mm short of the wall.',
+             'With a 1.5 mm key straight down between the walls, 6 mm from the wall face, tighten the set screw firmly on the flat and mark it with a paint line.'],
+         check=['The coupling has one set screw and no torque rating on a D-flat. Recheck it after the first runs and after any stall.'],
          tools=['2.5 mm and 1.5 mm hex keys', 'paint marker'], source='J9/ASSEMBLY.md 1.5 and 4',
          cams=[[0, [-450, 280, 180], [-210, 10, 45]], [0.6, [-300, 230, 230], [-110, 0, 45]]],
          camsX1=[[0, [-600, 560, 420], [-120, 60, 50]]]),
@@ -273,7 +275,7 @@ STEPS = [
          do=['Run one complete circuit slowly, on a few volts with the current limited (a worm gearbox normally cannot be turned by hand). No wheel may rub, the bushings must '
              'enter and leave the sprocket cleanly, and the idler must recoil and return.',
              'With the track lifted, run it at 12 V with the current limited to about 1.0 A, slowly in both directions.',
-             'Feel the motor pod during the first runs (the pod is closed), and recheck the hub set screws.'],
+             'Feel the motor pod during the first runs (the pod is closed), and recheck the coupling set screw.'],
          check=['At a full 1.3 A stall in reverse the motor pulls about 50.8 N against the 51.9 N the idler holds at its stop. Keep the 1.0 A limit (about 38 N) '
                 'and do not hold a stall.'],
          tools=['current-limited 12 V supply', 'reversing switch or H-bridge'], source='J9/README.md, open items 1, 6 and 7',
@@ -413,9 +415,9 @@ def module_anim(name):
     travel = [(.38, sb), (.66, ent), (.84, on)]
     if name == 'J902_sprocket':
         return [e('sprocket', K((0, sb), *travel))]
-    if name == 'Pololu_1999_hub':
+    if name == 'flange_coupling_32':
         return [e('sprocket', K((.02, add(sb, (0, -35, 0))), (.16, sb), *travel))]
-    m = re.match(r'hub_screw_M3x25_(\d)$', name)
+    m = re.match(r'hub_screw_M3x20_(\d)$', name)
     if m:
         t = .17 + .05 * int(m[1])
         return [e('sprocket', K((t, add(sb, (0, 35, 0))), (t + .1, sb), *travel))]
@@ -454,7 +456,7 @@ def chassis_anim(p, order):
 def kit_id(name):
     for pre, k in [('J901_', 'J901'), ('J909_', 'J909'), ('J902_', 'J902'), ('J903_', 'J903'), ('J904_', 'J904'), ('J906_', 'J906'),
                    ('J907_', 'J907'), ('J908_', 'J908'), ('JGY370_', 'motor'), ('motor_screw_M3x6', 'M3x6'), ('sprocket_screw_M3x50', 'M3x50'),
-                   ('Pololu_1999_hub', 'hub'), ('hub_screw_M3x25', 'M3x25'), ('hub_set_screw', 'setscrew'), ('6800ZZ', '6800ZZ'),
+                   ('flange_coupling_32', 'hub'), ('hub_screw_M3x20', 'M3x20'), ('hub_set_screw', 'setscrew'), ('6800ZZ', '6800ZZ'),
                    ('624ZZ', '624ZZ'), ('bolt_M4x70', 'M4x70'), ('nyloc_M4', 'nyloc'), ('idler_pin_8x55', 'pin8'), ('608ZZ', '608ZZ'),
                    ('recoil_spring', 'spring'), ('insert_M3', 'insert'), ('housing_screw_M3x8', 'M3x8'), ('X101_', 'X101'),
                    ('mount_screw_M4x25', 'M4x25'), ('mount_washer', 'washer4'), ('mount_rear_washer', 'washer4'), ('mount_nut_M4', 'nut4')]:
@@ -480,8 +482,8 @@ LABELS = {   # step: [(text, part, anchor)]; anchors on the part's bounding box 
     'housing': [('J909 housing', 'J909_housing', 'ymin'), ('M3 x 8 button head x4', 'housing_screw_M3x8_2', 'ymin')],
     'xframe': [('X101 X-frame', 'X101_X_frame', 'zmax'), ('M4 x 25 + washer, in the side slot', 'mount_screw_M4x25_L11', 'ymin'),
                ('washer + M4 nut, inside the track', 'mount_nut_M4_L11', 'ymax')],
-    'sprocket': [('J902 sprocket', 'J902_sprocket', 'zmax'), ('Pololu #1999 hub', 'Pololu_1999_hub', 'ymin'),
-                 ('M3 x 25 x3', 'hub_screw_M3x25_1', 'ymax'), ('set screws on the D-flat', 'hub_set_screw_M3x8', 'zmax')],
+    'sprocket': [('J902 sprocket', 'J902_sprocket', 'zmax'), ('Ø32 flange coupling', 'flange_coupling_32', 'ymin'),
+                 ('M3 x 20 x3', 'hub_screw_M3x20_1', 'ymax'), ('set screw on the D-flat', 'hub_set_screw_M3x4', 'zmax')],
     'plug': [('J903 journal plug', 'J903_journal_plug', 'ymax'), ('M3 x 50', 'sprocket_screw_M3x50', 'ymax')],
     'chain': [('next link: down ahead, pushed back along the strip', 'link:{first}', 'c', .05, .1),   # {..}: numbers from chain_plan()
               ('bushing: in between the inner ears, from above', 'bush:{first}', 'c', .1, .125),
@@ -870,7 +872,7 @@ def main(package):
     expect = {k: v for k, v in per_track.items()}
     report['scene_counts_per_track'] = counts
     assert counts == expect, f'scene {counts} != list {expect}'
-    assert sum(i['per_track'] for i in PRINTED) - 34 == 15 and sum(i['per_track'] for i in STANDARD) == 53, 'J9/BOM.md totals changed'
+    assert sum(i['per_track'] for i in PRINTED) - 34 == 15 and sum(i['per_track'] for i in STANDARD) == 52, 'J9/BOM.md totals changed'
     chassis = [c for c in x1['chassis'] if c['name'] == 'X101_X_frame' or c['name'].startswith('mount_')]
     jc = {}
     for c in chassis:
@@ -1006,7 +1008,7 @@ def notes(stl):
           'one idler wheel: each 608ZZ slides in by hand through its Ø22.6 bore and presses home against the central web, 13 mm below the face '
           '(trim any bridge sag on the bed side first);',
           'the plug in a 6800ZZ inner ring, and a J907 spacer on the Ø8 pin;',
-          'the sprocket: the Pololu hub flange (Ø25.4) seats in its Ø25.8 recess.',
+          'the sprocket: the coupling flange (Ø32) seats in its Ø32.4 recess and the centre pad slides into the Ø6 bore.',
           'If a fit is off, correct the slicer\'s hole compensation, not the CAD. Then print the left H-frame and check its 6800ZZ seat, the motor '
           'counterbores and the Ø16.4 spring bore (with the J908 piston) before printing the right one.']),
         ('Left and right.', 'Print J901_H_frame.stl and J909_housing.stl from J9/stl for the left track and the _right files from X1/stl for the right track. '
@@ -1015,9 +1017,9 @@ def notes(stl):
 
 
 VERIFY = [
-    ('Fits:', 'the 6800ZZ, 624ZZ and 608 press fits, the Ø9.95 plug in the 6800ZZ, the Ø25.8 hub recess, the Ø15.6 piston in the Ø16.4 bore.'),
+    ('Fits:', 'the 6800ZZ, 624ZZ and 608 press fits, the Ø9.95 plug in the 6800ZZ, the Ø32.4 coupling recess, the Ø15.6 piston in the Ø16.4 bore.'),
     ('Motor screw holes:', '3 mm of thread engagement in the gearbox is assumed. Measure the real holes.'),
-    ('Hub set screws:', 'no torque rating on a D-flat. Mark them, and recheck after the first runs and after any stall.'),
+    ('Coupling set screw:', 'one set screw, no torque rating on a D-flat. Mark it, and recheck after the first runs and after any stall.'),
     ('Reverse stall:', 'limit the driver to about 1.0 A; at the full 1.3 A stall the idler has almost no margin.'),
     ('Heat:', 'the pod is closed. Feel the motor pod during the first runs and do not hold a stall.'),
     ('Loads and wear:', 'no load rating is claimed; the vehicle mass is not specified.'),

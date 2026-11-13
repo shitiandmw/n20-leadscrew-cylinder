@@ -1,7 +1,7 @@
 {
  "pass": true,
- "html_sha256": "b9a3af2b8e7d30168014b0444021785a21973db4833d08b9fbeaea9c8c79633b",
- "checker_sha256": "2a2ab799c13b415756d83960703b3c601dec035aa2b7a0a3617f0b457f3e0478",
+ "html_sha256": "cf9e6e46f497fcd9186bc32405d69c841c8ef112ce629d41297b6e892cffd911",
+ "checker_sha256": "bfabbebd1e8583bc7ea3a8f3bf65386d6961c087b958ea8d3d244a0d527a6ebb",
  "items": {
   "J901": {
    "coverage": 0.0946,
@@ -60,16 +60,16 @@
    }
   },
   "J902": {
-   "coverage": 0.1154,
+   "coverage": 0.1156,
    "labels_key": 9,
    "labels_all": 13,
-   "cut_face_px": 11268,
+   "cut_face_px": 10394,
    "bed": {
     "left": {
      "size": [
       81.641,
       81.641,
-      23.3
+      22.9
      ],
      "min_z": 0
     }
@@ -221,21 +221,21 @@
    }
   },
   "hub": {
-   "coverage": 0.131,
+   "coverage": 0.1194,
    "labels_key": 4,
    "labels_all": 5,
-   "cut_face_px": 8023,
+   "cut_face_px": 10720,
    "track": {
     "left": 1
    }
   },
   "setscrew": {
-   "coverage": 0.1075,
-   "labels_key": 3,
-   "labels_all": 3,
-   "cut_face_px": 36747,
+   "coverage": 0.1617,
+   "labels_key": 2,
+   "labels_all": 2,
+   "cut_face_px": 49264,
    "track": {
-    "left": 2
+    "left": 1
    }
   },
   "6800ZZ": {
@@ -327,11 +327,11 @@
     "left": 4
    }
   },
-  "M3x25": {
-   "coverage": 0.0389,
+  "M3x20": {
+   "coverage": 0.0481,
    "labels_key": 3,
    "labels_all": 3,
-   "cut_face_px": 15464,
+   "cut_face_px": 18568,
    "track": {
     "left": 3
    }
@@ -458,7 +458,7 @@
    "model": false
   }
  },
- "load_seconds": 3.081,
+ "load_seconds": 11.484,
  "kit": {
   "csv_rows": 37,
   "kit_entries": 35,
@@ -482,8 +482,8 @@
   "608ZZ",
   "tool3"
  ],
- "search_m3x25": [
-  "M3x25"
+ "search_m3x20": [
+  "M3x20"
  ],
  "thumbnails": {
   "n": 33,
@@ -492,39 +492,39 @@
  "screenshots": {
   "showcase_overview": {
    "file": "images/showcase_overview.png",
-   "sha256": "aa7589e70d6de552dd56122d01cf847fe030bcde46dd2643923e8bae26782a64"
+   "sha256": "7956734675ab9874a21b0ccc1006de9af88da66902a40417500383ce9cec6f6e"
   },
   "showcase_J901": {
    "file": "images/showcase_J901.png",
-   "sha256": "9a37e0b4ebb94376dfb1683fe77e22ec224ebcb9b3e591430cb04f024406a3f8"
+   "sha256": "e1f958c4510eda97cebd83c5cab6f323df988921f36dbf8e4ec503afd4ac66ab"
   },
   "showcase_J902_all": {
    "file": "images/showcase_J902_all.png",
-   "sha256": "9eb2c7b598a55e731ae729addf63e3324a25ddb8134a3c7298c9e3328445a575"
+   "sha256": "7f0ab1111cac7840739d9ba269fc7be437f9deab06c3b4698c36797e5873d7f6"
   },
   "showcase_J906_cut": {
    "file": "images/showcase_J906_cut.png",
-   "sha256": "7998329059a8b941b5660b8ca05f777005cdd50ba1e52b68afbf48510581d24b"
+   "sha256": "723d98ccc1b24177eab856af7c989fc64ebd6ceaf92352c5ece4e2866aa88e1e"
   },
   "showcase_J904_track": {
    "file": "images/showcase_J904_track.png",
-   "sha256": "85c265e6fc67ec919effcebd2b67e83b0762a8b1472c6f85d0242f9197608efe"
+   "sha256": "80c35786587f9309054e7807854513d2b3ec149daacc459eeb3e594f1cb16b4b"
   },
   "showcase_J909_right": {
    "file": "images/showcase_J909_right.png",
-   "sha256": "bcc9b184d0caaf61ed18d4d8da8b0a0f3d112186c268417d6c7df50629327775"
+   "sha256": "471086176084d792d45fd961661b1b1c43d201d392de2dd1da286451e9ab4e42"
   },
   "showcase_spring": {
    "file": "images/showcase_spring.png",
-   "sha256": "08dbd0d6f9b63a6296b83f54a94f04eabdfbb1187a0e6d23773453be5444c981"
+   "sha256": "6cde3cb92ac44378ba896bf4b922be02fa753b0f8be870dda384b6a2c695dda0"
   },
   "showcase_X101_joint": {
    "file": "images/showcase_X101_joint.png",
-   "sha256": "a76607a9056e8fd6ec175b799b5175e3ebe3fc7ed24c759c44bdb0d0c2aaea90"
+   "sha256": "eda3d1a3a6e92eaae91aef676b5b1e3e15125b7722ccb9e22c0cd6cd4b86037f"
   },
   "showcase_phone": {
    "file": "images/showcase_phone.png",
-   "sha256": "46854823062060e34bb7a7b7e2e64085e4f72067ebd1d55ef2b29975350e7571"
+   "sha256": "a6ecdca606102776eff17d6ae3766e413c46cec2515bb71104dc8bc204d5070f"
   }
  },
  "phone": {

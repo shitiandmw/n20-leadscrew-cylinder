@@ -54,6 +54,7 @@ RU_OUT_PCD, RU_IN_PCD = X.RU66['outer_pcd'], X.RU66['inner_pcd']                
 MR_R0, MR_R1, MR_Z0 = X.MOUNT_RING                                                         # 35, 48, 75
 PCD_R = R2.PCD_R
 HUB = C.HUB                                          # Pololu #1999: flange Ø25.4 x 5, boss Ø12 x 4.2
+HUB_SET_SCREWS = C.HUB_SET_SCREWS                    # its two radial M3 set screws (depth from the flange face, length)
 M, ZR, ZP = C.MOD, C.Z_RING, C.Z_PIN                 # 1.5, 80, 20
 CD = C.CD                                            # 75
 RING_TIP, RING_ROOT, PIN_TIP, PIN_ROOT = C.RING_TIP, C.RING_ROOT, C.PIN_TIP, C.PIN_ROOT

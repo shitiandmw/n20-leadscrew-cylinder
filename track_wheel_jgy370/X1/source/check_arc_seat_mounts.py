@@ -125,7 +125,7 @@ def verify_proofs(allow_pending_track=False):
     exports = reports['revf_part_exports.json']['exports']
     assert {row['name'] for row in exports} == {
         'X101_X_frame', 'J901_H_frame', 'J909_housing', 'J901_H_frame_right', 'J909_housing_right',
-        'J904_roller', 'J906_idler_wheel'}
+        'J902_sprocket', 'J904_roller', 'J906_idler_wheel'}
     assert all(row['step_roundtrip'] and row['stl_watertight'] and row['matches_current_source'] and
                row['solids'] == 1 and row['stl_components'] == 1 for row in exports)
     if not allow_pending_track:
@@ -403,23 +403,30 @@ def sprocket_route_envelopes():
 
     Fresh containment proofs verify actual STEP components against the base
     envelopes. The radial capsule contains all -150..0 mm X translations at
-    Y offset9.6. Three coaxial bands contain all 0..9.6 mm axial translations.
-    The D-profile shaft clearance stays empty below its fixed tip throughout
-    positive-Y movement. Material above its flat includes the radial set
-    screw tips, which must not be excluded by a circular bore approximation.
+    Y offset9.6. Three coaxial bands contain all 0..9.6 mm axial translations:
+    the coupling boss, the coupling flange with the sprocket-screw tips past
+    it, and the sprocket from its inboard ring face (sizes from j9_design, so
+    they follow the hub). The D-profile shaft clearance stays empty below its
+    fixed tip throughout positive-Y movement. Material above its flat includes
+    the radial set-screw tip, which must not be excluded by a circular bore
+    approximation.
     """
     x,z=D.DRIVE_X,D.AXLE_Z
     radius=D.SPROCKET_TIP_R+.01
     radial_seed=tp.ycyl(radius,-13.41,18.11,x,z)
     radial=tp.box(x-150.,x,-13.41,18.11,z-radius,z+radius).union(
         tp.ycyl(radius,-13.41,18.11,x-150.,z)).union(radial_seed).clean()
+    flange_back=D.HUB_FACE_Y-D.HUB['flange_t']
+    boss_end=flange_back-D.HUB['boss_h']
+    screw_tip=D.SPROCKET_Y[1]-P.M3_HEAD['h']-D.HUB_SCREW_L
     def bands(ymax):
-        shape=tp.ycyl(6.1,-23.01,ymax,x,z).union(
-            tp.ycyl(16.,-19.51,ymax,x,z)).union(tp.ycyl(radius,-8.51,ymax,x,z))
+        shape=tp.ycyl(D.HUB['boss_r']+.1,boss_end-.01,ymax,x,z).union(
+            tp.ycyl(D.HUB['flange_r']+.1,min(flange_back,screw_tip)-.01,ymax,x,z)).union(
+            tp.ycyl(radius,D.SPROCKET_Y[0]-.01,ymax,x,z))
         flat_z=z+D.SHAFT_FLAT['across']-3.
         clearance=tp.ycyl(3.,-24.,D.SHAFT_TIP_Y,x,z).intersect(
             tp.box(x-4.,x+4.,-24.,D.SHAFT_TIP_Y,z-4.,flat_z))
-        assert -23.01 > D.SHAFT_TIP_Y-D.SHAFT_FLAT['length']
+        assert boss_end-.01 > D.SHAFT_TIP_Y-D.SHAFT_FLAT['length'] and boss_end-.01 > -24.
         return shape.cut(clearance).clean()
     return radial_seed,radial,bands(8.51),bands(18.11)
 
@@ -621,7 +628,7 @@ def main():
 
     print('Vertical frame lowering into both prepared tracks; lateral fitting is unsuitable', flush=True)
     removed_for_fitting = {n for n in every if n.startswith(('L_', 'R_')) and
-                           (n.endswith(('J902_sprocket', 'Pololu_1999_hub', 'J903_journal_plug',
+                           (n.endswith(('J902_sprocket', 'flange_coupling_32', 'J903_journal_plug',
                                         'sprocket_screw_M3x50')) or
                             '_hub_screw_' in n or '_hub_set_screw_' in n)}
     fit_fixed = {n: d for n, d in no_chain.items() if n.startswith(('L_', 'R_')) and
@@ -680,7 +687,7 @@ def main():
         # Roller wheels and their long axles are already installed. The rear
         # sprocket/hub and track chain are left off for nut/socket access.
         removed = {n for n in every if n.startswith(tag+'_') and
-                   (n.endswith(('J902_sprocket', 'Pololu_1999_hub', 'J903_journal_plug', 'sprocket_screw_M3x50')) or
+                   (n.endswith(('J902_sprocket', 'flange_coupling_32', 'J903_journal_plug', 'sprocket_screw_M3x50')) or
                     '_hub_screw_' in n or '_hub_set_screw_' in n)}
         nut_stage = {n: d for n, d in no_chain.items() if n not in removed}
         for i, j, x, z in M.bolt_centres():
@@ -767,7 +774,7 @@ def main():
     for side, tag in ((1, 'L'), (-1, 'R')):
         # Track sprocket and idler enter from their respective open ends.
         spr = {n: d for n, d in every.items() if n.startswith(tag+'_') and
-               (n.endswith(('J902_sprocket', 'Pololu_1999_hub')) or
+               (n.endswith(('J902_sprocket', 'flange_coupling_32')) or
                 '_hub_screw_' in n or '_hub_set_screw_' in n)}
         omitted = set(spr) | {f'{tag}_J903_journal_plug', f'{tag}_sprocket_screw_M3x50'}
         stage = {n: d for n, d in no_chain.items() if n not in omitted}
@@ -791,7 +798,7 @@ def main():
                         explanation='Measured STEP containment in conservative cylinder bands/capsule. '
                                     'The radial sweep is separated from new fasteners by at least5.39mm in Y. '
                                     'The D-profile shaft clearance below its fixed tip remains empty under positive-Y translation; '
-                                    'the envelope retains material above the flat to include both hub set-screw tips.')
+                                    'the envelope retains material above the flat to include the coupling set-screw tip.')
         swept=run(f'sprocket_sweeps_{tag}',continuous_sprocket)
         sprocket_sweeps.extend(swept['checks'])
         sprocket_containment.append(dict(side=tag, containment=swept['containment'],

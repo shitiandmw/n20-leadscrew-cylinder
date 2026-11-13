@@ -66,7 +66,8 @@ add(P, 'W01_cable_clamp', n_clamps + 3, 'PETG, 100 %; 8 x 7 x 5.5; glued with CA
 # ------------------------------------------------------------------ bought: motors, bearings, mechanical
 B = 'Bought mechanical'
 add(B, 'JGY-370-1260 12 V worm gear motor, 200:1, 30 rpm', 3, 'motor only, no bracket / speed controller', 'J9/BOM.md, X1/TURNTABLE.md', '2 tracks + swing')
-add(B, 'Pololu #1999 universal mounting hub, 6 mm, M3', 3, 'sold in pairs: 2 packs', 'J9/BOM.md, X1/TURNTABLE.md', '2 sprockets + pinion; set screws supplied')
+add(B, 'Ø32 / Ø6 aluminium flange coupling (flange Ø32 x 4, 6 x M3 tapped on Ø23, boss Ø14 x 10)', 2, 'one M3 set screw supplied with each', 'J9/BOM.md', '2 sprockets; seller drawing in track_wheel_jgy370/references/flange_coupling_32')
+add(B, 'Pololu #1999 universal mounting hub, 6 mm, M3', 1, 'sold in pairs: 1 pack. Could not be bought on 2026-11-12; a substitute must be no bigger: flange max Ø26 x 5.5, boss max Ø13, max 9.9 long, set screw in the flange', 'X1/TURNTABLE.md', 'swing pinion; set screws supplied')
 add(B, 'THK RU66 cross-roller ring', 1, 'Ø35 bore, Ø95, 15 high (catalogue A18-20/21)', 'X1/BOM.md', 'see references/thk_ru66/SOURCE.md before substituting')
 add(B, '6-way 2 A flanged slip ring', 1, 'Ø22 body, Ø44 flange, Ø7.8 rotor (seller drawing)', 'X1/TURNTABLE.md', 'rings 1-4 used')
 add(B, 'N20 gearmotor 12 V 1:50 800 rpm with M4 x 0.7 leadscrew (100 mm stock)', 4, 'screw cut to 75 mm; otherwise unmodified', 'actuator_v6/BOM.md', 'V6-U60 drives')
@@ -121,7 +122,7 @@ add(S, 'M3 x 8 countersunk (ISO 10642)', 4, 'belly cover', 'X1/BOM.md')
 add(S, 'M3 x 10 socket', 4, 'pinion to the hub', 'X1/TURNTABLE.md')
 add(S, 'M3 x 12 socket', 10, 'slide clamps (4), push screws (2), body halves (4)', 'X1/TURNTABLE.md, X1/BODY.md')
 add(S, 'M3 x 12 countersunk (ISO 10642)', 6, 'ring gear from below', 'X1/TURNTABLE.md')
-add(S, 'M3 x 25 socket', 6, 'sprockets to the hubs', 'J9/BOM.md')
+add(S, 'M3 x 20 socket', 6, 'sprockets to the couplings', 'J9/BOM.md')
 add(S, 'M3 x 50 socket', 2, 'journal plugs', 'J9/BOM.md')
 add(S, 'M3 nut', 2, 'push-screw locks', 'X1/TURNTABLE.md')
 add(S, 'M3 washer (ISO 7089)', 7, 'slip ring (3), slide clamps (4)', 'X1/TURNTABLE.md')

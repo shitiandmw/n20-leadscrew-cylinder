@@ -41,7 +41,11 @@ PIN_TIP, PIN_ROOT = R_PIN + MOD, R_PIN - 1.25*MOD
 GEAR_Z, PIN_Z = (85.0, 97.0), (87.0, 97.0)            # pinion 2 mm above the leg tops (Z 85)
 DECK_Z = (101.0, 107.0)                               # turntable deck: 1 mm above the RU66 outer ring
 RATIO = Z_RING/Z_PIN
-HUB = D9.HUB                                          # Pololu #1999, as on the J9 sprocket
+# Pololu #1999 universal aluminium hub (6 mm bore, 6 x M3), from its drawing (pololu.com/file/0J667) and STEP
+# (pololu.com/file/0J1153); two radial M3 set screws at the same angle, flange mid-plane and boss mid-height. The J9
+# sprockets used it too until 2026-11-12, when they moved to a Ø32 flange coupling; the turntable keeps this size.
+HUB = dict(flange_r=12.7, flange_t=5.0, boss_r=6.0, boss_h=4.2, bore_r=3.0, pcd_r=9.525, tap_r=1.25)
+HUB_SET_SCREWS = ((2.5, 8.0), (7.1, 3.0))             # (depth from the flange face, M3 set screw length) flange, boss
 SHAFT_LEN = D9.SHAFT_TIP_Y - D9.GEARBOX_FACE_Y        # 15.6 beyond the gearbox face
 # JGY-370 envelope from the J9 model; here the shaft points down and the can points to the rear
 GB_FRONT, GB_REAR = D9.DRIVE_X - P9.GB_X[0], P9.GB_X[1] - D9.DRIVE_X       # 14.5 / 31.5 from the shaft

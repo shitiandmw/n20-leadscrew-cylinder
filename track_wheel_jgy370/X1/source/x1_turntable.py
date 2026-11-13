@@ -297,7 +297,7 @@ def pinion_shape():
     return s.clean()
 
 
-HUB_PCD_R = D9.HUB['pcd_r']                            # 9.525
+HUB_PCD_R = R3.HUB['pcd_r']                            # 9.525
 HUB_HOLE_ANG = [60.0*k for k in range(6)]              # the hub's 6 tapped holes; its set screws point to -Y, between two holes
 PINION_SCREW_ANG = [0.0, 60.0, 180.0, 240.0]           # 4 of them carry the pinion
 
@@ -322,13 +322,13 @@ def motor_parts():
 
 def pololu_hub():
     """Pololu #1999 on the motor shaft, flange face down on the pinion (Z 97), boss up."""
-    h, (z0, z1, z2) = D9.HUB, R3.HUB_Z
+    h, (z0, z1, z2) = R3.HUB, R3.HUB_Z
     s = zcyl(h['flange_r'], z0, z1, PXS, 0).union(zcyl(h['boss_r'], z1 - .01, z2, PXS, 0))
     s = s.cut(zcyl(h['bore_r'], z0 - 1, z2 + 1, PXS, 0))
     for a in HUB_HOLE_ANG:
         x, y = polar(HUB_PCD_R, a)
         s = s.cut(zcyl(1.5, z0 - 1, z1 + 1, PXS + x, y))
-    for depth, _ in D9.HUB_SET_SCREWS:
+    for depth, _ in R3.HUB_SET_SCREWS:
         s = s.cut(tp.ycyl(1.5, -h['flange_r'] - 1, 0, PXS, z0 + depth))
     return s.clean()
 
@@ -337,7 +337,7 @@ def hub_set_screws():
     """M3 cup-point set screws (ISO 4029: 45° chamfer to the Ø1.4 cup) on the shaft's flat, which faces -Y in this
     pose. The boss screw's cup lands 1.3 mm short of the flat's end (the hub sits 4.2 mm further up the shaft than on J9)."""
     out = []
-    for depth, length in D9.HUB_SET_SCREWS:
+    for depth, length in R3.HUB_SET_SCREWS:
         y0, z = -(D9.SHAFT_FLAT['across'] - 3.0), R3.HUB_Z[0] + depth
         body = tp.ycyl(1.5, y0 - length, y0 - .8, PXS, z)
         cone = cq.Workplane(obj=cq.Solid.makeCone(1.5, .7, .8, cq.Vector(PXS, y0 - .8, z), cq.Vector(0, 1, 0)))

@@ -7,7 +7,7 @@ The mirrored module for the other side uses the same parts, assembled as a mirro
 | Part | Qty | Material and orientation | Notes |
 |---|---|---|---|
 | J901_H_frame | 1 | PETG or PA12. Qualify wall count, infill and layer orientation for the intended load; no structural print recipe is validated. Outer wall face on the bed; supports under the inner wall. | Revision F: inner main plate with 10 mm base thickness, 1.5 mm deep curved-support receiving seats and plain mounting holes; outer wall remains 6 mm. Mechanism recesses retain the motor seat, 7 roller axes and yoke grooves. Retains the 6800ZZ seat, main web, recessed Ø16.4 spring guide with Ø21.2 exterior, motor rim and four cover standoffs. The support seats include lower receiving shoulders; no separate projecting chassis pads or recessed mounting-nut pockets. Use the current STL bounds. |
-| J902_sprocket | 1 | PETG or PA12, 5 walls, 50 % infill. Outer disc face on the bed, no supports. | Unchanged 12-tooth, 20 mm pitch form. Ø25.8 × 1 recess for the hub flange, 3 counterbored M3 holes on a Ø19.05 circle, stop pad for the shaft end, Ø10.1 socket for the plug. |
+| J902_sprocket | 1 | PETG or PA12, 5 walls, 50 % infill. Outer disc face on the bed, no supports. | Unchanged 12-tooth, 20 mm pitch form. Ø37 × 1.5 ring with a Ø32.4 × 1 recess for the coupling flange, 3 counterbored M3 holes on a Ø23 circle, Ø5.4 × 5.4 stop pad down the coupling bore to the shaft end, Ø10.1 socket for the plug. |
 | J903_journal_plug | 1 | PETG or PA12, 100 % infill, standing on its end. | Ø9.95 × 26.5 journal in the 6800ZZ, with an M3 clearance bore. |
 | J904_roller | 7 | PETG, 4 walls, 40 % infill, on a flange face. | Road (5) and support (2) roller: Ø22 tread, Ø26 flanges, 46 wide, two Ø13 bearing seats. Ø8 centre bore, so each seat's shoulder bears only on the 624 outer ring (Ø6 until 2026-11-11). |
 | J906_idler_wheel | 1 | As J8 07_idler_wheel. | J8/R5 idler outline. Both 608 seats open to the faces: a Ø22.6 slide-in bore with a 0.6 mm chamfer, then the Ø22.2 × 7.5 press seat against the central web. (The inherited wheel had both seats sealed behind Ø16.4 necks.) |
@@ -16,13 +16,13 @@ The mirrored module for the other side uses the same parts, assembled as a mirro
 | J909_housing | 1 | PETG, 3 walls. Skirt inner face on the bed; supports inside the motor pod only. | Inboard skirt and closed motor pod in one piece: drum on the sprocket axis, gearbox shoulder, motor tube, nose with a Ø5.5 cable port. Ø8 roller-bolt access holes, curved-support clearance openings and retained cover attachment axes. Current print bounds are in the revision F export report. |
 | J910_track_shoe_70 | 34 | PETG or PA12, grousers on the bed (as R4). | R4 shoe and link plates, with the shoe plate widened to 70 mm. |
 
-## Bought: 53 pieces
+## Bought: 52 pieces
 
 | Item | Qty | Use |
 |---|---|---|
 | JGY-370-1260 12 V worm gear motor, 200:1. Shop options: "12V 电机" (motor only, no bracket or speed controller) and "每分钟/30转 6KG.CM". | 1 | Drive. Gearbox face on the inner wall. 30 rpm no load; 6 kgf·cm rated at 0.2 A; 20 kgf·cm stall at 1.3 A (vendor table). |
-| Pololu #1999 universal aluminium mounting hub, 6 mm shaft, M3 holes (sold in pairs: one pack does both tracks) | 1 | Sprocket hub on the motor's D-shaft. Sized from Pololu's drawing and STEP (`track_wheel_jgy370/references/pololu_1999/`). |
-| M3 set screws, supplied with the hub | 2 | Both bear on the D-flat. The CAD assumes 8 mm in the flange and 3 mm in the boss, because Pololu gives no lengths. Anything up to 10 mm (flange) or 3.5 mm (boss) stays below the surface. |
+| Ø32 / Ø6 aluminium flange coupling: flange Ø32 × 4 with 6 × M3 tapped holes on a Ø23 circle, boss Ø14 × 10, bore 6 mm | 1 | Sprocket hub on the motor's D-shaft, replacing the Pololu #1999 hub, which could not be bought (2026-11-12). Sized from the seller's drawing, with every value checked on the part (`track_wheel_jgy370/references/flange_coupling_32/`). |
+| M3 set screw, supplied with the coupling | 1 | In the boss, 5 mm from its end, halfway between two flange holes; bears on the D-flat. The seller gives no length: the CAD assumes 4 mm, and anything up to 4.5 mm stays below the boss surface. |
 | 6800ZZ bearing, 10 × 19 × 5 | 1 | Outer support of the sprocket (journal plug). |
 | 624ZZ bearing, 4 × 13 × 5 | 14 | Two per roller. |
 | 608ZZ bearing, 8 × 22 × 7 | 2 | Idler (as J8). |
@@ -31,7 +31,7 @@ The mirrored module for the other side uses the same parts, assembled as a mirro
 | M4 nyloc nut (DIN 985) | 7 | Roller axles, outboard side. Tighten until snug only. |
 | M3 × 6 socket head screw (ISO 4762) | 4 | Motor to inner wall, from inside the H (3 mm engagement). |
 | M3 × 50 socket head screw (ISO 4762) | 1 | Journal plug and sprocket onto the motor shaft's tapped end. |
-| M3 × 25 socket head screw (ISO 4762) | 3 | Sprocket to the hub, from the sprocket's outer face. 5 mm thread in the hub. |
+| M3 × 20 socket head screw (ISO 4762) | 3 | Sprocket to the coupling, from the sprocket's outer face: 4 mm of thread in the flange, tip 1.5 mm past it. |
 | M3 × 8 button head screw (ISO 7380) | 4 | Housing to the standoffs on the inner wall: 5.5 mm in the insert. |
 | M3 heat-set insert (hole Ø4.0 × 5.7) | 4 | Tops of the housing standoffs on the inner wall. |
 | Compression spring, Associated/Lee Spring C-600-072-1500 (R5 part) | 1 | Idler tension: 25.8 fitted, 77 N. |
@@ -49,6 +49,6 @@ The mirrored module for the other side uses the same parts, assembled as a mirro
 | | J9 CAD | J9 concept | J8 |
 |---|---|---|---|
 | Printed pieces (without the track) | 15 | 12 | — |
-| Bought pieces (without the track) | 53 | 51 | — |
-| Total without the track | 68 | 63 | 148 (25 custom machined) |
+| Bought pieces (without the track) | 52 | 51 | — |
+| Total without the track | 67 | 63 | 148 (25 custom machined) |
 | Custom-machined parts | 0 | 0 | 25 |

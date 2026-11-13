@@ -31,7 +31,7 @@ function pivot(name,x,z){const o=new THREE.Group(),i=new THREE.Group();o.positio
 pivot('drive',...V.drive);pivot('idler',...V.idler);for(const [g,[x,z]] of Object.entries(V.rollers))pivot(g,x,z);
 const meshes=[];
 function explodeOffset(p){const n=p.name;if(p.group==='housing')return [0,-75,0];if(n.startsWith('JGY370_')||n.startsWith('motor_screw'))return [0,-40,0];
- if(n==='J902_sprocket')return [-100,0,0];if(n==='Pololu_1999_hub'||n.startsWith('hub_set_screw'))return [-100,-30,0];if(n.startsWith('hub_screw'))return [-100,30,0];if(n==='J903_journal_plug'||n==='sprocket_screw_M3x50')return [0,60,0];if(n.startsWith('6800ZZ'))return [0,38,0];
+ if(n==='J902_sprocket')return [-100,0,0];if(n==='flange_coupling_32'||n.startsWith('hub_set_screw'))return [-100,-30,0];if(n.startsWith('hub_screw'))return [-100,30,0];if(n==='J903_journal_plug'||n==='sprocket_screw_M3x50')return [0,60,0];if(n.startsWith('6800ZZ'))return [0,38,0];
  if(n.startsWith('bolt_M4'))return [0,-55,0];if(n.startsWith('nyloc'))return [0,50,0];if(n.includes('road'))return [0,0,-42];if(n.includes('support'))return [0,0,38];
  if(p.group==='idler'||p.group==='idler_slide')return [75,0,0];if(p.group==='spring')return [38,0,0];return [0,0,0]}
 for(const p of DATA.unit){const m=new THREE.Mesh(geometry(p),mat(p.color,p.kind));m.userData=p;m.userData.explode=explodeOffset(p);(groups[p.group]?groups[p.group].i:root).add(m);meshes.push(m)}
@@ -57,7 +57,7 @@ const views={iso:{pos:[-250,470,250],target:[0,0,40],cap:'Outboard 3/4 view. The
  top:{pos:[0,-1,620],target:[0,-12,40],cap:'Top view: 70 mm shoes; housing with its motor pod on the inboard side.'},
  frame:{pos:[-240,430,300],target:[0,0,40],cap:'H-frame with drive, rollers and tensioner. Track, housing and motor hidden.',hide:['track','housing','motor']},
  spring:{pos:[53,145,80],target:[45,0,44.32],cap:'Axial spring-guide cutaway: the outboard half of the main frame is clipped away. The Ø15.24 spring sits entirely inside a Ø16.4 hole with a 2.4 mm wall; the purple Ø15.6 yoke piston slides into it. Original 77 N preload and 4.2 mm recoil are retained.',hide:['track','housing','motor','ground'],section:true},
- exploded:{pos:[-330,560,330],target:[0,-10,30],cap:'Exploded: sprocket leaves to the rear (its fitting path) with its Pololu hub inboard and hub screws outboard, journal plug and screw outboard, rollers down/up, yoke + idler forward, housing and motor inboard.',explode:true}};
+ exploded:{pos:[-330,560,330],target:[0,-10,30],cap:'Exploded: sprocket leaves to the rear (its fitting path) with its flange coupling inboard and its screws outboard, journal plug and screw outboard, rollers down/up, yoke + idler forward, housing and motor inboard.',explode:true}};
 let view='iso';function setView(v){view=v;const s=views[v];camera.position.set(...s.pos);controls.target.set(...s.target);controls.update();
  document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('on',b.dataset.view===v));
  for(const k of ['track','housing','motor','ground'])ui[k].checked=!(s.hide||[]).includes(k);

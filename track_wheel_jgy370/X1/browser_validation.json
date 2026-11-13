@@ -1,7 +1,7 @@
 {
  "pass": true,
- "html_sha256": "1217e123a566ad1923a1022f10dd06fc1155e1b71a7b563a8056dcac46fe5947",
- "scene_sha256": "63f742cdc029f43de86bde8b2eadd7e2939934195f53f825cc26cd0c30a0d1dc",
+ "html_sha256": "9ceb32c948f151021bd5a7c6eb38806d10a3d32969792190e4431ec9d821ea1c",
+ "scene_sha256": "719ef833e722c4c36c0480d9f591df2b5a849981d7cc407a2388a62e453a9b23",
  "checker_sha256": "eb5fd962c88051aee85d3829ab36475bb064e5ba055546d5acfcaf78a92fa6f8",
  "views": {
   "mounts": "images/X1_mounts.png",
@@ -26,16 +26,16 @@
  "screenshot_sha256": {
   "mounts": "df63578560b3c7c892e640ba242bc426dc417289ef784b4e61f3998c7e0cc6e9",
   "frame": "97ee0500285a0cdd7640f4ba5f91fa54e4f0e909bbcc553d93b7c6e21308dbc5",
-  "iso": "1960f13938f0187f20a6193bd8b15200cdc588dff7c746e7a795f0186d092b78",
-  "rear": "d2db11cb39fc5169c0b2781d885ec37e3d36c86eb42237d032569b75bc45cedc",
+  "iso": "7d4755f7fcac102059f13115b43c4e2ee9113d0ca55f0e16713253665598c6eb",
+  "rear": "9a1d1a842d753137dc02201c64a1e4b22b1262b3c543d15e2a0d633916ef5be4",
   "front": "a024d3241656ca3542db2d89487fd3721ac7f4f1dbe6309faea80c2e36b63acf",
   "top": "b36a3af6e45884a6d6c213e95e757e224ac06fba2a70965d282c7fa09571503d",
-  "seat": "da4d528f676bd7815ed629964ae2f8a3536918cc6a8cc8e668f38355d1fb803f",
-  "under": "ea15ad9573b470582c8d0cfdaa9e4075dbc307066815fbd2882f5997a363698b",
+  "seat": "d0caacd8cecaec0cbb9188869e882378b167ef23ef5d6c91c2bcac805357d146",
+  "under": "683255de6abc42dc433cf07e4326c90be517a4d0b61ca9389ea23c64bb9c0159",
   "springs": "4db41d6c908897de12b465fffb20ffbc97a6eea896982137f42fa7ac92e0ab06",
   "drive": "341246ed8303040b39063d0ba97ceccc22ebee81dabaa435c3e87b7d3c53aa7b",
   "hub": "bb6dbeae1fbbd8c91993804d74b51a104ed4b6924f3b6ae639b75bf8093378c0",
-  "exploded": "0c61cfb5b533b5d792bd3759114b1d8b157c2ab64c45cc0be6d8e66e74cffe91",
+  "exploded": "fc8c3a5b08f89b7d2a5c488d3afa7446f31515945927062763e8d7e6e23c2905",
   "body": "2de2ddcdbd1acfd647e0c0ecb7663bba9615aadb2e142048c8b85e4556b86dea",
   "cab": "f23e309991b3c697a3124b1eae0b8fa25b8a0d4aa402366a29253c335b171883",
   "bodyright": "f71d7346000de136c23bf2a5603a0dc2550543d9427dd05f5eb7a7594f43dfaf",
@@ -52,7 +52,7 @@
  "model_screenshot_sha256": {
   "mounts": "bbea2a0186916022b7fe8777d6ef818ea2ff83b4d6b8954cbbff68fcadc4db71",
   "frame": "f409558ff1e4475814feaf9d2fd8f83aeb484faa3f4be56b7cd302770b521cdd",
-  "iso": "b2a8d797296209aa70b11171eef09eeeaa3bb14e72277304a283f2f15124819a",
+  "iso": "f39f840fcfc791dca7cc529b62fc2b036b2920a02f85cb353d64f830cbbc5e5c",
   "springs": "2a577f976d69eb7302abb6b0b4fae682c4e3c209ab63e88b4bd82a9d15265c91"
  },
  "state": {
@@ -81,15 +81,15 @@
    true,
    true
   ],
-  "meshes": 469,
+  "meshes": 467,
   "links": 68
  },
  "swing_check": {
   "swing": 30,
   "pinion_rel_deg": 119.99999999999999,
   "turntable_items": 105,
-  "playback_swing": 62.414,
-  "playback_wait_ms": 21105
+  "playback_swing": 85.431,
+  "playback_wait_ms": 7527
  },
  "body_check": {
   "items": 76,
@@ -97,7 +97,7 @@
   "service_pose": true,
   "hatch_lifted_in_service": true
  },
- "run_phase_after_start": 0.8440399999986584,
+ "run_phase_after_start": 0.5967199999982128,
  "errors": [],
  "network": []
 }

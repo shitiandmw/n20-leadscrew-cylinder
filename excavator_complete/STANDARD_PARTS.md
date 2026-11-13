@@ -17,7 +17,7 @@ Every place that takes a bought standard component: bearings and the slewing rin
 | BMS | 1 |
 | board | 1 |
 | connector | 13 |
-| fastener | 182 |
+| fastener | 180 |
 | other | 39 |
 
 ## Bearing (36)
@@ -94,9 +94,9 @@ Every place that takes a bought standard component: bearings and the slewing rin
 
 | Part | Designation | Subsystem | Position X, Y, Z |
 |---|---|---|---|
-| Pololu 1999 hub (left track) | Pololu 1999 4 mm universal hub (sprocket to the motor shaft) | track | -110.0, 152.6, 45.7 |
-| Pololu 1999 hub (right track) | Pololu 1999 4 mm universal hub (sprocket to the motor shaft) | track | -110.0, -152.6, 45.7 |
-| Pololu 1999 hub | Pololu 1999 4 mm universal hub (sprocket to the motor shaft) | turntable | -75.1, -1.4, 100.6 |
+| flange coupling 32 (left track) | Ø32 / Ø6 flange coupling (sprocket to the motor shaft) | track | -110.0, 156.9, 45.0 |
+| flange coupling 32 (right track) | Ø32 / Ø6 flange coupling (sprocket to the motor shaft) | track | -110.0, -156.9, 45.0 |
+| Pololu 1999 hub | Pololu #1999 6 mm universal hub (swing pinion to the motor shaft) | turntable | -75.1, -1.4, 100.6 |
 
 ## Magnet (8)
 
@@ -241,7 +241,7 @@ Every place that takes a bought standard component: bearings and the slewing rin
 | SM-R SMR-02V-B | JST SMR-02V-B (pins, stator / board side; CONNECTORS.md SM-R) | wiring | 0.0, -18.8, 52.1 |
 | board link XT30U-F | Amass XT30U-F of the 12 V link on the board's XT30PW-M (CONNECTORS.md J101) | wiring | -41.5, 133.5, 114.2 |
 
-## Fastener (182)
+## Fastener (180)
 
 | Part | Designation | Subsystem | Position X, Y, Z |
 |---|---|---|---|
@@ -309,16 +309,14 @@ Every place that takes a bought standard component: bearings and the slewing rin
 | housing screw M3x8 2 (right track) | housing screw M3x8 2 | track | 85.0, -133.6, 56.0 |
 | housing screw M3x8 3 (left track) | housing screw M3x8 3 | track | 85.0, 133.6, 32.0 |
 | housing screw M3x8 3 (right track) | housing screw M3x8 3 | track | 85.0, -133.6, 32.0 |
-| hub screw M3x25 0 (left track) | hub screw M3x25 0 | track | -100.5, 170.0, 44.3 |
-| hub screw M3x25 0 (right track) | hub screw M3x25 0 | track | -100.5, -170.0, 44.3 |
-| hub screw M3x25 1 (left track) | hub screw M3x25 1 | track | -114.7, 170.0, 52.6 |
-| hub screw M3x25 1 (right track) | hub screw M3x25 1 | track | -114.7, -170.0, 52.6 |
-| hub screw M3x25 2 (left track) | hub screw M3x25 2 | track | -114.7, 170.0, 36.1 |
-| hub screw M3x25 2 (right track) | hub screw M3x25 2 | track | -114.7, -170.0, 36.1 |
-| hub set screw M3x3 (left track) | hub set screw M3x3 | track | -110.0, 149.1, 48.3 |
-| hub set screw M3x3 (right track) | hub set screw M3x3 | track | -110.0, -149.1, 48.3 |
-| hub set screw M3x8 (left track) | hub set screw M3x8 | track | -110.0, 153.7, 50.8 |
-| hub set screw M3x8 (right track) | hub set screw M3x8 | track | -110.0, -153.7, 50.8 |
+| hub screw M3x20 0 (left track) | hub screw M3x20 0 | track | -98.5, 171.2, 44.3 |
+| hub screw M3x20 0 (right track) | hub screw M3x20 0 | track | -98.5, -171.2, 44.3 |
+| hub screw M3x20 1 (left track) | hub screw M3x20 1 | track | -115.7, 171.2, 54.3 |
+| hub screw M3x20 1 (right track) | hub screw M3x20 1 | track | -115.7, -171.2, 54.3 |
+| hub screw M3x20 2 (left track) | hub screw M3x20 2 | track | -115.7, 171.2, 34.4 |
+| hub screw M3x20 2 (right track) | hub screw M3x20 2 | track | -115.7, -171.2, 34.4 |
+| hub set screw M3x4 (left track) | hub set screw M3x4 | track | -110.0, 152.0, 48.8 |
+| hub set screw M3x4 (right track) | hub set screw M3x4 | track | -110.0, -152.0, 48.8 |
 | motor screw M3x6 0 (left track) | motor screw M3x6 0 | track | -119.0, 144.2, 35.3 |
 | motor screw M3x6 0 (right track) | motor screw M3x6 0 | track | -119.0, -144.2, 35.3 |
 | motor screw M3x6 1 (left track) | motor screw M3x6 1 | track | -119.0, 144.2, 53.3 |

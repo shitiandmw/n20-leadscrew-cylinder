@@ -2,21 +2,21 @@
  "revision": "J9 revision F straight-arm seats on the main plate",
  "validation_method": "fresh full run of the build_j9 trial block on the delivered STEP parts",
  "source_sha256": {
-  "track_wheel_jgy370/J9/source/check_revf_track.py": "4be192292d5b25b05db76a71972a9d447b78b9789ee82d83e18ec681741e71b4",
+  "track_wheel_jgy370/J9/source/check_revf_track.py": "1ebe405b1e30717f6e2cdda86632dbb4b65be6d7790d990a739fed5f4314360a",
   "track_wheel_jgy370/X1/source/mount_checks.py": "890ee2cd17b47136c21b8d96ce4c015f4cdeb4cecb3ca4b7276e362563d4dba0",
-  "track_wheel_jgy370/J9/source/build_j9.py": "e88e7dc12582fc28903137b51efc60b7d180899c75c2313e464f9b28e97cf465",
+  "track_wheel_jgy370/J9/source/build_j9.py": "5fc2d99a3351ee995ef88677c2be2e44de7215cded02bda09c62704160f1cc27",
   "track_wheel_jgy370/J9/source/check_spring_guide.py": "3b11934eb8a1bceed8e6aee2c98aff4fb2c47d2a0805d34ea4232d70115db2d3",
-  "track_wheel_jgy370/J9/source/j9_parts.py": "be9d462b9f6bb94d7302b3d7d750a04f93a464c49d4c12d311fcf580fc46d5f6",
-  "track_wheel_jgy370/J9/source/j9_design.py": "b952562b77c5fd9c778d52113387a4bfbe071050a057529096e524be026cbdbd",
+  "track_wheel_jgy370/J9/source/j9_parts.py": "1d2ea54e86a5f50fc5fd65e6abbafbee38670723a3a3bc75abbc5b6677271a98",
+  "track_wheel_jgy370/J9/source/j9_design.py": "71aa351135099c8b50a835788710ac2e6ea0f4d7d56612a6006ee309db6b3838",
   "track_wheel_jgy370/J9/source/j9_mounts.py": "d18f32025d34729409c6a9d046674dacd05e27033de9c9136c229bc9b0564ff3",
   "track_wheel/source/tw_parts.py": "0bb01b2c7013a2f2296e3f7176afe62635e563270b250936c40febc0deb9b3e4",
   "track_wheel/source/tw_checks.py": "ef1d681112803d7fc33e45528b61bcd6d6d887fc91654308d01f9ba3591b5067",
   "track_wheel_jgy370/X1/source/x1_parts.py": "0b77d36a20ea1cbd402639453f9035d8462df5845023dcf6594439b7fac0fc47",
-  "track_wheel_jgy370/X1/source/refresh_revf.py": "f567e28a6b6e85361f8318b9f3f5c011d33612b9cefb9e5eabdf01a731e44ddd"
+  "track_wheel_jgy370/X1/source/refresh_revf.py": "ed0d1ed5828358e9bd9b68f5a7df322e50c65842b800603be91122f7d081eb13"
  },
  "exported_step_sha256": {
   "track_wheel_jgy370/J9/step/J901_H_frame.step": "da84e2569c93645bcdd0cad831674c71ec21781eda9e4cad0582ce98dc328ec0",
-  "track_wheel_jgy370/J9/step/J902_sprocket.step": "1d4ae3b4128a71b2fdd2a2ac814eafbd3420a09c2bd42640a68f7fbb8cec6d7b",
+  "track_wheel_jgy370/J9/step/J902_sprocket.step": "ef4f843dddea59d6203b9afb5c144f5f116f8a9bbb52270f85af92fb90fa9d4e",
   "track_wheel_jgy370/J9/step/J903_journal_plug.step": "ae085b913e73b525c661903b4b2a77479fca665dc2c3ece6180d71731c1bccc7",
   "track_wheel_jgy370/J9/step/J904_roller.step": "15cf25acb07b5696c4c17f3d4d173ae2c4164099a60da7a826ef77346f0f1b54",
   "track_wheel_jgy370/J9/step/J906_idler_wheel.step": "d332d152e3b538746ee50d57b74d0d986a1ac5d07c7e7087ef364cf097538f78",
@@ -27,7 +27,7 @@
  },
  "exported_stl_sha256": {
   "track_wheel_jgy370/J9/stl/J901_H_frame.stl": "8a71deed2cff2f0928fd3e93f9cc35b4ce34d392d982fdcccc6b322f9842a64f",
-  "track_wheel_jgy370/J9/stl/J902_sprocket.stl": "356b07c5f85126281003931805e755bde58b54ea6c3b190510fa1ce5d1997be8",
+  "track_wheel_jgy370/J9/stl/J902_sprocket.stl": "31781b05cbdc39a4816ac98a2b516f99b25ccfce15a12d920928b6c7ce91c54a",
   "track_wheel_jgy370/J9/stl/J903_journal_plug.stl": "94c799f809fb7143f05fc0695e654d22c795f7bf20e2418470405238a65648df",
   "track_wheel_jgy370/J9/stl/J904_roller.stl": "8424eaa741ad7e669ddff7cf0cc125143b9bb0142c84ad93cd59b2c4f9a11fe2",
   "track_wheel_jgy370/J9/stl/J906_idler_wheel.stl": "cada29045e180706575728612a309623efdc10fd6a338187c00bc1a9e03f9207",
@@ -36,55 +36,55 @@
   "track_wheel_jgy370/J9/stl/J909_housing.stl": "708c3887fc32aeaf62c1c24c66c5865b5dba6dd56343fae9814da6d15f467359",
   "track_wheel_jgy370/J9/stl/J910_track_shoe_70.stl": "76f3f5eac4827140094b7047ec1a1e31a116592d81c70f92a67b4e813ce3840a"
  },
- "trial_block_ast_sha256": "9baee95c5d19b0730b2a24bd86a78705f513c78f0309687a83c02638f8e06f8d",
+ "trial_block_ast_sha256": "3af51baf49018abc5a27203fc33598d4f35278fde2e27c206934eb294e0c0597",
  "static": {
   "case_index": 0,
-  "pairs_tested": 443,
+  "pairs_tested": 438,
   "hits": [],
-  "seconds": 284.5
+  "seconds": 261.3
  },
  "drive_rotation_no_chain": [
   {
    "angle_deg": 0,
    "case_index": 1,
-   "pairs_tested": 21,
+   "pairs_tested": 20,
    "hits": [],
-   "seconds": 23.7
+   "seconds": 21.2
   },
   {
    "angle_deg": 5,
    "case_index": 2,
-   "pairs_tested": 21,
+   "pairs_tested": 20,
    "hits": [],
-   "seconds": 21.9
+   "seconds": 20.0
   },
   {
    "angle_deg": 10,
    "case_index": 3,
-   "pairs_tested": 21,
+   "pairs_tested": 20,
    "hits": [],
-   "seconds": 23.3
+   "seconds": 20.8
   },
   {
    "angle_deg": 15,
    "case_index": 4,
-   "pairs_tested": 21,
+   "pairs_tested": 20,
    "hits": [],
-   "seconds": 24.3
+   "seconds": 20.3
   },
   {
    "angle_deg": 20,
    "case_index": 5,
-   "pairs_tested": 21,
+   "pairs_tested": 20,
    "hits": [],
-   "seconds": 24.7
+   "seconds": 20.6
   },
   {
    "angle_deg": 25,
    "case_index": 6,
-   "pairs_tested": 21,
+   "pairs_tested": 20,
    "hits": [],
-   "seconds": 27.7
+   "seconds": 22.0
   }
  ],
  "idler_travel": [
@@ -93,14 +93,14 @@
    "case_index": 7,
    "pairs_tested": 11,
    "hits": [],
-   "seconds": 21.0
+   "seconds": 20.3
   },
   {
    "idler_x": 105.699,
    "case_index": 8,
    "pairs_tested": 12,
    "hits": [],
-   "seconds": 21.2
+   "seconds": 19.7
   },
   {
    "idler_x": 105.399,
@@ -114,7 +114,7 @@
   "case_index": 10,
   "pairs_tested": 2,
   "hits": [],
-  "seconds": 11.4
+  "seconds": 10.8
  },
  "chain_phases_vs_fixed_parts": [
   {
@@ -122,21 +122,21 @@
    "case_index": 11,
    "pairs_tested": 22,
    "hits": [],
-   "seconds": 29.8
+   "seconds": 29.0
   },
   {
    "fraction_of_pitch": 0.5,
    "case_index": 12,
    "pairs_tested": 22,
    "hits": [],
-   "seconds": 26.7
+   "seconds": 28.3
   },
   {
    "fraction_of_pitch": 0.75,
    "case_index": 13,
    "pairs_tested": 22,
    "hits": [],
-   "seconds": 28.1
+   "seconds": 27.2
   }
  ],
  "assembly_and_access": {
@@ -145,25 +145,25 @@
     "case_index": 14,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 3.2
+    "seconds": 3.3
    },
    {
     "case_index": 15,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 3.4
+    "seconds": 3.5
    },
    {
     "case_index": 16,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 3.3
+    "seconds": 3.2
    },
    {
     "case_index": 17,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 3.5
+    "seconds": 3.3
    }
   ],
   "sprocket_radial_entry": [
@@ -179,93 +179,93 @@
     "case_index": 19,
     "pairs_tested": 0,
     "hits": [],
-    "seconds": 1.8
+    "seconds": 1.7
    },
    {
     "dx": -80,
     "case_index": 20,
     "pairs_tested": 0,
     "hits": [],
-    "seconds": 1.8
+    "seconds": 1.7
    },
    {
     "dx": -60,
     "case_index": 21,
     "pairs_tested": 1,
     "hits": [],
-    "seconds": 3.6
+    "seconds": 3.7
    },
    {
     "dx": -40,
     "case_index": 22,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 7.0
+    "seconds": 6.4
    },
    {
     "dx": -25,
     "case_index": 23,
-    "pairs_tested": 7,
+    "pairs_tested": 6,
     "hits": [],
-    "seconds": 13.8
+    "seconds": 10.0
    },
    {
     "dx": -12,
     "case_index": 24,
-    "pairs_tested": 7,
+    "pairs_tested": 6,
     "hits": [],
-    "seconds": 13.9
+    "seconds": 11.2
    },
    {
     "dx": -5,
     "case_index": 25,
-    "pairs_tested": 7,
+    "pairs_tested": 6,
     "hits": [],
-    "seconds": 16.4
+    "seconds": 11.7
    },
    {
     "dx": 0,
     "case_index": 26,
-    "pairs_tested": 7,
+    "pairs_tested": 6,
     "hits": [],
-    "seconds": 14.5
+    "seconds": 12.1
    }
   ],
   "sprocket_slide_onto_shaft": [
    {
     "dy": 9.6,
     "case_index": 27,
-    "pairs_tested": 7,
+    "pairs_tested": 6,
     "hits": [],
-    "seconds": 13.6
+    "seconds": 11.4
    },
    {
     "dy": 7,
     "case_index": 28,
-    "pairs_tested": 9,
+    "pairs_tested": 7,
     "hits": [],
-    "seconds": 13.9
+    "seconds": 11.9
    },
    {
     "dy": 4,
     "case_index": 29,
-    "pairs_tested": 9,
+    "pairs_tested": 8,
     "hits": [],
-    "seconds": 15.4
+    "seconds": 11.8
    },
    {
     "dy": 2,
     "case_index": 30,
-    "pairs_tested": 10,
+    "pairs_tested": 8,
     "hits": [],
-    "seconds": 15.6
+    "seconds": 12.4
    },
    {
     "dy": 0,
     "case_index": 31,
-    "pairs_tested": 13,
+    "pairs_tested": 11,
     "hits": [],
-    "seconds": 19.1
+    "seconds": 12.8
    }
   ],
   "plug_insertion": [
@@ -274,35 +274,35 @@
     "case_index": 32,
     "pairs_tested": 4,
     "hits": [],
-    "seconds": 4.1
+    "seconds": 2.9
    },
    {
     "dy": 20,
     "case_index": 33,
     "pairs_tested": 9,
     "hits": [],
-    "seconds": 5.8
+    "seconds": 4.9
    },
    {
     "dy": 10,
     "case_index": 34,
-    "pairs_tested": 9,
+    "pairs_tested": 10,
     "hits": [],
-    "seconds": 6.8
+    "seconds": 5.1
    },
    {
     "dy": 3,
     "case_index": 35,
     "pairs_tested": 13,
     "hits": [],
-    "seconds": 8.3
+    "seconds": 6.2
    },
    {
     "dy": 0,
     "case_index": 36,
-    "pairs_tested": 14,
+    "pairs_tested": 13,
     "hits": [],
-    "seconds": 8.7
+    "seconds": 6.4
    }
   ],
   "yoke_insertion": [
@@ -311,35 +311,35 @@
     "case_index": 37,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 5.0
+    "seconds": 3.7
    },
    {
     "dx": 40,
     "case_index": 38,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 4.5
+    "seconds": 3.9
    },
    {
     "dx": 20,
     "case_index": 39,
     "pairs_tested": 11,
     "hits": [],
-    "seconds": 17.9
+    "seconds": 15.3
    },
    {
     "dx": 8,
     "case_index": 40,
     "pairs_tested": 11,
     "hits": [],
-    "seconds": 24.7
+    "seconds": 18.6
    },
    {
     "dx": 0,
     "case_index": 41,
     "pairs_tested": 11,
     "hits": [],
-    "seconds": 19.6
+    "seconds": 17.9
    }
   ],
   "housing_screw_driver": [
@@ -347,13 +347,13 @@
     "case_index": 42,
     "pairs_tested": 1,
     "hits": [],
-    "seconds": 3.5
+    "seconds": 3.6
    },
    {
     "case_index": 43,
     "pairs_tested": 1,
     "hits": [],
-    "seconds": 3.7
+    "seconds": 3.5
    },
    {
     "case_index": 44,
@@ -365,7 +365,7 @@
     "case_index": 45,
     "pairs_tested": 1,
     "hits": [],
-    "seconds": 3.9
+    "seconds": 3.6
    }
   ],
   "roller_bolt_through_skirt": [
@@ -373,43 +373,43 @@
     "case_index": 46,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 4.7
+    "seconds": 5.0
    },
    {
     "case_index": 47,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 5.1
+    "seconds": 4.7
    },
    {
     "case_index": 48,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 5.2
+    "seconds": 4.6
    },
    {
     "case_index": 49,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 5.3
+    "seconds": 4.8
    },
    {
     "case_index": 50,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 5.1
+    "seconds": 4.9
    },
    {
     "case_index": 51,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 5.5
+    "seconds": 4.7
    },
    {
     "case_index": 52,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 5.4
+    "seconds": 4.7
    }
   ],
   "nyloc_socket": [
@@ -417,107 +417,101 @@
     "case_index": 53,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 3.4
+    "seconds": 2.9
    },
    {
     "case_index": 54,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 3.5
+    "seconds": 3.0
    },
    {
     "case_index": 55,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 3.4
+    "seconds": 2.9
    },
    {
     "case_index": 56,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 3.2
+    "seconds": 2.9
    },
    {
     "case_index": 57,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 5.1
+    "seconds": 3.0
    },
    {
     "case_index": 58,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 3.3
+    "seconds": 3.0
    },
    {
     "case_index": 59,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 3.2
+    "seconds": 3.0
    }
   ],
   "plug_screw_key": {
    "case_index": 60,
    "pairs_tested": 1,
    "hits": [],
-   "seconds": 3.1
+   "seconds": 3.3
   },
   "hub_set_screw_key": [
    {
     "case_index": 61,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 2.4
-   },
-   {
-    "case_index": 62,
-    "pairs_tested": 3,
-    "hits": [],
-    "seconds": 2.6
+    "seconds": 2.2
    }
   ],
   "housing_fitting": [
    {
     "dy": 40,
-    "case_index": 63,
+    "case_index": 62,
     "pairs_tested": 0,
     "hits": [],
-    "seconds": 2.8
+    "seconds": 3.7
    },
    {
     "dy": 25,
-    "case_index": 64,
+    "case_index": 63,
     "pairs_tested": 0,
     "hits": [],
-    "seconds": 2.8
+    "seconds": 2.9
    },
    {
     "dy": 15,
-    "case_index": 65,
+    "case_index": 64,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 5.8
+    "seconds": 5.5
    },
    {
     "dy": 8,
-    "case_index": 66,
+    "case_index": 65,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 5.8
+    "seconds": 5.2
    },
    {
     "dy": 4,
-    "case_index": 67,
+    "case_index": 66,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 5.9
+    "seconds": 5.2
    },
    {
     "dy": 1.5,
-    "case_index": 68,
+    "case_index": 67,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 5.7
+    "seconds": 5.2
    }
   ]
  },
@@ -676,7 +670,7 @@
       -35.5,
       61.120508075689
      ],
-     "seconds": 85.803
+     "seconds": 81.901
     }
    ],
    "method": "OCC BRepExtrema_DistShapeShape, SetMultiThread(True) before Perform; fresh non-overlap check and conservative component AABB pruning"
@@ -699,7 +693,7 @@
       -30.0,
       60.32050807568877
      ],
-     "seconds": 0.499
+     "seconds": 0.421
     },
     {
      "part": "JGY370_motor_can",
@@ -715,7 +709,7 @@
       -34.57499999999474,
       52.66373137366595
      ],
-     "seconds": 0.213
+     "seconds": 0.22
     },
     {
      "part": "JGY370_terminal_space",
@@ -731,7 +725,7 @@
       -31.200000000000003,
       44.32050807568877
      ],
-     "seconds": 0.281
+     "seconds": 0.182
     }
    ],
    "method": "OCC BRepExtrema_DistShapeShape, SetMultiThread(True) before Perform; fresh non-overlap check and conservative component AABB pruning"
@@ -754,7 +748,7 @@
       -21.0,
       73.17691453623966
      ],
-     "seconds": 1.398
+     "seconds": 1.4
     },
     {
      "part": "shoe_02",
@@ -770,7 +764,7 @@
       -21.0,
       60.98076211355442
      ],
-     "seconds": 1.495
+     "seconds": 1.298
     },
     {
      "part": "shoe_04",
@@ -786,7 +780,7 @@
       -21.0,
       27.660254037823456
      ],
-     "seconds": 1.291
+     "seconds": 1.221
     },
     {
      "part": "shoe_05",
@@ -802,7 +796,7 @@
       -21.0,
       15.464101615137732
      ],
-     "seconds": 1.409
+     "seconds": 1.281
     },
     {
      "part": "shoe_18",
@@ -818,7 +812,7 @@
       -21.0,
       15.473952776114395
      ],
-     "seconds": 1.693
+     "seconds": 1.298
     },
     {
      "part": "shoe_19",
@@ -834,7 +828,7 @@
       -21.0,
       27.67738521709687
      ],
-     "seconds": 1.222
+     "seconds": 1.098
     },
     {
      "part": "shoe_21",
@@ -850,7 +844,7 @@
       -21.0,
       60.997961760711306
      ],
-     "seconds": 1.578
+     "seconds": 1.3
     },
     {
      "part": "shoe_22",
@@ -866,7 +860,7 @@
       -21.0,
       73.18688428714401
      ],
-     "seconds": 1.404
+     "seconds": 1.403
     },
     {
      "part": "shoe_23",
@@ -882,7 +876,7 @@
       -21.0,
       77.61809094535325
      ],
-     "seconds": 1.117
+     "seconds": 1.293
     },
     {
      "part": "shoe_24",
@@ -898,7 +892,7 @@
       -21.0,
       77.61380383918745
      ],
-     "seconds": 1.099
+     "seconds": 1.322
     },
     {
      "part": "shoe_00",
@@ -914,7 +908,7 @@
       -21.0,
       77.64101615137754
      ],
-     "seconds": 0.982
+     "seconds": 1.401
     },
     {
      "part": "shoe_33",
@@ -930,7 +924,7 @@
       -21.0,
       77.73768191582168
      ],
-     "seconds": 1.002
+     "seconds": 1.185
     },
     {
      "part": "shoe_25",
@@ -946,7 +940,7 @@
       -21.0,
       78.7681263254386
      ],
-     "seconds": 1.015
+     "seconds": 1.002
     },
     {
      "part": "shoe_32",
@@ -962,7 +956,7 @@
       -21.0,
       78.88009525049195
      ],
-     "seconds": 1.083
+     "seconds": 0.898
     },
     {
      "part": "track_pin_02",
@@ -978,7 +972,7 @@
       -28.0,
       70.58035597959852
      ],
-     "seconds": 0.203
+     "seconds": 0.209
     },
     {
      "part": "track_pin_05",
@@ -994,7 +988,7 @@
       -28.0,
       18.06066017177906
      ],
-     "seconds": 0.201
+     "seconds": 0.188
     },
     {
      "part": "track_pin_19",
@@ -1010,7 +1004,7 @@
       -28.0,
       18.12591551440748
      ],
-     "seconds": 0.124
+     "seconds": 0.133
     },
     {
      "part": "track_pin_22",
@@ -1026,7 +1020,7 @@
       -28.0,
       70.64548372296738
      ],
-     "seconds": 0.193
+     "seconds": 0.166
     },
     {
      "part": "shoe_17",
@@ -1042,7 +1036,7 @@
       -21.0,
       10.999931532077571
      ],
-     "seconds": 1.09
+     "seconds": 0.918
     },
     {
      "part": "shoe_06",
@@ -1058,7 +1052,7 @@
       -21.0,
       10.999999999999996
      ],
-     "seconds": 1.013
+     "seconds": 1.078
     },
     {
      "part": "shoe_07",
@@ -1074,7 +1068,7 @@
       -21.0,
       10.863703305159063
      ],
-     "seconds": 1.193
+     "seconds": 0.823
     },
     {
      "part": "shoe_08",
@@ -1090,7 +1084,7 @@
       -21.0,
       11.0
      ],
-     "seconds": 0.997
+     "seconds": 0.784
     },
     {
      "part": "shoe_09",
@@ -1106,7 +1100,7 @@
       -21.0,
       11.0
      ],
-     "seconds": 0.809
+     "seconds": 0.799
     },
     {
      "part": "shoe_10",
@@ -1122,7 +1116,7 @@
       -21.0,
       11.0
      ],
-     "seconds": 0.992
+     "seconds": 0.808
     },
     {
      "part": "shoe_11",
@@ -1138,7 +1132,7 @@
       -21.0,
       11.0
      ],
-     "seconds": 0.911
+     "seconds": 0.889
     },
     {
      "part": "shoe_12",
@@ -1154,7 +1148,7 @@
       -21.0,
       11.0
      ],
-     "seconds": 0.967
+     "seconds": 0.799
     },
     {
      "part": "shoe_13",
@@ -1170,7 +1164,7 @@
       -21.0,
       11.0
      ],
-     "seconds": 0.822
+     "seconds": 0.904
     },
     {
      "part": "shoe_14",
@@ -1186,7 +1180,7 @@
       -21.0,
       11.0
      ],
-     "seconds": 1.002
+     "seconds": 0.824
     },
     {
      "part": "shoe_15",
@@ -1202,7 +1196,7 @@
       -21.0,
       10.969918138394963
      ],
-     "seconds": 1.081
+     "seconds": 0.878
     },
     {
      "part": "shoe_16",
@@ -1218,7 +1212,7 @@
       -21.0,
       10.975183079611034
      ],
-     "seconds": 1.199
+     "seconds": 1.018
     },
     {
      "part": "shoe_26",
@@ -1234,7 +1228,7 @@
       -21.0,
       80.99236464951444
      ],
-     "seconds": 1.01
+     "seconds": 0.977
     },
     {
      "part": "shoe_31",
@@ -1250,7 +1244,7 @@
       -21.0,
       81.2701434330164
      ],
-     "seconds": 1.107
+     "seconds": 0.917
     },
     {
      "part": "pin_clip_02_0",
@@ -1266,7 +1260,7 @@
       -26.8,
       69.51969580781949
      ],
-     "seconds": 0.19
+     "seconds": 0.185
     },
     {
      "part": "pin_clip_05_0",
@@ -1282,7 +1276,7 @@
       -26.8,
       19.12132034355812
      ],
-     "seconds": 0.11
+     "seconds": 0.205
     },
     {
      "part": "pin_clip_19_0",
@@ -1298,7 +1292,7 @@
       -26.8,
       19.177759200346994
      ],
-     "seconds": 0.202
+     "seconds": 0.201
     },
     {
      "part": "pin_clip_22_0",
@@ -1314,7 +1308,7 @@
       -26.8,
       69.57607974862135
      ],
-     "seconds": 0.19
+     "seconds": 0.191
     },
     {
      "part": "pin_clip_24_0",
@@ -1330,7 +1324,7 @@
       -26.8,
       78.61380383918745
      ],
-     "seconds": 0.105
+     "seconds": 0.111
     },
     {
      "part": "pin_clip_00_0",
@@ -1346,7 +1340,7 @@
       -26.8,
       78.75357411072584
      ],
-     "seconds": 0.103
+     "seconds": 0.191
     },
     {
      "part": "pin_clip_01_0",
@@ -1362,7 +1356,7 @@
       -26.8,
       78.74323867251603
      ],
-     "seconds": 0.112
+     "seconds": 0.113
     },
     {
      "part": "pin_clip_23_0",
@@ -1378,7 +1372,7 @@
       -26.8,
       79.83079452952775
      ],
-     "seconds": 0.187
+     "seconds": 0.113
     },
     {
      "part": "track_pin_24",
@@ -1394,7 +1388,7 @@
       -28.0,
       80.11380383918745
      ],
-     "seconds": 0.106
+     "seconds": 0.175
     },
     {
      "part": "track_pin_00",
@@ -1410,7 +1404,7 @@
       -28.0,
       80.19729513105169
      ],
-     "seconds": 0.178
+     "seconds": 0.2
     },
     {
      "part": "track_pin_01",
@@ -1426,7 +1420,7 @@
       -28.0,
       80.19212741194679
      ],
-     "seconds": 0.133
+     "seconds": 0.125
     },
     {
      "part": "track_pin_23",
@@ -1442,7 +1436,7 @@
       -28.0,
       80.7493747010343
      ],
-     "seconds": 0.179
+     "seconds": 0.187
     },
     {
      "part": "shoe_30",
@@ -1458,7 +1452,7 @@
       -21.0,
       81.14133511841818
      ],
-     "seconds": 0.906
+     "seconds": 0.982
     },
     {
      "part": "shoe_27",
@@ -1474,7 +1468,7 @@
       -21.0,
       81.14491912666871
      ],
-     "seconds": 0.903
+     "seconds": 1.133
     },
     {
      "part": "pin_clip_25_0",
@@ -1490,7 +1484,7 @@
       -26.8,
       79.7681263254386
      ],
-     "seconds": 0.178
+     "seconds": 0.173
     },
     {
      "part": "pin_clip_33_0",
@@ -1506,7 +1500,7 @@
       -26.8,
       79.78342948604782
      ],
-     "seconds": 0.115
+     "seconds": 0.117
     },
     {
      "part": "shoe_28",
@@ -1522,7 +1516,7 @@
       -21.0,
       81.35993142959725
      ],
-     "seconds": 1.096
+     "seconds": 1.097
     },
     {
      "part": "shoe_29",
@@ -1538,7 +1532,7 @@
       -21.0,
       81.35993142959725
      ],
-     "seconds": 1.089
+     "seconds": 1.008
     },
     {
      "part": "shoe_03",
@@ -1554,7 +1548,7 @@
       -21.0,
       44.320508075689
      ],
-     "seconds": 1.122
+     "seconds": 1.189
     },
     {
      "part": "track_pin_25",
@@ -1570,7 +1564,7 @@
       -28.0,
       81.2681263254386
      ],
-     "seconds": 0.183
+     "seconds": 0.184
     },
     {
      "part": "track_pin_33",
@@ -1586,7 +1580,7 @@
       -28.0,
       81.28342948604782
      ],
-     "seconds": 0.192
+     "seconds": 0.2
     },
     {
      "part": "pin_clip_18_0",
@@ -1602,7 +1596,7 @@
       -26.8,
       9.91846299220498
      ],
-     "seconds": 0.117
+     "seconds": 0.198
     },
     {
      "part": "pin_clip_06_0",
@@ -1618,7 +1612,7 @@
       -26.8,
       9.89777747886152
      ],
-     "seconds": 0.197
+     "seconds": 0.114
     },
     {
      "part": "pin_clip_08_0",
@@ -1634,7 +1628,7 @@
       -26.8,
       10.0
      ],
-     "seconds": 0.215
+     "seconds": 0.199
     },
     {
      "part": "pin_clip_09_0",
@@ -1650,7 +1644,7 @@
       -26.8,
       9.977438603796221
      ],
-     "seconds": 0.17
+     "seconds": 0.113
     },
     {
      "part": "pin_clip_10_0",
@@ -1666,7 +1660,7 @@
       -26.8,
       9.427232356156019
      ],
-     "seconds": 0.212
+     "seconds": 0.196
     },
     {
      "part": "pin_clip_11_0",
@@ -1682,7 +1676,7 @@
       -26.8,
       9.571809977979072
      ],
-     "seconds": 0.203
+     "seconds": 0.192
     },
     {
      "part": "pin_clip_12_0",
@@ -1698,7 +1692,7 @@
       -26.8,
       10.0
      ],
-     "seconds": 0.109
+     "seconds": 0.102
     },
     {
      "part": "pin_clip_13_0",
@@ -1714,7 +1708,7 @@
       -26.8,
       9.571809977977892
      ],
-     "seconds": 0.105
+     "seconds": 0.192
     },
     {
      "part": "pin_clip_14_0",
@@ -1730,7 +1724,7 @@
       -26.8,
       9.427232356156866
      ],
-     "seconds": 0.189
+     "seconds": 0.097
     },
     {
      "part": "pin_clip_15_0",
@@ -1746,7 +1740,7 @@
       -26.8,
       9.977438603796221
      ],
-     "seconds": 0.084
+     "seconds": 0.029
     },
     {
      "part": "pin_clip_16_0",
@@ -1762,7 +1756,7 @@
       -26.8,
       8.700884595580552
      ],
-     "seconds": 0.127
+     "seconds": 0.18
     },
     {
      "part": "pin_clip_07_0",
@@ -1778,11 +1772,51 @@
       -26.8,
       9.897777478869298
      ],
-     "seconds": 0.185
+     "seconds": 0.118
     }
    ],
    "method": "OCC BRepExtrema_DistShapeShape, SetMultiThread(True) before Perform; fresh non-overlap check and conservative component AABB pruning"
   }
+ },
+ "drive_hub": {
+  "seller_drawing_check": {
+   "drawing": "track_wheel_jgy370/references/flange_coupling_32/seller_drawing.jpg",
+   "seller_values": {
+    "flange_d": 32.0,
+    "flange_t": 4.0,
+    "boss_d": 14.0,
+    "overall": 14.0,
+    "bore_d": 6.0,
+    "holes": 6,
+    "hole_circle_d": 23.0,
+    "set_screw_from_boss_end": 5.0,
+    "drawing": "track_wheel_jgy370/references/flange_coupling_32/seller_drawing.jpg"
+   },
+   "model_bbox_mm": [
+    32.0,
+    14.0,
+    32.0
+   ],
+   "volume_mm3": 4162.2,
+   "aluminium_mass_g": 11.2,
+   "probes": {
+    "outline": true,
+    "flange": true,
+    "boss": true,
+    "bore": true,
+    "holes": true,
+    "set_screw": true
+   },
+   "ok": true
+  },
+  "set_screws": [
+   {
+    "length_mm": 4.0,
+    "centre_from_shaft_tip_mm": 3.6,
+    "on_flat": true
+   }
+  ],
+  "pass": true
  },
  "stop_test": {
   "case_index": 9,
@@ -1794,11 +1828,11 @@
     "volume_mm3": 28.8
    }
   ],
-  "seconds": 24.9
+  "seconds": 23.7
  },
  "stop_pass": true,
- "case_count": 69,
- "pairs_tested": 904,
+ "case_count": 68,
+ "pairs_tested": 878,
  "failure_cases": [],
  "overlap_tolerance_mm3": 0.01,
  "reused_checkpoint_cases": 0,
@@ -1825,6 +1859,6 @@
   "spring_solid": 17.018
  },
  "scope": "Nominal CAD validation. Every candidate pair of every trial is computed fresh on the delivered revision F parts. Full spring envelopes are checked at eleven positions. Not a strength, print-tolerance, fatigue or powered test.",
- "elapsed_s": 1360.7,
+ "elapsed_s": 1237.1,
  "pass": true
 }

@@ -135,7 +135,9 @@ def classify(name):
         if n.startswith(code):
             return 'bearing', des
     if n.startswith('Pololu_1999'):
-        return 'hub', 'Pololu 1999 4 mm universal hub (sprocket to the motor shaft)'
+        return 'hub', 'Pololu #1999 6 mm universal hub (swing pinion to the motor shaft)'
+    if n.startswith('flange_coupling'):
+        return 'hub', 'Ø32 / Ø6 flange coupling (sprocket to the motor shaft)'
     if n.startswith('nyloc'):
         return 'fastener', 'M4 nyloc nut (roller axle)'
     if n.startswith('drag_felt'):

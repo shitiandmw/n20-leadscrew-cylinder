@@ -156,7 +156,10 @@ def run():
     stop_ok = bool(over['hits']) and all({h['a'], h['b']} == {'J901_H_frame', 'J908_U_yoke'} for h in over['hits'])
     failures = [r for r in engine.case_rows if r['case_index'] != over['case_index'] and r['hits']]
     design = D.check()
-    ok = (not failures and stop_ok and spring['pass'] and
+    print('Drive coupling against the seller drawing', flush=True)
+    hub = dict(seller_drawing_check=B.coupling_check(), set_screws=B.hub_set_screws())
+    hub['pass'] = bool(hub['seller_drawing_check']['ok'] and all(s['on_flat'] for s in hub['set_screws']))
+    ok = (not failures and stop_ok and spring['pass'] and hub['pass'] and
           all(row['mm'] > .2 for row in clearances.values()) and design['link_error_mm'] < 1e-9)
     if binding() != inputs:
         raise RuntimeError('Inputs changed while the track check was running')
@@ -168,7 +171,7 @@ def run():
                   chain_phases_vs_fixed_parts=trials['chain_phases_vs_fixed_parts'],
                   assembly_and_access=trials['assembly_and_access'],
                   spring_guide=spring, spring_guide_report_sha256=sha(spring_path),
-                  mounting_clearances_mm=clearances,
+                  mounting_clearances_mm=clearances, drive_hub=hub,
                   stop_test=over, stop_pass=stop_ok, case_count=len(engine.case_rows),
                   pairs_tested=sum(r['pairs_tested'] for r in engine.case_rows),
                   failure_cases=failures, overlap_tolerance_mm3=.01,
@@ -182,7 +185,7 @@ def run():
     # validation.json is the established entry point for the current track.
     (ROOT/'validation.json').write_text(json.dumps(report, indent=1)+'\n')
     print(json.dumps(dict(passed=ok, cases=len(engine.case_rows), pairs=report['pairs_tested'],
-                          stop=stop_ok, failures=[r['case_index'] for r in failures],
+                          stop=stop_ok, drive_hub=hub['pass'], failures=[r['case_index'] for r in failures],
                           clearances={k: v['mm'] for k, v in clearances.items()},
                           elapsed_s=report['elapsed_s']), indent=1), flush=True)
     if not ok:

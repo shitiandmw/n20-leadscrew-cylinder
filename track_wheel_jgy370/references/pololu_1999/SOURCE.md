@@ -17,4 +17,4 @@ Product page facts (https://www.pololu.com/product/1999):
 - Made for 6 mm round and D shafts.
 - Pololu gives no set-screw lengths and no torque rating.
 
-`J9/source/build_j9.py` places this STEP in the J9 pose and compares it with the modelled hub (`validation.json → drive_hub.vendor_step_check`).
+The J9 sprockets used this hub until 2026-11-12; they now use a Ø32 flange coupling (`../flange_coupling_32/`), because this hub could not be bought. The X1 turntable pinion (T105) is still drawn on this hub (`X1/swing_concept/source/draw_swing_concept.py`, `X1/source/x1_turntable.py`); a replacement there must be no bigger than it.

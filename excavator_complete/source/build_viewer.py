@@ -45,7 +45,7 @@ def _st(id_, title, caption, cam, xray=False, grp=None):
 
 
 STEPS = [
-    _st('tracks', 'Tracks', 'Two J9 tracks, built on the bench: rollers on their axles (two 624ZZ bearings each), the JGY-370 motor on its Pololu hub, the '
+    _st('tracks', 'Tracks', 'Two J9 tracks, built on the bench: rollers on their axles (two 624ZZ bearings each), the sprocket on a Ø32 flange coupling on the JGY-370 motor shaft, the '
         'idler on two 608ZZ, the J909 pod housing. The right track uses the mirrored J901 and J909 prints. Solder 100 nF across each motor and lead its two '
         '26 AWG wires out of the pod nose. Hold both at their final 340 mm spacing.', ([1080, 860, 620], [170, 60, 130])),
     _st('xframe', 'X-frame', 'Lower the bare X101 frame vertically (80 mm approach) into the open-top seats in both track main plates. Four joints, each clamped by '

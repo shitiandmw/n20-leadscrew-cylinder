@@ -447,13 +447,14 @@ def printed_dims(cfg):
              note=f'12 teeth on a {fmt(cfg["pitch"])} mm pitch: {fmt(cfg["pitch"])} / sin 15°.'),
         LEN('Tooth disc thickness', pl((DX + 30, -8.5, AZ), 'y'), pl((DX + 30, 8.5, AZ), 'y'), (0, 0, 16), key=True, grp='Teeth',
             note='As long as the 17 mm bushings.'),
-        DIA('Hub boss', (DX, -11.65, AZ), 'y', 15.0, (-14.8, -8.5), text='Ø{v} × 6.3', grp='Hub side'),
-        DIA('Recess for the hub flange', (DX, -14.8, AZ), 'y', 12.9, (-14.8, -13.8), text='Ø{v} × 1 deep', key=True, exact=True, grp='Hub side',
-            note='Centres the Ø25.4 Pololu hub flange.'),
-        DIA('Stop pad for the shaft end', (DX, -14.4, AZ), 'y', 2.7, (-14.4, -13.8), text='Ø{v} × 0.6', exact=True, grp='Hub side'),
-        PCD('Hub screw holes', (DX, 0, AZ), 'y', 9.525, (0, 120, 240), 1.7, (-13.8, 5.5), text='3 × Ø{h} on Ø{v}', key=True, grp='Hub side',
-            note='Every other hole of the Pololu hub; M3 × 25 from the outer face.'),
-        DIA('Counterbores for the M3 heads (3)', (DX + 9.525, 8.5, AZ), 'y', 3.1, (5.5, 8.5), text='Ø{v} × 3 deep', exact=True, grp='Outer face',
+        DIA('Ring round the recess', (DX, -9.25, AZ), 'y', 18.5, (-10.0, -8.5), text='Ø{v} × 1.5', grp='Coupling side'),
+        DIA('Recess for the coupling flange', (DX, -10.0, AZ), 'y', 16.2, (-10.0, -9.0), text='Ø{v} × 1 deep', key=True, exact=True,
+            grp='Coupling side', note='Centres the Ø32 flange of the coupling.'),
+        DIA('Stop pad for the shaft end', (DX, -14.4, AZ), 'y', 2.7, (-14.4, -9.0), text='Ø{v} × 5.4', exact=True, grp='Coupling side',
+            note='Reaches down the coupling bore to the shaft end.'),
+        PCD('Coupling screw holes', (DX, 0, AZ), 'y', 11.5, (0, 120, 240), 1.7, (-9.0, 5.5), text='3 × Ø{h} on Ø{v}', key=True, grp='Coupling side',
+            note='Every other hole of the coupling; M3 × 20 from the outer face.'),
+        DIA('Counterbores for the M3 heads (3)', (DX + 11.5, 8.5, AZ), 'y', 3.1, (5.5, 8.5), text='Ø{v} × 3 deep', exact=True, grp='Outer face',
             note='The heads end flush.'),
         DIA('Socket for the journal plug', (DX, 8.5, AZ), 'y', 5.05, (3.5, 8.5), text='Ø{v} × 5 deep', key=True, exact=True, grp='Outer face'),
         DIA('Centre bore', (DX, 0, AZ), 'y', 1.7, (-14.4, 3.5), grp='Outer face', note='For the M3 × 50 into the motor shaft.'),
@@ -585,21 +586,21 @@ def bought_dims(cfg):
         SPEC('Leads', '10 mm behind the can is kept clear for the solder tabs and leads (pale in the model)', grp='Motor'),
         SPEC('Rating (vendor table)', '12 V, 200:1, 30 rpm no load; 6 kgf·cm rated at 0.2 A; 20 kgf·cm stall at 1.3 A', grp='Electrical'),
     ])
-    d['hub'] = ('Pololu_1999_hub', [
-        DIA('Flange', (DX, -16.3, AZ), 'y', 12.7, (-18.8, -13.8), text='Ø{v} × 5', key=True, exact=True, grp='Hub'),
-        DIA('Boss', (DX, -20.9, AZ), 'y', 6.0, (-23, -18.8), text='Ø{v} × 4.2', key=True, exact=True, grp='Hub'),
-        DIA('Bore', (DX, -23, AZ), 'y', 3.0, (-23, -13.8), key=True, exact=True, grp='Hub', note='6 mm round or D shafts.'),
-        PCD('Tapped holes', (DX, -13.8, AZ), 'y', 9.525, range(0, 360, 60), 1.5, (-18.8, -13.8), text='6 × M3 on Ø{v}', key=True, grp='Hub',
-            note='Three carry the sprocket (M3 × 25).'),
-        LEN('Overall length', pl((DX + 4.5, -23, AZ), 'y'), pl((DX + 9.53, -13.8, AZ + 5.5), 'y'), (0, 0, 18), grp='Hub'),
-        SPEC('Set screws', '2 radial M3 at the same angle: flange mid-plane and boss mid-height, 4.6 apart', grp='Hub'),
+    d['hub'] = ('flange_coupling_32', [
+        DIA('Flange', (DX, -11.0, AZ), 'y', 16.0, (-13.0, -9.0), text='Ø{v} × 4', key=True, exact=True, grp='Coupling'),
+        DIA('Boss', (DX, -18.0, AZ), 'y', 7.0, (-23.0, -13.0), text='Ø{v} × 10', key=True, exact=True, grp='Coupling'),
+        DIA('Bore', (DX, -23.0, AZ), 'y', 3.0, (-23.0, -9.0), key=True, exact=True, grp='Coupling', note='The D = 6 version.'),
+        PCD('Tapped holes', (DX, -9.0, AZ), 'y', 11.5, range(0, 360, 60), 1.5, (-13.0, -9.0), text='6 × M3 on Ø{v}', key=True, grp='Coupling',
+            note='Three carry the sprocket (M3 × 20).'),
+        LEN('Overall length', pl((DX + 5.0, -23.0, AZ), 'y'), pl((DX + 12.0, -9.0, AZ + 6.1), 'y'), (0, 0, 21), grp='Coupling'),
+        SPEC('Set screw', 'One radial M3 in the boss, 5 mm from its end, halfway between two flange holes', grp='Coupling'),
+        SPEC('Source', 'Seller drawing in references/flange_coupling_32; every value checked on the part', grp='Coupling'),
     ])
     d['setscrew'] = ('hub_set_screws', [
-        DIA('Thread', (DX, -16.3, AZ + 6.5), 'z', 1.5, (AZ + 2.5, AZ + 10.5), text='M3', key=True, exact=True, grp='Set screws'),
-        LEN('Flange screw (as modelled)', pl((DX, -16.3, AZ + 2.5), 'z'), pl((DX, -16.3, AZ + 10.5), 'z'), (0, 6, 0), key=True, grp='Set screws'),
-        LEN('Boss screw (as modelled)', pl((DX, -20.9, AZ + 2.5), 'z'), pl((DX, -20.9, AZ + 5.5), 'z'), (0, -6, 0), key=True, grp='Set screws'),
-        SPEC('Lengths', 'Pololu gives none. Up to 10 mm in the flange and 3.5 mm in the boss stay below the surface.', grp='Set screws'),
-        SPEC('Key', '1.5 mm hex (supplied with the hubs)', grp='Set screws'),
+        DIA('Thread', (DX, -18.0, AZ + 4.5), 'z', 1.5, (AZ + 2.5, AZ + 6.5), text='M3', key=True, exact=True, grp='Set screw'),
+        LEN('Length (as modelled)', pl((DX, -18.0, AZ + 2.5), 'z'), pl((DX, -18.0, AZ + 6.5), 'z'), (0, -6, 0), key=True, grp='Set screw'),
+        SPEC('Length', 'The seller gives none. The CAD assumes 4 mm; up to 4.5 mm stays below the boss surface.', grp='Set screw'),
+        SPEC('Key', '1.5 mm hex', grp='Set screw'),
     ])
 
     def bearing(name, c, y0, y1, dd, D):
@@ -631,7 +632,7 @@ def bought_dims(cfg):
         ])
     d['M4x70'] = screw('bolt_M4x70_road0', (RX, RZ), -34, -30, 40, 3.5, 4, 2.0, 'M4', '3 mm', 'ISO 4762 socket head')
     d['M3x6'] = screw('motor_screw_M3x6_0', (gx, gz), -22, -25, -31, 2.75, 3, 1.5, 'M3', '2.5 mm', 'ISO 4762 socket head')
-    d['M3x25'] = screw('hub_screw_M3x25_0', (DX + 9.525, AZ), 8.5, 5.5, -19.5, 2.75, 3, 1.5, 'M3', '2.5 mm', 'ISO 4762 socket head')
+    d['M3x20'] = screw('hub_screw_M3x20_0', (DX + 11.5, AZ), 8.5, 5.5, -14.5, 2.75, 3, 1.5, 'M3', '2.5 mm', 'ISO 4762 socket head')
     d['M3x50'] = screw('sprocket_screw_M3x50', (DX, AZ), 33, 30, -20, 2.75, 3, 1.5, 'M3', '2.5 mm', 'ISO 4762 socket head')
     d['M3x8'] = screw('housing_screw_M3x8_0', (hx, hz), -39.65, -38, -30, 2.85, 1.65, 1.5, 'M3', '2 mm', 'ISO 7380 button head (domed; drawn flat)')
     d['nyloc'] = ('nyloc_M4_road0', [
@@ -690,8 +691,8 @@ MAT_PRINT = {
 }
 MATERIAL = {   # bought items: what they are made of, as specified by the design or the standard named in the kit list
     'motor': ('Bought assembly', 'Brushed 12 V DC motor (370 can) on a worm gearbox; metal housing. A worm gearbox is normally self-locking: the track cannot be turned by hand.'),
-    'hub': ('Aluminium', 'Pololu universal aluminium mounting hub; sold in pairs with four M3 set screws and a 1.5 mm key.'),
-    'setscrew': ('Steel', 'Supplied with the hubs.'),
+    'hub': ('Aluminium', 'Flange coupling with a 6 mm bore (seller drawing in references/flange_coupling_32); comes with one M3 set screw.'),
+    'setscrew': ('Steel', 'Supplied with the coupling.'),
     '6800ZZ': ('Bearing steel', 'Deep-groove ball bearing; chrome steel rings and balls are standard. Stainless versions (S6800ZZ) have the same size.'),
     '624ZZ': ('Bearing steel', 'Deep-groove ball bearing; chrome steel rings and balls are standard. Stainless versions (S624ZZ) have the same size.'),
     '608ZZ': ('Bearing steel', 'Deep-groove ball bearing; chrome steel rings and balls are standard. Stainless versions (S608ZZ) have the same size.'),
@@ -700,7 +701,7 @@ MATERIAL = {   # bought items: what they are made of, as specified by the design
     'M4x70': ('Steel', 'No grade is specified: any ISO 4762 steel or stainless screw.'),
     'nyloc': ('Steel with a nylon ring', 'DIN 985 prevailing-torque nut.'),
     'M3x6': ('Steel', 'No grade is specified: any ISO 4762 steel or stainless screw.'),
-    'M3x25': ('Steel', 'No grade is specified: any ISO 4762 steel or stainless screw.'),
+    'M3x20': ('Steel', 'No grade is specified: any ISO 4762 steel or stainless screw.'),
     'M3x50': ('Steel', 'No grade is specified: any ISO 4762 steel or stainless screw.'),
     'M3x8': ('Steel', 'No grade is specified: any ISO 7380 steel or stainless button head.'),
     'insert': ('Brass', 'Heat-set (thermal) insert, pressed in with a soldering iron and an M3 insert tip.'),
@@ -973,19 +974,19 @@ def main(check_only=False):
 
     piece_meshes = {
         'motor': scene_piece(['JGY370_gearbox', 'JGY370_motor_can', 'JGY370_terminal_space', 'JGY370_output_shaft']),
-        'hub': scene_piece(['Pololu_1999_hub']),
-        'setscrew': scene_piece(['hub_set_screw_M3x8', 'hub_set_screw_M3x3']),
+        'hub': scene_piece(['flange_coupling_32']),
+        'setscrew': scene_piece(['hub_set_screw_M3x4']),
         '6800ZZ': scene_piece(['6800ZZ_inner', '6800ZZ_outer', '6800ZZ_shield']),
         '624ZZ': scene_piece(['624ZZ_road0_0_inner', '624ZZ_road0_0_outer', '624ZZ_road0_0_shield']),
         '608ZZ': scene_piece(['608ZZ_0_inner', '608ZZ_0_outer', '608ZZ_0_shield']),
         'pin8': scene_piece(['idler_pin_8x55']),
         'M4x70': scene_piece(['bolt_M4x70_road0']), 'nyloc': scene_piece(['nyloc_M4_road0']),
-        'M3x6': scene_piece(['motor_screw_M3x6_0']), 'M3x25': scene_piece(['hub_screw_M3x25_0']),
+        'M3x6': scene_piece(['motor_screw_M3x6_0']), 'M3x20': scene_piece(['hub_screw_M3x20_0']),
         'M3x50': scene_piece(['sprocket_screw_M3x50']), 'M3x8': scene_piece(['housing_screw_M3x8_0']), 'insert': scene_piece(['insert_M3_0']),
         'M4x25': [chassis_by['mount_screw_M4x25_L00']], 'washer4': [chassis_by['mount_washer_L00']], 'nut4': [chassis_by['mount_nut_M4_L00']],
     }
     dims_key = {'motor': 'motor', 'hub': 'hub', 'setscrew': 'setscrew', '6800ZZ': '6800ZZ', '624ZZ': '624ZZ', '608ZZ': '608ZZ', 'pin8': 'pin8',
-                'M4x70': 'M4x70', 'nyloc': 'nyloc', 'M3x6': 'M3x6', 'M3x25': 'M3x25', 'M3x50': 'M3x50', 'M3x8': 'M3x8', 'insert': 'insert',
+                'M4x70': 'M4x70', 'nyloc': 'nyloc', 'M3x6': 'M3x6', 'M3x20': 'M3x20', 'M3x50': 'M3x50', 'M3x8': 'M3x8', 'insert': 'insert',
                 'M4x25': 'M4x25', 'washer4': 'washer4', 'nut4': 'nut4'}
     for it in K.PRINTED:
         items.append(printed_item(it))

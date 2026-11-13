@@ -64,16 +64,19 @@ GEARBOX_FACE_Y = -WALL_OUT                     # gearbox face flat on the inner 
 MOTOR_HOLES = [(DRIVE_X + x, AXLE_Z + z) for x in (-9.0, 24.0) for z in (-9.0, 9.0)]
 SHAFT_TIP_Y = GEARBOX_FACE_Y + 15.6            # -14.4
 SHAFT_FLAT = dict(across=5.5, length=12.0)     # D-flat 0.5 deep, running 12 mm back from the tip (JGY-370 drawing)
-# Bought Pololu #1999 universal aluminium hub (6 mm bore, 6 x M3), from its drawing (pololu.com/file/0J667)
-# and STEP (pololu.com/file/0J1153). Two radial M3 set screws at the same angle: flange mid-plane and boss mid-height.
-HUB = dict(flange_r=12.7, flange_t=5.0, boss_r=6.0, boss_h=4.2, bore_r=3.0, pcd_r=9.525, tap_r=1.25)
-HUB_FACE_Y = -13.8                             # flange face on the sprocket; boss end at -23.0, 1.0 from the wall
-HUB_SCREW_DEG = (0, 120, 240)                  # 3 of the 6 hub holes carry the sprocket; set screws point up (+Z)
-HUB_SET_SCREWS = ((2.5, 8.0), (7.1, 3.0))      # (depth from the flange face, M3 set screw length) flange, boss
-HUB_RECESS = dict(r=12.9, depth=1.0)           # centres the Ø25.4 flange in the sprocket's inner face
+# Bought Ø32 / Ø6 aluminium flange coupling (the Pololu #1999 hub could not be bought, 2026-11-12). Sizes from the
+# seller's drawing (../../references/flange_coupling_32/), each one confirmed on the part by the user: flange Ø32 x 4 with
+# 6 x M3 tapped holes on Ø23, boss Ø14 x 10 (14 overall), Ø6 bore, one radial M3 set screw in the boss 5 mm from its
+# end, halfway between two flange holes, flat flange face.
+HUB = dict(flange_r=16.0, flange_t=4.0, boss_r=7.0, boss_h=10.0, bore_r=3.0, pcd_r=11.5)
+HUB_FACE_Y = -WALL_IN + 1.0 + HUB['flange_t'] + HUB['boss_h']   # -9.0: flange face on the sprocket; boss end at -23.0, 1.0 from the wall
+HUB_SCREW_DEG = (0, 120, 240)                  # 3 of the 6 holes carry the sprocket; the set screw points up (+Z), between the 60 and 120 deg holes
+HUB_SCREW_L = 20.0                             # ISO 4762 M3 x 20 from the sprocket's outer face: 4 mm of thread, tip 1.5 mm past the flange
+HUB_SET_SCREWS = ((HUB['flange_t'] + HUB['boss_h'] - 5.0, 4.0),)   # (depth from the flange face, M3 set screw length): one, 9.0 deep
+HUB_RECESS = dict(r=16.2, depth=1.0)           # centres the Ø32 flange in the sprocket's inner face
 SPROCKET_Y = (HUB_FACE_Y - HUB_RECESS['depth'], 8.5)   # recess rim, outer disc face (bed face when printed)
-SPROCKET_HUB_R = 15.0
-STOP_PAD = dict(r=2.7, y=(SHAFT_TIP_Y, HUB_FACE_Y))    # printed pad inside the hub bore that meets the shaft end
+SPROCKET_HUB_R = 18.5                          # ring round the recess, 1.5 mm proud of the tooth disc
+STOP_PAD = dict(r=2.7, y=(SHAFT_TIP_Y, HUB_FACE_Y))    # printed pad down the coupling bore to the shaft end (5.4 long)
 SOCKET = dict(r=5.05, depth=5.0)               # journal plug seat in the sprocket's outer face
 PLUG = dict(r=4.975, bore=1.7, y=(SPROCKET_Y[1] - SOCKET['depth'], WALL_OUT))
 B6800 = dict(d=10.0, D=19.0, B=5.0)

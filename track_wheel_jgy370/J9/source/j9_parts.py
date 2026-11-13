@@ -1,7 +1,7 @@
 """J9 JGY-370 single track: CadQuery parts, hardware and assembly instances (mm).
 
 One printed H-frame (two walls joined by a web) carries everything:
-- the JGY-370 bolts to the inner wall; the printed sprocket bolts to a bought Pololu #1999 hub
+- the JGY-370 bolts to the inner wall; the printed sprocket bolts to a bought Ø32 flange coupling
   that is set-screwed onto the motor's D-shaft;
   a printed journal plug in a 6800ZZ in the outer wall supports the sprocket's outer side;
 - five road rollers and two support rollers (one part, 2 x 624ZZ each) on M4 bolts
@@ -159,8 +159,8 @@ def hub_screw_xz(degs=HUB_SCREW_DEG):
 
 
 def sprocket():
-    """Printed sprocket. The bought hub's flange sits in a recess in its inner face and 3 x M3 x 25 from the outer
-    face hold it; a small pad inside the hub bore meets the shaft end and sets the axial position."""
+    """Printed sprocket. The bought coupling's flange sits in a recess in a low ring on its inner face and 3 x M3 x 20
+    from the outer face hold it; a pad down the coupling bore meets the shaft end and sets the axial position."""
     s = xz_prism(tp.ex.sprocket_outline(), -BUSH_HALF_L, BUSH_HALF_L, DRIVE_X, AXLE_Z)
     s = s.union(ycyl(SPROCKET_HUB_R, SPROCKET_Y[0], -BUSH_HALF_L + .01, DRIVE_X, AXLE_Z))
     s = s.cut(ycyl(HUB_RECESS['r'], SPROCKET_Y[0] - 1, HUB_FACE_Y, DRIVE_X, AXLE_Z))
@@ -173,22 +173,23 @@ def sprocket():
     return s.clean()
 
 
-def pololu_hub(tap_r=1.5):
-    """Pololu #1999 hub in its J9 pose. Tapped holes default to the M3 major diameter (threads not modelled,
-    as for the motor); tap_r=HUB['tap_r'] reproduces the vendor STEP's Ø2.5 holes for the comparison check."""
+def flange_coupling():
+    """Bought Ø32 / Ø6 flange coupling in its J9 pose: flange face on the sprocket, boss toward the motor. The six tapped
+    holes are cut at the M3 major diameter (threads not modelled, as for the motor); the set-screw hole is radial and
+    points up (+Z), halfway between the 60 and 120 deg holes."""
     f0 = HUB_FACE_Y - HUB['flange_t']
     s = ycyl(HUB['flange_r'], f0, HUB_FACE_Y, DRIVE_X, AXLE_Z)
     s = s.union(ycyl(HUB['boss_r'], f0 - HUB['boss_h'], f0 + .01, DRIVE_X, AXLE_Z))
     s = s.cut(ycyl(HUB['bore_r'], f0 - HUB['boss_h'] - 1, HUB_FACE_Y + 1, DRIVE_X, AXLE_Z))
     for x, z in hub_screw_xz(range(0, 360, 60)):
-        s = s.cut(ycyl(tap_r, f0 - 1, HUB_FACE_Y + 1, x, z))
+        s = s.cut(ycyl(1.5, f0 - 1, HUB_FACE_Y + 1, x, z))
     for depth, _ in HUB_SET_SCREWS:
-        s = s.cut(zcyl(tap_r, AXLE_Z, AXLE_Z + HUB['flange_r'] + 1, DRIVE_X, HUB_FACE_Y - depth))
+        s = s.cut(zcyl(1.5, AXLE_Z, AXLE_Z + HUB['boss_r'] + 1, DRIVE_X, HUB_FACE_Y - depth))
     return s.clean()
 
 
 def hub_set_screw(depth, length):
-    """M3 set screw from the hub's radial hole down onto the shaft's flat (which faces +Z)."""
+    """M3 set screw from the coupling's radial hole down onto the shaft's flat (which faces +Z)."""
     z0 = AXLE_Z + SHAFT_FLAT['across'] - 3.0
     return zcyl(1.5, z0, z0 + length, DRIVE_X, HUB_FACE_Y - depth)
 
@@ -437,7 +438,8 @@ PRINTED = {
                      'A 10 mm inner main plate with 1.5 mm shallow T-shaped receiving seats and plain mounting holes for external nuts; 6 mm outer wall, 18 mm web and front diaphragm. Motor seat, 6800ZZ seat, 7 roller holes and yoke grooves; '
                      'motor rim and 4 housing standoffs on the inner wall; recessed Ø16.4 spring guide pocket with Ø21.2 outer wall.'),
     'J902_sprocket': (sprocket, DARK, 1, 'PETG or PA12, 5 walls, 50 % infill; outer disc face on the bed',
-                      'Unchanged 12-tooth 20 mm pitch form. Ø25.8 recess for the Pololu hub flange, 3 x M3 counterbored holes; Ø10 socket for the journal plug.'),
+                      'Unchanged 12-tooth 20 mm pitch form. Ø37 ring with a Ø32.4 x 1 recess for the coupling flange, 3 x M3 counterbored holes on Ø23, '
+                      '5.4 mm pad down the coupling bore to the shaft end; Ø10 socket for the journal plug.'),
     'J903_journal_plug': (journal_plug, DARK, 1, 'PETG or PA12, 100 % infill, standing on its end',
                           'Ø9.95 journal in the 6800ZZ. The M3 x 50 screw clamps it and the sprocket to the motor shaft.'),
     'J904_roller': (roller, DARK, 7, 'PETG, 4 walls, 40 % infill, on its side',
@@ -467,6 +469,18 @@ def parts():
 
 
 # ================================================================ assembly
+def drive_hub_hardware():
+    """The bought drive-hub group in the assembly pose, {name: (shape, colour)}: the flange coupling, the sprocket screws
+    into its flange and its set screw. unit() uses it, and so does X1/source/refresh_revf.py, which carries the group
+    into the revision F assemblies and scenes."""
+    out = {'flange_coupling_32': (flange_coupling(), HUB_C)}
+    for i, (x, z) in enumerate(hub_screw_xz()):
+        out[f'hub_screw_M3x{HUB_SCREW_L:g}_{i}'] = (screw_y(1.5, M3_HEAD, SPROCKET_Y[1] - M3_HEAD['h'], HUB_SCREW_L, x, z, -1), BLACK)
+    for depth, length in HUB_SET_SCREWS:
+        out[f'hub_set_screw_M3x{length:g}'] = (hub_set_screw(depth, length), BLACK)
+    return out
+
+
 def unit(prt=None, with_chain=True):
     """All solids of one track in the assembly pose.
 
@@ -497,11 +511,8 @@ def unit(prt=None, with_chain=True):
     for i, (x, z) in enumerate(MOTOR_HOLES):
         add(f'motor_screw_M3x6_{i}', screw_y(1.5, M3_HEAD, -WALL_IN - 1.0, 6.0, x, z, -1), BLACK, 'frame')
     add('sprocket_screw_M3x50', screw_y(1.5, M3_HEAD, PLUG['y'][1], 50.0, DRIVE_X, AXLE_Z, -1), BLACK, 'drive')
-    add('Pololu_1999_hub', pololu_hub(), HUB_C, 'drive')
-    for i, (x, z) in enumerate(hub_screw_xz()):
-        add(f'hub_screw_M3x25_{i}', screw_y(1.5, M3_HEAD, SPROCKET_Y[1] - M3_HEAD['h'], 25.0, x, z, -1), BLACK, 'drive')
-    for depth, length in HUB_SET_SCREWS:
-        add(f'hub_set_screw_M3x{length:g}', hub_set_screw(depth, length), BLACK, 'drive')
+    for n, (s, color) in drive_hub_hardware().items():
+        add(n, s, color, 'drive')
     i6, o6, s6 = bearing_rings(B6800, *B6800_Y, DRIVE_X, AXLE_Z)
     add('6800ZZ_inner', i6, STEEL, 'drive'); add('6800ZZ_outer', o6, STEEL, 'frame'); add('6800ZZ_shield', s6, BLACK, 'frame')
 

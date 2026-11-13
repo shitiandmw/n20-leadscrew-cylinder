@@ -15,11 +15,11 @@ For X1, install the motor and all road/support rollers with their axles first (s
    - Each bearing slides in by hand through the Ø22.6 bore.
    - Press the last 7.5 mm with a Ø20–21 mm tube or socket on the outer ring, not on the shield, until the bearing stops against the central web, 13 mm below the face.
    - The web's underside prints as a bridge: trim any sag before fitting the bearing on the bed side.
-5. **Sprocket and hub.**
-   1. Put the Pololu hub's flange into the recess in the sprocket's inner face, boss outward.
-   2. Line up every other hub hole with the sprocket's three counterbores.
-   3. Fit three **M3 × 25** from the sprocket's outer face into the hub's threads. Their heads end flush.
-   4. Start both set screws in the hub: the long one in the flange, the short one in the boss. Leave them backed out clear of the bore.
+5. **Sprocket and coupling.**
+   1. Put the flange coupling's flange into the Ø32.4 recess in the sprocket's inner face, boss outward. The sprocket's centre pad goes into the coupling bore.
+   2. Line up every other coupling hole with the sprocket's three counterbores.
+   3. Fit three **M3 × 20** from the sprocket's outer face into the coupling's threads. Their heads end flush.
+   4. Start the coupling's set screw. Leave it backed out clear of the bore.
 
 ## 2. Motor (before the sprocket)
 
@@ -39,14 +39,14 @@ For X1, install the motor and all road/support rollers with their axles first (s
 
 ## 4. Sprocket
 
-1. Hold the sprocket and hub between the walls about **10 mm outboard** of their final position, so the hub clears the shaft tip.
+1. Hold the sprocket and coupling between the walls about **10 mm outboard** of their final position, so the coupling clears the shaft tip.
 2. Bring them in from the **rear** of the frame.
-3. Turn the sprocket so the hub's set screws face the shaft's D-flat (flat on top in the CAD pose).
-4. Slide it inboard onto the shaft until the sprocket's centre pad meets the shaft end. The hub boss then stands 1 mm clear of the wall.
-5. With a **1.5 mm hex key** straight down between the walls, tighten both set screws firmly onto the flat.
+3. Turn the sprocket so the coupling's set screw faces the shaft's D-flat, with the flat on top (as in the CAD pose). The worm gearbox does not turn by hand: if the flat is not on top, run the motor briefly until it is.
+4. Slide it inboard onto the shaft until the sprocket's centre pad meets the shaft end. The coupling boss then stands 1 mm clear of the wall.
+5. With a **1.5 mm hex key** straight down between the walls, 6 mm from the wall face, tighten the set screw firmly onto the flat.
    - The CAD check reserves this vertical path.
    - It closes once the track is on.
-6. Mark the set screws with a paint line so any slip shows.
+6. Mark the set screw with a paint line so any slip shows.
 
 ## 5. Journal plug
 
@@ -107,6 +107,6 @@ Other chassis adapters must match these current mating faces and the spring/moto
 - **Removing the sprocket:**
   1. Take the track off.
   2. Remove the plug screw and the plug.
-  3. Loosen both hub set screws from above.
-  4. Slide the sprocket and hub outboard about 10 mm, then out to the rear.
-- **Hub set screws:** recheck them after the first runs and after any stall.
+  3. Loosen the coupling's set screw from above.
+  4. Slide the sprocket and coupling outboard about 10 mm, then out to the rear.
+- **Coupling set screw:** recheck it after the first runs and after any stall.

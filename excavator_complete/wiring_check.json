@@ -544,13 +544,13 @@
      "reserved cable route (right motor leads)",
      "SM-R"
     ],
-    "nearest": "SM-R_SMP-02V-BC_housing",
+    "nearest": "SM-R_SMP-02V-BC_wire_2",
     "mm": 0.0,
     "overlaps": [
-     "SM-R_SMP-02V-BC_wire_1",
-     "SM-R_SMP-02V-BC_wire_2",
      "reserved cable route (right motor leads)",
-     "SM-R_SMP-02V-BC_housing"
+     "SM-R_SMP-02V-BC_housing",
+     "SM-R_SMP-02V-BC_wire_1",
+     "SM-R_SMP-02V-BC_wire_2"
     ]
    }
   },
@@ -1000,5 +1000,5 @@
  },
  "wire_list_rows": 14,
  "status": "PASS",
- "seconds": 64.2
+ "seconds": 58.5
 }
