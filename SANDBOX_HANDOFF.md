@@ -1,3 +1,78 @@
+# Heaped bucket: how sand stays in and on a bucket — 2026-11-15 (task 0007f66f)
+
+**Status: built and verified as listed under "Verified". The workspace auto-committed most of it as `1b84622` on branch `at/64e67f15`, on top of `a90fbe7`; the last edits follow in the next auto-commit. Not deployed: the :8080 container still runs an older build, and rebuilding it needs the user's OK. Two things in the browser suite are not green, and neither comes from this work: see "Verified".**
+
+## User request
+"That excavator simulator app's sand-digging effect is unrealistic. For example, it can't achieve a full, heaped bucket effect, so it doesn't effectively simulate real excavator operation. Please help me optimize it."
+
+## What was wrong (measured on `a90fbe7`)
+- **The standard scoop ended as a slab.** 274 cm³ in a bucket that holds 247.5 cm³ level, with the sand 5 to 10 mm above the rims and flat across. Halfway through the curl it did hold 295 cm³ with a 19 mm ridge, but the script, the README and the in-game help all said to curl fully in the pit. That is 25° past level, so the heap slid to the hinge side, and the boom lift then turned the bucket 28° back.
+- **The load fell out and came back while curling.** From about 200 cm³ to 30 cm³ within 0.2 s, then refilled. The bed "lid" was judged by one bed cell 12 mm outside the mouth, and that cell is cut and uncut as the bucket turns. Every flip handed the whole load back to the bed at once (`fitUnderBed`).
+- **No static friction.** Any tilt moved sand, so a heap bled away with every posture change.
+- **Capacity, not geometry, was the limit** at the fullest moment (`LOAD.capacity` was struck + 50 cm³).
+- **Nearly empty parcels.** A slowly tilting bucket shed hundreds of parcels a second holding under 1 mm³ each. The client draws every parcel as a full streak, so a carried bucket showed a solid curtain of falling sand although almost nothing was leaving.
+- **The drawn load ended in a wall.** The sheet's edge stood half a column's rise above each rim, as a striped band.
+
+## What changed
+- `server/bucket-load.js` (rewritten):
+  - **The bed holds the load by its real height.** `coverBy` finds, beside each rim and in front of the mouth, the first bed cell with no bucket over it and takes its surface (`bedBeside`; `bedUnder` for a mouth that hangs over the bed). Each rim holds sand up to that level. The old `lid`, `buriedRim`, `PROPPED`, `RIM_BED` and `fitUnderBed` are gone.
+  - **Two angles** (`SAND.heapDeg` 45, `SAND.heapSlideDeg` 40 in `shared/world.js`). Sand at rest holds 45°; once it slides it stops at 40° (`exchange`, `spill`, with a `mobile` countdown per column). A slide spreads uphill through the sand that loses its support, never over a ridge.
+  - **Nothing is handed back at once.** What a tilt cannot hold leaves over the rims at `SPILL_RATE`.
+  - **Intake** (`add`, `press`, `fitToBed`): a column takes sand up to its cap, and the rest goes on along its row. The cap is the bed-held surface, limited to the heap the tilt could carry in the open plus a 5 mm layer (`SURCHARGE`), and never below the mouth where the bed faces it. Sliding columns take sand only up to the sliding line.
+- `shared/bucket-load.js`: `LOAD.heaped` (struck + a 1:1 heap on the mouth, the "top volume" of ISO 7451; on an L × W mouth that heap is L·W²/4 − W³/12 = 72.4 cm³, so 319.9 cm³) and `LOAD.capacity` (heaped + 30 cm³). `BUCKET.heapedLoad` 320.
+- `server/physics.js`: `meetBed` on first contact; `spillLoad` gathers sub-parcel leftovers per rim (`dregs`) and lets them go as whole parcels; `stats.tilt` (`mouthTilt`, whole degrees, + = lip down).
+- `shared/scoop.js`: curl to 56 mm (mouth level), then lift with `{ boom: 1, bucket: 0.4 }` so the mouth stays within 3° of level.
+- Client: BUCKET LIP readout and a load bar that is full at the heaped rating (`client/main.js`, `style.css`); the same on the phone remote's LCD (`remote-face.js`, `remote.css`); help texts rewritten; `client/load-mesh.js` brings the sheet down to the rims (`columnAt`).
+- Scripts: `capture_comparison.mjs` digs each build by its own `shared/scoop.js`; `capture_angles.mjs` takes its pictures at named parts of the cycle (its ticks had been stale since the arm drives were slowed in `b0be497`); `capture_docs.mjs` lifts as the cycle does.
+
+## Decisions and traps
+- **45° and 40° are a convention, not a measurement.** 45° is the 1:1 heap by which ISO 7451 and SAE J296 rate hoe buckets (checked on 2026-11-15 against the ISO 7451 excerpts on standards.iteh.ai and SSAB's bucket-capacity page; CECE uses 2:1), and a commonly quoted angle for damp sand. Fill factors quoted for loose sand and gravel are 0.95 to 1.10 of that heaped rating (toolgrit.com's excavator production guide; usually credited to the Caterpillar Performance Handbook, which was not seen). The strike plane here is the mouth, lip to far rim; the standard's own may differ a little. The bed keeps 34° for loose sand.
+- **A heap needs a level mouth, and the boom lift turns the bucket 28°.** This is the linkage, not a bug. The tilt table is in the session history (`/tmp/probe-heap/tilt.mjs`); with the stick out past about 30 mm even a full curl leaves the lip down.
+- **Sliding sand must not be pressed back in.** With the cap at the resting angle everywhere, digging kept refilling what had just slid away: about 110 cm³/s ran through a bucket for ever.
+- **Row room has to be counted after the moves** (`recount`), not before: sand moved across rows made a row take more than it had room for, and columns stood up to 26 mm out of the mouth.
+- **The pocket under the top plate** counted as room even with the mouth hanging down. It only takes sand the rest of the load holds up.
+- **A move under 0.05 mm does not keep a slide going** (`MOVING`). Without that, slow tilting never let a slide freeze.
+- **Scripted digs through the live server under software rendering drift.** The driver counts moving ticks, but a starved event loop still ends the combined lift a little short (12° of tilt in one run). Driven over a socket with no browser the result matches the direct simulation.
+
+## Measured (direct simulation, deterministic)
+- Standard scoop from the start position: 310 cm³ loaded, 304 carried, 300 delivered (before: 277, 272, 269). The sand stands 23 mm above the rims after the lift (before: 5 to 10 mm). The mouth stays within 3° of level through the lift.
+- While crowding, and curling until the mouth is within 30° of level, the load never falls back by more than 5 cm³ (before: from about 200 to 30 cm³ and back). The last of the curl then sheds about 16 cm³ of the layer on top, from 326 cm³ at the fullest.
+- A second scoop from the same shallow pit: 288 cm³; two scoops deliver 582 cm³ (before: 497).
+- Careless lifting: curled fully in the pit and then lifted 290 cm³; lifted with the boom alone and curled afterwards 288; lifted with the lip left 47° down 240.
+- Out of deep sand (bucket 100 mm under the bed, curled level, lifted while holding the lip level): 350 cm³ while buried, 304 to 309 when clear, ridge 28 to 31 mm.
+- All 16 machines digging at once: 303.6 to 305.8 cm³ each.
+- Over a real socket with no browser: 305 loaded, 301 carried, 299 delivered.
+- Sand volume drift over two full cycles: under 1e-5 mm³.
+- Boom drive lifting the heaped bucket: 46 to 52 N, 5.5 mm/s, 0.33 A (before, with 274 cm³: up to 49 N).
+- Cost, on a quiet host: a median tick takes 0.37 ms of CPU against 0.335 ms for one machine, and 5.7 against 4.9 ms for sixteen, so 10 to 18 % more. In the load test, run back to back, sixteen machines digging in lockstep gave 27.7 ticks/s with steps of 4.1 ms median and 91 ms p99 on this build, and 26.1 ticks/s with 3.6 and 94 ms on `a90fbe7`. The README's table carries today's figures for 1, 4, 8 and 16 machines.
+
+## Verified (this host: 8 vCPUs shared with other sessions' CAD builds, software rendering)
+- `npm test`: 101 of 101 on a quiet host, in 146 s. That includes three new physics tests, a stricter scoop test and the rewritten bucket tests.
+- `npm run test:sand`: passes on the desktop and touch renderers (scoop 310.4 cm³, lift 304.1, pour 263, 220 and 184, settled 0, no shader errors).
+- `npm run test:browser`, run while other sessions held the load average at 8 to 10:
+  - Room recovery, control claims and the phone remote's face (ten phone sizes) pass.
+  - The multiplayer check timed out once at `test/multiplayer-ui.js:364`, waiting on the second page for the brief toast "Ana reset the world.". The 2026-11-08 section already names this check as the one that needs faster frames than this host gives. Nothing on that path changed. Not retried on a quiet host.
+  - The main flow stops at its frame budget: 443 draw calls against a limit of 400. This is the model, not this work: the untouched `a90fbe7` and this build draw the same frame from the default view (631 meshes, 532 draw calls, 743,324 triangles; measured with `/tmp/probe-heap/calls-view.mjs`). The model was re-exported in `39bc9a7` and `a90fbe7` with 419 parts in place of 316.
+  - With that one assertion set aside in a temporary copy of `test/browser.js`, the rest of the main flow passes: sand rendering, QR pairing, mouse, keyboard and touch control, E-stop, reset, reconnect, driving, the following camera, camera views, mobile layouts and the touch graphics settings.
+- `bash scripts/check_docker.sh`: passes (test image only; the :8080 container was not touched).
+- `npm audit --include=dev`: 0 vulnerabilities.
+- The standard scoop over a real socket with no browser: 305 cm³ loaded, 301 carried, 299 delivered.
+- Looked at, under software rendering: the before and after sheet, the nine angle stills, the game HUD at 1440 × 900, 1000 × 700 and 844 × 390, and the phone remote at 390 × 780, 844 × 390, 320 × 454 and 568 × 320.
+
+## Found on the way, in the app but not from this work
+- **The committed model and the checks that count it had drifted apart.** `public/model.json.gz` holds 419 parts and 104 track-module records since `39bc9a7` and `a90fbe7`; `test/model-counts.js`, `scripts/check_docker.sh` and the README still said 316 and 105, so two tests of `npm test` and the Docker check failed on `a90fbe7` itself. The counts now match the committed model, and the README's download sizes follow the file (5.8 MB of a 6.9 MB first visit).
+- **Not fixed:** the 400 draw-call budget in `test/browser.js` (see above), and the README's figures that depend on the model: triangles and draw calls per frame, and load times through a slow link. Either the budget goes up or the new parts get batched; that is the model's owner's choice.
+- The comparison and angle scripts had stale timing since the arm drives were slowed in `b0be497`: `docs/angles/` still showed the previous arm's bucket. Both are regenerated.
+
+## Not done or not known
+- No real GPU, phone or Internet link, as before.
+- The README screenshots (`docs/desktop.png`, `multiplayer.png`, `remote*.png`) were retaken while other sessions held the load average at 8. The scripted driver fell behind, so they show the second scoop cut short (90 cm³ in the bucket, 302 cm³ delivered from the first) and the friends' machines early in their dig. They show the new HUD and LCD correctly. For heaped buckets in them, run `node scripts/capture_docs.mjs` again on a quiet host.
+- Sand is not drawn on the teeth: a heap ends at the lip.
+- A buried bucket still pushes aside the sand above its heap instead of lifting it, so little sand is seen running off after the bucket has cleared the bed: most of the extra layer leaves while the rims are still at bed level.
+- The bed's own sand has one angle (34°) and no slide and hold difference.
+
+---
+
 # R12 bucket physics, test repair and server speed — 2026-11-08 (task 3e21d67d)
 
 **Status: done and auto-committed by the workspace (`41313d9`, `0018b57`) on branch `at/5e30952d`, on top of `29cec30` (the commit that adopted the complete X1 / J9 / R12 model). Not deployed: the :8080 container still runs the old build. See "Verified" at the end of this section; the only thing not green in a single run here is the browser suite's multiplayer check, which needs frames faster than this host's software renderer gives.**

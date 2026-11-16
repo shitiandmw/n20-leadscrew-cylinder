@@ -12,9 +12,11 @@ import { LOAD, localU, mouthToLocal } from "../shared/bucket-load.js";
 import { BucketFrame, WALLS } from "../shared/bucket.js";
 import { BUCKET, SAND, initialMachine } from "../shared/world.js";
 
-const { nu: NU, nv: NV, cells: CELLS, area: AREA, du: DU, dv: DV } = LOAD,
+const { nu: NU, nv: NV, cells: CELLS, area: AREA, du: DU } = LOAD,
   RADIANS = Math.PI / 180,
-  REPOSE = SAND.reposeDeg * RADIANS;
+  // Sand at rest in a bucket holds up to HOLD; sand that slides stops at SLIDE.
+  HOLD = SAND.heapDeg * RADIANS,
+  SLIDE = SAND.heapSlideDeg * RADIANS;
 const sum = (values) => values.reduce((total, value) => total + value, 0);
 const out = (load, rim) => sum(load.pending[rim]);
 const surface = (load, c) => LOAD.floors[c % NU] + load.thickness[c];
@@ -47,6 +49,48 @@ function struck() {
 const settle = (load, frame, passes = 2400) => {
   for (let n = 0; n < passes; n++) load.relax(frame);
 };
+// What has gone over the rims, taken away as the parcels would.
+const carryOff = (load) => {
+  let gone = 0;
+  for (const pending of load.pending) {
+    gone += sum(pending);
+    pending.fill(0);
+  }
+  return gone;
+};
+// The highest the sand stands above the rims (mm), and the steepest it lies along
+// the bucket, in the world (radians), where both columns are open to the sky.
+const highest = (load) => {
+  let top = -Infinity;
+  for (let c = 0; c < CELLS; c++)
+    if (c % NU <= LOAD.lastOpen && load.thickness[c] > 0)
+      top = Math.max(top, surface(load, c));
+  return top;
+};
+const steepest = (load, theta) => {
+  let worst = 0;
+  for (let c = 0; c + 1 < CELLS; c++) {
+    if (c % NU >= LOAD.lastOpen || !load.thickness[c] || !load.thickness[c + 1])
+      continue;
+    const slope = (surface(load, c + 1) - surface(load, c)) / DU;
+    worst = Math.max(worst, Math.abs(Math.atan(slope) + theta));
+  }
+  return worst;
+};
+// A struck load with sand poured loose on its middle until it runs over the rims:
+// a heap lying as sliding sand comes to rest.
+function heaped() {
+  const load = struck(),
+    frame = tilted(0),
+    middle = mouthToLocal(LOAD.length / 2, 0, 5, [0, 0, 0]);
+  for (let n = 0; n < 4000; n++) {
+    load.add(middle[0], middle[1], middle[2], 60, true);
+    load.relax(frame);
+  }
+  settle(load, frame, 600);
+  carryOff(load);
+  return load;
+}
 
 test("the columns stand on the plates and end under the top plate", () => {
   // How far inside all the plates a point is.
@@ -75,7 +119,13 @@ test("the columns stand on the plates and end under the top plate", () => {
     for (let w = -90.25; w < 0; w += 0.5) if (clearance(u, 0, w) > 0) area += 0.25;
   const exact = area * 2 * BUCKET.innerHalfWidth;
   assert.ok(Math.abs(LOAD.struck - exact) < exact * 0.015, `${LOAD.struck} ${exact}`);
-  assert.ok(LOAD.capacity > LOAD.struck);
+  assert.ok(Math.abs(LOAD.struck / 1000 - BUCKET.ratedLoad) < 5);
+  // Heaped as ISO 7451 rates a hoe bucket: 1:1 above a mouth L long and W wide.
+  const L = LOAD.length,
+    W = 2 * LOAD.halfWidth;
+  assert.ok(Math.abs(LOAD.heaped - LOAD.struck - ((L * W * W) / 4 - W ** 3 / 12)) < 1);
+  assert.ok(Math.abs(LOAD.heaped / 1000 - BUCKET.heapedLoad) < 5);
+  assert.ok(LOAD.capacity > LOAD.heaped);
 });
 
 test("a level bucket holds a struck load: nothing spills or creeps", () => {
@@ -89,7 +139,15 @@ test("a level bucket holds a struck load: nothing spills or creeps", () => {
   assert.equal(load.settled, true);
 });
 
-test("a tilted load slumps to repose and leaves over the low rim", () => {
+test("a tilted load slides out over the low rim, and what stays lies as sand holds", () => {
+  // Level-full, the sand holds while the mouth tilts less than it can stand.
+  for (const degrees of [15, 35]) {
+    const load = struck(),
+      before = load.thickness.slice();
+    settle(load, tilted(degrees * RADIANS), 600);
+    assert.equal(carryOff(load), 0, `${degrees}°: nothing leaves`);
+    assert.deepEqual(load.thickness, before, `${degrees}°: nothing moves`);
+  }
   for (const degrees of [50, 65, 80]) {
     const theta = degrees * RADIANS,
       load = struck(),
@@ -102,18 +160,16 @@ test("a tilted load slumps to repose and leaves over the low rim", () => {
     assert.equal(out(load, RIM_FAR), 0);
     assert.ok(Math.abs(load.total - volume) < 1e-6, "no sand is lost");
     assert.equal(load.settled, true);
-    // The surface lies within repose of level, wherever there is sand to slide.
-    for (let c = 0; c + 1 < CELLS; c++) {
-      if (c % NU === NU - 1 || !load.thickness[c] || !load.thickness[c + 1]) continue;
-      const slope = (surface(load, c + 1) - surface(load, c)) / DU,
-        world = Math.atan(slope) + theta;
-      assert.ok(Math.abs(world) < REPOSE + 0.02, `${degrees}°, ${c}: ${world}`);
-    }
+    // What slid has come to rest no steeper than sand holds, and near where
+    // sliding sand stops.
+    const slope = steepest(load, theta);
+    assert.ok(slope < HOLD + 0.02, `${degrees}°: ${slope}`);
+    assert.ok(slope > SLIDE - 0.05, `${degrees}°: ${slope}`);
   }
 });
 
 test("held mouth down it empties, with no favourite side", () => {
-  for (const degrees of [95, 130, 175, -175, -130]) {
+  for (const degrees of [100, 130, 175, -175, -130]) {
     const load = struck(),
       volume = load.total;
     settle(load, tilted(degrees * RADIANS));
@@ -123,6 +179,10 @@ test("held mouth down it empties, with no favourite side", () => {
     const [left, right] = [out(load, RIM_LEFT), out(load, RIM_RIGHT)];
     assert.ok(Math.abs(left - right) < 0.02 * left, `${degrees}°: ${left}, ${right}`);
   }
+  // On end, the floor plate behind the lip is still flat enough to keep a little.
+  const load = struck();
+  settle(load, tilted(90 * RADIANS));
+  assert.ok(load.volume > 0.02 * LOAD.struck && load.volume < 0.15 * LOAD.struck);
 });
 
 test("over-curled it spills over the far rim, and the back pocket keeps some", () => {
@@ -168,7 +228,61 @@ test("sand goes into the columns under its bed cell, up to the bucket's capacity
   assert.equal(load.add(point[0], point[1], point[2], 600), 0);
 });
 
-// A flat bed at a height above a bucket posed by these strokes.
+test("a heap stays put through a small tilt, and slides to rest at a bigger one", () => {
+  const load = heaped(),
+    heap = load.volume - LOAD.struck;
+  // Sand that fell in has slid to rest: a ridge well above the rims, as high as
+  // sliding sand leaves it and nowhere steeper than sand holds.
+  assert.ok(heap > 35000, `a heap of ${heap} mm³`);
+  assert.ok(highest(load) > 25, `${highest(load)} mm above the rims`);
+  assert.ok(
+    highest(load) < LOAD.halfWidth * Math.tan(SLIDE) + 2,
+    `${highest(load)} mm above the rims`,
+  );
+  assert.ok(steepest(load, 0) < HOLD + 0.02, `${steepest(load, 0)}`);
+  // Between how steeply sand slides and how steeply it holds, it stays where it
+  // is, but for the few places that had stopped right at the limit.
+  const margin = (SAND.heapDeg - SAND.heapSlideDeg) * RADIANS;
+  settle(load, tilted(0.7 * margin), 600);
+  const lost = carryOff(load);
+  assert.ok(lost < 0.05 * heap, `tilted ${0.7 * margin} rad it lost ${lost} mm³`);
+  // Tilted further it lets go, and comes to rest again.
+  const theta = 4 * margin;
+  settle(load, tilted(theta));
+  const slid = carryOff(load);
+  assert.ok(slid > 0.1 * heap, `tilted ${theta} rad it lost ${slid} mm³`);
+  assert.ok(out(load, RIM_FAR) === 0);
+  assert.ok(load.volume > LOAD.struck, "most of the heap is still there");
+  assert.ok(steepest(load, theta) < HOLD + 0.02);
+  assert.equal(load.settled, true);
+  // Back level, nothing more moves: sand does not flow uphill.
+  const kept = load.thickness.slice();
+  settle(load, tilted(0), 600);
+  assert.deepEqual(load.thickness, kept);
+});
+
+test("sand pressed in stands steeper than sand that fell in", () => {
+  const poured = heaped(),
+    { frame, bed } = buried([29.2, 32.8, 56]),
+    pressed = new BucketLoad();
+  // Level, with the bed just below the rims: it holds nothing in.
+  pressed.coverBy(frame, bed(-10), true);
+  pressed.relax(frame);
+  for (let n = 0; n < 600; n++) {
+    fillAtMouth(pressed, 1200);
+    pressed.relax(frame);
+    carryOff(pressed);
+  }
+  assert.ok(
+    pressed.volume > poured.volume + 3000,
+    `${pressed.volume} mm³ pressed in, ${poured.volume} poured`,
+  );
+  assert.ok(pressed.volume <= LOAD.heaped + 1000, "but no more than a 1:1 heap");
+  assert.ok(steepest(pressed, 0) < HOLD + 0.03);
+});
+
+// A flat bed at a height above a bucket posed by these strokes. Nothing stands
+// over any of its cells.
 function buried(strokes) {
   const frame = new BucketFrame().set(
     bucketPose({ ...initialMachine(), strokes }),
@@ -178,69 +292,117 @@ function buried(strokes) {
   frame.toWorld(lip[0], lip[1], lip[2], world);
   return {
     frame,
-    bed: (above) => ({ cellAt: () => 0, surface: () => world[2] + above }),
+    bed: (above) => ({
+      cellAt: () => 0,
+      surface: () => world[2] + above,
+      ceilingAt: () => Infinity,
+    }),
   };
 }
-const fillAtMouth = (load, volume) => {
-  const point = mouthToLocal(40, 0, -20, [0, 0, 0]);
+// Sand offered all across the mouth, as a bucket moving through the bed meets it.
+function fillAtMouth(load, volume) {
   let taken = 0;
-  for (let step = 0; step < volume / 600; step++)
-    for (let j = 0; j < NV; j++) {
-      taken += load.add(point[0], LOAD.rowY(j), point[2], 600 / NV);
-    }
+  for (const u of [10, 30, 50, 70]) {
+    const point = mouthToLocal(u, 0, -5, [0, 0, 0]);
+    for (let j = 0; j < NV; j++)
+      taken += load.add(point[0], LOAD.rowY(j), point[2], volume / (4 * NV));
+  }
   return taken;
-};
+}
 
-test("under the bed it fills to the mouth; the rest stays in the bed", () => {
-  // The mouth stands on end, the lip 60 mm down in the bed.
+test("down in the sand it fills to the mouth; the rest stays in the bed", () => {
+  // The mouth stands on end, hanging over the bed, its lip 60 mm down in it.
   const { frame, bed } = buried([0, 20, 0]),
     terrain = bed(60),
     load = new BucketLoad();
   load.coverBy(frame, terrain, true);
   load.relax(frame);
   let taken = 0;
-  for (let n = 0; n < 200; n++) {
-    taken += fillAtMouth(load, 3000);
+  for (let n = 0; n < 400; n++) {
+    taken += fillAtMouth(load, 2400);
     load.relax(frame);
   }
-  assert.ok(taken > 0.2 * LOAD.struck, `it takes in ${taken} mm³`);
-  assert.ok(taken < LOAD.capacity);
-  assert.ok(load.add(0, 0, -40, 600) < 1e-6, "full at this tilt, it refuses more");
-  const lidded = load.lid.reduce((count, value) => count + value, 0);
-  assert.ok(lidded > 0 && lidded < (LOAD.lastOpen + 1) * NV, `${lidded} lidded`);
-  for (let c = 0; c < CELLS; c++)
-    if (load.lid[c])
-      assert.ok(
-        surface(load, c) <= Math.max(0, LOAD.floors[c % NU]) + 1e-6,
-        `a lidded column keeps below the mouth (${surface(load, c)})`,
-      );
-  assert.equal(out(load, RIM_LIP), 0, "nothing passes the buried lip");
-  // Lifted clear of the bed, what the lid held in spills.
+  assert.ok(taken > 0.8 * LOAD.struck, `it takes in ${taken} mm³`);
+  assert.ok(taken < LOAD.struck);
+  assert.ok(fillAtMouth(load, 2400) < 1, "full at this tilt, it refuses more");
+  assert.equal(carryOff(load), 0, "and none of it leaves while the bed holds it");
+  // Below the bed's level every column is full to the mouth and no further: past
+  // the mouth is the bed.
+  let full = 0;
+  for (let c = 0; c < CELLS; c++) {
+    if (c % NU > LOAD.lastOpen) continue;
+    assert.ok(surface(load, c) <= 1e-6, `column ${c} at ${surface(load, c)}`);
+    if (surface(load, c) > -0.01) full++;
+  }
+  assert.ok(full > 0.7 * (LOAD.lastOpen + 1) * NV, `${full} columns full`);
+  assert.ok(full < (LOAD.lastOpen + 1) * NV, "the top of the mouth is above the bed");
+  // The bed gone from in front of it for a moment, it only starts to pour: one
+  // tick is four passes.
   const volume = load.total;
+  load.coverBy(frame, bed(-100), true);
+  for (let n = 0; n < 4; n++) load.relax(frame);
+  assert.ok(carryOff(load) < 0.05 * volume, "a moment without the bed loses little");
+  // Lifted clear of the bed, it all runs out, nearly all of it over the lip.
   load.coverBy(frame, terrain, false);
   settle(load, frame);
-  assert.ok(out(load, RIM_LIP) > 0);
-  assert.ok(Math.abs(load.total - volume) < 1e-6);
+  assert.ok(out(load, RIM_LIP) > 0.75 * volume, `${out(load, RIM_LIP)} of ${volume}`);
+  assert.equal(out(load, RIM_FAR), 0);
+  assert.ok(load.volume < 1);
 });
 
-test("with the rims buried and the mouth clear, the load is a heap, not a slab", () => {
-  // Curled nearly level, with the bed just above the rims but below a lid's reach.
-  const { frame, bed } = buried([0, 20, 50]),
-    terrain = bed(30),
+test("buried over its rims a level bucket takes a heap and a little more, and keeps the heap", () => {
+  const { frame, bed } = buried([29.2, 32.8, 56]),
     load = new BucketLoad();
-  load.coverBy(frame, terrain, true);
+  load.coverBy(frame, bed(30), true);
+  load.relax(frame);
   for (let n = 0; n < 400; n++) {
-    fillAtMouth(load, 600);
+    fillAtMouth(load, 2400);
     load.relax(frame);
   }
+  // The bed holds it in on every side: nothing leaves, and it is a heap with the
+  // layer that will run off, not a slab as high as the bed.
+  assert.equal(carryOff(load), 0);
+  assert.ok(load.volume > LOAD.heaped, `${load.volume} mm³ under the bed`);
+  assert.ok(load.volume <= LOAD.capacity + 1e-6);
+  const cheek = surface(load, 10),
+    middle = surface(load, (NV >> 1) * NU + 10);
+  assert.ok(middle > cheek + 20, `a heap: ${middle} mm in the middle, ${cheek} at a cheek`);
+  // Lifted out, the layer runs off all round and the heap stays, lying as sliding
+  // sand comes to rest: close to the rated heaped load.
+  load.coverBy(frame, bed(30), false);
+  settle(load, frame);
+  for (const rim of [RIM_LIP, RIM_FAR, RIM_LEFT, RIM_RIGHT])
+    assert.ok(out(load, rim) > 0, `some runs off rim ${rim}`);
+  carryOff(load);
+  assert.ok(load.volume > 0.94 * LOAD.heaped, `it keeps ${load.volume} mm³`);
+  assert.ok(load.volume < LOAD.heaped + 1000);
+  assert.ok(highest(load) > 28, `${highest(load)} mm above the rims`);
+  assert.ok(steepest(load, 0) < HOLD + 0.03);
+  assert.equal(load.settled, true);
+});
+
+test("the bed holds a load in only as high as it stands beside the rim", () => {
+  // Level, with the bed 8 mm above the rims on every side.
+  const { frame, bed } = buried([29.2, 32.8, 56]),
+    load = new BucketLoad(),
+    above = 8;
+  load.coverBy(frame, bed(above), true);
+  load.relax(frame);
+  for (let n = 0; n < 400; n++) {
+    fillAtMouth(load, 2400);
+    load.relax(frame);
+    carryOff(load);
+  }
+  // The rims are not quite level with each other, so allow a millimetre.
   for (let i = 0; i <= LOAD.lastOpen; i++)
     for (const j of [0, NV - 1]) {
       const c = j * NU + i;
       assert.ok(
-        surface(load, c) <= 6 + Math.tan(REPOSE + 0.2) * DV,
+        surface(load, c) <= above + 1 + (Math.tan(HOLD) * LOAD.dv) / 2 + 1e-6,
         `cheek column ${i}: ${surface(load, c)}`,
       );
     }
+  assert.ok(surface(load, 10) > above - 2, "and that high it does stand");
 });
 
 test("a packed load is what the columns hold, and an empty bucket packs to nothing", () => {
@@ -287,10 +449,7 @@ test("any sequence of tilts, beds and additions conserves the sand exactly", () 
     assert.ok(Math.abs(load.total + gone - added) < 1e-5, `round ${round}`);
     assert.ok(load.total <= LOAD.capacity + 1e-6);
     // Parcels leave whatever has gone over a rim.
-    for (const pending of load.pending) {
-      gone += sum(pending);
-      pending.fill(0);
-    }
+    gone += carryOff(load);
   }
   assert.ok(gone > LOAD.capacity, `${gone} mm³ went through`);
 });

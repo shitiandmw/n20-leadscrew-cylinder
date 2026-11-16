@@ -1,17 +1,22 @@
 import "./style.css";
 import "./remote.css";
 import QRCode from "qrcode";
-import { AXES, neutral, BUCKET } from "../shared/world.js";
+import { AXES, neutral, BUCKET, SAND } from "../shared/world.js";
 import { CONFIG } from "../shared/config.js";
 import { DRIVE, strokeTime } from "../shared/drives.js";
 import { decodeFrame, applyTiles } from "../shared/protocol.js";
 import { NAME_LENGTH, cleanName } from "../shared/players.js";
+import { TRUCK, TRUCK_DRIVE, TRUCK_LOAD } from "../shared/truck.js";
 import { createInputSender } from "./input-sender.js";
 import {
   remoteFace,
   joinFace,
   createDisplay,
   createHaptics,
+  holdRows,
+  REMOTE_ICONS,
+  REMOTE_LEGENDS,
+  REMOTE_STICKS,
 } from "./remote-face.js";
 
 const remote = location.pathname === "/remote",
@@ -19,6 +24,12 @@ const remote = location.pathname === "/remote",
 const $ = (selector) => document.querySelector(selector);
 // A joystick stops moving this close to centre (fraction of full deflection).
 const DEAD_ZONE = 0.12;
+// The bucket's lip reads level within this many degrees; a heap holds through
+// about this many, the gap between how steeply sand slides and how steeply it
+// stands; and the lip's bar is full at this many.
+const LIP_LEVEL = 3,
+  LIP_HOLDS = SAND.heapDeg - SAND.heapSlideDeg,
+  LIP_FULL_SCALE = 45;
 if (remote) {
   document.body.classList.add("remote");
   // Blend the phone's browser bars into the controller's shell.
@@ -35,6 +46,8 @@ const icons = {
     '<path d="M3 19h8m-6-3h5v3H5zm4 0V9l4-4 5 7m-6-6 5-2 4 8-4 3-3-3 3-2"/>',
   people:
     '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.8a3.5 3.5 0 0 1 0 6.4M18 14.3a6.5 6.5 0 0 1 3.5 5.7"/>',
+  truck:
+    '<path d="M2 16V8h11v8M13 11h4.5l3 3v2H13"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',
 };
 const icon = (name) =>
   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]}</svg>`;
@@ -61,6 +74,22 @@ const driveReadouts = `<div class="drives" aria-label="Arm drives"><span class="
   ([key, label]) =>
     `<div class="drive" id="${key}-drive" data-state="idle"><span>${label}</span><strong id="${key}-rate">0.0<small>mm/s</small></strong><em id="${key}-detail">—</em></div>`,
 ).join("")}</div>`;
+// The truck's readings, in place of the excavator's while you drive it.
+const TRUCK_STRUCK = Math.round(TRUCK_LOAD.struck / 1000),
+  TRUCK_TIP = Math.round((TRUCK.maxTip * 180) / Math.PI);
+const truckReadouts = `<div class="telemetry truck-telemetry" id="truck-telemetry" hidden><div><span>TRUCK LOAD</span><strong id="truck-load-value">0<small>cm³</small></strong><div class="meter" title="Full at ${TRUCK_STRUCK} cm³, level with the side walls"><i id="truck-load-meter"></i></div></div><div><span>BODY</span><strong id="truck-tip-value">DOWN</strong><div class="meter" title="Tips back to ${TRUCK_TIP}°"><i id="truck-tip-meter"></i></div></div><div><span>SPEED</span><strong id="truck-speed-value">0<small>mm/s</small></strong><div class="meter"><i id="truck-speed-meter"></i></div></div><div><span>STEER</span><strong id="truck-steer-value">0<small>°</small></strong><div class="meter meter-level" title="Which way the front wheels point"><i id="truck-steer-meter"></i></div></div><div><span>HAULED</span><strong id="truck-hauled-value">0<small>cm³</small></strong><div class="meter meter-empty" title="Sand tipped out of the truck beyond the sand yard"></div></div></div>`;
+// The machine each player drives, and what its controls are called.
+const MACHINE_NAMES = { excavator: "excavator", truck: "truck" };
+const STICK_LABELS = {
+  excavator: {
+    left: ["STICK / SLEW", "STICK OUT", "STICK IN", "L", "R"],
+    right: ["BOOM / BUCKET", "LOWER", "RAISE", "CURL", "OPEN"],
+  },
+  truck: {
+    left: ["DRIVE / STEER", "FORWARD", "REVERSE", "L", "R"],
+    right: ["BODY", "RAISE", "LOWER", "", ""],
+  },
+};
 const seconds = (force) => strokeTime(force).toFixed(1);
 const driveSpec = `<div class="menu-section drive-spec"><span class="eyebrow">ARM DRIVES</span><p>${DRIVE.label} leadscrew drives on the ${DRIVE.supply} V battery; movement speed sets their PWM duty. Each moves as fast as its motor can carry the arm and the sand in the bucket. A full 60 mm stroke at 100 % takes ${seconds(0)} s with no load, ${seconds(38.3)} s at 38 N and ${seconds(60)} s at 60 N. Digging resistance is not simulated.</p></div>`;
 
@@ -76,28 +105,18 @@ function gameScreen() {
     <div class="hud-messages"><div id="watching" class="watching" hidden><span>Watching <strong id="watching-name"></strong></span><button id="watch-self" class="button small">Back to my excavator</button></div><div class="stop-banner" hidden>EMERGENCY STOP ENGAGED</div><div class="contact-banner" hidden>BUCKET ON HARD GROUND · RAISE THE BOOM</div><div class="obstacle-banner" hidden></div></div>
     <aside id="menu" class="menu" hidden aria-label="Game menu">
       <div class="menu-section menu-name"><label for="player-name">Your name</label><input id="player-name" maxlength="${NAME_LENGTH}" autocomplete="nickname" spellcheck="false"></div>
-      <div class="menu-section"><span class="eyebrow">HOW TO PLAY</span><p>Drive with <kbd>I</kbd> <kbd>K</kbd> <kbd>J</kbd> <kbd>L</kbd>. The yard is straight ahead: open the bucket, reach out, lower the boom until the teeth touch the sand, crowd the stick, curl fully, lift, swing left to the pour zone and open the bucket. Everything else is yours to explore. The map shows where you are.</p><p class="key-table"><span><kbd>I</kbd> <kbd>K</kbd> drive</span><span><kbd>J</kbd> <kbd>L</kbd> turn</span><span><kbd>W</kbd> <kbd>S</kbd> stick</span><span><kbd>A</kbd> <kbd>D</kbd> slew</span><span><kbd>↑</kbd> <kbd>↓</kbd> boom down / up</span><span><kbd>←</kbd> <kbd>→</kbd> bucket</span><span><kbd>Q</kbd> <kbd>Z</kbd> left track</span><span><kbd>E</kbd> <kbd>C</kbd> right track</span></p></div>
+      <div class="menu-section"><span class="eyebrow">HOW TO PLAY</span><p>Drive with <kbd>I</kbd> <kbd>K</kbd> <kbd>J</kbd> <kbd>L</kbd>. The yard is straight ahead: open the bucket, reach out, lower the boom until the teeth touch the sand, crowd the stick, then curl until BUCKET LIP reads level. Lift, curling a little more as you go to keep it level: a heaped bucket stays heaped only while its lip is level. Swing left to the pour zone and open the bucket. Everything else is yours to explore. The map shows where you are.</p><p class="key-table"><span><kbd>I</kbd> <kbd>K</kbd> drive</span><span><kbd>J</kbd> <kbd>L</kbd> turn</span><span><kbd>W</kbd> <kbd>S</kbd> stick</span><span><kbd>A</kbd> <kbd>D</kbd> slew</span><span><kbd>↑</kbd> <kbd>↓</kbd> boom down / up</span><span><kbd>←</kbd> <kbd>→</kbd> bucket</span><span><kbd>Q</kbd> <kbd>Z</kbd> left track</span><span><kbd>E</kbd> <kbd>C</kbd> right track</span></p><p>Your dump truck stands on your right, its body beside the excavator: swing over it and open the bucket to load it. <kbd>T</kbd> gets you into the truck and back. Drive it anywhere and raise the body: the load slides out over the rear wall, which swings open at the bottom. HAULED counts what you tip beyond the sand yard.</p><p class="key-table"><span><kbd>I</kbd> <kbd>K</kbd> or <kbd>W</kbd> <kbd>S</kbd> drive</span><span><kbd>J</kbd> <kbd>L</kbd> or <kbd>A</kbd> <kbd>D</kbd> steer</span><span><kbd>↑</kbd> <kbd>↓</kbd> or <kbd>R</kbd> <kbd>F</kbd> body up / down</span><span><kbd>T</kbd> change machine</span></p></div>
       <div class="speed-control menu-section"><label for="speed">Movement speed</label><output id="speed-value">65%</output><input id="speed" type="range" min="20" max="100" step="5" value="65"></div>
       <div class="menu-section joint-readouts"><span>STICK <output id="stick-value">0.0 mm</output></span><span>BUCKET <output id="bucket-value">0.0 mm</output></span></div>${driveSpec}
-      <details class="keyboard-help menu-section"><summary>Hold-to-move buttons <span>↗</span></summary><div class="accessible-controls">${[
-        ["boom", "Boom"],
-        ["stick", "Stick"],
-        ["bucket", "Bucket"],
-        ["slew", "Slew"],
-      ]
-        .map(
-          ([axis, label]) =>
-            `<div><span>${label}</span><button class="hold" data-axis="${axis}" data-value="-1" aria-label="Decrease ${label}">−</button><button class="hold" data-axis="${axis}" data-value="1" aria-label="Increase ${label}">+</button></div>`,
-        )
-        .join("")}</div></details>
+      <details class="keyboard-help menu-section"><summary>Hold-to-move buttons <span>↗</span></summary><div class="accessible-controls">${holdRows()}</div></details>
       <div class="menu-section menu-actions"><button id="respawn" class="button">Back to start</button><button id="reset" class="button">${iconText("rotate", "Reset world")}</button><a id="remote-link" class="button" href="/remote" target="_blank" rel="noopener">Remote control ↗</a></div>
       <p class="menu-status"><span id="particle-count">0</span> falling parcels · <span id="performance">30 Hz physics</span> · <span id="latency-value">— ms</span></p>
     </aside>
     <div class="hud-bottom">
       <div class="control-cluster">${stickPad("left-stick", "STICK / SLEW", "STICK OUT", "STICK IN", "L", "R")}${trackPad("leftTrack", "Left")}</div>
       <div class="hud-centre">
-        <div class="ownership"><span id="operator-status">Waiting for connection</span><button id="claim" class="button small" disabled>Take control</button></div>
-        <div class="telemetry"><div><span>BUCKET LOAD</span><strong id="load-value">0<small>cm³</small></strong><div class="meter"><i id="load-meter"></i></div></div><div><span>BOOM</span><strong id="boom-value">${CONFIG.arm.default[0].toFixed(1)}<small>mm</small></strong><div class="meter"><i id="boom-meter"></i></div></div><div><span>SLEW</span><strong id="slew-value">0<small>°</small></strong><div class="meter"><i id="slew-meter"></i></div></div><div><span>DELIVERED</span><strong id="deposited-value">0<small>cm³</small></strong><div class="meter meter-empty"></div></div>${driveReadouts}</div>
+        <div class="ownership"><span id="operator-status">Waiting for connection</span><button id="switch-machine" class="button small switch-machine" disabled aria-keyshortcuts="T">${iconText("truck", "Truck")}<kbd>T</kbd></button><button id="claim" class="button small" disabled>Take control</button></div>
+        <div class="telemetry" id="excavator-telemetry"><div><span>BUCKET LOAD</span><strong id="load-value">0<small>cm³</small></strong><div class="meter meter-load" title="Full at ${BUCKET.heapedLoad} cm³ heaped; the mark is ${BUCKET.ratedLoad} cm³, level with the rims" style="--struck:${((BUCKET.ratedLoad / BUCKET.heapedLoad) * 100).toFixed(1)}%"><i id="load-meter"></i></div></div><div><span>BUCKET LIP</span><strong id="lip-value">—</strong><div class="meter meter-level" title="How far the bucket's mouth is from level. A heap stays on only while it is close to level."><i id="lip-meter"></i></div></div><div><span>BOOM</span><strong id="boom-value">${CONFIG.arm.default[0].toFixed(1)}<small>mm</small></strong><div class="meter"><i id="boom-meter"></i></div></div><div><span>SLEW</span><strong id="slew-value">0<small>°</small></strong><div class="meter"><i id="slew-meter"></i></div></div><div><span>DELIVERED</span><strong id="deposited-value">0<small>cm³</small></strong><div class="meter meter-empty"></div></div>${driveReadouts}</div>${truckReadouts}
         <button id="estop" class="estop" data-estop><span class="stop-icon"></span><span>EMERGENCY STOP</span><kbd>SPACE</kbd></button>
         <button id="resume" class="button resume" hidden>Resume operation</button>
       </div>
@@ -259,7 +278,7 @@ async function start() {
     inputSender.flush();
     if (document.hidden && isOwner()) send({ type: "input", axes, speed });
   }
-  const keys = {
+  const excavatorKeys = {
     w: [["stick", -1]],
     s: [["stick", 1]],
     a: [["slew", -1]],
@@ -290,23 +309,62 @@ async function start() {
       ["rightTrack", -1],
     ],
   };
+  // In the truck the driving keys of both hands drive it, and the arrows tip.
+  const truckKeys = {
+    i: [["drive", 1]],
+    k: [["drive", -1]],
+    j: [["steer", 1]],
+    l: [["steer", -1]],
+    w: [["drive", 1]],
+    s: [["drive", -1]],
+    a: [["steer", 1]],
+    d: [["steer", -1]],
+    ArrowUp: [["hoist", 1]],
+    ArrowDown: [["hoist", -1]],
+    r: [["hoist", 1]],
+    f: [["hoist", -1]],
+  };
+  const driving = () => (state?.driving === "truck" ? "truck" : "excavator");
+  const keys = () => (driving() === "truck" ? truckKeys : excavatorKeys);
+  // What each on-screen stick moves, left-right then up-down, with the sign that
+  // turns the stick's push into the control's value.
+  const STICKS = {
+    excavator: {
+      left: [
+        ["slew", 1],
+        ["stick", 1],
+      ],
+      right: [
+        ["bucket", -1],
+        ["boom", 1],
+      ],
+    },
+    truck: {
+      left: [
+        ["steer", -1],
+        ["drive", -1],
+      ],
+      right: [
+        [null, 0],
+        ["hoist", -1],
+      ],
+    },
+  };
   function gatherAxes() {
     const previous = axes;
     axes = neutral();
     for (const source of pointerSources.values())
       for (const [axis, value] of Object.entries(source)) axes[axis] += value;
+    const map = keys();
     for (const key of keyState)
-      for (const [axis, value] of keys[key]) axes[axis] += value;
+      for (const [axis, value] of map[key] ?? []) axes[axis] += value;
     for (const key of AXES) axes[key] = Math.max(-1, Math.min(1, axes[key]));
     if (AXES.some((key) => axes[key] !== previous[key]))
       inputSender.schedule(
         AXES.some((key) => Math.sign(axes[key]) !== Math.sign(previous[key])),
       );
   }
-  for (const [name, horizontal, vertical] of [
-    ["left", "slew", "stick"],
-    ["right", "bucket", "boom"],
-  ]) {
+  for (const name of ["left", "right"]) {
     const pad = $("#" + name + "-stick"),
       knob = pad.querySelector(".knob");
     let pointer = null,
@@ -350,11 +408,11 @@ async function start() {
       if (length >= 1 && !atStop) haptics.pulse(14);
       pushed = offCentre;
       atStop = length >= 1;
-      pointerSources.set(name, {
-        [horizontal]:
-          (Math.abs(x) < DEAD_ZONE ? 0 : x) * (name === "right" ? -1 : 1),
-        [vertical]: Math.abs(y) < DEAD_ZONE ? 0 : y,
-      });
+      const [[across, acrossSign], [along, alongSign]] = STICKS[driving()][name],
+        source = {};
+      if (across) source[across] = (Math.abs(x) < DEAD_ZONE ? 0 : x) * acrossSign;
+      if (along) source[along] = (Math.abs(y) < DEAD_ZONE ? 0 : y) * alongSign;
+      pointerSources.set(name, source);
       gatherAxes();
     }
     pad.addEventListener("pointerdown", (event) => {
@@ -436,7 +494,12 @@ async function start() {
       return;
     }
     const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
-    if (keys[key] && beginInput()) {
+    if (key === "t") {
+      event.preventDefault();
+      if (!event.repeat) switchMachine();
+      return;
+    }
+    if (keys()[key] && beginInput()) {
       event.preventDefault();
       keyState.add(key);
       gatherAxes();
@@ -469,6 +532,17 @@ async function start() {
       claimPending = false;
     } else requestControl();
   };
+  // Into your truck, or back into your excavator. Both stop as you change.
+  function switchMachine() {
+    if (!beginInput()) return;
+    clearInputs();
+    send({
+      type: "drive",
+      machine: driving() === "truck" ? "excavator" : "truck",
+    });
+    haptics.pulse(15);
+  }
+  $("#switch-machine").onclick = switchMachine;
   function showSpeed() {
     setReadout("#speed-value", Math.round(speed * 100) + "%");
     display?.speed(speed);
@@ -500,11 +574,13 @@ async function start() {
     toast("World reset. Back at the sand yard.");
   };
   $("#respawn").onclick = () => {
-    if (!isOwner()) return toast("Take control before moving the excavator.");
+    const truck = driving() === "truck";
+    if (!isOwner())
+      return toast(`Take control before moving the ${MACHINE_NAMES[driving()]}.`);
     clearInputs();
     send({ type: "respawn" });
     settingsSheet?.close();
-    toast("Back at a start position.");
+    toast(truck ? "The truck is back in its bay." : "Back at a start position.");
   };
   $("#player-name").value = savedName();
   $("#player-name").onchange = (event) => {
@@ -523,6 +599,29 @@ async function start() {
   function setReadout(selector, value) {
     const element = $(selector);
     if (element.innerHTML !== value) element.innerHTML = value;
+  }
+  // How far the bucket's mouth is from level (degrees, + with the lip down), as
+  // words and as a bar from the middle: left with the lip down, right with it up.
+  // Close to level a heaped load stays on, and the bar says so.
+  let lipShown;
+  function showLip(tilt) {
+    if (tilt === lipShown) return;
+    lipShown = tilt;
+    const known = Number.isFinite(tilt),
+      away = known ? Math.abs(tilt) : 0,
+      meter = $("#lip-meter");
+    setReadout(
+      "#lip-value",
+      !known
+        ? "—"
+        : away < LIP_LEVEL
+          ? "LEVEL"
+          : `${away}°<small>${tilt > 0 ? "DOWN" : "UP"}</small>`,
+    );
+    const reach = Math.min(1, away / LIP_FULL_SCALE) * 50;
+    meter.style.width = `${Math.max(reach, known ? 2 : 0)}%`;
+    meter.style.left = `${tilt > 0 ? 50 - reach : 50}%`;
+    meter.classList.toggle("holding", known && away <= LIP_HOLDS);
   }
   // Speed, load and current of each arm drive, or what stops it.
   function showDrives(drives) {
@@ -550,6 +649,117 @@ async function start() {
       );
     });
   }
+  // The controls and readings of the machine you drive.
+  let drivingShown = "excavator";
+  function showMachine(machine) {
+    if (machine === drivingShown) return;
+    drivingShown = machine;
+    const truck = machine === "truck";
+    // Held controls belong to the machine you left.
+    clearInputs();
+    document.body.dataset.driving = machine;
+    for (const name of ["left", "right"]) {
+      const pad = $(`#${name}-stick`);
+      if (remote) {
+        const legends = REMOTE_LEGENDS[machine][name];
+        ["n", "e", "s", "w"].forEach((direction, i) => {
+          pad.querySelector(`.legend-${direction} textPath`).textContent =
+            legends[i];
+        });
+        pad.setAttribute("aria-label", REMOTE_STICKS[machine][name]);
+      } else {
+        const [label, top, bottom, left, right] = STICK_LABELS[machine][name],
+          group = pad.closest(".joystick-group");
+        group.querySelector(".stick-label").textContent = label;
+        group.querySelector(".pad-top").textContent = top;
+        group.querySelector(".pad-bottom").textContent = bottom;
+        pad.querySelector(".pad-left").textContent = left;
+        pad.querySelector(".pad-right").textContent = right;
+        pad.setAttribute("aria-label", `${label} joystick`);
+      }
+    }
+    document.querySelectorAll("[data-machine]").forEach((row) => {
+      row.hidden = row.dataset.machine !== machine;
+    });
+    const other = truck ? "excavator" : "truck",
+      button = $("#switch-machine");
+    button.setAttribute("aria-label", `Drive your ${other}`);
+    button.title = `Drive your ${other} (T)`;
+    if (remote) {
+      button.querySelector("svg").outerHTML = REMOTE_ICONS[other];
+      button.querySelector("span").textContent = truck ? "Digger" : "Truck";
+      display.mode(machine);
+      $("#respawn-title").textContent = truck ? "Your truck" : "Your excavator";
+      $("#respawn-note").textContent = truck
+        ? "Back to its bay. Sand still in it is left on the ground where it stood. You need control to do this."
+        : "Back to a start position, leaving the sand as it is. You need control to do this.";
+    } else {
+      button.querySelector("svg").outerHTML = icon(truck ? "shovel" : "truck");
+      button.querySelector("span").textContent = truck ? "Excavator" : "Truck";
+      $("#excavator-telemetry").hidden = truck;
+      $("#truck-telemetry").hidden = !truck;
+      document.querySelectorAll(".track-pad").forEach((pad) => {
+        pad.hidden = truck;
+      });
+      $('[data-view="bucket"]').textContent = truck ? "Body" : "Bucket";
+      $("#respawn").textContent = truck ? "Truck back to its bay" : "Back to start";
+      $("#watch-self").textContent = `Back to my ${machine}`;
+    }
+  }
+  // The truck's readings on the screen.
+  function showTruck(stats) {
+    setReadout(
+      "#truck-load-value",
+      Math.round(stats.load) + "<small>cm³</small>",
+    );
+    $("#truck-load-meter").style.width =
+      Math.min(100, (stats.load / TRUCK_STRUCK) * 100) + "%";
+    setReadout(
+      "#truck-tip-value",
+      stats.tip < 0.5
+        ? "DOWN"
+        : `${Math.round(stats.tip)}°<small>${stats.gate ? "GATE OPEN" : "UP"}</small>`,
+    );
+    $("#truck-tip-meter").style.width =
+      Math.min(100, (stats.tip / TRUCK_TIP) * 100) + "%";
+    setReadout(
+      "#truck-speed-value",
+      Math.abs(stats.velocity) +
+        `<small>mm/s${stats.velocity < 0 ? " REV" : ""}</small>`,
+    );
+    $("#truck-speed-meter").style.width =
+      Math.min(100, (Math.abs(stats.velocity) / TRUCK_DRIVE.topSpeed) * 100) + "%";
+    // The steering's bar grows from the middle the way the wheels point.
+    const steer = stats.steer,
+      reach = Math.min(1, Math.abs(steer) / 40) * 50,
+      meter = $("#truck-steer-meter");
+    setReadout(
+      "#truck-steer-value",
+      steer === 0
+        ? "0<small>°</small>"
+        : `${Math.abs(steer)}°<small>${steer > 0 ? "LEFT" : "RIGHT"}</small>`,
+    );
+    meter.style.width = `${Math.max(reach, 2)}%`;
+    meter.style.left = `${steer > 0 ? 50 - reach : 50}%`;
+    setReadout(
+      "#truck-hauled-value",
+      Math.round(stats.hauled) + "<small>cm³</small>",
+    );
+  }
+  const OBSTACLES = {
+    excavator: {
+      object: "SOMETHING IN THE WAY · BACK UP OR TURN",
+      steep: "TOO STEEP TO CLIMB · BACK DOWN",
+      water: "TOO DEEP · BACK UP",
+      machine: "ANOTHER MACHINE IN THE WAY · BACK UP OR TURN",
+    },
+    truck: {
+      object: "SOMETHING IN THE WAY · BACK UP OR STEER AROUND",
+      steep: "TOO STEEP FOR THE TRUCK · BACK DOWN",
+      water: "TOO DEEP FOR THE TRUCK · BACK UP",
+      machine: "ANOTHER MACHINE IN THE WAY · BACK UP OR STEER AROUND",
+    },
+  };
   function updateUI(next) {
     const ownedBefore = isOwner(),
       stoppedBefore = state?.estop,
@@ -566,6 +776,7 @@ async function start() {
     if (state.owner) claimPending = false;
     // Only send the current, still-held input after the server grants control.
     if (!ownedBefore && isOwner()) inputSender.flush();
+    showMachine(driving());
     const owner = isOwner(),
       live = ws?.readyState === WebSocket.OPEN;
     const nextMode = `${owner}:${state.owner}:${state.estop}:${live}:${state.host}`;
@@ -595,6 +806,7 @@ async function start() {
           ? "Everything goes back to the start. You need control to do this."
           : "Only the host of this room can do this.";
       $("#respawn").disabled = !owner || !live;
+      $("#switch-machine").disabled = !controlsAvailable();
       // The remote has one key for both: an operator stopped by the E-stop
       // needs Resume, and anyone else needs to take control first.
       const resumeKey = state.estop && (owner || !remote);
@@ -609,9 +821,11 @@ async function start() {
       $("#speed").value = speed * 100;
       showSpeed();
     }
+    const inTruck = driving() === "truck";
     if (remote) {
-      const blocked = state.stats.blocked && !state.estop;
-      display.machine(state.machine, state.stats);
+      const blocked = state.stats.blocked && !state.estop && !inTruck;
+      if (inTruck) display.truck(state.truckStats);
+      else display.machine(state.machine, state.stats);
       display.flags(state.estop, blocked);
       if (blocked && !blockedBefore) haptics.pulse(40);
     } else {
@@ -635,18 +849,15 @@ async function start() {
       );
       setReadout("#particle-count", state.count.toLocaleString("en-US"));
       $("#load-meter").style.width =
-        Math.min(100, (state.stats.load / BUCKET.ratedLoad) * 100) + "%";
-      $(".contact-banner").hidden = !state.stats.blocked || state.estop;
-      const obstacle = !state.estop && state.stats.obstacle,
+        Math.min(100, (state.stats.load / BUCKET.heapedLoad) * 100) + "%";
+      showLip(state.stats.tilt);
+      $(".contact-banner").hidden = !state.stats.blocked || state.estop || inTruck;
+      const obstacle =
+          !state.estop && (inTruck ? state.truckStats?.obstacle : state.stats.obstacle),
         obstacleBanner = $(".obstacle-banner");
       obstacleBanner.hidden = !obstacle;
-      if (obstacle)
-        obstacleBanner.textContent = {
-          object: "SOMETHING IN THE WAY · BACK UP OR TURN",
-          steep: "TOO STEEP TO CLIMB · BACK DOWN",
-          water: "TOO DEEP · BACK UP",
-          machine: "ANOTHER EXCAVATOR IN THE WAY · BACK UP OR TURN",
-        }[obstacle];
+      if (obstacle) obstacleBanner.textContent = OBSTACLES[driving()][obstacle];
+      if (state.truckStats) showTruck(state.truckStats);
       $("#boom-meter").style.width =
         (state.machine.strokes[0] / 60) * 100 + "%";
       showDrives(state.stats.drives);
@@ -726,13 +937,14 @@ async function start() {
       button.classList.toggle("offline", !player.online);
       button.setAttribute(
         "aria-label",
-        mine ? "Follow my excavator" : `Watch ${player.name}`,
+        mine ? "Follow my machine" : `Watch ${player.name}`,
       );
       swatch.style.background = player.paint;
       name.textContent = player.name;
       note.textContent = [
         mine ? "you" : "",
         roster.host === player.id ? "host" : "",
+        player.driving === "truck" ? "in truck" : "",
         player.online ? "" : "offline",
       ]
         .filter(Boolean)
@@ -768,7 +980,7 @@ async function start() {
     $("#respawn").disabled = true;
     $("#operator-status").textContent = "Waiting for connection";
     $(".ownership").classList.remove("owned");
-    document.querySelectorAll(".hold, #speed").forEach((el) => {
+    document.querySelectorAll(".hold, #speed, #switch-machine").forEach((el) => {
       el.disabled = true;
     });
     document.querySelectorAll(".joystick").forEach((el) => {

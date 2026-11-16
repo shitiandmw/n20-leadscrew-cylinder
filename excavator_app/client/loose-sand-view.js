@@ -8,6 +8,8 @@ import { groundHeight } from "../shared/landscape.js";
 import { flightRoom, MAX_TICK_TRAVEL, ParcelMotion } from "./sand-flight.js";
 import { createSandStream } from "./sand-stream.js";
 import { createLoadMeshes } from "./load-mesh.js";
+import { createTruckLoadMeshes } from "./truck-load-mesh.js";
+import { bodyPose, freshBodyPose } from "../shared/truck.js";
 import { createDust, createLooseGrains } from "./loose-grains.js";
 import { SAND_LUMPS } from "./sand-relief.js";
 
@@ -43,91 +45,104 @@ export function createLooseSandView(
   lumps = null,
 ) {
   const dry = new THREE.Color("#e4d9c3").convertSRGBToLinear();
-  const material = new THREE.MeshStandardMaterial({
-    color: dry.clone().multiplyScalar(0.8),
-    map: texture,
-    bumpMap: texture,
-    bumpScale: 1.4,
-    roughness: 0.97,
-    metalness: 0,
-  });
-  // The grain and lumps of the bed, in the bucket's own coordinates so that they
-  // stay still on a carried load: along the bucket from its lip, across it, and out
-  // of its mouth. The grain repeats every 70 mm on all three axes, as on the bed.
+  // The sand of a carried load, with the grain and lumps of the bed in the load's
+  // own coordinates so that they stay still on it: `along` its floor, across it,
+  // and `out` of it. The grain repeats every 70 mm on all three axes, as on the
+  // bed. Loads of both kinds share one shader.
+  const loadMaterial = (along, out) => {
+    const material = new THREE.MeshStandardMaterial({
+      color: dry.clone().multiplyScalar(0.8),
+      map: texture,
+      bumpMap: texture,
+      bumpScale: 1.4,
+      roughness: 0.97,
+      metalness: 0,
+    });
+    material.onBeforeCompile = (shader) => {
+      shader.uniforms.sandLumps = { value: lumps };
+      shader.uniforms.loadAlong = { value: along };
+      shader.uniforms.loadOut = { value: out };
+      shader.vertexShader = shader.vertexShader
+        .replace(
+          "#include <common>",
+          `#include <common>
+          attribute float loadDepth;
+          uniform vec3 loadAlong;
+          uniform vec3 loadOut;
+          varying vec3 vGrainPosition;
+          varying vec3 vGrainNormal;
+          varying vec3 vLoadAt;
+          varying vec3 vLoadAlong;
+          varying vec3 vLoadAcross;
+          varying float vLoadDepth;`,
+        )
+        .replace(
+          "#include <begin_vertex>",
+          `#include <begin_vertex>
+          vGrainPosition = position;
+          vGrainNormal = normal;
+          vLoadAt = vec3(dot(position, loadAlong), position.y, dot(position, loadOut));
+          vLoadAlong = normalMatrix * loadAlong;
+          vLoadAcross = normalMatrix * vec3(0.0, 1.0, 0.0);
+          vLoadDepth = loadDepth;`,
+        );
+      shader.fragmentShader = shader.fragmentShader
+        .replace(
+          "#include <common>",
+          `#include <common>
+          varying vec3 vGrainPosition;
+          varying vec3 vGrainNormal;
+          varying vec3 vLoadAt;
+          varying vec3 vLoadAlong;
+          varying vec3 vLoadAcross;
+          varying float vLoadDepth;
+          ${SAND_LUMPS}`,
+        )
+        .replace(
+          "#include <map_fragment>",
+          `
+          vec3 sandWeights = pow(abs(normalize(vGrainNormal)), vec3(4.0));
+          sandWeights /= max(dot(sandWeights, vec3(1.0)), 0.0001);
+          vec4 sandTexel = texture2D(map, vGrainPosition.yz / 70.0) * sandWeights.x
+            + texture2D(map, vGrainPosition.xz / 70.0) * sandWeights.y
+            + texture2D(map, vGrainPosition.xy / 70.0) * sandWeights.z;
+          diffuseColor *= sandTexel;
+          // Just dug: as lumpy as the bed gets. Flat in its own frame, for the grooves.
+          sandRelief(vLoadAt, vec3(0.0, 0.0, 1.0), 1.0);
+          // Thin sand breaks up into patches, as it does on the bed.
+          if (vLoadDepth < 0.35 + 0.9 * clamp(0.5 - sandPatch, 0.0, 1.0)) discard;
+          diffuseColor.rgb *= sandShade;`,
+        )
+        .replace(
+          "#include <normal_fragment_maps>",
+          `
+          float relief = sandTexel.r * bumpScale;
+          normal = perturbNormalArb(-vViewPosition, normal,
+            vec2(dFdx(relief), dFdy(relief)), faceDirection);
+          normal = normalize(normal - vLoadAlong * sandSlope.x - vLoadAcross * sandSlope.y);`,
+        );
+    };
+    return material;
+  };
+  // In a bucket: along it from its lip, and out of its mouth.
   const origin = mouthToLocal(0, 0, 0, [0, 0, 0]),
     alongEnd = mouthToLocal(1, 0, 0, [0, 0, 0]),
-    outEnd = mouthToLocal(0, 0, 1, [0, 0, 0]),
-    along = new THREE.Vector3(
-      alongEnd[0] - origin[0],
-      0,
-      alongEnd[2] - origin[2],
+    outEnd = mouthToLocal(0, 0, 1, [0, 0, 0]);
+  const loads = createLoadMeshes(
+    scene,
+    loadMaterial(
+      new THREE.Vector3(alongEnd[0] - origin[0], 0, alongEnd[2] - origin[2]),
+      new THREE.Vector3(outEnd[0] - origin[0], 0, outEnd[2] - origin[2]),
     ),
-    out = new THREE.Vector3(outEnd[0] - origin[0], 0, outEnd[2] - origin[2]);
-  material.onBeforeCompile = (shader) => {
-    shader.uniforms.sandLumps = { value: lumps };
-    shader.uniforms.loadAlong = { value: along };
-    shader.uniforms.loadOut = { value: out };
-    shader.vertexShader = shader.vertexShader
-      .replace(
-        "#include <common>",
-        `#include <common>
-        attribute float loadDepth;
-        uniform vec3 loadAlong;
-        uniform vec3 loadOut;
-        varying vec3 vGrainPosition;
-        varying vec3 vGrainNormal;
-        varying vec3 vLoadAt;
-        varying vec3 vLoadAlong;
-        varying vec3 vLoadAcross;
-        varying float vLoadDepth;`,
-      )
-      .replace(
-        "#include <begin_vertex>",
-        `#include <begin_vertex>
-        vGrainPosition = position;
-        vGrainNormal = normal;
-        vLoadAt = vec3(dot(position, loadAlong), position.y, dot(position, loadOut));
-        vLoadAlong = normalMatrix * loadAlong;
-        vLoadAcross = normalMatrix * vec3(0.0, 1.0, 0.0);
-        vLoadDepth = loadDepth;`,
-      );
-    shader.fragmentShader = shader.fragmentShader
-      .replace(
-        "#include <common>",
-        `#include <common>
-        varying vec3 vGrainPosition;
-        varying vec3 vGrainNormal;
-        varying vec3 vLoadAt;
-        varying vec3 vLoadAlong;
-        varying vec3 vLoadAcross;
-        varying float vLoadDepth;
-        ${SAND_LUMPS}`,
-      )
-      .replace(
-        "#include <map_fragment>",
-        `
-        vec3 sandWeights = pow(abs(normalize(vGrainNormal)), vec3(4.0));
-        sandWeights /= max(dot(sandWeights, vec3(1.0)), 0.0001);
-        vec4 sandTexel = texture2D(map, vGrainPosition.yz / 70.0) * sandWeights.x
-          + texture2D(map, vGrainPosition.xz / 70.0) * sandWeights.y
-          + texture2D(map, vGrainPosition.xy / 70.0) * sandWeights.z;
-        diffuseColor *= sandTexel;
-        // Just dug: as lumpy as the bed gets. Flat in its own frame, for the grooves.
-        sandRelief(vLoadAt, vec3(0.0, 0.0, 1.0), 1.0);
-        // Thin sand breaks up into patches, as it does on the bed.
-        if (vLoadDepth < 0.35 + 0.9 * clamp(0.5 - sandPatch, 0.0, 1.0)) discard;
-        diffuseColor.rgb *= sandShade;`,
-      )
-      .replace(
-        "#include <normal_fragment_maps>",
-        `
-        float relief = sandTexel.r * bumpScale;
-        normal = perturbNormalArb(-vViewPosition, normal,
-          vec2(dFdx(relief), dFdy(relief)), faceDirection);
-        normal = normalize(normal - vLoadAlong * sandSlope.x - vLoadAcross * sandSlope.y);`,
-      );
-  };
-  const loads = createLoadMeshes(scene, material, !mobile);
+    !mobile,
+  );
+  // In a truck's body: along its floor, and up.
+  const truckLoads = createTruckLoadMeshes(
+      scene,
+      loadMaterial(new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 0, 1)),
+      !mobile,
+    ),
+    bodyFrame = freshBodyPose();
 
   const stream = createSandStream(scene, mobile);
   const motion = new ParcelMotion(SAND.maxGrains),
@@ -196,7 +211,19 @@ export function createLooseSandView(
       if (holder) bucketOf(holder, poses);
     }
   }
-  function update(a, b, alpha, poses) {
+  // The sand in the trucks' bodies, each in its body as drawn. A frame from
+  // before the trucks has none.
+  function drawTruckLoads(a, b, alpha, trucks) {
+    truckLoads.begin();
+    for (const truck of b.trucks ?? []) {
+      const from = a.trucksById?.get(truck.id)?.load ?? null,
+        pose = trucks?.get(truck.id);
+      if ((from || truck.load) && pose)
+        truckLoads.draw(bodyPose(pose, bodyFrame), from, truck.load, alpha);
+    }
+    truckLoads.end();
+  }
+  function update(a, b, alpha, poses, trucks) {
     const start = performance.now();
     for (const frame of buckets.values()) spareBuckets.push(frame);
     buckets.clear();
@@ -217,6 +244,7 @@ export function createLooseSandView(
       if (frame) loads.draw(frame, from, machine.load, alpha);
     }
     loads.end();
+    drawTruckLoads(a, b, alpha, trucks);
     shakeRims(b.tick, b, poses);
     if (b.tick < lastTick) {
       motion.clear();
@@ -522,6 +550,8 @@ export function createLooseSandView(
       lastTick = -1;
       loads.begin();
       loads.end();
+      truckLoads.begin();
+      truckLoads.end();
     },
     get count() {
       return count;
@@ -533,7 +563,7 @@ export function createLooseSandView(
       return loose.count;
     },
     get triangles() {
-      return loads.triangles;
+      return loads.triangles + truckLoads.triangles;
     },
     get updateMs() {
       return updateMs;

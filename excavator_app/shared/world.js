@@ -12,6 +12,9 @@ export const WORLD = Object.freeze({
   radius: 4,
   gravity: 9810,
 });
+// Every control a player has. The excavator answers to the first six and the
+// dump truck to the last three; whichever machine is not being driven has them
+// all at zero.
 export const AXES = [
   "boom",
   "stick",
@@ -19,6 +22,9 @@ export const AXES = [
   "slew",
   "leftTrack",
   "rightTrack",
+  "drive",
+  "steer",
+  "hoist",
 ];
 export const neutral = () => Object.fromEntries(AXES.map((key) => [key, 0]));
 export const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -47,6 +53,11 @@ export const SAND = Object.freeze({
   grainVolume: ((4 / 3) * Math.PI * WORLD.radius ** 3) / GRAIN_PACKING,
   // Dry sand: the bed relaxes to its angle of repose.
   reposeDeg: 34,
+  // Sand a bucket has just dug is damp and pressed in. At rest it stands as steep
+  // as 1:1, the heap ISO 7451 and SAE J296 rate an excavator bucket by, and what
+  // starts to slide runs out to a little less. Poured out, it lands loose.
+  heapDeg: 45,
+  heapSlideDeg: 40,
   maxGrains: 6000,
 });
 export const cellX = (i) => WORLD.minX + (i + 0.5) * CELL;
@@ -94,6 +105,16 @@ const SEPARATION_LENGTH =
     CONFIG.wheel_centres / 2 + CONFIG.sprocket_tip_radius_mm + 30,
   SEPARATION_WIDTH = CONFIG.track_outer_width_mm / 2 + 10,
   SEPARATION_REACH = 2 * Math.hypot(SEPARATION_LENGTH, SEPARATION_WIDTH);
+
+// The room a crawler keeps from other machines, as a box for boxesOverlap.
+export const crawlerBox = (machine) => ({
+  x: machine.x,
+  y: machine.y,
+  c: Math.cos(machine.heading),
+  s: Math.sin(machine.heading),
+  halfLength: SEPARATION_LENGTH,
+  halfWidth: SEPARATION_WIDTH,
+});
 
 // Separating-axis test between two crawler footprints, seen from above.
 export function crawlersOverlap(a, b) {
@@ -245,7 +266,11 @@ export const BUCKET = Object.freeze({
   innerHalfWidth: 37.6,
   outerHalfWidth: 40,
   cheekCentre: 38.8,
-  // Struck capacity inside the plates (cm^3), the 100 % mark of the load meter;
-  // LOAD.struck in bucket-load.js is the exact figure, and a test keeps them close.
+  // Struck capacity inside the plates (cm^3): the bucket filled level with its
+  // rims. LOAD.struck in bucket-load.js is the exact figure, and a test keeps them
+  // close.
   ratedLoad: 250,
+  // Heaped capacity (cm^3), as ISO 7451 rates it: the struck load and a heap
+  // standing 1:1 on it. The 100 % mark of the load meter; LOAD.heaped is exact.
+  heapedLoad: 320,
 });

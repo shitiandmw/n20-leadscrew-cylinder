@@ -1,24 +1,42 @@
 import { SAND } from "./world.js";
 import { LOAD } from "./bucket-load.js";
+import { TRUCK_LOAD } from "./truck.js";
 
 // Binary simulator frame, little-endian. One frame per physics tick carries
 // every machine's pose and the sand from the same instant, so the browser can
 // draw each bucket and its load in sync.
 //   u8 magic 'S', u8 version, u16 machine count, u32 tick,
-//   u16 grain group count, u16 tile count, u32 grain count,
+//   u16 grain group count, u16 tile count, u32 grain count, u16 truck count,
+//   u16 unused,
 //   machines: u16 id, u16 1 if a load follows for it, f32 x12 strokes[3], slew, x,
 //             y, z, heading, pitch, roll, tracks[2],
+//   trucks: u16 id (its player's), u16 1 if a load follows for it, f32 x9 x, y, z,
+//           heading, pitch, roll, steer, tip, wheels,
 //   groups: i32 x3 origin in whole mm, u16 grain count, u16 id of the machine
 //           whose bucket the grains are near (0 for none),
 //   grains: i16 x4 [slot, x, y, z] of each falling parcel, in group order, with the
 //           position relative to the group's origin in SAND.positionQuantum units,
 //   loads: LOAD.cells u16 column thickness in LOAD.quantum, for each machine with
 //          a load, in machine order,
+//   truck loads: TRUCK_LOAD.cells u16 column thickness in TRUCK_LOAD.quantum, for
+//          each truck with a load, in truck order,
 //   tiles: u16 tile index + TILE*TILE u16 thickness in SAND.heightQuantum.
 export const FRAME_MAGIC = 0x53;
-export const FRAME_VERSION = 5;
-export const HEADER_BYTES = 16;
+export const FRAME_VERSION = 6;
+export const HEADER_BYTES = 20;
 export const MACHINE_BYTES = 52;
+export const TRUCK_BYTES = 40;
+const TRUCK_POSE = [
+  "x",
+  "y",
+  "z",
+  "heading",
+  "pitch",
+  "roll",
+  "steer",
+  "tip",
+  "wheels",
+];
 export const GROUP_BYTES = 16;
 export const TILE_CELLS = SAND.tile * SAND.tile;
 export const TILE_COUNT = SAND.tilesX * SAND.tilesY;
@@ -29,18 +47,32 @@ export function tileCells(tile) {
   return { i0: ti * SAND.tile, j0: tj * SAND.tile };
 }
 
-// machines: poses, each with its id and its load (a Uint16Array, or null); grains: Int16Array of 4 values per grain;
+// machines: poses, each with its id and its load (a Uint16Array, or null); trucks:
+// the same for the dump trucks; grains: Int16Array of 4 values per grain;
 // groups: Int32Array of 5 values per group [x, y, z, count, machine id]; tileData:
 // Map of tile index to its Uint16Array of cells (a missing tile is empty); tiles:
 // the indices to include.
-export function encodeFrame({ tick, machines, grains, groups, tileData, tiles }) {
+export function encodeFrame({
+  tick,
+  machines,
+  trucks = [],
+  grains,
+  groups,
+  tileData,
+  tiles,
+}) {
   const count = grains.length / 4,
     groupCount = groups.length / 5,
     grainStart =
-      HEADER_BYTES + machines.length * MACHINE_BYTES + groupCount * GROUP_BYTES,
+      HEADER_BYTES +
+      machines.length * MACHINE_BYTES +
+      trucks.length * TRUCK_BYTES +
+      groupCount * GROUP_BYTES,
     loadStart = grainStart + count * 8,
     loaded = machines.filter((machine) => machine.load),
-    tileStart = loadStart + loaded.length * LOAD.cells * 2,
+    truckLoadStart = loadStart + loaded.length * LOAD.cells * 2,
+    truckLoaded = trucks.filter((truck) => truck.load),
+    tileStart = truckLoadStart + truckLoaded.length * TRUCK_LOAD.cells * 2,
     bytes = tileStart + tiles.length * (TILE_CELLS + 1) * 2,
     buffer = new ArrayBuffer(bytes),
     view = new DataView(buffer);
@@ -51,6 +83,7 @@ export function encodeFrame({ tick, machines, grains, groups, tileData, tiles })
   view.setUint16(8, groupCount, true);
   view.setUint16(10, tiles.length, true);
   view.setUint32(12, count, true);
+  view.setUint16(16, trucks.length, true);
   let at = HEADER_BYTES;
   for (const machine of machines) {
     view.setUint16(at, machine.id, true);
@@ -69,6 +102,14 @@ export function encodeFrame({ tick, machines, grains, groups, tileData, tiles })
     pose.forEach((value, i) => view.setFloat32(at + 4 + 4 * i, value, true));
     at += MACHINE_BYTES;
   }
+  for (const truck of trucks) {
+    view.setUint16(at, truck.id, true);
+    view.setUint16(at + 2, truck.load ? 1 : 0, true);
+    TRUCK_POSE.forEach((key, i) =>
+      view.setFloat32(at + 4 + 4 * i, truck[key] ?? 0, true),
+    );
+    at += TRUCK_BYTES;
+  }
   for (let g = 0; g < groups.length; g += 5) {
     for (let d = 0; d < 3; d++) view.setInt32(at + 4 * d, groups[g + d], true);
     view.setUint16(at + 12, groups[g + 3], true);
@@ -78,6 +119,12 @@ export function encodeFrame({ tick, machines, grains, groups, tileData, tiles })
   new Int16Array(buffer, grainStart, count * 4).set(grains);
   const loads = new Uint16Array(buffer, loadStart, loaded.length * LOAD.cells);
   loaded.forEach(({ load }, n) => loads.set(load, n * LOAD.cells));
+  const truckLoads = new Uint16Array(
+    buffer,
+    truckLoadStart,
+    truckLoaded.length * TRUCK_LOAD.cells,
+  );
+  truckLoaded.forEach(({ load }, n) => truckLoads.set(load, n * TRUCK_LOAD.cells));
   const out = new Uint16Array(
     buffer,
     tileStart,
@@ -109,7 +156,9 @@ export function decodeFrame(data) {
     groupCount = view.getUint16(8, true),
     tileCount = view.getUint16(10, true),
     count = view.getUint32(12, true),
-    machines = [];
+    truckCount = view.getUint16(16, true),
+    machines = [],
+    trucks = [];
   let at = HEADER_BYTES;
   for (let n = 0; n < machineCount; n++) {
     const f = (i) => view.getFloat32(at + 4 + 4 * i, true);
@@ -127,6 +176,17 @@ export function decodeFrame(data) {
       tracks: [f(10), f(11)],
     });
     at += MACHINE_BYTES;
+  }
+  for (let n = 0; n < truckCount; n++) {
+    const truck = {
+      id: view.getUint16(at, true),
+      load: view.getUint16(at + 2, true),
+    };
+    TRUCK_POSE.forEach((key, i) => {
+      truck[key] = view.getFloat32(at + 4 + 4 * i, true);
+    });
+    trucks.push(truck);
+    at += TRUCK_BYTES;
   }
   // Grains are handed on with absolute positions: the groups only exist so the
   // positions fit the wire.
@@ -159,10 +219,20 @@ export function decodeFrame(data) {
     machine.load = machine.load
       ? new Uint16Array(buffer, loadStart + 2 * LOAD.cells * loaded++, LOAD.cells)
       : null;
+  const truckLoadStart = loadStart + 2 * LOAD.cells * loaded;
+  loaded = 0;
+  for (const truck of trucks)
+    truck.load = truck.load
+      ? new Uint16Array(
+          buffer,
+          truckLoadStart + 2 * TRUCK_LOAD.cells * loaded++,
+          TRUCK_LOAD.cells,
+        )
+      : null;
   const tiles = [],
     data16 = new Uint16Array(
       buffer,
-      loadStart + 2 * LOAD.cells * loaded,
+      truckLoadStart + 2 * TRUCK_LOAD.cells * loaded,
       tileCount * (TILE_CELLS + 1),
     );
   for (let t = 0; t < tileCount; t++) {
@@ -172,7 +242,15 @@ export function decodeFrame(data) {
       heights: data16.subarray(o + 1, o + 1 + TILE_CELLS),
     });
   }
-  return { tick: view.getUint32(4, true), machines, slots, holders, positions, tiles };
+  return {
+    tick: view.getUint32(4, true),
+    machines,
+    trucks,
+    slots,
+    holders,
+    positions,
+    tiles,
+  };
 }
 
 // Keep decoded tiles in a Map of tile index to thickness.

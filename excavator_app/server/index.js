@@ -8,13 +8,16 @@ import { promisify } from "node:util";
 import { gunzipSync, gzip } from "node:zlib";
 import { WebSocketServer, WebSocket } from "ws";
 import { SimulationRunner } from "./simulation-runner.js";
-import { AXES, crawlersOverlap } from "../shared/world.js";
+import { AXES, crawlerBox, crawlersOverlap } from "../shared/world.js";
+import { TRUCK_AXES, boxesOverlap, truckBox } from "../shared/truck.js";
 import { encodeFrame, TILE_COUNT } from "../shared/protocol.js";
 import {
   DEFAULT_PLAYERS,
   PAINTS,
   SPAWNS,
+  TRUCK_BAYS,
   spawnMachine,
+  parkedTruck,
   cleanName,
 } from "../shared/players.js";
 
@@ -33,6 +36,9 @@ const send = (ws, message) => {
 };
 // A person's computer and phone drive one excavator; a few tabs are fine too.
 const DEVICES_PER_PLAYER = 4;
+// The controls of each machine; the one a player is not driving keeps them at 0.
+const EXCAVATOR_AXES = AXES.filter((key) => !TRUCK_AXES.includes(key)),
+  MACHINES = ["excavator", "truck"];
 export function createApplication({
   maxRooms = Number(process.env.MAX_ROOMS) || 4,
   maxPlayers = Number(process.env.MAX_PLAYERS) || DEFAULT_PLAYERS,
@@ -256,9 +262,37 @@ export function createApplication({
     for (let spawn = 0; spawn < SPAWNS.length; spawn++) {
       if (assigned.has(spawn)) continue;
       if (fallback < 0) fallback = spawn;
-      const pose = spawnMachine(spawn);
-      if (!others.some((p) => crawlersOverlap(pose, p.vehicle.machine)))
+      const pose = spawnMachine(spawn),
+        box = crawlerBox(pose);
+      if (
+        !others.some((p) => crawlersOverlap(pose, p.vehicle.machine)) &&
+        ![...room.players.values()].some((p) =>
+          boxesOverlap(box, truckBox(p.truck.pose)),
+        )
+      )
         return spawn;
+    }
+    return fallback;
+  }
+  // Where a player's truck waits: the bay of their seat if it is clear, or the
+  // first other bay nobody has and no machine stands on.
+  function freeBay(room, self, seat) {
+    const others = [...room.players.values()].filter((p) => p !== self),
+      assigned = new Set(others.map((p) => p.bay)),
+      clear = (bay) => {
+        const box = truckBox(parkedTruck(bay));
+        return !others.some(
+          (p) =>
+            boxesOverlap(box, crawlerBox(p.vehicle.machine)) ||
+            boxesOverlap(box, truckBox(p.truck.pose)),
+        );
+      };
+    if (seat < TRUCK_BAYS.length && !assigned.has(seat) && clear(seat)) return seat;
+    let fallback = -1;
+    for (let bay = 0; bay < TRUCK_BAYS.length; bay++) {
+      if (assigned.has(bay)) continue;
+      if (fallback < 0) fallback = bay;
+      if (clear(bay)) return bay;
     }
     return fallback;
   }
@@ -268,6 +302,7 @@ export function createApplication({
     while (inUse.has(seat)) seat++;
     const id = room.nextPlayer++,
       spawn = freeSpawn(room, null),
+      bay = freeBay(room, null, seat),
       player = {
         id,
         // Possession of this secret is what makes a device this player: a page
@@ -275,8 +310,12 @@ export function createApplication({
         key: randomBytes(16).toString("base64url"),
         seat,
         spawn,
+        bay,
         name: cleanName(name) || `Player ${seat + 1}`,
         vehicle: room.simulation.addVehicle(id, spawnMachine(spawn)),
+        // Each player has a dump truck too, and drives one machine at a time.
+        truck: room.simulation.addTruck(id, parkedTruck(bay)),
+        driving: "excavator",
         sockets: new Set(),
         owner: null,
         lastInput: 0,
@@ -290,6 +329,7 @@ export function createApplication({
   function removePlayer(room, player) {
     room.players.delete(player.id);
     room.simulation.removeVehicle(player.vehicle);
+    room.simulation.removeTruck(player.truck);
     if (room.host === player.id)
       room.host = room.players.keys().next().value ?? null;
     room.rosterVersion++;
@@ -305,6 +345,10 @@ export function createApplication({
       tick: s.tick,
       count: s.count,
       stats: { ...v.stats, ...s.world },
+      // Which machine this player's controls drive, and their truck.
+      driving: player.driving,
+      truck: player.truck.pose,
+      truckStats: player.truck.stats,
       owner: player.owner,
       clients: [...player.sockets].map((ws) => {
         const { id, role } = room.clients.get(ws);
@@ -321,7 +365,7 @@ export function createApplication({
   // the control key releases instead of claiming.
   function broadcast(room, player) {
     const packet = JSON.stringify(snapshot(room, player)),
-      control = `${player.owner}:${player.vehicle.estop}:${room.host === player.id}`;
+      control = `${player.owner}:${player.vehicle.estop}:${room.host === player.id}:${player.driving}`;
     for (const ws of player.sockets) {
       const client = room.clients.get(ws);
       if (
@@ -348,12 +392,15 @@ export function createApplication({
         type: "roster",
         capacity,
         host: room.host,
-        players: [...room.players.values()].map(({ id, name, seat, sockets }) => ({
-          id,
-          name,
-          paint: PAINTS[seat],
-          online: sockets.size > 0,
-        })),
+        players: [...room.players.values()].map(
+          ({ id, name, seat, sockets, driving }) => ({
+            id,
+            name,
+            paint: PAINTS[seat],
+            online: sockets.size > 0,
+            driving,
+          }),
+        ),
       });
       ws.send(packet);
       client.rosterVersion = room.rosterVersion;
@@ -373,6 +420,11 @@ export function createApplication({
           id: v.id,
           ...v.machine,
           load: v.load,
+        })),
+        trucks: [...s.trucks.values()].map((t) => ({
+          id: t.id,
+          ...t.pose,
+          load: t.load,
         })),
         grains: s.grains,
         groups: s.groups,
@@ -394,9 +446,14 @@ export function createApplication({
       for (const t of tiles) client.tiles[t] = s.tileVersions[t];
     }
   }
+  // Both of a player's machines stop.
+  function halt(room, player) {
+    room.simulation.stop(player.vehicle);
+    room.simulation.stopTruck(player.truck);
+  }
   function release(room, player) {
     player.owner = null;
-    room.simulation.stop(player.vehicle);
+    halt(room, player);
   }
   wss.on("connection", (ws, req, room, player, role) => {
     const vehicle = player.vehicle,
@@ -461,30 +518,33 @@ export function createApplication({
             });
           player.owner = client.id;
           player.lastInput = now;
-          room.simulation.stop(vehicle);
+          halt(room, player);
           broadcast(room, player);
           return;
         }
         if (data.type === "estop") {
-          vehicle.estop = true;
-          room.simulation.stop(vehicle);
+          vehicle.estop = player.truck.estop = true;
+          halt(room, player);
           broadcast(room, player);
           return;
         }
         if (player.owner !== client.id)
           return send(ws, {
             type: "error",
-            message: "Take control before operating the excavator.",
+            message: `Take control before operating the ${player.driving}.`,
           });
         if (data.type === "input") {
+          // A page from before the truck sends no truck controls: they are at 0.
           if (
             !data.axes ||
-            AXES.some(
-              (key) =>
-                typeof data.axes[key] !== "number" ||
-                !Number.isFinite(data.axes[key]) ||
-                Math.abs(data.axes[key]) > 1,
-            )
+            AXES.some((key) => {
+              const value = data.axes[key] ?? (TRUCK_AXES.includes(key) ? 0 : null);
+              return (
+                typeof value !== "number" ||
+                !Number.isFinite(value) ||
+                Math.abs(value) > 1
+              );
+            })
           )
             throw new Error("Invalid control axes");
           if (
@@ -494,26 +554,55 @@ export function createApplication({
             data.speed > 1
           )
             throw new Error("Invalid speed");
-          if (vehicle.estop || AXES.every((key) => data.axes[key] === 0)) {
+          // The controls drive the machine the player is in; the other stays still.
+          const inTruck = player.driving === "truck",
+            truck = player.truck,
+            keys = inTruck ? TRUCK_AXES : EXCAVATOR_AXES,
+            machine = inTruck ? truck : vehicle;
+          if (inTruck) {
             if (AXES.some((key) => vehicle.axes[key] !== 0))
               room.simulation.stop(vehicle);
+          } else if (AXES.some((key) => truck.axes[key] !== 0))
+            room.simulation.stopTruck(truck);
+          if (vehicle.estop || keys.every((key) => !data.axes[key])) {
+            if (AXES.some((key) => machine.axes[key] !== 0))
+              if (inTruck) room.simulation.stopTruck(truck);
+              else room.simulation.stop(vehicle);
           } else {
-            vehicle.axes = Object.fromEntries(
-              AXES.map((key) => [key, data.axes[key]]),
+            machine.axes = Object.fromEntries(
+              AXES.map((key) => [key, keys.includes(key) ? data.axes[key] : 0]),
             );
           }
-          vehicle.speed = data.speed;
+          vehicle.speed = truck.speed = data.speed;
           player.lastInput = now;
         } else if (data.type === "release") {
           release(room, player);
           broadcast(room, player);
         } else if (data.type === "resume") {
-          vehicle.estop = false;
-          room.simulation.stop(vehicle);
+          vehicle.estop = player.truck.estop = false;
+          halt(room, player);
+          broadcast(room, player);
+        } else if (data.type === "drive") {
+          // Into the other machine: both stop, and the controls change hands.
+          if (!MACHINES.includes(data.machine))
+            throw new Error("Choose the excavator or the truck.");
+          halt(room, player);
+          if (player.driving !== data.machine) {
+            player.driving = data.machine;
+            room.rosterVersion++;
+            publishRoster(room);
+          }
+          player.lastInput = now;
           broadcast(room, player);
         } else if (data.type === "respawn") {
-          player.spawn = freeSpawn(room, player);
-          room.simulation.place(vehicle, spawnMachine(player.spawn));
+          // Whichever machine the player is in goes back to its place.
+          if (player.driving === "truck") {
+            player.bay = freeBay(room, player, player.seat);
+            room.simulation.placeTruck(player.truck, parkedTruck(player.bay));
+          } else {
+            player.spawn = freeSpawn(room, player);
+            room.simulation.place(vehicle, spawnMachine(player.spawn));
+          }
           player.lastInput = now;
           broadcast(room, player);
         } else if (data.type === "reset") {
@@ -554,12 +643,12 @@ export function createApplication({
           if (now - player.leftAt > graceMs) removePlayer(room, player);
           continue;
         }
-        const v = player.vehicle;
-        if (
-          now - player.lastInput > 350 &&
-          AXES.some((key) => v.axes[key] !== 0)
-        )
-          room.simulation.stop(v);
+        const v = player.vehicle,
+          t = player.truck;
+        if (now - player.lastInput > 350) {
+          if (AXES.some((key) => v.axes[key] !== 0)) room.simulation.stop(v);
+          if (AXES.some((key) => t.axes[key] !== 0)) room.simulation.stopTruck(t);
+        }
         // A suspended phone must not keep the operator lease forever.
         if (player.owner && now - player.lastInput > 5000)
           release(room, player);

@@ -150,6 +150,17 @@ function sandAboveTracks(s) {
     }
   return worst;
 }
+// How far the sand in the first machine's bucket stands above its rims (mm).
+function heapHeight(s) {
+  const { thickness } = s.vehicles[0].load;
+  let top = -Infinity;
+  for (let c = 0; c < LOAD.cells; c++) {
+    const i = c % LOAD.nu;
+    if (i <= LOAD.lastOpen && thickness[c] > 0)
+      top = Math.max(top, LOAD.floors[i] + thickness[c]);
+  }
+  return top;
+}
 const snapshot = (t) => t.pages.map((page) => page && page.slice());
 const near = (a, b, tolerance) => Math.abs(a - b) <= tolerance;
 // Stand the machine somewhere, as if it had driven there.
@@ -231,15 +242,29 @@ test(
     follow(run, SCOOP);
     const loaded = s.stats.load,
       low = s.frame.z;
+    // Heaped: more than level with the rims, and close to the rated heaped load.
     assert.ok(loaded > BUCKET.ratedLoad, `the bucket fills (${loaded} cm³)`);
-    assert.ok(loaded * 1000 <= LOAD.capacity, "and holds no more than a heap");
+    assert.ok(
+      loaded > 0.93 * BUCKET.heapedLoad,
+      `and is heaped (${loaded} of ${BUCKET.heapedLoad} cm³)`,
+    );
+    assert.ok(loaded * 1000 <= LOAD.capacity, "and holds no more than it can");
+    assert.ok(Math.abs(s.stats.tilt) <= 3, `its mouth is level (${s.stats.tilt}°)`);
     const [lift, swing] = CARRY;
     run(...lift);
     assert.ok(s.frame.z > low + 100, "the load rises with the bucket");
-    assert.ok(s.stats.load >= loaded * 0.9, "a curled bucket keeps its load");
+    assert.ok(Math.abs(s.stats.tilt) <= 5, `and stays level (${s.stats.tilt}°)`);
+    assert.ok(
+      s.stats.load >= loaded * 0.96,
+      `a level bucket keeps its heap (${s.stats.load} of ${loaded} cm³)`,
+    );
+    assert.ok(
+      heapHeight(s) > 15,
+      `which stands ${heapHeight(s).toFixed(1)} mm above the rims`,
+    );
     run(...swing);
     assert.ok(
-      s.stats.load >= loaded * 0.85,
+      s.stats.load >= loaded * 0.95,
       "the load travels through the swing",
     );
     const carried = s.stats.load;
@@ -269,6 +294,113 @@ test(
     console.log(
       `Scoop/pour: ${loaded} cm³ loaded; ${carried} cm³ carried; ${s.stats.deposited} cm³ deposited.`,
     );
+  },
+);
+
+test("the load only grows while the bucket crowds and curls in the sand", () => {
+  // The bed in front of a buried bucket holds its load in. It used to be judged by
+  // one cell of the bed, which came and went as the bucket turned, and each time
+  // the bucket handed most of its load back and scooped it up again.
+  const s = new SandSimulation();
+  s.speed = 1;
+  let most = 0,
+    drop = 0;
+  SCOOP.forEach(([seconds, axes], step) => {
+    s.axes = { ...neutral(), ...axes };
+    for (let i = 0; i < Math.round(seconds * 30); i++) {
+      s.step();
+      // While the mouth is still turning up, and not yet clear of the pile.
+      if (step < 3 || s.stats.tilt < 30) continue;
+      most = Math.max(most, s.stats.load);
+      drop = Math.max(drop, most - s.stats.load);
+    }
+  });
+  assert.ok(most > BUCKET.ratedLoad, `it fills on the way (${most} cm³)`);
+  assert.ok(drop < 5, `and never falls back by more than a little (${drop} cm³)`);
+});
+
+test("a carried heap sheds nothing, and what leaves a bucket leaves as whole parcels", () => {
+  const s = new SandSimulation(),
+    run = runner(s),
+    load = s.vehicles[0].load,
+    spawn = s.spawn.bind(s),
+    small = [];
+  s.speed = 1;
+  // Less than an eighth of a parcel only as the very last of a bucket's sand.
+  s.spawn = (x, y, z, vx, vy, vz, volume, vehicle) => {
+    if (volume < SAND.grainVolume / 8 - 1e-6 && load.volume > 1) small.push(volume);
+    return spawn(x, y, z, vx, vy, vz, volume, vehicle);
+  };
+  follow(run, SCOOP);
+  follow(run, CARRY);
+  run(1);
+  // Held still, then nudged within what a heap stands: nothing leaves.
+  const carried = load.total;
+  let parcels = 0;
+  s.spawn = (...parcel) => {
+    parcels++;
+    return spawn(...parcel);
+  };
+  run(2);
+  run(0.3, { bucket: -0.3 });
+  run(0.3, { bucket: 0.3 });
+  run(1);
+  assert.equal(parcels, 0, "no parcel leaves a level, carried heap");
+  assert.equal(load.total, carried);
+  follow(run, POUR);
+  run(1.5);
+  assert.equal(s.stats.load, 0);
+  assert.deepEqual(small, [], "no nearly empty parcels on the way");
+});
+
+test(
+  "out of deep sand a bucket comes up heaped, and the rest runs off it",
+  { timeout: 120000 },
+  () => {
+    const s = new SandSimulation(),
+      run = runner(s),
+      load = s.vehicles[0].load;
+    s.speed = 1;
+    // Out in the yard, where the sand is deep.
+    place(s, 3000, 300, 0);
+    const volume = s.totalVolume();
+    run(...SCOOP[0]);
+    run(...SCOOP[1]);
+    // Down until the whole bucket is under the bed, then crowd and curl level.
+    run(4.2, { boom: -1 });
+    const surface = s.terrain.surface(
+      s.terrain.cellAt(s.frame.centre[0], s.frame.centre[1] + 150),
+    );
+    assert.ok(s.frame.z < surface - 60, "the bucket is buried");
+    run(...SCOOP[3]);
+    run(4.7, { bucket: 1 });
+    assert.ok(Math.abs(s.stats.tilt) <= 4, `curled level (${s.stats.tilt}°)`);
+    // Under the bed it holds a heap and the layer that will run off.
+    const buried = load.total;
+    assert.ok(buried > LOAD.heaped, `${buried} mm³ down in the sand`);
+    assert.ok(buried <= LOAD.capacity + 1);
+    // Up, as an operator lifts: watching the lip, and curling to keep it level.
+    for (let i = 0; i < 135; i++) {
+      const tilt = s.stats.tilt;
+      s.axes = {
+        ...neutral(),
+        boom: 1,
+        bucket: tilt > 1 ? 0.6 : tilt < -1 ? -0.6 : 0,
+      };
+      s.step();
+    }
+    run(1);
+    assert.equal(s.vehicles[0].touchingBed, false, "it is clear of the bed");
+    assert.ok(Math.abs(s.stats.tilt) <= 6, `still level (${s.stats.tilt}°)`);
+    // What is left is a heap close to the rated load, standing well above the rims.
+    assert.ok(load.total < buried - 20000, "the layer on top has run off");
+    assert.ok(
+      s.stats.load > 0.93 * BUCKET.heapedLoad,
+      `it comes up heaped (${s.stats.load} cm³)`,
+    );
+    assert.ok(s.stats.load * 1000 < LOAD.heaped + 2000);
+    assert.ok(heapHeight(s) > 22, `${heapHeight(s).toFixed(1)} mm above the rims`);
+    assert.ok(near(s.totalVolume(), volume, 1));
   },
 );
 
@@ -848,8 +980,9 @@ test("sand piles against a bucket standing in it, instead of churning under it",
     t = s.terrain;
   s.speed = 1;
   follow(run, SCOOP.slice(0, 4));
-  // The sand cut loose takes a few seconds to settle against the bucket.
-  run(4);
+  // The sand cut loose takes a few seconds to settle against the bucket, and the
+  // top of the load follows the pile in front of it down.
+  run(6);
   assert.equal(s.resting, true, "everything comes to rest with the bucket down");
   const held = snapshot(t);
   run(2);

@@ -13,6 +13,7 @@ import { SandSimulation } from "../server/physics.js";
 import { neutral } from "../shared/world.js";
 import { SCOOP, CARRY, POUR } from "../shared/scoop.js";
 import { decodeFrame, encodeFrame } from "../shared/protocol.js";
+import { fixCamera, takePicture } from "./fixed-camera.mjs";
 
 const root = fileURLToPath(new URL("..", import.meta.url)),
   folder = process.argv[2]
@@ -20,66 +21,86 @@ const root = fileURLToPath(new URL("..", import.meta.url)),
     : resolve(root, "docs/angles"),
   VIEW = { width: 1600, height: 1000 };
 
-// The standard dig and pour.
-const CYCLE = [...SCOOP, ...CARRY, ...POUR, [1.5, {}]];
-// Each picture: the tick to stop at, and the camera and what it looks at, in mm from
-// the bed under the bucket at that tick. The machine stands towards -x, and the sun
-// is on the -x, -y side.
+// The standard dig and pour, each part of it under a name.
+const [open, reach, lower, crowd, curl] = SCOOP,
+  [lift, swing] = CARRY,
+  CYCLE = [
+    [...open, "open"],
+    [...reach, "reach"],
+    [...lower, "lower"],
+    [...crowd, "crowd"],
+    [...curl, "curl"],
+    [...lift, "lift"],
+    [...swing, "swing"],
+    [...POUR[0], "pour"],
+    [1.5, {}, "rest"],
+  ];
+// Each picture: the part of the cycle it belongs to and the seconds from that
+// part's end (negative: before it), then the camera and what it looks at, in mm
+// from the bed under the bucket at that moment. The machine stands towards -x, and
+// the sun is on the -x, -y side. The parts keep their names when their times
+// change, so the pictures stay where they belong.
 const SHOTS = [
   [
     "01-digging-front",
     "Digging, from in front",
-    263,
+    ["crowd", -0.6],
     [300, -210, 240],
     [-20, 0, 15],
   ],
   [
     "02-digging-far-side",
     "Digging, from the far side",
-    263,
+    ["crowd", -0.6],
     [30, 280, 150],
     [0, 0, 15],
   ],
   [
     "03-full-bucket",
-    "Full bucket, curled in the pit",
-    323,
+    "Heaped bucket, curled level in the pit",
+    ["curl", 0],
     [-90, -250, 130],
     [-20, 0, 20],
   ],
-  ["04-lifting", "Lifting out of the pit", 369, [-340, -300, 130], [0, 0, 85]],
   [
-    "05-pouring-side",
+    "04-lifting",
+    "Lifting out of the pit",
+    ["lift", -1.6],
+    [-300, -260, 200],
+    [0, 0, 150],
+  ],
+  [
+    "05-carrying",
+    "Carried over the pour zone, heaped",
+    ["swing", 0],
+    [148, -205, 253],
+    [0, 0, 208],
+  ],
+  [
+    "06-pouring-side",
     "Pouring, from the side",
-    510,
+    ["pour", -2.9],
     [-190, -330, 150],
     [0, 0, 105],
   ],
   [
-    "06-pouring-low",
+    "07-pouring-low",
     "Pouring, from low down",
-    510,
+    ["pour", -2.9],
     [170, -250, 22],
     [0, 0, 120],
   ],
   [
-    "07-pouring-far-side",
-    "Pouring, from the far side",
-    510,
-    [470, 400, 200],
-    [0, 0, 130],
-  ],
-  [
     "08-pouring-above",
     "Pouring, from above",
-    510,
+    ["pour", -2.9],
     [300, -300, 560],
     [0, 0, 40],
   ],
   [
     "09-finished",
     "Finished: the machine, the pit and the pile",
-    573,
+    ["rest", 0],
     [-300, -1250, 720],
     [-110, -250, 40],
   ],
@@ -121,8 +142,10 @@ function packet(tiles = []) {
 }
 const frames = [packet(simulation.terrain.quantize(store))],
   anchors = [[0, 0, 0]],
-  surface = [0, 0, 0];
-for (const [seconds, axes] of CYCLE) {
+  surface = [0, 0, 0],
+  // The tick at which each part of the cycle ends.
+  ends = {};
+for (const [seconds, axes, part] of CYCLE) {
   simulation.axes = { ...neutral(), ...axes };
   for (let i = 0; i < Math.round(seconds * 30); i++) {
     simulation.step();
@@ -131,56 +154,11 @@ for (const [seconds, axes] of CYCLE) {
     simulation.terrain.sample(x, y, surface);
     anchors.push([x, y, surface[0]]);
   }
+  ends[part] = simulation.tick;
 }
+const tickOf = ([part, seconds]) => ends[part] + Math.round(seconds * 30);
 
-// Fixed cameras and sim-time for the page, changing the client only as it is served.
-function fixCamera(code) {
-  const edits = [
-    [
-      "let dirty = true;",
-      "let dirty = true; window.__redraw = () => { dirty = true; };",
-    ],
-    [
-      "sand.setTime(now / 1000);",
-      "sand.setTime((renderTick ?? 0) / TICK_RATE);",
-    ],
-    [
-      "if (grains.stepGrains(dt)) dirty = true;",
-      `const played = (renderTick ?? 0) - (window.__grainsAt ?? 0);
-      window.__grainsAt = renderTick ?? 0;
-      if (played > 0 && grains.stepGrains(Math.min(0.1, played / TICK_RATE))) dirty = true;`,
-    ],
-    [
-      "const distance = camera.position.distanceTo(orbit.target) * boomLength,",
-      `const distance = window.__aim
-        ? Math.hypot(...window.__aim.from.map((v, i) => v - window.__aim.at[i]))
-        : camera.position.distanceTo(orbit.target) * boomLength,`,
-    ],
-    [
-      "if (sand.updateDetail(camera)) dirty = true;",
-      `if (window.__aim) camera.position.set(...window.__aim.from);
-      if (sand.updateDetail(camera)) dirty = true;`,
-    ],
-    [
-      "renderer.render(scene, camera);",
-      `if (window.__aim) {
-        camera.position.set(...window.__aim.from);
-        camera.lookAt(...window.__aim.at);
-      }
-      if (window.__aim) {
-        renderer.render(scene, camera);
-        window.__drawn = (window.__drawn ?? 0) + 1;
-      }`,
-    ],
-  ];
-  for (const [from, to] of edits) {
-    if (!code.includes(from))
-      throw new Error(`client/scene.js no longer has: ${from}`);
-    code = code.replace(from, to);
-  }
-  return code;
-}
-
+// The client gets fixed cameras and simulated time as it is served.
 const model = gunzipSync(await readFile(resolve(root, "public/model.json.gz")));
 const server = await createServer({
   root,
@@ -231,7 +209,7 @@ try {
   await page.goto(
     `http://127.0.0.1:${server.httpServer.address().port}/angles`,
   );
-  await page.waitForFunction(() => window.preview, null, { timeout: 180000 });
+  await page.waitForFunction(() => window.preview, null, { timeout: 240000 });
   const push = (frame) =>
     page.evaluate((f) => {
       preview.pushFrame({
@@ -249,35 +227,10 @@ try {
         })),
       });
     }, frame);
-  const drawn = () => page.evaluate(() => window.__drawn ?? 0);
-  // Draw from here, twice: the first lets the machine and sand choose their detail.
-  async function picture(from, at, path) {
-    await page.evaluate(
-      ([from, at]) => {
-        window.__aim = { from, at };
-        window.__redraw();
-      },
-      [from, at],
-    );
-    const before = await drawn();
-    await page.waitForFunction((n) => window.__drawn >= n, before + 1, {
-      timeout: 120000,
-    });
-    await wait(400);
-    await page.evaluate(() => window.__redraw());
-    const next = await drawn();
-    await page.waitForFunction((n) => window.__drawn >= n, next + 1, {
-      timeout: 120000,
-    });
-    await page.screenshot({ path, type: "jpeg", quality: 88 });
-    // Back to playing without drawing.
-    await page.evaluate(() => {
-      window.__aim = null;
-    });
-  }
   let sent = 0;
   const pictures = [];
-  for (const [name, title, tick, from, at] of SHOTS) {
+  for (const [name, title, when, from, at] of SHOTS) {
+    const tick = tickOf(when);
     // At the pace of the simulation, a little past the tick for the playback delay.
     while (sent < Math.min(tick + 3, frames.length)) {
       const start = Date.now();
@@ -285,12 +238,16 @@ try {
       await wait(Math.max(0, 1000 / 30 - (Date.now() - start)));
     }
     await page.waitForFunction((t) => preview.telemetry().tick >= t, tick, {
-      timeout: 120000,
+      timeout: 240000,
     });
     const anchor = anchors[tick],
       place = (offset) => offset.map((value, i) => anchor[i] + value),
       path = resolve(folder, `${name}.jpg`);
-    await picture(place(from), place(at), path);
+    await takePicture(page, place(from), place(at), {
+      path,
+      type: "jpeg",
+      quality: 88,
+    });
     pictures.push([title, path]);
     console.log("wrote", name);
   }

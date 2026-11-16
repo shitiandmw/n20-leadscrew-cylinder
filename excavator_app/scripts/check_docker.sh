@@ -18,8 +18,8 @@ try {
   assert.equal((await fetch(origin + '/api/health')).status, 200);
   assert.equal((await fetch(origin + '/remote')).status, 200);
   const model = await (await fetch(origin + '/model.json')).json();
-  assert.equal(model.parts.length, 316);
-  assert.equal(model.module.length, 105);
+  assert.equal(model.parts.length, 419);
+  assert.equal(model.module.length, 104);
   const { room } = await (await fetch(origin + '/api/rooms', { method: 'POST' })).json();
   const ws = new WebSocket(origin.replace('http', 'ws') + '/ws?room=' + room + '&role=remote');
   await once(ws, 'open');

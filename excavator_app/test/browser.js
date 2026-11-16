@@ -283,6 +283,29 @@ try {
     { timeout: SLOW },
   );
   await page.keyboard.up("i");
+  // T gets into the truck: the driving keys move it, the telemetry and the Bucket
+  // view change, and T again comes back. The first truck faces away from the yard.
+  const truckX = await page.evaluate(() => window.sandLab.getState().truck.x);
+  await page.keyboard.press("t");
+  await page.waitForFunction(() => window.sandLab.getState().driving === "truck");
+  await page.locator("#truck-telemetry").waitFor();
+  assert.equal(await page.locator("#excavator-telemetry").isVisible(), false);
+  await page.getByRole("button", { name: "Body", exact: true }).waitFor();
+  await page.keyboard.down("i");
+  await page.waitForFunction(
+    (x) => window.sandLab.getState().truck.x < x - 30,
+    truckX,
+    { timeout: SLOW },
+  );
+  await page.keyboard.up("i");
+  await page.waitForFunction(
+    () =>
+      window.sandLab.getGraphics().trucks === 1 &&
+      window.sandLab.getGraphics().driving === "truck",
+  );
+  await page.keyboard.press("t");
+  await page.waitForFunction(() => window.sandLab.getState().driving === "excavator");
+  await page.locator("#excavator-telemetry").waitFor();
   await resetWorld();
   await page.waitForFunction(() => window.sandLab.getState().machine.x === 0);
   for (const name of ["Side", "Top", "Bucket", "Orbit", "Chase"])
@@ -365,7 +388,7 @@ try {
   await touchSimulator.close();
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: 644 CAD meshes, sand rendering, QR pairing, automatic mouse/keyboard/touch control, phone foreground recovery, multitouch, release/cancel, a player's shared E-stop, reset, reconnect, driving, the following camera, ownership handoff, camera views, mobile layouts and reduced touch graphics cost.",
+    "PASS: 644 CAD meshes, sand rendering, QR pairing, automatic mouse/keyboard/touch control, getting into the truck and driving it, phone foreground recovery, multitouch, release/cancel, a player's shared E-stop, reset, reconnect, driving, the following camera, ownership handoff, camera views, mobile layouts and reduced touch graphics cost.",
   );
 } finally {
   await browser?.close();

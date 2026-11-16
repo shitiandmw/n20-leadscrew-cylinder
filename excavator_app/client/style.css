@@ -982,11 +982,27 @@ dialog .pair-hint {
   color: var(--hud-text);
   flex: none;
 }
+/* Into the other machine, with its key. */
+.game .switch-machine {
+  margin-left: auto;
+  gap: 6px;
+}
+.switch-machine svg {
+  width: 16px;
+  height: 16px;
+}
+.switch-machine kbd {
+  font: 9px var(--mono);
+  border: 1px solid var(--glass-line);
+  border-radius: 3px;
+  padding: 0 4px;
+  color: var(--hud-muted);
+}
 .telemetry {
   grid-column: 1 / -1;
   grid-row: 2;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   background: var(--glass);
   border-radius: 6px;
   padding: 9px 2px 10px;
@@ -1024,6 +1040,10 @@ dialog .pair-hint {
 /* The arm drives, across the foot of the telemetry. */
 .telemetry > div:nth-last-child(2) {
   border-right: 0;
+}
+/* The truck's five readings have no drives under them. */
+.telemetry.truck-telemetry > div:nth-last-child(2) {
+  border-right: 1px solid var(--glass-line);
 }
 .telemetry > div.drives {
   grid-column: 1 / -1;
@@ -1090,6 +1110,35 @@ dialog .pair-hint {
 }
 .game .meter-empty {
   background: transparent;
+}
+/* The load's bar is full at a heaped bucket; its mark is a bucket filled level. */
+.meter-load,
+.meter-level {
+  position: relative;
+  overflow: visible;
+}
+.meter-load::after,
+.meter-level::after {
+  content: "";
+  position: absolute;
+  left: var(--struck, 50%);
+  top: -2px;
+  bottom: -2px;
+  width: 1px;
+  background: var(--hud-text);
+  opacity: 0.75;
+}
+/* The lip's bar grows from the middle, and turns green where a heap holds. */
+.game .meter-level i {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transition:
+    width 0.15s,
+    left 0.15s;
+}
+.game .meter-level i.holding {
+  background: #a9d2ad;
 }
 .game .estop {
   height: auto;
@@ -1280,7 +1329,8 @@ dialog .pair-hint {
   .drives-title {
     padding: 0 7px 2px;
   }
-  .hud-button span {
+  .hud-button span,
+  .switch-machine span {
     display: none;
   }
   /* Closed until asked for here, and then it may cover the controls for a while. */
@@ -1301,7 +1351,10 @@ dialog .pair-hint {
    readings in one row, so the telemetry is no taller than without them. */
 @media (max-width: 1080px) and (max-height: 500px) {
   .telemetry {
-    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+  .telemetry.truck-telemetry {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
   .telemetry > div.drives {
     display: contents;

@@ -413,9 +413,18 @@ body.remote {
 .lcd-load .digits {
   height: clamp(12px, 5cqi, 18px);
 }
+.lcd-load-digits {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 .lcd-speed {
   padding-left: 3px;
   font-weight: 500;
+}
+.lcd-lip {
+  padding-left: 3px;
+  font-weight: 700;
 }
 .lcd .ownership {
   min-height: 13px;
@@ -509,7 +518,7 @@ body.remote {
   grid-area: keys;
   align-self: center;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr) minmax(0, 0.8fr);
   gap: 8px;
   min-width: 0;
   padding: 0 2px 3px;
@@ -542,6 +551,10 @@ body.remote {
   box-shadow: none;
 }
 /* ---- Track rockers: one part that tips on a centre pivot ---- */
+/* A truck has no tracks: the rockers keep their place, out of sight. */
+body[data-driving="truck"] .rocker {
+  visibility: hidden;
+}
 .rocker {
   min-width: 0;
   display: grid;
@@ -1352,7 +1365,7 @@ body.remote {
     display: none;
   }
   .rc-keys {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
     align-self: end;
   }
   .rc-key {

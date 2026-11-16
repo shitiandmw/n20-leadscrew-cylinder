@@ -16,6 +16,8 @@ import { createWorld } from "./world-view.js";
 import { createSandView } from "./sand-view.js";
 import { createLooseSandView } from "./loose-sand-view.js";
 import { loadMachineModel } from "./machine-model.js";
+import { createTruckModel } from "./truck-model.js";
+import { TRUCK, TRUCK_LOAD, bodyInTruck, initialTruck } from "../shared/truck.js";
 import { AdaptiveResolution } from "./resolution.js";
 
 const TICK_RATE = 30,
@@ -99,11 +101,15 @@ export async function createScene(stage, onProgress) {
   );
   // Compile now what a first dig or another player would otherwise stall the
   // game for; three.js otherwise waits for a shader's first use.
-  const sample = model.createSimplified(null, !mobile);
-  scene.add(sample.root);
+  const sample = model.createSimplified(null, !mobile),
+    truckModel = createTruckModel(),
+    sampleTruck = truckModel.create(null, !mobile);
+  sampleTruck.update(initialTruck());
+  scene.add(sample.root, sampleTruck.root);
   renderer.compile(scene, camera);
-  scene.remove(sample.root);
+  scene.remove(sample.root, sampleTruck.root);
   sample.dispose();
+  sampleTruck.dispose();
   let state,
     lastAt = performance.now(),
     latestAt = 0,
@@ -120,7 +126,53 @@ export async function createScene(stage, onProgress) {
   let selfId = null,
     followId = null,
     paints = new Map(),
-    names = new Map();
+    names = new Map(),
+    // Which machine each player is in: "excavator" or "truck".
+    driving = new Map();
+  // Every player's dump truck, by the player's id, drawn the same near and far
+  // but for the wheels' detail.
+  const truckViews = new Map(),
+    truckPoses = new Map();
+  function truckViewOf(id) {
+    let view = truckViews.get(id);
+    if (!view) {
+      const paint = paints.get(id) ?? null;
+      view = {
+        id,
+        pose: initialTruck(),
+        drawn: null,
+        paint,
+        model: truckModel.create(paint, !mobile),
+      };
+      truckViews.set(id, view);
+      truckPoses.set(id, view.pose);
+      scene.add(view.model.root);
+      view.model.update(view.pose);
+      dirty = true;
+    }
+    return view;
+  }
+  function dropTruckView(id) {
+    const view = truckViews.get(id);
+    if (!view) return;
+    scene.remove(view.model.root);
+    view.model.dispose();
+    truckViews.delete(id);
+    truckPoses.delete(id);
+    dirty = true;
+  }
+  const TRUCK_POSE = ["x", "y", "z", "heading", "pitch", "roll", "steer", "tip", "wheels"];
+  const sameTruckPose = (a, b) => TRUCK_POSE.every((key) => a[key] === b[key]);
+  function drawTruckView(view) {
+    if (view.drawn && sameTruckPose(view.drawn, view.pose)) return false;
+    view.model.update(view.pose);
+    view.drawn = { ...view.pose };
+    return true;
+  }
+  // The machine a player is in: its pose, and whether it is their truck.
+  const inTruck = (id) => driving.get(id) === "truck" && truckViews.has(id);
+  const machineOf = (id) =>
+    inTruck(id) ? truckViews.get(id).pose : views.get(id)?.pose;
   function viewOf(id) {
     let view = views.get(id);
     if (!view) {
@@ -160,6 +212,19 @@ export async function createScene(stage, onProgress) {
     view.drawn = structuredClone(view.pose);
     dirty = true;
   }
+  // A player got into their other machine. A camera following them goes along
+  // and keeps its view, but for the views a truck is seen from another side in.
+  function setDriving(id, machine) {
+    const next = machine === "truck" ? "truck" : "excavator";
+    if ((driving.get(id) ?? "excavator") === next) {
+      driving.set(id, next);
+      return;
+    }
+    driving.set(id, next);
+    mapKey = "";
+    dirty = true;
+    if (id === followId && TRUCK_VIEWS[mode]) view(mode);
+  }
   function dropView(id) {
     const view = views.get(id);
     if (!view) return;
@@ -182,7 +247,7 @@ export async function createScene(stage, onProgress) {
       view(mode);
     }
   }
-  const followed = () => views.get(followId)?.pose ?? fallbackPose;
+  const followed = () => machineOf(followId) ?? fallbackPose;
   const fallbackPose = initialMachine();
   function drawView(view) {
     if (view.drawn && samePose(view.drawn, view.pose)) return false;
@@ -190,13 +255,16 @@ export async function createScene(stage, onProgress) {
     view.drawn = structuredClone(view.pose);
     return true;
   }
-  // Names float over the other machines, and stay out of the pointer's way.
+  // Names float over the machines the others are in, and stay out of the
+  // pointer's way.
   const labelAt = new THREE.Vector3();
   function placeLabels() {
     for (const view of views.values()) {
       if (view.id === selfId) continue;
       const name = names.get(view.id);
       if (!name) continue;
+      const pose = machineOf(view.id),
+        above = inTruck(view.id) ? TRUCK.cabHeight + 160 : 400;
       if (!view.label) {
         view.label = document.createElement("div");
         view.label.className = "machine-label";
@@ -206,7 +274,7 @@ export async function createScene(stage, onProgress) {
       const [swatch, text] = view.label.children;
       if (text.textContent !== name) text.textContent = name;
       swatch.style.background = view.paint ?? "#e89912";
-      labelAt.set(view.pose.x, view.pose.y, view.pose.z + 400).project(camera);
+      labelAt.set(pose.x, pose.y, pose.z + above).project(camera);
       const shown =
         labelAt.z < 1 && Math.abs(labelAt.x) < 1 && Math.abs(labelAt.y) < 1;
       view.label.hidden = !shown;
@@ -245,6 +313,14 @@ export async function createScene(stage, onProgress) {
         samePose(machine, b.machines[i]) &&
         sameLoad(machine.load, b.machines[i].load),
     );
+  const sameTrucks = (a, b) =>
+    a.trucks.length === b.trucks.length &&
+    a.trucks.every(
+      (truck, i) =>
+        truck.id === b.trucks[i].id &&
+        sameTruckPose(truck, b.trucks[i]) &&
+        sameLoad(truck.load, b.trucks[i].load),
+    );
   function settle(frame) {
     if (frame.applied) return;
     frame.applied = true;
@@ -275,12 +351,14 @@ export async function createScene(stage, onProgress) {
       !previous ||
       frame.tiles.length ||
       !sameMachines(previous, frame) ||
+      !sameTrucks(previous, frame) ||
       !sameArray(previous.slots, frame.slots) ||
       !sameArray(previous.positions, frame.positions)
     )
       content++;
     frame.content = content;
     frame.byId = new Map(frame.machines.map((machine) => [machine.id, machine]));
+    frame.trucksById = new Map(frame.trucks.map((truck) => [truck.id, truck]));
     queue.push(frame);
     // Bound memory if the tab is hidden: older frames only matter for tiles.
     while (queue.length > 90) settle(queue.shift());
@@ -332,7 +410,15 @@ export async function createScene(stage, onProgress) {
         pose[k] = from[k] + (to[k] - from[k]) * alpha;
       drawView(view);
     }
-    grains.update(a, b, alpha, poses);
+    for (const id of truckViews.keys()) if (!b.trucksById.has(id)) dropTruckView(id);
+    for (const to of b.trucks) {
+      const from = a.trucksById.get(to.id) ?? to,
+        view = truckViewOf(to.id);
+      for (const k of TRUCK_POSE)
+        view.pose[k] = from[k] + (to[k] - from[k]) * alpha;
+      drawTruckView(view);
+    }
+    grains.update(a, b, alpha, poses, truckPoses);
     return true;
   }
 
@@ -355,8 +441,28 @@ export async function createScene(stage, onProgress) {
     top: { offset: [0, -40, 3400], ahead: 0, turns: false },
     bucket: { offset: [120, -640, 300], ahead: 0, turns: true },
   };
+  // A truck is seen from its left, the driver's side: the first player's has the
+  // excavator on its right. Its Bucket view looks into the body from behind.
+  const TRUCK_VIEWS = {
+      side: { offset: [90, 1500, 300], ahead: 180, turns: true },
+      bucket: { offset: [-700, 620, 520], ahead: 0, turns: true },
+    },
+    bodyAt = new Float64Array(4);
+  const viewOfMode = () =>
+    (inTruck(followId) && TRUCK_VIEWS[mode]) || VIEWS[mode];
   function focusPoint(out) {
     const pose = followed();
+    if (mode === "bucket" && inTruck(followId)) {
+      // The middle of the floor, wherever the body is tipped.
+      const [x, z, c, s] = bodyInTruck(pose.tip, bodyAt),
+        along = x + c * (TRUCK_LOAD.length / 2),
+        up = z + s * (TRUCK_LOAD.length / 2);
+      return out.set(
+        pose.x + Math.cos(pose.heading) * along,
+        pose.y + Math.sin(pose.heading) * along,
+        pose.z + up,
+      );
+    }
     if (mode === "bucket") {
       bucketBody(pose.strokes, bucketAt);
       const frame = armFrame(
@@ -369,7 +475,7 @@ export async function createScene(stage, onProgress) {
       return out.set(frame.x, frame.y, frame.z);
     }
     // Aim a little ahead of the machine, to show where it is going.
-    const ahead = VIEWS[mode].ahead;
+    const ahead = viewOfMode().ahead;
     return out.set(
       pose.x + Math.cos(pose.heading) * ahead,
       pose.y + Math.sin(pose.heading) * ahead,
@@ -378,11 +484,14 @@ export async function createScene(stage, onProgress) {
   }
   const followHeading = () => {
     const pose = followed();
-    return pose.heading + (mode === "bucket" ? (pose.slew * Math.PI) / 180 : 0);
+    return (
+      pose.heading +
+      (mode === "bucket" && !inTruck(followId) ? (pose.slew * Math.PI) / 180 : 0)
+    );
   };
   function view(name) {
     mode = name;
-    const v = VIEWS[name];
+    const v = viewOfMode();
     focusPoint(focus);
     rigHeading = v.turns ? followHeading() : 0;
     offset.set(...v.offset);
@@ -474,7 +583,7 @@ export async function createScene(stage, onProgress) {
     let moved = move.lengthSq() > 1e-4;
     camera.position.add(move);
     orbit.target.add(move);
-    if (VIEWS[mode].turns) {
+    if (viewOfMode().turns) {
       let delta = followHeading() - rigHeading;
       delta = Math.atan2(Math.sin(delta), Math.cos(delta));
       const step = far ? delta : delta * (1 - Math.exp(-dt / 0.28));
@@ -523,26 +632,35 @@ export async function createScene(stage, onProgress) {
 
   // ---------------------------------------------------------------- minimap
   let minimap, mapContext, mapKey;
+  // Excavators are arrows and trucks are blocks with a cab at the front.
   function drawMinimap() {
     if (!minimap) return;
-    const moved = [...views.values()],
-      key = moved
-        .map(
-          ({ id, pose, paint }) =>
-            `${id}${paint}:${Math.round(pose.x / 40)}:${Math.round(pose.y / 40)}:${Math.round(pose.heading * 12)}`,
-        )
-        .join() + followId;
+    const marks = [
+        ...[...views.values()].map((view) => ({ ...view, truck: false })),
+        ...[...truckViews.values()].map((view) => ({ ...view, truck: true })),
+      ],
+      key =
+        marks
+          .map(
+            ({ id, pose, paint, truck }) =>
+              `${truck ? "t" : ""}${id}${paint}:${Math.round(pose.x / 40)}:${Math.round(pose.y / 40)}:${Math.round(pose.heading * 12)}`,
+          )
+          .join() +
+        followId +
+        driving.get(followId);
     if (key === mapKey) return;
     mapKey = key;
     const size = minimap.width,
       span = WORLD.maxX - WORLD.minX,
       c = mapContext,
-      u = size / 180;
+      u = size / 180,
+      isFollowed = ({ id, truck }) => id === followId && truck === inTruck(id);
     c.drawImage(world.map, 0, 0, size, size);
     // Draw the followed machine last, so it is always on top.
-    moved.sort((a, b) => (a.id === followId) - (b.id === followId));
-    for (const { id, pose, paint } of moved) {
-      const big = id === followId ? 1 : 0.8;
+    marks.sort((a, b) => isFollowed(a) - isFollowed(b));
+    for (const mark of marks) {
+      const { pose, paint, truck } = mark,
+        big = isFollowed(mark) ? 1 : 0.8;
       c.save();
       c.translate(
         ((pose.x - WORLD.minX) / span) * size,
@@ -551,18 +669,36 @@ export async function createScene(stage, onProgress) {
       c.rotate(-pose.heading);
       c.scale(big, big);
       c.fillStyle = paint ?? "#ffd24a";
-      c.strokeStyle = id === followId ? "#ffffff" : "#1c241f";
+      c.strokeStyle = isFollowed(mark) ? "#ffffff" : "#1c241f";
       c.lineWidth = 1.5 * u;
       c.beginPath();
-      c.moveTo(8 * u, 0);
-      c.lineTo(-5.5 * u, -5 * u);
-      c.lineTo(-3 * u, 0);
-      c.lineTo(-5.5 * u, 5 * u);
-      c.closePath();
+      if (truck) {
+        c.rect(-4.5 * u, -3 * u, 7 * u, 6 * u);
+        c.rect(3.5 * u, -3 * u, 3 * u, 6 * u);
+      } else {
+        c.moveTo(8 * u, 0);
+        c.lineTo(-5.5 * u, -5 * u);
+        c.lineTo(-3 * u, 0);
+        c.lineTo(-5.5 * u, 5 * u);
+        c.closePath();
+      }
       c.fill();
       c.stroke();
       c.restore();
     }
+  }
+  // Far trucks lose the wheels' lugs and nuts.
+  const TRUCK_DETAIL_WITHIN = 2600,
+    truckAt = new THREE.Vector3();
+  function updateTruckDetail() {
+    let changed = false;
+    for (const view of truckViews.values()) {
+      const far =
+        camera.position.distanceTo(truckAt.set(view.pose.x, view.pose.y, view.pose.z)) >
+        TRUCK_DETAIL_WITHIN;
+      if (view.model.setFar(far, view.pose)) changed = true;
+    }
+    return changed;
   }
 
   view("chase");
@@ -612,6 +748,7 @@ export async function createScene(stage, onProgress) {
       detailAt = now;
       if (sand.updateDetail(camera)) dirty = true;
       if (updateMachineDetail()) dirty = true;
+      if (updateTruckDetail()) dirty = true;
       drawMinimap();
     }
     if (dirty && !document.hidden) {
@@ -658,6 +795,8 @@ export async function createScene(stage, onProgress) {
       dirty = true;
       selfId = followId = null;
       for (const id of [...views.keys()]) dropView(id);
+      for (const id of [...truckViews.keys()]) dropTruckView(id);
+      driving.clear();
       if (sand.clear()) dirty = true;
     },
     // Your own excavator: where the camera goes, and the one without a name tag.
@@ -674,15 +813,23 @@ export async function createScene(stage, onProgress) {
     setRoster(players) {
       paints = new Map(players.map(({ id, paint }) => [id, paint]));
       names = new Map(players.map(({ id, name }) => [id, name]));
+      for (const { id, driving: machine } of players)
+        if (id !== selfId || !state) setDriving(id, machine);
       for (const v of views.values()) {
         v.paint = paints.get(v.id) ?? v.paint;
         dressView(v);
+      }
+      for (const v of truckViews.values()) {
+        v.paint = paints.get(v.id) ?? v.paint;
+        v.model.setPaint(v.paint);
       }
       mapKey = "";
       dirty = true;
     },
     setState(value) {
       state = value;
+      // Your own machine follows your state, which comes sooner than the roster.
+      if (selfId !== null) setDriving(selfId, value.driving);
       if (!queue.length) latestAt = performance.now();
     },
     attachMinimap(canvas) {
@@ -697,6 +844,8 @@ export async function createScene(stage, onProgress) {
         age: performance.now() - latestAt,
         meshes: model.meshes,
         machines: views.size,
+        trucks: truckViews.size,
+        driving: driving.get(followId) ?? "excavator",
         detailed: [...views.values()].filter((v) => v.assembly.detailed).length,
         machineLevel: views.get(followId)?.assembly.level ?? null,
         following: followId,

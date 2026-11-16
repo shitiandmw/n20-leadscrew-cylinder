@@ -7,6 +7,7 @@ import { SandSimulation, bucketPose } from "../server/physics.js";
 import { createApplication } from "../server/index.js";
 import { mouthToLocal } from "../shared/bucket-load.js";
 import {
+  BUCKET,
   SAND,
   neutral,
   crawlersOverlap,
@@ -25,6 +26,7 @@ import {
   SPAWNS,
   PAINTS,
   DEFAULT_PLAYERS,
+  TRUCK_BAYS,
   spawnMachine,
   cleanName,
 } from "../shared/players.js";
@@ -343,8 +345,8 @@ test(
     }
     const loads = s.vehicles.map((v) => v.stats.load);
     assert.ok(
-      loads.every((load) => load > 200),
-      `everyone gets a load (${loads})`,
+      loads.every((load) => load > BUCKET.ratedLoad),
+      `everyone gets more than a level bucket (${loads})`,
     );
     assert.ok(near(s.totalVolume(), volume, 1));
     console.log(
@@ -758,6 +760,92 @@ test(
         false,
         "the one who did it is not told",
       );
+    } finally {
+      await app.close();
+    }
+  },
+);
+
+test(
+  "each player has a dump truck: the controls change to it and back, and a stop stops both",
+  { timeout: 30000 },
+  async () => {
+    const { app, room, socket } = await startApp({ graceMs: 300 });
+    try {
+      const ada = await join(socket, room, { name: "Ada" }),
+        ben = await join(socket, room, { name: "Ben" }),
+        bay = ([x, y]) => [x, y];
+      assert.equal(ada.state.driving, "excavator");
+      assert.deepEqual(bay([ada.state.truck.x, ada.state.truck.y]), bay(TRUCK_BAYS[0]));
+      assert.deepEqual(bay([ben.state.truck.x, ben.state.truck.y]), bay(TRUCK_BAYS[1]));
+      await waitFor(() => ada.frame?.trucks.length === 2, "both trucks in the frames");
+      assert.deepEqual(
+        ada.frame.trucks.map((t) => t.id).sort(),
+        [ada.player.id, ben.player.id].sort(),
+      );
+
+      // Only the operator changes machine.
+      ben.send({ type: "drive", machine: "truck" });
+      await waitFor(() => ben.errors().length === 1, "the refusal");
+      assert.match(ben.errors()[0].message, /Take control/);
+      assert.equal(ben.state.driving, "excavator");
+
+      // In the truck, the controls drive it and the excavator stays still.
+      await claim(ada);
+      ada.send({ type: "drive", machine: "truck" });
+      await waitFor(() => ada.state.driving === "truck", "the truck");
+      await waitFor(
+        () => ben.roster.players.find((p) => p.id === ada.player.id).driving === "truck",
+        "the others to see it",
+      );
+      const boom = ada.state.machine.strokes[0],
+        x = ada.state.truck.x;
+      for (let i = 0; i < 10; i++) {
+        ada.drive({ drive: 1, boom: 1 });
+        await delay(50);
+      }
+      // The first truck faces west, away from the yard.
+      await waitFor(() => ada.state.truck.x < x - 20, "the truck to move");
+      assert.equal(ada.state.machine.strokes[0], boom, "the excavator stays still");
+      assert.ok(ada.state.truckStats.velocity > 0);
+      await waitFor(
+        () => ada.frame.trucks.find((t) => t.id === ada.player.id).x < x - 20,
+        "the frames to show it",
+      );
+
+      // A stop holds both machines until Resume.
+      ada.send({ type: "estop" });
+      await waitFor(() => ada.state.estop && ada.state.truckStats.velocity === 0, "the stop");
+      const stopped = ada.state.truck.x;
+      for (let i = 0; i < 5; i++) {
+        ada.drive({ drive: 1 });
+        await delay(40);
+      }
+      assert.equal(ada.state.truck.x, stopped);
+      ada.send({ type: "resume" });
+      await waitFor(() => !ada.state.estop, "resume");
+
+      // Back to start brings the truck back to its bay, and its load stays behind.
+      ada.send({ type: "respawn" });
+      await waitFor(() => ada.state.truck.x === TRUCK_BAYS[0][0], "the bay");
+      assert.equal(ada.state.machine.x, 0, "the excavator stays where it is");
+
+      // Out of the truck, the controls drive the excavator again.
+      ada.send({ type: "drive", machine: "excavator" });
+      await waitFor(() => ada.state.driving === "excavator", "the excavator");
+      for (let i = 0; i < 6; i++) {
+        ada.drive({ boom: 1, drive: 1 });
+        await delay(60);
+      }
+      await waitFor(() => ada.state.machine.strokes[0] > boom + 1, "the boom");
+      assert.equal(ada.state.truck.x, TRUCK_BAYS[0][0], "the truck stays put");
+      ada.send({ type: "drive", machine: "crane" });
+      await waitFor(() => ada.errors().length === 1, "the refusal");
+
+      // A player who leaves takes their truck along.
+      ben.ws.close();
+      await waitFor(() => ada.frame.trucks.length === 1, "the truck to go", 4000);
+      assert.equal(ada.frame.trucks[0].id, ada.player.id);
     } finally {
       await app.close();
     }

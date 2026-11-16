@@ -84,6 +84,13 @@ const struck =
   AREA *
   NV;
 
+// What stands above the rims in a heaped bucket, as ISO 7451 rates a hoe bucket:
+// a heap sloping 1:1 down to all four rims of a mouth L long and W wide.
+const WIDTH = 2 * BUCKET.innerHalfWidth,
+  LONG = Math.max(LENGTH, WIDTH),
+  SHORT = Math.min(LENGTH, WIDTH),
+  heap = (LONG * SHORT ** 2) / 4 - SHORT ** 3 / 12;
+
 export const LOAD = Object.freeze({
   nu: NU,
   nv: NV,
@@ -101,8 +108,11 @@ export const LOAD = Object.freeze({
   floorAt,
   ceilingAt,
   struck,
-  // A heap on top of a struck load, at the angle of repose, holds about 50 cm3.
-  capacity: struck + 50000,
+  // The rated heaped capacity, about 320 cm3.
+  heaped: struck + heap,
+  // The most a bucket carries at any moment: a heaped load and, down in the sand,
+  // a layer more that runs off as it comes out.
+  capacity: struck + heap + 30000,
   // Network quantisation of column thickness, the same as the sand bed's.
   quantum: SAND.heightQuantum,
 });

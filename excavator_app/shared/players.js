@@ -1,4 +1,5 @@
 import { initialMachine } from "./world.js";
+import { initialTruck } from "./truck.js";
 
 // How many excavators fit in a room unless MAX_PLAYERS says otherwise.
 export const DEFAULT_PLAYERS = 16;
@@ -35,6 +36,31 @@ export const SPAWNS = Object.freeze(
 export const spawnMachine = (slot) => {
   const [x, y, heading] = SPAWNS[slot];
   return { ...initialMachine(), x, y, heading };
+};
+
+// Where each player's dump truck waits, by seat: [x, y, heading] of the middle of
+// its rear tandem. The first stands beside the start position, its cab to the road
+// and its body where the first machine's bucket swings over it at about -90
+// degrees. The others wait in two stands on the level hard ground west of the
+// yard, north and south of the work site, each on the side of its player's start
+// position. They face the yard in a single row, so each drives straight out.
+const FACING_EAST = 0,
+  FACING_WEST = Math.PI,
+  NORTH_STAND = [1, 3, 5, 7, 10, 12, 14, 16],
+  SOUTH_STAND = [2, 4, 6, 8, 9, 11, 13, 15];
+export const TRUCK_BAYS = Object.freeze(
+  SPAWNS.map((_, seat) => {
+    if (seat === 0) return [60, -455, FACING_WEST];
+    const north = NORTH_STAND.indexOf(seat);
+    return north >= 0
+      ? [-1600, 1650 + 250 * north, FACING_EAST]
+      : [-1900, -1700 - 250 * SOUTH_STAND.indexOf(seat), FACING_EAST];
+  }).map(Object.freeze),
+);
+
+export const parkedTruck = (bay) => {
+  const [x, y, heading] = TRUCK_BAYS[bay];
+  return { ...initialTruck(), x, y, heading };
 };
 
 // Every machine has its own paint, in sRGB, so players can tell them apart in

@@ -35,6 +35,8 @@ import {
   mouthToLocal,
   localU,
   localW,
+  upAlongU,
+  upAlongW,
 } from "../shared/bucket-load.js";
 import {
   DRIVE,
@@ -45,14 +47,19 @@ import {
   holdForces,
   stallDrive,
 } from "../shared/drives.js";
+import { BucketLoad, RIM_LIP, RIM_FAR, RIM_LEFT } from "./bucket-load.js";
+import { WHEEL_SAMPLES, initialTruck } from "../shared/truck.js";
 import {
-  BucketLoad,
-  RIM_LIP,
-  RIM_FAR,
-  RIM_LEFT,
-  RIM_RIGHT,
-  RIM_BED,
-} from "./bucket-load.js";
+  Truck,
+  truckStats,
+  stepTruck,
+  propTruck,
+  catchInTruck,
+  emitFromTruck,
+  dropTruckLoad,
+  crawlerMeetsTruck,
+  truckIdle,
+} from "./trucks.js";
 
 // The bucket's frame in the world. Given `out`, a pose to fill, nothing is
 // allocated.
@@ -85,6 +92,18 @@ export function toWorld(x, y, z, b) {
   ];
 }
 export const insideProfile = insidePolygon;
+// How far a bucket's mouth is from level, in whole degrees: positive with the lip
+// below the far rim, so that a heap would run off over the teeth, and negative
+// curled past level. A heaped load keeps only while this stays near zero.
+export const mouthTilt = (frame) =>
+  Math.round(
+    (Math.atan2(
+      upAlongU(frame.upX, frame.upZ),
+      upAlongW(frame.upX, frame.upZ),
+    ) *
+      180) /
+      Math.PI,
+  );
 
 const R = WORLD.radius,
   GRAIN = SAND.grainVolume,
@@ -99,6 +118,10 @@ const R = WORLD.radius,
   CUT_RATE = 6,
   // Sand leaves over a rim at this speed (mm/s), sliding, before it falls.
   SPILL_SPEED = 90,
+  // The last of a stream leaves as one small parcel after its rim has been still
+  // for this many substeps, a quarter of a second, if it is at least this much.
+  DRIP_AFTER = 30,
+  LAST_DRIP = GRAIN / 8,
   // The arm's controls, in stroke order, and the travel of its drives (mm).
   ARM_AXES = ["boom", "stick", "bucket"],
   ARM_TRAVEL = CONFIG.arm.strokes[0],
@@ -183,7 +206,13 @@ class Vehicle {
     this.drove = false;
     this.bodyMoved = false;
     for (const drive of this.drives) Object.assign(drive, freshDrive());
-    this.stats = { load: 0, blocked: false, obstacle: null, drives: null };
+    this.stats = {
+      load: 0,
+      tilt: null,
+      blocked: false,
+      obstacle: null,
+      drives: null,
+    };
     this.cutClass.fill(0);
     this.load.clear();
     this.touchingBed = false;
@@ -198,9 +227,10 @@ class Vehicle {
 // exact volumes. Sand spilled over a rim falls as parcels, with no contacts, until
 // it lands on the bed or in a bucket.
 export class SandSimulation {
-  // A simulation starts with one excavator at the start position unless told
-  // otherwise. The worker starts empty and follows the players in the room.
-  constructor({ vehicles = [{ id: 1 }] } = {}) {
+  // A simulation starts with one excavator at the start position and no trucks
+  // unless told otherwise. The worker starts empty and follows the players in
+  // the room.
+  constructor({ vehicles = [{ id: 1 }], trucks = [] } = {}) {
     this.terrain = new Terrain();
     this.pos = new Float64Array(3 * MAX);
     this.vel = new Float64Array(3 * MAX);
@@ -223,14 +253,22 @@ export class SandSimulation {
     this.col = new Float64Array(4);
     this.surf = new Float64Array(3);
     this.fit = { b: 0, c: 0, h: new Float64Array(2 * SAMPLE_U.length) };
+    this.truckFit = { b: 0, c: 0, h: new Float64Array(WHEEL_SAMPLES.length) };
+    // What leaves over a rim, from a bucket and from a truck's body.
+    this.emitBucket = (v, rim, n, volume, dt) => this.emit(v, rim, n, volume, dt);
+    this.emitTruck = (t, rim, n, volume, dt) =>
+      emitFromTruck(this, t, rim, n, volume, dt);
     this.vehicles = [];
     this.bySlot = [];
+    this.trucks = [];
     for (const { id, machine } of vehicles) this.addVehicle(id, machine);
+    for (const { id, pose } of trucks) this.addTruck(id, pose);
     this.reset();
   }
 
   reset() {
     for (const v of this.vehicles) v.restart();
+    for (const t of this.trucks) t.restart();
     this.tick = 0;
     this.resting = false;
     this.terrain.copyFrom(initialTerrain());
@@ -295,10 +333,54 @@ export class SandSimulation {
           this.spawn(world[0], world[1], world[2], 0, 0, 0, each, vehicle);
         }
       }
-    for (const [rim, pending] of load.pending.entries())
+    for (const [rim, pending] of load.pending.entries()) {
       for (let n = 0; n < pending.length; n++)
         if (pending[n] > 0) this.emit(vehicle, rim, n, pending[n], 1 / 120);
+      if (load.dregs[rim] > 0)
+        this.emit(vehicle, rim, load.dregAt[rim], load.dregs[rim], 1 / 120);
+    }
     load.clear();
+  }
+
+  addTruck(id, pose = initialTruck()) {
+    const truck = new Truck(id, pose);
+    this.trucks.push(truck);
+    this.resting = false;
+    return truck;
+  }
+
+  // Its load joins the bed where it stands: the sand stays in the world.
+  removeTruck(truck) {
+    dropTruckLoad(this, truck);
+    this.trucks.splice(this.trucks.indexOf(truck), 1);
+    this.resting = false;
+  }
+
+  // Move a truck in one jump, leaving behind any sand in its body.
+  placeTruck(truck, pose) {
+    dropTruckLoad(this, truck);
+    truck.restart(pose);
+    this.resting = false;
+  }
+
+  // Follow the server's list of trucks, as syncVehicles does its excavators.
+  syncTrucks(commands) {
+    for (const t of [...this.trucks])
+      if (!commands.some((command) => command.id === t.id)) this.removeTruck(t);
+    for (const command of commands) {
+      let t = this.trucks.find((candidate) => candidate.id === command.id);
+      if (!t) {
+        t = this.addTruck(command.id, command.pose);
+        t.poseVersion = command.poseVersion;
+      } else if (t.poseVersion !== command.poseVersion) {
+        this.placeTruck(t, command.pose);
+        t.poseVersion = command.poseVersion;
+      }
+      t.axes = command.axes;
+      t.speed = command.speed;
+      t.estop = command.estop;
+      t.pose = command.pose;
+    }
   }
 
   // Follow the server's list of machines before a step. The server's pose wins
@@ -378,15 +460,18 @@ export class SandSimulation {
     return this.seed / 4294967296 - 0.5;
   }
 
-  // Exact sand volume: the bed, every bucket and the sand in the air (mm^3).
+  // Exact sand volume: the bed, every bucket and truck and the sand in the air
+  // (mm^3).
   totalVolume() {
     let sum = this.terrain.volume();
     for (const v of this.vehicles) sum += v.load.total;
+    for (const t of this.trucks) sum += t.load.total;
     for (let n = 0; n < this.aliveCount; n++) sum += this.volumes[this.aliveList[n]];
     return sum;
   }
 
-  // A parcel of falling sand. With no slot free it lands straight away.
+  // A parcel of falling sand, near the bucket of `vehicle` if one is given. With no
+  // slot free it lands straight away.
   spawn(x, y, z, vx, vy, vz, volume, vehicle) {
     if (!this.freeCount) {
       this.terrain.deposit(x, y, volume);
@@ -405,8 +490,8 @@ export class SandSimulation {
     this.vel[k + 1] = vy;
     this.vel[k + 2] = vz;
     this.volumes[i] = volume;
-    this.near[i] = 1;
-    this.holder[i] = vehicle.slot;
+    this.near[i] = vehicle ? 1 : 0;
+    this.holder[i] = vehicle ? vehicle.slot : 0;
     this.aliveAt[i] = this.aliveCount;
     this.aliveList[this.aliveCount++] = i;
     return i;
@@ -606,7 +691,11 @@ export class SandSimulation {
     // cannot climb. A motion that makes things better is always allowed.
     let obstacle = this.obstacleAt(m);
     if (obstacle && this.obstacleAt(before) === obstacle) obstacle = null;
-    if (!obstacle && this.machineInTheWay(m, before, v)) obstacle = "machine";
+    if (
+      !obstacle &&
+      (this.machineInTheWay(m, before, v) || crawlerMeetsTruck(this, m, before))
+    )
+      obstacle = "machine";
     if (!obstacle) {
       const fit = this.fitFootprint(m.x, m.y, m.heading),
         tilt = Math.atan(Math.hypot(fit.b, fit.c));
@@ -893,6 +982,8 @@ export class SandSimulation {
       for (let i = i0; i < i0 + fw; i++)
         highest = Math.max(highest, t.surface(j * NX + i));
     v.touchingBed = highest >= lowest - SHELL;
+    // From the first touch the bed limits what the bucket takes in.
+    if (v.touchingBed && !v.load.covered) v.load.meetBed(frame, t);
     if (!v.touchingBed) {
       for (let j = j0; j < j0 + fh; j++)
         for (let i = i0; i < i0 + fw; i++) cutClass[cutIndex(i, j)] = 0;
@@ -1034,11 +1125,6 @@ export class SandSimulation {
       w = R * 0.5;
       y = LOAD.rowY(index) + spread * LOAD.dv;
       slideU = 1;
-    } else if (rim === RIM_BED) {
-      u = LOAD.columnU(v.load.lipColumn[index]) - LOAD.du / 2;
-      w = R;
-      y = LOAD.rowY(index) + spread * LOAD.dv;
-      slideU = -1;
     } else {
       const side = rim === RIM_LEFT ? -1 : 1;
       u = LOAD.columnU(index) + spread * LOAD.du;
@@ -1079,25 +1165,51 @@ export class SandSimulation {
     );
   }
 
-  // What has gone over a rim leaves as parcels of one size, and the last of a
-  // stream as a smaller one.
+  // What has gone over a rim leaves as parcels of one size. Where a stream stops,
+  // what it leaves is less than a parcel at each place: that is gathered along its
+  // rim and leaves the same way, and the last of it as one smaller parcel once the
+  // rim has been still for a moment. A slow trickle so becomes a parcel now and
+  // then, not a curtain of nearly empty ones.
   spillLoad(v, dt) {
-    const { pending, flowing } = v.load;
-    for (const [rim, amounts] of pending.entries())
+    this.spillPending(v, v.load, dt, this.emitBucket);
+  }
+
+  // The same for any load with rims: a bucket's or a truck's, each with its own
+  // way of letting a parcel go.
+  spillPending(owner, load, dt, emit) {
+    const { pending, flowing, dregs, dregAt, still } = load;
+    for (const [rim, amounts] of pending.entries()) {
+      let quiet = true;
       for (let n = 0; n < amounts.length; n++) {
         while (amounts[n] >= GRAIN) {
           amounts[n] -= GRAIN;
-          this.emit(v, rim, n, GRAIN, dt);
+          emit(owner, rim, n, GRAIN, dt);
         }
-        if (amounts[n] > 0 && !flowing[rim][n]) {
-          this.emit(v, rim, n, amounts[n], dt);
+        if (flowing[rim][n]) quiet = false;
+        else if (amounts[n] > 0) {
+          dregs[rim] += amounts[n];
           amounts[n] = 0;
+          dregAt[rim] = n;
+          while (dregs[rim] >= GRAIN) {
+            dregs[rim] -= GRAIN;
+            emit(owner, rim, n, GRAIN, dt);
+          }
         }
       }
+      still[rim] = quiet ? Math.min(still[rim] + 1, DRIP_AFTER) : 0;
+      if (
+        dregs[rim] > 0 &&
+        still[rim] >= DRIP_AFTER &&
+        (dregs[rim] >= LAST_DRIP || load.volume <= 1)
+      ) {
+        emit(owner, rim, dregAt[rim], dregs[rim], dt);
+        dregs[rim] = 0;
+      }
+    }
   }
 
   // Falling sand touches nothing on the way down. It joins a bucket it falls into,
-  // if there is room, or the bed where it lands.
+  // if there is room, a truck's body, or the bed where it lands.
   moveParcels(dt) {
     const p = this.pos,
       vel = this.vel,
@@ -1133,7 +1245,8 @@ export class SandSimulation {
         }
         v.frame.toLocal(p[k], p[k + 1], p[k + 2], l);
         if (insideCavity(l[0], l[1], l[2])) {
-          this.volumes[i] -= v.load.add(l[0], l[1], l[2], this.volumes[i]);
+          // It arrives loose, not pressed in as dug sand is.
+          this.volumes[i] -= v.load.add(l[0], l[1], l[2], this.volumes[i], true);
           if (this.volumes[i] <= 0) {
             this.release(i);
             caught = true;
@@ -1141,6 +1254,12 @@ export class SandSimulation {
           }
         }
       }
+      if (caught) continue;
+      for (const t of this.trucks)
+        if (catchInTruck(this, t, i)) {
+          caught = true;
+          break;
+        }
       if (caught) continue;
       this.terrain.sample(p[k], p[k + 1], s);
       if (p[k + 2] - R <= s[0]) {
@@ -1162,19 +1281,23 @@ export class SandSimulation {
       v.load.relax(v.frame);
       this.spillLoad(v, dt);
     }
+    for (const t of this.trucks) stepTruck(this, dt, t);
     this.terrain.wakeUncovered();
     this.moveParcels(dt);
   }
 
   step(dt = 1 / 30) {
-    const idle = this.vehicles.every(
-      (v) => v.estop || Object.values(v.axes).every((value) => value === 0),
-    );
+    const idle =
+      this.vehicles.every(
+        (v) => v.estop || Object.values(v.axes).every((value) => value === 0),
+      ) && this.trucks.every(truckIdle);
     if (this.resting && idle) {
       this.tick++;
       for (const v of this.vehicles)
         if (v.stats.blocked || v.stats.obstacle)
           v.stats = { ...v.stats, blocked: false, obstacle: null };
+      for (const t of this.trucks)
+        if (t.stats.obstacle) t.stats = { ...t.stats, obstacle: null };
       return;
     }
     for (const v of this.vehicles) {
@@ -1183,6 +1306,7 @@ export class SandSimulation {
       v.load.coverBy(v.frame, this.terrain, v.touchingBed);
       this.loadDrives(v);
     }
+    for (const t of this.trucks) propTruck(this, t);
     for (let i = 0; i < SUBSTEPS; i++) this.substep(dt / SUBSTEPS);
     this.terrain.relax(3, 0.5);
     this.tick++;
@@ -1191,7 +1315,8 @@ export class SandSimulation {
       idle &&
       !this.grains &&
       !this.terrain.activeCount &&
-      this.vehicles.every((v) => !v.chassisMoving && v.load.settled);
+      this.vehicles.every((v) => !v.chassisMoving && v.load.settled) &&
+      this.trucks.every((t) => !t.chassisMoving && !t.busy && t.load.settled);
   }
 
   // What is true of the whole world. Each machine's own numbers go in its stats.
@@ -1215,6 +1340,7 @@ export class SandSimulation {
     for (const vehicle of this.vehicles)
       vehicle.stats = {
         load: cm3(vehicle.load.total),
+        tilt: mouthTilt(vehicle.frame),
         blocked: vehicle.blocked,
         obstacle: vehicle.obstacle,
         drives: vehicle.drives.map(({ rate, force, current, state }) => ({
@@ -1224,6 +1350,7 @@ export class SandSimulation {
           state,
         })),
       };
+    for (const truck of this.trucks) truck.stats = truckStats(truck);
     return {
       deposited: cm3(this.terrain.volumeIn(z) + landing),
       grains: this.grains,

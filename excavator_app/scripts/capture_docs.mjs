@@ -89,7 +89,8 @@ try {
   await follow(paired, [...SCOOP, ...CARRY, ...POUR]);
   await wait(1500);
   await follow(paired, [...RETURN, ...SCOOP.slice(3)]);
-  await drive(paired, 0.8, { boom: 1 });
+  // The start of the lift, as the cycle lifts: curling on, to keep the heap level.
+  await drive(paired, 0.8, CARRY[0][1]);
   paired[0].send(JSON.stringify({ type: "release" }));
   await wait(2500);
   await page.screenshot({ path: "docs/desktop.png", timeout: 120000 });

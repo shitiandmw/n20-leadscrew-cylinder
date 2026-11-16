@@ -378,8 +378,8 @@ function placeProps({ roadWeight }) {
   add("container", -1860, -930, 0, 2);
   add("shed", -1560, 1120, 0);
   add("fueltank", -760, 1120, 0);
-  add("truck", -240, 1320, 0);
-  add("sign", 40, -640, 1.5708);
+  // Clear of the first player's truck, which waits between it and the start.
+  add("sign", 40, -800, 1.5708);
   add("lighttower", -520, -1500, 0);
   add("lighttower", 6720, 3360, 0);
   add("lighttower", 6720, -3360, 0);
@@ -500,7 +500,6 @@ function extentOf(p) {
       container: 260,
       shed: 560,
       fueltank: 200,
-      truck: 460,
       lighttower: 60,
       barrier: 150,
       house: 520,
@@ -533,7 +532,6 @@ function collidersOf(props) {
     else if (p.kind === "container") box(p, 200, 80);
     else if (p.kind === "shed") box(p, 400, 300);
     else if (p.kind === "fueltank") circle(p.x, p.y, 140);
-    else if (p.kind === "truck") box(p, 400, 130);
     else if (p.kind === "barrier") box(p, 130, 24);
     else if (p.kind === "house") box(p, 330, 250);
     else if (p.kind === "barn") box(p, 500, 340);

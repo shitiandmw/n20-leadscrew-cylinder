@@ -56,6 +56,18 @@ const smooth = (low, high, value) => {
     );
   });
 
+// The sand in column i of row j, or just past the lip or a cheek, what the two
+// columns nearest that rim lead on to. A node on a rim then stands where the sand's
+// slope meets the plate, as a heap does, and not half a column's rise above it:
+// that drew a little wall of sand along the rim. Past the far end there is only
+// the pocket under the top plate, which keeps its last column.
+function columnAt(cells, i, j) {
+  if (j < 0) return 2 * columnAt(cells, i, 0) - columnAt(cells, i, 1);
+  if (j >= NV) return 2 * columnAt(cells, i, NV - 1) - columnAt(cells, i, NV - 2);
+  if (i < 0) return 2 * cells[j * NU] - cells[j * NU + 1];
+  return cells[j * NU + Math.min(NU - 1, i)];
+}
+
 // The edge of the sheet, anticlockwise seen from outside the mouth.
 const EDGE = [];
 for (let i = 0; i < NU; i++) EDGE.push(i);
@@ -82,7 +94,7 @@ export const LOAD_TRIANGLES = INDICES.length / 3;
 // above its rims and the drawn relief.
 const BOUNDS = new THREE.Sphere(
   new THREE.Vector3(CENTROID[0], 0, CENTROID[1]),
-  BOUNDING_RADIUS + 32,
+  BOUNDING_RADIUS + 50,
 );
 
 export function createLoadMeshes(scene, material, castShadow) {
@@ -152,19 +164,18 @@ export function createLoadMeshes(scene, material, castShadow) {
     for (let c = 0; c < CELLS; c++) volume += cells[c];
     const flow = (volume * LOAD.area) / FLOW_SECTION;
     for (let j = 0; j <= NV; j++) {
-      const below = Math.max(0, j - 1) * NU,
-        above = Math.min(NV - 1, j) * NU,
-        y = nodeY(j);
+      const y = nodeY(j);
       for (let i = 0; i <= NU; i++) {
-        const back = Math.max(0, i - 1),
-          ahead = Math.min(NU - 1, i),
-          thickness = onlyDusting
+        const thickness = onlyDusting
             ? DUSTING[j * ACROSS + i]
-            : (cells[below + back] +
-                cells[below + ahead] +
-                cells[above + back] +
-                cells[above + ahead]) /
-              4,
+            : Math.max(
+                0,
+                (columnAt(cells, i - 1, j - 1) +
+                  columnAt(cells, i, j - 1) +
+                  columnAt(cells, i - 1, j) +
+                  columnAt(cells, i, j)) /
+                  4,
+              ),
           f = Math.min(1, thickness / FADE);
         depths[j * ACROSS + i] = thickness;
         heights[j * ACROSS + i] = Math.min(

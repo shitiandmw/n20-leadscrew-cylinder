@@ -41,6 +41,7 @@ async function checkLayout(page, label) {
       estop: "#estop",
       display: ".lcd",
       claim: "#claim",
+      machine: "#switch-machine",
       settings: "#settings",
       leftStick: "#left-stick",
       rightStick: "#right-stick",
@@ -90,7 +91,7 @@ async function checkLayout(page, label) {
       );
     }
   }
-  for (const name of ["estop", "claim", "settings"]) {
+  for (const name of ["estop", "claim", "machine", "settings"]) {
     const b = layout.boxes[name];
     assert.ok(
       b.right - b.left >= 44 && b.bottom - b.top >= 44,
@@ -246,6 +247,39 @@ export async function checkRemoteFace(browser, app, origin) {
     await touch("touchEnd");
     await waitFor(isNeutral, "the released rocker to stop");
 
+    // The machine key gets into the truck: the LCD, the sticks' collars and the
+    // rockers follow, and the left stick drives the truck alone.
+    const truck = () => player().truck;
+    await page.locator("#switch-machine").tap();
+    await waitFor(() => player().driving === "truck", "the truck");
+    await page.waitForFunction(
+      () =>
+        !document.querySelector('.lcd-readings[data-machine="truck"]').hidden &&
+        document.querySelector('.lcd-readings[data-machine="excavator"]').hidden &&
+        document.querySelector("#left-stick .legend-n textPath").textContent ===
+          "FORWARD" &&
+        getComputedStyle(document.querySelector(".rocker-left")).visibility ===
+          "hidden",
+    );
+    const left = await page.locator("#left-stick").boundingBox(),
+      leftCentre = { x: left.x + left.width / 2, y: left.y + left.height / 2 };
+    await touch("touchStart", leftCentre);
+    await touch("touchMove", {
+      x: leftCentre.x,
+      y: leftCentre.y - left.height * 0.3,
+    });
+    await waitFor(() => truck().axes.drive > 0.9, "the left stick to drive the truck");
+    assert.ok(isNeutral(), "the excavator stays still");
+    await touch("touchEnd");
+    await waitFor(() => truck().axes.drive === 0, "the released stick to stop the truck");
+    await page.locator("#switch-machine").tap();
+    await waitFor(() => player().driving === "excavator", "the excavator again");
+    await page.waitForFunction(
+      () =>
+        document.querySelector("#left-stick .legend-n textPath").textContent ===
+        "STICK OUT",
+    );
+
     // Settings is modal, so opening it stops whatever the thumbs are holding.
     await touch("touchStart", {
       x: centre.x,
@@ -388,7 +422,7 @@ export async function checkRemoteFace(browser, app, origin) {
 
     assert.deepEqual(errors, []);
     console.log(
-      "PASS: phone remote fits one screen at 10 phone sizes with thumb-sized, non-overlapping controls; cap grab, spring return, rockers, haptics, settings sheet, touch fader, stops from the sheet and a second device, going back to a start position, reset and floor warning.",
+      "PASS: phone remote fits one screen at 10 phone sizes with thumb-sized, non-overlapping controls; cap grab, spring return, rockers, the truck key and driving the truck, haptics, settings sheet, touch fader, stops from the sheet and a second device, going back to a start position, reset and floor warning.",
     );
   } finally {
     other?.terminate();

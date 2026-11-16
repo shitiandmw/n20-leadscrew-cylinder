@@ -3,13 +3,13 @@ import { SandSimulation } from "./physics.js";
 import { TILE_CELLS } from "../shared/protocol.js";
 
 // The machines follow the players in the room; each command lists them.
-const simulation = new SandSimulation({ vehicles: [] });
+const simulation = new SandSimulation({ vehicles: [], trucks: [] });
 // The quantised bed persists across resets and every changed tile carries a
 // version no client has seen, so a reset only resends what the players changed.
 const store = new Map();
 let resetVersion = 0,
   version = 0;
-function publish(stepMs = 0, commands = []) {
+function publish(stepMs = 0, commands = [], truckCommands = []) {
   const { grains, groups } = simulation.packGrains(),
     message = {
       vehicles: commands.map(({ id, motionVersion, poseVersion }) => {
@@ -23,6 +23,17 @@ function publish(stepMs = 0, commands = []) {
           load: v.load.pack(),
         };
       }),
+      trucks: truckCommands.map(({ id, motionVersion, poseVersion }) => {
+        const t = simulation.trucks.find((truck) => truck.id === id);
+        return {
+          id,
+          motionVersion,
+          poseVersion,
+          pose: t.pose,
+          stats: t.stats,
+          load: t.load.pack(),
+        };
+      }),
       tick: simulation.tick,
       count: simulation.grains,
       world: simulation.world,
@@ -34,6 +45,7 @@ function publish(stepMs = 0, commands = []) {
     transfer = [grains.buffer, groups.buffer],
     changed = simulation.terrain.quantize(store);
   for (const { load } of message.vehicles) if (load) transfer.push(load.buffer);
+  for (const { load } of message.trucks) if (load) transfer.push(load.buffer);
   if (changed.length) {
     const tileIndex = Int32Array.from(changed),
       tileData = new Uint16Array(changed.length * TILE_CELLS);
@@ -52,7 +64,8 @@ parentPort.on("message", (command) => {
     resetVersion = command.resetVersion;
   }
   simulation.syncVehicles(command.vehicles);
+  simulation.syncTrucks(command.trucks);
   const start = performance.now();
   simulation.step();
-  publish(performance.now() - start, command.vehicles);
+  publish(performance.now() - start, command.vehicles, command.trucks);
 });

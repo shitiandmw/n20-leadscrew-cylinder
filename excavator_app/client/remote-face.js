@@ -1,10 +1,37 @@
 // The phone remote's hardware: faceplate markup, the segment LCD and haptics.
 // main.js owns the control logic and finds every control by its id or class.
-import { BUCKET } from "../shared/world.js";
+import { BUCKET, SAND } from "../shared/world.js";
 import { NAME_LENGTH } from "../shared/players.js";
+import { TRUCK_LOAD } from "../shared/truck.js";
 
 const chevron = (points) =>
   `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${points}"/></svg>`;
+// Line icons of the two machines, for the key that changes between them.
+export const REMOTE_ICONS = {
+  truck: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 16V8h11v8M13 11h4.5l3 3v2H13"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>`,
+  excavator: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 19h8m-6-3h5v3H5zm4 0V9l4-4 5 7m-6-6 5-2 4 8-4 3-3-3 3-2"/></svg>`,
+};
+// What the sticks' collars say for each machine: north, east, south, west.
+export const REMOTE_LEGENDS = {
+  excavator: {
+    left: ["STICK OUT", "SLEW R", "STICK IN", "SLEW L"],
+    right: ["BOOM LOWER", "BUCKET OPEN", "BOOM RAISE", "BUCKET CURL"],
+  },
+  truck: {
+    left: ["FORWARD", "STEER R", "REVERSE", "STEER L"],
+    right: ["BODY RAISE", "", "BODY LOWER", ""],
+  },
+};
+export const REMOTE_STICKS = {
+  excavator: {
+    left: "Left joystick: stick and slew",
+    right: "Right joystick: boom and bucket",
+  },
+  truck: {
+    left: "Left joystick: drive and steer",
+    right: "Right joystick: raise and lower the body",
+  },
+};
 const gear = `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5.6"/><circle cx="12" cy="12" r="2"/><path d="M12 2.6v3.2M12 18.2v3.2M2.6 12h3.2M18.2 12h3.2M5.4 5.4l2.2 2.2M16.4 16.4l2.2 2.2M5.4 18.6l2.2-2.2M16.4 7.6l2.2-2.2"/></svg>`;
 
 // Seven-segment digits, drawn as SVG so they stay crisp at any phone density.
@@ -123,17 +150,23 @@ const rocker = (name, axis, label) =>
 const reading = (label, id, cells, point, unit) =>
   `<div class="lcd-reading"><span>${label} <small>${unit}</small></span>${digits(id, cells, point)}</div>`;
 
-const fineControls = [
-  ["boom", "Boom"],
-  ["stick", "Stick"],
-  ["bucket", "Bucket"],
-  ["slew", "Slew"],
-]
-  .map(
-    ([axis, label]) =>
-      `<div><span>${label}</span><button class="hold" data-axis="${axis}" data-value="-1" aria-label="Decrease ${label}">−</button><button class="hold" data-axis="${axis}" data-value="1" aria-label="Increase ${label}">+</button></div>`,
-  )
-  .join("");
+// Hold-to-move buttons for every control, each row marked with its machine; only
+// the rows of the machine being driven show.
+export const holdRows = () =>
+  [
+    ["excavator", "boom", "Boom"],
+    ["excavator", "stick", "Stick"],
+    ["excavator", "bucket", "Bucket"],
+    ["excavator", "slew", "Slew"],
+    ["truck", "drive", "Drive"],
+    ["truck", "steer", "Steer"],
+    ["truck", "hoist", "Body"],
+  ]
+    .map(
+      ([machine, axis, label]) =>
+        `<div data-machine="${machine}"${machine === "truck" ? " hidden" : ""}><span>${label}</span><button class="hold" data-axis="${axis}" data-value="-1" aria-label="Decrease ${label}">−</button><button class="hold" data-axis="${axis}" data-value="1" aria-label="Increase ${label}">+</button></div>`,
+    )
+    .join("");
 
 export const remoteFace = ({ connection, connectionHelp }) => `
 <main class="rc" aria-label="Excavator remote control">
@@ -148,8 +181,9 @@ export const remoteFace = ({ connection, connectionHelp }) => `
     </button>
     <section class="lcd" aria-label="Machine status"><div class="lcd-glass">
       <div class="lcd-row lcd-link">${connection}<span class="lcd-signal" id="signal" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="lcd-ping"><span id="latency-value">--</span> ms</span><span class="lcd-room"><span>ROOM</span> <strong id="room-label">------</strong></span></div>
-      <div class="lcd-readings">${reading("BOOM", "boom-value", 3, 1, "mm")}${reading("STICK", "stick-value", 3, 1, "mm")}${reading("BUCKET", "bucket-value", 3, 1, "mm")}${reading("SLEW", "slew-value", 4, -1, "deg")}</div>
-      <div class="lcd-row lcd-load"><span>LOAD</span><span class="lcd-bar" id="load-bar" aria-hidden="true">${"<i></i>".repeat(12)}</span>${digits("load-value", 3)}<small>cm³</small><span class="lcd-speed" id="lcd-speed">SPD 65%</span></div>
+      <div class="lcd-readings" data-machine="excavator">${reading("BOOM", "boom-value", 3, 1, "mm")}${reading("STICK", "stick-value", 3, 1, "mm")}${reading("BUCKET", "bucket-value", 3, 1, "mm")}${reading("SLEW", "slew-value", 4, -1, "deg")}</div>
+      <div class="lcd-readings" data-machine="truck" hidden>${reading("SPEED", "truck-speed", 3, -1, "mm/s")}${reading("STEER", "truck-steer", 3, -1, "deg")}${reading("BODY", "truck-tip", 3, -1, "deg")}${reading("HAULED", "truck-hauled", 4, 2, "L")}</div>
+      <div class="lcd-row lcd-load"><span>LOAD</span><span class="lcd-bar" id="load-bar" aria-hidden="true">${"<i></i>".repeat(12)}</span><span class="lcd-load-digits" data-machine="excavator">${digits("load-value", 3)}<small>cm³</small></span><span class="lcd-load-digits" data-machine="truck" hidden>${digits("truck-load", 3, 1)}<small>L</small></span><span class="lcd-lip"><span class="lcd-wide" id="lcd-lip-label">LIP </span><span id="lcd-lip">--</span></span><span class="lcd-speed" id="lcd-speed">SPD 65%</span></div>
       <div class="lcd-row ownership"><span id="operator-status">Waiting for connection</span><span class="lcd-flag" id="lcd-floor" hidden><span class="lcd-wide">ON GROUND · </span>RAISE BOOM</span><span class="lcd-flag lcd-blink" id="lcd-stop" hidden>E-STOP</span></div>
       <div id="toast" role="status" hidden></div>
     </div></section>
@@ -157,11 +191,12 @@ export const remoteFace = ({ connection, connectionHelp }) => `
     <div class="rc-keys">
       <button id="claim" class="rc-key" disabled>Take control</button>
       <button id="resume" class="rc-key rc-key-go" aria-label="Resume operation" hidden><i class="led"></i>Resume</button>
+      <button id="switch-machine" class="rc-key rc-key-icon" aria-label="Drive your truck" disabled>${REMOTE_ICONS.truck}<span>Truck</span></button>
       <button id="settings" class="rc-key rc-key-icon" aria-label="Settings">${gear}<span>Settings</span></button>
     </div>
     ${rocker("right", "rightTrack", "Right")}
-    ${stick("left", "Left joystick: stick and slew", ["STICK OUT", "SLEW R", "STICK IN", "SLEW L"])}
-    ${stick("right", "Right joystick: boom and bucket", ["BOOM LOWER", "BUCKET OPEN", "BOOM RAISE", "BUCKET CURL"])}
+    ${stick("left", REMOTE_STICKS.excavator.left, REMOTE_LEGENDS.excavator.left)}
+    ${stick("right", REMOTE_STICKS.excavator.right, REMOTE_LEGENDS.excavator.right)}
   </div>
   ${connectionHelp}
 </main>
@@ -174,7 +209,7 @@ export const remoteFace = ({ connection, connectionHelp }) => `
   <div class="sheet-body">
     <section class="sheet-group" aria-label="Operation">
       <div class="setting setting-speed"><label for="speed">Movement speed</label><output id="speed-value">65%</output><input id="speed" type="range" min="20" max="100" step="5" value="65"></div>
-      <div class="setting"><div><strong>Your excavator</strong><small>Back to a start position, leaving the sand as it is. You need control to do this.</small></div><button id="respawn" class="rc-key">Back to start</button></div>
+      <div class="setting"><div><strong id="respawn-title">Your excavator</strong><small id="respawn-note">Back to a start position, leaving the sand as it is. You need control to do this.</small></div><button id="respawn" class="rc-key">Back to start</button></div>
       <div class="setting"><div><strong>Sand and every machine</strong><small id="reset-note">Everything goes back to the start. You need control to do this.</small></div><button id="reset" class="rc-key">Reset world</button></div>
     </section>
     <section class="sheet-group" aria-label="This phone">
@@ -188,14 +223,16 @@ export const remoteFace = ({ connection, connectionHelp }) => `
         <dt>Left stick</dt><dd>Up and down moves the stick out and in. Left and right slews the upper body.</dd>
         <dt>Right stick</dt><dd>Up lowers the boom, down raises it. Left curls the bucket, right opens it.</dd>
         <dt>Track rockers</dt><dd>Push both up to drive forward, both down to reverse, one of each to turn.</dd>
-        <dt>First scoop</dt><dd>Boom down to 0, stick to about 20 mm, curl past 50 mm, then lift and swing to the pour zone.</dd>
-        <dt>Emergency stop</dt><dd>Stops your excavator from any of your devices and stays latched until you press Resume.</dd>
+        <dt>First scoop</dt><dd>Open the bucket to 15 mm, stick out to 9 mm, boom down to 29 mm until the teeth touch the sand, then stick in to 33 mm. Curl until LIP reads level, about 56 mm. Raise the boom, curling a little more as it rises to keep the lip level, and swing to the pour zone.</dd>
+        <dt>Heaped bucket</dt><dd>The LOAD bar is full at ${BUCKET.heapedLoad} cm³, a heaped bucket. The heap stays on only while LIP is within about ${SAND.heapDeg - SAND.heapSlideDeg}° of level: tip the bucket further and it runs off.</dd>
+        <dt>Your truck</dt><dd>The Truck key gets you into your dump truck, and Digger back into the excavator. Load the truck with the bucket, then drive it with the left stick and raise the body with the right: the rear wall swings open and the load slides out. HAULED counts the litres tipped beyond the sand yard.</dd>
+        <dt>Emergency stop</dt><dd>Stops both your machines from any of your devices and stays latched until you press Resume.</dd>
       </dl>
       <p>Keep this page open while operating. Switching apps releases control.</p>
     </details>
     <details class="sheet-group sheet-guide"><summary>Button controls</summary>
       <p>The same motions as hold-to-move buttons. Hold Enter to use them from a keyboard.</p>
-      <div class="accessible-controls">${fineControls}</div>
+      <div class="accessible-controls">${holdRows()}</div>
     </details>
   </div>
 </div></dialog>`;
@@ -220,6 +257,12 @@ export function createDisplay() {
     bucket = $("#bucket-value"),
     slew = $("#slew-value"),
     load = $("#load-value"),
+    lip = $("#lcd-lip"),
+    truckSpeed = $("#truck-speed"),
+    truckSteer = $("#truck-steer"),
+    truckTip = $("#truck-tip"),
+    truckHauled = $("#truck-hauled"),
+    truckLoad = $("#truck-load"),
     bar = [...$("#load-bar").children],
     signal = [...$("#signal").children];
   let barLevel = -1,
@@ -236,11 +279,56 @@ export function createDisplay() {
       setDigits(slew, `${angle}`, `Slew ${angle} degrees`);
       const cm3 = Math.min(999, Math.round(stats.load));
       setDigits(load, `${cm3}`, `Bucket load ${cm3} cubic centimetres`);
+      // Full at a heaped bucket.
       const level = Math.min(
         bar.length,
-        Math.ceil((stats.load / BUCKET.ratedLoad) * bar.length),
+        Math.ceil((stats.load / BUCKET.heapedLoad) * bar.length),
       );
       if (level !== barLevel) fill(bar, (barLevel = level));
+      // How far the bucket's mouth is from level, and which way its lip points.
+      const tilt = stats.tilt,
+        away = Math.abs(tilt),
+        text = !Number.isFinite(tilt)
+          ? "--"
+          : away < 3
+            ? "LEVEL"
+            : `${away}° ${tilt > 0 ? "DN" : "UP"}`;
+      if (lip.textContent !== text) lip.textContent = text;
+    },
+    // The truck's readings: litres in the body and tipped, speed, steering and
+    // the body's angle.
+    truck(stats) {
+      const speed = Math.min(999, Math.abs(stats.velocity));
+      setDigits(truckSpeed, `${speed}`, `Speed ${speed} millimetres a second`);
+      const steer = Math.max(-99, Math.min(99, stats.steer));
+      setDigits(
+        truckSteer,
+        `${steer}`,
+        `Steering ${Math.abs(steer)} degrees ${steer > 0 ? "left" : steer < 0 ? "right" : ""}`.trim(),
+      );
+      const tip = Math.round(stats.tip);
+      setDigits(truckTip, `${tip}`, `Body raised ${tip} degrees`);
+      const hauled = Math.min(999.9, stats.hauled / 1000).toFixed(1);
+      setDigits(truckHauled, hauled, `Hauled ${hauled} litres`);
+      const litres = Math.min(99.9, stats.load / 1000).toFixed(1);
+      setDigits(truckLoad, litres, `Truck load ${litres} litres`);
+      // Full when level with the side walls.
+      const level = Math.min(
+        bar.length,
+        Math.ceil((stats.load / (TRUCK_LOAD.struck / 1000)) * bar.length),
+      );
+      if (level !== barLevel) fill(bar, (barLevel = level));
+      const text = stats.gate ? "OPEN" : "SHUT";
+      if (lip.textContent !== text) lip.textContent = text;
+    },
+    // Which machine's readings show.
+    mode(machine) {
+      document
+        .querySelectorAll(".lcd [data-machine]")
+        .forEach((part) => (part.hidden = part.dataset.machine !== machine));
+      $("#lcd-lip-label").textContent = machine === "truck" ? "GATE " : "LIP ";
+      lip.textContent = "--";
+      barLevel = -1;
     },
     speed(value) {
       $("#lcd-speed").textContent = `SPD ${Math.round(value * 100)}%`;
