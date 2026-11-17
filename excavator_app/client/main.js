@@ -1055,6 +1055,9 @@ async function start() {
       const query = new URLSearchParams({
         room,
         role: remote ? "remote" : "simulator",
+        // Acknowledge each update, so the server sends no more than this
+        // connection carries and nothing waits in a queue on the way.
+        acks: "1",
       });
       if (playerKey) query.set("key", playerKey);
       if (savedName()) query.set("name", savedName());
@@ -1087,6 +1090,7 @@ async function start() {
           applyTiles(sandBed, frame.tiles);
           sandFrame = frame;
         }
+        send({ type: "ack", tick: frame.tick });
         return;
       }
       const message = JSON.parse(event.data);
@@ -1095,7 +1099,11 @@ async function start() {
         becomePlayer(message.player);
         if (remote && !document.hidden) requestControl();
       }
-      if (message.type === "state") updateUI(message);
+      if (message.type === "state") {
+        updateUI(message);
+        // A phone's updates are its state; a simulator page acknowledges frames.
+        if (remote) send({ type: "ack", tick: message.tick });
+      }
       if (message.type === "roster") updateRoster(message);
       if (message.type === "notice") toast(message.message);
       if (message.type === "error") {

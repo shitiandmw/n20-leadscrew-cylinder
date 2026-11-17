@@ -13,6 +13,7 @@
     "test:browser": "node test/browser.js",
     "test:sand": "node test/sand-visual.js",
     "test:load": "node scripts/load_test.mjs",
+    "test:latency": "node scripts/latency_test.mjs",
     "export:model": "python3 scripts/export_model.py"
   },
   "dependencies": {

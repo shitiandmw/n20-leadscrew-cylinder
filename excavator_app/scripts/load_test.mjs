@@ -20,12 +20,16 @@ try {
   const bots = [];
   for (let n = 0; n < players; n++) {
     const ws = new WebSocket(
-      `${origin.replace("http", "ws")}/ws?room=${room}&role=simulator`,
+      `${origin.replace("http", "ws")}/ws?room=${room}&role=simulator&acks=1`,
     );
     const bot = { ws, bytes: 0, frames: 0, pongs: [], state: null };
     ws.on("message", (data, binary) => {
       bot.bytes += data.length;
-      if (binary) return bot.frames++;
+      // Each frame is acknowledged with its tick, as a browser does.
+      if (binary) {
+        ws.send(JSON.stringify({ type: "ack", tick: data.readUInt32LE(4) }));
+        return bot.frames++;
+      }
       const message = JSON.parse(data);
       if (message.type === "state") bot.state = message;
       if (message.type === "pong")

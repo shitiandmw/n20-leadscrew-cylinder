@@ -363,3 +363,97 @@ test(
     }
   },
 );
+
+test(
+  "a page that acknowledges its updates is sent no more than it takes",
+  { timeout: 30000 },
+  async () => {
+    const app = createApplication();
+    await new Promise((resolve) => app.server.listen(0, "127.0.0.1", resolve));
+    const origin = `http://127.0.0.1:${app.server.address().port}`;
+    try {
+      const { room } = await (
+        await fetch(origin + "/api/rooms", { method: "POST" })
+      ).json();
+      const url = `${origin.replace("http", "ws")}/ws?room=${room}&acks=1`,
+        sim = app.rooms.get(room).simulation,
+        viewer = await connect(`${url}&role=simulator`),
+        states = () =>
+          viewer.messages.filter((message) => message.type === "state").length;
+      // The first frame brings all the sand; nothing follows it until it is
+      // acknowledged, so a slow line never has a second one queued behind it.
+      await waitFor(() => viewer.binary === 1);
+      await delay(400);
+      assert.equal(viewer.binary, 1, "one frame on its way until the first round trip");
+
+      // Acknowledged as they come, every tick's frame is sent, and the state
+      // with its readouts every third tick.
+      let acking = true;
+      viewer.ws.on("message", (_, binary) => {
+        if (binary && acking) viewer.send({ type: "ack", tick: viewer.frame.tick });
+      });
+      viewer.send({ type: "ack", tick: viewer.frame.tick });
+      await delay(300);
+      let frames = viewer.binary,
+        stateCount = states(),
+        tick = sim.tick;
+      await delay(1500);
+      const ticks = sim.tick - tick;
+      assert.ok(ticks > 10, `the physics ran (${ticks} ticks)`);
+      // A stall of this process holds back an acknowledgement too, and then a
+      // frame or two waits; that is all that may.
+      assert.ok(
+        viewer.binary - frames >= ticks * 0.7,
+        `${viewer.binary - frames} frames in ${ticks} ticks`,
+      );
+      const readouts = states() - stateCount;
+      assert.ok(
+        readouts <= ticks / 3 + 1 && readouts >= ticks / 3 - 4,
+        `${readouts} states in ${ticks} ticks`,
+      );
+
+      // A page that stops acknowledging, as one behind a stalled line, gets a
+      // few more frames, then none, and the next it gets is of the latest tick.
+      acking = false;
+      await delay(200);
+      frames = viewer.binary;
+      stateCount = states();
+      await delay(600);
+      assert.equal(viewer.binary, frames, "no frames into a stalled line");
+      assert.equal(states(), stateCount, "no readouts either");
+      acking = true;
+      viewer.send({ type: "ack", tick: viewer.frame.tick });
+      tick = sim.tick;
+      await waitFor(() => viewer.binary > frames);
+      assert.ok(viewer.frame.tick >= tick, "it catches up at once");
+
+      // A phone acknowledges its state. One that does not is told only about
+      // changes of control.
+      const phone = await connect(
+        `${url}&role=remote&key=${viewer.player.key}`,
+      ),
+        phoneStates = () =>
+          phone.messages.filter((message) => message.type === "state");
+      await waitFor(() => phoneStates().length === 1);
+      await delay(400);
+      assert.equal(phoneStates().length, 1);
+      phone.send({ type: "claim" });
+      await waitFor(() => phoneStates().length === 2);
+      assert.equal(phone.state.owner, phone.id, "control always gets through");
+      phone.ws.on("message", (buffer, binary) => {
+        if (!binary && JSON.parse(buffer).type === "state")
+          phone.send({ type: "ack", tick: phone.state.tick });
+      });
+      phone.send({ type: "ack", tick: phone.state.tick });
+      tick = sim.tick;
+      await delay(1000);
+      assert.ok(
+        phoneStates().length - 2 >= (sim.tick - tick) * 0.7,
+        `${phoneStates().length - 2} states to the phone in ${sim.tick - tick} ticks`,
+      );
+      assert.equal(phone.binary, 0, "phones receive telemetry only");
+    } finally {
+      await app.close();
+    }
+  },
+);

@@ -8,6 +8,7 @@ import { promisify } from "node:util";
 import { gunzipSync, gzip } from "node:zlib";
 import { WebSocketServer, WebSocket } from "ws";
 import { SimulationRunner } from "./simulation-runner.js";
+import { Delivery } from "./delivery.js";
 import { AXES, crawlerBox, crawlersOverlap } from "../shared/world.js";
 import { TRUCK_AXES, boxesOverlap, truckBox } from "../shared/truck.js";
 import { encodeFrame, TILE_COUNT } from "../shared/protocol.js";
@@ -362,19 +363,35 @@ export function createApplication({
   // its frames skips the periodic telemetry, but never a change of who is in
   // control, of the stop or of the host: a page that did not hear its claim was
   // granted never starts sending inputs, loses the lease, and its next press of
-  // the control key releases instead of claiming.
-  function broadcast(room, player) {
-    const packet = JSON.stringify(snapshot(room, player)),
-      control = `${player.owner}:${player.vehicle.estop}:${room.host === player.id}:${player.driving}`;
+  // the control key releases instead of claiming. A simulator page draws the
+  // machines from its frames, so its readouts come at most every third tick:
+  // three ticks after the last, not on ticks that are multiples of three, which
+  // a socket that keeps being busy on those ticks would never be sent.
+  function broadcast(room, player, periodic = false) {
+    const control = `${player.owner}:${player.vehicle.estop}:${room.host === player.id}:${player.driving}`,
+      tick = room.simulation.tick,
+      now = performance.now();
+    let packet;
     for (const ws of player.sockets) {
       const client = room.clients.get(ws);
+      if (ws.readyState !== WebSocket.OPEN) continue;
       if (
-        ws.readyState !== WebSocket.OPEN ||
-        (ws.bufferedAmount !== 0 && client?.control === control)
+        client?.control === control &&
+        (ws.bufferedAmount !== 0 ||
+          client.delivery?.behind(now) ||
+          // Ticks start again after a reset.
+          (periodic &&
+            client.role === "simulator" &&
+            Math.abs(tick - client.stateTick) < 3))
       )
         continue;
+      packet ??= JSON.stringify(snapshot(room, player));
       ws.send(packet);
-      if (client) client.control = control;
+      if (!client) continue;
+      client.control = control;
+      client.stateTick = tick;
+      // A phone acknowledges its state; a simulator page, its frames.
+      if (client.role === "remote") client.delivery?.sent(tick, now);
     }
   }
   // Who is here. Each client tracks the version it holds, so a congested socket
@@ -409,10 +426,11 @@ export function createApplication({
   function publishFrame(room) {
     room.stepMs = room.simulation.stepMs;
     publishRoster(room);
-    for (const player of room.players.values()) broadcast(room, player);
+    for (const player of room.players.values()) broadcast(room, player, true);
     // Simulators get every machine's pose and load, the falling sand and changed
     // sand-bed tiles of the same tick. Each client tracks which tile versions it holds, so
-    // a congested socket can skip frames and later catch up on every change.
+    // a congested socket, or one that is behind (see server/delivery.js), can
+    // skip frames and later catch up on every change.
     const s = room.simulation,
       frame = {
         tick: s.tick,
@@ -431,11 +449,13 @@ export function createApplication({
         tileData: s.tileData,
       };
     room.frame++;
+    const now = performance.now();
     for (const [ws, client] of room.clients) {
       if (
         client.role !== "simulator" ||
         ws.readyState !== WebSocket.OPEN ||
-        ws.bufferedAmount !== 0
+        ws.bufferedAmount !== 0 ||
+        client.delivery?.behind(now)
       )
         continue;
       client.tiles ??= new Uint32Array(TILE_COUNT);
@@ -443,6 +463,7 @@ export function createApplication({
       for (const t of s.tileData.keys())
         if (client.tiles[t] !== s.tileVersions[t]) tiles.push(t);
       ws.send(encodeFrame({ ...frame, tiles }));
+      client.delivery?.sent(s.tick, now);
       for (const t of tiles) client.tiles[t] = s.tileVersions[t];
     }
   }
@@ -464,6 +485,13 @@ export function createApplication({
         window: Date.now(),
         messages: 0,
         rosterVersion: 0,
+        stateTick: -Infinity,
+        // A page that acknowledges its updates is sent no more than its
+        // connection carries; one from before that is sent what its socket takes.
+        delivery:
+          new URL(req.url, "http://localhost").searchParams.get("acks") === "1"
+            ? new Delivery()
+            : null,
       };
     room.clients.set(ws, client);
     player.sockets.add(ws);
@@ -493,7 +521,8 @@ export function createApplication({
         client.window = now;
         client.messages = 0;
       }
-      if (++client.messages > 80) return ws.close(1008, "Too many commands");
+      // Inputs come at up to 30 a second and acknowledgements with every update.
+      if (++client.messages > 160) return ws.close(1008, "Too many commands");
       try {
         if (binary) throw new Error("Text commands required");
         const data = JSON.parse(bytes.toString());
@@ -501,6 +530,10 @@ export function createApplication({
           throw new Error("Invalid command");
         if (data.type === "ping")
           return send(ws, { type: "pong", at: data.at });
+        if (data.type === "ack") {
+          client.delivery?.acknowledged(data.tick, performance.now());
+          return;
+        }
         if (data.type === "rename") {
           const name = cleanName(data.name);
           if (!name) throw new Error("Enter a name with letters or numbers.");
