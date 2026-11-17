@@ -43,8 +43,10 @@ BEDS = [(220, 220), (250, 210), (256, 256), (300, 300)]
 PRINTED = [
     dict(id='J901', name='J901 H-frame', per_track=1, est=(4, .4, True), files={'left': J9S + 'J901_H_frame.stl', 'right': X1S + 'J901_H_frame_right.stl'},
          settings='PETG or PA12. No structural recipe is validated: choose walls, infill and layer direction for your load.',
-         orientation='Outer wall face on the bed (as exported); supports under the inner wall.',
-         note='Left and right are mirror images: print one of each file. Clean the Ø16.4 spring bore, the yoke grooves and the X1 seats.'),
+         orientation='Outer wall face on the bed (as exported); supports under the whole inner wall, standing on the part itself '
+                     '("everywhere", not "build plate only": the inner wall is directly above the outer wall).',
+         note='Left and right are mirror images: print one of each file. Clean the Ø16.4 spring bore, the yoke grooves, the X1 seats and the '
+              'Ø3.2 lock-pin hole in the outer wall.'),
     dict(id='J909', name='J909 housing with motor pod', per_track=1, est=(3, .15, True),
          files={'left': J9S + 'J909_housing.stl', 'right': X1S + 'J909_housing_right.stl'},
          settings='PETG, 3 walls.', orientation='Skirt inner face on the bed (as exported); supports inside the motor pod only.',
@@ -55,19 +57,22 @@ PRINTED = [
     dict(id='J903', name='J903 journal plug', per_track=1, est=(0, 1, False), files={'both': J9S + 'J903_journal_plug.stl'},
          settings='PETG or PA12, 100 % infill.', orientation='Standing on its end.', note='Ø9.95 journal in the 6800ZZ inner ring.'),
     dict(id='J904', name='J904 roller', per_track=7, est=(4, .4, False), files={'both': J9S + 'J904_roller.stl'},
-         settings='PETG, 4 walls, 40 % infill.', orientation='On a flange face.', note='5 road and 2 support rollers per track.'),
+         settings='PETG, 4 walls, 40 % infill.', orientation='On a flange face; no supports. The top flange is a 2 mm overhanging ring: trim any sag.',
+         note='5 road and 2 support rollers per track.'),
     dict(id='J906', name='J906 idler wheel', per_track=1, est=(4, .4, True), files={'both': J9S + 'J906_idler_wheel.stl'},
          settings='PETG. The design gives no recipe; the roller settings (4 walls, 40 %) are a reasonable start.',
-         orientation='Flat face on the bed (as exported).',
+         orientation='Flat face on the bed (as exported); supports everywhere: three overhanging rings (7.2, 5.2 and 2 mm wide) and the web '
+                     'under the upper bearing seat.',
          note='Two 608ZZ seats, open to the faces: each bearing slides in by hand, then presses the last 7.5 mm against the central web. '
               'The web\'s underside prints as a bridge: trim any sag before fitting the bearing on the bed side.'),
     dict(id='J907', name='J907 idler spacer', per_track=2, est=(0, 1, False), files={'both': J9S + 'J907_idler_spacer.stl'},
          settings='PETG, 100 % infill.', orientation='Standing on its end.', note='Touches only the 608 inner ring.'),
     dict(id='J908', name='J908 U-yoke with spring piston', per_track=1, est=(4, .5, False), files={'both': J9S + 'J908_U_yoke.stl'},
          settings='PETG or PA12, 4 walls, 50 % infill.', orientation='Upside down on its flat top (as exported); support the rear piston as needed.',
-         note='Ø15.6 piston slides in the frame\'s Ø16.4 bore.'),
-    dict(id='J910', name='J910 track shoe, 70 mm', per_track=34, est=(4, .4, True), files={'both': J9S + 'J910_track_shoe_70.stl'},
-         settings='PETG or PA12.', orientation='Grousers on the bed (as exported).', note='34 links per track.'),
+         note='Ø15.6 piston slides in the frame\'s Ø16.4 bore. A Ø3.2 x 8 lock-pin hole in each end of the crossbar.'),
+    dict(id='J910', name='J910 track shoe, 70 mm (revision B)', per_track=34, est=(4, .4, False), files={'both': J9S + 'J910_track_shoe_70.stl'},
+         settings='PETG or PA12, 4 walls, 40 % infill.', orientation='Grousers on the bed (as exported); no supports.',
+         note='34 links per track. Print four first and join them with the real screws, sleeves and nuts before printing the rest.'),
 ]
 OPTIONAL_PRINTED = [
     dict(id='X101', name='X101 X-frame (only to test the chassis mounting)', per_machine=1, files={'chassis': X1S + 'X101_X_frame.stl'},
@@ -86,12 +91,14 @@ STANDARD = [
     dict(id='6800ZZ', cat='Drive and bearings', name='6800ZZ ball bearing, 10 x 19 x 5', per_track=1, spec='Outer support of the sprocket (journal plug).'),
     dict(id='624ZZ', cat='Drive and bearings', name='624ZZ ball bearing, 4 x 13 x 5', per_track=14, spec='Two per roller.'),
     dict(id='608ZZ', cat='Drive and bearings', name='608ZZ ball bearing, 8 x 22 x 7', per_track=2, spec='Idler.'),
-    dict(id='pin8', cat='Drive and bearings', name='Steel pin Ø8 x 55 (ISO 2338 8 m6 x 55, or Ø8 shaft cut to 55)', per_track=1,
-         spec='Idler axle, carried by the yoke arms.'),
-    dict(id='spring', cat='Drive and bearings', name='Compression spring Lee Spring C-600-072-1500 (music wire)', per_track=1,
-         spec='OD 15.24, wire 1.83, free length 38.1, about 6.3 N/mm, solid 17.0 mm: 77 N at the 25.8 mm fitted length. '
-              'A substitute must slide in the Ø16.4 bore and over the Ø11 pilot.'),
-    dict(id='M4x70', cat='Screws, nuts and inserts', name='M4 x 70 socket head screw (ISO 4762)', per_track=7, spec='Roller axles, from the inboard side.'),
+    dict(id='pin8', cat='Drive and bearings', name='Steel rod Ø8 x 55, ground, tolerance h6 or g6 (cut linear shaft)', per_track=1,
+         spec='Idler axle, carried by the yoke arms. Not an ISO 2338 m6 dowel pin: that is a press fit in the 608 bores.'),
+    dict(id='spring', cat='Drive and bearings', name='Compression spring, wire 1.8, outside Ø15, free length 38-40 (Lee Spring C-600-072-1500 or equal)', per_track=1,
+         spec='The CAD spring is the Lee part: OD 15.24, wire 1.83, free length 38.1, about 6.3 N/mm, solid 17.0 mm: 77 N at the 25.8 mm fitted length. '
+              'An equal spring has 9-10 coils, an outside diameter of no more than 15.6, an inside diameter of at least 11.3 and a solid height under 19 mm: '
+              'it must slide in the Ø16.4 bore and over the Ø11 pilot.'),
+    dict(id='M4x70', cat='Screws, nuts and inserts', name='M4 x 70 socket head screw (ISO 4762), partly threaded', per_track=7,
+         spec='Roller axles, from the inboard side. With the standard 20 mm of thread the bearings sit on plain shank.'),
     dict(id='nyloc', cat='Screws, nuts and inserts', name='M4 nyloc nut (DIN 985)', per_track=7, spec='Roller axles, outboard. Snug only.'),
     dict(id='M3x6', cat='Screws, nuts and inserts', name='M3 x 6 socket head screw (ISO 4762)', per_track=4, spec='Motor to the inner wall, from inside the H.'),
     dict(id='M3x20', cat='Screws, nuts and inserts', name='M3 x 20 socket head screw (ISO 4762)', per_track=3,
@@ -99,16 +106,17 @@ STANDARD = [
     dict(id='M3x50', cat='Screws, nuts and inserts', name='M3 x 50 socket head screw (ISO 4762)', per_track=1,
          spec='Journal plug and sprocket onto the shaft\'s tapped end.'),
     dict(id='M3x8', cat='Screws, nuts and inserts', name='M3 x 8 button head screw (ISO 7380)', per_track=4, spec='Housing to the standoff inserts.'),
-    dict(id='insert', cat='Screws, nuts and inserts', name='M3 heat-set insert for a Ø4.0 x 5.7 mm hole', per_track=4, spec='Tops of the four housing standoffs.'),
+    dict(id='insert', cat='Screws, nuts and inserts', name='M3 heat-set insert, outside Ø4.5-4.6, up to 5.7 long (for a Ø4.0 hole)', per_track=4,
+         spec='Tops of the four housing standoffs. The bores are 7 mm deep, 1.3 mm more than the insert.'),
 ]
-CHAIN = [
-    dict(id='trackpin', cat='Track chain', name='Track pin Ø3 x 56, silver steel', per_track=34,
-         spec='Yield at least 400 MPa. An E-clip groove 1.5 mm from each end (centred 26.5 mm each side of the middle), sized for DIN 6799 '
-              'size 2.3 clips. Not an off-the-shelf part: cut and groove Ø3 silver steel, or order cut-and-grooved Ø3 shafts.'),
-    dict(id='bushing', cat='Track chain', name='Track bushing, steel, Ø6 OD x Ø3.1 ID x 17', per_track=34,
-         spec='The sprocket drives these. Cut from tube and deburr both ends; must slip freely on the pin.'),
-    dict(id='clip', cat='Track chain', name='E-clip DIN 6799 size 2.3 (for Ø3-4 mm shafts)', per_track=68,
-         spec='Two per pin (modelled as Ø6 x 0.6). Buy spares: they jump.'),
+CHAIN = [   # J910 revision B (2026-11-14): one screw, one sleeve and one nut per joint, in place of a grooved pin, a bushing and two E-clips
+    dict(id='trackscrew', cat='Track chain', name='M3 x 60 socket head screw, partly threaded (ISO 4762 / GB/T 70.1, half-thread)', per_track=34,
+         spec='Thread 18 mm or shorter, so that the inner ears and the sleeve turn on smooth shank. Class 12.9 or stainless A2-70. Head outboard. '
+              'M3 x 50 is too short: the two seats are 50 mm apart before the nut starts. Buy a few spares: one of them is the lock pin for fitting the chain.'),
+    dict(id='bushing', cat='Track chain', name='Track sleeve, steel, Ø6 OD x Ø3.2 ID x 18', per_track=34,
+         spec='The sprocket drives these. A stock spacer size; a sleeve cut to 17 mm also fits. Must slip freely on the screw.'),
+    dict(id='tracknut', cat='Track chain', name='M3 nyloc nut (DIN 985 / GB/T 889.1)', per_track=34,
+         spec='One per screw, inboard. Run it down until it touches its seat, then back it off 1/6 turn: it must not clamp the joint.'),
 ]
 JOINT = [   # X1/BOM.md, revision F track joints: per machine (both tracks)
     dict(id='M4x25', cat='X1 joint', name='M4 x 25 socket head screw (ISO 4762), Ø7 x 4 head', per_machine=8, spec='Two per arm end, one in each side slot.'),
@@ -128,9 +136,9 @@ TOOLS = [
     ('Vise with soft jaws or a small arbor press; for the idler, a tube or socket about Ø20-21 mm across and at least 20 mm long '
      'as a drift on the 608ZZ outer ring (not the shield)', 'bearings into the printed seats'),
     ('Calipers', 'motor screw-hole depth, prints'),
-    ('E-clip pliers or a small flat screwdriver', 'chain clips'),
-    ('Paint marker', 'hub set-screw witness marks'),
-    ('Dummy pin Ø3 x 24: an offcut of the Ø3 pin rod (or any Ø2.5-3 rod), ends deburred', 'holds the last chain bushing until the last pin pushes it out'),
+    ('5.5 mm nut driver or spanner', 'track nuts'),
+    ('Paint marker and medium (blue) thread-locker', 'coupling set screw: lock it and mark it; it cannot be reached once the chain is on'),
+    ('Dummy pin Ø3 x 24: any smooth Ø2.5-3 rod (a nail, a drill shank), ends deburred', 'holds the last chain sleeve until the last screw pushes it out'),
     ('X1 only: 3 mm L-key with a 20 mm short leg and 80 mm arm; compact 7 mm nut holder within Ø11.2 mm', 'track joints'),
 ]
 
@@ -141,7 +149,7 @@ X1_WIDE = [[0, [-480, 650, 520], [0, 40, 40]]]
 STEPS = [
     dict(id='overview', title='The finished track', dur=5,
          caption='One J9 track: printed H-frame, JGY-370 motor in a closed pod, sprocket on a Ø32 flange coupling, 5 road and 2 support rollers, '
-                 'sprung idler and a 34-link steel-pinned chain. Build two; the right one uses the mirrored J901 and J909 prints.',
+                 'sprung idler and a 34-link chain on M3 screws. Build two; the right one uses the mirrored J901 and J909 prints.',
          do=['Print and buy everything in the Parts list tab; its quantities are for two tracks.',
              'Use the revision F J901 and J909 files: the left ones from J9/stl, the mirrored right ones from X1/stl.',
              'Play the steps in order. Both tracks are built the same way; "Both on X101" adds the chassis step.'],
@@ -150,7 +158,8 @@ STEPS = [
          cams=[[0, [-250, 470, 250], [0, 0, 40]]], camsX1=[[0, [-520, 680, 500], [0, 0, 50]]]),
     dict(id='frame', title='Prepare the H-frame', dur=7,
          caption='Four M3 heat-set inserts into the housing standoffs on the inboard side; the 6800ZZ pressed into the outer wall.',
-         do=['Remove the support under the inner wall. Clean the Ø16.4 spring-guide bore, the two yoke grooves, the roller-bolt holes and the shallow X1 seats.',
+         do=['Remove the support under the inner wall. Clean the Ø16.4 spring-guide bore, the two yoke grooves, the roller-bolt holes, the Ø3.2 lock-pin hole '
+             'in the outer wall and the shallow X1 seats.',
              'Press the four M3 heat-set inserts into the tops of the four housing standoffs on the inner wall.',
              'Press the 6800ZZ into the outer-wall seat from outside until it sits on the 1 mm lip; its face ends flush with the wall.'],
          check=['The bearing seats are press fits in a print. If the 6800ZZ is loose, or needs force that bends the wall, correct the printer\'s hole '
@@ -173,7 +182,8 @@ STEPS = [
              'Push an M4 x 70 in from the inboard side, head in its recess, through the inner wall, both bearings and the outer wall.',
              'Fit an M4 nyloc nut outboard and turn it only until snug.'],
          check=['The rollers float about 0.3 mm between small wall bosses that touch only the bearing inner rings. Do not clamp the walls together: '
-                'every roller must still spin freely.'],
+                'every roller must still spin freely.',
+                'The seven bosses on the inner wall print on support: if one is rough or missing, put a Ø4.3 x Ø6 x 0.5 shim washer in its place.'],
          tools=['3 mm hex key', '7 mm spanner', 'vise with soft jaws'], source='J9/ASSEMBLY.md 1.3 and 3',
          cams=[[0, [150, 660, 130], [0, 0, 40]], [0.56, [150, -670, 230], [0, -20, 45]], [0.8, [150, 660, 170], [0, 0, 45]]], camsX1=X1_WIDE),
     dict(id='tensioner', title='Tensioner: spring, yoke and idler', dur=12,
@@ -187,7 +197,7 @@ STEPS = [
              'Its ends stand 0.5 mm proud of the arms.',
              'Insert the spring into the guide bore from the front, onto the pilot at the recessed floor.',
              'Slide the yoke arms into the wall grooves from the front, with the pin ends in the deeper tracks of the groove floors, until the spring sits on the '
-             'yoke pilot and the piston enters the bore.'],
+             'yoke pilot and the piston enters the bore. The arms have 0.5 mm of side room in the grooves.'],
          check=['Both 608ZZ stop against the central web: their outer faces sit 13 mm below the idler faces, and the idler turns freely.',
                 'Without the chain the spring pushes the yoke about 12 mm ahead of its running position; the arms stay in the grooves.'],
          tools=['vise with soft jaws', 'Ø20-21 mm tube or socket as a bearing drift'], source='J9/ASSEMBLY.md 1.4 and 6',
@@ -226,7 +236,8 @@ STEPS = [
              'shaft\'s D-flat to the top.',
              'Bring the sprocket in between the walls from the rear, about 10 mm outboard of its place so the coupling clears the shaft tip. Slide it inboard onto the '
              'shaft until its centre pad meets the shaft end; the coupling boss stops 1 mm short of the wall.',
-             'With a 1.5 mm key straight down between the walls, 6 mm from the wall face, tighten the set screw firmly on the flat and mark it with a paint line.'],
+             'With a 1.5 mm key straight down between the walls, 6 mm from the wall face, tighten the set screw firmly on the flat, with a drop of medium '
+             'thread-locker, and mark it with a paint line. It cannot be reached again once the chain is on.'],
          check=['The coupling has one set screw and no torque rating on a D-flat. Recheck it after the first runs and after any stall.'],
          tools=['2.5 mm and 1.5 mm hex keys', 'paint marker'], source='J9/ASSEMBLY.md 1.5 and 4',
          cams=[[0, [-450, 280, 180], [-210, 10, 45]], [0.6, [-300, 230, 230], [-110, 0, 45]]],
@@ -241,38 +252,42 @@ STEPS = [
          cams=[[0, [-330, 330, 150], [-110, 15, 45]]], camsX1=[[0, [-420, 520, 260], [-110, 170, 45]]]),
     dict(id='chain', title='Track chain', dur=48,
          caption='The chain goes on in one piece, like a real track. On the bench each joint is made in turn: next link pushed on along the strip, '
-                 'bushing dropped in between the inner ears, pin through, E-clips on from the side. A dummy pin holds the last bushing while the strip is '
-                 'wrapped round the sprocket and, with the idler held back at its stop, round the idler. On top the last pin pushes the dummy out; '
-                 'then the spring takes up the slack.',
+                 'sleeve dropped in between the inner ears, M3 x 60 screw through, nyloc nut on and backed off. A dummy pin holds the last sleeve while the '
+                 'strip is wrapped round the sprocket and, with the idler locked back at its stop, round the idler. On top the last screw pushes the dummy '
+                 'out; then the lock screw comes out and the spring takes up the slack.',
          do=['On the bench, join the 34 links into one straight strip, grousers down. For each joint: lay the next link down just ahead of the strip and '
              'push it back until its outer plates straddle the inner ears of the last link (the rounded plate ends slide into the hollowed ones, so it only '
-             'goes on along the strip). Drop a bushing in between those inner ears from above: at Ø6 it cannot pass the Ø3.2 pin holes, so it always goes '
-             'in before its pin. Push a Ø3 x 56 pin through plate, ear, bushing, ear and plate, and push an E-clip onto each groove from the side, open '
-             'side first. Every joint must articulate freely.',
-             'At the far end of the strip, drop the last bushing between the free inner ears and push the Ø3 x 24 dummy pin through ears and bushing '
-             'until it sits inside both ears. On the top run those ears open downward, out of reach, and the dummy keeps the bushing in. This joint '
+             'goes on along the strip). Drop a sleeve in between those inner ears from above: at Ø6 it cannot pass the Ø3.2 holes, so it always goes '
+             'in before its screw. Push an M3 x 60 screw through boss, plate, ear, sleeve, ear, plate and boss: it slides like a pin until its head '
+             'rests on the seat boss. Run an M3 nyloc nut onto the tail until it touches the other boss, then back it off 1/6 turn: the joint must '
+             'swing under its own weight. Put every head on the same side: they go outboard.',
+             'At the far end of the strip, drop the last sleeve between the free inner ears and push the Ø3 x 24 dummy pin through ears and sleeve '
+             'until it sits inside both ears. On the top run those ears open downward, out of reach, and the dummy keeps the sleeve in. This joint '
              'stays open.',
              'Lift the track, lay the strip under it and set the track down on the middle of the strip: the road rollers sit on it and the sprocket '
-             'teeth drop between the bushings. The open ends stick out behind the sprocket and ahead of the idler.',
-             'Wrap the rear end up round the sprocket, a bushing in every tooth gap, and lay it forward over the support rollers.',
-             'Push the idler back to its recoil stop (4.2 mm behind its running position, where the yoke arms meet the groove ends) and hold it there: '
-             'the spring pushes back with about 104 N, so a helper makes this easier. Wrap the front end up round the idler and back over the top, '
-             'held up in a low arch so it lands a few millimetres short of the rear end.',
-             'Press the arch down: the front end slides along the run until its inner ears (bushing and dummy pin inside) are between the rear end\'s '
-             'outer plates. The ends meet on top between the two support rollers, where both pin ends are clear of the frame, the housing and X101.',
-             'Push the last pin in from outboard. It pushes the dummy pin out on the inboard side: catch it. Push the two E-clips on from the side.',
-             'Release the idler: the spring pushes it forward until the chain is tight, at its 25.8 mm fitted length and about 77 N.'],
+             'teeth drop between the sleeves. The open ends stick out behind the sprocket and ahead of the idler.',
+             'Wrap the rear end up round the sprocket, a sleeve in every tooth gap, and lay it forward over the support rollers.',
+             'Push the idler back to its recoil stop (4.2 mm behind its running position, where the yoke arms meet the groove ends); the spring '
+             'pushes back with about 104 N. Drop a spare track screw into the Ø3.2 lock-pin hole in the outer wall: it goes 8 mm into the yoke and '
+             'holds the idler there. Wrap the front end up round the idler and back over the top, held up in a low arch so it lands a few '
+             'millimetres short of the rear end.',
+             'Press the arch down: the front end slides along the run until its inner ears (sleeve and dummy pin inside) are between the rear end\'s '
+             'outer plates. The ends meet on top between the two support rollers, where both sides are clear of the frame, the housing and X101.',
+             'Push the last screw in from outboard. It pushes the dummy pin out on the inboard side: catch it. Run the nut on and back it off 1/6 turn.',
+             'Pull the lock screw out of the wall: the spring pushes the idler forward until the chain is tight, at about its 25.8 mm fitted length '
+             'and 60-77 N, depending on the play in the 34 joints.'],
          check=['The chain is a fixed loop of 34 x 20 mm. If the ends will not meet with the idler at its stop, look for a stiff link or a binding yoke; '
-                'do not force the pin.',
+                'do not force the screw.',
                 'Before closing the last joint, the dummy pin must sit inside both inner ears (24 mm in a 27.4 mm span): if it stands out, push it back, '
                 'or the outer plates will not pass over the ears.',
+                'No nut may clamp: every joint swings freely. Heads and nuts sit 2 mm outboard of the roller flanges and must never touch them.',
                 'Released, the idler must come forward on its own and the chain must lie on every wheel. Press the idler back by hand: it must '
                 'recoil and return freely.'],
-         tools=['E-clip pliers or a small flat screwdriver', 'Ø3 x 24 dummy pin'], source='J9/ASSEMBLY.md 7; spring forces from J9/README.md',
+         tools=['2.5 mm hex key', '5.5 mm nut driver or spanner', 'Ø3 x 24 dummy pin', 'spare M3 x 60 as the lock pin'], source='J9/ASSEMBLY.md 7; spring forces from J9/README.md',
          cams=[], camsX1=[]),                   # set in main() from where the strip lies (chain_cams)
     dict(id='test', title='First run', dur=8, run=True,
          caption='One slow circuit first, then both directions with the track lifted and the current limited to about 1 A.',
-         do=['Run one complete circuit slowly, on a few volts with the current limited (a worm gearbox normally cannot be turned by hand). No wheel may rub, the bushings must '
+         do=['Run one complete circuit slowly, on a few volts with the current limited (a worm gearbox normally cannot be turned by hand). No wheel may rub, the sleeves must '
              'enter and leave the sprocket cleanly, and the idler must recoil and return.',
              'With the track lifted, run it at 12 V with the current limited to about 1.0 A, slowly in both directions.',
              'Feel the motor pod during the first runs (the pod is closed), and recheck the coupling set screw.'],
@@ -290,23 +305,24 @@ RECOIL = 4.2                            # the idler's travel behind its running 
 # the bench under the lifted track; the track is set down on the middle of the strip; the rear end is wrapped round the sprocket
 # and then, with the idler held back at its recoil stop, the front end round the idler; the last pin goes in from outboard where
 # the two ends meet on top; the idler is released. Times are fractions of the chain step.
-CHAIN_T = dict(lift=(0, .03), strip=(.035, .395), lower=(.4, .44), rear=(.45, .57), push=(.58, .62), front=(.63, .73),
+CHAIN_T = dict(lift=(0, .03), strip=(.035, .395), lower=(.4, .44), rear=(.45, .57), push=(.58, .6), front=(.63, .73),
                close=(.735, .76), join=(.77, .9), release=(.92, .97))
 CHAIN_LIFT = 40                         # mm the track is lifted while the strip is laid under it
 # One joint of the strip, as a person makes it. The next link is put down LINK_AHEAD mm ahead of the strip's end (from LINK_UP mm
 # up) and pushed back along the strip until its outer plates straddle the last link's inner ears: its rounded plate ends nest in
-# the hollowed ends of the last link's plates (R4 in R4.3), so it can only come in along the strip. A bushing drops in between
-# those ears from BUSH_UP mm above: at Ø6 it cannot pass the Ø3.2 pin holes. The pin is pushed through from PIN_OUT mm outboard
-# (its tip starts in the outer plate's hole). An E-clip is pushed onto each groove from CLIP_OFF mm away, square to the pin, open
-# side first. The first joint goes slowly (close-up); the other 32 follow quickly, one starting every JOINT_GAP of the step.
-LINK_AHEAD, LINK_UP, BUSH_UP, PIN_OUT, CLIP_OFF = 10, 30, 20, 45, 10
+# the hollowed ends of the last link's plates (R4 in R4.6), so it can only come in along the strip. A sleeve drops in between
+# those ears from BUSH_UP mm above: at Ø6 it cannot pass the Ø3.2 holes. The screw is pushed through from PIN_OUT mm outboard
+# (its tip starts in the outboard plate's hole) until its head rests on the seat boss. The nyloc nut then comes onto the tail from
+# NUT_OUT mm further inboard, along the screw, up to the other boss. The first joint goes slowly (close-up); the other 32 follow
+# quickly, one starting every JOINT_GAP of the step.
+LINK_AHEAD, LINK_UP, BUSH_UP, PIN_OUT, NUT_OUT = 10, 30, 20, 55, 18
 FIRST_LINK = (.035, .05)
-FIRST_JOINT = dict(link=(.05, .075, .1), bush=(.1, .125), pin=(.125, .155), clips=(.155, .18))
+FIRST_JOINT = dict(link=(.05, .075, .1), bush=(.1, .125), pin=(.125, .155), nut=(.155, .18))
 FAST_START, JOINT_GAP = .185, .0049
-FAST_JOINT = dict(link=(0, .5, 1), bush=(1, 1.8), pin=(1.8, 2.8), clips=(2.8, 3.6))   # in JOINT_GAPs; a link comes down when the last is in
-# The far end's free inner ears take the last bushing on the bench. On the top run those ears open downward and nothing can reach
+FAST_JOINT = dict(link=(0, .5, 1), bush=(1, 1.8), pin=(1.8, 2.8), nut=(2.8, 3.6))   # in JOINT_GAPs; a link comes down when the last is in
+# The far end's free inner ears take the last sleeve on the bench. On the top run those ears open downward and nothing can reach
 # under them (the frame deck is 7 mm below), so a Ø3 x 24 dummy pin, pushed in from DUMMY_OUT mm outboard until it sits inside both
-# ears, holds the bushing through the wrapping; the outer plates still pass over the ears. On top the last pin pushes it out inboard.
+# ears, holds the sleeve through the wrapping; the outer plates still pass over the ears. On top the last screw pushes it out inboard.
 DUMMY_OUT = 30
 LAST_BUSH = dict(bush=(.36, .375), dummy=(.375, .395))
 # The ends meet on top. A hollowed plate end can only take a rounded one along the run (as on the bench), and the chain is slack
@@ -314,8 +330,10 @@ LAST_BUSH = dict(bush=(.36, .375), dummy=(.375, .395))
 # comes down): ARCH_DEG up from the last idler joint, the same down from ARCH_PEAK. It lands short of the rear end and is pressed
 # flat ('close'), sliding along the run onto it.
 ARCH_DEG, ARCH_PEAK = 15.0, 3           # ARCH_PEAK: links from the end of the idler wrap to the arch's peak joint
-JOIN = dict(pin=(.77, .83), dummy_gone=.845, clips=(.85, .9))
-CLIP_FROM_FRONT = math.pi               # the last joint's clips come in from the front along the run: open side toward -X
+JOIN = dict(pin=(.77, .83), dummy_gone=.845, nut=(.85, .9))
+# The lock pin (J901/J908, 2026-11-14): with the idler pushed back to its recoil stop, a spare track screw dropped into the Ø3.2 hole
+# in the outer wall goes 8 mm into the yoke crossbar and holds the idler there; it is pulled out again before the release.
+LOCK = dict(x_running=65.8, r=1.6, depth=8.0, wall_y=27.5, out=30.0, t_in=(.6, .625), t_out=(.9, .918))
 
 
 def K(*keys):
@@ -486,16 +504,16 @@ LABELS = {   # step: [(text, part, anchor)]; anchors on the part's bounding box 
                  ('M3 x 20 x3', 'hub_screw_M3x20_1', 'ymax'), ('set screw on the D-flat', 'hub_set_screw_M3x4', 'zmax')],
     'plug': [('J903 journal plug', 'J903_journal_plug', 'ymax'), ('M3 x 50', 'sprocket_screw_M3x50', 'ymax')],
     'chain': [('next link: down ahead, pushed back along the strip', 'link:{first}', 'c', .05, .1),   # {..}: numbers from chain_plan()
-              ('bushing: in between the inner ears, from above', 'bush:{first}', 'c', .1, .125),
-              ('pin: through plates, ears and bushing', 'pins:{first}', 'c', .125, .155),
-              ('E-clip onto each groove, from the side', 'clip:{first_clip}', 'c', .155, .182),
+              ('sleeve: in between the inner ears, from above', 'bush:{first}', 'c', .1, .125),
+              ('M3 x 60 screw: through bosses, plates, ears and sleeve', 'pins:{first}', 'c', .125, .155),
+              ('nyloc nut on from inboard, then backed off 1/6 turn', 'nut:{first}', 'c', .155, .182),
               ('strip of 34 links, one joint left open', 'link:{strip}', 'c', .19, .355),
-              ('last bushing, held by a Ø3 x 24 dummy pin', 'dummy:0', 'c', .36, .44),
-              ('idler pushed back to its stop and held', 'J906_idler_wheel', 'zmax', .58, .7),
+              ('last sleeve, held by a Ø3 x 24 dummy pin', 'dummy:0', 'c', .36, .44),
+              ('idler pushed back to its stop; a lock screw holds it', 'lock:0', 'c', .58, .7),
               ('front end lands short in a low arch, then is pressed flat', 'link:{arch_end}', 'c', .7, .765),
-              ('last pin pushes the dummy pin out inboard', 'pins:{open}', 'c', .77, .845),
-              ('2 E-clips, from the side', 'clip:{open_clip}', 'c', .85, .905),
-              ('idler released: the spring tightens the chain', 'J906_idler_wheel', 'zmax', .92, 1)],
+              ('last screw pushes the dummy pin out inboard', 'pins:{open}', 'c', .77, .845),
+              ('nut on, backed off 1/6 turn', 'nut:{open}', 'c', .85, .905),
+              ('lock screw out: the spring tightens the chain', 'J906_idler_wheel', 'zmax', .92, 1)],
 }
 
 
@@ -569,19 +587,23 @@ def sha(path):
 
 
 # --------------------------------------------------------------------------------------------- chain hardware, piece by piece
-# The CAD scene carries each joint's pin, bushing and two E-clips as one merged mesh (j9_scene.json.gz link[1]). They go in one at a
-# time and by different routes (the Ø6 bushing cannot pass the Ø3.2 pin holes), so the animation draws them separately. Sizes are
-# j9_design.py's and j9_parts.chain()'s; hardware_meshes() checks them against the merged mesh and the shoe.
-PIN_R, PIN_HALF = 1.5, 28.0                         # Ø3 x 56 track pin
-BUSH_R, BUSH_BORE, BUSH_HALF = 3.0, 1.55, 8.5       # Ø6 OD x Ø3.1 ID x 17 bushing
-CLIP_R, CLIP_Y, CLIP_HALF_T = 3.0, 26.5, 0.3        # E-clip as the CAD models it: Ø6 x 0.6 on the Ø3 pin, groove 26.5 from the middle
+# The CAD scene carries each joint's screw, nut and sleeve as one merged mesh (j9_scene.json.gz link[1]). They go in one at a time
+# and by different routes (the Ø6 sleeve cannot pass the Ø3.2 holes; the nut comes from the other side), so the animation draws
+# them separately. Sizes are j9_design.py's and j9_parts.chain_hardware()'s; hardware_meshes() checks them against the merged mesh
+# and the shoe.
+PIN_R, SCREW_SEAT, SCREW_L, HEAD_R, HEAD_K = 1.5, 25.0, 60.0, 2.75, 3.0   # M3 x 60: head on the +Y boss (Y 25..28), tip at Y -35
+SCREW_TIP = SCREW_L - SCREW_SEAT                    # 35: how far the tail reaches inboard of the joint's middle
+BUSH_R, BUSH_BORE, BUSH_HALF = 3.0, 1.6, 9.0        # Ø6 OD x Ø3.2 ID x 18 sleeve
+NUT_AF, NUT_M = 5.5, 4.0                            # DIN 985 M3 nyloc on the -Y boss: Y -29..-25, flats parallel to the rail
+NUT_Y = SCREW_SEAT + NUT_M / 2                      # 27: the nut's middle, inboard
 DUMMY_HALF = 12.0                                   # Ø3 x 24 dummy pin: stays inside the inner ears, so the outer plates can come over
-HW_COLORS = dict(bushing=[0.42, 0.45, 0.48], clip=[0.1, 0.1, 0.11], dummy=[0.86, 0.33, 0.12])   # pin: the scene's steel
+EARS, PLATES, BOSS_Y = (9.2, 13.7), (14.0, 21.0), 25.0   # the shoe's faces across the track (|Y|)
+HW_COLORS = dict(bushing=[0.42, 0.45, 0.48], nut=[0.72, 0.74, 0.77], screw=[0.1, 0.1, 0.11], dummy=[0.86, 0.33, 0.12], lock=[0.86, 0.33, 0.12])
 
 
 def prism_y(name, color, outer, inner, y0, y1, closed):
     """Prism along Y between two contours paired point by point, (u, w) -> (x, z): end faces, outer and inner walls, outward
-    winding. closed: both contours are loops (a tube); otherwise an open strip whose two ends close in points (the slotted clip).
+    winding. closed: both contours are loops (a tube); otherwise an open strip whose two ends close in points.
     inner may be the centre repeated (a solid rod)."""
     V, T = [], []
     def vid(p):
@@ -592,7 +614,7 @@ def prism_y(name, color, outer, inner, y0, y1, closed):
         u, v = [q[i] - p[i] for i in range(3)], [r[i] - p[i] for i in range(3)]
         n = [u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0]]
         if math.sqrt(sum(x * x for x in n)) < 1e-9:
-            return                                      # the clip's pointed tips
+            return                                      # a zero-area triangle
         T.append([a, b, c] if sum(x * y for x, y in zip(n, out)) > 0 else [a, c, b])
     m = len(outer)
     segs = list(range(m if closed else m - 1))
@@ -628,34 +650,45 @@ def prism_y(name, color, outer, inner, y0, y1, closed):
     return dict(name=name, color=color, vertices=V, triangles=T)
 
 
+def merged(name, color, *parts):
+    """Several prisms as one mesh."""
+    V, T = [], []
+    for q in parts:
+        T += [[a + len(V), b + len(V), c + len(V)] for a, b, c in q['triangles']]
+        V += q['vertices']
+    return dict(name=name, color=color, vertices=V, triangles=T)
+
+
 def hardware_meshes(scene_link):
-    """The pin, the bushing, the E-clip (mouth toward +X) and the dummy pin, centred on the joint axis (Y)."""
-    merged, shoe = scene_link[1]['vertices'], scene_link[0]['vertices']
-    ys = sorted({round(abs(v[1]), 3) for v in merged})
-    rs = sorted({round(math.hypot(v[0], v[2]), 3) for v in merged})
-    assert ys == [BUSH_HALF, CLIP_Y - CLIP_HALF_T, CLIP_Y + CLIP_HALF_T, PIN_HALF], f'chain hardware lengths changed: {ys}'
-    assert rs == [PIN_R, BUSH_BORE, BUSH_R] and CLIP_R == BUSH_R, f'chain hardware radii changed: {rs}'
-    faces = sorted({round(abs(v[1]), 3) for v in shoe if abs(v[1]) > 6.5})
-    assert faces == [8.7, 13.7, 14.0, 21.0, 35.0], f'shoe ear/plate faces changed: {faces}'
-    ears, plates = faces[0:2], faces[2:4]
-    assert BUSH_HALF < ears[0] and ears[0] + 2 <= DUMMY_HALF <= ears[1] - 1 and plates[1] < CLIP_Y - CLIP_HALF_T, (ears, plates)
-    n = 40
+    """The screw (head toward +Y), the sleeve, the nyloc nut and the dummy pin, centred on the joint axis (Y); the lock screw is
+    the same screw. Checked against the CAD's merged joint hardware and the shoe."""
+    merged_cad, shoe = scene_link[1]['vertices'], scene_link[0]['vertices']
+    ys = sorted({round(abs(v[1]), 3) for v in merged_cad})
+    rs = sorted({round(math.hypot(v[0], v[2]), 3) for v in merged_cad})
+    nut_corner = round(NUT_AF / math.sqrt(3), 3)
+    assert ys == [BUSH_HALF, SCREW_SEAT, SCREW_SEAT + HEAD_K, SCREW_SEAT + NUT_M, SCREW_TIP], f'chain hardware lengths changed: {ys}'
+    assert rs == [PIN_R, BUSH_BORE, HEAD_R, BUSH_R, nut_corner], f'chain hardware radii changed: {rs}'
+    assert max(v[1] for v in merged_cad) == SCREW_SEAT + HEAD_K and min(v[1] for v in merged_cad) == -SCREW_TIP, 'the head is not on the +Y side'
+    faces = {round(abs(v[1]), 3) for v in shoe if abs(v[1]) > 6.5}
+    assert {*EARS, *PLATES, BOSS_Y, 35.0} <= faces, f'shoe ear/plate/boss faces changed: {sorted(faces)}'
+    assert BUSH_HALF < EARS[0] and EARS[0] + 2 <= DUMMY_HALF <= EARS[1] - 1 and PLATES[1] < BOSS_Y == SCREW_SEAT, (EARS, PLATES)
+    n = 36
     circ = lambda r, k: [(r * math.cos(2 * math.pi * i / k), r * math.sin(2 * math.pi * i / k)) for i in range(k)]
-    a = math.asin(PIN_R / CLIP_R)                       # the slot is as wide as the pin: the clip goes on sideways
-    k1, k2 = 8, 24
-    outer = [(CLIP_R * math.cos(t), CLIP_R * math.sin(t)) for t in
-             [a + (math.pi / 2 - a) * i / k1 for i in range(k1)] + [math.pi / 2 + math.pi * i / k2 for i in range(k2)] +
-             [3 * math.pi / 2 + (math.pi / 2 - a) * i / k1 for i in range(k1 + 1)]]
-    tip = CLIP_R * math.cos(a)
-    inner = ([(tip * (1 - i / k1), PIN_R) for i in range(k1)] +
-             [(PIN_R * math.cos(math.pi / 2 + math.pi * i / k2), PIN_R * math.sin(math.pi / 2 + math.pi * i / k2)) for i in range(k2)] +
-             [(tip * i / k1, -PIN_R) for i in range(k1 + 1)])
-    steel = scene_link[1]['color']
+    def hexagon(af, k):                                 # corners on the X axis, so two flats are parallel to the rail
+        out = []
+        for i in range(k):
+            t = 2 * math.pi * i / k
+            d = t % (math.pi / 3) - math.pi / 6           # angle from the middle of the nearest flat (flats at 30, 90, ... degrees)
+            out.append((af / 2 / math.cos(d) * math.cos(t), af / 2 / math.cos(d) * math.sin(t)))
+        return out
+    rod = lambda name, color, r, y0, y1: prism_y(name, color, circ(r, n), [(0, 0)] * n, y0, y1, True)
+    screw = lambda color: merged('M3 x 60 screw', color, rod('shank', color, PIN_R, -SCREW_TIP, SCREW_SEAT), rod('head', color, HEAD_R, SCREW_SEAT, SCREW_SEAT + HEAD_K))
     return dict(
-        pin=prism_y('track pin Ø3 x 56', steel, circ(PIN_R, n), [(0, 0)] * n, -PIN_HALF, PIN_HALF, True),
-        bushing=prism_y('track bushing Ø6 x Ø3.1 x 17', HW_COLORS['bushing'], circ(BUSH_R, n), circ(BUSH_BORE, n), -BUSH_HALF, BUSH_HALF, True),
-        clip=prism_y('E-clip (slotted Ø6 x 0.6)', HW_COLORS['clip'], outer, inner, -CLIP_HALF_T, CLIP_HALF_T, False),
-        dummy=prism_y('dummy pin Ø3 x 24', HW_COLORS['dummy'], circ(PIN_R, n), [(0, 0)] * n, -DUMMY_HALF, DUMMY_HALF, True))
+        pin=screw(HW_COLORS['screw']),
+        bushing=prism_y('track sleeve Ø6 x Ø3.2 x 18', HW_COLORS['bushing'], circ(BUSH_R, n), circ(BUSH_BORE, n), -BUSH_HALF, BUSH_HALF, True),
+        nut=prism_y('M3 nyloc nut', HW_COLORS['nut'], hexagon(NUT_AF, n), circ(PIN_R, n), -NUT_M / 2, NUT_M / 2, True),
+        dummy=rod('dummy pin Ø3 x 24', HW_COLORS['dummy'], PIN_R, -DUMMY_HALF, DUMMY_HALF),
+        lock=screw(HW_COLORS['lock']))
 
 
 # --------------------------------------------------------------------------------------------- fitting the chain
@@ -728,30 +761,30 @@ def chain_plan(cfg):
     # the strip, joint by joint: per strip position i (link (open + i) % n); i = 0 is the first link, its rear joint is the open one
     def w(base, keys, g=1.0):
         return [round(base + g * v, 5) for v in keys]
-    links, ahead, bush, pin, clips = [], [], [], [], []
+    links, ahead, bush, pin, nuts = [], [], [], [], []
     for i in range(n):
         if i == 0:
             links.append([FIRST_LINK[0], FIRST_LINK[1], FIRST_LINK[1]]); ahead.append(0)
-            bush.append(list(LAST_BUSH['bush'])); pin.append(list(JOIN['pin'])); clips.append(list(JOIN['clips']))
+            bush.append(list(LAST_BUSH['bush'])); pin.append(list(JOIN['pin'])); nuts.append(list(JOIN['nut']))
             continue
         if i == 1:
             sch = {k: list(v) for k, v in FIRST_JOINT.items()}
         else:
             t0 = FAST_START + (i - 2) * JOINT_GAP
             sch = {k: w(t0, v, JOINT_GAP) for k, v in FAST_JOINT.items()}
-        links.append(sch['link']); ahead.append(LINK_AHEAD); bush.append(sch['bush']); pin.append(sch['pin']); clips.append(sch['clips'])
-    seq = lambda i: [links[i][0], links[i][2], bush[i][0], bush[i][1], pin[i][0], pin[i][1], clips[i][0], clips[i][1]]
+        links.append(sch['link']); ahead.append(LINK_AHEAD); bush.append(sch['bush']); pin.append(sch['pin']); nuts.append(sch['nut'])
+    seq = lambda i: [links[i][0], links[i][2], bush[i][0], bush[i][1], pin[i][0], pin[i][1], nuts[i][0], nuts[i][1]]
     for i in range(1, n):
         q = seq(i)
-        assert all(x <= y for x, y in zip(q, q[1:])), f'joint {i}: link, bushing, pin and clips out of order {q}'
+        assert all(x <= y for x, y in zip(q, q[1:])), f'joint {i}: link, sleeve, screw and nut out of order {q}'
         assert links[i][0] >= links[i - 1][2], f'link {i} comes down before link {i - 1} is in place'
-    assert FIRST_LINK[1] <= links[1][0] and clips[-1][1] <= LAST_BUSH['bush'][0] < LAST_BUSH['bush'][1] <= LAST_BUSH['dummy'][0]
+    assert FIRST_LINK[1] <= links[1][0] and nuts[-1][1] <= LAST_BUSH['bush'][0] < LAST_BUSH['bush'][1] <= LAST_BUSH['dummy'][0]
     assert LAST_BUSH['dummy'][1] <= CHAIN_T['strip'][1] <= CHAIN_T['lower'][0] and CHAIN_T['lower'][1] < CHAIN_T['rear'][0]
     assert CHAIN_T['rear'][1] < CHAIN_T['push'][0] and CHAIN_T['push'][1] < CHAIN_T['front'][0] < CHAIN_T['front'][1] <= arch['off'][0]
-    assert arch['on'][1] <= arch['off'][0] and arch['off'][1] < JOIN['pin'][0] < JOIN['pin'][1] < JOIN['dummy_gone'] < JOIN['clips'][0]
-    assert JOIN['clips'][1] <= CHAIN_T['join'][1] < CHAIN_T['release'][0]
-    # E-clips go on open side first: on the bench from above (open side toward the link's shoe), the last two from the front
-    mouth = [round(CLIP_FROM_FRONT - th[j], 6) if j == open_ else round(-math.pi / 2, 6) for j in range(n)]
+    assert arch['on'][1] <= arch['off'][0] and arch['off'][1] < JOIN['pin'][0] < JOIN['pin'][1] < JOIN['dummy_gone'] < JOIN['nut'][0]
+    assert JOIN['nut'][1] <= CHAIN_T['join'][1] < CHAIN_T['release'][0]
+    # the lock screw goes in once the idler is at its stop and comes out after the last nut, before the release
+    assert CHAIN_T['push'][1] <= LOCK['t_in'][0] < LOCK['t_in'][1] <= CHAIN_T['front'][0] and JOIN['nut'][1] <= LOCK['t_out'][0] < LOCK['t_out'][1] <= CHAIN_T['release'][0]
     # where the strip lies (flat, in line with the fixed link): first joint and the far end's free ears, for the cameras
     pos = {anchor: P[anchor][0]}
     for k in front:
@@ -761,10 +794,13 @@ def chain_plan(cfg):
     first_joint = (open_ + 1) % n
     ears = pos[(open_ - 1) % n] + cfg['pitch']
     return dict(anchor=anchor, open=open_, joints=joints, arch=arch, t=CHAIN_T, lift=CHAIN_LIFT,
-                links=links, ahead=ahead, up=LINK_UP, bush=bush, bush_up=BUSH_UP, pin=pin, pin_out=PIN_OUT, pin_half=PIN_HALF,
-                clips=clips, clip_off=CLIP_OFF, clip_y=CLIP_Y, mouth=mouth,
+                links=links, ahead=ahead, up=LINK_UP, bush=bush, bush_up=BUSH_UP, pin=pin, pin_out=PIN_OUT, screw_tip=SCREW_TIP,
+                nuts=nuts, nut_out=NUT_OUT, nut_y=NUT_Y,
                 dummy=dict(t=list(LAST_BUSH['dummy']), out=DUMMY_OUT, gone=JOIN['dummy_gone'], half=DUMMY_HALF),
-                strip=(open_ + 3) % n, first=first_joint, first_clip=2 * first_joint + 1, open_clip=2 * open_ + 1, arch_end=(open_ - 1) % n,
+                # the lock screw: its tip ends LOCK['depth'] inside the yoke crossbar's end face (|Y| 27), at the recoil-stop position
+                lock=dict(x=round(LOCK['x_running'] - RECOIL, 3), z=cfg['idler'][1], y=round(27.0 - LOCK['depth'] + .4 + SCREW_TIP, 3), out=LOCK['out'],
+                          t_in=list(LOCK['t_in']), t_out=list(LOCK['t_out'])),
+                strip=(open_ + 3) % n, first=first_joint, arch_end=(open_ - 1) % n,
                 bench=dict(z=zb, first_x=pos[first_joint], ears_x=ears),
                 facts=dict(open_joint_pin=open_, open_joint_xz=[round(v, 2) for v in P[open_]], fixed_link=anchor,
                            strip_length_mm=round(cfg['pitch'] * n, 1), sides=groups,
@@ -810,17 +846,16 @@ def tri_box(a, b, c, lo, hi):
 
 
 def open_joint_access(cfg, unit, x101, track_y, plan):
-    """Room at the last joint, against every module part in its fitted pose and X101 (both sides): outboard for the last pin's whole
-    travel, inboard for the dummy pin it pushes out, and on both sides for an E-clip pushed on from the front and for fingers and
-    pliers. Each box runs from the outer plates' faces (|Y| 21) outward, from 10 mm behind the joint to beyond the clip's start, and
-    from just under the pin to 35 mm above it."""
+    """Room at the last joint, against every module part in its fitted pose and X101 (both sides): outboard for the last screw's whole
+    travel and the hex key, inboard for the dummy pin it pushes out, for the nut coming onto the tail and for fingers and a spanner.
+    Each box runs from the seat bosses' faces (|Y| 25) outward, 10 mm either side of the joint along the run, and from just under
+    the screw to 35 mm above it."""
     px, pz = cfg['pins'][plan['open']]
-    assert abs(math.cos(CLIP_FROM_FRONT + math.pi)) > .99, 'the box below assumes the last clips come in along +X'
-    reach = dict(outboard=PIN_OUT + PIN_HALF + 2, inboard=PIN_HALF + 2 * DUMMY_HALF + 3)
+    reach = dict(outboard=PIN_OUT + SCREW_SEAT + HEAD_K + 2, inboard=max(SCREW_TIP + 2 * DUMMY_HALF + 3, NUT_Y + NUT_OUT + NUT_M + 12))
     out = {}
     for side, sg in (('inboard', -1), ('outboard', 1)):
-        y0, y1 = sorted([sg * 21.0, sg * reach[side]])
-        lo, hi = [px - 10, y0, pz - 6], [px + CLIP_OFF + CLIP_R + 2, y1, pz + 35]
+        y0, y1 = sorted([sg * BOSS_Y, sg * reach[side]])
+        lo, hi = [px - 10, y0, pz - 6], [px + 10, y1, pz + 35]
         meshes = [(p['name'], p['vertices'], p['triangles'], 1, 0) for p in unit]
         meshes += [(f'X101 ({s})', x101['vertices'], x101['triangles'], sg, track_y) for s, sg in (('left', 1), ('right', -1))]
         hits = []
@@ -831,6 +866,21 @@ def open_joint_access(cfg, unit, x101, track_y, plan):
         out[side] = dict(box_min=[round(v, 1) for v in lo], box_max=[round(v, 1) for v in hi], clashes=hits)
         assert not hits, f'the last chain joint is not clear on the {side} side: {hits}'
     return out
+
+
+def lock_pin_check(unit, plan):
+    """The lock-pin holes exist where the animation puts the lock screw: a Ø3.2 hole in each end of the J908 crossbar (running
+    position) and one through the J901 outer wall, RECOIL further back."""
+    yoke = next(p for p in unit if p['name'] == 'J908_U_yoke')['vertices']
+    frame = next(p for p in unit if p['name'] == 'J901_H_frame')['vertices']
+    z = plan['lock']['z']
+    on = lambda vs, x, y0: [v for v in vs if abs(math.hypot(v[0] - x, v[2] - z) - LOCK['r']) < .02 and y0(v[1])]
+    yk = {sg: len(on(yoke, LOCK['x_running'], lambda y: sg * y > 26.9)) for sg in (-1, 1)}
+    wall = len(on(frame, plan['lock']['x'], lambda y: y > LOCK['wall_y'] - .05))
+    inner = len(on(frame, plan['lock']['x'], lambda y: y < -LOCK['wall_y'] + .05))
+    assert min(yk.values()) >= 8 and wall >= 16 and inner == 0, f'lock-pin holes not found: yoke {yk}, outer wall {wall}, inner wall {inner}'
+    return dict(yoke_hole_rim_points=yk, outer_wall_hole_rim_points=wall, x_at_recoil_stop=plan['lock']['x'], hole_d=2 * LOCK['r'],
+                depth_in_yoke_mm=LOCK['depth'])
 
 
 # --------------------------------------------------------------------------------------------- main
@@ -868,7 +918,7 @@ def main(package):
     n_links = len(cfg['pins'])
     pieces['J910'] = set(range(n_links))
     counts = {k: len(v) for k, v in pieces.items()}
-    counts.update(trackpin=n_links, bushing=n_links, clip=2 * n_links)
+    counts.update(trackscrew=n_links, bushing=n_links, tracknut=n_links)
     expect = {k: v for k, v in per_track.items()}
     report['scene_counts_per_track'] = counts
     assert counts == expect, f'scene {counts} != list {expect}'
@@ -887,7 +937,8 @@ def main(package):
     plan = chain_plan(cfg)
     x101 = next(c for c in chassis if c['name'] == 'X101_X_frame')
     report['chain_fitting'] = dict(plan['facts'], schedule=CHAIN_T,
-                                   last_joint_access=open_joint_access(cfg, j9['unit'], x101, x1['config']['track_y'], plan))
+                                   last_joint_access=open_joint_access(cfg, j9['unit'], x101, x1['config']['track_y'], plan),
+                                   lock_pin=lock_pin_check(j9['unit'], plan))
 
     joints = sorted({re.search(r'_([LR]\d\d)$', c['name'])[1] for c in chassis if c['name'].startswith('mount_')})
     order = {j: i for i, j in enumerate(joints)}
@@ -898,10 +949,12 @@ def main(package):
     meshes = hardware_meshes(j9['link'])
     hw = {k: pack(v, {}) for k, v in meshes.items()}
     report['chain_hardware'] = dict(
-        source='drawn separately; sizes checked against the CAD merged pin + bushing + 2 clips mesh and the shoe (j9_scene.json.gz link)',
-        pin=f'Ø{2 * PIN_R:g} x {2 * PIN_HALF:g}', bushing=f'Ø{2 * BUSH_R:g} OD x Ø{2 * BUSH_BORE:g} ID x {2 * BUSH_HALF:g}',
-        clip=f'Ø{2 * CLIP_R:g} x {2 * CLIP_HALF_T:g} at Y ±{CLIP_Y:g}, slotted as wide as the pin so it goes on sideways',
+        source='drawn separately; sizes checked against the CAD merged screw + nut + sleeve mesh and the shoe (j9_scene.json.gz link)',
+        screw=f'M3 x {SCREW_L:g}: shank Ø{2 * PIN_R:g}, head Ø{2 * HEAD_R:g} x {HEAD_K:g} seated at Y +{SCREW_SEAT:g}, tip at Y -{SCREW_TIP:g}',
+        sleeve=f'Ø{2 * BUSH_R:g} OD x Ø{2 * BUSH_BORE:g} ID x {2 * BUSH_HALF:g}',
+        nut=f'M3 nyloc, {NUT_AF:g} AF x {NUT_M:g}, on the tail at Y -{SCREW_SEAT:g}..-{SCREW_SEAT + NUT_M:g}',
         dummy_pin=f'Ø{2 * PIN_R:g} x {2 * DUMMY_HALF:g} (assembly aid, inside the inner ears)',
+        lock_pin='a spare track screw in the Ø3.2 hole of the outer wall, 8 mm into the yoke at the recoil stop',
         triangles={k: len(v['triangles']) for k, v in meshes.items()})
     chas = [pack(c, dict(item=kit_id(c['name']), anim=chassis_anim(c, order))) for c in chassis]
     byname = {p['name']: p for p in j9['unit'] + chassis}
@@ -927,7 +980,7 @@ def main(package):
             for c in chassis:
                 items.setdefault(kit_id(c['name']), set()).add(c['name'])
         if s['id'] == 'chain':
-            items.update(J910=set(range(n_links)), trackpin=set(range(n_links)), bushing=set(range(n_links)), clip=set(range(2 * n_links)))
+            items.update(J910=set(range(n_links)), trackscrew=set(range(n_links)), bushing=set(range(n_links)), tracknut=set(range(n_links)))
         d['items'] = [[k, len(v)] for k, v in items.items()]
         steps.append(d)
     placed = {}
@@ -998,12 +1051,14 @@ def notes(stl):
           'Diagonal placements leave little room for a brim or the purge line; check the slicer preview.']),
         ('Filament.', f'All the parts for two tracks are {n["solid_volume_cm3"]} cm³, {n["solid_petg_kg"]} kg of PETG if printed fully solid (the upper bound). '
          f'With the settings above a rough shell estimate (not a slicer result) is {n["estimate_petg_kg"]} kg, plus support material, most of it under the '
-         'H-frames\' inner walls. Where the design gives no infill (H-frame, idler, shoes, housing) the estimate assumes 4 walls and 40 % '
-         '(housing: 3 walls, 15 %). Three 1 kg spools leave room for the supports, the fit-check prints and a failed print; '
-         'check the slicer total.', []),
+         'H-frames\' inner walls. Where the design gives no infill (H-frame, idler, housing) the estimate assumes 4 walls and 40 % '
+         '(housing: 3 walls, 15 %). Sliced on 2026-11-14 (PrusaSlicer 2.9.2, 0.2 mm layers, 256 mm bed, these settings with 5 walls and 20 % for the '
+         'H-frames): about 96 hours and 1.76 kg for both tracks, 0.20 kg of it support. Three 1 kg spools leave room for the fit-check prints '
+         'and a failed print; check your own slicer total.', []),
         ('Print the fit checks first.', 'The bearing seats, the plug journal and the pin bores are nominal sizes that have not been printed yet. '
-         'Before the long frames, print two shoes, one roller, one idler wheel, one spacer, one plug and one sprocket, and check them against the real parts:',
-         ['two shoes with a pin, a bushing and two clips: the joint articulates freely and the clips seat in the grooves;',
+         'Before the long frames, print four shoes, one roller, one idler wheel, one spacer, one plug and one sprocket, and check them against the real parts:',
+         ['four shoes joined with the real screws, sleeves and nuts: every joint swings under its own weight, and wrapped round the sprocket the teeth '
+          'enter between the ears without help;',
           'one roller: both 624ZZ press in flush without cracking the seat;',
           'one idler wheel: each 608ZZ slides in by hand through its Ø22.6 bore and presses home against the central web, 13 mm below the face '
           '(trim any bridge sag on the bed side first);',
@@ -1058,13 +1113,18 @@ def markdown(stl):
          'The subsystem lists stay authoritative: [J9 BOM](BOM.md), [X1 BOM](../X1/BOM.md).', '',
          f'- **Print:** {t["printed_pieces"]} parts plus {t["shoes"]} track shoes, from {t["printed_files"]} STL files ({t["printed_designs"]} designs; '
          'the H-frame and the housing come as a left and a mirrored right file).',
-         f'- **Buy:** {t["bought"]} standard parts, plus the chain hardware ({2 * 34} pins, {2 * 34} bushings, {4 * 34} E-clips).',
+         f'- **Buy:** {t["bought"]} standard parts, plus the chain hardware ({2 * 34} M3 x 60 screws, {2 * 34} sleeves, {2 * 34} nyloc nuts).',
          '- **Installation animation:** [install_animation.html](install_animation.html). Open it offline in any browser. It plays the fitting order '
          'step by step, with the parts, tools and checks for each step, and has the same parts list in its "Parts list" tab.',
          '- **Parts showcase:** [parts_showcase.html](parts_showcase.html). Every part to print or buy in 3D, offline: turn it, see it on the '
          'print bed or as fitted, cut it open, read its dimensions on the model (each checked against the STL or CAD mesh) and its '
          'material and print settings, and find it in the track.',
-         '- **Status:** nothing has been printed or assembled yet. The fits, strength and powered running are nominal CAD only (see the end of this page).', '',
+         '- **Status:** nothing has been printed or assembled yet. The fits, strength and powered running are nominal CAD only (see the end of this page).',
+         '- **Shoe revision B (2026-11-14).** The pre-print review found three faults in the earlier shoe: the pins could slide sideways until an '
+         'E-clip was under a roller flange, neighbouring links were 0.045 mm apart, and the sprocket teeth had 0.2 mm of side clearance between '
+         'the ears. The shoe now takes an M3 x 60 screw and a nyloc nut on seat bosses, keeps 0.6 mm between neighbours and gives the teeth 0.7 mm '
+         'a side. A J910 printed from a file older than 2026-11-14 is the earlier shoe: do not use it. The H-frame and the yoke changed the same day '
+         '(lock-pin hole, deeper insert bores, wider roller bosses, more side room in the grooves).', '',
          '## 1. Parts to print', '',
          '| Part | Prints for two tracks | STL file | Size as printed, mm | Material and settings | Orientation | Notes |', '|---|---|---|---|---|---|---|']
     for i in PRINTED:
@@ -1088,7 +1148,7 @@ def markdown(stl):
     first = {}
     for p in json.loads(gzip.decompress((HERE / 'j9_scene.json.gz').read_bytes()))['unit']:
         first.setdefault(kit_id(p['name']), STEPS[module_anim(p['name'])[0]['s']]['id'])
-    first.update(trackpin='chain', bushing='chain', clip='chain')
+    first.update(trackscrew='chain', bushing='chain', tracknut='chain')
     for cat in ('Drive and bearings', 'Screws, nuts and inserts', 'Track chain'):
         L += [f'### {cat}', '', '| Part | For two tracks | Per track | Notes | Step |', '|---|---|---|---|---|']
         for i in [s for s in STANDARD + CHAIN if s['cat'] == cat]:
@@ -1120,9 +1180,7 @@ def markdown(stl):
     L += ['', 'Full instructions: [J9 assembly](ASSEMBLY.md) (one track) and [X1 assembly](../X1/ASSEMBLY.md) (the chassis joints).', '',
           '## 5. Still to verify on the real parts', '']
     L += [f'- **{a}** {b}' for a, b in VERIFY]
-    L += ['',
-          'DIN 6799 size 2.3 is listed for Ø3-4 mm shafts by [Würth](https://eshop.wuerth.de/Lock-washer-For-shafts-DIN-6799-phosphated-steel-WSH-LOK-SHFT-DIN6799-PHR-D23/049023.sku/en/US/EUR) '
-          'and [Böllhoff](https://eshop-ro.boellhoff.com/out/media/pdf/DIN_6799_Stahl_Federstahl___en.pdf). Cut the pin grooves to the clip supplier\'s drawing.', '']
+    L += ['']
     return '\n'.join(L)
 
 

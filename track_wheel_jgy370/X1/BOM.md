@@ -35,7 +35,7 @@ Materials and settings for the J9 parts are in [J9's BOM](../J9/BOM.md).
 | M4 nut (ISO 4032), 7 mm across flats × 3.2 mm thick | 8 | External to the J901 main plate, behind a washer. Hold with a compact 7 mm nut-holding tool while tightening with rear sprocket and chain removed; rollers and their axles are already fitted. |
 | M4 washer, Ø9 outside / Ø4.4 bore × 0.8 mm | 16 | One under each mounting screw head and each external nut. |
 | M3 × 8 countersunk screw (ISO 10642) | 4 | Belly cover, from below: 5 mm in the insert. |
-| M3 heat-set insert (hole Ø4.0 × 5.7, as J9) | 4 | Cover bosses inside the carbody. |
+| M3 heat-set insert, up to 5.7 long (hole Ø4.0 × 5.7; the same insert as J9) | 4 | Cover bosses inside the carbody. |
 
 ## Bought for the two tracks: 104 pieces
 
@@ -46,11 +46,13 @@ These are two revised J9 sets of 52 pieces each; see [J9's BOM](../J9/BOM.md).
 
 ## Track hardware (two J9 tracks)
 
+J910 revision B (2026-11-14); see [J9's BOM](../J9/BOM.md).
+
 | Item | Qty |
 |---|---|
-| Ø3 × 56 steel track pin | 68 |
-| Ø6 / Ø3.1 × 17 steel bushing | 68 |
-| Pin clip | 136 |
+| M3 × 60 socket head screw (ISO 4762), partly threaded: 18 mm of thread | 68 (plus spares; one serves as the lock pin when a chain is closed) |
+| Steel sleeve Ø6 / Ø3.2 × 18 | 68 |
+| M3 nyloc nut (DIN 985) | 68 |
 
 ## Not counted
 

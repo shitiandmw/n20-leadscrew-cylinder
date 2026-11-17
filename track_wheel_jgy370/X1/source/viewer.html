@@ -34,7 +34,7 @@ function buildTrack(side){const g=new THREE.Group();g.position.set(0,side*TY,0);
  for(const q of modGeo){const m=new THREE.Mesh(q.g,q.m);const mir=side<0&&MIRRORED.includes(q.p.name)?' &ndash; mirrored print':'';m.userData={name:`${q.p.name} (${label} track${mir})`,group:'module',j9group:q.p.group,trackSide:side,part:q.p.name,springCut:side>0&&q.p.name==='J901_H_frame'};if(m.userData.springCut)m.material=m.material.clone();(groups[q.p.group]?groups[q.p.group].i:g).add(m);meshes.push(m)}
  const chain=new THREE.Group();g.add(chain);const shoes=[],pins=[];
  for(let j=0;j<V.pins.length;j++){const s=new THREE.Mesh(linkGeo[0].g,linkGeo[0].m);s.userData={name:`J910_track_shoe_70 (${label} track, link ${j})`,group:'track'};chain.add(s);shoes.push(s);
-  const q=new THREE.Mesh(linkGeo[1].g,linkGeo[1].m);q.userData={name:`track pin, bushing and clips (${label} track)`,group:'track'};chain.add(q);pins.push(q)}
+  const q=new THREE.Mesh(linkGeo[1].g,linkGeo[1].m);q.userData={name:`track screw, sleeve and nut (${label} track)`,group:'track'};chain.add(q);pins.push(q)}
  tracks.push({side,g,groups,chain,shoes,pins})}
 buildTrack(1);buildTrack(-1);
 function explodeOffset(p){const n=p.name;if(n==='X102_belly_cover')return [0,0,-40];if(n.startsWith('cover_screw'))return [0,0,-62];if(n.startsWith('RU66'))return [0,0,45];if(n.startsWith('seat_screw'))return [0,0,80];

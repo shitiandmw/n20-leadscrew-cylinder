@@ -373,6 +373,7 @@ def printed_dims(cfg):
     MOTOR_HOLES = [(DX + x, AZ + z) for x in (-9.0, 24.0) for z in (-9.0, 9.0)]
     HOUSING_SCREWS = [(-103.0, 71.0), (-15.0, 33.0), (85.0, 56.0), (85.0, 32.0)]
     yoke_x0 = 36.0 + 25.8                                       # WEB_X[1] + SPRING_SET: front of the yoke base
+    lock_x = yoke_x0 - 4.2 + 4.0                                # j9_design LOCK_PIN: middle of the yoke base at the recoil stop
     sx, sz = HOUSING_SCREWS[1]
     can_y = -30.0 - 13.2                                        # CAN_Y
     nose_x = -110.0 + 62.3 + 10 + .8                            # NOSE_X
@@ -402,8 +403,8 @@ def printed_dims(cfg):
             ci((MOTOR_HOLES[1][0], -26.5, MOTOR_HOLES[1][1]), 'y', 1.7, (-28, -25)), (-14, 0, 0), grp='Drive'),
         DIA('Roller axle holes (7)', (0, 27, 22), 'y', 2.2, (23.3, 30), key=True, grp='Rollers', note='M4 × 70 axles.'),
         DIA('Head recesses for the axle screws (7)', (0, PLATE, 22), 'y', 3.7, (-34, -30), text='Ø{v} × 4', exact=True, grp='Rollers'),
-        DIA('Roller bosses on the inner faces', (0, 23.3, 22), 'y', 2.8, (23.3, 24), text='Ø{v} × 0.7', exact=True, grp='Rollers',
-            note='They touch only the 624 inner rings, so each roller floats about 0.3 mm between the walls.'),
+        DIA('Roller bosses on the inner faces', (0, 23.3, 22), 'y', 3.1, (23.3, 24), text='Ø{v} × 0.7', exact=True, grp='Rollers',
+            note='They touch only the 624 inner rings (shoulder Ø6.95), so each roller floats about 0.3 mm between the walls.'),
         LEN('Road roller pitch', ci((-29, 27, 22), 'y', 2.2, (23.3, 30)), ci((0, 27, 22), 'y', 2.2, (23.3, 30)), (0, 0, -14), key=True, grp='Rollers'),
         LEN('Support roller spacing', ci((-35, 27, cfg['rollers']['support0'][1]), 'y', 2.2, (23.3, 30)),
             ci((35, 27, cfg['rollers']['support1'][1]), 'y', 2.2, (23.3, 30)), (0, 0, 14), grp='Rollers'),
@@ -411,11 +412,14 @@ def printed_dims(cfg):
             note='The J908 piston (Ø15.6) slides in it; the spring sits on its floor.'),
         DIA('Spring guide outside', (54.4, 0, AZ), 'x', 10.6, (52, 56.8), grp='Tensioner'),
         DIA('Spring pilot', (30, 0, AZ), 'x', 5.5, (28, 32), text='Ø{v} × 4', exact=True, grp='Tensioner', note='Inside the spring (ID 11.58).'),
-        LEN('Yoke groove depth (both walls)', pl((80, WIN, AZ + 12), 'y'), pl((80, 27.2, AZ + 6.5), 'y'), (0, 0, 2.7), grp='Tensioner',
-            note='The 3 mm yoke arms slide in them.'),
+        LEN('Yoke groove depth (both walls)', pl((80, WIN, AZ + 12), 'y'), pl((80, 27.5, AZ + 6.5), 'y'), (0, 0, 2.7), grp='Tensioner',
+            note='The 3 mm yoke arms slide in them, 0.5 mm clear sideways.'),
         LEN('Yoke groove height', pl((80, 25.6, AZ - 8.2), 'z'), pl((80, 25.6, AZ + 8.2), 'z'), (10, 0, 0), grp='Tensioner'),
-        DIA('Insert holes in the housing standoffs (4)', (sx, -35.5, sz), 'y', 2.0, (-35.5, -29.8), text='Ø{v} × 5.7 deep', key=True, exact=True,
-            grp='Housing standoffs', note='Blind, for M3 heat-set inserts.'),
+        DIA('Lock-pin hole (outer wall)', (lock_x, WOUT, AZ), 'y', 1.6, (27.5, WOUT), key=True, exact=True, grp='Tensioner',
+            note='Through the groove floor. With the idler pushed back to its stop it lines up with a hole in the yoke: an M3 screw '
+                 'pushed in holds the idler back while the chain is closed.'),
+        DIA('Insert holes in the housing standoffs (4)', (sx, -35.5, sz), 'y', 2.0, (-35.5, -28.5), text='Ø{v} × 7 deep', key=True, exact=True,
+            grp='Housing standoffs', note='Blind, for M3 heat-set inserts up to 5.7 mm long: 1.3 mm of room below the insert.'),
         DIA('Housing standoffs (4)', (sx, -34.75, sz), 'y', 4.0, (-35.5, -34), grp='Housing standoffs'),
         LEN('X101 joint seat width (2)', pl((63.5 - 14.15, -33.2, 65), 'x'), pl((63.5 + 14.15, -33.2, 65), 'x'), (0, 0, 14), key=True,
             grp='X101 joints', note='The 28 mm X101 arm end sits in it, 0.15 mm clear each side.'),
@@ -443,10 +447,10 @@ def printed_dims(cfg):
     ])
     d['J902'] = ('J902_sprocket', [
         DIA('Tooth tips', (DX, 0, AZ), 'y', 40.8205, (-8.5, 8.5), key=True, gap=40, grp='Teeth'),
-        REFC('Pitch circle (bushing centres)', (DX, 8.5, AZ), 'y', cfg['pitch_r'], text=f'Ø{fmt(2 * cfg["pitch_r"])}', grp='Teeth', key=True,
+        REFC('Pitch circle (sleeve centres)', (DX, 8.5, AZ), 'y', cfg['pitch_r'], text=f'Ø{fmt(2 * cfg["pitch_r"])}', grp='Teeth', key=True,
              note=f'12 teeth on a {fmt(cfg["pitch"])} mm pitch: {fmt(cfg["pitch"])} / sin 15°.'),
         LEN('Tooth disc thickness', pl((DX + 30, -8.5, AZ), 'y'), pl((DX + 30, 8.5, AZ), 'y'), (0, 0, 16), key=True, grp='Teeth',
-            note='As long as the 17 mm bushings.'),
+            note='Runs between the links\' inner ears (18.4 apart): 0.7 mm clear each side.'),
         DIA('Ring round the recess', (DX, -9.25, AZ), 'y', 18.5, (-10.0, -8.5), text='Ø{v} × 1.5', grp='Coupling side'),
         DIA('Recess for the coupling flange', (DX, -10.0, AZ), 'y', 16.2, (-10.0, -9.0), text='Ø{v} × 1 deep', key=True, exact=True,
             grp='Coupling side', note='Centres the Ø32 flange of the coupling.'),
@@ -476,7 +480,7 @@ def printed_dims(cfg):
     ])
     ic = lambda y: (IX, y, AZ)
     d['J906'] = ('J906_idler_wheel', [
-        DIA('Centre drum (bushings run on it)', ic(0), 'y', 35.237, (-7, 7), key=True, exact=True, grp='Running surfaces'),
+        DIA('Centre drum (sleeves run on it)', ic(0), 'y', 35.237, (-7, 7), key=True, exact=True, grp='Running surfaces'),
         DIA('Rails (link running faces)', ic(18), 'y', 33.17, (15, 21.6), grp='Running surfaces'),
         DIA('Guide flanges', ic(22.3), 'y', 35.17, (21.6, 23), text='Ø{v} × 1.4', exact=True, grp='Running surfaces'),
         DIA('608ZZ seats (both sides)', ic(10.5), 'y', 11.1, (3, 10.5), text='Ø{v} × 7.5', key=True, exact=True, grp='Bearing seats',
@@ -494,25 +498,32 @@ def printed_dims(cfg):
     d['J908'] = ('J908_U_yoke', [
         DIA('Idler pin holes', (IX, 27, AZ), 'y', 4.05, (24, 27), key=True, exact=True, grp='Arms', note='Ø8 × 55 steel pin.'),
         LEN('Arm thickness', pl((95, 24, AZ), 'y'), pl((95, 27, AZ), 'y'), (0, 0, 12), key=True, grp='Arms',
-            note='Slides in the frame\'s 3.2 mm grooves.'),
+            note='Slides in the frame\'s 3.5 mm grooves.'),
         LEN('Arm height', pl((95, 25.5, AZ - 8), 'z'), pl((95, 25.5, AZ + 8), 'z'), (8, 0, 0), grp='Arms'),
         LEN('Between the arms', pl((95, -24, AZ), 'y'), pl((95, 24, AZ), 'y'), (0, 0, -12), grp='Arms', note='The idler and its two spacers.'),
         DIA('Piston', (57.8, 0, AZ), 'x', 7.8, (53.8, yoke_x0), text='Ø{v} × 8', key=True, exact=True, grp='Piston',
             note='Slides in the frame\'s Ø16.4 bore.'),
         DIA('Spring pilot', (51.8, 0, AZ), 'x', 5.5, (49.8, 53.8), text='Ø{v} × 4', key=True, exact=True, grp='Piston'),
+        DIA('Lock-pin holes (both ends of the crossbar)', (yoke_x0 + 4.0, 27, AZ), 'y', 1.6, (19, 27), text='Ø{v} × 8 deep', key=True, exact=True,
+            grp='Crossbar', note='One at each end, so the same print fits both tracks. See the lock-pin hole of J901.'),
     ])
-    d['J910'] = ('link', [
-        LEN('Pitch', ci((-10, 17.5, 0), 'y', 1.6, (14, 21)), ci((10, 11.2, 0), 'y', 1.6, (8.7, 13.7)), (0, 0, 9), key=True, grp='Joint'),
-        DIA('Pin holes', (-10, 21, 0), 'y', 1.6, (14, 21), key=True, exact=True, grp='Joint',
-            note='The Ø3 pin goes through; the Ø6 bushing cannot, so it goes in between the ears first.'),
+    d['J910'] = ('link', [   # revision B (2026-11-14)
+        LEN('Pitch', ci((-10, 17.5, 0), 'y', 1.6, (14, 21)), ci((10, 11.45, 0), 'y', 1.6, (9.2, 13.7)), (0, 0, 9), key=True, grp='Joint'),
+        DIA('Screw holes', (-10, 21, 0), 'y', 1.6, (14, 25), key=True, exact=True, grp='Joint',
+            note='The M3 screw goes through; the Ø6 sleeve cannot, so it goes in between the ears first.'),
+        LEN('Over the screw seats', pl((-10, -25, -2), 'y'), pl((-10, 25, -2), 'y'), (0, 0, -9), key=True, grp='Joint',
+            note='The screw head sits on one seat and the nut on the other: an M3 × 60 screw, not × 50.'),
+        LEN('Seat bosses below the rail', pl((-7, 23, .8), 'z'), pl((-7, 17.5, 4), 'z'), (-9, 0, 0), grp='Joint',
+            note='The roller flanges pass over the bosses with 1.2 mm to spare.'),
         LEN('Over the outer plates', pl((0, -21, 2), 'y'), pl((0, 21, 2), 'y'), (0, 0, 10), grp='Joint'),
         LEN('Between the outer plates', pl((0, -14, 2), 'y'), pl((0, 14, 2), 'y'), (0, 0, 7), grp='Joint'),
         LEN('Over the inner ears', pl((10, -13.7, 2), 'y'), pl((10, 13.7, 2), 'y'), (0, 0, 7), grp='Joint',
             note='Fits between the next link\'s outer plates (28).'),
-        LEN('Between the inner ears', pl((10, -8.7, 2), 'y'), pl((10, 8.7, 2), 'y'), (0, 0, 4), key=True, grp='Joint',
-            note='The 17 mm bushing: 0.2 mm clear each side.'),
-        DIA('Plate end hollow', (10, 21, 0), 'y', 4.3, (14, 21), text='R{v}', rad=True, gap=240, grp='Joint',
-            note='The next link\'s rounded R4 plate end nests in it, so links go together only along the strip.'),
+        LEN('Between the inner ears', pl((10, -9.2, 2), 'y'), pl((10, 9.2, 2), 'y'), (0, 0, 4), key=True, grp='Joint',
+            note='The 18 mm sleeve: 0.2 mm clear each side. The 17 mm sprocket: 0.7 mm each side.'),
+        DIA('Plate end hollow', (10, 21, 0), 'y', 4.6, (14, 21), text='R{v}', rad=True, gap=240, grp='Joint',
+            note='The next link\'s rounded R4 plate end turns in it, 0.6 mm clear. The same radius is cut into the shoe plate under the '
+                 'next link\'s plate ends and ears.'),
         LEN('Shoe plate', pl((3, 30, -6), 'z'), pl((3, 30, -4), 'z'), (0, 6, 0), grp='Shoe'),
         LEN('Grousers (3 per shoe)', pl((3, 30, -6), 'z'), pl((0, 30, -7), 'z'), (0, 6, 0), text='{v} high × 2 wide', grp='Shoe'),
         DIA('Holes in the shoe plate (2)', (0, 5, -4), 'z', 1.2, (-7, -4), grp='Shoe'),
@@ -642,25 +653,33 @@ def bought_dims(cfg):
         SPEC('Standard and tool', 'DIN 985 (nylon ring); 7 mm spanner. Snug only: the rollers must still spin.', grp='Nut'),
     ])
     d['insert'] = ('insert_M3_0', [
-        DIA('Hole it goes in (as modelled)', (hx, -35.5, hz), 'y', 2.0, (-35.5, -29.8), text='Ø{v} × 5.7', key=True, exact=True, grp='Insert'),
+        DIA('Body (as modelled)', (hx, -35.5, hz), 'y', 2.0, (-35.5, -29.8), text='Ø{v} × 5.7', key=True, exact=True, grp='Insert'),
         DIA('Thread', (hx, -29.8, hz), 'y', 1.5, (-35.5, -29.8), text='M3', exact=True, grp='Insert'),
-        SPEC('Choose', 'An M3 heat-set insert made for a Ø4.0 hole, no longer than 5.7 mm', grp='Insert'),
+        SPEC('Hole in J901', 'Ø4.0 × 7 deep: 1.3 mm of room below a 5.7 mm insert', grp='Insert'),
+        SPEC('Choose', 'An M3 heat-set insert made for a Ø4.0 hole (outside Ø4.5-4.6), no longer than 5.7 mm', grp='Insert'),
     ])
-    d['trackpin'] = ('pin', [
-        DIA('Diameter', (0, 28, 0), 'y', 1.5, (-28, 28), key=True, exact=True, grp='Pin'),
-        LEN('Length', pl((.7, -28, 0), 'y'), pl((.7, 28, 0), 'y'), (0, 0, 6), key=True, grp='Pin'),
-        SPEC('E-clip grooves', '1.5 mm from each end (centres 26.5 each side of the middle, 53 apart), sized for DIN 6799 size 2.3 (groove Ø2.3); '
-             'not modelled', grp='Pin'),
+    # the chain's joint hardware, each in its own frame on the joint axis (build_track_kit.hardware_meshes)
+    d['trackscrew'] = ('pin', [
+        DIA('Shank', (0, 25, 0), 'y', 1.5, (-35, 25), key=True, exact=True, grp='Screw', show=-5),
+        LEN('Length under the head', pl((.7, -35, 0), 'y'), pl((2.2, 25, 0), 'y'), (0, 0, 7), key=True, grp='Screw',
+            note='The two seats are 50 mm apart; the nut takes 4 mm more. M3 × 50 is too short.'),
+        DIA('Head', (0, 28, 0), 'y', 2.75, (25, 28), text='Ø{v} × 3', exact=True, grp='Screw'),
+        SPEC('Thread', 'M3, on the last 18 mm only (partly threaded, as ISO 4762 gives for this length): the sleeve and the inner ears '
+             'turn on smooth shank. A fully threaded screw would wear the printed eyes.', grp='Screw'),
+        SPEC('Standard and key', 'ISO 4762 socket head, class 12.9 or stainless A2-70; 2.5 mm hex key', grp='Screw'),
     ])
     d['bushing'] = ('bushing', [
-        DIA('Outside', (0, 8.5, 0), 'y', 3.0, (-8.5, 8.5), key=True, exact=True, grp='Bushing', note='The sprocket teeth drive on it.'),
-        DIA('Bore', (0, 8.5, 0), 'y', 1.55, (-8.5, 8.5), key=True, exact=True, grp='Bushing', note='Must slip freely on the Ø3 pin.'),
-        LEN('Length', pl((2.3, -8.5, 0), 'y'), pl((2.3, 8.5, 0), 'y'), (0, 0, 7), key=True, grp='Bushing'),
+        DIA('Outside', (0, 9, 0), 'y', 3.0, (-9, 9), key=True, exact=True, grp='Sleeve', note='The sprocket teeth drive on it.'),
+        DIA('Bore', (0, 9, 0), 'y', 1.6, (-9, 9), key=True, exact=True, grp='Sleeve', note='Must slip freely on the M3 screw.'),
+        LEN('Length', pl((2.3, -9, 0), 'y'), pl((2.3, 9, 0), 'y'), (0, 0, 7), key=True, grp='Sleeve',
+            note='18.4 mm between the inner ears. A sleeve cut to 17 mm also fits.'),
     ])
-    d['clip'] = ('clip', [
-        DIA('Outside (as modelled)', (0, .3, 0), 'y', 3.0, (-.3, .3), key=True, exact=True, gap=70, grp='E-clip'),
-        LEN('Thickness (as modelled)', pl((-2.3, -.3, 0), 'y'), pl((-2.3, .3, 0), 'y'), (0, 0, 5), key=True, grp='E-clip'),
-        SPEC('Size', 'DIN 6799 size 2.3: for a Ø2.3 groove on Ø3-4 shafts', grp='E-clip'),
+    d['tracknut'] = ('nut', [
+        LEN('Across flats', pl((0, 0, -2.75), 'z'), pl((0, 0, 2.75), 'z'), (0, 0, 0), key=True, grp='Nut', text='{v} AF'),
+        LEN('Height', pl((2.2, -2, 0), 'y'), pl((2.2, 2, 0), 'y'), (0, 0, 7), key=True, grp='Nut'),
+        DIA('Thread', (0, 2, 0), 'y', 1.5, (-2, 2), text='M3', exact=True, grp='Nut'),
+        SPEC('Standard and tool', 'DIN 985 (nylon ring); 5.5 mm nut driver. Run it down until it touches its seat, then back it off '
+             '1/6 turn: the nylon ring holds it there, and the joint stays free.', grp='Nut'),
     ])
     d['dummy'] = ('dummy', [
         DIA('Diameter', (0, 12, 0), 'y', 1.5, (-12, 12), key=True, exact=True, grp='Dummy pin'),
@@ -696,7 +715,8 @@ MATERIAL = {   # bought items: what they are made of, as specified by the design
     '6800ZZ': ('Bearing steel', 'Deep-groove ball bearing; chrome steel rings and balls are standard. Stainless versions (S6800ZZ) have the same size.'),
     '624ZZ': ('Bearing steel', 'Deep-groove ball bearing; chrome steel rings and balls are standard. Stainless versions (S624ZZ) have the same size.'),
     '608ZZ': ('Bearing steel', 'Deep-groove ball bearing; chrome steel rings and balls are standard. Stainless versions (S608ZZ) have the same size.'),
-    'pin8': ('Steel', 'ISO 2338 dowel pin 8 m6 × 55, or Ø8 steel shaft cut to 55 and deburred.'),
+    'pin8': ('Steel', 'Ground Ø8 rod (linear shaft), tolerance h6 or g6, cut to 55 and deburred. Not an ISO 2338 m6 dowel pin: that is a '
+                      'press fit in the 608 bores.'),
     'spring': ('Music wire', 'Lee Spring C-600-072-1500, music wire. A substitute must slide in the Ø16.4 bore and over the Ø11 pilot.'),
     'M4x70': ('Steel', 'No grade is specified: any ISO 4762 steel or stainless screw.'),
     'nyloc': ('Steel with a nylon ring', 'DIN 985 prevailing-torque nut.'),
@@ -705,20 +725,19 @@ MATERIAL = {   # bought items: what they are made of, as specified by the design
     'M3x50': ('Steel', 'No grade is specified: any ISO 4762 steel or stainless screw.'),
     'M3x8': ('Steel', 'No grade is specified: any ISO 7380 steel or stainless button head.'),
     'insert': ('Brass', 'Heat-set (thermal) insert, pressed in with a soldering iron and an M3 insert tip.'),
-    'trackpin': ('Silver steel', 'Ground Ø3 silver-steel rod, yield at least 400 MPa, cut to 56 and grooved at both ends. Not off the shelf.'),
-    'bushing': ('Steel tube', 'Cut from Ø6 × Ø3.1 steel tube and deburred at both ends. Not off the shelf.'),
-    'clip': ('Spring steel', 'DIN 6799 retaining washer (E-clip), usually phosphated or zinc plated. Buy spares: they jump.'),
+    'trackscrew': ('Steel', 'Socket head screw, class 12.9 (black) or stainless A2-70. It must be the partly threaded kind: thread on the '
+                            'last 18 mm, smooth shank above it.'),
+    'bushing': ('Steel', 'A stock spacer sleeve Ø6 × Ø3.2 × 18, steel or stainless; or cut from Ø6 × Ø3.2 tube and deburred at both ends.'),
+    'tracknut': ('Steel with a nylon ring', 'DIN 985 prevailing-torque nut: it stays where it is left, without being tightened.'),
     'M4x25': ('Steel', 'No grade is specified: any ISO 4762 steel or stainless screw.'),
     'washer4': ('Steel', 'Plain washer Ø9 / Ø4.4 × 0.8.'),
     'nut4': ('Steel', 'ISO 4032 hex nut.'),
-    'dummy': ('Any rod', 'An offcut of the Ø3 pin rod (or any Ø2.5-3 rod), ends deburred.'),
+    'dummy': ('Any rod', 'Any smooth Ø2.5-3 rod cut to 24 mm (a nail, a drill shank), ends deburred.'),
 }
-OPEN_POINTS = {   # known open questions on the part as it is drawn now (not decided; see J9/README.md and the session notes)
-    'insert': 'The blind hole is exactly as deep as the insert. Insert makers usually ask for about 1 mm more. Not decided: drill the holes to '
-              '6.7 mm by hand, use M3 × 6 screws, or deepen the holes in the CAD.',
-    'J901': 'The four insert holes are blind Ø4.0 × 5.7, the same as the insert length (see the M3 heat-set insert). Not decided.',
-    'pin8': 'An m6 pin is a light press fit in the 608 inner rings, which cannot be backed up inside the yoke; a g6 or h6 rod slides in. '
-            'Not decided.',
+OPEN_POINTS = {   # known open questions on the part as it is drawn now
+    # 2026-11-14: the earlier three are decided (insert bores 7 mm deep in the CAD; idler axle a ground h6/g6 rod).
+    'J910': 'Revision B (2026-11-14: screw seats, wider reliefs, thinner inner ears) is checked in the CAD and sliced, but not printed yet. '
+            'Print four shoes and join them with the real screws, sleeves and nuts before printing all 68.',
 }
 
 
@@ -832,7 +851,7 @@ def main(check_only=False):
         else:
             c, g = bought_geo(p)
             module.append(inst(g, p['color'], m4(None, c), item, 'bought', n, env=n == 'JGY370_terminal_space'))
-    # the chain, as fitted (3D_preview.html placement): shoe j between pins j and j+1, pin, bushing and two E-clips at pin j
+    # the chain, as fitted (3D_preview.html placement): shoe j between pins j and j+1; screw (head outboard), sleeve and nut at pin j
     P = cfg['pins']
     R0, t0, _ = inst_fit['link']
     shoe_from_stl = m4(tp(R0), [-x for x in mv(tp(R0), t0)])
@@ -841,11 +860,9 @@ def main(check_only=False):
         ang = math.atan2(b[1] - a[1], b[0] - a[0])
         M = mul4(m4(rot_y(-ang), ((a[0] + b[0]) / 2, 0, (a[1] + b[1]) / 2)), shoe_from_stl)
         module.append(inst(stl['J910']['geo'], j9['link'][0]['color'], M, 'J910', 'printed', f'shoe_{j:02}'))
-        module.append(inst(hw_geo['pin'], hw['pin']['color'], m4(None, (a[0], 0, a[1])), 'trackpin', 'bought', f'track_pin_{j:02}'))
+        module.append(inst(hw_geo['pin'], hw['pin']['color'], m4(None, (a[0], 0, a[1])), 'trackscrew', 'bought', f'track_screw_{j:02}'))
         module.append(inst(hw_geo['bushing'], hw['bushing']['color'], m4(None, (a[0], 0, a[1])), 'bushing', 'bought', f'track_bushing_{j:02}'))
-        for s in (-1, 1):
-            module.append(inst(hw_geo['clip'], hw['clip']['color'], m4(rot_y(-(ang - math.pi / 2)), (a[0], s * K.CLIP_Y, a[1])), 'clip', 'bought',
-                               f'pin_clip_{j:02}_{(s + 1) // 2}'))
+        module.append(inst(hw_geo['nut'], hw['nut']['color'], m4(rot_y(-ang), (a[0], -K.NUT_Y, a[1])), 'tracknut', 'bought', f'track_nut_{j:02}'))
     sp = unit_by['recoil_spring']
     S = mesh_stats(sp['vertices'], sp['triangles'])
     spring_fit = dict(x0=round(S['lo'][0], 4), y=0.0, z=round((S['lo'][2] + S['hi'][2]) / 2, 4), length=round(S['hi'][0] - S['lo'][0], 4),
@@ -872,7 +889,7 @@ def main(check_only=False):
     first = {}
     for p in j9['unit']:
         first.setdefault(K.kit_id(p['name']), K.STEPS[K.module_anim(p['name'])[0]['s']]['id'])
-    first.update(J910='chain', trackpin='chain', bushing='chain', clip='chain', dummy='chain', M4x25='xframe', washer4='xframe', nut4='xframe',
+    first.update(J910='chain', trackscrew='chain', bushing='chain', tracknut='chain', dummy='chain', M4x25='xframe', washer4='xframe', nut4='xframe',
                  X101='xframe')
     checks, items = [], []
     counts = {}
@@ -882,7 +899,7 @@ def main(check_only=False):
     for p in j9['unit']:
         pieces.setdefault(K.kit_id(p['name']), set()).add(K.piece(p['name']))
     per_track_cad = {k: len(v) for k, v in pieces.items()}
-    per_track_cad.update(J910=len(P), trackpin=len(P), bushing=len(P), clip=2 * len(P))
+    per_track_cad.update(J910=len(P), trackscrew=len(P), bushing=len(P), tracknut=len(P))
 
     def step_of(k):
         s = first.get(k)
@@ -999,9 +1016,9 @@ def main(check_only=False):
                                  spring=it['id'] == 'spring'))
     for it in K.CHAIN:
         q = 2 * it['per_track']
-        hwk = dict(trackpin='pin', bushing='bushing', clip='clip')[it['id']]
+        hwk = dict(trackscrew='pin', bushing='bushing', tracknut='nut')[it['id']]
         m = dict(hw[hwk], _hw=hw_geo[hwk], _c=[0, 0, 0])
-        items.append(bought_item(it, 'Track chain', it['id'], [m], hwk, dict(total=q, text=f'{q} ({it["per_track"]} per track)'), it['per_track']))
+        items.append(bought_item(it, 'Track chain', it['id'], [m], it['id'], dict(total=q, text=f'{q} ({it["per_track"]} per track)'), it['per_track']))
     for it in K.JOINT:
         items.append(bought_item(it, 'X1 joint', it['id'], piece_meshes[it['id']], dims_key[it['id']],
                                  dict(total=it['per_machine'], text=f'{it["per_machine"]} per machine (both tracks)'), None, context='x1'))

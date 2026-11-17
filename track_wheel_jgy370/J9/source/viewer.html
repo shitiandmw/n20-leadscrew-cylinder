@@ -37,7 +37,7 @@ function explodeOffset(p){const n=p.name;if(p.group==='housing')return [0,-75,0]
 for(const p of DATA.unit){const m=new THREE.Mesh(geometry(p),mat(p.color,p.kind));m.userData=p;m.userData.explode=explodeOffset(p);(groups[p.group]?groups[p.group].i:root).add(m);meshes.push(m)}
 const linkGeo=DATA.link.map(p=>({g:geometry(p),m:mat(p.color,'printed'),p}));const shoes=[],pinsets=[],track=new THREE.Group();root.add(track);
 for(let j=0;j<V.pins.length;j++){const s=new THREE.Mesh(linkGeo[0].g,linkGeo[0].m);s.userData={name:'J910_track_shoe_70 (link '+j+')',group:'track'};track.add(s);shoes.push(s);
- const q=new THREE.Mesh(linkGeo[1].g,linkGeo[1].m);q.userData={name:'track pin, bushing and clips ('+j+')',group:'track'};track.add(q);pinsets.push(q)}
+ const q=new THREE.Mesh(linkGeo[1].g,linkGeo[1].m);q.userData={name:'track screw, sleeve and nut ('+j+')',group:'track'};track.add(q);pinsets.push(q)}
 const ground=new THREE.Mesh(new THREE.PlaneGeometry(420,260),new THREE.MeshBasicMaterial({color:'#b7c4bd',transparent:true,opacity:.45,side:THREE.DoubleSide}));ground.position.set(0,-10,-.05);scene.add(ground);
 const P=V.pins,N=P.length,C=[V.drive,V.idler],R=V.pitch_r;
 function onCircle(p,c){return Math.abs(Math.hypot(p[0]-c[0],p[1]-c[1])-R)<1e-4}

@@ -2,19 +2,19 @@
  "generator": "track_wheel_jgy370/J9/source/build_parts_showcase.py",
  "revision": "J9 / X1 revision F mounting stations",
  "inputs_sha256": {
-  "track_wheel_jgy370/J9/source/j9_scene.json.gz": "dd618fd7a7fdfb67785a0e26f6a3f733d1daf74d38e7bd6c7284dba1f417bf86",
-  "track_wheel_jgy370/X1/source/x1_scene.json.gz": "719ef833e722c4c36c0480d9f591df2b5a849981d7cc407a2388a62e453a9b23",
-  "track_wheel_jgy370/J9/source/build_track_kit.py": "9d94e89697d13d19e2e6b8f0b74470e7c831c53b2aa7b6ef47e63bef0cbd58bf",
-  "track_wheel_jgy370/J9/source/parts_showcase.html": "e11a4a2b01de7e73f8c24e51a16b5ee59c57cc22226a7b4182a44c576df8393c",
-  "track_wheel_jgy370/J9/source/build_parts_showcase.py": "e0b5596e8bc2d9680f8dc87390f41898a8ee07fe15d0684d090363a5b1e560a4"
+  "track_wheel_jgy370/J9/source/j9_scene.json.gz": "d9a43657980cb3a870393ca8105398a256b838e8cb1c11a247bffc24dae26756",
+  "track_wheel_jgy370/X1/source/x1_scene.json.gz": "cfd9617b3ff2569a0ce086b0cc36f20689ed6392343aad4413cbdeba8105a5be",
+  "track_wheel_jgy370/J9/source/build_track_kit.py": "dcef669d821c8e3b7313c647482292a787b7b35b01ca9113e98754d465276f66",
+  "track_wheel_jgy370/J9/source/parts_showcase.html": "6e1740225fb3e2772198fc4c10e7451946f5f41baa87df60f966309e8bf37b3d",
+  "track_wheel_jgy370/J9/source/build_parts_showcase.py": "80536179f0cc3886ead8cc7b016256bc082563188c8713fb553ded90bb3c28e7"
  },
  "right_files_mirror_left": {
   "J901": {
    "left": "track_wheel_jgy370/J9/stl/J901_H_frame.stl",
    "right": "track_wheel_jgy370/X1/stl/J901_H_frame_right.stl",
-   "triangles": 35280,
+   "triangles": 35704,
    "same_triangles_mirrored": true,
-   "right_sha256": "64880cd88a31006270d45259309bf221b6bfc4bcfb1c59c76c110e078977b703"
+   "right_sha256": "bb96eed8a8665363a615f11e015bb252ce2842ca13c4d7db644fef644ea52b2b"
   },
   "J909": {
    "left": "track_wheel_jgy370/J9/stl/J909_housing.stl",
@@ -113,12 +113,12 @@
    "rot_x_deg": 180,
    "bbox_error_mm": 0.0018,
    "centroid_error_mm": 0.0014,
-   "volume_ratio": 1.00006
+   "volume_ratio": 1.00005
   },
   "link": {
    "rot_x_deg": 0,
-   "bbox_error_mm": 0.0013,
-   "centroid_error_mm": 0.0006,
+   "bbox_error_mm": 0.0006,
+   "centroid_error_mm": 0.0005,
    "volume_ratio": 1.00001
   },
   "X101_X_frame": {
@@ -135,8 +135,8 @@
    "name": "J901 H-frame",
    "qty": "2 (1 left + 1 right print)",
    "model": true,
-   "dimensions_drawn": 28,
-   "table_rows": 30
+   "dimensions_drawn": 29,
+   "table_rows": 31
   },
   {
    "id": "J909",
@@ -198,17 +198,17 @@
    "name": "J908 U-yoke with spring piston",
    "qty": "2 (1 per track)",
    "model": true,
-   "dimensions_drawn": 6,
-   "table_rows": 7
+   "dimensions_drawn": 7,
+   "table_rows": 8
   },
   {
    "id": "J910",
    "type": "print",
-   "name": "J910 track shoe, 70 mm",
+   "name": "J910 track shoe, 70 mm (revision B)",
    "qty": "68 (34 per track)",
    "model": true,
-   "dimensions_drawn": 10,
-   "table_rows": 11
+   "dimensions_drawn": 12,
+   "table_rows": 13
   },
   {
    "id": "X101",
@@ -276,7 +276,7 @@
   {
    "id": "pin8",
    "type": "buy",
-   "name": "Steel pin Ø8 x 55 (ISO 2338 8 m6 x 55, or Ø8 shaft cut to 55)",
+   "name": "Steel rod Ø8 x 55, ground, tolerance h6 or g6 (cut linear shaft)",
    "qty": "2 (1 per track)",
    "model": true,
    "dimensions_drawn": 2,
@@ -285,7 +285,7 @@
   {
    "id": "spring",
    "type": "buy",
-   "name": "Compression spring Lee Spring C-600-072-1500 (music wire)",
+   "name": "Compression spring, wire 1.8, outside Ø15, free length 38-40 (Lee Spring C-600-072-1500 or equal)",
    "qty": "2 (1 per track)",
    "model": true,
    "dimensions_drawn": 2,
@@ -294,7 +294,7 @@
   {
    "id": "M4x70",
    "type": "buy",
-   "name": "M4 x 70 socket head screw (ISO 4762)",
+   "name": "M4 x 70 socket head screw (ISO 4762), partly threaded",
    "qty": "14 (7 per track)",
    "model": true,
    "dimensions_drawn": 3,
@@ -348,38 +348,38 @@
   {
    "id": "insert",
    "type": "buy",
-   "name": "M3 heat-set insert for a Ø4.0 x 5.7 mm hole",
+   "name": "M3 heat-set insert, outside Ø4.5-4.6, up to 5.7 long (for a Ø4.0 hole)",
    "qty": "8 (4 per track)",
    "model": true,
    "dimensions_drawn": 2,
-   "table_rows": 3
+   "table_rows": 4
   },
   {
-   "id": "trackpin",
+   "id": "trackscrew",
    "type": "chain",
-   "name": "Track pin Ø3 x 56, silver steel",
+   "name": "M3 x 60 socket head screw, partly threaded (ISO 4762 / GB/T 70.1, half-thread)",
    "qty": "68 (34 per track)",
    "model": true,
-   "dimensions_drawn": 0,
-   "table_rows": 0
+   "dimensions_drawn": 3,
+   "table_rows": 5
   },
   {
    "id": "bushing",
    "type": "chain",
-   "name": "Track bushing, steel, Ø6 OD x Ø3.1 ID x 17",
+   "name": "Track sleeve, steel, Ø6 OD x Ø3.2 ID x 18",
    "qty": "68 (34 per track)",
    "model": true,
    "dimensions_drawn": 3,
    "table_rows": 3
   },
   {
-   "id": "clip",
+   "id": "tracknut",
    "type": "chain",
-   "name": "E-clip DIN 6799 size 2.3 (for Ø3-4 mm shafts)",
-   "qty": "136 (68 per track)",
+   "name": "M3 nyloc nut (DIN 985 / GB/T 889.1)",
+   "qty": "68 (34 per track)",
    "model": true,
-   "dimensions_drawn": 2,
-   "table_rows": 3
+   "dimensions_drawn": 3,
+   "table_rows": 4
   },
   {
    "id": "M4x25",
@@ -492,7 +492,7 @@
   {
    "id": "tool5",
    "type": "tool",
-   "name": "E-clip pliers or a small flat screwdriver",
+   "name": "5.5 mm nut driver or spanner",
    "qty": "",
    "model": false,
    "dimensions_drawn": 0,
@@ -501,7 +501,7 @@
   {
    "id": "tool6",
    "type": "tool",
-   "name": "Paint marker",
+   "name": "Paint marker and medium (blue) thread-locker",
    "qty": "",
    "model": false,
    "dimensions_drawn": 0,
@@ -510,7 +510,7 @@
   {
    "id": "dummy",
    "type": "tool",
-   "name": "Dummy pin Ø3 x 24: an offcut of the Ø3 pin rod (or any Ø2.5-3 rod), ends deburred",
+   "name": "Dummy pin Ø3 x 24: any smooth Ø2.5-3 rod (a nail, a drill shank), ends deburred",
    "qty": "1, made from an offcut",
    "model": true,
    "dimensions_drawn": 2,
@@ -761,7 +761,7 @@
    "item": "J901",
    "n": 15,
    "label": "Roller bosses on the inner faces",
-   "text": "Ø5.6 × 0.7",
+   "text": "Ø6.2 × 0.7",
    "vertices": 210,
    "max_gap_deg": 3.4,
    "axial": [
@@ -865,7 +865,7 @@
    "item": "J901",
    "n": 21,
    "label": "Yoke groove depth (both walls)",
-   "text": "3.2",
+   "text": "3.5",
    "a": {
     "face": [
      81.551,
@@ -878,7 +878,7 @@
     "face": [
      81.551,
      5.5,
-     2.8
+     2.5
     ],
     "axis": "z"
    }
@@ -908,18 +908,30 @@
   {
    "item": "J901",
    "n": 23,
-   "label": "Insert holes in the housing standoffs (4)",
-   "text": "Ø4 × 5.7 deep",
+   "label": "Lock-pin hole (outer wall)",
+   "text": "Ø3.2",
    "vertices": 210,
    "max_gap_deg": 3.4,
    "axial": [
-    59.8,
-    65.5
+    0.0,
+    2.5
    ]
   },
   {
    "item": "J901",
    "n": 24,
+   "label": "Insert holes in the housing standoffs (4)",
+   "text": "Ø4 × 7 deep",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    58.5,
+    65.5
+   ]
+  },
+  {
+   "item": "J901",
+   "n": 25,
    "label": "Housing standoffs (4)",
    "text": "Ø8",
    "vertices": 210,
@@ -931,7 +943,7 @@
   },
   {
    "item": "J901",
-   "n": 25,
+   "n": 26,
    "label": "X101 joint seat width (2)",
    "text": "28.3",
    "a": {
@@ -953,7 +965,7 @@
   },
   {
    "item": "J901",
-   "n": 26,
+   "n": 27,
    "label": "X101 joint seat depth",
    "text": "1.5",
    "a": {
@@ -975,7 +987,7 @@
   },
   {
    "item": "J901",
-   "n": 27,
+   "n": 28,
    "label": "X101 joint bolt holes (4)",
    "text": "Ø4.5",
    "vertices": 210,
@@ -987,7 +999,7 @@
   },
   {
    "item": "J901",
-   "n": 28,
+   "n": 29,
    "label": "X101 joint bolt spacing",
    "text": "19",
    "a": {
@@ -1154,7 +1166,7 @@
   {
    "item": "J902",
    "n": 2,
-   "label": "Pitch circle (bushing centres)",
+   "label": "Pitch circle (sleeve centres)",
    "text": "Ø77.27",
    "computed": true
   },
@@ -1361,7 +1373,7 @@
   {
    "item": "J906",
    "n": 1,
-   "label": "Centre drum (bushings run on it)",
+   "label": "Centre drum (sleeves run on it)",
    "text": "Ø70.47",
    "vertices": 210,
    "max_gap_deg": 3.4,
@@ -1579,13 +1591,25 @@
    ]
   },
   {
+   "item": "J908",
+   "n": 7,
+   "label": "Lock-pin holes (both ends of the crossbar)",
+   "text": "Ø3.2 × 8 deep",
+   "vertices": 210,
+   "max_gap_deg": 3.4,
+   "axial": [
+    -27.0,
+    -19.0
+   ]
+  },
+  {
    "item": "J910",
    "n": 1,
    "label": "Pitch",
    "text": "20",
    "a": {
     "circle": {
-     "vertices": 210,
+     "vertices": 141,
      "max_gap_deg": 3.4,
      "axial": [
       14.0,
@@ -1599,7 +1623,7 @@
      "vertices": 210,
      "max_gap_deg": 3.4,
      "axial": [
-      8.7,
+      9.2,
       13.7
      ]
     },
@@ -1609,23 +1633,67 @@
   {
    "item": "J910",
    "n": 2,
-   "label": "Pin holes",
+   "label": "Screw holes",
    "text": "Ø3.2",
-   "vertices": 210,
+   "vertices": 213,
    "max_gap_deg": 3.4,
    "axial": [
     14.0,
-    21.0
+    25.0
    ]
   },
   {
    "item": "J910",
    "n": 3,
+   "label": "Over the screw seats",
+   "text": "50",
+   "a": {
+    "face": [
+     -9.999,
+     -25.0,
+     5.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     -9.999,
+     25.0,
+     5.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "J910",
+   "n": 4,
+   "label": "Seat bosses below the rail",
+   "text": "3.2",
+   "a": {
+    "face": [
+     -6.999,
+     23.0,
+     7.8
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     -6.999,
+     17.5,
+     11.0
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "J910",
+   "n": 5,
    "label": "Over the outer plates",
    "text": "42",
    "a": {
     "face": [
-     0.0,
+     0.001,
      -21.0,
      9.0
     ],
@@ -1633,7 +1701,7 @@
    },
    "b": {
     "face": [
-     0.0,
+     0.001,
      21.0,
      9.0
     ],
@@ -1642,12 +1710,12 @@
   },
   {
    "item": "J910",
-   "n": 4,
+   "n": 6,
    "label": "Between the outer plates",
    "text": "28",
    "a": {
     "face": [
-     0.0,
+     0.001,
      -14.0,
      9.0
     ],
@@ -1655,7 +1723,7 @@
    },
    "b": {
     "face": [
-     0.0,
+     0.001,
      14.0,
      9.0
     ],
@@ -1664,12 +1732,12 @@
   },
   {
    "item": "J910",
-   "n": 5,
+   "n": 7,
    "label": "Over the inner ears",
    "text": "27.4",
    "a": {
     "face": [
-     10.0,
+     10.001,
      -13.7,
      9.0
     ],
@@ -1677,7 +1745,7 @@
    },
    "b": {
     "face": [
-     10.0,
+     10.001,
      13.7,
      9.0
     ],
@@ -1686,21 +1754,21 @@
   },
   {
    "item": "J910",
-   "n": 6,
+   "n": 8,
    "label": "Between the inner ears",
-   "text": "17.4",
+   "text": "18.4",
    "a": {
     "face": [
-     10.0,
-     -8.7,
+     10.001,
+     -9.2,
      9.0
     ],
     "axis": "y"
    },
    "b": {
     "face": [
-     10.0,
-     8.7,
+     10.001,
+     9.2,
      9.0
     ],
     "axis": "y"
@@ -1708,11 +1776,11 @@
   },
   {
    "item": "J910",
-   "n": 7,
+   "n": 9,
    "label": "Plate end hollow",
-   "text": "R4.3",
-   "vertices": 82,
-   "max_gap_deg": 223.1,
+   "text": "R4.6",
+   "vertices": 75,
+   "max_gap_deg": 239.2,
    "axial": [
     14.0,
     21.0
@@ -1720,12 +1788,12 @@
   },
   {
    "item": "J910",
-   "n": 8,
+   "n": 10,
    "label": "Shoe plate",
    "text": "2",
    "a": {
     "face": [
-     3.0,
+     3.001,
      30.0,
      1.0
     ],
@@ -1733,7 +1801,7 @@
    },
    "b": {
     "face": [
-     3.0,
+     3.001,
      30.0,
      3.0
     ],
@@ -1742,12 +1810,12 @@
   },
   {
    "item": "J910",
-   "n": 9,
+   "n": 11,
    "label": "Grousers (3 per shoe)",
    "text": "1 high × 2 wide",
    "a": {
     "face": [
-     3.0,
+     3.001,
      30.0,
      1.0
     ],
@@ -1755,7 +1823,7 @@
    },
    "b": {
     "face": [
-     0.0,
+     0.001,
      30.0,
      0.0
     ],
@@ -1764,7 +1832,7 @@
   },
   {
    "item": "J910",
-   "n": 10,
+   "n": 12,
    "label": "Holes in the shoe plate (2)",
    "text": "Ø2.4",
    "vertices": 215,
@@ -2656,7 +2724,7 @@
   {
    "item": "insert",
    "n": 1,
-   "label": "Hole it goes in (as modelled)",
+   "label": "Body (as modelled)",
    "text": "Ø4 × 5.7",
    "vertices": 338,
    "max_gap_deg": 4.3,
@@ -2678,38 +2746,84 @@
    ]
   },
   {
+   "item": "trackscrew",
+   "n": 1,
+   "label": "Shank",
+   "text": "Ø3",
+   "vertices": 144,
+   "max_gap_deg": 10.0,
+   "axial": [
+    -31.5,
+    28.5
+   ]
+  },
+  {
+   "item": "trackscrew",
+   "n": 2,
+   "label": "Length under the head",
+   "text": "60",
+   "a": {
+    "face": [
+     0.7,
+     -31.5,
+     0.0
+    ],
+    "axis": "y"
+   },
+   "b": {
+    "face": [
+     2.2,
+     28.5,
+     0.0
+    ],
+    "axis": "y"
+   }
+  },
+  {
+   "item": "trackscrew",
+   "n": 3,
+   "label": "Head",
+   "text": "Ø5.5 × 3",
+   "vertices": 144,
+   "max_gap_deg": 10.0,
+   "axial": [
+    28.5,
+    31.5
+   ]
+  },
+  {
    "item": "bushing",
    "n": 1,
    "label": "Outside",
    "text": "Ø6",
-   "vertices": 160,
-   "max_gap_deg": 9.0,
+   "vertices": 144,
+   "max_gap_deg": 10.0,
    "axial": [
-    -8.5,
-    8.5
+    -9.0,
+    9.0
    ]
   },
   {
    "item": "bushing",
    "n": 2,
    "label": "Bore",
-   "text": "Ø3.1",
-   "vertices": 160,
-   "max_gap_deg": 9.0,
+   "text": "Ø3.2",
+   "vertices": 144,
+   "max_gap_deg": 10.0,
    "axial": [
-    -8.5,
-    8.5
+    -9.0,
+    9.0
    ]
   },
   {
    "item": "bushing",
    "n": 3,
    "label": "Length",
-   "text": "17",
+   "text": "18",
    "a": {
     "face": [
      2.3,
-     -8.5,
+     -9.0,
      0.0
     ],
     "axis": "y"
@@ -2717,45 +2831,67 @@
    "b": {
     "face": [
      2.3,
-     8.5,
+     9.0,
      0.0
     ],
     "axis": "y"
    }
   },
   {
-   "item": "clip",
+   "item": "tracknut",
    "n": 1,
-   "label": "Outside (as modelled)",
-   "text": "Ø6",
-   "vertices": 172,
-   "max_gap_deg": 60.0,
-   "axial": [
-    -0.3,
-    0.3
-   ]
-  },
-  {
-   "item": "clip",
-   "n": 2,
-   "label": "Thickness (as modelled)",
-   "text": "0.6",
+   "label": "Across flats",
+   "text": "5.5 AF",
    "a": {
     "face": [
-     -2.099,
-     -0.3,
+     0.0,
+     0.0,
+     -2.75
+    ],
+    "axis": "z"
+   },
+   "b": {
+    "face": [
+     0.0,
+     0.0,
+     2.75
+    ],
+    "axis": "z"
+   }
+  },
+  {
+   "item": "tracknut",
+   "n": 2,
+   "label": "Height",
+   "text": "4",
+   "a": {
+    "face": [
+     2.2,
+     -2.0,
      0.0
     ],
     "axis": "y"
    },
    "b": {
     "face": [
-     -2.099,
-     0.3,
+     2.2,
+     2.0,
      0.0
     ],
     "axis": "y"
    }
+  },
+  {
+   "item": "tracknut",
+   "n": 3,
+   "label": "Thread",
+   "text": "M3",
+   "vertices": 144,
+   "max_gap_deg": 10.0,
+   "axial": [
+    -2.0,
+    2.0
+   ]
   },
   {
    "item": "M4x25",
@@ -2910,8 +3046,8 @@
    "n": 1,
    "label": "Diameter",
    "text": "Ø3",
-   "vertices": 160,
-   "max_gap_deg": 9.0,
+   "vertices": 144,
+   "max_gap_deg": 10.0,
    "axial": [
     -12.0,
     12.0
@@ -2960,7 +3096,7 @@
   }
  },
  "context": {
-  "module_instances": 274,
+  "module_instances": 240,
   "module_items": {
    "J901": 1,
    "J909": 1,
@@ -2985,9 +3121,9 @@
    "insert": 4,
    "M3x8": 4,
    "J910": 34,
-   "trackpin": 34,
+   "trackscrew": 34,
    "bushing": 34,
-   "clip": 68,
+   "tracknut": 34,
    "spring": 1
   },
   "x1_instances": 33,
@@ -2999,11 +3135,11 @@
   }
  },
  "geometry": {
-  "meshes": 77,
-  "triangles": 155378
+  "meshes": 78,
+  "triangles": 158202
  },
  "outputs_sha256": {
-  "parts_showcase.html": "1ae65b9269cbf1b7163c79479f82f301546d4937b20f3a60caa61d693e6595be"
+  "parts_showcase.html": "5289c928db32cf3d0dd8abf5a1016f21e4d045fe58e5b852e5e8466ec31154ad"
  },
  "pass": true
 }

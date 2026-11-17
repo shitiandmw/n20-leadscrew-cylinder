@@ -2,57 +2,57 @@
   "revision": "F",
   "geometry_source": "Current individual STEP interfaces and checked current STEP assemblies; the original ARM60 STEP supplies the arm/actuators omitted from the delivered turntable STEP.",
   "source_sha256": {
-    "track_wheel_jgy370/X1/source/check_arc_seat_mounts.py": "b5095e8fb37aa2974105c817677ba924bf4f451ce365f9db4fd226213b93c189",
+    "track_wheel_jgy370/X1/source/check_arc_seat_mounts.py": "11b3dbb3ba6b5a1aad66f1772f814e9570dd23c4ca4bee35009b7ecaa4bb821c",
     "track_wheel_jgy370/X1/source/x1_parts.py": "0b77d36a20ea1cbd402639453f9035d8462df5845023dcf6594439b7fac0fc47",
-    "track_wheel_jgy370/J9/source/j9_parts.py": "1d2ea54e86a5f50fc5fd65e6abbafbee38670723a3a3bc75abbc5b6677271a98",
-    "track_wheel_jgy370/J9/source/j9_design.py": "71aa351135099c8b50a835788710ac2e6ea0f4d7d56612a6006ee309db6b3838",
+    "track_wheel_jgy370/J9/source/j9_parts.py": "9da75813be6cc2501a7d058fd64aae0214a0c594f9af6a5489b434d04331fc44",
+    "track_wheel_jgy370/J9/source/j9_design.py": "111806211c935f9aa53cedbb721b3a4f2dd8f183eef5ae88903e102b9563b97b",
     "track_wheel_jgy370/J9/source/j9_mounts.py": "d18f32025d34729409c6a9d046674dacd05e27033de9c9136c229bc9b0564ff3",
     "track_wheel_jgy370/X1/source/mount_checks.py": "890ee2cd17b47136c21b8d96ce4c015f4cdeb4cecb3ca4b7276e362563d4dba0",
     "track_wheel/source/tw_checks.py": "ef1d681112803d7fc33e45528b61bcd6d6d887fc91654308d01f9ba3591b5067",
     "track_wheel/source/tw_parts.py": "0bb01b2c7013a2f2296e3f7176afe62635e563270b250936c40febc0deb9b3e4",
     "excavator_60mm/source/design.py": "8410704c23e2773151dc6c2c0a170d50215b1958818c750ffff5aa301b9c412c",
-    "track_wheel_jgy370/X1/source/refresh_revf.py": "ed0d1ed5828358e9bd9b68f5a7df322e50c65842b800603be91122f7d081eb13",
+    "track_wheel_jgy370/X1/source/refresh_revf.py": "27d728dff51f16193ce7edc80e0cc80fa6ea23fccaab695fb6cf55293d901136",
     "track_wheel_jgy370/X1/source/x1_turntable.py": "7773a51e091b13a18c43358c2494baaffd14d4f1ae138e26c7924487bc96ce39",
-    "track_wheel_jgy370/J9/source/build_j9.py": "5fc2d99a3351ee995ef88677c2be2e44de7215cded02bda09c62704160f1cc27",
+    "track_wheel_jgy370/J9/source/build_j9.py": "4a2dfd6f6913d6483cd49a14e892c9ffc3510e8e586943541f0f6aa35cfe6de4",
     "track_wheel_jgy370/X1/swing_concept/source/draw_swing_concept_r3.py": "b6e9cbcc13138923d1537916a5a14c24e5363a7306438c94ffc9615e871a7f73"
   },
   "exported_step_sha256": {
-    "track_wheel_jgy370/J9/step/J901_H_frame.step": "da84e2569c93645bcdd0cad831674c71ec21781eda9e4cad0582ce98dc328ec0",
+    "track_wheel_jgy370/J9/step/J901_H_frame.step": "46218bf1d4fda9a21095d5f470391f1109e10a6bada805b1f5c6c6ac8c38c8c0",
     "track_wheel_jgy370/J9/step/J902_sprocket.step": "ef4f843dddea59d6203b9afb5c144f5f116f8a9bbb52270f85af92fb90fa9d4e",
     "track_wheel_jgy370/J9/step/J903_journal_plug.step": "ae085b913e73b525c661903b4b2a77479fca665dc2c3ece6180d71731c1bccc7",
     "track_wheel_jgy370/J9/step/J904_roller.step": "15cf25acb07b5696c4c17f3d4d173ae2c4164099a60da7a826ef77346f0f1b54",
     "track_wheel_jgy370/J9/step/J906_idler_wheel.step": "d332d152e3b538746ee50d57b74d0d986a1ac5d07c7e7087ef364cf097538f78",
     "track_wheel_jgy370/J9/step/J907_idler_spacer.step": "1632ae7190410803eab38df071a871b0f5dda68fbe35dff0c80728624418b100",
-    "track_wheel_jgy370/J9/step/J908_U_yoke.step": "3ab7207adb42dc2eb1b08c4dc9a470fafd4a43527277ddad2c02f078ea9db60d",
+    "track_wheel_jgy370/J9/step/J908_U_yoke.step": "79b97f642596644b48a4b73175efc60628b71f423c76cf94c4b77071361f946e",
     "track_wheel_jgy370/J9/step/J909_housing.step": "605d619f8ad5ca0b2f2b5a52d0f9e5e642103f753afd154f1dbe320f43369542",
-    "track_wheel_jgy370/J9/step/J910_track_shoe_70.step": "bfdd6be84982c9587e819f48636e910a1f060fb86ed50a069aebd7de7ddf68ad",
+    "track_wheel_jgy370/J9/step/J910_track_shoe_70.step": "75912dfde141365a49b3215af73a8667cdaa7dd30f3887a865ee2b6ff0f2b4b8",
     "track_wheel_jgy370/X1/step/X101_X_frame.step": "6b1ec27ddd8826b87174378405e12db393bce725350cb364996ff3c9fb13a34d",
     "track_wheel_jgy370/X1/step/X102_belly_cover.step": "0811790bf39a0c46ff2c0f018f561bcf4634b73983be4de9e6c6fff9782ce5d0",
-    "track_wheel_jgy370/X1/step/J901_H_frame_right.step": "c311dcf725624fcc5450a3d7d47f49291835cd923a7f064a3bc577b70aa744f8",
+    "track_wheel_jgy370/X1/step/J901_H_frame_right.step": "f826895d6fce6bb00f19246db5dba415afc9411a1c4876a1479457503f4d77c4",
     "track_wheel_jgy370/X1/step/J909_housing_right.step": "77331fdc2cb0e8a28c5d0dbb0463fac5c30d42d982887cb12c75a907a03eecce"
   },
   "exported_stl_sha256": {
-    "track_wheel_jgy370/J9/stl/J901_H_frame.stl": "8a71deed2cff2f0928fd3e93f9cc35b4ce34d392d982fdcccc6b322f9842a64f",
+    "track_wheel_jgy370/J9/stl/J901_H_frame.stl": "790876c122845174be58b969175a843d4f8bc66f49999e3a55f3258d536fc8f0",
     "track_wheel_jgy370/J9/stl/J902_sprocket.stl": "31781b05cbdc39a4816ac98a2b516f99b25ccfce15a12d920928b6c7ce91c54a",
     "track_wheel_jgy370/J9/stl/J903_journal_plug.stl": "94c799f809fb7143f05fc0695e654d22c795f7bf20e2418470405238a65648df",
     "track_wheel_jgy370/J9/stl/J904_roller.stl": "8424eaa741ad7e669ddff7cf0cc125143b9bb0142c84ad93cd59b2c4f9a11fe2",
     "track_wheel_jgy370/J9/stl/J906_idler_wheel.stl": "cada29045e180706575728612a309623efdc10fd6a338187c00bc1a9e03f9207",
     "track_wheel_jgy370/J9/stl/J907_idler_spacer.stl": "07548f9ff62d3e50e5c552cc508fae678ed3e5dbc5dc8d0f01bcad6223144c0e",
-    "track_wheel_jgy370/J9/stl/J908_U_yoke.stl": "e884035bd5213f6de53b15cbb08c8cfc125db70c9cf484985ef1a5b89d2f9f61",
+    "track_wheel_jgy370/J9/stl/J908_U_yoke.stl": "b91b187dd99b02ed26b0af7f0a941bd696c16be71754827d14b93ac9b83274ac",
     "track_wheel_jgy370/J9/stl/J909_housing.stl": "708c3887fc32aeaf62c1c24c66c5865b5dba6dd56343fae9814da6d15f467359",
-    "track_wheel_jgy370/J9/stl/J910_track_shoe_70.stl": "76f3f5eac4827140094b7047ec1a1e31a116592d81c70f92a67b4e813ce3840a",
+    "track_wheel_jgy370/J9/stl/J910_track_shoe_70.stl": "b55a0da72ce3e6a86fd62f1ed78b90282f2ff3a5beb4f2bba5eb226f6d5462ff",
     "track_wheel_jgy370/X1/stl/X101_X_frame.stl": "edac60a6edca0369e0de4b636305db951ecea49281b4c2922f65d26525f3c160",
     "track_wheel_jgy370/X1/stl/X102_belly_cover.stl": "1615ee8ad00a5efda930346d220f1be65888c5cd4bafeb9f19b472556623d0a6",
-    "track_wheel_jgy370/X1/stl/J901_H_frame_right.stl": "64880cd88a31006270d45259309bf221b6bfc4bcfb1c59c76c110e078977b703",
+    "track_wheel_jgy370/X1/stl/J901_H_frame_right.stl": "bb96eed8a8665363a615f11e015bb252ce2842ca13c4d7db644fef644ea52b2b",
     "track_wheel_jgy370/X1/stl/J909_housing_right.stl": "f509c73d29cbe22dbe584285308dc334c79cd2840db70965d55d23b05b6b8b5a"
   },
   "assembly_input_sha256": {
-    "track_wheel_jgy370/J9/step/JGY370_track_J9.step": "76110bb7bb6a7c1b158fa50c1672c6c4c4b801dccf987af9b7eaae6bab754760",
-    "track_wheel_jgy370/X1/step/X1_crawler_chassis.step": "3bffeff3292817a13757cac7ad62e4dfbc96309774d7ddd22d591c996f834ad6",
-    "track_wheel_jgy370/J9/source/j9_scene.json.gz": "dd618fd7a7fdfb67785a0e26f6a3f733d1daf74d38e7bd6c7284dba1f417bf86"
+    "track_wheel_jgy370/J9/step/JGY370_track_J9.step": "e3bf8fbd6002fc51b43e2773d948f7270c5245a8826f86dd6d87f34677246eec",
+    "track_wheel_jgy370/X1/step/X1_crawler_chassis.step": "c9734efcbe0eab3353b6c19d45820cdaaffceccee660639f4068ee564b5f8943",
+    "track_wheel_jgy370/J9/source/j9_scene.json.gz": "d9a43657980cb3a870393ca8105398a256b838e8cb1c11a247bffc24dae26756"
   },
   "upper_assembly_input_sha256": {
-    "track_wheel_jgy370/X1/step/X1_turntable_assembly.step": "07ec4c2ccff19e9e5d2619e9804754852975e04785b80f2b9ca1477d35d7a611",
+    "track_wheel_jgy370/X1/step/X1_turntable_assembly.step": "f17bd6d283ec8bf16909bb40a65369df8212ec1f39330f9c5d546c433b2f62dd",
     "track_wheel_jgy370/X1/source/turntable_scene.json.gz": "47eb0a08200f42a6798291e3109029851ad620433d5bb8d1d176fb08cb27f5c6"
   },
   "arm_reference_input_sha256": {
@@ -60,9 +60,9 @@
     "excavator_arm_60mm/step/excavator_arm_assembly.step": "585a4c4a30f9b49b163f0af254b72f8e01caf1b531dffc18a40c2779768a4892"
   },
   "reference_files_sha256": {
-    "track_wheel_jgy370/X1/revf_part_exports.json": "6066ac812cf6a8b5fed29cb19eec0a6f463e8b710ca9a1755893158085e885d2",
-    "track_wheel_jgy370/J9/revf_track_validation.json": "897b4fb566ff37805d4ad7f3c0ac8741bf036ac42e1f0441a00ee97c1a69b035",
-    "track_wheel_jgy370/X1/revf_refresh_validation.json": "d48440f117f4c524725477630345d902e2a235420da89de9e16d3e66feca5594"
+    "track_wheel_jgy370/X1/revf_part_exports.json": "fb01f57849dc65ac9ec476d33ae922f6687a8483bbb46631852537bf29b56fce",
+    "track_wheel_jgy370/J9/revf_track_validation.json": "8a76abdb4d62241b93b36fdf1cc99d036b4eef7d4a7632455265ced95b5fd681",
+    "track_wheel_jgy370/X1/revf_refresh_validation.json": "cb11d1497ad2a31f0b775e149eee7fcc2689044006aef86f2d5ca84d1b432832"
   },
   "central_tools": {
     "seat_screw_key": [
@@ -70,7 +70,7 @@
         "angle_deg": 22.5,
         "pairs_tested": 2,
         "hits": [],
-        "seconds": 0.0
+        "seconds": 0.1
       },
       {
         "angle_deg": 67.5,
@@ -112,7 +112,7 @@
         "angle_deg": 337.5,
         "pairs_tested": 2,
         "hits": [],
-        "seconds": 0.1
+        "seconds": 0.0
       }
     ],
     "cover_screw_key": [
@@ -120,13 +120,13 @@
         "angle_deg": 45,
         "pairs_tested": 2,
         "hits": [],
-        "seconds": 0.0
+        "seconds": 0.1
       },
       {
         "angle_deg": 135,
         "pairs_tested": 2,
         "hits": [],
-        "seconds": 0.1
+        "seconds": 0.0
       },
       {
         "angle_deg": 225,
@@ -138,7 +138,7 @@
         "angle_deg": 315,
         "pairs_tested": 2,
         "hits": [],
-        "seconds": 0.1
+        "seconds": 0.0
       }
     ]
   },
@@ -1222,14 +1222,14 @@
     }
   ],
   "static": {
-    "pairs_tested": 125,
+    "pairs_tested": 143,
     "hits": [],
-    "seconds": 109.3
+    "seconds": 116.6
   },
   "internal_joint": {
     "pairs_tested": 48,
     "hits": [],
-    "seconds": 7.7
+    "seconds": 8.0
   },
   "track_fitting": [
     {
@@ -1244,35 +1244,35 @@
       "frame_lift_mm": 30.0,
       "pairs_tested": 8,
       "hits": [],
-      "seconds": 10.6
+      "seconds": 11.2
     },
     {
       "route": "Bare X101 lowers vertically into both aligned track seats",
       "frame_lift_mm": 10.0,
       "pairs_tested": 12,
       "hits": [],
-      "seconds": 13.1
+      "seconds": 13.5
     },
     {
       "route": "Bare X101 lowers vertically into both aligned track seats",
       "frame_lift_mm": 2.0,
       "pairs_tested": 12,
       "hits": [],
-      "seconds": 16.4
+      "seconds": 16.2
     },
     {
       "route": "Bare X101 lowers vertically into both aligned track seats",
       "frame_lift_mm": 0.3,
       "pairs_tested": 16,
       "hits": [],
-      "seconds": 18.1
+      "seconds": 19.1
     },
     {
       "route": "Bare X101 lowers vertically into both aligned track seats",
       "frame_lift_mm": 0.0,
       "pairs_tested": 16,
       "hits": [],
-      "seconds": 19.4
+      "seconds": 18.6
     },
     {
       "route": "Complete continuous 80 mm vertical frame lowering",
@@ -1470,7 +1470,7 @@
       },
       "pairs_tested": 64,
       "hits": [],
-      "seconds": 76.6
+      "seconds": 76.4
     }
   ],
   "track_service_routes": [
@@ -2087,6 +2087,36 @@
           "gap_mm": 237.85
         },
         {
+          "fixed_component": "R_J902_sprocket",
+          "separating_axis": "y",
+          "gap_mm": 263.1
+        },
+        {
+          "fixed_component": "R_flange_coupling_32",
+          "separating_axis": "y",
+          "gap_mm": 254.4999999
+        },
+        {
+          "fixed_component": "R_hub_screw_M3x20_0",
+          "separating_axis": "y",
+          "gap_mm": 263.0
+        },
+        {
+          "fixed_component": "R_hub_screw_M3x20_1",
+          "separating_axis": "y",
+          "gap_mm": 263.0
+        },
+        {
+          "fixed_component": "R_hub_screw_M3x20_2",
+          "separating_axis": "y",
+          "gap_mm": 263.0
+        },
+        {
+          "fixed_component": "R_hub_set_screw_M3x4",
+          "separating_axis": "y",
+          "gap_mm": 258.0
+        },
+        {
           "fixed_component": "R_shoe_00",
           "separating_axis": "y",
           "gap_mm": 242.5
@@ -2259,712 +2289,512 @@
         {
           "fixed_component": "R_track_bushing_00",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_00",
+          "fixed_component": "R_track_screw_00",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_00_0",
+          "fixed_component": "R_track_nut_00",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_00_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_01",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_01",
+          "fixed_component": "R_track_screw_01",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_01_0",
+          "fixed_component": "R_track_nut_01",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_01_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_02",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_02",
+          "fixed_component": "R_track_screw_02",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_02_0",
+          "fixed_component": "R_track_nut_02",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_02_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_03",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_03",
+          "fixed_component": "R_track_screw_03",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_03_0",
+          "fixed_component": "R_track_nut_03",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_03_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_04",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_04",
+          "fixed_component": "R_track_screw_04",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_04_0",
+          "fixed_component": "R_track_nut_04",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_04_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_05",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_05",
+          "fixed_component": "R_track_screw_05",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_05_0",
+          "fixed_component": "R_track_nut_05",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_05_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_06",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_06",
+          "fixed_component": "R_track_screw_06",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_06_0",
+          "fixed_component": "R_track_nut_06",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_06_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_07",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_07",
+          "fixed_component": "R_track_screw_07",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_07_0",
+          "fixed_component": "R_track_nut_07",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_07_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_08",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_08",
+          "fixed_component": "R_track_screw_08",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_08_0",
+          "fixed_component": "R_track_nut_08",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_08_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_09",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_09",
+          "fixed_component": "R_track_screw_09",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_09_0",
+          "fixed_component": "R_track_nut_09",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_09_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_10",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_10",
+          "fixed_component": "R_track_screw_10",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_10_0",
+          "fixed_component": "R_track_nut_10",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_10_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_11",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_11",
+          "fixed_component": "R_track_screw_11",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_11_0",
+          "fixed_component": "R_track_nut_11",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_11_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_12",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_12",
+          "fixed_component": "R_track_screw_12",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_12_0",
+          "fixed_component": "R_track_nut_12",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_12_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_13",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_13",
+          "fixed_component": "R_track_screw_13",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_13_0",
+          "fixed_component": "R_track_nut_13",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_13_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_14",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_14",
+          "fixed_component": "R_track_screw_14",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_14_0",
+          "fixed_component": "R_track_nut_14",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_14_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_15",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_15",
+          "fixed_component": "R_track_screw_15",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_15_0",
+          "fixed_component": "R_track_nut_15",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_15_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_16",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_16",
+          "fixed_component": "R_track_screw_16",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_16_0",
+          "fixed_component": "R_track_nut_16",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_16_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_17",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_17",
+          "fixed_component": "R_track_screw_17",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_17_0",
+          "fixed_component": "R_track_nut_17",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_17_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_18",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_18",
+          "fixed_component": "R_track_screw_18",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_18_0",
+          "fixed_component": "R_track_nut_18",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_18_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_19",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_19",
+          "fixed_component": "R_track_screw_19",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_19_0",
+          "fixed_component": "R_track_nut_19",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_19_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_20",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_20",
+          "fixed_component": "R_track_screw_20",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_20_0",
+          "fixed_component": "R_track_nut_20",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_20_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_21",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_21",
+          "fixed_component": "R_track_screw_21",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_21_0",
+          "fixed_component": "R_track_nut_21",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_21_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_22",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_22",
+          "fixed_component": "R_track_screw_22",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_22_0",
+          "fixed_component": "R_track_nut_22",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_22_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_23",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_23",
+          "fixed_component": "R_track_screw_23",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_23_0",
+          "fixed_component": "R_track_nut_23",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_23_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_24",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_24",
+          "fixed_component": "R_track_screw_24",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_24_0",
+          "fixed_component": "R_track_nut_24",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_24_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_25",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_25",
+          "fixed_component": "R_track_screw_25",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_25_0",
+          "fixed_component": "R_track_nut_25",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_25_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_26",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_26",
+          "fixed_component": "R_track_screw_26",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_26_0",
+          "fixed_component": "R_track_nut_26",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_26_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_27",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_27",
+          "fixed_component": "R_track_screw_27",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_27_0",
+          "fixed_component": "R_track_nut_27",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_27_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_28",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_28",
+          "fixed_component": "R_track_screw_28",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_28_0",
+          "fixed_component": "R_track_nut_28",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_28_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_29",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_29",
+          "fixed_component": "R_track_screw_29",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_29_0",
+          "fixed_component": "R_track_nut_29",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_29_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_30",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_30",
+          "fixed_component": "R_track_screw_30",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_30_0",
+          "fixed_component": "R_track_nut_30",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_30_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_31",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_31",
+          "fixed_component": "R_track_screw_31",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_31_0",
+          "fixed_component": "R_track_nut_31",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_31_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_32",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_32",
+          "fixed_component": "R_track_screw_32",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_32_0",
+          "fixed_component": "R_track_nut_32",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_32_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_33",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_33",
+          "fixed_component": "R_track_screw_33",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_33_0",
+          "fixed_component": "R_track_nut_33",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_33_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
-        },
-        {
-          "fixed_component": "R_J902_sprocket",
-          "separating_axis": "y",
-          "gap_mm": 263.1
-        },
-        {
-          "fixed_component": "R_flange_coupling_32",
-          "separating_axis": "y",
-          "gap_mm": 254.4999999
-        },
-        {
-          "fixed_component": "R_hub_screw_M3x20_0",
-          "separating_axis": "y",
-          "gap_mm": 263.0
-        },
-        {
-          "fixed_component": "R_hub_screw_M3x20_1",
-          "separating_axis": "y",
-          "gap_mm": 263.0
-        },
-        {
-          "fixed_component": "R_hub_screw_M3x20_2",
-          "separating_axis": "y",
-          "gap_mm": 263.0
-        },
-        {
-          "fixed_component": "R_hub_set_screw_M3x4",
-          "separating_axis": "y",
-          "gap_mm": 258.0
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "X102_belly_cover",
@@ -4759,6 +4589,36 @@
           "gap_mm": 237.85
         },
         {
+          "fixed_component": "R_J902_sprocket",
+          "separating_axis": "y",
+          "gap_mm": 263.1
+        },
+        {
+          "fixed_component": "R_flange_coupling_32",
+          "separating_axis": "y",
+          "gap_mm": 254.4999999
+        },
+        {
+          "fixed_component": "R_hub_screw_M3x20_0",
+          "separating_axis": "y",
+          "gap_mm": 263.0
+        },
+        {
+          "fixed_component": "R_hub_screw_M3x20_1",
+          "separating_axis": "y",
+          "gap_mm": 263.0
+        },
+        {
+          "fixed_component": "R_hub_screw_M3x20_2",
+          "separating_axis": "y",
+          "gap_mm": 263.0
+        },
+        {
+          "fixed_component": "R_hub_set_screw_M3x4",
+          "separating_axis": "y",
+          "gap_mm": 258.0
+        },
+        {
           "fixed_component": "R_shoe_00",
           "separating_axis": "y",
           "gap_mm": 242.5
@@ -4931,712 +4791,512 @@
         {
           "fixed_component": "R_track_bushing_00",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_00",
+          "fixed_component": "R_track_screw_00",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_00_0",
+          "fixed_component": "R_track_nut_00",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_00_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_01",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_01",
+          "fixed_component": "R_track_screw_01",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_01_0",
+          "fixed_component": "R_track_nut_01",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_01_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_02",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_02",
+          "fixed_component": "R_track_screw_02",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_02_0",
+          "fixed_component": "R_track_nut_02",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_02_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_03",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_03",
+          "fixed_component": "R_track_screw_03",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_03_0",
+          "fixed_component": "R_track_nut_03",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_03_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_04",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_04",
+          "fixed_component": "R_track_screw_04",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_04_0",
+          "fixed_component": "R_track_nut_04",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_04_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_05",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_05",
+          "fixed_component": "R_track_screw_05",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_05_0",
+          "fixed_component": "R_track_nut_05",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_05_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_06",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_06",
+          "fixed_component": "R_track_screw_06",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_06_0",
+          "fixed_component": "R_track_nut_06",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_06_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_07",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_07",
+          "fixed_component": "R_track_screw_07",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_07_0",
+          "fixed_component": "R_track_nut_07",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_07_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_08",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_08",
+          "fixed_component": "R_track_screw_08",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_08_0",
+          "fixed_component": "R_track_nut_08",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_08_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_09",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_09",
+          "fixed_component": "R_track_screw_09",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_09_0",
+          "fixed_component": "R_track_nut_09",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_09_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_10",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_10",
+          "fixed_component": "R_track_screw_10",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_10_0",
+          "fixed_component": "R_track_nut_10",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_10_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_11",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_11",
+          "fixed_component": "R_track_screw_11",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_11_0",
+          "fixed_component": "R_track_nut_11",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_11_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_12",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_12",
+          "fixed_component": "R_track_screw_12",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_12_0",
+          "fixed_component": "R_track_nut_12",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_12_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_13",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_13",
+          "fixed_component": "R_track_screw_13",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_13_0",
+          "fixed_component": "R_track_nut_13",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_13_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_14",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_14",
+          "fixed_component": "R_track_screw_14",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_14_0",
+          "fixed_component": "R_track_nut_14",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_14_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_15",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_15",
+          "fixed_component": "R_track_screw_15",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_15_0",
+          "fixed_component": "R_track_nut_15",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_15_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_16",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_16",
+          "fixed_component": "R_track_screw_16",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_16_0",
+          "fixed_component": "R_track_nut_16",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_16_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_17",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_17",
+          "fixed_component": "R_track_screw_17",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_17_0",
+          "fixed_component": "R_track_nut_17",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_17_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_18",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_18",
+          "fixed_component": "R_track_screw_18",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_18_0",
+          "fixed_component": "R_track_nut_18",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_18_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_19",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_19",
+          "fixed_component": "R_track_screw_19",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_19_0",
+          "fixed_component": "R_track_nut_19",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_19_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_20",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_20",
+          "fixed_component": "R_track_screw_20",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_20_0",
+          "fixed_component": "R_track_nut_20",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_20_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_21",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_21",
+          "fixed_component": "R_track_screw_21",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_21_0",
+          "fixed_component": "R_track_nut_21",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_21_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_22",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_22",
+          "fixed_component": "R_track_screw_22",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_22_0",
+          "fixed_component": "R_track_nut_22",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_22_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_23",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_23",
+          "fixed_component": "R_track_screw_23",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_23_0",
+          "fixed_component": "R_track_nut_23",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_23_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_24",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_24",
+          "fixed_component": "R_track_screw_24",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_24_0",
+          "fixed_component": "R_track_nut_24",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_24_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_25",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_25",
+          "fixed_component": "R_track_screw_25",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_25_0",
+          "fixed_component": "R_track_nut_25",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_25_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_26",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_26",
+          "fixed_component": "R_track_screw_26",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_26_0",
+          "fixed_component": "R_track_nut_26",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_26_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_27",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_27",
+          "fixed_component": "R_track_screw_27",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_27_0",
+          "fixed_component": "R_track_nut_27",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_27_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_28",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_28",
+          "fixed_component": "R_track_screw_28",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_28_0",
+          "fixed_component": "R_track_nut_28",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_28_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_29",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_29",
+          "fixed_component": "R_track_screw_29",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_29_0",
+          "fixed_component": "R_track_nut_29",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_29_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_30",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_30",
+          "fixed_component": "R_track_screw_30",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_30_0",
+          "fixed_component": "R_track_nut_30",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_30_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_31",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_31",
+          "fixed_component": "R_track_screw_31",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_31_0",
+          "fixed_component": "R_track_nut_31",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_31_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_32",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_32",
+          "fixed_component": "R_track_screw_32",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_32_0",
+          "fixed_component": "R_track_nut_32",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_32_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "R_track_bushing_33",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "R_track_pin_33",
+          "fixed_component": "R_track_screw_33",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "R_pin_clip_33_0",
+          "fixed_component": "R_track_nut_33",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "R_pin_clip_33_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
-        },
-        {
-          "fixed_component": "R_J902_sprocket",
-          "separating_axis": "y",
-          "gap_mm": 263.1
-        },
-        {
-          "fixed_component": "R_flange_coupling_32",
-          "separating_axis": "y",
-          "gap_mm": 254.4999999
-        },
-        {
-          "fixed_component": "R_hub_screw_M3x20_0",
-          "separating_axis": "y",
-          "gap_mm": 263.0
-        },
-        {
-          "fixed_component": "R_hub_screw_M3x20_1",
-          "separating_axis": "y",
-          "gap_mm": 263.0
-        },
-        {
-          "fixed_component": "R_hub_screw_M3x20_2",
-          "separating_axis": "y",
-          "gap_mm": 263.0
-        },
-        {
-          "fixed_component": "R_hub_set_screw_M3x4",
-          "separating_axis": "y",
-          "gap_mm": 258.0
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "X101_X_frame",
@@ -7561,6 +7221,36 @@
           "gap_mm": 237.85
         },
         {
+          "fixed_component": "L_J902_sprocket",
+          "separating_axis": "y",
+          "gap_mm": 263.1
+        },
+        {
+          "fixed_component": "L_flange_coupling_32",
+          "separating_axis": "y",
+          "gap_mm": 254.4999999
+        },
+        {
+          "fixed_component": "L_hub_screw_M3x20_0",
+          "separating_axis": "y",
+          "gap_mm": 263.0
+        },
+        {
+          "fixed_component": "L_hub_screw_M3x20_1",
+          "separating_axis": "y",
+          "gap_mm": 263.0
+        },
+        {
+          "fixed_component": "L_hub_screw_M3x20_2",
+          "separating_axis": "y",
+          "gap_mm": 263.0
+        },
+        {
+          "fixed_component": "L_hub_set_screw_M3x4",
+          "separating_axis": "y",
+          "gap_mm": 258.0
+        },
+        {
           "fixed_component": "L_shoe_00",
           "separating_axis": "y",
           "gap_mm": 242.5
@@ -7733,712 +7423,512 @@
         {
           "fixed_component": "L_track_bushing_00",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_00",
+          "fixed_component": "L_track_screw_00",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_00_0",
+          "fixed_component": "L_track_nut_00",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_00_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_01",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_01",
+          "fixed_component": "L_track_screw_01",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_01_0",
+          "fixed_component": "L_track_nut_01",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_01_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_02",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_02",
+          "fixed_component": "L_track_screw_02",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_02_0",
+          "fixed_component": "L_track_nut_02",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_02_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_03",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_03",
+          "fixed_component": "L_track_screw_03",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_03_0",
+          "fixed_component": "L_track_nut_03",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_03_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_04",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_04",
+          "fixed_component": "L_track_screw_04",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_04_0",
+          "fixed_component": "L_track_nut_04",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_04_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_05",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_05",
+          "fixed_component": "L_track_screw_05",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_05_0",
+          "fixed_component": "L_track_nut_05",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_05_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_06",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_06",
+          "fixed_component": "L_track_screw_06",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_06_0",
+          "fixed_component": "L_track_nut_06",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_06_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_07",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_07",
+          "fixed_component": "L_track_screw_07",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_07_0",
+          "fixed_component": "L_track_nut_07",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_07_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_08",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_08",
+          "fixed_component": "L_track_screw_08",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_08_0",
+          "fixed_component": "L_track_nut_08",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_08_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_09",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_09",
+          "fixed_component": "L_track_screw_09",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_09_0",
+          "fixed_component": "L_track_nut_09",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_09_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_10",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_10",
+          "fixed_component": "L_track_screw_10",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_10_0",
+          "fixed_component": "L_track_nut_10",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_10_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_11",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_11",
+          "fixed_component": "L_track_screw_11",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_11_0",
+          "fixed_component": "L_track_nut_11",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_11_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_12",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_12",
+          "fixed_component": "L_track_screw_12",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_12_0",
+          "fixed_component": "L_track_nut_12",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_12_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_13",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_13",
+          "fixed_component": "L_track_screw_13",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_13_0",
+          "fixed_component": "L_track_nut_13",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_13_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_14",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_14",
+          "fixed_component": "L_track_screw_14",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_14_0",
+          "fixed_component": "L_track_nut_14",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_14_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_15",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_15",
+          "fixed_component": "L_track_screw_15",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_15_0",
+          "fixed_component": "L_track_nut_15",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_15_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_16",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_16",
+          "fixed_component": "L_track_screw_16",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_16_0",
+          "fixed_component": "L_track_nut_16",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_16_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_17",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_17",
+          "fixed_component": "L_track_screw_17",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_17_0",
+          "fixed_component": "L_track_nut_17",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_17_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_18",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_18",
+          "fixed_component": "L_track_screw_18",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_18_0",
+          "fixed_component": "L_track_nut_18",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_18_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_19",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_19",
+          "fixed_component": "L_track_screw_19",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_19_0",
+          "fixed_component": "L_track_nut_19",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_19_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_20",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_20",
+          "fixed_component": "L_track_screw_20",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_20_0",
+          "fixed_component": "L_track_nut_20",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_20_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_21",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_21",
+          "fixed_component": "L_track_screw_21",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_21_0",
+          "fixed_component": "L_track_nut_21",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_21_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_22",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_22",
+          "fixed_component": "L_track_screw_22",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_22_0",
+          "fixed_component": "L_track_nut_22",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_22_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_23",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_23",
+          "fixed_component": "L_track_screw_23",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_23_0",
+          "fixed_component": "L_track_nut_23",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_23_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_24",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_24",
+          "fixed_component": "L_track_screw_24",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_24_0",
+          "fixed_component": "L_track_nut_24",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_24_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_25",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_25",
+          "fixed_component": "L_track_screw_25",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_25_0",
+          "fixed_component": "L_track_nut_25",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_25_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_26",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_26",
+          "fixed_component": "L_track_screw_26",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_26_0",
+          "fixed_component": "L_track_nut_26",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_26_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_27",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_27",
+          "fixed_component": "L_track_screw_27",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_27_0",
+          "fixed_component": "L_track_nut_27",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_27_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_28",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_28",
+          "fixed_component": "L_track_screw_28",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_28_0",
+          "fixed_component": "L_track_nut_28",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_28_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_29",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_29",
+          "fixed_component": "L_track_screw_29",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_29_0",
+          "fixed_component": "L_track_nut_29",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_29_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_30",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_30",
+          "fixed_component": "L_track_screw_30",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_30_0",
+          "fixed_component": "L_track_nut_30",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_30_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_31",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_31",
+          "fixed_component": "L_track_screw_31",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_31_0",
+          "fixed_component": "L_track_nut_31",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_31_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_32",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_32",
+          "fixed_component": "L_track_screw_32",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_32_0",
+          "fixed_component": "L_track_nut_32",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_32_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_33",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_33",
+          "fixed_component": "L_track_screw_33",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_33_0",
+          "fixed_component": "L_track_nut_33",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_33_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
-        },
-        {
-          "fixed_component": "L_J902_sprocket",
-          "separating_axis": "y",
-          "gap_mm": 263.1
-        },
-        {
-          "fixed_component": "L_flange_coupling_32",
-          "separating_axis": "y",
-          "gap_mm": 254.4999999
-        },
-        {
-          "fixed_component": "L_hub_screw_M3x20_0",
-          "separating_axis": "y",
-          "gap_mm": 263.0
-        },
-        {
-          "fixed_component": "L_hub_screw_M3x20_1",
-          "separating_axis": "y",
-          "gap_mm": 263.0
-        },
-        {
-          "fixed_component": "L_hub_screw_M3x20_2",
-          "separating_axis": "y",
-          "gap_mm": 263.0
-        },
-        {
-          "fixed_component": "L_hub_set_screw_M3x4",
-          "separating_axis": "y",
-          "gap_mm": 258.0
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "X102_belly_cover",
@@ -10233,6 +9723,36 @@
           "gap_mm": 237.85
         },
         {
+          "fixed_component": "L_J902_sprocket",
+          "separating_axis": "y",
+          "gap_mm": 263.1
+        },
+        {
+          "fixed_component": "L_flange_coupling_32",
+          "separating_axis": "y",
+          "gap_mm": 254.4999999
+        },
+        {
+          "fixed_component": "L_hub_screw_M3x20_0",
+          "separating_axis": "y",
+          "gap_mm": 263.0
+        },
+        {
+          "fixed_component": "L_hub_screw_M3x20_1",
+          "separating_axis": "y",
+          "gap_mm": 263.0
+        },
+        {
+          "fixed_component": "L_hub_screw_M3x20_2",
+          "separating_axis": "y",
+          "gap_mm": 263.0
+        },
+        {
+          "fixed_component": "L_hub_set_screw_M3x4",
+          "separating_axis": "y",
+          "gap_mm": 258.0
+        },
+        {
           "fixed_component": "L_shoe_00",
           "separating_axis": "y",
           "gap_mm": 242.5
@@ -10405,712 +9925,512 @@
         {
           "fixed_component": "L_track_bushing_00",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_00",
+          "fixed_component": "L_track_screw_00",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_00_0",
+          "fixed_component": "L_track_nut_00",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_00_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_01",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_01",
+          "fixed_component": "L_track_screw_01",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_01_0",
+          "fixed_component": "L_track_nut_01",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_01_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_02",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_02",
+          "fixed_component": "L_track_screw_02",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_02_0",
+          "fixed_component": "L_track_nut_02",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_02_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_03",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_03",
+          "fixed_component": "L_track_screw_03",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_03_0",
+          "fixed_component": "L_track_nut_03",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_03_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_04",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_04",
+          "fixed_component": "L_track_screw_04",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_04_0",
+          "fixed_component": "L_track_nut_04",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_04_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_05",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_05",
+          "fixed_component": "L_track_screw_05",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_05_0",
+          "fixed_component": "L_track_nut_05",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_05_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_06",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_06",
+          "fixed_component": "L_track_screw_06",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_06_0",
+          "fixed_component": "L_track_nut_06",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_06_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_07",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_07",
+          "fixed_component": "L_track_screw_07",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_07_0",
+          "fixed_component": "L_track_nut_07",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_07_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_08",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_08",
+          "fixed_component": "L_track_screw_08",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_08_0",
+          "fixed_component": "L_track_nut_08",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_08_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_09",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_09",
+          "fixed_component": "L_track_screw_09",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_09_0",
+          "fixed_component": "L_track_nut_09",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_09_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_10",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_10",
+          "fixed_component": "L_track_screw_10",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_10_0",
+          "fixed_component": "L_track_nut_10",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_10_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_11",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_11",
+          "fixed_component": "L_track_screw_11",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_11_0",
+          "fixed_component": "L_track_nut_11",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_11_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_12",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_12",
+          "fixed_component": "L_track_screw_12",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_12_0",
+          "fixed_component": "L_track_nut_12",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_12_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_13",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_13",
+          "fixed_component": "L_track_screw_13",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_13_0",
+          "fixed_component": "L_track_nut_13",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_13_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_14",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_14",
+          "fixed_component": "L_track_screw_14",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_14_0",
+          "fixed_component": "L_track_nut_14",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_14_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_15",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_15",
+          "fixed_component": "L_track_screw_15",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_15_0",
+          "fixed_component": "L_track_nut_15",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_15_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_16",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_16",
+          "fixed_component": "L_track_screw_16",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_16_0",
+          "fixed_component": "L_track_nut_16",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_16_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_17",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_17",
+          "fixed_component": "L_track_screw_17",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_17_0",
+          "fixed_component": "L_track_nut_17",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_17_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_18",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_18",
+          "fixed_component": "L_track_screw_18",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_18_0",
+          "fixed_component": "L_track_nut_18",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_18_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_19",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_19",
+          "fixed_component": "L_track_screw_19",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_19_0",
+          "fixed_component": "L_track_nut_19",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_19_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_20",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_20",
+          "fixed_component": "L_track_screw_20",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_20_0",
+          "fixed_component": "L_track_nut_20",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_20_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_21",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_21",
+          "fixed_component": "L_track_screw_21",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_21_0",
+          "fixed_component": "L_track_nut_21",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_21_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_22",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_22",
+          "fixed_component": "L_track_screw_22",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_22_0",
+          "fixed_component": "L_track_nut_22",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_22_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_23",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_23",
+          "fixed_component": "L_track_screw_23",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_23_0",
+          "fixed_component": "L_track_nut_23",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_23_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_24",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_24",
+          "fixed_component": "L_track_screw_24",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_24_0",
+          "fixed_component": "L_track_nut_24",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_24_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_25",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_25",
+          "fixed_component": "L_track_screw_25",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_25_0",
+          "fixed_component": "L_track_nut_25",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_25_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_26",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_26",
+          "fixed_component": "L_track_screw_26",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_26_0",
+          "fixed_component": "L_track_nut_26",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_26_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_27",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_27",
+          "fixed_component": "L_track_screw_27",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_27_0",
+          "fixed_component": "L_track_nut_27",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_27_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_28",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_28",
+          "fixed_component": "L_track_screw_28",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_28_0",
+          "fixed_component": "L_track_nut_28",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_28_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_29",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_29",
+          "fixed_component": "L_track_screw_29",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_29_0",
+          "fixed_component": "L_track_nut_29",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_29_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_30",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_30",
+          "fixed_component": "L_track_screw_30",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_30_0",
+          "fixed_component": "L_track_nut_30",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_30_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_31",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_31",
+          "fixed_component": "L_track_screw_31",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_31_0",
+          "fixed_component": "L_track_nut_31",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_31_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_32",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_32",
+          "fixed_component": "L_track_screw_32",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_32_0",
+          "fixed_component": "L_track_nut_32",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_32_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "L_track_bushing_33",
           "separating_axis": "y",
-          "gap_mm": 269.0
+          "gap_mm": 268.5
         },
         {
-          "fixed_component": "L_track_pin_33",
+          "fixed_component": "L_track_screw_33",
           "separating_axis": "y",
-          "gap_mm": 249.5
+          "gap_mm": 242.5
         },
         {
-          "fixed_component": "L_pin_clip_33_0",
+          "fixed_component": "L_track_nut_33",
           "separating_axis": "y",
-          "gap_mm": 250.7
-        },
-        {
-          "fixed_component": "L_pin_clip_33_1",
-          "separating_axis": "y",
-          "gap_mm": 303.7
-        },
-        {
-          "fixed_component": "L_J902_sprocket",
-          "separating_axis": "y",
-          "gap_mm": 263.1
-        },
-        {
-          "fixed_component": "L_flange_coupling_32",
-          "separating_axis": "y",
-          "gap_mm": 254.4999999
-        },
-        {
-          "fixed_component": "L_hub_screw_M3x20_0",
-          "separating_axis": "y",
-          "gap_mm": 263.0
-        },
-        {
-          "fixed_component": "L_hub_screw_M3x20_1",
-          "separating_axis": "y",
-          "gap_mm": 263.0
-        },
-        {
-          "fixed_component": "L_hub_screw_M3x20_2",
-          "separating_axis": "y",
-          "gap_mm": 263.0
-        },
-        {
-          "fixed_component": "L_hub_set_screw_M3x4",
-          "separating_axis": "y",
-          "gap_mm": 258.0
+          "gap_mm": 248.5
         },
         {
           "fixed_component": "X101_X_frame",
@@ -12701,7 +12021,7 @@
             "volume_mm3": 207.9551
           }
         ],
-        "seconds": 6.3
+        "seconds": 6.0
       },
       {
         "side": "R",
@@ -12720,7 +12040,7 @@
             "volume_mm3": 207.9551
           }
         ],
-        "seconds": 5.8
+        "seconds": 6.5
       }
     ],
     "reason": "Straight lateral fitting causes real motor-can and housing interference. It is not an assembly route. The accepted vertical route is independently checked over its entire continuous motion, with no collision waiver."
@@ -12764,7 +12084,7 @@
       "lift_mm": 10.0,
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 2.4
+      "seconds": 2.7
     },
     {
       "bolt": "L00",
@@ -12773,7 +12093,7 @@
       "lift_mm": 0.0,
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 2.7
+      "seconds": 2.6
     },
     {
       "bolt": "L00",
@@ -12782,7 +12102,7 @@
       "lift_mm": 0.0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.3
+      "seconds": 3.5
     },
     {
       "bolt": "L00",
@@ -12800,7 +12120,7 @@
       "lift_mm": 0.0,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 5.1
+      "seconds": 5.0
     },
     {
       "bolt": "L00",
@@ -12809,7 +12129,7 @@
       "lift_mm": 0.0,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 4.8
+      "seconds": 4.7
     },
     {
       "bolt": "L00",
@@ -12818,7 +12138,7 @@
       "lift_mm": 0.0,
       "pairs_tested": 5,
       "hits": [],
-      "seconds": 4.7
+      "seconds": 4.9
     },
     {
       "bolt": "L00",
@@ -12840,6 +12160,330 @@
     },
     {
       "bolt": "L01",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 10.0,
+      "lift_mm": 10.0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 3.3
+    },
+    {
+      "bolt": "L01",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 10.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 3.2
+    },
+    {
+      "bolt": "L01",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 5.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 3.4
+    },
+    {
+      "bolt": "L01",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 3.5
+    },
+    {
+      "bolt": "L01",
+      "withdrawal_mm": 15.0,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 3,
+      "hits": [],
+      "seconds": 4.7
+    },
+    {
+      "bolt": "L01",
+      "withdrawal_mm": 8.0,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 3,
+      "hits": [],
+      "seconds": 4.6
+    },
+    {
+      "bolt": "L01",
+      "withdrawal_mm": 2.0,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 5,
+      "hits": [],
+      "seconds": 4.6
+    },
+    {
+      "bolt": "L01",
+      "withdrawal_mm": 0.0,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 5,
+      "hits": [],
+      "seconds": 4.8
+    },
+    {
+      "bolt": "L10",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 10.0,
+      "lift_mm": 30.0,
+      "pairs_tested": 0,
+      "hits": [],
+      "seconds": 0.0
+    },
+    {
+      "bolt": "L10",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 10.0,
+      "lift_mm": 10.0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 3.3
+    },
+    {
+      "bolt": "L10",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 10.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 3.3
+    },
+    {
+      "bolt": "L10",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 5.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 3.3
+    },
+    {
+      "bolt": "L10",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 3.3
+    },
+    {
+      "bolt": "L10",
+      "withdrawal_mm": 15.0,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 3,
+      "hits": [],
+      "seconds": 4.8
+    },
+    {
+      "bolt": "L10",
+      "withdrawal_mm": 8.0,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 3,
+      "hits": [],
+      "seconds": 4.8
+    },
+    {
+      "bolt": "L10",
+      "withdrawal_mm": 2.0,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 5,
+      "hits": [],
+      "seconds": 4.5
+    },
+    {
+      "bolt": "L10",
+      "withdrawal_mm": 0.0,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 5,
+      "hits": [],
+      "seconds": 4.9
+    },
+    {
+      "bolt": "L11",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 10.0,
+      "lift_mm": 30.0,
+      "pairs_tested": 0,
+      "hits": [],
+      "seconds": 0.0
+    },
+    {
+      "bolt": "L11",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 10.0,
+      "lift_mm": 10.0,
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 2.6
+    },
+    {
+      "bolt": "L11",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 10.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 2.7
+    },
+    {
+      "bolt": "L11",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 5.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 3.5
+    },
+    {
+      "bolt": "L11",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 3.5
+    },
+    {
+      "bolt": "L11",
+      "withdrawal_mm": 15.0,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 3,
+      "hits": [],
+      "seconds": 5.0
+    },
+    {
+      "bolt": "L11",
+      "withdrawal_mm": 8.0,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 3,
+      "hits": [],
+      "seconds": 5.0
+    },
+    {
+      "bolt": "L11",
+      "withdrawal_mm": 2.0,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 6,
+      "hits": [],
+      "seconds": 4.7
+    },
+    {
+      "bolt": "L11",
+      "withdrawal_mm": 0.0,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 6,
+      "hits": [],
+      "seconds": 5.0
+    },
+    {
+      "bolt": "R00",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 10.0,
+      "lift_mm": 30.0,
+      "pairs_tested": 0,
+      "hits": [],
+      "seconds": 0.0
+    },
+    {
+      "bolt": "R00",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 10.0,
+      "lift_mm": 10.0,
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 2.5
+    },
+    {
+      "bolt": "R00",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 10.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 2.7
+    },
+    {
+      "bolt": "R00",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 5.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 3.9
+    },
+    {
+      "bolt": "R00",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 3.3
+    },
+    {
+      "bolt": "R00",
+      "withdrawal_mm": 15.0,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 3,
+      "hits": [],
+      "seconds": 5.2
+    },
+    {
+      "bolt": "R00",
+      "withdrawal_mm": 8.0,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 3,
+      "hits": [],
+      "seconds": 5.0
+    },
+    {
+      "bolt": "R00",
+      "withdrawal_mm": 2.0,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 5,
+      "hits": [],
+      "seconds": 5.2
+    },
+    {
+      "bolt": "R00",
+      "withdrawal_mm": 0.0,
+      "side_offset_mm": 0.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 5,
+      "hits": [],
+      "seconds": 5.0
+    },
+    {
+      "bolt": "R01",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 10.0,
+      "lift_mm": 30.0,
+      "pairs_tested": 0,
+      "hits": [],
+      "seconds": 0.0
+    },
+    {
+      "bolt": "R01",
       "withdrawal_mm": 24.25,
       "side_offset_mm": 10.0,
       "lift_mm": 10.0,
@@ -12848,70 +12492,70 @@
       "seconds": 3.9
     },
     {
-      "bolt": "L01",
+      "bolt": "R01",
       "withdrawal_mm": 24.25,
       "side_offset_mm": 10.0,
       "lift_mm": 0.0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.3
+      "seconds": 3.8
     },
     {
-      "bolt": "L01",
+      "bolt": "R01",
       "withdrawal_mm": 24.25,
       "side_offset_mm": 5.0,
       "lift_mm": 0.0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.3
+      "seconds": 3.8
     },
     {
-      "bolt": "L01",
+      "bolt": "R01",
       "withdrawal_mm": 24.25,
       "side_offset_mm": 0.0,
       "lift_mm": 0.0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.2
+      "seconds": 3.5
     },
     {
-      "bolt": "L01",
+      "bolt": "R01",
       "withdrawal_mm": 15.0,
       "side_offset_mm": 0.0,
       "lift_mm": 0.0,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 4.7
+      "seconds": 5.8
     },
     {
-      "bolt": "L01",
+      "bolt": "R01",
       "withdrawal_mm": 8.0,
       "side_offset_mm": 0.0,
       "lift_mm": 0.0,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 5.0
+      "seconds": 5.2
     },
     {
-      "bolt": "L01",
+      "bolt": "R01",
       "withdrawal_mm": 2.0,
       "side_offset_mm": 0.0,
       "lift_mm": 0.0,
       "pairs_tested": 5,
       "hits": [],
-      "seconds": 5.0
+      "seconds": 5.2
     },
     {
-      "bolt": "L01",
+      "bolt": "R01",
       "withdrawal_mm": 0.0,
       "side_offset_mm": 0.0,
       "lift_mm": 0.0,
       "pairs_tested": 5,
       "hits": [],
-      "seconds": 4.9
+      "seconds": 5.5
     },
     {
-      "bolt": "L10",
+      "bolt": "R10",
       "withdrawal_mm": 24.25,
       "side_offset_mm": 10.0,
       "lift_mm": 30.0,
@@ -12920,79 +12564,79 @@
       "seconds": 0.0
     },
     {
-      "bolt": "L10",
+      "bolt": "R10",
       "withdrawal_mm": 24.25,
       "side_offset_mm": 10.0,
       "lift_mm": 10.0,
       "pairs_tested": 2,
       "hits": [],
+      "seconds": 3.7
+    },
+    {
+      "bolt": "R10",
+      "withdrawal_mm": 24.25,
+      "side_offset_mm": 10.0,
+      "lift_mm": 0.0,
+      "pairs_tested": 2,
+      "hits": [],
       "seconds": 3.5
     },
     {
-      "bolt": "L10",
+      "bolt": "R10",
       "withdrawal_mm": 24.25,
-      "side_offset_mm": 10.0,
+      "side_offset_mm": 5.0,
       "lift_mm": 0.0,
       "pairs_tested": 2,
       "hits": [],
       "seconds": 3.4
     },
     {
-      "bolt": "L10",
+      "bolt": "R10",
       "withdrawal_mm": 24.25,
-      "side_offset_mm": 5.0,
+      "side_offset_mm": 0.0,
       "lift_mm": 0.0,
       "pairs_tested": 2,
       "hits": [],
       "seconds": 3.5
     },
     {
-      "bolt": "L10",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 3.2
-    },
-    {
-      "bolt": "L10",
+      "bolt": "R10",
       "withdrawal_mm": 15.0,
       "side_offset_mm": 0.0,
       "lift_mm": 0.0,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 4.9
+      "seconds": 5.0
     },
     {
-      "bolt": "L10",
+      "bolt": "R10",
       "withdrawal_mm": 8.0,
       "side_offset_mm": 0.0,
       "lift_mm": 0.0,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 4.7
+      "seconds": 5.0
     },
     {
-      "bolt": "L10",
+      "bolt": "R10",
       "withdrawal_mm": 2.0,
       "side_offset_mm": 0.0,
       "lift_mm": 0.0,
       "pairs_tested": 5,
       "hits": [],
-      "seconds": 4.7
+      "seconds": 5.1
     },
     {
-      "bolt": "L10",
+      "bolt": "R10",
       "withdrawal_mm": 0.0,
       "side_offset_mm": 0.0,
       "lift_mm": 0.0,
       "pairs_tested": 5,
       "hits": [],
-      "seconds": 4.9
+      "seconds": 5.1
     },
     {
-      "bolt": "L11",
+      "bolt": "R11",
       "withdrawal_mm": 24.25,
       "side_offset_mm": 10.0,
       "lift_mm": 30.0,
@@ -13001,88 +12645,7 @@
       "seconds": 0.0
     },
     {
-      "bolt": "L11",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 10.0,
-      "lift_mm": 10.0,
-      "pairs_tested": 1,
-      "hits": [],
-      "seconds": 2.5
-    },
-    {
-      "bolt": "L11",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 10.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 1,
-      "hits": [],
-      "seconds": 2.7
-    },
-    {
-      "bolt": "L11",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 5.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 3.5
-    },
-    {
-      "bolt": "L11",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 3.1
-    },
-    {
-      "bolt": "L11",
-      "withdrawal_mm": 15.0,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 3,
-      "hits": [],
-      "seconds": 4.5
-    },
-    {
-      "bolt": "L11",
-      "withdrawal_mm": 8.0,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 3,
-      "hits": [],
-      "seconds": 4.9
-    },
-    {
-      "bolt": "L11",
-      "withdrawal_mm": 2.0,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 6,
-      "hits": [],
-      "seconds": 5.3
-    },
-    {
-      "bolt": "L11",
-      "withdrawal_mm": 0.0,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 6,
-      "hits": [],
-      "seconds": 4.8
-    },
-    {
-      "bolt": "R00",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 10.0,
-      "lift_mm": 30.0,
-      "pairs_tested": 0,
-      "hits": [],
-      "seconds": 0.0
-    },
-    {
-      "bolt": "R00",
+      "bolt": "R11",
       "withdrawal_mm": 24.25,
       "side_offset_mm": 10.0,
       "lift_mm": 10.0,
@@ -13091,310 +12654,67 @@
       "seconds": 2.6
     },
     {
-      "bolt": "R00",
+      "bolt": "R11",
       "withdrawal_mm": 24.25,
       "side_offset_mm": 10.0,
       "lift_mm": 0.0,
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 2.6
+      "seconds": 2.9
     },
     {
-      "bolt": "R00",
+      "bolt": "R11",
       "withdrawal_mm": 24.25,
       "side_offset_mm": 5.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 3.2
-    },
-    {
-      "bolt": "R00",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 3.2
-    },
-    {
-      "bolt": "R00",
-      "withdrawal_mm": 15.0,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 3,
-      "hits": [],
-      "seconds": 4.5
-    },
-    {
-      "bolt": "R00",
-      "withdrawal_mm": 8.0,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 3,
-      "hits": [],
-      "seconds": 4.3
-    },
-    {
-      "bolt": "R00",
-      "withdrawal_mm": 2.0,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 5,
-      "hits": [],
-      "seconds": 4.6
-    },
-    {
-      "bolt": "R00",
-      "withdrawal_mm": 0.0,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 5,
-      "hits": [],
-      "seconds": 4.6
-    },
-    {
-      "bolt": "R01",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 10.0,
-      "lift_mm": 30.0,
-      "pairs_tested": 0,
-      "hits": [],
-      "seconds": 0.0
-    },
-    {
-      "bolt": "R01",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 10.0,
-      "lift_mm": 10.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 3.4
-    },
-    {
-      "bolt": "R01",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 10.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 3.1
-    },
-    {
-      "bolt": "R01",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 5.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 3.2
-    },
-    {
-      "bolt": "R01",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 3.1
-    },
-    {
-      "bolt": "R01",
-      "withdrawal_mm": 15.0,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 3,
-      "hits": [],
-      "seconds": 4.6
-    },
-    {
-      "bolt": "R01",
-      "withdrawal_mm": 8.0,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 3,
-      "hits": [],
-      "seconds": 4.5
-    },
-    {
-      "bolt": "R01",
-      "withdrawal_mm": 2.0,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 5,
-      "hits": [],
-      "seconds": 4.6
-    },
-    {
-      "bolt": "R01",
-      "withdrawal_mm": 0.0,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 5,
-      "hits": [],
-      "seconds": 4.7
-    },
-    {
-      "bolt": "R10",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 10.0,
-      "lift_mm": 30.0,
-      "pairs_tested": 0,
-      "hits": [],
-      "seconds": 0.0
-    },
-    {
-      "bolt": "R10",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 10.0,
-      "lift_mm": 10.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 3.6
-    },
-    {
-      "bolt": "R10",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 10.0,
       "lift_mm": 0.0,
       "pairs_tested": 2,
       "hits": [],
       "seconds": 3.3
     },
     {
-      "bolt": "R10",
+      "bolt": "R11",
       "withdrawal_mm": 24.25,
-      "side_offset_mm": 5.0,
+      "side_offset_mm": 0.0,
       "lift_mm": 0.0,
       "pairs_tested": 2,
       "hits": [],
       "seconds": 3.5
     },
     {
-      "bolt": "R10",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 3.1
-    },
-    {
-      "bolt": "R10",
+      "bolt": "R11",
       "withdrawal_mm": 15.0,
       "side_offset_mm": 0.0,
       "lift_mm": 0.0,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 4.9
+      "seconds": 5.5
     },
     {
-      "bolt": "R10",
+      "bolt": "R11",
       "withdrawal_mm": 8.0,
       "side_offset_mm": 0.0,
       "lift_mm": 0.0,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 4.5
+      "seconds": 4.6
     },
     {
-      "bolt": "R10",
+      "bolt": "R11",
       "withdrawal_mm": 2.0,
       "side_offset_mm": 0.0,
       "lift_mm": 0.0,
-      "pairs_tested": 5,
+      "pairs_tested": 6,
       "hits": [],
-      "seconds": 4.8
+      "seconds": 5.2
     },
     {
-      "bolt": "R10",
+      "bolt": "R11",
       "withdrawal_mm": 0.0,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 5,
-      "hits": [],
-      "seconds": 4.8
-    },
-    {
-      "bolt": "R11",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 10.0,
-      "lift_mm": 30.0,
-      "pairs_tested": 0,
-      "hits": [],
-      "seconds": 0.0
-    },
-    {
-      "bolt": "R11",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 10.0,
-      "lift_mm": 10.0,
-      "pairs_tested": 1,
-      "hits": [],
-      "seconds": 2.5
-    },
-    {
-      "bolt": "R11",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 10.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 1,
-      "hits": [],
-      "seconds": 2.4
-    },
-    {
-      "bolt": "R11",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 5.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 3.0
-    },
-    {
-      "bolt": "R11",
-      "withdrawal_mm": 24.25,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 3.3
-    },
-    {
-      "bolt": "R11",
-      "withdrawal_mm": 15.0,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 3,
-      "hits": [],
-      "seconds": 4.5
-    },
-    {
-      "bolt": "R11",
-      "withdrawal_mm": 8.0,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 3,
-      "hits": [],
-      "seconds": 4.8
-    },
-    {
-      "bolt": "R11",
-      "withdrawal_mm": 2.0,
       "side_offset_mm": 0.0,
       "lift_mm": 0.0,
       "pairs_tested": 6,
       "hits": [],
       "seconds": 5.0
-    },
-    {
-      "bolt": "R11",
-      "withdrawal_mm": 0.0,
-      "side_offset_mm": 0.0,
-      "lift_mm": 0.0,
-      "pairs_tested": 6,
-      "hits": [],
-      "seconds": 4.8
     }
   ],
   "continuous_screw_entry": [
@@ -13403,70 +12723,70 @@
       "stage": "30 mm drop beside the arm, then 10 mm sideways into the head slot, tip .05 mm short of the slot end",
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.3
+      "seconds": 3.4
     },
     {
       "bolt": "L00",
       "stage": "24.25 mm axial insertion into plain bores",
       "pairs_tested": 5,
       "hits": [],
-      "seconds": 5.0
-    },
-    {
-      "bolt": "L01",
-      "stage": "30 mm drop beside the arm, then 10 mm sideways into the head slot, tip .05 mm short of the slot end",
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 3.5
-    },
-    {
-      "bolt": "L01",
-      "stage": "24.25 mm axial insertion into plain bores",
-      "pairs_tested": 5,
-      "hits": [],
-      "seconds": 4.5
-    },
-    {
-      "bolt": "L10",
-      "stage": "30 mm drop beside the arm, then 10 mm sideways into the head slot, tip .05 mm short of the slot end",
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 3.5
-    },
-    {
-      "bolt": "L10",
-      "stage": "24.25 mm axial insertion into plain bores",
-      "pairs_tested": 5,
-      "hits": [],
       "seconds": 5.1
     },
     {
-      "bolt": "L11",
+      "bolt": "L01",
       "stage": "30 mm drop beside the arm, then 10 mm sideways into the head slot, tip .05 mm short of the slot end",
       "pairs_tested": 2,
       "hits": [],
       "seconds": 3.3
     },
     {
+      "bolt": "L01",
+      "stage": "24.25 mm axial insertion into plain bores",
+      "pairs_tested": 5,
+      "hits": [],
+      "seconds": 5.0
+    },
+    {
+      "bolt": "L10",
+      "stage": "30 mm drop beside the arm, then 10 mm sideways into the head slot, tip .05 mm short of the slot end",
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 3.3
+    },
+    {
+      "bolt": "L10",
+      "stage": "24.25 mm axial insertion into plain bores",
+      "pairs_tested": 5,
+      "hits": [],
+      "seconds": 4.6
+    },
+    {
+      "bolt": "L11",
+      "stage": "30 mm drop beside the arm, then 10 mm sideways into the head slot, tip .05 mm short of the slot end",
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 3.2
+    },
+    {
       "bolt": "L11",
       "stage": "24.25 mm axial insertion into plain bores",
       "pairs_tested": 6,
       "hits": [],
-      "seconds": 5.0
+      "seconds": 4.9
     },
     {
       "bolt": "R00",
       "stage": "30 mm drop beside the arm, then 10 mm sideways into the head slot, tip .05 mm short of the slot end",
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.0
+      "seconds": 3.5
     },
     {
       "bolt": "R00",
       "stage": "24.25 mm axial insertion into plain bores",
       "pairs_tested": 5,
       "hits": [],
-      "seconds": 4.3
+      "seconds": 5.1
     },
     {
       "bolt": "R01",
@@ -13480,35 +12800,35 @@
       "stage": "24.25 mm axial insertion into plain bores",
       "pairs_tested": 5,
       "hits": [],
-      "seconds": 4.7
+      "seconds": 5.2
     },
     {
       "bolt": "R10",
       "stage": "30 mm drop beside the arm, then 10 mm sideways into the head slot, tip .05 mm short of the slot end",
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.3
+      "seconds": 3.6
     },
     {
       "bolt": "R10",
       "stage": "24.25 mm axial insertion into plain bores",
       "pairs_tested": 5,
       "hits": [],
-      "seconds": 4.8
+      "seconds": 4.9
     },
     {
       "bolt": "R11",
       "stage": "30 mm drop beside the arm, then 10 mm sideways into the head slot, tip .05 mm short of the slot end",
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.2
+      "seconds": 3.3
     },
     {
       "bolt": "R11",
       "stage": "24.25 mm axial insertion into plain bores",
       "pairs_tested": 6,
       "hits": [],
-      "seconds": 4.7
+      "seconds": 4.6
     }
   ],
   "L_key_access": [
@@ -13518,7 +12838,7 @@
       "side_offset_mm": 15,
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 2.4
+      "seconds": 2.6
     },
     {
       "bolt": "L00",
@@ -13526,7 +12846,7 @@
       "side_offset_mm": 6,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.3
+      "seconds": 3.1
     },
     {
       "bolt": "L00",
@@ -13534,7 +12854,7 @@
       "side_offset_mm": 0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 2.9
+      "seconds": 3.1
     },
     {
       "bolt": "L00",
@@ -13550,7 +12870,7 @@
       "side_offset_mm": 0,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 3.1
+      "seconds": 3.3
     },
     {
       "bolt": "L01",
@@ -13558,7 +12878,7 @@
       "side_offset_mm": 15,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.3
+      "seconds": 3.1
     },
     {
       "bolt": "L01",
@@ -13566,7 +12886,7 @@
       "side_offset_mm": 6,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.3
+      "seconds": 3.5
     },
     {
       "bolt": "L01",
@@ -13574,7 +12894,7 @@
       "side_offset_mm": 0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.1
+      "seconds": 3.2
     },
     {
       "bolt": "L01",
@@ -13582,7 +12902,7 @@
       "side_offset_mm": 0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.1
+      "seconds": 3.2
     },
     {
       "bolt": "L01",
@@ -13598,7 +12918,7 @@
       "side_offset_mm": 15,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.5
+      "seconds": 3.3
     },
     {
       "bolt": "L10",
@@ -13606,7 +12926,7 @@
       "side_offset_mm": 6,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.4
+      "seconds": 3.3
     },
     {
       "bolt": "L10",
@@ -13614,7 +12934,7 @@
       "side_offset_mm": 0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.7
+      "seconds": 3.6
     },
     {
       "bolt": "L10",
@@ -13622,7 +12942,7 @@
       "side_offset_mm": 0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.3
+      "seconds": 3.6
     },
     {
       "bolt": "L10",
@@ -13630,7 +12950,7 @@
       "side_offset_mm": 0,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 3.6
+      "seconds": 3.3
     },
     {
       "bolt": "L11",
@@ -13646,7 +12966,7 @@
       "side_offset_mm": 6,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.4
+      "seconds": 3.1
     },
     {
       "bolt": "L11",
@@ -13654,7 +12974,7 @@
       "side_offset_mm": 0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 2.9
+      "seconds": 3.2
     },
     {
       "bolt": "L11",
@@ -13662,7 +12982,7 @@
       "side_offset_mm": 0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.0
+      "seconds": 3.5
     },
     {
       "bolt": "L11",
@@ -13678,50 +12998,10 @@
       "side_offset_mm": 15,
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 2.4
-    },
-    {
-      "bolt": "R00",
-      "withdrawal_mm": 3,
-      "side_offset_mm": 6,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 3.0
-    },
-    {
-      "bolt": "R00",
-      "withdrawal_mm": 3,
-      "side_offset_mm": 0,
-      "pairs_tested": 2,
-      "hits": [],
       "seconds": 2.9
     },
     {
       "bolt": "R00",
-      "withdrawal_mm": 1.5,
-      "side_offset_mm": 0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 2.8
-    },
-    {
-      "bolt": "R00",
-      "withdrawal_mm": 0,
-      "side_offset_mm": 0,
-      "pairs_tested": 3,
-      "hits": [],
-      "seconds": 2.9
-    },
-    {
-      "bolt": "R01",
-      "withdrawal_mm": 3,
-      "side_offset_mm": 15,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 3.0
-    },
-    {
-      "bolt": "R01",
       "withdrawal_mm": 3,
       "side_offset_mm": 6,
       "pairs_tested": 2,
@@ -13729,7 +13009,7 @@
       "seconds": 3.4
     },
     {
-      "bolt": "R01",
+      "bolt": "R00",
       "withdrawal_mm": 3,
       "side_offset_mm": 0,
       "pairs_tested": 2,
@@ -13737,15 +13017,15 @@
       "seconds": 3.1
     },
     {
-      "bolt": "R01",
+      "bolt": "R00",
       "withdrawal_mm": 1.5,
       "side_offset_mm": 0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.3
+      "seconds": 3.2
     },
     {
-      "bolt": "R01",
+      "bolt": "R00",
       "withdrawal_mm": 0,
       "side_offset_mm": 0,
       "pairs_tested": 3,
@@ -13753,12 +13033,52 @@
       "seconds": 3.2
     },
     {
+      "bolt": "R01",
+      "withdrawal_mm": 3,
+      "side_offset_mm": 15,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 3.2
+    },
+    {
+      "bolt": "R01",
+      "withdrawal_mm": 3,
+      "side_offset_mm": 6,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 3.7
+    },
+    {
+      "bolt": "R01",
+      "withdrawal_mm": 3,
+      "side_offset_mm": 0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 3.3
+    },
+    {
+      "bolt": "R01",
+      "withdrawal_mm": 1.5,
+      "side_offset_mm": 0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 3.6
+    },
+    {
+      "bolt": "R01",
+      "withdrawal_mm": 0,
+      "side_offset_mm": 0,
+      "pairs_tested": 3,
+      "hits": [],
+      "seconds": 3.4
+    },
+    {
       "bolt": "R10",
       "withdrawal_mm": 3,
       "side_offset_mm": 15,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.3
+      "seconds": 3.4
     },
     {
       "bolt": "R10",
@@ -13766,7 +13086,7 @@
       "side_offset_mm": 6,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.3
+      "seconds": 3.4
     },
     {
       "bolt": "R10",
@@ -13782,7 +13102,7 @@
       "side_offset_mm": 0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 2.9
+      "seconds": 3.2
     },
     {
       "bolt": "R10",
@@ -13790,7 +13110,7 @@
       "side_offset_mm": 0,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 3.1
+      "seconds": 3.3
     },
     {
       "bolt": "R11",
@@ -13806,7 +13126,7 @@
       "side_offset_mm": 6,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.0
+      "seconds": 3.1
     },
     {
       "bolt": "R11",
@@ -13814,7 +13134,7 @@
       "side_offset_mm": 0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 3.0
+      "seconds": 3.4
     },
     {
       "bolt": "R11",
@@ -13830,7 +13150,7 @@
       "side_offset_mm": 0,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 2.7
+      "seconds": 3.1
     }
   ],
   "L_key_continuous_strokes": [
@@ -13862,7 +13182,7 @@
       ],
       "pairs_tested": 6,
       "hits": [],
-      "seconds": 3.3
+      "seconds": 3.4
     },
     {
       "bolt": "L10",
@@ -13892,7 +13212,7 @@
       ],
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 3.3
+      "seconds": 3.4
     },
     {
       "bolt": "R00",
@@ -13907,7 +13227,7 @@
       ],
       "pairs_tested": 5,
       "hits": [],
-      "seconds": 3.0
+      "seconds": 3.4
     },
     {
       "bolt": "R01",
@@ -13922,7 +13242,7 @@
       ],
       "pairs_tested": 6,
       "hits": [],
-      "seconds": 3.6
+      "seconds": 3.8
     },
     {
       "bolt": "R10",
@@ -13937,7 +13257,7 @@
       ],
       "pairs_tested": 4,
       "hits": [],
-      "seconds": 3.7
+      "seconds": 3.4
     },
     {
       "bolt": "R11",
@@ -13952,7 +13272,7 @@
       ],
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 3.0
+      "seconds": 3.3
     }
   ],
   "nut_insertion_before_sprocket_and_chain": [
@@ -13961,72 +13281,72 @@
       "offset_toward_track_centre_mm": 20.0,
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 1.8
+      "seconds": 2.0
     },
     {
       "bolt": "L00",
-      "offset_toward_track_centre_mm": 12.0,
-      "pairs_tested": 1,
-      "hits": [],
-      "seconds": 2.1
-    },
-    {
-      "bolt": "L00",
-      "offset_toward_track_centre_mm": 6.0,
-      "pairs_tested": 1,
-      "hits": [],
-      "seconds": 1.9
-    },
-    {
-      "bolt": "L00",
-      "offset_toward_track_centre_mm": 2.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 1.9
-    },
-    {
-      "bolt": "L00",
-      "offset_toward_track_centre_mm": 0.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 1.5
-    },
-    {
-      "bolt": "L01",
-      "offset_toward_track_centre_mm": 20.0,
-      "pairs_tested": 1,
-      "hits": [],
-      "seconds": 1.9
-    },
-    {
-      "bolt": "L01",
       "offset_toward_track_centre_mm": 12.0,
       "pairs_tested": 1,
       "hits": [],
       "seconds": 2.0
     },
     {
-      "bolt": "L01",
+      "bolt": "L00",
       "offset_toward_track_centre_mm": 6.0,
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 2.1
+      "seconds": 1.9
     },
     {
-      "bolt": "L01",
+      "bolt": "L00",
       "offset_toward_track_centre_mm": 2.0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 2.1
+      "seconds": 2.0
     },
     {
-      "bolt": "L01",
+      "bolt": "L00",
       "offset_toward_track_centre_mm": 0.0,
       "pairs_tested": 2,
       "hits": [],
       "seconds": 1.7
     },
     {
+      "bolt": "L01",
+      "offset_toward_track_centre_mm": 20.0,
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 2.1
+    },
+    {
+      "bolt": "L01",
+      "offset_toward_track_centre_mm": 12.0,
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 1.9
+    },
+    {
+      "bolt": "L01",
+      "offset_toward_track_centre_mm": 6.0,
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 2.0
+    },
+    {
+      "bolt": "L01",
+      "offset_toward_track_centre_mm": 2.0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 2.0
+    },
+    {
+      "bolt": "L01",
+      "offset_toward_track_centre_mm": 0.0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 1.6
+    },
+    {
       "bolt": "L10",
       "offset_toward_track_centre_mm": 20.0,
       "pairs_tested": 1,
@@ -14038,7 +13358,7 @@
       "offset_toward_track_centre_mm": 12.0,
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 1.9
+      "seconds": 2.2
     },
     {
       "bolt": "L10",
@@ -14059,14 +13379,14 @@
       "offset_toward_track_centre_mm": 0.0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 1.7
+      "seconds": 1.6
     },
     {
       "bolt": "L11",
       "offset_toward_track_centre_mm": 20.0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 2.0
+      "seconds": 2.1
     },
     {
       "bolt": "L11",
@@ -14080,7 +13400,7 @@
       "offset_toward_track_centre_mm": 6.0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 1.8
+      "seconds": 2.2
     },
     {
       "bolt": "L11",
@@ -14094,147 +13414,147 @@
       "offset_toward_track_centre_mm": 0.0,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.6
+      "seconds": 1.7
     },
     {
       "bolt": "R00",
       "offset_toward_track_centre_mm": 20.0,
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 1.8
+      "seconds": 2.2
     },
     {
       "bolt": "R00",
       "offset_toward_track_centre_mm": 12.0,
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 1.8
+      "seconds": 2.1
     },
     {
       "bolt": "R00",
       "offset_toward_track_centre_mm": 6.0,
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 1.8
+      "seconds": 2.1
     },
     {
       "bolt": "R00",
-      "offset_toward_track_centre_mm": 2.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 1.8
-    },
-    {
-      "bolt": "R00",
-      "offset_toward_track_centre_mm": 0.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 1.4
-    },
-    {
-      "bolt": "R01",
-      "offset_toward_track_centre_mm": 20.0,
-      "pairs_tested": 1,
-      "hits": [],
-      "seconds": 1.8
-    },
-    {
-      "bolt": "R01",
-      "offset_toward_track_centre_mm": 12.0,
-      "pairs_tested": 1,
-      "hits": [],
-      "seconds": 1.8
-    },
-    {
-      "bolt": "R01",
-      "offset_toward_track_centre_mm": 6.0,
-      "pairs_tested": 1,
-      "hits": [],
-      "seconds": 1.8
-    },
-    {
-      "bolt": "R01",
       "offset_toward_track_centre_mm": 2.0,
       "pairs_tested": 2,
       "hits": [],
       "seconds": 1.9
     },
     {
+      "bolt": "R00",
+      "offset_toward_track_centre_mm": 0.0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 1.6
+    },
+    {
       "bolt": "R01",
+      "offset_toward_track_centre_mm": 20.0,
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 2.0
+    },
+    {
+      "bolt": "R01",
+      "offset_toward_track_centre_mm": 12.0,
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 2.0
+    },
+    {
+      "bolt": "R01",
+      "offset_toward_track_centre_mm": 6.0,
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 2.0
+    },
+    {
+      "bolt": "R01",
+      "offset_toward_track_centre_mm": 2.0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 2.1
+    },
+    {
+      "bolt": "R01",
+      "offset_toward_track_centre_mm": 0.0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 1.7
+    },
+    {
+      "bolt": "R10",
+      "offset_toward_track_centre_mm": 20.0,
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 2.0
+    },
+    {
+      "bolt": "R10",
+      "offset_toward_track_centre_mm": 12.0,
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 2.0
+    },
+    {
+      "bolt": "R10",
+      "offset_toward_track_centre_mm": 6.0,
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 1.9
+    },
+    {
+      "bolt": "R10",
+      "offset_toward_track_centre_mm": 2.0,
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 2.0
+    },
+    {
+      "bolt": "R10",
       "offset_toward_track_centre_mm": 0.0,
       "pairs_tested": 2,
       "hits": [],
       "seconds": 1.5
     },
     {
-      "bolt": "R10",
+      "bolt": "R11",
       "offset_toward_track_centre_mm": 20.0,
-      "pairs_tested": 1,
+      "pairs_tested": 2,
       "hits": [],
-      "seconds": 2.0
+      "seconds": 2.1
     },
     {
-      "bolt": "R10",
+      "bolt": "R11",
       "offset_toward_track_centre_mm": 12.0,
-      "pairs_tested": 1,
+      "pairs_tested": 2,
       "hits": [],
       "seconds": 2.0
     },
     {
-      "bolt": "R10",
+      "bolt": "R11",
       "offset_toward_track_centre_mm": 6.0,
-      "pairs_tested": 1,
+      "pairs_tested": 2,
       "hits": [],
       "seconds": 1.8
     },
     {
-      "bolt": "R10",
+      "bolt": "R11",
       "offset_toward_track_centre_mm": 2.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 1.8
-    },
-    {
-      "bolt": "R10",
-      "offset_toward_track_centre_mm": 0.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 1.4
-    },
-    {
-      "bolt": "R11",
-      "offset_toward_track_centre_mm": 20.0,
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 1.8
-    },
-    {
-      "bolt": "R11",
-      "offset_toward_track_centre_mm": 12.0,
-      "pairs_tested": 2,
+      "pairs_tested": 3,
       "hits": [],
       "seconds": 2.0
     },
     {
       "bolt": "R11",
-      "offset_toward_track_centre_mm": 6.0,
-      "pairs_tested": 2,
+      "offset_toward_track_centre_mm": 0.0,
+      "pairs_tested": 3,
       "hits": [],
       "seconds": 1.9
-    },
-    {
-      "bolt": "R11",
-      "offset_toward_track_centre_mm": 2.0,
-      "pairs_tested": 3,
-      "hits": [],
-      "seconds": 1.8
-    },
-    {
-      "bolt": "R11",
-      "offset_toward_track_centre_mm": 0.0,
-      "pairs_tested": 3,
-      "hits": [],
-      "seconds": 1.6
     }
   ],
   "nut_continuous_sweeps": [
@@ -14244,7 +13564,7 @@
       "envelope": "Complete radius-4.5 nut/washer sweep, central screw clearance retained.",
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 1.7
+      "seconds": 1.6
     },
     {
       "bolt": "L01",
@@ -14252,7 +13572,7 @@
       "envelope": "Complete radius-4.5 nut/washer sweep, central screw clearance retained.",
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 1.5
+      "seconds": 1.7
     },
     {
       "bolt": "L10",
@@ -14260,7 +13580,7 @@
       "envelope": "Complete radius-4.5 nut/washer sweep, central screw clearance retained.",
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 1.6
+      "seconds": 1.5
     },
     {
       "bolt": "L11",
@@ -14268,7 +13588,7 @@
       "envelope": "Complete radius-4.5 nut/washer sweep, central screw clearance retained.",
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.5
+      "seconds": 1.8
     },
     {
       "bolt": "R00",
@@ -14276,7 +13596,7 @@
       "envelope": "Complete radius-4.5 nut/washer sweep, central screw clearance retained.",
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 1.3
+      "seconds": 1.7
     },
     {
       "bolt": "R01",
@@ -14284,7 +13604,7 @@
       "envelope": "Complete radius-4.5 nut/washer sweep, central screw clearance retained.",
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 1.5
+      "seconds": 1.9
     },
     {
       "bolt": "R10",
@@ -14292,7 +13612,7 @@
       "envelope": "Complete radius-4.5 nut/washer sweep, central screw clearance retained.",
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 1.5
+      "seconds": 1.7
     },
     {
       "bolt": "R11",
@@ -14300,7 +13620,7 @@
       "envelope": "Complete radius-4.5 nut/washer sweep, central screw clearance retained.",
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.3
+      "seconds": 1.7
     }
   ],
   "external_nut_socket_access": [
@@ -14310,135 +13630,135 @@
       "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
       "pairs_tested": 4,
       "hits": [],
+      "seconds": 1.7
+    },
+    {
+      "bolt": "L00",
+      "withdrawal_mm": 2.0,
+      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
+      "pairs_tested": 3,
+      "hits": [],
+      "seconds": 1.4
+    },
+    {
+      "bolt": "L00",
+      "withdrawal_mm": 6.0,
+      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 1.3
+    },
+    {
+      "bolt": "L00",
+      "withdrawal_mm": 12.0,
+      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 1.4
+    },
+    {
+      "bolt": "L01",
+      "withdrawal_mm": 0.0,
+      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
+      "pairs_tested": 4,
+      "hits": [],
+      "seconds": 1.3
+    },
+    {
+      "bolt": "L01",
+      "withdrawal_mm": 2.0,
+      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
+      "pairs_tested": 3,
+      "hits": [],
+      "seconds": 1.3
+    },
+    {
+      "bolt": "L01",
+      "withdrawal_mm": 6.0,
+      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 1.3
+    },
+    {
+      "bolt": "L01",
+      "withdrawal_mm": 12.0,
+      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 1.3
+    },
+    {
+      "bolt": "L10",
+      "withdrawal_mm": 0.0,
+      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
+      "pairs_tested": 4,
+      "hits": [],
+      "seconds": 1.3
+    },
+    {
+      "bolt": "L10",
+      "withdrawal_mm": 2.0,
+      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
+      "pairs_tested": 3,
+      "hits": [],
+      "seconds": 1.3
+    },
+    {
+      "bolt": "L10",
+      "withdrawal_mm": 6.0,
+      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 1.3
+    },
+    {
+      "bolt": "L10",
+      "withdrawal_mm": 12.0,
+      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 1.2
+    },
+    {
+      "bolt": "L11",
+      "withdrawal_mm": 0.0,
+      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
+      "pairs_tested": 5,
+      "hits": [],
+      "seconds": 1.7
+    },
+    {
+      "bolt": "L11",
+      "withdrawal_mm": 2.0,
+      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
+      "pairs_tested": 4,
+      "hits": [],
+      "seconds": 1.4
+    },
+    {
+      "bolt": "L11",
+      "withdrawal_mm": 6.0,
+      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
+      "pairs_tested": 2,
+      "hits": [],
+      "seconds": 1.4
+    },
+    {
+      "bolt": "L11",
+      "withdrawal_mm": 12.0,
+      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
+      "pairs_tested": 2,
+      "hits": [],
       "seconds": 1.5
     },
     {
-      "bolt": "L00",
-      "withdrawal_mm": 2.0,
-      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
-      "pairs_tested": 3,
-      "hits": [],
-      "seconds": 1.4
-    },
-    {
-      "bolt": "L00",
-      "withdrawal_mm": 6.0,
-      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
-      "pairs_tested": 1,
-      "hits": [],
-      "seconds": 1.2
-    },
-    {
-      "bolt": "L00",
-      "withdrawal_mm": 12.0,
-      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
-      "pairs_tested": 1,
-      "hits": [],
-      "seconds": 1.3
-    },
-    {
-      "bolt": "L01",
-      "withdrawal_mm": 0.0,
-      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
-      "pairs_tested": 4,
-      "hits": [],
-      "seconds": 1.3
-    },
-    {
-      "bolt": "L01",
-      "withdrawal_mm": 2.0,
-      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
-      "pairs_tested": 3,
-      "hits": [],
-      "seconds": 1.3
-    },
-    {
-      "bolt": "L01",
-      "withdrawal_mm": 6.0,
-      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
-      "pairs_tested": 1,
-      "hits": [],
-      "seconds": 1.3
-    },
-    {
-      "bolt": "L01",
-      "withdrawal_mm": 12.0,
-      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
-      "pairs_tested": 1,
-      "hits": [],
-      "seconds": 1.2
-    },
-    {
-      "bolt": "L10",
-      "withdrawal_mm": 0.0,
-      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
-      "pairs_tested": 4,
-      "hits": [],
-      "seconds": 1.4
-    },
-    {
-      "bolt": "L10",
-      "withdrawal_mm": 2.0,
-      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
-      "pairs_tested": 3,
-      "hits": [],
-      "seconds": 1.4
-    },
-    {
-      "bolt": "L10",
-      "withdrawal_mm": 6.0,
-      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
-      "pairs_tested": 1,
-      "hits": [],
-      "seconds": 1.4
-    },
-    {
-      "bolt": "L10",
-      "withdrawal_mm": 12.0,
-      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
-      "pairs_tested": 1,
-      "hits": [],
-      "seconds": 1.1
-    },
-    {
-      "bolt": "L11",
-      "withdrawal_mm": 0.0,
-      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
-      "pairs_tested": 5,
-      "hits": [],
-      "seconds": 1.4
-    },
-    {
-      "bolt": "L11",
-      "withdrawal_mm": 2.0,
-      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
-      "pairs_tested": 4,
-      "hits": [],
-      "seconds": 1.3
-    },
-    {
-      "bolt": "L11",
-      "withdrawal_mm": 6.0,
-      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 1.4
-    },
-    {
-      "bolt": "L11",
-      "withdrawal_mm": 12.0,
-      "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
-      "pairs_tested": 2,
-      "hits": [],
-      "seconds": 1.3
-    },
-    {
       "bolt": "R00",
       "withdrawal_mm": 0.0,
       "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
       "pairs_tested": 4,
       "hits": [],
-      "seconds": 1.2
+      "seconds": 1.4
     },
     {
       "bolt": "R00",
@@ -14454,7 +13774,7 @@
       "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 1.2
+      "seconds": 1.5
     },
     {
       "bolt": "R00",
@@ -14462,7 +13782,7 @@
       "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 1.1
+      "seconds": 1.3
     },
     {
       "bolt": "R01",
@@ -14470,7 +13790,7 @@
       "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
       "pairs_tested": 4,
       "hits": [],
-      "seconds": 1.2
+      "seconds": 1.4
     },
     {
       "bolt": "R01",
@@ -14478,7 +13798,7 @@
       "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.2
+      "seconds": 1.3
     },
     {
       "bolt": "R01",
@@ -14486,7 +13806,7 @@
       "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 1.1
+      "seconds": 1.4
     },
     {
       "bolt": "R01",
@@ -14494,7 +13814,7 @@
       "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 1.1
+      "seconds": 1.3
     },
     {
       "bolt": "R10",
@@ -14510,7 +13830,7 @@
       "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.2
+      "seconds": 1.6
     },
     {
       "bolt": "R10",
@@ -14518,7 +13838,7 @@
       "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 1.1
+      "seconds": 1.2
     },
     {
       "bolt": "R10",
@@ -14526,7 +13846,7 @@
       "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 1.1
+      "seconds": 1.3
     },
     {
       "bolt": "R11",
@@ -14534,7 +13854,7 @@
       "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
       "pairs_tested": 5,
       "hits": [],
-      "seconds": 1.2
+      "seconds": 1.5
     },
     {
       "bolt": "R11",
@@ -14542,7 +13862,7 @@
       "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
       "pairs_tested": 4,
       "hits": [],
-      "seconds": 1.3
+      "seconds": 1.5
     },
     {
       "bolt": "R11",
@@ -14550,7 +13870,7 @@
       "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 1.3
+      "seconds": 1.5
     },
     {
       "bolt": "R11",
@@ -14558,7 +13878,7 @@
       "stage": "Rollers, axles, motor, housing and nominal idler fitted; rear sprocket/hub, chain and upper absent.",
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 1.3
+      "seconds": 1.2
     }
   ],
   "continuous_socket_routes": [
@@ -14567,91 +13887,91 @@
       "stage": "80 mm descent with socket withdrawn12mm",
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 1.2
+      "seconds": 1.3
     },
     {
       "bolt": "L00",
       "stage": "continuous0..12mm axial socket movement",
       "pairs_tested": 4,
       "hits": [],
-      "seconds": 1.4
+      "seconds": 1.5
     },
     {
       "bolt": "L01",
       "stage": "80 mm descent with socket withdrawn12mm",
       "pairs_tested": 1,
+      "hits": [],
+      "seconds": 1.3
+    },
+    {
+      "bolt": "L01",
+      "stage": "continuous0..12mm axial socket movement",
+      "pairs_tested": 4,
+      "hits": [],
+      "seconds": 1.3
+    },
+    {
+      "bolt": "L10",
+      "stage": "80 mm descent with socket withdrawn12mm",
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 1.3
+    },
+    {
+      "bolt": "L10",
+      "stage": "continuous0..12mm axial socket movement",
+      "pairs_tested": 4,
       "hits": [],
       "seconds": 1.2
-    },
-    {
-      "bolt": "L01",
-      "stage": "continuous0..12mm axial socket movement",
-      "pairs_tested": 4,
-      "hits": [],
-      "seconds": 1.4
-    },
-    {
-      "bolt": "L10",
-      "stage": "80 mm descent with socket withdrawn12mm",
-      "pairs_tested": 1,
-      "hits": [],
-      "seconds": 1.3
-    },
-    {
-      "bolt": "L10",
-      "stage": "continuous0..12mm axial socket movement",
-      "pairs_tested": 4,
-      "hits": [],
-      "seconds": 1.3
     },
     {
       "bolt": "L11",
       "stage": "80 mm descent with socket withdrawn12mm",
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 1.2
+      "seconds": 1.3
     },
     {
       "bolt": "L11",
       "stage": "continuous0..12mm axial socket movement",
       "pairs_tested": 5,
       "hits": [],
-      "seconds": 1.4
+      "seconds": 1.5
     },
     {
       "bolt": "R00",
+      "stage": "80 mm descent with socket withdrawn12mm",
+      "pairs_tested": 1,
+      "hits": [],
+      "seconds": 1.2
+    },
+    {
+      "bolt": "R00",
+      "stage": "continuous0..12mm axial socket movement",
+      "pairs_tested": 4,
+      "hits": [],
+      "seconds": 1.4
+    },
+    {
+      "bolt": "R01",
       "stage": "80 mm descent with socket withdrawn12mm",
       "pairs_tested": 1,
       "hits": [],
       "seconds": 1.1
     },
     {
-      "bolt": "R00",
-      "stage": "continuous0..12mm axial socket movement",
-      "pairs_tested": 4,
-      "hits": [],
-      "seconds": 1.2
-    },
-    {
-      "bolt": "R01",
-      "stage": "80 mm descent with socket withdrawn12mm",
-      "pairs_tested": 1,
-      "hits": [],
-      "seconds": 1.2
-    },
-    {
       "bolt": "R01",
       "stage": "continuous0..12mm axial socket movement",
       "pairs_tested": 4,
       "hits": [],
-      "seconds": 1.3
+      "seconds": 1.4
     },
     {
       "bolt": "R10",
       "stage": "80 mm descent with socket withdrawn12mm",
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 1.3
+      "seconds": 1.2
     },
     {
       "bolt": "R10",
@@ -14665,14 +13985,14 @@
       "stage": "80 mm descent with socket withdrawn12mm",
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 1.2
+      "seconds": 1.3
     },
     {
       "bolt": "R11",
       "stage": "continuous0..12mm axial socket movement",
       "pairs_tested": 5,
       "hits": [],
-      "seconds": 1.3
+      "seconds": 1.6
     }
   ],
   "detached_support_roller_service": [
@@ -14682,7 +14002,7 @@
       "tool": "driver",
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 3.8
+      "seconds": 4.5
     },
     {
       "side": "L",
@@ -14690,7 +14010,7 @@
       "tool": "bolt",
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 4.0
+      "seconds": 4.3
     },
     {
       "side": "L",
@@ -14706,7 +14026,7 @@
       "tool": "bolt",
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 4.3
+      "seconds": 4.2
     },
     {
       "side": "R",
@@ -14722,7 +14042,7 @@
       "tool": "bolt",
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 4.0
+      "seconds": 4.2
     },
     {
       "side": "R",
@@ -14730,7 +14050,7 @@
       "tool": "driver",
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 3.7
+      "seconds": 4.1
     },
     {
       "side": "R",
@@ -14738,7 +14058,7 @@
       "tool": "bolt",
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 3.8
+      "seconds": 4.3
     }
   ],
   "sprocket_and_optional_idler_installation_after_joint_tightening": [
@@ -14776,7 +14096,7 @@
       "lateral_offset_mm": 9.6,
       "pairs_tested": 1,
       "hits": [],
-      "seconds": 2.5
+      "seconds": 2.6
     },
     {
       "side": "L",
@@ -14794,7 +14114,7 @@
       "lateral_offset_mm": 9.6,
       "pairs_tested": 6,
       "hits": [],
-      "seconds": 10.4
+      "seconds": 11.8
     },
     {
       "side": "L",
@@ -14803,7 +14123,7 @@
       "lateral_offset_mm": 9.6,
       "pairs_tested": 6,
       "hits": [],
-      "seconds": 12.2
+      "seconds": 13.5
     },
     {
       "side": "L",
@@ -14812,7 +14132,7 @@
       "lateral_offset_mm": 9.6,
       "pairs_tested": 6,
       "hits": [],
-      "seconds": 12.5
+      "seconds": 13.3
     },
     {
       "side": "L",
@@ -14821,7 +14141,7 @@
       "lateral_offset_mm": 9.6,
       "pairs_tested": 7,
       "hits": [],
-      "seconds": 14.2
+      "seconds": 14.8
     },
     {
       "side": "L",
@@ -14829,7 +14149,7 @@
       "lateral_offset_mm": 9.6,
       "pairs_tested": 7,
       "hits": [],
-      "seconds": 13.5
+      "seconds": 15.3
     },
     {
       "side": "L",
@@ -14837,7 +14157,7 @@
       "lateral_offset_mm": 7.0,
       "pairs_tested": 8,
       "hits": [],
-      "seconds": 13.3
+      "seconds": 14.7
     },
     {
       "side": "L",
@@ -14845,7 +14165,7 @@
       "lateral_offset_mm": 4.0,
       "pairs_tested": 9,
       "hits": [],
-      "seconds": 14.0
+      "seconds": 14.3
     },
     {
       "side": "L",
@@ -14853,7 +14173,7 @@
       "lateral_offset_mm": 2.0,
       "pairs_tested": 9,
       "hits": [],
-      "seconds": 14.0
+      "seconds": 15.5
     },
     {
       "side": "L",
@@ -14861,7 +14181,7 @@
       "lateral_offset_mm": 0.0,
       "pairs_tested": 12,
       "hits": [],
-      "seconds": 14.9
+      "seconds": 15.9
     },
     {
       "side": "L",
@@ -14869,7 +14189,7 @@
       "longitudinal_offset_mm": 60.0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 2.7
+      "seconds": 2.9
     },
     {
       "side": "L",
@@ -14877,7 +14197,7 @@
       "longitudinal_offset_mm": 25.0,
       "pairs_tested": 11,
       "hits": [],
-      "seconds": 13.2
+      "seconds": 15.5
     },
     {
       "side": "L",
@@ -14885,7 +14205,7 @@
       "longitudinal_offset_mm": 8.0,
       "pairs_tested": 11,
       "hits": [],
-      "seconds": 19.4
+      "seconds": 21.6
     },
     {
       "side": "L",
@@ -14893,7 +14213,7 @@
       "longitudinal_offset_mm": 0.0,
       "pairs_tested": 13,
       "hits": [],
-      "seconds": 20.3
+      "seconds": 21.6
     },
     {
       "side": "R",
@@ -14938,7 +14258,7 @@
       "lateral_offset_mm": 9.6,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 5.7
+      "seconds": 6.2
     },
     {
       "side": "R",
@@ -14947,7 +14267,7 @@
       "lateral_offset_mm": 9.6,
       "pairs_tested": 6,
       "hits": [],
-      "seconds": 9.8
+      "seconds": 10.7
     },
     {
       "side": "R",
@@ -14956,7 +14276,7 @@
       "lateral_offset_mm": 9.6,
       "pairs_tested": 6,
       "hits": [],
-      "seconds": 12.4
+      "seconds": 13.0
     },
     {
       "side": "R",
@@ -14965,7 +14285,7 @@
       "lateral_offset_mm": 9.6,
       "pairs_tested": 6,
       "hits": [],
-      "seconds": 12.0
+      "seconds": 14.0
     },
     {
       "side": "R",
@@ -14974,7 +14294,7 @@
       "lateral_offset_mm": 9.6,
       "pairs_tested": 7,
       "hits": [],
-      "seconds": 12.8
+      "seconds": 13.6
     },
     {
       "side": "R",
@@ -14982,7 +14302,7 @@
       "lateral_offset_mm": 9.6,
       "pairs_tested": 7,
       "hits": [],
-      "seconds": 13.0
+      "seconds": 14.3
     },
     {
       "side": "R",
@@ -14990,7 +14310,7 @@
       "lateral_offset_mm": 7.0,
       "pairs_tested": 8,
       "hits": [],
-      "seconds": 13.6
+      "seconds": 14.8
     },
     {
       "side": "R",
@@ -14998,7 +14318,7 @@
       "lateral_offset_mm": 4.0,
       "pairs_tested": 9,
       "hits": [],
-      "seconds": 13.2
+      "seconds": 14.5
     },
     {
       "side": "R",
@@ -15006,7 +14326,7 @@
       "lateral_offset_mm": 2.0,
       "pairs_tested": 9,
       "hits": [],
-      "seconds": 13.3
+      "seconds": 14.4
     },
     {
       "side": "R",
@@ -15014,7 +14334,7 @@
       "lateral_offset_mm": 0.0,
       "pairs_tested": 12,
       "hits": [],
-      "seconds": 14.6
+      "seconds": 15.4
     },
     {
       "side": "R",
@@ -15022,7 +14342,7 @@
       "longitudinal_offset_mm": 60.0,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 2.5
+      "seconds": 2.8
     },
     {
       "side": "R",
@@ -15030,7 +14350,7 @@
       "longitudinal_offset_mm": 25.0,
       "pairs_tested": 11,
       "hits": [],
-      "seconds": 13.4
+      "seconds": 14.5
     },
     {
       "side": "R",
@@ -15038,7 +14358,7 @@
       "longitudinal_offset_mm": 8.0,
       "pairs_tested": 11,
       "hits": [],
-      "seconds": 19.4
+      "seconds": 20.5
     },
     {
       "side": "R",
@@ -15046,7 +14366,7 @@
       "longitudinal_offset_mm": 0.0,
       "pairs_tested": 13,
       "hits": [],
-      "seconds": 19.0
+      "seconds": 20.5
     }
   ],
   "continuous_sprocket_routes": [
@@ -15062,21 +14382,21 @@
       "stage": "continuous axial seating Y+9.6..0",
       "pairs_tested": 9,
       "hits": [],
-      "seconds": 1.9
+      "seconds": 2.5
     },
     {
       "side": "R",
       "stage": "continuous rear entry X -150..0 at Y+9.6",
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 1.3
+      "seconds": 1.4
     },
     {
       "side": "R",
       "stage": "continuous axial seating Y+9.6..0",
       "pairs_tested": 9,
       "hits": [],
-      "seconds": 2.0
+      "seconds": 2.2
     }
   ],
   "sprocket_sweep_containment_proofs": [
@@ -15173,7 +14493,7 @@
       "recoil_mm": 0.7000000000000001,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 0.0
+      "seconds": 0.1
     },
     {
       "side": "L",
@@ -15257,35 +14577,35 @@
       "recoil_mm": 0.35000000000000003,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 0.0
+      "seconds": 0.1
     },
     {
       "side": "R",
       "recoil_mm": 0.7000000000000001,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 0.0
+      "seconds": 0.1
     },
     {
       "side": "R",
       "recoil_mm": 1.05,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 0.1
+      "seconds": 0.0
     },
     {
       "side": "R",
       "recoil_mm": 1.4000000000000001,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 0.1
+      "seconds": 0.0
     },
     {
       "side": "R",
       "recoil_mm": 1.75,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 0.0
+      "seconds": 0.1
     },
     {
       "side": "R",
@@ -15313,7 +14633,7 @@
       "recoil_mm": 3.1500000000000004,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 0.1
+      "seconds": 0.0
     },
     {
       "side": "R",
@@ -15334,177 +14654,177 @@
       "recoil_mm": 4.2,
       "pairs_tested": 2,
       "hits": [],
-      "seconds": 0.0
+      "seconds": 0.1
     }
   ],
   "track_phases": [
     {
       "side": "L",
       "fraction_of_pitch": 0.0,
-      "pairs_tested": 10,
+      "pairs_tested": 19,
       "hits": [],
-      "seconds": 3.1
+      "seconds": 6.2
     },
     {
       "side": "R",
       "fraction_of_pitch": 0.0,
-      "pairs_tested": 10,
+      "pairs_tested": 19,
       "hits": [],
-      "seconds": 3.5
+      "seconds": 5.9
     },
     {
       "side": "L",
       "fraction_of_pitch": 0.08333333333333333,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.7
+      "seconds": 5.4
     },
     {
       "side": "R",
       "fraction_of_pitch": 0.08333333333333333,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.7
+      "seconds": 5.5
     },
     {
       "side": "L",
       "fraction_of_pitch": 0.16666666666666666,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.9
+      "seconds": 5.8
     },
     {
       "side": "R",
       "fraction_of_pitch": 0.16666666666666666,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.6
+      "seconds": 5.7
     },
     {
       "side": "L",
       "fraction_of_pitch": 0.25,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.7
+      "seconds": 5.5
     },
     {
       "side": "R",
       "fraction_of_pitch": 0.25,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.7
+      "seconds": 5.3
     },
     {
       "side": "L",
       "fraction_of_pitch": 0.3333333333333333,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.6
+      "seconds": 5.6
     },
     {
       "side": "R",
       "fraction_of_pitch": 0.3333333333333333,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.7
+      "seconds": 5.4
     },
     {
       "side": "L",
       "fraction_of_pitch": 0.4166666666666667,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.6
+      "seconds": 5.2
     },
     {
       "side": "R",
       "fraction_of_pitch": 0.4166666666666667,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.8
+      "seconds": 5.4
     },
     {
       "side": "L",
       "fraction_of_pitch": 0.5,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.6
+      "seconds": 5.3
     },
     {
       "side": "R",
       "fraction_of_pitch": 0.5,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.5
+      "seconds": 5.2
     },
     {
       "side": "L",
       "fraction_of_pitch": 0.5833333333333334,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.8
+      "seconds": 5.4
     },
     {
       "side": "R",
       "fraction_of_pitch": 0.5833333333333334,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.6
+      "seconds": 5.4
     },
     {
       "side": "L",
       "fraction_of_pitch": 0.6666666666666666,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.6
+      "seconds": 5.6
     },
     {
       "side": "R",
       "fraction_of_pitch": 0.6666666666666666,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.7
+      "seconds": 5.4
     },
     {
       "side": "L",
       "fraction_of_pitch": 0.75,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.6
+      "seconds": 5.4
     },
     {
       "side": "R",
       "fraction_of_pitch": 0.75,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.6
+      "seconds": 5.4
     },
     {
       "side": "L",
       "fraction_of_pitch": 0.8333333333333334,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.8
+      "seconds": 5.2
     },
     {
       "side": "R",
       "fraction_of_pitch": 0.8333333333333334,
-      "pairs_tested": 9,
+      "pairs_tested": 17,
       "hits": [],
-      "seconds": 2.7
+      "seconds": 5.3
     },
     {
       "side": "L",
       "fraction_of_pitch": 0.9166666666666666,
-      "pairs_tested": 10,
+      "pairs_tested": 18,
       "hits": [],
-      "seconds": 3.0
+      "seconds": 5.8
     },
     {
       "side": "R",
       "fraction_of_pitch": 0.9166666666666666,
-      "pairs_tested": 10,
+      "pairs_tested": 18,
       "hits": [],
-      "seconds": 3.0
+      "seconds": 5.8
     }
   ],
   "swing": [
@@ -15512,31 +14832,31 @@
       "angle_deg": 0,
       "pairs_tested": 26,
       "hits": [],
-      "seconds": 23.0
+      "seconds": 24.8
     },
     {
       "angle_deg": 15,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.2
+      "seconds": 1.1
     },
     {
       "angle_deg": 30,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.2
+      "seconds": 1.3
     },
     {
       "angle_deg": 45,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.3
+      "seconds": 1.4
     },
     {
       "angle_deg": 60,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.3
+      "seconds": 1.4
     },
     {
       "angle_deg": 75,
@@ -15548,19 +14868,19 @@
       "angle_deg": 90,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.2
+      "seconds": 1.3
     },
     {
       "angle_deg": 105,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.4
+      "seconds": 1.3
     },
     {
       "angle_deg": 120,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.1
+      "seconds": 1.3
     },
     {
       "angle_deg": 135,
@@ -15572,55 +14892,55 @@
       "angle_deg": 150,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.3
+      "seconds": 1.2
     },
     {
       "angle_deg": 165,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.5
+      "seconds": 1.3
     },
     {
       "angle_deg": 180,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.3
+      "seconds": 1.2
     },
     {
       "angle_deg": 195,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.4
+      "seconds": 1.3
     },
     {
       "angle_deg": 210,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.5
+      "seconds": 1.3
     },
     {
       "angle_deg": 225,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.3
+      "seconds": 1.5
     },
     {
       "angle_deg": 240,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.5
+      "seconds": 1.3
     },
     {
       "angle_deg": 255,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.5
+      "seconds": 1.6
     },
     {
       "angle_deg": 270,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.5
+      "seconds": 1.3
     },
     {
       "angle_deg": 285,
@@ -15638,13 +14958,13 @@
       "angle_deg": 315,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.4
+      "seconds": 1.5
     },
     {
       "angle_deg": 330,
       "pairs_tested": 3,
       "hits": [],
-      "seconds": 1.4
+      "seconds": 1.3
     },
     {
       "angle_deg": 345,
@@ -15774,7 +15094,7 @@
             0.0,
             85.0
           ],
-          "seconds": 0.514
+          "seconds": 0.49
         }
       ],
       "method": "OCC BRepExtrema_DistShapeShape, SetMultiThread(True) before Perform; fresh non-overlap check and conservative component AABB pruning"
@@ -15797,7 +15117,7 @@
             59.791303715507,
             46.0
           ],
-          "seconds": 1.792
+          "seconds": 1.813
         }
       ],
       "method": "OCC BRepExtrema_DistShapeShape, SetMultiThread(True) before Perform; fresh non-overlap check and conservative component AABB pruning"
@@ -15820,7 +15140,7 @@
             -59.7913037155,
             46.0
           ],
-          "seconds": 0.819
+          "seconds": 0.705
         }
       ],
       "method": "OCC BRepExtrema_DistShapeShape, SetMultiThread(True) before Perform; fresh non-overlap check and conservative component AABB pruning"
@@ -15843,7 +15163,7 @@
             134.5,
             54.96936874145
           ],
-          "seconds": 26.279
+          "seconds": 24.014
         }
       ],
       "method": "OCC BRepExtrema_DistShapeShape, SetMultiThread(True) before Perform; fresh non-overlap check and conservative component AABB pruning"
@@ -15866,7 +15186,7 @@
             135.52860702568353,
             52.555277009374265
           ],
-          "seconds": 1.482
+          "seconds": 1.316
         },
         {
           "part": "L_JGY370_terminal_space",
@@ -15882,7 +15202,7 @@
             135.52860702568353,
             52.555277009374265
           ],
-          "seconds": 0.613
+          "seconds": 0.691
         }
       ],
       "method": "OCC BRepExtrema_DistShapeShape, SetMultiThread(True) before Perform; fresh non-overlap check and conservative component AABB pruning"
@@ -15905,7 +15225,7 @@
             -134.5,
             54.96936874145
           ],
-          "seconds": 28.193
+          "seconds": 24.684
         }
       ],
       "method": "OCC BRepExtrema_DistShapeShape, SetMultiThread(True) before Perform; fresh non-overlap check and conservative component AABB pruning"
@@ -15928,7 +15248,7 @@
             -135.52860702568353,
             52.555277009374265
           ],
-          "seconds": 0.304
+          "seconds": 0.309
         },
         {
           "part": "R_JGY370_terminal_space",
@@ -15944,7 +15264,7 @@
             -135.52860702568353,
             52.555277009374265
           ],
-          "seconds": 0.714
+          "seconds": 0.61
         }
       ],
       "method": "OCC BRepExtrema_DistShapeShape, SetMultiThread(True) before Perform; fresh non-overlap check and conservative component AABB pruning"
@@ -15967,7 +15287,7 @@
             147.0,
             68.5178597634355
           ],
-          "seconds": 0.179
+          "seconds": 0.023
         },
         {
           "part": "L_J904_roller_support1",
@@ -15983,7 +15303,7 @@
             147.0,
             68.5178597634355
           ],
-          "seconds": 0.103
+          "seconds": 0.062
         },
         {
           "part": "L_J906_idler_wheel",
@@ -15999,7 +15319,7 @@
             147.0,
             63.17311569321551
           ],
-          "seconds": 1.016
+          "seconds": 0.827
         }
       ],
       "method": "OCC BRepExtrema_DistShapeShape, SetMultiThread(True) before Perform; fresh non-overlap check and conservative component AABB pruning"
@@ -16022,7 +15342,7 @@
             147.0,
             64.80526965461594
           ],
-          "seconds": 0.401
+          "seconds": 0.397
         }
       ],
       "method": "OCC BRepExtrema_DistShapeShape, SetMultiThread(True) before Perform; fresh non-overlap check and conservative component AABB pruning"
@@ -16045,7 +15365,7 @@
             -147.0,
             68.5178597634355
           ],
-          "seconds": 0.102
+          "seconds": 0.022
         },
         {
           "part": "R_J904_roller_support1",
@@ -16061,7 +15381,7 @@
             -147.0,
             68.5178597634355
           ],
-          "seconds": 0.11
+          "seconds": 0.066
         },
         {
           "part": "R_J906_idler_wheel",
@@ -16077,7 +15397,7 @@
             -147.0,
             63.17311569321551
           ],
-          "seconds": 1.08
+          "seconds": 0.906
         }
       ],
       "method": "OCC BRepExtrema_DistShapeShape, SetMultiThread(True) before Perform; fresh non-overlap check and conservative component AABB pruning"
@@ -16100,7 +15420,7 @@
             -147.0,
             64.80526965461594
           ],
-          "seconds": 0.485
+          "seconds": 0.39
         }
       ],
       "method": "OCC BRepExtrema_DistShapeShape, SetMultiThread(True) before Perform; fresh non-overlap check and conservative component AABB pruning"
@@ -16115,12 +15435,12 @@
     "L_J901_H_frame": {
       "valid": true,
       "solids": 1,
-      "volume_mm3": 296216.1270029422
+      "volume_mm3": 295599.0129724823
     },
     "R_J901_H_frame": {
       "valid": true,
       "solids": 1,
-      "volume_mm3": 296216.1270029552
+      "volume_mm3": 295599.0129724947
     },
     "L_J909_housing": {
       "valid": true,
@@ -16140,18 +15460,18 @@
     "recess_mm": 8.0,
     "fitted_length_mm": 25.8,
     "recoil_mm": 4.2,
-    "yoke_step_sha256": "3ab7207adb42dc2eb1b08c4dc9a470fafd4a43527277ddad2c02f078ea9db60d",
+    "yoke_step_sha256": "79b97f642596644b48a4b73175efc60628b71f423c76cf94c4b77071361f946e",
     "spring_guide_report": "track_wheel_jgy370/J9/spring_guide_validation.json",
     "preserved": true
   },
   "overlap_tolerance_mm3": 0.01,
   "numerical_case_cache": {
-    "fingerprint": "9e8d74a422229c489c5b6635948961fc122d15c95674b5a7a1348402329d262f",
+    "fingerprint": "b630f86656a06539dfcfd79e2b9c5c8a979ae07049e2cecde0fa74654a988fe6",
     "case_count": 173,
     "reused_cases": 0,
     "binding": "Exact source, exported CAD, assembly and scene bytes. Acceptance proofs are independently verified before publication."
   },
   "scope": "Exact nominal solid interference at the listed poses, with a complete continuous vertical frame-fitting sweep, continuous nut insertion and conservative60-degree L-key strokes, complete screw/socket insertion envelopes and continuous sprocket assembly sweeps. Track internals are covered by the fresh J9 validation; central tools are checked here. No physical fit, strength, torque, preload retention, fatigue or payload rating is established.",
-  "elapsed_s": 2875.47,
+  "elapsed_s": 2939.27,
   "pass": true
 }

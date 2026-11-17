@@ -16,8 +16,26 @@ PITCH, TEETH, LINKS = 20.0, 12, 34
 PITCH_R = PITCH / (2 * math.sin(math.pi / TEETH))       # 38.637
 APOTHEM = PITCH_R * math.cos(math.pi / TEETH)           # 37.321
 SPROCKET_TIP_R = APOTHEM + 3.5                          # 40.821
-BUSH_R, BUSH_HALF_L = 3.0, 8.5
-PIN_R, PIN_HALF_L, CLIP_Y = 1.5, 28.0, 26.5
+SPROCKET_HALF_T = 8.5      # the sprocket stays 17 mm thick (unchanged R4/R5/J8 tooth form)
+# Chain joint, J910 revision B (2026-11-14). The 2026-11-14 pre-print review found three faults in the inherited R4 link:
+# the grooved pin floated 5.2 mm either way, so an E-clip could sit under a roller flange; the Ø8 ends cleared the next
+# shoe plate by 0.045 mm; and the sprocket had 0.2 mm a side between the inner ears. Each joint is now an ISO 4762
+# M3 x 60 partly threaded screw and a DIN 985 M3 nyloc nut (agreed with the user on 2026-11-14). Head and nut seat on
+# low bosses on the outer plates, 2 mm outboard of the roller flanges, so the screw cannot slide. M3 x 50 is too short:
+# the seats are 50 mm apart before the nut starts, and the smooth shank has to reach past the far inner ear.
+BUSH_R, BUSH_BORE_R, BUSH_HALF_L = 3.0, 1.6, 9.0   # stock sleeve Ø6 x Ø3.2 x 18 (a 17 mm one also fits)
+PIN_R = 1.5                                         # M3 shank; the link holes stay Ø3.2
+LINK_PLATE_Y = (14.0, 21.0)                         # outer plates
+LINK_EAR_Y = (9.2, 13.7)                            # inner ears 4.5 thick, 18.4 apart: 0.2 a side for the sleeve, 0.7 for the sprocket
+LINK_RELIEF_R = 4.6                                 # about both pin axes: 0.6 mm to the next link's Ø8 ends
+# Seat boss on the outer face of each outer plate: the lower part of the Ø8 plate end plus a web onto the shoe plate,
+# cut off 0.8 mm above the pin axis so that the roller flanges (2.0 mm above the axis) pass 1.2 mm over it.
+LINK_BOSS = dict(y=(21.0, 25.0), top=0.8, web_x=-5.0)
+LINK_EAR_CHAMFER, LINK_RAIL_CHAMFER = 1.0, 0.8      # lead-ins for the sprocket teeth and for the roller / idler flanges
+GROUSER_X = (-8.4, 0.0, 8.4)                        # outer grousers at the plate edges: the underside bridges 6.4 mm, no hanging strip
+TRACK_SCREW = dict(length=60.0, head_r=2.75, head_k=3.0, thread=18.0)   # head outboard (+Y on the left track), tip at the shoe edge
+TRACK_NUT = dict(af=5.5, m=4.0)
+SCREW_SEAT_Y = LINK_BOSS['y'][1]                    # 25: head seat (+Y) and nut seat (-Y)
 RAIL_FACE = 4.0            # link running face, inside the pin line
 SHOE_OUT = 7.0             # grouser tips, outside the pin line
 LINK_HALF_W = 21.0         # outer face of the outer link plates
@@ -56,7 +74,9 @@ RECOIL = 4.2                                   # idler recoil to the mechanical 
 SPRING_POCKET = dict(recess=8.0, bore_d=16.4, outer_d=21.2, piston_d=15.6,
                      rear_wall=2.0, yoke_gap_at_recoil=0.8)
 YOKE_BASE_T, ARM_T, ARM_HALF_Z = 8.0, 3.0, 8.0
-GROOVE_CLEAR = 0.2
+GROOVE_CLEAR = 0.2                             # yoke arms in the wall grooves, above and below
+GROOVE_SIDE_CLEAR = 0.5                        # ... and sideways (0.2 until 2026-11-14): the inner wall's groove floor prints on support
+PIN_TRACK_FLOOR = WALL_IN + ARM_T + 1.2        # 28.2: floor of the idler-pin tracks in the groove floors (unchanged)
 IDLER_PIN = dict(d=8.0, length=55.0)           # ISO 2338 8 m6 x 55 steel pin
 
 # ---- drive ----
@@ -205,6 +225,9 @@ SPRING_GUIDE_X = (SPRING_X0 - SPRING_POCKET['rear_wall'],
                   YOKE_BASE_X[0] - RECOIL - SPRING_POCKET['yoke_gap_at_recoil'])
 YOKE_ARM_END = IDLER_X + 8.0
 GROOVE_X0 = YOKE_BASE_X[0] - RECOIL                    # recoil stop: arm ends meet the groove end
+# Lock pin for fitting the chain (2026-11-14): with the yoke on its recoil stop, a Ø3.2 hole through the outer wall lines up
+# with a blind hole in each end of the yoke crossbar. One of the M3 x 60 track screws dropped in holds the idler back.
+LOCK_PIN = dict(r=1.6, x=GROOVE_X0 + YOKE_BASE_T/2, depth=8.0)
 
 
 def check():

@@ -53,7 +53,8 @@ li.cur .badge{background:#3c5c66;color:#fff}
 const DATA=__DATA__,C=DATA.cfg,KIT=DATA.kit,ALL=DATA.steps;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const ITEMS={};for(const i of [...KIT.printed,...KIT.optional])ITEMS[i.id]={...i,type:'printed'};for(const i of [...KIT.standard,...KIT.chain,...KIT.joint])ITEMS[i.id]={...i,type:'standard'};
-ITEMS.dummy={id:'dummy',name:'Dummy pin Ø3 x 24 (assembly aid)',type:'tool',spec:'Holds the last bushing between the inner ears until the last pin pushes it out.'};
+ITEMS.dummy={id:'dummy',name:'Dummy pin Ø3 x 24 (assembly aid)',type:'tool',spec:'Holds the last sleeve between the inner ears until the last screw pushes it out.'};
+ITEMS.lock={id:'lock',name:'Lock screw: a spare M3 x 60 (assembly aid)',type:'tool',spec:'In the Ø3.2 hole of the outer wall, 8 mm into the yoke: holds the idler at its recoil stop while the last joint is closed.'};
 // ------------------------------------------------------------------ scene
 const stage=document.getElementById('stage'),scene=new THREE.Scene();scene.background=new THREE.Color('#eef1ef');
 const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.outputEncoding=THREE.sRGBEncoding;renderer.localClippingEnabled=true;renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));stage.prepend(renderer.domElement);
@@ -71,13 +72,13 @@ function buildModule(side){
  pivot('drive',...C.drive);pivot('idler',...C.idler);for(const [n,[x,z]] of Object.entries(C.rollers))pivot(n,x,z);
  const meshes=[],byName={};
  DATA.unit.forEach((p,k)=>{const m=new THREE.Mesh(unitGeo[k],mat(p.color,p.kind));m.userData={p,side,anim:p.anim,off:[0,0,0,0]};(piv[p.group]?piv[p.group].i:g).add(m);meshes.push(m);byName[p.name]=m});
- // the chain: per joint j (pin j, at link j's rear end) a pin, a bushing and two E-clips (2j inboard, 2j+1 outboard), each its own part
- const shoeMat=mat(DATA.link[0].color,'printed'),hwMat={},shoes=[],pins=[],bushes=[],clips=[];for(const k in HW)hwMat[k]=mat(DATA.hw[k].color,'hardware');
+ // the chain: per joint j (pin j, at link j's rear end) a screw (head outboard), a sleeve and a nyloc nut (inboard), each its own part
+ const shoeMat=mat(DATA.link[0].color,'printed'),hwMat={},shoes=[],pins=[],bushes=[],nuts=[];for(const k in HW)hwMat[k]=mat(DATA.hw[k].color,'hardware');
  const part=(geo,m,ud)=>{const o=new THREE.Mesh(geo,m);o.userData={side,...ud};g.add(o);return o};
- for(let j=0;j<C.pins.length;j++){shoes.push(part(shoeGeo,shoeMat,{link:j,item:'J910'}));pins.push(part(HW.pin,hwMat.pin,{link:j,item:'trackpin'}));
-  bushes.push(part(HW.bushing,hwMat.bushing,{link:j,item:'bushing'}));for(const c of [-1,1])clips.push(part(HW.clip,hwMat.clip,{link:j,item:'clip',clipSide:c}))}
- const dummy=part(HW.dummy,hwMat.dummy,{item:'dummy'});
- return {g,side,piv,meshes,byName,shoes,pins,bushes,clips,dummy,shoeMat,hwMat,spring:byName.recoil_spring,yoke:byName.J908_U_yoke,cut:new THREE.Plane()}}
+ for(let j=0;j<C.pins.length;j++){shoes.push(part(shoeGeo,shoeMat,{link:j,item:'J910'}));pins.push(part(HW.pin,hwMat.pin,{link:j,item:'trackscrew'}));
+  bushes.push(part(HW.bushing,hwMat.bushing,{link:j,item:'bushing'}));nuts.push(part(HW.nut,hwMat.nut,{link:j,item:'tracknut'}))}
+ const dummy=part(HW.dummy,hwMat.dummy,{item:'dummy'}),lock=part(HW.lock,hwMat.lock,{item:'lock'});lock.visible=false;
+ return {g,side,piv,meshes,byName,shoes,pins,bushes,nuts,dummy,lock,shoeMat,hwMat,spring:byName.recoil_spring,yoke:byName.J908_U_yoke,cut:new THREE.Plane()}}
 const L=buildModule(1),R=buildModule(-1);
 const chassisGroup=new THREE.Group();root.add(chassisGroup);const chassisByName={};
 const chassis=DATA.chassis.map(p=>{const m=new THREE.Mesh(geometry(p),mat(p.color,p.kind));m.userData={p,side:0,anim:p.anim,off:[0,0,0,0]};chassisGroup.add(m);chassisByName[p.name]=m;return m});
@@ -88,8 +89,8 @@ const onCircle=(p,c)=>Math.abs(Math.hypot(p[0]-c[0],p[1]-c[1])-PR)<1e-4;
 function interp(a,b,f){for(const c of CIRC){if(onCircle(a,c)&&onCircle(b,c)){let ta=Math.atan2(a[1]-c[1],a[0]-c[0]),tb=Math.atan2(b[1]-c[1],b[0]-c[0]);if(tb<ta)tb+=2*Math.PI;const t=ta+(tb-ta)*f;return [c[0]+PR*Math.cos(t),c[1]+PR*Math.sin(t)]}}return [a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f]}
 function placeChain(M,phase){const k=Math.floor(phase),f=phase-k,q=[];for(let j=0;j<N;j++)q.push(interp(P[(j+k)%N],P[(j+k+1)%N],f));
  for(let j=0;j<N;j++){const a=q[j],b=q[(j+1)%N],ang=Math.atan2(b[1]-a[1],b[0]-a[0]);M.shoes[j].position.set((a[0]+b[0])/2,0,(a[1]+b[1])/2);M.shoes[j].rotation.set(0,-ang,0);
-  M.pins[j].position.set(a[0],0,a[1]);M.bushes[j].position.set(a[0],0,a[1]);const mu=ang+CA.mouth[j];
-  for(const s of [0,1]){const c=M.clips[2*j+s];c.position.set(a[0],(2*s-1)*CA.clip_y,a[1]);c.rotation.set(0,-mu,0)}}
+  M.pins[j].position.set(a[0],0,a[1]);M.bushes[j].position.set(a[0],0,a[1]);
+  M.nuts[j].position.set(a[0],-CA.nut_y,a[1]);M.nuts[j].rotation.set(0,-ang,0)}
  const w=-phase*Math.PI/6;M.piv.drive.o.rotation.y=w;M.piv.idler.o.rotation.y=w;for(const g of Object.keys(C.rollers))M.piv[g].o.rotation.y=-phase*C.pitch/C.roller_r}
 // ------------------------------------------------------------------ fitting the chain (J9/ASSEMBLY.md 7)
 // The links are joined into one flat strip with one joint left open, on the bench under the lifted track; the track is set down on the
@@ -97,10 +98,11 @@ function placeChain(M,phase){const k=Math.floor(phase),f=phase-k,q=[];for(let j=
 // the last pin goes in from outboard where the two ends meet on top. Wrapping bends each joint from straight to its CAD angle, in
 // turn outward from the link that stays on the bottom run, so the free end stays straight and tangent to the wheel (C.chain_anim).
 // Each joint of the strip is made as a person can: the next link is put down ahead of the strip's end and pushed back along it (its
-// rounded plate ends slide into the last link's hollowed ones); the bushing drops in between the inner ears from above (it cannot pass
-// the pin holes); the pin goes through from outboard; the E-clips go on square to the pin, open side first. The far end's free ears
-// take the last bushing, held by a dummy pin; the front end comes over in a low arch, lands short and is pressed flat along the run;
-// the last pin pushes the dummy out inboard.
+// rounded plate ends slide into the last link's hollowed ones); the sleeve drops in between the inner ears from above (it cannot pass
+// the Ø3.2 holes); the screw goes through from outboard until its head rests on the seat boss; the nyloc nut comes onto the tail from
+// inboard, along the screw. The far end's free ears take the last sleeve, held by a dummy pin; a lock screw in the outer wall holds
+// the idler at its recoil stop; the front end comes over in a low arch, lands short and is pressed flat along the run; the last
+// screw pushes the dummy out inboard, its nut goes on, and the lock screw comes out again.
 const ease=x=>x<=0?0:x>=1?1:x*x*(3-2*x);
 const CA=C.chain_anim,TH=[],LEN=[];for(let j=0;j<N;j++){const a=P[j],b=P[(j+1)%N];TH.push(Math.atan2(b[1]-a[1],b[0]-a[0]));LEN.push(Math.hypot(b[0]-a[0],b[1]-a[1]))}
 const BEND=TH.map((v,k)=>{let d=v-TH[(k+N-1)%N];while(d>Math.PI)d-=2*Math.PI;while(d<=-Math.PI)d+=2*Math.PI;return d});
@@ -112,13 +114,13 @@ function fitChain(M,x){const th=[],A=[],off=[],o=CA.open,a0=CA.anchor,h=liftAt(x
  for(let i=0;i<N;i++){const j=(o+i)%N,k=CA.links[i],c=Math.cos(th[j]),sn=Math.sin(th[j]),ah=(1-span(x,[k[1],k[2]]))*CA.ahead[i],up=(1-span(x,[k[0],k[1]]))*CA.up,s=M.shoes[j];
   off[j]=[ah*c,ah*sn+up-h];s.visible=x>=k[0];s.position.set(A[j][0]+LEN[j]/2*c+off[j][0],0,A[j][1]+LEN[j]/2*sn+off[j][1]);s.rotation.set(0,-th[j],0)}
  const ok=(o+N-1)%N,F=[A[ok][0]+LEN[ok]*Math.cos(th[ok])+off[ok][0],A[ok][1]+LEN[ok]*Math.sin(th[ok])+off[ok][1]];   // the far end's free ears
- for(let i=0;i<N;i++){const j=(o+i)%N,base=i?[A[j][0]+off[j][0],A[j][1]+off[j][1]]:F,b=CA.bush[i],p=CA.pin[i],cw=CA.clips[i],bu=M.bushes[j],q=M.pins[j];
+ for(let i=0;i<N;i++){const j=(o+i)%N,base=i?[A[j][0]+off[j][0],A[j][1]+off[j][1]]:F,b=CA.bush[i],p=CA.pin[i],nw=CA.nuts[i],bu=M.bushes[j],q=M.pins[j],nt=M.nuts[j];
   bu.visible=x>=b[0];bu.position.set(base[0],0,base[1]+(1-span(x,b))*CA.bush_up);
   q.visible=x>=p[0];q.position.set(base[0],CA.pin_out*(1-span(x,p)),base[1]);
-  const mu=th[j]+CA.mouth[j],d=(1-span(x,cw))*CA.clip_off;
-  for(const s of [0,1]){const cl=M.clips[2*j+s];cl.visible=x>=cw[0];cl.position.set(base[0]-d*Math.cos(mu),(2*s-1)*CA.clip_y,base[1]-d*Math.sin(mu));cl.rotation.set(0,-mu,0)}}
- const D=CA.dummy,dm=M.dummy,lp=M.pins[o];let y=D.out*(1-span(x,D.t));if(lp.visible)y=Math.min(y,lp.position.y-CA.pin_half-D.half);
- dm.visible=x>=D.t[0]&&x<D.gone;dm.position.set(F[0],y,F[1])}
+  const run=1-span(x,nw);nt.visible=x>=nw[0];nt.position.set(base[0],-(CA.nut_y+run*CA.nut_out),base[1]);nt.rotation.set(0,-th[j]+run*4*Math.PI,0)}   // it turns as it runs on
+ const D=CA.dummy,dm=M.dummy,lp=M.pins[o];let y=D.out*(1-span(x,D.t));if(lp.visible)y=Math.min(y,lp.position.y-CA.screw_tip-D.half);
+ dm.visible=x>=D.t[0]&&x<D.gone;dm.position.set(F[0],y,F[1]);
+ const K=CA.lock,lk=M.lock;lk.visible=x>=K.t_in[0]&&x<K.t_out[1];lk.position.set(K.x,K.y+K.out*(1-span(x,K.t_in)+span(x,K.t_out)),K.z)}
 // ------------------------------------------------------------------ steps and part motion
 const CHAIN=ALL.findIndex(s=>s.id==='chain');
 function evalAnim(A,k,t){let i=-1;for(let j=0;j<A.length;j++)if(A[j].s<=k)i=j;if(i<0)return null;const K=A[i].keys;
@@ -140,8 +142,8 @@ function update(){const st=list[cur],gi=st.gi,final=st.id==='overview'||!!st.run
   if(fm.side!==(cut?THREE.DoubleSide:THREE.FrontSide)){fm.side=cut?THREE.DoubleSide:THREE.FrontSide;fm.needsUpdate=true}
   const S=C.spring,sp=M.spring;if(sp.visible){const len=M.yoke.visible?Math.min(S.free,S.set+M.yoke.userData.off[1]):S.free,s=len/S.set;sp.scale.x=s;sp.position.x=S.x0*(1-s)+sp.userData.off[1]}
   placeChain(M,st.run?runPhase:0);
-  if(fitting)fitChain(M,t);else{const on=final||gi>CHAIN;for(const a of [M.shoes,M.pins,M.bushes,M.clips])for(const m of a)m.visible=on;M.dummy.visible=false}
-  glow({material:M.shoeMat},fitting)}   // the steel parts keep their own colours, so pin, bushing, clips and dummy pin stay distinct
+  if(fitting)fitChain(M,t);else{const on=final||gi>CHAIN;for(const a of [M.shoes,M.pins,M.bushes,M.nuts])for(const m of a)m.visible=on;M.dummy.visible=false;M.lock.visible=false}
+  glow({material:M.shoeMat},fitting)}   // the bought parts keep their own colours, so screw, sleeve, nut, dummy pin and lock screw stay distinct
  if(mode==='x1')for(const m of chassis)pose(m,k,gi,final,st);
  root.updateMatrixWorld(true);dirty=true}
 // ------------------------------------------------------------------ camera
@@ -155,7 +157,7 @@ const labelsDiv=document.getElementById('labels'),svg=document.getElementById('l
 function buildLabels(){for(const e of labelEls)e.el.remove();labelEls=(list[cur].labels||[]).map(l=>{const el=document.createElement('div');el.className='lab';el.textContent=l.text;labelsDiv.appendChild(el);return {l,el}})}
 const V=new THREE.Vector3();
 function anchorWorld(l){const M=mode==='right'?R:L;if(l.t0!==undefined&&(t<l.t0||t>l.t1+1e-9))return null;
- if(l.part.includes(':')){const [kind,j]=l.part.split(':'),o=({link:M.shoes,pins:M.pins,bush:M.bushes,clip:M.clips,dummy:[M.dummy]})[kind][+j];if(!o||!o.visible||!M.g.visible)return null;o.getWorldPosition(V);return V}
+ if(l.part.includes(':')){const [kind,j]=l.part.split(':'),o=({link:M.shoes,pins:M.pins,bush:M.bushes,nut:M.nuts,dummy:[M.dummy],lock:[M.lock]})[kind][+j];if(!o||!o.visible||!M.g.visible)return null;o.getWorldPosition(V);return V}
  const m=M.byName[l.part]||chassisByName[l.part];if(!m||!m.visible||!m.parent.visible||(m.userData.side===0&&!chassisGroup.visible)||(m.userData.side!==0&&!M.g.visible))return null;
  const o=m.userData.off;V.set(l.at[0]+o[1],l.at[1]+o[2],l.at[2]+o[3]);return (m.userData.side===0?chassisGroup:M.g).localToWorld(V)}
 function updateLabels(){const w=stage.clientWidth,h=stage.clientHeight,cap=document.getElementById('caption').offsetHeight;camera.updateMatrixWorld();
@@ -210,8 +212,8 @@ renderer.domElement.addEventListener('pointerup',e=>{if(!down||Math.hypot(e.clie
  const objs=[];root.traverseVisible(o=>{if(o.isMesh)objs.push(o)});const hit=ray.intersectObjects(objs,false)[0];
  if(!hit){$('part').innerHTML='<small>Click a part in the 3D view to identify it.</small>';return}
  const u=hit.object.userData,id=u.p?u.p.item:u.item,i=ITEMS[id],side=u.side>0?'left track':u.side<0?'right track':'chassis';
- const nm=u.p?u.p.name:({J910:`J910 shoe, link ${u.link+1} of ${N}`,trackpin:`pin, joint ${u.link+1} of ${N}`,bushing:`bushing, joint ${u.link+1} of ${N}`,
-  clip:`E-clip, joint ${u.link+1} of ${N}, ${u.clipSide<0?'inboard':'outboard'}`,dummy:'removed again: the last pin pushes it out'})[u.item];
+ const nm=u.p?u.p.name:({J910:`J910 shoe, link ${u.link+1} of ${N}`,trackscrew:`screw, joint ${u.link+1} of ${N}, head outboard`,bushing:`sleeve, joint ${u.link+1} of ${N}`,
+  tracknut:`nyloc nut, joint ${u.link+1} of ${N}, inboard`,dummy:'removed again: the last screw pushes it out',lock:'removed again before the idler is released'})[u.item];
  let f='';if(i&&i.files)f=u.side<0&&i.files.right?i.files.right:i.files.left||i.files.both||i.files.chassis||'';
  $('part').innerHTML=`<b>${esc(i?i.name:id)}</b> <span class="badge">${i&&i.type==='printed'?'print':i&&i.type==='tool'?'tool':'buy'}</span><br><small>${esc(nm)} &middot; ${side}</small>`+
   (f?`<br><small>STL: <code>${esc(f)}</code></small>`:'')+(i?`<br><small>${esc(i.spec||i.settings||'')}</small>`:'')});
@@ -248,20 +250,21 @@ partsTab();resize();setMode('left',0);flyTo(camsFor(list[0])[0],0);requestAnimat
 window.kit={meta:()=>({steps:ALL.map(s=>({id:s.id,title:s.title,x1only:!!s.x1only,labels:(s.labels||[]).length,windows:(s.labels||[]).filter(l=>l.t0!==undefined).map(l=>({text:l.text,t0:l.t0,t1:l.t1}))})),chain:CHAIN,links:N,
   first:Object.fromEntries(DATA.unit.map(p=>[p.name,Math.min(...p.anim.map(e=>e.s))])),last:Object.fromEntries(DATA.unit.map(p=>[p.name,Math.max(...p.anim.map(e=>e.s))])),
   chassis:DATA.chassis.map(p=>p.name),spring:C.spring,yokeRest:C.yoke_rest,trackY:C.track_y,
-  chainWindows:[[CA.links[1][0],CA.clips[1][1],400],[CA.links[2][0],CA.clips[3][1],150],[CA.bush[0][0],CA.dummy.t[1],100],[CA.arch.on[0],CA.arch.off[1],400],[CA.pin[0][0],CA.clips[0][1],200]],
+  chainWindows:[[CA.links[1][0],CA.nuts[1][1],400],[CA.links[2][0],CA.nuts[3][1],150],[CA.bush[0][0],CA.dummy.t[1],100],[CA.lock.t_in[0],CA.lock.t_in[1],60],[CA.arch.on[0],CA.arch.off[1],400],[CA.pin[0][0],CA.lock.t_out[1],260]],
+  screw:{tip:CA.screw_tip,nutY:CA.nut_y},lockAt:CA.lock,
   hw:Object.fromEntries(Object.keys(HW).map(k=>{HW[k].computeBoundingBox();const b=HW[k].boundingBox;return [k,[b.min.x,b.min.y,b.min.z,b.max.x,b.max.y,b.max.z]]}))}),setMode,go,setT:x=>{t=x;update();camFollow(true);render()},play:()=>setPlaying(true),pause:()=>setPlaying(false),render,
  snap:()=>{userCam=false;camFollow(true);render()},
  probe:x=>{t=x;update();return {t:x,lift:root.position.z,mods:mods().map(M=>({slide:M.yoke.userData.off[1],
   shoes:M.shoes.map(s=>[+s.visible,s.position.x,s.position.z,-s.rotation.y]),pins:M.pins.map(q=>[+q.visible,q.position.x,q.position.y,q.position.z]),
-  bushes:M.bushes.map(q=>[+q.visible,q.position.x,q.position.y,q.position.z]),clips:M.clips.map(q=>[+q.visible,q.position.x,q.position.y,q.position.z,-q.rotation.y]),
-  dummy:[+M.dummy.visible,M.dummy.position.x,M.dummy.position.y,M.dummy.position.z]}))}},
+  bushes:M.bushes.map(q=>[+q.visible,q.position.x,q.position.y,q.position.z]),nuts:M.nuts.map(q=>[+q.visible,q.position.x,q.position.y,q.position.z]),
+  dummy:[+M.dummy.visible,M.dummy.position.x,M.dummy.position.y,M.dummy.position.z],lock:[+M.lock.visible,M.lock.position.x,M.lock.position.y,M.lock.position.z]}))}},
  state:()=>{const vis=[],glowing=[],moved=[];for(const M of mods())for(const m of M.meshes)if(m.visible){vis.push(m.userData.p.name);if(m.material.emissive.getHex())glowing.push(m.userData.p.name);
    const o=m.userData.off;if(Math.hypot(o[1],o[2],o[3])>1e-6)moved.push([m.userData.p.name,o.slice(1)])}
   const chas=mode==='x1'?chassis.filter(m=>m.visible).map(m=>[m.userData.p.name,m.userData.off.slice(1)]):[];
   return {mode,step:list[cur].id,index:cur,steps:list.filter(s=>!s.skip).map(s=>s.id),t,playing,visible:vis,glowing,moved,chassis:chas,
    cutaway:mods().map(M=>!!M.byName.J901_H_frame.material.clippingPlanes),lift:root.position.z,
    links:mods().map(M=>M.shoes.filter(s=>s.visible).length),
-   hardware:mods().map(M=>[M.pins,M.bushes,M.clips].map(a=>a.filter(m=>m.visible).length).concat(+M.dummy.visible)),spring_scale:mods().map(M=>M.spring.visible?M.spring.scale.x:null),
+   hardware:mods().map(M=>[M.pins,M.bushes,M.nuts].map(a=>a.filter(m=>m.visible).length).concat(+M.dummy.visible,+M.lock.visible)),spring_scale:mods().map(M=>M.spring.visible?M.spring.scale.x:null),
    labels:labelEls.map(e=>({text:e.l.text,shown:!!e.shown,box:e.box||null,anchor:e.anchor||null})),
    stage:[stage.clientWidth,stage.clientHeight],caption:$('capText').textContent,card:$('card').innerText}}};
 </script></body></html>

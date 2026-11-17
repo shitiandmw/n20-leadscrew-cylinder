@@ -70,9 +70,9 @@ def app_config(cfg: dict) -> dict:
         "ground_support_half_length_mm": 79.3,
         "track_centres": float(key["track_gauge"]),
         "track_links_per_side": len(j9["pins"]),
-        "track_pin_diameter": 3.0,
-        "track_pin_length": 56.0,
-        "track_pin_clip_y_mm": 33.0,
+        "track_pin_diameter": 3.0,          # J910 revision B: each joint is an M3 x 60 screw with a nyloc nut
+        "track_pin_length": 60.0,
+        "track_screw_seat_y_mm": 25.0,
         "shoe_width": float(j9["key"]["shoe"]),
         "idler_adjustment_mm": [-3.0, 6.0],
         "idler_tension_adjustment_mm": [-3.0, 6.0],

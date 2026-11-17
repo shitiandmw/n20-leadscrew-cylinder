@@ -1,7 +1,7 @@
 {
  "pass": true,
- "html_sha256": "bf33fefc0fbf45625b48053fcd14cf7952a2e6bf519bcc86736956263361eca4",
- "scene_sha256": "719ef833e722c4c36c0480d9f591df2b5a849981d7cc407a2388a62e453a9b23",
+ "html_sha256": "dbd1d62ffb6f3efe7a484378a1a0cf5489c75ab396710518fc12f7a78899d553",
+ "scene_sha256": "cfd9617b3ff2569a0ce086b0cc36f20689ed6392343aad4413cbdeba8105a5be",
  "checker_sha256": "eb5fd962c88051aee85d3829ab36475bb064e5ba055546d5acfcaf78a92fa6f8",
  "views": {
   "mounts": "images/X1_mounts.png",
@@ -26,22 +26,22 @@
  "screenshot_sha256": {
   "mounts": "df63578560b3c7c892e640ba242bc426dc417289ef784b4e61f3998c7e0cc6e9",
   "frame": "97ee0500285a0cdd7640f4ba5f91fa54e4f0e909bbcc553d93b7c6e21308dbc5",
-  "iso": "7d4755f7fcac102059f13115b43c4e2ee9113d0ca55f0e16713253665598c6eb",
-  "rear": "9a1d1a842d753137dc02201c64a1e4b22b1262b3c543d15e2a0d633916ef5be4",
-  "front": "d3dee9232294c228eb72b2c031b0e0f80d87033223512614bd46dbe7d08e4155",
-  "top": "b36a3af6e45884a6d6c213e95e757e224ac06fba2a70965d282c7fa09571503d",
-  "seat": "d0caacd8cecaec0cbb9188869e882378b167ef23ef5d6c91c2bcac805357d146",
-  "under": "683255de6abc42dc433cf07e4326c90be517a4d0b61ca9389ea23c64bb9c0159",
-  "springs": "4db41d6c908897de12b465fffb20ffbc97a6eea896982137f42fa7ac92e0ab06",
-  "drive": "341246ed8303040b39063d0ba97ceccc22ebee81dabaa435c3e87b7d3c53aa7b",
-  "hub": "bb6dbeae1fbbd8c91993804d74b51a104ed4b6924f3b6ae639b75bf8093378c0",
-  "exploded": "fc8c3a5b08f89b7d2a5c488d3afa7446f31515945927062763e8d7e6e23c2905",
-  "body": "2de2ddcdbd1acfd647e0c0ecb7663bba9615aadb2e142048c8b85e4556b86dea",
-  "cab": "f23e309991b3c697a3124b1eae0b8fa25b8a0d4aa402366a29253c335b171883",
-  "bodyright": "f71d7346000de136c23bf2a5603a0dc2550543d9427dd05f5eb7a7594f43dfaf",
-  "bodyin": "7e631ca8a1bded0bdd301cb83aa08f71d107400cf5e78f3262928ca2f7b8def7",
-  "service": "8fe03f5c81260c86ff7827201b0506f4d6de8ce74ec3c6e79828b0851813acba",
-  "drive_swing30": "7233f0539f9e4f108feab4e2fb7116acd48f8a24240757229316a439736aad06"
+  "iso": "3e8a301b1efe4dcac41f5119596f3e5fbf5a68924666f6e49bff6987232d475d",
+  "rear": "f105f38a73007dad4d557470206b1d0d40fcc554d2ec10ee541d48e2d7704226",
+  "front": "3afb2967474eb1ee8838b5e33f054c12aba0993dd295a2926ad786a2ce8efcdc",
+  "top": "3838b88928ee2ec30a09f6706999aed77e845df2c88d9729a514e8d4ab4d32ae",
+  "seat": "e60eadbf42a24013feb6f419edd2c65996f0839b7984674556e972823ba7c34d",
+  "under": "961090e65ca08ddacc3ce540c540491ad8a1864ee28f88ebda556a1eeaf22351",
+  "springs": "256c91cd2dc9a933af4a950dfe52a913f6fe26135252d2587ab40189ca7079c7",
+  "drive": "4f82aa35a4927b17971dd7cc291823c4bb7233e77270e7a8b780849732b7c529",
+  "hub": "d4b2fd53eb84af2e5eff719d0ada3db8e9c0c9bfacd5c00f565afbb672c5707d",
+  "exploded": "3aba29db9ae6cfbcbb4d43ddd2f54bc7c559db46fbab54fd91b3100d1e7d5497",
+  "body": "a14ccaaa687ba69e9720f3b496eaeaa74fc52806b45cb8694f43852b5144e1c5",
+  "cab": "ea350bc0790454e304afad942ae5b36dd468dac33d17c18fff3b23bfac376626",
+  "bodyright": "c6e97348d19c55572d0d73452eedb8e95e220ddb584f91ee83530e366190ff52",
+  "bodyin": "d1b234db2cc7f508d884667e6a2584c06708ef366a39f886cb26ead837a8a371",
+  "service": "0b7cba1cba3f4727ec2ea7e0de4e0a84b366c48cbe2506c6c7122552d0befe7e",
+  "drive_swing30": "bf0e6d28ad7a50302bf4f1576ac0eb4901d155442af05547d8e6a980a9556da3"
  },
  "model_views": {
   "mounts": "images/X1_mounts_model.png",
@@ -52,8 +52,8 @@
  "model_screenshot_sha256": {
   "mounts": "bbea2a0186916022b7fe8777d6ef818ea2ff83b4d6b8954cbbff68fcadc4db71",
   "frame": "f409558ff1e4475814feaf9d2fd8f83aeb484faa3f4be56b7cd302770b521cdd",
-  "iso": "f39f840fcfc791dca7cc529b62fc2b036b2920a02f85cb353d64f830cbbc5e5c",
-  "springs": "2a577f976d69eb7302abb6b0b4fae682c4e3c209ab63e88b4bd82a9d15265c91"
+  "iso": "590c6de2f760179f0840fca44d38b0901a302516233783de2f654c44c533433e",
+  "springs": "be510309c078e7fdbbeffae35a5a7f26d109544591a1ab08859431e924fabd9d"
  },
  "state": {
   "view": "iso",
@@ -88,8 +88,8 @@
   "swing": 30,
   "pinion_rel_deg": 119.99999999999999,
   "turntable_items": 105,
-  "playback_swing": 85.431,
-  "playback_wait_ms": 15101
+  "playback_swing": 11.64,
+  "playback_wait_ms": 8401
  },
  "body_check": {
   "items": 76,
@@ -97,7 +97,7 @@
   "service_pose": true,
   "hatch_lifted_in_service": true
  },
- "run_phase_after_start": 0.5058799999999996,
+ "run_phase_after_start": 0.7025599999570855,
  "errors": [],
  "network": []
 }

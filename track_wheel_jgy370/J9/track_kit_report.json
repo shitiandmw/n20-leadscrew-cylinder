@@ -2,9 +2,9 @@
  "generator": "track_wheel_jgy370/J9/source/build_track_kit.py",
  "revision": "J9 revision F (X1 revision F mounting)",
  "inputs_sha256": {
-  "track_wheel_jgy370/J9/source/j9_scene.json.gz": "dd618fd7a7fdfb67785a0e26f6a3f733d1daf74d38e7bd6c7284dba1f417bf86",
-  "track_wheel_jgy370/X1/source/x1_scene.json.gz": "719ef833e722c4c36c0480d9f591df2b5a849981d7cc407a2388a62e453a9b23",
-  "track_wheel_jgy370/J9/source/build_track_kit.py": "9d94e89697d13d19e2e6b8f0b74470e7c831c53b2aa7b6ef47e63bef0cbd58bf"
+  "track_wheel_jgy370/J9/source/j9_scene.json.gz": "d9a43657980cb3a870393ca8105398a256b838e8cb1c11a247bffc24dae26756",
+  "track_wheel_jgy370/X1/source/x1_scene.json.gz": "cfd9617b3ff2569a0ce086b0cc36f20689ed6392343aad4413cbdeba8105a5be",
+  "track_wheel_jgy370/J9/source/build_track_kit.py": "dcef669d821c8e3b7313c647482292a787b7b35b01ca9113e98754d465276f66"
  },
  "stl": {
   "track_wheel_jgy370/J9/stl/J901_H_frame.stl": {
@@ -13,10 +13,10 @@
     63.6,
     65.5
    ],
-   "volume_cm3": 296.22,
-   "area_cm2": 854.6,
-   "triangles": 35280,
-   "sha256": "8a71deed2cff2f0928fd3e93f9cc35b4ce34d392d982fdcccc6b322f9842a64f",
+   "volume_cm3": 295.61,
+   "area_cm2": 856.1,
+   "triangles": 35704,
+   "sha256": "790876c122845174be58b969175a843d4f8bc66f49999e3a55f3258d536fc8f0",
    "revf_export_match": true,
    "beds": {
     "220x220": {
@@ -47,10 +47,10 @@
     63.6,
     65.5
    ],
-   "volume_cm3": 296.22,
-   "area_cm2": 854.6,
-   "triangles": 35280,
-   "sha256": "64880cd88a31006270d45259309bf221b6bfc4bcfb1c59c76c110e078977b703",
+   "volume_cm3": 295.61,
+   "area_cm2": 856.1,
+   "triangles": 35704,
+   "sha256": "bb96eed8a8665363a615f11e015bb252ce2842ca13c4d7db644fef644ea52b2b",
    "revf_export_match": true,
    "beds": {
     "220x220": {
@@ -319,11 +319,11 @@
     54.0,
     16.0
    ],
-   "volume_cm3": 12.58,
-   "area_cm2": 67.6,
-   "triangles": 2146,
-   "sha256": "e884035bd5213f6de53b15cbb08c8cfc125db70c9cf484985ef1a5b89d2f9f61",
-   "revf_export_match": null,
+   "volume_cm3": 12.45,
+   "area_cm2": 69.2,
+   "triangles": 2986,
+   "sha256": "b91b187dd99b02ed26b0af7f0a941bd696c16be71754827d14b93ac9b83274ac",
+   "revf_export_match": true,
    "beds": {
     "220x220": {
      "fits": true,
@@ -353,11 +353,11 @@
     70.0,
     11.0
    ],
-   "volume_cm3": 5.8,
-   "area_cm2": 50.9,
-   "triangles": 4056,
-   "sha256": "76f3f5eac4827140094b7047ec1a1e31a116592d81c70f92a67b4e813ce3840a",
-   "revf_export_match": null,
+   "volume_cm3": 5.9,
+   "area_cm2": 51.6,
+   "triangles": 5276,
+   "sha256": "b55a0da72ce3e6a86fd62f1ed78b90282f2ff3a5beb4f2bba5eb226f6d5462ff",
+   "revf_export_match": true,
    "beds": {
     "220x220": {
      "fits": true,
@@ -441,9 +441,9 @@
   "insert": 4,
   "M3x8": 4,
   "J910": 34,
-  "trackpin": 34,
+  "trackscrew": 34,
   "bushing": 34,
-  "clip": 68
+  "tracknut": 34
  },
  "scene_counts_x1_joint": {
   "X101": 1,
@@ -510,7 +510,7 @@
    ],
    "push": [
     0.58,
-    0.62
+    0.6
    ],
    "front": [
     0.63,
@@ -533,12 +533,12 @@
    "inboard": {
     "box_min": [
      -10.1,
-     -55.0,
+     -62.0,
      79.4
     ],
     "box_max": [
-     14.9,
-     -21.0,
+     9.9,
+     -25.0,
      120.4
     ],
     "clashes": []
@@ -546,29 +546,41 @@
    "outboard": {
     "box_min": [
      -10.1,
-     21.0,
+     25.0,
      79.4
     ],
     "box_max": [
-     14.9,
-     75.0,
+     9.9,
+     85.0,
      120.4
     ],
     "clashes": []
    }
+  },
+  "lock_pin": {
+   "yoke_hole_rim_points": {
+    "-1": 169,
+    "1": 169
+   },
+   "outer_wall_hole_rim_points": 338,
+   "x_at_recoil_stop": 61.6,
+   "hole_d": 3.2,
+   "depth_in_yoke_mm": 8.0
   }
  },
  "chain_hardware": {
-  "source": "drawn separately; sizes checked against the CAD merged pin + bushing + 2 clips mesh and the shoe (j9_scene.json.gz link)",
-  "pin": "Ø3 x 56",
-  "bushing": "Ø6 OD x Ø3.1 ID x 17",
-  "clip": "Ø6 x 0.6 at Y ±26.5, slotted as wide as the pin so it goes on sideways",
+  "source": "drawn separately; sizes checked against the CAD merged screw + nut + sleeve mesh and the shoe (j9_scene.json.gz link)",
+  "screw": "M3 x 60: shank Ø3, head Ø5.5 x 3 seated at Y +25, tip at Y -35",
+  "sleeve": "Ø6 OD x Ø3.2 ID x 18",
+  "nut": "M3 nyloc, 5.5 AF x 4, on the tail at Y -25..-29",
   "dummy_pin": "Ø3 x 24 (assembly aid, inside the inner ears)",
+  "lock_pin": "a spare track screw in the Ø3.2 hole of the outer wall, 8 mm into the yoke at the recoil stop",
   "triangles": {
-   "pin": 160,
-   "bushing": 320,
-   "clip": 316,
-   "dummy": 160
+   "pin": 288,
+   "bushing": 288,
+   "nut": 288,
+   "dummy": 144,
+   "lock": 288
   }
  },
  "steps": [
@@ -657,9 +669,9 @@
    "title": "Track chain",
    "items": {
     "J910": 34,
-    "trackpin": 34,
+    "trackscrew": 34,
     "bushing": 34,
-    "clip": 68
+    "tracknut": 34
    }
   },
   {
@@ -669,9 +681,9 @@
   }
  ],
  "outputs_sha256": {
-  "install_animation.html": "4615bf65c98c8256a546a1ff202fbce657dd31275b19563e27e14b02a1fc2d5e",
-  "TRACK_KIT.md": "a9800f6291eb9237315644381ad11befebe556a77519d9bcdcba250e74947c41",
-  "track_kit.csv": "092cbf4efb2492a1222096be718d40f2774c75c7768f82fe84c0800d6c9fc6d4"
+  "install_animation.html": "0433c770c653bfc875b1f063f8627b4cf334eceb71c173c4cfd9600ef1b51b33",
+  "TRACK_KIT.md": "d65ea50b949449e737f95eb99af65ae6fa21d18a57fa7ecae75a228aed7b8632",
+  "track_kit.csv": "5ceb46551831f4725d3549bedf482c03ab06d92b8876802b22f11ef37ff37fbf"
  },
  "pass": true
 }

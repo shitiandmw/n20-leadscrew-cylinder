@@ -1,25 +1,29 @@
 {
  "pass": true,
- "html_sha256": "4615bf65c98c8256a546a1ff202fbce657dd31275b19563e27e14b02a1fc2d5e",
- "checker_sha256": "4322d5423440677fbbff45e57817c24361165be5f8ef71f09803c91d284c7759",
- "load_seconds": 9.02,
+ "html_sha256": "0433c770c653bfc875b1f063f8627b4cf334eceb71c173c4cfd9600ef1b51b33",
+ "checker_sha256": "50ef3e885bd3de810cac874c8ee33f7bf611499f33eb6b7974a7ce0da6c90782",
+ "load_seconds": 5.309,
  "chain_left": {
-  "samples": 2439,
+  "samples": 2533,
   "bend_limits_deg": [
-   -12,
-   44.75
+   -10.25,
+   60.25
   ],
   "dummy_half_mm": 12,
   "flat_strip_t_0": 0.3425,
   "open_joint_0": 29,
   "ends_meet_t_0": 0.756797,
-  "last_pin_home_t_0": 0.83,
+  "last_screw_home_t_0": 0.83,
+  "lock_screw_in_out_t_0": [
+   0.625,
+   0.918
+  ],
   "max_idler_rim_overlap_mm": 0.916,
   "min_distance_to_finished_loop_mm": -0.027,
   "deepest_overlap_mm": {
-   "bushing": 0,
-   "pin": 0,
-   "clip": 0,
+   "sleeve": 0,
+   "screw": 0,
+   "nut": 0,
    "dummy": 0,
    "link": 0
   },
@@ -28,27 +32,31 @@
    30
   ],
   "seconds": {
-   "probe": 109.099,
-   "checks": 15.709
+   "probe": 105.306,
+   "checks": 24.706
   }
  },
  "chain_right": {
-  "samples": 2439,
+  "samples": 2533,
   "bend_limits_deg": [
-   -12,
-   44.75
+   -10.25,
+   60.25
   ],
   "dummy_half_mm": 12,
   "flat_strip_t_0": 0.3425,
   "open_joint_0": 29,
   "ends_meet_t_0": 0.756797,
-  "last_pin_home_t_0": 0.83,
+  "last_screw_home_t_0": 0.83,
+  "lock_screw_in_out_t_0": [
+   0.625,
+   0.918
+  ],
   "max_idler_rim_overlap_mm": 0.916,
   "min_distance_to_finished_loop_mm": -0.027,
   "deepest_overlap_mm": {
-   "bushing": 0,
-   "pin": 0,
-   "clip": 0,
+   "sleeve": 0,
+   "screw": 0,
+   "nut": 0,
    "dummy": 0,
    "link": 0
   },
@@ -57,31 +65,39 @@
    30
   ],
   "seconds": {
-   "probe": 109.886,
-   "checks": 8.207
+   "probe": 105.301,
+   "checks": 10.705
   }
  },
  "chain_x1": {
-  "samples": 2439,
+  "samples": 2533,
   "bend_limits_deg": [
-   -12,
-   44.75
+   -10.25,
+   60.25
   ],
   "dummy_half_mm": 12,
   "flat_strip_t_0": 0.3425,
   "open_joint_0": 29,
   "ends_meet_t_0": 0.756797,
-  "last_pin_home_t_0": 0.83,
+  "last_screw_home_t_0": 0.83,
+  "lock_screw_in_out_t_0": [
+   0.625,
+   0.918
+  ],
   "flat_strip_t_1": 0.3425,
   "open_joint_1": 29,
   "ends_meet_t_1": 0.756797,
-  "last_pin_home_t_1": 0.83,
+  "last_screw_home_t_1": 0.83,
+  "lock_screw_in_out_t_1": [
+   0.625,
+   0.918
+  ],
   "max_idler_rim_overlap_mm": 0.916,
   "min_distance_to_finished_loop_mm": -0.027,
   "deepest_overlap_mm": {
-   "bushing": 0,
-   "pin": 0,
-   "clip": 0,
+   "sleeve": 0,
+   "screw": 0,
+   "nut": 0,
    "dummy": 0,
    "link": 0
   },
@@ -90,8 +106,8 @@
    30
   ],
   "seconds": {
-   "probe": 218.983,
-   "checks": 16.6
+   "probe": 196.394,
+   "checks": 22.104
   }
  },
  "cases": [
@@ -1177,7 +1193,7 @@
  "skip_logic": true,
  "playback": {
   "reached": "chain",
-  "t": 0
+  "t": 0.003470833333335274
  },
  "click_identify": "J901 H-frame print",
  "parts_tab_rows": [
@@ -1193,15 +1209,15 @@
  "screenshots": {
   "kit_overview": {
    "file": "images/kit_overview.png",
-   "sha256": "38c75bfca1031d0dfe9af4215a28eb45ac66b78237e8a57408e04e7f7a805133"
+   "sha256": "93e90973b7e0aa936cab38e8b885303e7d9a4094285b423f02ea8537b52f44ba"
   },
   "kit_rollers": {
    "file": "images/kit_rollers.png",
-   "sha256": "c8d726548d495d4a4c72e71ca2f9d4bcdfe90297d245c2071cb82babf8d88d57"
+   "sha256": "8ee38ac525348d7afb1f1918b0474bfaefb2ea84712b1f4f8133b2be66622086"
   },
   "kit_tensioner": {
    "file": "images/kit_tensioner.png",
-   "sha256": "19b0f803c03f1a2599331b8f83a0043b4bed5e98122990db3f7fc5460bf04bff"
+   "sha256": "bd0cdb4a5e0161f236f352fd05ab48199faa18c911d1828fd9a8e5fb93064d9a"
   },
   "kit_sprocket": {
    "file": "images/kit_sprocket.png",
@@ -1209,43 +1225,43 @@
   },
   "kit_chain_joint": {
    "file": "images/kit_chain_joint.png",
-   "sha256": "f1ee9e0b419489827d2e9fb965ffc9287027e0da24c81102f6ec3628ad3b1c3b"
+   "sha256": "1e5d7d54cefc1bb9da54705f664ac687ab276c50442606a0822ac896c11ea519"
   },
-  "kit_chain_clips": {
-   "file": "images/kit_chain_clips.png",
-   "sha256": "e373e132ebc44ccd9548c5a7d97071f6fcbde73c2e540a17d5412cfeba7c9527"
+  "kit_chain_nut": {
+   "file": "images/kit_chain_nut.png",
+   "sha256": "f1995a870430e13f2613e184ad7a8d5f1d37c925ee11777d8203ae4f38b96960"
   },
   "kit_chain_strip": {
    "file": "images/kit_chain_strip.png",
-   "sha256": "c2c51b47a0115efaccbf11afaa199278218811f63397c81e99593622bf80bba3"
+   "sha256": "7ec9d7375b24a7a3156726f1ec9f4b353b9ea5d6e279a7bdbbec441ed02593b1"
   },
   "kit_chain_dummy": {
    "file": "images/kit_chain_dummy.png",
-   "sha256": "774e22ff95cf0ca983b3ff33105dcfc6c5ff81cb3071d69732635e25c5310c46"
+   "sha256": "f9ada499e4602032298644ee7b2fe431f1bb0e4e041474c5e0c3f4348bcefa15"
   },
   "kit_chain_wrap": {
    "file": "images/kit_chain_wrap.png",
-   "sha256": "c30114959c70588d69a1597114e3a888ae6fad308bb7ac22718951d111ad8898"
+   "sha256": "12df8657d1f65cfc4bb8d3d5d4118f84d3e2fe3db4a42a7123fbbd297588fbde"
   },
   "kit_chain_join": {
    "file": "images/kit_chain_join.png",
-   "sha256": "cc9fb9c65ec00da5238bcc37f824d74fec912bb17e7cefa69a9dae1eaeec289c"
+   "sha256": "9a5b8037aa4891d71738664a23b5e7dcdd346a3b22924efb5e3a2197fa11b98d"
   },
   "kit_x1_chain": {
    "file": "images/kit_x1_chain.png",
-   "sha256": "cda1076adffab363b14d87c22ee59a11cd24c711edbe169edd2a281c823d4245"
+   "sha256": "0b63a67fe3c69f4f97a65391ae66b67ec7d43512286b02a33b70140edcc0f491"
   },
   "kit_right_tensioner": {
    "file": "images/kit_right_tensioner.png",
-   "sha256": "de40c84596a9192b786bda7649802c1b611ae59925d7b5c0bc3a4e3676f92e6f"
+   "sha256": "4085b6d22ed6614e79c62954fe638c96c4f633cc3b0b675d6b25f0ec101d0a66"
   },
   "kit_x1_frame": {
    "file": "images/kit_x1_frame.png",
-   "sha256": "4f6f18195130892fb983149bdddd8810ab9a6e89efc1fb2e6e52acc6ead6cf31"
+   "sha256": "c7c67d4acd8fc371ee7a3e4c72d8e50f5c64dd20a6f1ff9eea6c8709b957fb47"
   },
   "kit_x1_joint": {
    "file": "images/kit_x1_joint.png",
-   "sha256": "232ba0f9e4883739a48e064dfb3e413a19d867bbcd8b8d8964e81d0d1bccdcbd"
+   "sha256": "2f1e48a0dd20b1181c24910546ed93d7adc1665898b8ac4001d98e3eb103224c"
   }
  },
  "problems": [],

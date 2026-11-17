@@ -125,7 +125,7 @@ def verify_proofs(allow_pending_track=False):
     exports = reports['revf_part_exports.json']['exports']
     assert {row['name'] for row in exports} == {
         'X101_X_frame', 'J901_H_frame', 'J909_housing', 'J901_H_frame_right', 'J909_housing_right',
-        'J902_sprocket', 'J904_roller', 'J906_idler_wheel'}
+        'J902_sprocket', 'J904_roller', 'J906_idler_wheel', 'J908_U_yoke', 'J910_track_shoe_70'}
     assert all(row['step_roundtrip'] and row['stl_watertight'] and row['matches_current_source'] and
                row['solids'] == 1 and row['stl_components'] == 1 for row in exports)
     if not allow_pending_track:
@@ -173,7 +173,7 @@ def load_current():
     for name, row in raw.items():
         d = lookup.get(name)
         if d is None:
-            assert name.startswith(('shoe_', 'track_bushing_', 'track_pin_', 'pin_clip_')), name
+            assert name.startswith(('shoe_', 'track_bushing_', 'track_screw_', 'track_nut_')), name
             d = dict(group='track', color=[.5, .5, .5], kind='hardware', source=None)
         track[name] = {k: d[k] for k in ('group', 'color', 'kind', 'source')}
         track[name]['shape'] = cq.Workplane(obj=row['shape'])
@@ -948,11 +948,14 @@ def main():
                   fitted_length_mm=D.SPRING_SET, recoil_mm=D.RECOIL,
                   yoke_step_sha256=sha(P.ROOT/'step/J908_U_yoke.step'),
                   spring_guide_report=rel(P.ROOT/'spring_guide_validation.json'))
+    # The accepted yoke, by its STEP bytes. 2026-11-14: a Ø3.2 x 8 lock-pin hole was added in each end of the crossbar
+    # (agreed with the user). The earlier accepted file (3ab7207a...) minus this one is exactly those two holes
+    # (2 x 64.34 mm3 at X 64.2..67.4, |Y| 19..27) and nothing is added: piston, spring pilot, arms and pin holes are unchanged.
     spring['preserved'] = (spring['guide_bore_mm'] == 16.4 and spring['guide_outer_mm'] == 21.2 and
                            spring['piston_mm'] == 15.6 and spring['recess_mm'] == 8.0 and
                            spring['fitted_length_mm'] == 25.8 and spring['recoil_mm'] == 4.2 and
                            spring['yoke_step_sha256'] ==
-                           '3ab7207adb42dc2eb1b08c4dc9a470fafd4a43527277ddad2c02f078ea9db60d')
+                           '79b97f642596644b48a4b73175efc60628b71f423c76cf94c4b77071361f946e')
     interface_ok = all(abs(r['axial_contact_area_mm2']-r['expected_contact_area_mm2']) < .2 and
                        abs(r['nominal_lower_bearing_area_mm2']-r['expected_lower_bearing_area_mm2']) < .2 and
                        abs(r['missing_plain_hole_wall_mm3']) < 1e-4 for r in interfaces)

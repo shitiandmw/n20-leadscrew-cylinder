@@ -14,8 +14,8 @@ export const CONFIG = {
   "track_centres": 340.0,
   "track_links_per_side": 34,
   "track_pin_diameter": 3.0,
-  "track_pin_length": 56.0,
-  "track_pin_clip_y_mm": 33.0,
+  "track_pin_length": 60.0,
+  "track_screw_seat_y_mm": 25.0,
   "shoe_width": 70.0,
   "idler_adjustment_mm": [
     -3.0,

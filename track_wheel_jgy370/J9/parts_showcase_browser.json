@@ -1,13 +1,13 @@
 {
  "pass": true,
- "html_sha256": "1ae65b9269cbf1b7163c79479f82f301546d4937b20f3a60caa61d693e6595be",
+ "html_sha256": "5289c928db32cf3d0dd8abf5a1016f21e4d045fe58e5b852e5e8466ec31154ad",
  "checker_sha256": "bfabbebd1e8583bc7ea3a8f3bf65386d6961c087b958ea8d3d244a0d527a6ebb",
  "items": {
   "J901": {
    "coverage": 0.0946,
-   "labels_key": 13,
-   "labels_all": 31,
-   "cut_face_px": 2277,
+   "labels_key": 14,
+   "labels_all": 32,
+   "cut_face_px": 2273,
    "bed": {
     "left": {
      "size": [
@@ -156,9 +156,9 @@
   },
   "J908": {
    "coverage": 0.0963,
-   "labels_key": 7,
-   "labels_all": 9,
-   "cut_face_px": 1390,
+   "labels_key": 8,
+   "labels_all": 10,
+   "cut_face_px": 1389,
    "bed": {
     "left": {
      "size": [
@@ -174,14 +174,14 @@
    }
   },
   "J910": {
-   "coverage": 0.0707,
-   "labels_key": 6,
-   "labels_all": 13,
-   "cut_face_px": 5738,
+   "coverage": 0.0706,
+   "labels_key": 7,
+   "labels_all": 15,
+   "cut_face_px": 5649,
    "bed": {
     "left": {
      "size": [
-      27.997,
+      27.999,
       70,
       11
      ],
@@ -363,29 +363,31 @@
     "left": 4
    }
   },
-  "trackpin": {
-   "coverage": 0.0163,
-   "cut_face_px": 7511,
+  "trackscrew": {
+   "coverage": 0.016,
+   "labels_key": 2,
+   "labels_all": 3,
+   "cut_face_px": 6753,
    "track": {
     "left": 34
    }
   },
   "bushing": {
-   "coverage": 0.1024,
+   "coverage": 0.0977,
    "labels_key": 3,
    "labels_all": 3,
-   "cut_face_px": 19165,
+   "cut_face_px": 17719,
    "track": {
     "left": 34
    }
   },
-  "clip": {
-   "coverage": 0.0864,
+  "tracknut": {
+   "coverage": 0.1644,
    "labels_key": 2,
-   "labels_all": 2,
-   "cut_face_px": 3759,
+   "labels_all": 3,
+   "cut_face_px": 15986,
    "track": {
-    "left": 68
+    "left": 34
    }
   },
   "M4x25": {
@@ -449,23 +451,23 @@
    "model": false
   },
   "dummy": {
-   "coverage": 0.0384,
+   "coverage": 0.0383,
    "labels_key": 2,
    "labels_all": 2,
-   "cut_face_px": 17096
+   "cut_face_px": 17095
   },
   "tool8": {
    "model": false
   }
  },
- "load_seconds": 11.979,
+ "load_seconds": 11.092,
  "kit": {
   "csv_rows": 37,
   "kit_entries": 35,
   "tools": 9,
   "page_items": 44
  },
- "overview_coverage": 0.2731,
+ "overview_coverage": 0.2738,
  "click_identify": {
   "overview": "J901",
   "track_view": "J901"
@@ -480,6 +482,7 @@
   "J906",
   "J907",
   "608ZZ",
+  "pin8",
   "tool3"
  ],
  "search_m3x20": [
@@ -492,39 +495,39 @@
  "screenshots": {
   "showcase_overview": {
    "file": "images/showcase_overview.png",
-   "sha256": "7956734675ab9874a21b0ccc1006de9af88da66902a40417500383ce9cec6f6e"
+   "sha256": "85b434c3b0b73d031c3a3daea73d32c02c46e0866f0f8daa3c98013341ee196d"
   },
   "showcase_J901": {
    "file": "images/showcase_J901.png",
-   "sha256": "e1f958c4510eda97cebd83c5cab6f323df988921f36dbf8e4ec503afd4ac66ab"
+   "sha256": "db299c7a8d98fd3a85043f22509c677771fb389680ee628c830316e9b796ccae"
   },
   "showcase_J902_all": {
    "file": "images/showcase_J902_all.png",
-   "sha256": "7f0ab1111cac7840739d9ba269fc7be437f9deab06c3b4698c36797e5873d7f6"
+   "sha256": "9e6621a5c85d1775a916eaa6fc503b21a2bda73cc9dadb49b24e8bcb60fb44aa"
   },
   "showcase_J906_cut": {
    "file": "images/showcase_J906_cut.png",
-   "sha256": "843de75f8d9f75745e687b410a9d6c55e04ebbc303dbdba340550038c736e37a"
+   "sha256": "c57050691b3ae26b4091bacc97873e598e493bf912324b8ad6d937b1e84f0289"
   },
   "showcase_J904_track": {
    "file": "images/showcase_J904_track.png",
-   "sha256": "80c35786587f9309054e7807854513d2b3ec149daacc459eeb3e594f1cb16b4b"
+   "sha256": "f4e405dd9f96a821698d8716ded44d23381b4856607a918c609a00101456087a"
   },
   "showcase_J909_right": {
    "file": "images/showcase_J909_right.png",
-   "sha256": "471086176084d792d45fd961661b1b1c43d201d392de2dd1da286451e9ab4e42"
+   "sha256": "8179b9b11334531169d16ea71294a3cd2a0e0be7db3906a490c4f9cfc9375636"
   },
   "showcase_spring": {
    "file": "images/showcase_spring.png",
-   "sha256": "6cde3cb92ac44378ba896bf4b922be02fa753b0f8be870dda384b6a2c695dda0"
+   "sha256": "6fe43c6dbdc0699c20407b6084d5fdd42d195b89532f89f90c647a42e20ef6fb"
   },
   "showcase_X101_joint": {
    "file": "images/showcase_X101_joint.png",
-   "sha256": "eda3d1a3a6e92eaae91aef676b5b1e3e15125b7722ccb9e22c0cd6cd4b86037f"
+   "sha256": "28bfb53738fbb59446ca8cfc38d0dd649160becd69fc964313841432dec6238d"
   },
   "showcase_phone": {
    "file": "images/showcase_phone.png",
-   "sha256": "a6ecdca606102776eff17d6ae3766e413c46cec2515bb71104dc8bc204d5070f"
+   "sha256": "bca152570515015e82024f646f17c20c88915af61e51e8d6fe65f2f0e1b633e9"
   }
  },
  "phone": {

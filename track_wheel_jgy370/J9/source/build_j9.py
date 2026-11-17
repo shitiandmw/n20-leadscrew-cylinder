@@ -149,11 +149,10 @@ def write_scene(prt, inst):
     scene = export.scene_items({n: d for n, d in inst.items() if d['group'] != 'track'})
     for item in scene:
         if item['name'].startswith(('JGY370_', 'motor_screw')) and item['group'] == 'frame': item['group'] = 'motor'
-    pinset = tp.yring(D.BUSH_R, 1.55, -D.BUSH_HALF_L, D.BUSH_HALF_L).union(tp.ycyl(D.PIN_R, -D.PIN_HALF_L, D.PIN_HALF_L))
-    for dy in (-D.CLIP_Y, D.CLIP_Y):
-        pinset = pinset.union(tp.yring(3, 1.5, dy - .3, dy + .3))
+    hw = P.chain_hardware()
+    pinset = cq.Workplane(obj=cq.Compound.makeCompound([P.one(hw[k]) for k in ('screw', 'nut', 'sleeve')]))
     link = [dict(name='J910_track_shoe_70', color=list(P.RUBBER), **export.mesh(prt['J910_track_shoe_70']['shape'])),
-            dict(name='pin, bushing, 2 clips', color=list(P.STEEL), **export.mesh(pinset))]
+            dict(name=P.LINK_HARDWARE_NAME, color=list(P.STEEL), **export.mesh(pinset))]
     payload = dict(unit=scene, link=link, config=dict(revision='J9', pitch=D.PITCH, pitch_r=D.PITCH_R, drive=[D.DRIVE_X, D.AXLE_Z],
                    idler=[D.IDLER_X, D.AXLE_Z], pins=D.PINS.tolist(), recoil=D.RECOIL,
                    rollers={g: [x, z] for x, z, g in P.ROLLERS}, roller_r=D.ROLLER_R, rail_face=D.RAIL_FACE,
@@ -256,10 +255,9 @@ def main():
 
     print('Clearances', flush=True)
     H = prt['J901_H_frame']['shape']
-    clips = [d['shape'] for n, d in inst.items() if n.startswith('pin_clip_')]
-    pins = [d['shape'] for n, d in inst.items() if n.startswith('track_pin_')]
+    joint = [d['shape'] for n, d in inst.items() if n.startswith(('track_screw_', 'track_nut_'))]
     c = {}
-    c['track pins and clips to H-frame'] = min(dist(H, s) for s in clips + pins)
+    c['track screws and nuts to H-frame'] = min(dist(H, s) for s in joint)
     c['track shoes to housing'] = min(dist(prt['J909_housing']['shape'], inst[n]['shape']) for n in inst if n.startswith('shoe_'))
     c['road rollers to H-frame (including spring guide)'] = min(dist(H, inst[f'J904_roller_road{j}']['shape']) for j in range(5))
     c['road roller flanges to web underside'] = round(D.WEB_Z[0] - (D.ROAD_Z + D.FLANGE_R), 3)

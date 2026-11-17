@@ -306,5 +306,5 @@
   "note": "top-entry headers: each plug goes on straight down. The left half's hood covers the board (Z 199 over J102, Z 217 over the rest), so the plugs are mated with the half standing beside the machine (BODY.md slack), as before."
  },
  "status": "PASS",
- "seconds": 679.8
+ "seconds": 685.0
 }

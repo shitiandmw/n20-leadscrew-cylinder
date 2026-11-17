@@ -5,13 +5,12 @@
 //   the spring cut-away, label placement (inside the view, no overlaps), skip logic for the X101-only step, playback,
 //   click-to-identify, the parts-list tab, no console errors, no network access and an English-only interface.
 // The chain step is also sampled densely (about 2400 times per mode, without rendering) against the way a track goes on,
-//   J9/ASSEMBLY.md 7, and against the solid parts themselves (no bushing, pin, E-clip or dummy pin through a link, no link through
+//   J9/ASSEMBLY.md 7, and against the solid parts themselves (no sleeve, screw, nut or dummy pin through a link, no link through
 //   another, sections of the CAD shoe): see chainCheck below. Its time-windowed labels are checked in the middle of their windows.
 // Run: NODE_PATH=<playwright node_modules> node track_wheel_jgy370/J9/source/check_track_kit.cjs
 // Options for a quick trial on another copy of the page: [path.html] --modes=left,right,x1 --no-write (no report, no screenshots)
-// --chain-only (only the chain step's sampled checks and labels). Negative test: the page before 2026-11-11 (git show
-// 8ec4c1d:track_wheel_jgy370/J9/install_animation.html) must fail with --chain-only: its pins carried their bushings and E-clips
-// through the Ø3.2 pin holes, and its links were dropped onto each other's plate ends.
+// --chain-only (only the chain step's sampled checks and labels). Negative tests are copies of the page with one fault put in
+// (a nut that runs on before its screw is home, a sleeve slid along the screw through the Ø3.2 holes): they must fail.
 const {chromium}=require('playwright');
 const fs=require('fs'),path=require('path'),crypto=require('crypto'),zlib=require('zlib');
 const root=path.resolve(__dirname,'..'),args=process.argv.slice(2),write=!args.includes('--no-write');
@@ -34,16 +33,18 @@ const FITTED_IN=[[/^(J901_H_frame|insert_M3_\d|6800ZZ_\w+)$/,'frame'],[/^(JGY370
 // one flat strip, level on the bench, with one joint open (its ends are the strip's two ends); no link is bent before that, and the
 // track is down on the strip before any joint bends. From then on every joint but the open one stays joined, and no link goes below
 // the bench, inside the finished loop, inside the sprocket's pitch circle, into a roller or into the idler's rim. (The idler, resting
-// forward over the flat strip or held back at its stop, is up to 1 mm into the bushings' running path: the real track rides up on it
-// that much. The largest such overlap is reported.) The last pin appears only when the two open ends meet, goes in along its own
-// axis from outboard while the idler is held at its recoil stop, and is home before the idler is released. At the end every link
-// and pin is at its CAD pose, the idler at its running position and the track down.
-// Solid parts may not pass through each other (see the slab model below): no bushing, pin, E-clip or dummy pin through a link, no
+// forward over the flat strip or held back at its stop, is up to 1 mm into the sleeves' running path: the real track rides up on it
+// that much. The largest such overlap is reported.) The last screw appears only when the two open ends meet, goes in along its own
+// axis from outboard while the idler is held at its recoil stop, and is home before the idler is released. At the end every link,
+// screw, sleeve and nut is at its CAD pose, the idler at its running position and the track down.
+// Solid parts may not pass through each other (see the slab model below): no sleeve, screw, nut or dummy pin through a link, no
 // link through another; joined links only bend as far as their plates and shoes allow. Each joint goes together in an order a person
-// can follow: its bushing is between the inner ears before its pin (or the dummy pin) enters, and stays put once something is
-// through it; on the track (any link not flat on the bench) every bushing is held by its pin or, at the open joint, by the dummy pin;
-// E-clips go on only when their pin is home, square to the pin, open side first, and never slide along it; the dummy pin stays inside
-// the inner ears while the ends meet, is pushed out by the last pin and is taken away only once it is clear of the outer plates.
+// can follow: its sleeve is between the inner ears before its screw (or the dummy pin) enters, and stays put once something is
+// through it; on the track (any link not flat on the bench) every sleeve is held by its screw or, at the open joint, by the dummy pin;
+// a nut goes on only when its screw is home, from inboard, along the screw, and never past its seat; the dummy pin stays inside the
+// inner ears while the ends meet, is pushed out by the last screw and is taken away only once it is clear of the seat bosses.
+// The lock screw (J901/J908 lock-pin holes) is in only while the idler is at its recoil stop: it goes in along the hole's axis in
+// the outer wall after the idler has been pushed back, and is out again before the idler is released.
 const J9=JSON.parse(zlib.gunzipSync(fs.readFileSync(path.join(__dirname,'j9_scene.json.gz'))));
 const G=J9.config,PIN=G.pins,NL=PIN.length,ZB=Math.min(...PIN.map(p=>p[1])),BUSH=3;
 const TH=PIN.map((a,j)=>{const b=PIN[(j+1)%NL];return Math.atan2(b[1]-a[1],b[0]-a[0])});
@@ -58,8 +59,9 @@ const segD=(p,a,b)=>{const dx=b[0]-a[0],dz=b[1]-a[1],u=Math.max(0,Math.min(1,((p
 function loopDist(p){let d=Infinity,inside=false;for(let i=0,j=NL-1;i<NL;j=i++){const a=PIN[i],b=PIN[j];d=Math.min(d,segD(p,a,b));
  if((a[1]>p[1])!==(b[1]>p[1])&&p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0])inside=!inside}return inside?-d:d}
 // ------------------------------------------------------------------ the shoe in Y slabs, for the overlap tests
-// The J910 shoe is a union of pieces extruded along the pins (shoe plate and grousers, inner ears, outer plates; two small holes
-// through the plate), so its section halfway between two consecutive vertex Y values holds for that whole Y interval. Links only
+// The J910 shoe is a union of pieces extruded along the pins (shoe plate and grousers, inner ears, outer plates and their seat
+// bosses; two small holes through the plate), so its section halfway between two consecutive vertex Y values holds for that whole
+// Y interval. (Revision B has four lead-in chamfers, 0.8 to 1.1 mm wide; across each of them the section is taken at mid-width.) Links only
 // turn about Y and the joint hardware is Y-aligned cylinders, so every overlap is a 2-D test in each shared Y interval. The thin
 // intervals across the two plate holes are left out: their sections lie inside the plain plate's, so the test stays conservative.
 const SV=J9.link[0].vertices,ST=J9.link[0].triangles,TOL=.05;
@@ -70,15 +72,20 @@ const SLABS=(()=>{const ys=[...new Set(SV.map(v=>Math.round(v[1]*1000)/1000))].s
    if(pts.length===2)segs.push([pts[0][0],pts[0][1],pts[1][0],pts[1][1]])}
   all.push({y0,y1,...section(segs)})}
  const thick=all.filter(S=>S.y1-S.y0>=.25),byKey=new Map();
- for(const S of all.filter(S=>S.y1-S.y0<.25)){const near=thick.reduce((m,T)=>Math.min(Math.abs(T.y0-S.y0),Math.abs(T.y1-S.y1))<Math.min(Math.abs(m.y0-S.y0),Math.abs(m.y1-S.y1))?T:m,thick[0]);
-  for(let i=0;i<S.p.length;i+=2)if(!inside(near,S.p[i],S.p[i+1])&&edgeD(near,S.p[i],S.p[i+1])>.01)throw new Error(`thin shoe slab ${S.y0}..${S.y1} is not inside its neighbour's section`)}
+ // a thin interval (the edge of a plate hole, the end of a chamfer) is left out. Its section must lie inside the section of the
+ // thick slab next below it or next above it, so that whatever would overlap it also overlaps that slab.
+ const within=(S,T)=>{if(!T)return false;for(let i=0;i<S.p.length;i+=2)if(!inside(T,S.p[i],S.p[i+1])&&edgeD(T,S.p[i],S.p[i+1])>.01)return false;return true};
+ for(const S of all.filter(S=>S.y1-S.y0<.25)){const below=thick.filter(T=>T.y1<=S.y0+1e-9).pop(),above=thick.find(T=>T.y0>=S.y1-1e-9);
+  if(!within(S,below)&&!within(S,above))throw new Error(`thin shoe slab ${S.y0}..${S.y1} is not inside the section of the slab next to it`)}
  for(const S of thick){const k=Array.from(S.a,v=>v.toFixed(3)).join();if(!byKey.has(k))byKey.set(k,{...S,ys:[]});byKey.get(k).ys.push([S.y0,S.y1])}
  return [...byKey.values()]})();
 // a section as flat arrays: segments [x1,z1,x2,z2,...], test points (segment ends and middles) and its bounding box
 function section(segs){const a=new Float64Array(segs.flat()),p=new Float64Array(segs.flatMap(g=>[g[0],g[1],(g[0]+g[2])/2,(g[1]+g[3])/2]));
  let x0=Infinity,x1=-Infinity,z0=Infinity,z1=-Infinity;for(let i=0;i<a.length;i+=2){x0=Math.min(x0,a[i]);x1=Math.max(x1,a[i]);z0=Math.min(z0,a[i+1]);z1=Math.max(z1,a[i+1])}
  return {a,p,bb:[x0,x1,z0,z1]}}
-function inside(S,x,z){const b=S.bb;if(x<b[0]||x>b[1]||z<b[2]||z>b[3])return false;const a=S.a;let c=false;
+// (the ray is cast a hair above z: links lying flat side by side have their section vertices at exactly the same heights, and a
+// ray through a vertex that two segments each computed for themselves, one unit in the last place apart, would count it wrongly)
+function inside(S,x,z){const b=S.bb;if(x<b[0]||x>b[1]||z<b[2]||z>b[3])return false;const a=S.a;let c=false;z+=1.37e-7;
  for(let i=0;i<a.length;i+=4){const z1=a[i+1],z2=a[i+3];if((z1>z)!==(z2>z)&&x<a[i]+(z-z1)*(a[i+2]-a[i])/(z2-z1))c=!c}return c}
 function edgeD(S,x,z){const a=S.a;let d=Infinity;
  for(let i=0;i<a.length;i+=4){const x1=a[i],z1=a[i+1],dx=a[i+2]-x1,dz=a[i+3]-z1,L=dx*dx+dz*dz;let u=L>0?((x-x1)*dx+(z-z1)*dz)/L:0;u=u<0?0:u>1?1:u;
@@ -99,11 +106,15 @@ function linkDepth(A,B){let worst=0;if(Math.hypot(A[0]-B[0],A[1]-B[1])>40)return
 // how far two joined links may bend, from the shoe itself: links on one pin, the second turned by b about it (+: shoes outward)
 const BENDS=(()=>{const lim=sg=>{let last=0;for(let d=.25;d<=90;d+=.25){const b=sg*d*Math.PI/180,B=[10+10*Math.cos(b),10*Math.sin(b),b];
   if(linkDepth([0,0,0],B)>TOL)return last;last=b}return last};return [lim(-1),lim(1)]})();
-// the hardware, from the CAD's merged pin + bushing + clips mesh: bushing half-length, clip faces, pin half-length; radii
+// the hardware, from the CAD's merged screw + nut + sleeve mesh. |Y| values: sleeve half-length, the seat (head and nut faces), head
+// top, nut's far face, screw tip. Radii: shank, sleeve bore, head, sleeve, nut corners. The head is on the +Y side.
 const HWY=[...new Set(J9.link[1].vertices.map(v=>+Math.abs(v[1]).toFixed(3)))].sort((a,b)=>a-b);
 const HWR=[...new Set(J9.link[1].vertices.map(v=>+Math.hypot(v[0],v[2]).toFixed(3)))].sort((a,b)=>a-b);
-const HW={bush:{r:HWR[2],half:HWY[0]},pin:{r:HWR[0],half:HWY[3]},clip:{r:HWR[2],half:(HWY[2]-HWY[1])/2,y:(HWY[1]+HWY[2])/2}};
-const EARS=[...new Set(SV.map(v=>+Math.abs(v[1]).toFixed(3)))].filter(y=>y>6.5).sort((a,b)=>a-b);   // ears 8.7..13.7, plates 14..21
+if(HWY.length!==5||HWR.length!==5||Math.max(...J9.link[1].vertices.map(v=>v[1]))!==HWY[2])throw new Error(`joint hardware not as expected: Y ${HWY}, r ${HWR}`);
+const HW={bush:{r:HWR[3],half:HWY[0]},screw:{r:HWR[0],seat:HWY[1],head:HWR[2],top:HWY[2],tip:HWY[4]},nut:{r:HWR[4],half:(HWY[3]-HWY[1])/2,y:(HWY[1]+HWY[3])/2}};
+const FACES=[...new Set(SV.map(v=>+Math.abs(v[1]).toFixed(3)))].filter(y=>y>6.5);
+const EARS=[9.2,13.7],PLATES=[14,21],BOSS=HW.screw.seat;   // the shoe's faces across the track: inner ears, outer plates, seat bosses
+for(const y of [...EARS,...PLATES,BOSS])if(!FACES.includes(y))throw new Error(`the shoe has no face at |Y| ${y}: ${FACES.sort((a,b)=>a-b)}`);
 async function probeAll(page,k,T){const out=[];for(let i=0;i<T.length;i+=200)out.push(...await page.evaluate(([k,T])=>{kit.go(k);return T.map(x=>kit.probe(x))},[k,T.slice(i,i+200)]));
  return out}
 async function chainCheck(page,mode,k,meta){
@@ -111,18 +122,19 @@ async function chainCheck(page,mode,k,meta){
  const W=meta.chainWindows||[],T=[...new Set([...Array(1201).keys()].map(i=>i/1200).concat(...W.map(([a,b,n])=>[...Array(n+1).keys()].map(i=>a+(b-a)*i/n))).map(x=>+x.toFixed(6)))].sort((a,b)=>a-b);
  const t0=Date.now(),S=await probeAll(page,k,T),t1=Date.now();
  const tag=`${mode}/chain`,out={samples:T.length,bend_limits_deg:BENDS.map(b=>+(b*180/Math.PI).toFixed(2))},seen=new Set(),once=(key,m)=>{if(!seen.has(key)){seen.add(key);fail(m)}};let rim=0,loop=0;
- const deep={bushing:0,pin:0,clip:0,dummy:0,link:0},bendSeen=[0,0],oldPage=!S[0].mods[0].bushes;
- if(oldPage)out.note='page has no separate bushings or clips: each pin carries its bushing and both clips (the old merged part)';
+ const deep={sleeve:0,screw:0,nut:0,dummy:0,link:0},bendSeen=[0,0];
+ if(!S[0].mods[0].nuts||!S[0].mods[0].lock)throw new Error('this page predates the screw joint: its probe has no nuts or lock screw');
  // the page's hardware against the CAD's
- if(!oldPage){const h=meta.hw,ext=(b,i)=>(b[i+3]-b[i])/2;
-  for(const [n,want,r] of [['pin',HW.pin.half,HW.pin.r],['bushing',HW.bush.half,HW.bush.r],['clip',HW.clip.half,HW.clip.r]])
-   if(!h[n]||Math.abs(ext(h[n],1)-want)>1e-3||Math.abs(Math.max(ext(h[n],0),ext(h[n],2))-r)>1e-3)fail(`${tag}: the page's ${n} is not the CAD's (${h[n]})`);
+ {const h=meta.hw,ext=(b,i)=>(b[i+3]-b[i])/2,rad=b=>Math.max(ext(b,0),ext(b,2));
+  for(const [n,y0,y1,r] of [['pin',-HW.screw.tip,HW.screw.top,HW.screw.head],['lock',-HW.screw.tip,HW.screw.top,HW.screw.head],
+    ['bushing',-HW.bush.half,HW.bush.half,HW.bush.r],['nut',-HW.nut.half,HW.nut.half,HW.nut.r]])
+   if(!h[n]||Math.abs(h[n][1]-y0)>1e-3||Math.abs(h[n][4]-y1)>1e-3||Math.abs(rad(h[n])-r)>2e-3)fail(`${tag}: the page's ${n} is not the CAD's (${h[n]})`);
   if(!h.dummy||ext(h.dummy,1)>EARS[1]-.2||ext(h.dummy,1)<EARS[0]+1)fail(`${tag}: the dummy pin (half-length ${h.dummy&&ext(h.dummy,1)}) must reach into both inner ears and stay inside them`);
+  if(Math.abs(meta.screw.tip-HW.screw.tip)>1e-6||Math.abs(meta.screw.nutY-HW.nut.y)>1e-6)fail(`${tag}: the page's screw tip and nut place ${JSON.stringify(meta.screw)} are not the CAD's`);
   out.dummy_half_mm=h.dummy?+ext(h.dummy,1).toFixed(3):null}
- const DH=oldPage?0:(meta.hw.dummy[4]-meta.hw.dummy[1])/2;
- S[0].mods.forEach((_,mi)=>{let flat=-1,open=-1,met=-1,home=-1,bentAt=-1;const bushSet=new Array(NL).fill(-1),pinIn=new Array(NL).fill(-1),wasDummy=[false,null];
+ const DH=(meta.hw.dummy[4]-meta.hw.dummy[1])/2,LK=meta.lockAt;
+ S[0].mods.forEach((_,mi)=>{let flat=-1,open=-1,met=-1,home=-1,bentAt=-1,lockHome=-1,lockOut=-1;const bushSet=new Array(NL).fill(-1),pinIn=new Array(NL).fill(-1),wasDummy=[false,null];
   for(let i=0;i<S.length;i++){const s=S[i],m=s.mods[mi],t=s.t,h=s.lift,sh=m.shoes,at=`${tag}@${t.toFixed(4)}`;
-   if(oldPage){m.bushes=m.pins.map(q=>q.slice());m.clips=m.pins.flatMap(q=>[[q[0],q[1],q[2]-HW.clip.y,q[3],null],[q[0],q[1],q[2]+HW.clip.y,q[3],null]]);m.dummy=[0,0,0,0]}
    const ends=sh.map(([,x,z,a])=>[[x-G.pitch/2*Math.cos(a),z-G.pitch/2*Math.sin(a)],[x+G.pitch/2*Math.cos(a),z+G.pitch/2*Math.sin(a)]]);
    const gapAt=n=>{const a=ends[(n+NL-1)%NL][1],b=ends[n][0];return Math.hypot(a[0]-b[0],a[1]-b[1])};
    for(let j=0;j<NL;j++)if(sh[j][0]){const [,,z,a]=sh[j];let lo=Infinity;for(const [lx,lz] of SHOE)lo=Math.min(lo,z+h+lx*Math.sin(a)+lz*Math.cos(a));
@@ -132,7 +144,7 @@ async function chainCheck(page,mode,k,meta){
    if(flat<0&&!bent&&sh.every(q=>q[0])&&sh.every(q=>Math.abs(q[2]+h-ZB)<.05)){const gaps=[];for(let n=0;n<NL;n++)if(gapAt(n)>.02)gaps.push(n);
     if(gaps.length===1){flat=i;open=gaps[0];out['flat_strip_t_'+mi]=t;
      if(Math.abs(gapAt(open)-NL*G.pitch)>.1)once('ends'+mi,`${at}: the open joint's ends are ${gapAt(open).toFixed(1)} mm apart, not the strip's two ends`);
-     if(m.pins[open][0])once('pin0'+mi,`${at}: the open joint already has its pin`)}}
+     if(m.pins[open][0])once('pin0'+mi,`${at}: the open joint already has its screw`)}}
    // --- solid parts: links against links
    const L=sh.map(q=>q[0]?[q[1],q[2],q[3]]:null);
    for(let j=0;j<NL;j++){const A=L[(j+NL-1)%NL],B=L[j];if(!A||!B)continue;   // links j-1 and j meet at pin j
@@ -145,37 +157,44 @@ async function chainCheck(page,mode,k,meta){
    const flatL=j=>L[j]&&Math.abs(wrap(L[j][2]))<1e-6;
    for(let j=0;j<NL;j++){const pj=(j+NL-1)%NL,F=L[pj]?ends[pj][1]:null,closed=gapAt(j)<.02;
     const at0=(q,dy)=>F&&Math.hypot(q[1]-F[0],q[3]-F[1])<1e-6&&Math.abs(q[2]-dy)<1e-6;
-    const parts=[['bushing',m.bushes[j],HW.bush.r,HW.bush.half,0],['pin',m.pins[j],HW.pin.r,HW.pin.half,0],
-     ['clip',m.clips[2*j],HW.clip.r,HW.clip.half,-HW.clip.y],['clip',m.clips[2*j+1],HW.clip.r,HW.clip.half,HW.clip.y]];
-    if(j===open&&m.dummy[0])parts.push(['dummy',m.dummy,HW.pin.r,DH,null]);
-    for(const [n,q,r,hl,dy] of parts){if(!q[0])continue;const homeHere=dy!==null&&at0(q,dy);
+    // each piece: [name, probe row, radius, Y from, Y to (relative to the row's Y), its Y when at home]
+    const parts=[['sleeve',m.bushes[j],HW.bush.r,-HW.bush.half,HW.bush.half,0],['screw',m.pins[j],HW.screw.r,-HW.screw.tip,HW.screw.seat,0],
+     ['screw',m.pins[j],HW.screw.head,HW.screw.seat,HW.screw.top,0],['nut',m.nuts[j],HW.nut.r,-HW.nut.half,HW.nut.half,-HW.nut.y]];
+    if(j===open&&m.dummy[0])parts.push(['dummy',m.dummy,HW.screw.r,-DH,DH,null]);
+    for(const [n,q,r,ya,yb,dy] of parts){if(!q[0])continue;const homeHere=dy!==null&&at0(q,dy);
      for(let l=0;l<NL;l++){if(!L[l])continue;if(homeHere&&(l===pj||(l===j&&closed)))continue;if(n==='dummy'&&l===pj&&F&&Math.hypot(q[1]-F[0],q[3]-F[1])<1e-6&&Math.abs(q[2])<1e-6)continue;
-      const d=cylDepth(r,q[2]-hl,q[2]+hl,q[1],q[3],L[l]);if(d>deep[n])deep[n]=d;
-      if(d>TOL)once(n+mi+'_'+j+'_'+l,`${at}: ${n} of joint ${j} ${d.toFixed(2)} mm into link ${l}${n==='bushing'&&Math.abs(q[2])>1e-6?' (moving along the pin, through the Ø'+(2*Math.min(...SLABS.flatMap(S=>[edgeD(S,10,0)]))).toFixed(1)+' holes)':''}`)}}
-    // --- order: bushing before pin, held on the track; clips after the pin, square to it; the dummy pin
-    const bu=m.bushes[j],pn=m.pins[j],bHome=bu[0]&&at0(bu,0);
+      const d=cylDepth(r,q[2]+ya,q[2]+yb,q[1],q[3],L[l]);if(d>deep[n])deep[n]=d;
+      if(d>TOL)once(n+mi+'_'+j+'_'+l,`${at}: ${n} of joint ${j} ${d.toFixed(2)} mm into link ${l}${n==='sleeve'&&Math.abs(q[2])>1e-6?' (moving along the screw, through the Ø'+(2*Math.min(...SLABS.flatMap(S=>[edgeD(S,10,0)]))).toFixed(1)+' holes)':''}`)}}
+    // --- order: sleeve before screw, held on the track; the nut after the screw, along it from inboard; the dummy pin
+    const bu=m.bushes[j],pn=m.pins[j],nt=m.nuts[j],bHome=bu[0]&&at0(bu,0);
     if(bHome&&bushSet[j]<0)bushSet[j]=i;
-    const through=(q,half)=>q[0]&&F&&Math.hypot(q[1]-F[0],q[3]-F[1])<1e-6&&Math.min(q[2]+half,HW.bush.half)-Math.max(q[2]-half,-HW.bush.half)>TOL;
-    const pinThrough=through(pn,HW.pin.half),dumThrough=j===open&&m.dummy[0]&&through(m.dummy,DH);
-    if((pinThrough||dumThrough)&&!bHome)once('bo'+mi+'_'+j,`${at}: ${pinThrough?'pin':'dummy pin'} of joint ${j} through the bushing's place before the bushing is there`);
-    if(bu[0]&&!bHome&&(pn[0]||(j===open&&m.dummy[0])))once('bm'+mi+'_'+j,`${at}: bushing of joint ${j} moves with a pin through its ears`);
-    if(bu[0]&&L[pj]&&!flatL(pj)&&!pinThrough&&!dumThrough)once('bh'+mi+'_'+j,`${at}: bushing of joint ${j} on the track with nothing through it: its ears open downward there`);
+    const through=(q,ya,yb)=>q[0]&&F&&Math.hypot(q[1]-F[0],q[3]-F[1])<1e-6&&Math.min(q[2]+yb,HW.bush.half)-Math.max(q[2]+ya,-HW.bush.half)>TOL;
+    const pinThrough=through(pn,-HW.screw.tip,HW.screw.seat),dumThrough=j===open&&m.dummy[0]&&through(m.dummy,-DH,DH);
+    if((pinThrough||dumThrough)&&!bHome)once('bo'+mi+'_'+j,`${at}: ${pinThrough?'screw':'dummy pin'} of joint ${j} through the sleeve's place before the sleeve is there`);
+    if(bu[0]&&!bHome&&(pn[0]||(j===open&&m.dummy[0])))once('bm'+mi+'_'+j,`${at}: sleeve of joint ${j} moves with a screw through its ears`);
+    if(bu[0]&&L[pj]&&!flatL(pj)&&!pinThrough&&!dumThrough)once('bh'+mi+'_'+j,`${at}: sleeve of joint ${j} on the track with nothing through it: its ears open downward there`);
     if(pinThrough&&pinIn[j]<0)pinIn[j]=i;
-    for(const [c,sg] of [[m.clips[2*j],-1],[m.clips[2*j+1],1]]){if(!c[0])continue;
-     if(Math.abs(c[2]-sg*HW.clip.y)>1e-6)once('cy'+mi+'_'+j,`${at}: E-clip of joint ${j} off its groove (Y ${c[2].toFixed(2)}): clips are pushed on square to the pin, not slid along it`);
-     else if(F&&Math.hypot(c[1]-F[0],c[3]-F[1])>1e-6){
-      if(!(pn[0]&&Math.abs(pn[2])<1e-6))once('cp'+mi+'_'+j,`${at}: E-clip of joint ${j} going on before its pin is home`);
-      const dx=F[0]-c[1],dz=F[1]-c[3],dd=Math.hypot(dx,dz);
-      if(c[4]===null||Math.abs(dx*Math.sin(c[4])-dz*Math.cos(c[4]))>1e-6*Math.max(1,dd)||dx*Math.cos(c[4])+dz*Math.sin(c[4])<0)
-       once('cm'+mi+'_'+j,`${at}: E-clip of joint ${j} not pushed on open side first, square to the pin`)}}}
-   // the dummy pin: on the far end's free ears, inside them while the ends meet, pushed out by the last pin, taken away when clear
+    if(pn[0]&&pn[2]<-1e-9)once('ph'+mi+'_'+j,`${at}: screw of joint ${j} pushed past its seat (Y ${pn[2].toFixed(2)}): its head stops on the boss`);
+    if(nt[0]){const home=pn[0]&&Math.abs(pn[2])<1e-6;
+     if(!home)once('np'+mi+'_'+j,`${at}: nut of joint ${j} going on before its screw is home`);
+     if(!F||Math.hypot(nt[1]-F[0],nt[3]-F[1])>1e-6)once('na'+mi+'_'+j,`${at}: nut of joint ${j} off the screw's axis: it runs on along the screw`);
+     if(nt[2]>-HW.nut.y+1e-6)once('ns'+mi+'_'+j,`${at}: nut of joint ${j} past its seat (Y ${nt[2].toFixed(2)}): it stops on the inboard boss`);
+     if(j===open&&m.dummy[0])once('nd'+mi,`${at}: last nut going on with the dummy pin still on the screw's path`)}}
+   // the dummy pin: on the far end's free ears, inside them while the ends meet, pushed out by the last screw, taken away when clear
    if(m.dummy[0]&&open>=0){const pj=(open+NL-1)%NL,F=ends[pj][1],d=m.dummy,lp=m.pins[open];
     if(Math.hypot(d[1]-F[0],d[3]-F[1])>1e-6)once('da'+mi,`${at}: dummy pin off the end link's ear axis`);
-    if(bushSet[open]<0||bushSet[open]>i)once('db'+mi,`${at}: dummy pin before the last bushing is between the ears`);
+    if(bushSet[open]<0||bushSet[open]>i)once('db'+mi,`${at}: dummy pin before the last sleeve is between the ears`);
     if(gapAt(open)<8&&!lp[0]&&Math.abs(d[2])+DH>EARS[1]+1e-6)once('dp'+mi,`${at}: dummy pin stands out of the inner ears as the ends meet`);
-    if(lp[0]&&lp[2]-HW.pin.half<d[2]+DH-1e-6)once('dl'+mi,`${at}: last pin and dummy pin overlap`);
+    if(lp[0]&&lp[2]-HW.screw.tip<d[2]+DH-1e-6)once('dl'+mi,`${at}: last screw and dummy pin overlap`);
     wasDummy[1]=d.slice()}
-   if(!m.dummy[0]&&wasDummy[1]&&!wasDummy[0]){wasDummy[0]=true;if(wasDummy[1][2]+DH>-EARS[3]-1e-6)once('dg'+mi,`${at}: dummy pin taken away before it is clear of the outer plates (Y ${wasDummy[1][2].toFixed(1)})`)}
+   if(!m.dummy[0]&&wasDummy[1]&&!wasDummy[0]){wasDummy[0]=true;if(wasDummy[1][2]+DH>-BOSS-1e-6)once('dg'+mi,`${at}: dummy pin taken away before it is clear of the seat bosses (Y ${wasDummy[1][2].toFixed(1)})`)}
+   // the lock screw: on the axis of the outer wall's hole, never deeper than its place, and only with the idler at its recoil stop
+   if(m.lock[0]){const k=m.lock;
+    if(Math.hypot(k[1]-LK.x,k[3]-LK.z)>1e-6)once('la'+mi,`${at}: lock screw off the axis of the lock-pin hole`);
+    if(k[2]<LK.y-1e-6)once('ld'+mi,`${at}: lock screw deeper than the yoke's hole (Y ${k[2].toFixed(2)})`);
+    if(Math.abs(m.slide+G.recoil)>1e-6)once('ls'+mi,`${at}: lock screw in sight with the idler at ${m.slide} mm: the holes only line up at the recoil stop`);
+    if(Math.abs(k[2]-LK.y)<1e-6&&lockHome<0)lockHome=i}
+   else if(lockHome>=0&&lockOut<0)lockOut=i;
    if(flat<0)continue;
    for(let n=0;n<NL;n++)if(n!==open&&gapAt(n)>.02)once('joint'+mi+'_'+n,`${at}: joint ${n} open by ${gapAt(n).toFixed(3)} mm`);
    if(met<0&&gapAt(open)<.02)met=i;
@@ -183,26 +202,30 @@ async function chainCheck(page,mode,k,meta){
     for(let j=0;j<NL;j++){const p=ends[j][0],ds=Math.hypot(p[0]-G.drive[0],p[1]-G.drive[1]);
      if(ds<G.pitch_r-.05)once('spr'+mi,`${at}: pin ${j} ${(G.pitch_r-ds).toFixed(2)} mm inside the sprocket's pitch circle`);
      for(const [r,c] of Object.entries(G.rollers)){const d=G.roller_r+G.rail_face-Math.hypot(p[0]-c[0],p[1]-c[1]);if(d>.05)once('rol'+mi+r,`${at}: link at pin ${j} ${d.toFixed(2)} mm into roller ${r}`)}
-     const di=RIM+BUSH-Math.hypot(p[0]-idl[0],p[1]-idl[1]);rim=Math.max(rim,di);if(di>1)once('idl'+mi,`${at}: bushing ${j} ${di.toFixed(2)} mm into the idler rim`);
+     const di=RIM+BUSH-Math.hypot(p[0]-idl[0],p[1]-idl[1]);rim=Math.max(rim,di);if(di>1)once('idl'+mi,`${at}: sleeve ${j} ${di.toFixed(2)} mm into the idler rim`);
      const dl=loopDist(p);loop=Math.min(loop,dl);if(dl<-.6)once('loop'+mi,`${at}: pin ${j} ${(-dl).toFixed(2)} mm inside the finished loop`)}}
    const q=m.pins[open];
-   if(q[0]){if(met<0)once('early'+mi,`${at}: last pin shown before the open ends meet`);
-    if(Math.hypot(q[1]-ends[open][0][0],q[3]-ends[open][0][1])>.02)once('axis'+mi,`${at}: last pin off the joint's axis`);
-    if(q[2]<-1e-9)once('side'+mi,`${at}: last pin from inboard`);
-    if(q[2]>1e-6&&Math.abs(m.slide+G.recoil)>1e-6)once('held'+mi,`${at}: last pin going in with the idler at ${m.slide} mm, not held at its recoil stop`);
+   if(q[0]){if(met<0)once('early'+mi,`${at}: last screw shown before the open ends meet`);
+    if(Math.hypot(q[1]-ends[open][0][0],q[3]-ends[open][0][1])>.02)once('axis'+mi,`${at}: last screw off the joint's axis`);
+    if(q[2]<-1e-9)once('side'+mi,`${at}: last screw from inboard`);
+    if(q[2]>1e-6&&Math.abs(m.slide+G.recoil)>1e-6)once('held'+mi,`${at}: last screw going in with the idler at ${m.slide} mm, not held at its recoil stop`);
+    if(q[2]>1e-6&&!(m.lock[0]&&Math.abs(m.lock[2]-LK.y)<1e-6))once('lockin'+mi,`${at}: last screw going in without the lock screw holding the idler`);
     if(q[2]<=1e-6&&home<0)home=i}
    if(m.slide<-G.recoil-1e-6)once('stop'+mi,`${at}: idler ${m.slide} mm, behind its recoil stop`);
-   if(met>=0&&i>met&&home<0&&m.slide>-G.recoil+1e-6)once('rel'+mi,`${at}: idler leaves its stop before the last pin is in`)}
+   if(met>=0&&i>met&&home<0&&m.slide>-G.recoil+1e-6)once('rel'+mi,`${at}: idler leaves its stop before the last screw is in`)}
   if(flat<0)fail(`${tag}: the links never lie as one flat strip on the bench`);
-  if(met<0)fail(`${tag}: the open ends never meet`);if(home<0)fail(`${tag}: the last pin never goes home`);
-  for(let j=0;j<NL;j++)if(bushSet[j]<0)fail(`${tag}: bushing of joint ${j} never between its ears`);
-  Object.assign(out,{['open_joint_'+mi]:open,['ends_meet_t_'+mi]:met<0?null:T[met],['last_pin_home_t_'+mi]:home<0?null:T[home]});
+  if(met<0)fail(`${tag}: the open ends never meet`);if(home<0)fail(`${tag}: the last screw never goes home`);
+  if(lockHome<0)fail(`${tag}: the lock screw never holds the idler`);else if(lockOut<0)fail(`${tag}: the lock screw is never taken out`);
+  else if(home<0||lockOut<=home)fail(`${tag}: the lock screw comes out before the last screw is home`);
+  for(let j=0;j<NL;j++)if(bushSet[j]<0)fail(`${tag}: sleeve of joint ${j} never between its ears`);
+  Object.assign(out,{['open_joint_'+mi]:open,['ends_meet_t_'+mi]:met<0?null:T[met],['last_screw_home_t_'+mi]:home<0?null:T[home],
+   ['lock_screw_in_out_t_'+mi]:[lockHome<0?null:T[lockHome],lockOut<0?null:T[lockOut]]});
   const e=S[S.length-1],m=e.mods[mi];
   m.shoes.forEach(([v,x,z,a],j)=>{if(!v||Math.hypot(x-G.pitch/2*Math.cos(a)-PIN[j][0],z-G.pitch/2*Math.sin(a)-PIN[j][1])>1e-6||ang(a,TH[j])>1e-9)fail(`${tag}@1: link ${j} not at its CAD pose`)});
-  m.pins.forEach(([v,x,y,z],j)=>{if(!v||Math.hypot(x-PIN[j][0],y,z-PIN[j][1])>1e-6)fail(`${tag}@1: pin ${j} not at its CAD pose`)});
-  if(!oldPage){m.bushes.forEach(([v,x,y,z],j)=>{if(!v||Math.hypot(x-PIN[j][0],y,z-PIN[j][1])>1e-6)fail(`${tag}@1: bushing ${j} not at its CAD pose`)});
-   m.clips.forEach(([v,x,y,z],c)=>{const j=c>>1;if(!v||Math.hypot(x-PIN[j][0],z-PIN[j][1])>1e-6||Math.abs(y-(c%2?1:-1)*HW.clip.y)>1e-6)fail(`${tag}@1: E-clip ${c} not at its CAD pose`)});
-   if(m.dummy[0])fail(`${tag}@1: the dummy pin is still in`)}
+  m.pins.forEach(([v,x,y,z],j)=>{if(!v||Math.hypot(x-PIN[j][0],y,z-PIN[j][1])>1e-6)fail(`${tag}@1: screw ${j} not at its CAD pose`)});
+  m.bushes.forEach(([v,x,y,z],j)=>{if(!v||Math.hypot(x-PIN[j][0],y,z-PIN[j][1])>1e-6)fail(`${tag}@1: sleeve ${j} not at its CAD pose`)});
+  m.nuts.forEach(([v,x,y,z],j)=>{if(!v||Math.hypot(x-PIN[j][0],z-PIN[j][1])>1e-6||Math.abs(y+HW.nut.y)>1e-6)fail(`${tag}@1: nut ${j} not at its CAD pose`)});
+  if(m.dummy[0])fail(`${tag}@1: the dummy pin is still in`);if(m.lock[0])fail(`${tag}@1: the lock screw is still in`);
   if(Math.abs(m.slide)>1e-9||Math.abs(e.lift)>1e-9)fail(`${tag}@1: idler ${m.slide} mm, track lifted ${e.lift} mm`)});
  out.max_idler_rim_overlap_mm=+rim.toFixed(3);out.min_distance_to_finished_loop_mm=+loop.toFixed(3);
  out.deepest_overlap_mm=Object.fromEntries(Object.entries(deep).map(([k,v])=>[k,+v.toFixed(3)]));
@@ -304,14 +327,14 @@ function labelCheck(tag,st){const shown=st.labels.filter(l=>l.shown);const [w,h]
   await page.click('[data-tab="parts"]');
   const tables=await page.evaluate(()=>[...document.querySelectorAll('#tab-parts table')].map(t=>t.rows.length-1));
   result.parts_tab_rows=tables;
-  const kitRows=[11,1,8,7,3,3,4,9];if(   // tools: 9 rows since the Ø3 x 24 dummy pin for the last chain joint (2026-11-11)
+  const kitRows=[11,1,8,7,3,3,4,9];if(   // chain: screw, sleeve, nut; tools: 9 rows since the Ø3 x 24 dummy pin for the last chain joint (2026-11-11)
    JSON.stringify(tables)!==JSON.stringify(kitRows))fail('parts tab rows '+tables);
   const body=await page.locator('body').innerText();if(/[㐀-鿿]/.test(body))fail('non-English interface text');
   await page.screenshot({path:path.join(root,'images/kit_parts_tab.png'),timeout:SHOT_MS});
   await page.click('[data-tab="steps"]');
   // screenshots
   const shots=[['kit_overview','left','overview',0],['kit_rollers','left','rollers',.75],['kit_tensioner','left','tensioner',.65],['kit_sprocket','left','sprocket',.55],
-   ['kit_chain_joint','left','chain',.14],['kit_chain_clips','left','chain',.17],['kit_chain_strip','left','chain',.3],['kit_chain_dummy','left','chain',.385],
+   ['kit_chain_joint','left','chain',.14],['kit_chain_nut','left','chain',.17],['kit_chain_strip','left','chain',.3],['kit_chain_dummy','left','chain',.385],
    ['kit_chain_wrap','left','chain',.7],['kit_chain_join','left','chain',.8],['kit_x1_chain','x1','chain',.5],['kit_right_tensioner','right','tensioner',.65],['kit_x1_frame','x1','xframe',.3],['kit_x1_joint','x1','xframe',.95]];
   result.screenshots={};
   for(const [name,mode,id,t] of shots){await page.evaluate(([m,k,t])=>{kit.setMode(m,k);kit.setT(t);kit.snap()},[mode,sid[id],t]);

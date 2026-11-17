@@ -18,7 +18,7 @@ One machine: two J9 tracks on the X1 revision F frame, the R3 turntable, body B1
 | J906_idler_wheel | 2 | PETG, flat face on the bed (print as J8) | J9/BOM.md | both 608ZZ seats open to the faces |
 | J907_idler_spacer | 4 | PETG, 100 % | J9/BOM.md |  |
 | J908_U_yoke | 2 | PETG or PA12, 4 walls, 50 % | J9/BOM.md | with the spring piston |
-| J910_track_shoe_70 | 68 | PETG or PA12, grousers on the bed | J9/BOM.md | 34 per track |
+| J910_track_shoe_70 | 68 | PETG or PA12, 4 walls, 40 %; grousers on the bed, no supports | J9/BOM.md | 34 per track; revision B (2026-11-14) |
 | X101_X_frame | 1 | PETG or PA12; bearing seat on the bed; 155 x 275 x 51 | X1/BOM.md | revision F |
 | X102_belly_cover | 1 | PETG, 3 walls | X1/BOM.md |  |
 | T101_centre_frame | 1 | PETG, 4 walls, 30 %; 252 x 148 x 33 | X1/TURNTABLE.md |  |
@@ -55,7 +55,7 @@ One machine: two J9 tracks on the X1 revision F frame, the R3 turntable, body B1
 
 ## Bought mechanical
 
-42 lines, 398 pieces.
+40 lines, 194 pieces.
 
 | Part | Qty | Specification | From | Note |
 |---|---|---|---|---|
@@ -69,11 +69,9 @@ One machine: two J9 tracks on the X1 revision F frame, the R3 turntable, body B1
 | 6800ZZ bearing 10 x 19 x 5 | 2 |  | J9/BOM.md |  |
 | 624ZZ bearing 4 x 13 x 5 | 28 |  | J9/BOM.md |  |
 | 608ZZ bearing 8 x 22 x 7 | 4 |  | J9/BOM.md |  |
-| Ø8 x 55 steel pin (ISO 2338 8 m6) | 2 | idler axles | J9/BOM.md |  |
+| Ø8 x 55 ground steel rod, h6 or g6 (cut linear shaft) | 2 | idler axles; not an m6 dowel pin, which is a press fit in the 608 bores | J9/BOM.md |  |
 | Idler compression spring, Lee Spring C-600-072-1500 | 2 | 25.8 fitted, 77 N | J9/BOM.md |  |
-| Ø3 x 56 steel track pin | 68 |  | J9/BOM.md |  |
-| Ø6 / Ø3.1 x 17 steel bushing | 68 |  | J9/BOM.md |  |
-| Pin clip | 136 |  | J9/BOM.md |  |
+| Steel sleeve Ø6 / Ø3.2 x 18 | 68 | track joints; the sprocket teeth drive on them | J9/BOM.md |  |
 | Ground steel pin Ø6 x 60 | 1 | pin O | R12 sheet 6 |  |
 | Steel pin Ø6 x 42 | 1 | pin E | R12 sheet 6 |  |
 | Steel pin Ø6 x 50 | 1 | pin H | R12 sheet 6 |  |
@@ -104,7 +102,7 @@ One machine: two J9 tracks on the X1 revision F frame, the R3 turntable, body B1
 
 ## Screws, nuts, washers, inserts
 
-33 lines, 287 pieces.
+35 lines, 423 pieces.
 
 | Part | Qty | Specification | From | Note |
 |---|---|---|---|---|
@@ -122,14 +120,16 @@ One machine: two J9 tracks on the X1 revision F frame, the R3 turntable, body B1
 | M3 x 12 countersunk (ISO 10642) | 6 | ring gear from below | X1/TURNTABLE.md |  |
 | M3 x 20 socket | 6 | sprockets to the couplings | J9/BOM.md |  |
 | M3 x 50 socket | 2 | journal plugs | J9/BOM.md |  |
+| M3 x 60 socket (ISO 4762), partly threaded: 18 mm of thread | 68 | track joints, head outboard | J9/BOM.md | buy spares: one serves as the lock pin when a chain is closed |
+| M3 nyloc nut (DIN 985) | 68 | track joints, inboard; run down to the seat, then backed off 1/6 turn | J9/BOM.md |  |
 | M3 nut | 2 | push-screw locks | X1/TURNTABLE.md |  |
 | M3 washer (ISO 7089) | 7 | slip ring (3), slide clamps (4) | X1/TURNTABLE.md |  |
-| M3 heat-set insert (hole Ø4.0 x 5.7) | 31 | housings (8), belly cover (4), collar (3), ring gear (6), slide (4), lugs (2), rib tops (4) | J9, X1, TURNTABLE, BODY |  |
+| M3 heat-set insert, up to 5.7 long (hole Ø4.0) | 31 | housings (8; bores 7 deep), belly cover (4), collar (3), ring gear (6), slide (4), lugs (2), rib tops (4) | J9, X1, TURNTABLE, BODY |  |
 | M4 x 12 socket | 2 | counterweight | X1/BODY.md |  |
 | M4 x 20 socket | 8 | hub joint | X1/TURNTABLE.md |  |
 | M4 x 25 socket, Ø7 x 4 head | 8 | track joints, revision F | X1/BOM.md |  |
 | M4 x 30 socket | 8 | RU66 to the X-frame | X1/BOM.md |  |
-| M4 x 70 socket | 14 | roller axles | J9/BOM.md |  |
+| M4 x 70 socket, partly threaded | 14 | roller axles; the bearings sit on plain shank | J9/BOM.md |  |
 | M4 nut (ISO 4032) | 16 | RU66 seat (8), track joints (8) | X1/BOM.md |  |
 | M4 nyloc nut (DIN 985) | 14 | roller axles | J9/BOM.md |  |
 | M4 washer Ø9 / Ø4.4 x 0.8 | 16 | track joints | X1/BOM.md |  |
@@ -168,16 +168,16 @@ One machine: two J9 tracks on the X1 revision F frame, the R3 turntable, body B1
 | Cable tie 2.5 x 100 mm | 16 | B01X troughs (4), slots (2), posts (2), bay and hood slack (8) | WIRING.md |  |
 | Heat-shrink 2.4 and 4.8 mm | 0.5 m | joints and the slip-ring spare leads | WIRING.md |  |
 | Nut-holding tool, 7 mm, within Ø11.2 | 1 | track joint nuts | X1/ASSEMBLY.md | tool, not a part |
-| Hex L-keys 1.5, 2, 2.5 (90 mm long), 3 (20 mm short leg / 80 mm arm), 5 mm; PH0 driver with a 3 mm x 100 mm blade; PH1; PH000 precision driver | 1 | see ASSEMBLY.md | subsystem guides | tools |
+| Hex L-keys 1.5, 2, 2.5 (90 mm long), 3 (20 mm short leg / 80 mm arm), 5 mm; PH0 driver with a 3 mm x 100 mm blade; PH1; PH000 precision driver; 5.5 mm nut driver (track nuts) | 1 | see ASSEMBLY.md | subsystem guides | tools |
 
 ## Counts
 
 | | Lines | Pieces |
 |---|---|---|
 | Printed | 44 | 187 |
-| Bought mechanical | 42 | 398 |
-| Screws, nuts, washers, inserts | 33 | 287 |
+| Bought mechanical | 40 | 194 |
+| Screws, nuts, washers, inserts | 35 | 423 |
 | Harness and electrical | 21 | 43 |
-| **All** | 140 | 915 |
+| **All** | 140 | 847 |
 
 The printed count includes the 68 track shoes and the 18 W01 clamps. No custom-machined part anywhere in the machine.

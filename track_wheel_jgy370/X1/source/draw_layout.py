@@ -188,7 +188,7 @@ def table(ax, keys, val):
 
 def key_numbers(inst):
     chain = [X.one(d['shape']).BoundingBox() for n, d in inst.items()
-             if n.startswith(('L_', 'R_')) and n[2:].startswith(('shoe_', 'track_pin_', 'track_bushing_', 'pin_clip_'))]
+             if n.startswith(('L_', 'R_')) and n[2:].startswith(('shoe_', 'track_screw_', 'track_bushing_', 'track_nut_'))]
     assert chain, 'No track chain found in the exported chassis'
     xs = [b.xmin for b in chain] + [b.xmax for b in chain]
     ys = [b.ymin for b in chain] + [b.ymax for b in chain]

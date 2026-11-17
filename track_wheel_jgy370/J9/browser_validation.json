@@ -1,7 +1,7 @@
 {
  "pass": true,
- "html_sha256": "7dc8fc446466f98a0950f74c5998ff88d33dc53b7c198854a983d56eb50daa73",
- "scene_sha256": "dd618fd7a7fdfb67785a0e26f6a3f733d1daf74d38e7bd6c7284dba1f417bf86",
+ "html_sha256": "bccca9c1a3b68f33ce25fbc3475dc897968cc06fbb5eb6d2897f7586726205cc",
+ "scene_sha256": "d9a43657980cb3a870393ca8105398a256b838e8cb1c11a247bffc24dae26756",
  "checker_sha256": "57f1802e1d06704ab514a8cf8f91de1c1baf2f07b53e589ad528e5d0a5c24f31",
  "views": {
   "iso": "images/J9_iso.png",
@@ -15,15 +15,15 @@
   "outboard_half_pitch": "images/J9_outboard_half_pitch.png"
  },
  "screenshot_sha256": {
-  "iso": "25e33834f16b22268d4fb5bcad129a9aad0ac8d228de034b0b7e83b1193d09cf",
-  "outboard": "b25f2b442725f399329d0ab9057b77af3bed4d4d1805827b05b6f44e2a41d8e7",
-  "inboard": "9f7abe6c8bf03dc6f0553ec59b1591ea6e1b4961a898b0d69b893d81f1d72f28",
-  "pod": "f1ef6ed8fa45562f77f247abf07e6a9ae0eee11daae54b191c3e97dbf51ef19b",
-  "top": "944d9904d7ef51ee233572474163dbd70daa44a4369229ff843db04524db6634",
-  "frame": "602e2b39aba4eafe22130bd4417070a97b2cd6ee0c37208f8fa714677186d5f9",
-  "spring": "7ef8b8ba7cbc83190cdc2b62eb0ae3c89641444780230e910d752081fc12d427",
-  "exploded": "bede039111bd975c5bd57e70c951095fea719878e6ad8217a4823dbafab6d28f",
-  "outboard_half_pitch": "4e69984411ec965e1b388c2910b24d3fbc4dbcfebaf59f95544407e8480b3b35"
+  "iso": "383c060b5b2f0c19c108fccac1cfa667b0282e4213434371da858860005aa054",
+  "outboard": "da577e997e14780d532c93bea18d5f081bfbb74d3d1cd6290ad89f9babf37c34",
+  "inboard": "6979afe62034e02a7a9e5a930e2fd0ebcf61138a688e46ce66536475aa8541be",
+  "pod": "8169e489f084099ec40c14e6b597623b0451aef2d8ac2bf69aff5bfc86b5eb82",
+  "top": "b45ef8204d377e676a4155cba7f4c5f58c43f9c0e8cd6d6264f5f5fe3b9a6e6d",
+  "frame": "eb099211914fe1726506fe6b59ab4fd1611884dc97679f1df8a5bf6a6b3f5b1d",
+  "spring": "df15ce8ea888d15ffb86f8875662db95bd3e2e68b2119aefddfb132154563f1a",
+  "exploded": "086ffc972769f75041087cbeebd99a6c6bf6dec155d5c9cdeb0ea3b60fefce74",
+  "outboard_half_pitch": "136d2471653c9932bcc8fcb0a7cfd3b9b6088291eee1b0163e35aef85affaa37"
  },
  "state": {
   "view": "outboard",
@@ -36,7 +36,7 @@
   "springVisible": true
  },
  "spring_section_and_restoration": true,
- "run_phase_after_start": 0.5175200000017881,
+ "run_phase_after_start": 0.7193599999928473,
  "errors": [],
  "network": []
 }

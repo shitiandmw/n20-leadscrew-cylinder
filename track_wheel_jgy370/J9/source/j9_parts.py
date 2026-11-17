@@ -9,6 +9,7 @@ One printed H-frame (two walls joined by a web) carries everything:
 - a U-yoke slides in grooves in both walls and carries the idler on a plain 8 mm pin;
   the R5 spring sits inside an axial guide pocket in the web, driven by the yoke piston.
 A one-piece housing (inboard skirt + closed motor pod) encloses the motor.
+The chain is 34 printed links; each joint is an M3 x 60 screw through a steel sleeve, with a nyloc nut (J910 revision B).
 """
 import math, sys
 from pathlib import Path
@@ -51,7 +52,8 @@ TUBE_X0 = SHOULDER_X - 8.0               # the tube starts inside the shoulder
 PORT = dict(r=2.75, boss_r=4.5, length=3.0)
 RIM_Y = (SKIRT_Y[1], -WALL_OUT)          # rim on the inner wall that closes the gap behind the skirt
 BOSS_COUNTERBORE = 2.0                   # gearbox screw bosses (Ø7 x 2) nest in the wall
-ROLLER_BOSS = dict(r=2.8, h=0.7)         # wall bosses touching only the 624 inner rings
+ROLLER_BOSS = dict(r=3.1, h=0.7)         # wall bosses touching only the 624 inner rings (SKF 624-2Z d1 = 6.95). Ø6.2 since
+                                         # 2026-11-14: a 0.9 mm ring instead of 0.6, because the inner wall's bosses print on support
 # J904 centre bore. Each 624ZZ seat ends on a shoulder of this bore, so the shoulder must clear the inner ring's
 # face (SKF 624-2Z d1 = 6.95) yet still back the outer ring (Da max = 11.2). The earlier Ø6.0 also touched the
 # stationary inner ring, so a side load pressed the turning roller against it.
@@ -62,6 +64,7 @@ M3_BUTTON = dict(r=2.85, h=1.65)         # ISO 7380 M3
 HUB_SCREW_CB_R = 3.1                     # counterbore for ISO 4762 M3 heads (dk max 5.68 knurled)
 NYLOC_M4 = dict(af=7.0, h=5.0)           # DIN 985
 INSERT_M3 = dict(r=2.0, length=5.7)      # hole Ø4.0 x 5.7 (heat-set)
+HOUSING_INSERT_BORE = 7.0                # J901 standoff bores: 1.3 mm deeper than the insert, for the displaced plastic and the M3 x 8 tip
 INSERT_M4 = dict(r=2.8, length=8.1)      # hole Ø5.6 x 8.1 (heat-set)
 
 
@@ -109,9 +112,9 @@ def wall(side):
         b0, b1 = sorted([face, face - side*ROLLER_BOSS['h']])
         w = w.union(ycyl(ROLLER_BOSS['r'], b0, b1, x, z))
     # Yoke groove (arms slide in it; its rear end is the recoil stop) and the pin-end track.
-    g0, g1 = sorted([face - side*.01, side*(WALL_IN + ARM_T + GROOVE_CLEAR)])
+    g0, g1 = sorted([face - side*.01, side*(WALL_IN + ARM_T + GROOVE_SIDE_CLEAR)])
     w = w.cut(box(GROOVE_X0, IDLER_X + 40, g0, g1, AXLE_Z - ARM_HALF_Z - GROOVE_CLEAR, AXLE_Z + ARM_HALF_Z + GROOVE_CLEAR))
-    t0, t1 = sorted([side*(WALL_IN + 1), side*(WALL_IN + ARM_T + GROOVE_CLEAR + 1.0)])
+    t0, t1 = sorted([side*(WALL_IN + 1), side*PIN_TRACK_FLOOR])
     w = w.cut(box(IDLER_LIMITS[0] - 4.8, IDLER_X + 40, t0, t1, AXLE_Z - 4.3, AXLE_Z + 4.3))
     for x, z, _ in ROLLERS:
         w = w.cut(ycyl(2.2, y0 - 2, y1 + 2, x, z))
@@ -125,11 +128,12 @@ def wall(side):
             w = w.cut(ycyl(3.25, -WALL_IN - 1.0, -WALL_IN + 1, x, z))               # 1 mm spot face, M3 x 6
         for x, z in HOUSING_SCREWS:                                                 # standoffs carry the housing
             w = w.union(ycyl(4.0, RIM_Y[0], o + .01, x, z))
-            w = w.cut(ycyl(INSERT_M3['r'], RIM_Y[0] - 1, RIM_Y[0] + INSERT_M3['length'], x, z))
+            w = w.cut(ycyl(INSERT_M3['r'], RIM_Y[0] - 1, RIM_Y[0] + HOUSING_INSERT_BORE, x, z))
         w = w.union(pod_rim())
     else:
         w = w.cut(ycyl(B6800['D']/2, B6800_Y[0], WALL_OUT + 1, DRIVE_X, AXLE_Z))      # 6800ZZ seat, 1 mm lip
         w = w.cut(ycyl(6.0, WALL_IN - 1, B6800_Y[0] + .01, DRIVE_X, AXLE_Z))
+        w = w.cut(ycyl(LOCK_PIN['r'], WALL_IN + 1, WALL_OUT + 1, LOCK_PIN['x'], AXLE_Z))  # lock-pin hole through the groove floor
     return w
 
 
@@ -149,7 +153,7 @@ def h_frame():
     # bores after all unions so the rim cannot refill an already drilled hole.
     for x, z in HOUSING_SCREWS:
         s = s.cut(ycyl(INSERT_M3['r'], RIM_Y[0] - 1,
-                      RIM_Y[0] + INSERT_M3['length'], x, z))
+                      RIM_Y[0] + HOUSING_INSERT_BORE, x, z))
     return s.clean()
 
 
@@ -161,8 +165,8 @@ def hub_screw_xz(degs=HUB_SCREW_DEG):
 def sprocket():
     """Printed sprocket. The bought coupling's flange sits in a recess in a low ring on its inner face and 3 x M3 x 20
     from the outer face hold it; a pad down the coupling bore meets the shaft end and sets the axial position."""
-    s = xz_prism(tp.ex.sprocket_outline(), -BUSH_HALF_L, BUSH_HALF_L, DRIVE_X, AXLE_Z)
-    s = s.union(ycyl(SPROCKET_HUB_R, SPROCKET_Y[0], -BUSH_HALF_L + .01, DRIVE_X, AXLE_Z))
+    s = xz_prism(tp.ex.sprocket_outline(), -SPROCKET_HALF_T, SPROCKET_HALF_T, DRIVE_X, AXLE_Z)
+    s = s.union(ycyl(SPROCKET_HUB_R, SPROCKET_Y[0], -SPROCKET_HALF_T + .01, DRIVE_X, AXLE_Z))
     s = s.cut(ycyl(HUB_RECESS['r'], SPROCKET_Y[0] - 1, HUB_FACE_Y, DRIVE_X, AXLE_Z))
     s = s.union(ycyl(STOP_PAD['r'], STOP_PAD['y'][0], STOP_PAD['y'][1] + .01, DRIVE_X, AXLE_Z))
     s = s.cut(ycyl(1.7, SHAFT_TIP_Y - .1, SPROCKET_Y[1] + 1, DRIVE_X, AXLE_Z))
@@ -263,6 +267,9 @@ def u_yoke():
     s = s.union(xcyl(SPRING_POCKET['piston_d']/2, seat_x, x0 + .01, 0, AXLE_Z))
     s = s.union(xcyl(SPIGOT_R, seat_x - SPIGOT_L, seat_x + .01, 0, AXLE_Z))
     s = s.cut(ycyl(4.05, -y_out - 1, y_out + 1, IDLER_X, AXLE_Z))
+    for side in (-1, 1):                                  # lock-pin holes in both ends of the crossbar (left and right track)
+        y0, y1 = sorted([side*(y_out - LOCK_PIN['depth']), side*(y_out + 1)])
+        s = s.cut(ycyl(LOCK_PIN['r'], y0, y1, x0 + YOKE_BASE_T/2, AXLE_Z))
     return s.clean()
 
 
@@ -380,20 +387,63 @@ def housing():
 
 
 # ================================================================ track
+def yz_prism(points, x0, x1):
+    """Prism of a YZ polygon between x0 < x1."""
+    return cq.Workplane('YZ').polyline(points).close().extrude(x1 - x0).translate((x0, 0, 0))
+
+
 def track_shoe():
-    """R4 shoe and link plates; only the shoe plate and grousers are widened to SHOE_W."""
+    """J910 revision B. Link frame: pins at x -10 (outer plates) and x +10 (inner ears); z +4 is the running rail, z -4 the
+    top of the shoe plate. The R4 link, widened to 70 mm, made ready for printing and for an M3 x 60 screw joint:
+    - a low seat boss on the outer face of each outer plate, for the screw head on one side and the nyloc nut on the
+      other; both then sit 2 mm outboard of the roller flanges and the screw cannot slide;
+    - reliefs about both pin axes in the top edges of the shoe plate, and wider hollow plate ends, keep 0.6 mm between
+      neighbouring links (0.045 mm before);
+    - the inner ears are 4.5 mm thick and 18.4 mm apart: an 18 mm sleeve, and 0.7 mm a side for the 17 mm sprocket;
+    - lead-in chamfers for the sprocket teeth (ears) and for the roller and idler flanges (outer top edges of the plates);
+    - the outer grousers sit at the plate edges, so the underside bridges between ribs when printed grousers-down."""
     h = SHOE_W/2
     shoe = box(-9.4, 9.4, -h, h, -6, -4)
-    for x in tp.ex.GROUSER_CENTRES:
+    for s in (-1, 1):
+        # Each relief runs right up to our own ear / plate face, so the 0.3 mm side play of the joint is covered.
+        y0, y1 = sorted([s*LINK_EAR_Y[1], s*(LINK_BOSS['y'][1] + .4)]); shoe = shoe.cut(ycyl(LINK_RELIEF_R, y0, y1, 10, 0))
+        y0, y1 = sorted([s*(LINK_EAR_Y[0] - .4), s*LINK_PLATE_Y[0]]); shoe = shoe.cut(ycyl(LINK_RELIEF_R, y0, y1, -10, 0))
+    for x in GROUSER_X:
         shoe = shoe.union(box(x - 1, x + 1, -h, h, -7, -6))
-    for y0, y1 in [(-21, -14), (14, 21)]:
+    for s in (-1, 1):
+        y0, y1 = sorted([s*LINK_PLATE_Y[0], s*LINK_PLATE_Y[1]]); yo = s*LINK_PLATE_Y[1]
         plate = box(-10, 10, y0, y1, -4, 4).union(ycyl(4, y0, y1, -10, 0))
-        plate = plate.cut(ycyl(4.3, y0 - 1, y1 + 1, 10, 0)).cut(ycyl(1.6, y0 - 1, y1 + 1, -10, 0))
+        plate = plate.cut(ycyl(LINK_RELIEF_R, y0 - 1, y1 + 1, 10, 0))
+        c = LINK_RAIL_CHAMFER
+        plate = plate.cut(yz_prism([(yo + s*.01, 4.01), (yo + s*.01, 4 - c), (yo - s*c, 4.01)], -14.1, 10.1))
         shoe = shoe.union(plate)
-    for y0, y1 in [(-13.7, -8.7), (8.7, 13.7)]:
+        b0, b1 = sorted([s*LINK_BOSS['y'][0], s*LINK_BOSS['y'][1]])
+        boss = ycyl(4, b0, b1, -10, 0).union(box(-10, LINK_BOSS['web_x'], b0, b1, -4, LINK_BOSS['top']))
+        shoe = shoe.union(boss.intersect(box(-20, 0, b0, b1, -4.01, LINK_BOSS['top'])))
+        h0, h1 = sorted([s*(LINK_PLATE_Y[0] - 1), s*(LINK_BOSS['y'][1] + 1)])
+        shoe = shoe.cut(ycyl(1.6, h0, h1, -10, 0))       # Ø3.2 through plate and boss; the boss is cut below the top of the hole
+    for s in (-1, 1):
+        y0, y1 = sorted([s*LINK_EAR_Y[0], s*LINK_EAR_Y[1]]); yi = s*LINK_EAR_Y[0]
         eye = ycyl(4, y0, y1, 10, 0).union(box(0, 10, y0, y1, -4, 0))
+        c = LINK_EAR_CHAMFER
+        # tooth lead-in: the top inner edge of the block (x 0..6) and the inner rim of the eye, outside the sleeve's r 3 face
+        eye = eye.cut(yz_prism([(yi - s*.01, .01), (yi - s*.01, -c), (yi + s*c, .01)], -.1, 6.0))
+        rim = cq.Workplane('XY').polyline([(BUSH_R, yi - s*.01), (4.1, yi - s*.01), (4.1, yi + s*(4.1 - BUSH_R))]).close().revolve(360, (0, 0, 0), (0, 1, 0))
+        eye = eye.cut(rim.translate((10, 0, 0)))
         shoe = shoe.union(eye.cut(ycyl(1.6, y0 - 1, y1 + 1, 10, 0)))
     return shoe.cut(zcyl(1.2, -8, -3, 0, -5)).cut(zcyl(1.2, -8, -3, 0, 5)).clean()
+
+
+def track_screw():
+    """ISO 4762 M3 x 60 in the pin frame (axis = Y through the origin): head on the +Y boss, tip at the shoe edge."""
+    S = TRACK_SCREW
+    return ycyl(S['head_r'], SCREW_SEAT_Y, SCREW_SEAT_Y + S['head_k']).union(ycyl(PIN_R, SCREW_SEAT_Y - S['length'], SCREW_SEAT_Y))
+
+
+def track_nut():
+    """DIN 985 M3 nyloc on the -Y boss (pin frame)."""
+    N = TRACK_NUT
+    return yhex(N['af'], -SCREW_SEAT_Y - N['m'], -SCREW_SEAT_Y, 0, 0).cut(ycyl(PIN_R, -40, 0))
 
 
 def link_poses(pins):
@@ -436,7 +486,9 @@ def spring_helix(x0, length):
 PRINTED = {
     'J901_H_frame': (h_frame, FRAME_C, 1, 'PETG or PA12, 3 walls, 30 % infill; supports under the inner wall',
                      'A 10 mm inner main plate with 1.5 mm shallow T-shaped receiving seats and plain mounting holes for external nuts; 6 mm outer wall, 18 mm web and front diaphragm. Motor seat, 6800ZZ seat, 7 roller holes and yoke grooves; '
-                     'motor rim and 4 housing standoffs on the inner wall; recessed Ø16.4 spring guide pocket with Ø21.2 outer wall.'),
+                     'motor rim and 4 housing standoffs on the inner wall; recessed Ø16.4 spring guide pocket with Ø21.2 outer wall. '
+                     '2026-11-14: Ø6.2 roller bosses, 0.5 mm side room in the yoke grooves, Ø4.0 x 7 insert bores, and a Ø3.2 lock-pin hole '
+                     'through the outer wall at the yoke\'s recoil-stop position.'),
     'J902_sprocket': (sprocket, DARK, 1, 'PETG or PA12, 5 walls, 50 % infill; outer disc face on the bed',
                       'Unchanged 12-tooth 20 mm pitch form. Ø37 ring with a Ø32.4 x 1 recess for the coupling flange, 3 x M3 counterbored holes on Ø23, '
                       '5.4 mm pad down the coupling bore to the shaft end; Ø10 socket for the journal plug.'),
@@ -451,12 +503,15 @@ PRINTED = {
     'J907_idler_spacer': (idler_spacer, STEEL, 2, 'PETG, 100 % infill',
                           'Ø11 x 13.9 tube between the yoke arm and the 608 inner ring; locates the idler.'),
     'J908_U_yoke': (u_yoke, YOKE_C, 1, 'PETG or PA12, 4 walls, 50 % infill, base on the bed',
-                    'Arms slide in the wall grooves; carries the Ø8 idler pin; rear Ø15.6 piston and spring pilot slide in the main-web guide bore.'),
+                    'Arms slide in the wall grooves; carries the Ø8 idler pin; rear Ø15.6 piston and spring pilot slide in the main-web guide bore. '
+                    'A Ø3.2 x 8 lock-pin hole in each end of the crossbar (2026-11-14).'),
     'J909_housing': (housing, HOUSING_C, 1, 'PETG, 3 walls; skirt inner face on the bed, supports inside the motor pod',
                      'Inboard skirt and motor pod in one piece: drum on the sprocket axis, gearbox shoulder, motor tube, '
                      'nose with cable port. 4 x M3 x 8 into inserts in the frame standoffs.'),
-    'J910_track_shoe_70': (track_shoe, RUBBER, 34, 'PETG or PA12, as the R4 shoe',
-                           'R4 shoe and link plates; shoe plate and grousers widened to 70 mm.'),
+    'J910_track_shoe_70': (track_shoe, RUBBER, 34, 'PETG or PA12, 4 walls, 40 % infill; grousers on the bed, no supports',
+                           'Revision B of the R4 link, 70 mm wide: seat bosses on the outer plates for an M3 x 60 screw head and a nyloc nut, '
+                           '0.6 mm reliefs between neighbouring links, inner ears 18.4 mm apart for an 18 mm sleeve, lead-in chamfers, '
+                           'outer grousers at the plate edges.'),
 }
 
 
@@ -540,16 +595,26 @@ def unit(prt=None, with_chain=True):
     return out
 
 
-def chain(prt, pins=None):
+LINK_HARDWARE_NAME = 'screw, sleeve, nut'   # second row of a scene's 'link' list: the bought parts of one chain joint, pin frame
+
+
+def chain_hardware():
+    """The bought parts of one chain joint in the pin frame: screw (head +Y), nyloc nut and sleeve."""
+    return dict(screw=track_screw(), nut=track_nut(), sleeve=yring(BUSH_R, BUSH_BORE_R, -BUSH_HALF_L, BUSH_HALF_L))
+
+
+def chain(prt, pins=None, hardware=None):
+    """Shoes at the link poses and, at every pin, an M3 x 60 screw, its nut and the sleeve. hardware: the three joint parts
+    in the pin frame (chain_hardware() by default; X1/source/refresh_revf.py passes STEP-normalised copies)."""
     pins = PINS if pins is None else pins
     shoe = prt['J910_track_shoe_70']['shape']
+    hw = hardware or chain_hardware()
     out = {}
     for i, origin, a in link_poses(pins):
         out[f'shoe_{i:02}'] = (shoe.rotate((0, 0, 0), (0, 1, 0), -math.degrees(a)).translate((float(origin[0]), 0, float(origin[1]))), RUBBER)
     for i, (x, z) in enumerate(pins):
         x, z = float(x), float(z)
-        out[f'track_bushing_{i:02}'] = (yring(BUSH_R, 1.55, -BUSH_HALF_L, BUSH_HALF_L, x, z), STEEL)
-        out[f'track_pin_{i:02}'] = (ycyl(PIN_R, -PIN_HALF_L, PIN_HALF_L, x, z), STEEL)
-        for k, dy in enumerate([-CLIP_Y, CLIP_Y]):
-            out[f'pin_clip_{i:02}_{k}'] = (yring(3, 1.5, dy - .3, dy + .3, x, z), STEEL)
+        out[f'track_bushing_{i:02}'] = (hw['sleeve'].translate((x, 0, z)), STEEL)
+        out[f'track_screw_{i:02}'] = (hw['screw'].translate((x, 0, z)), BLACK)
+        out[f'track_nut_{i:02}'] = (hw['nut'].translate((x, 0, z)), STEEL)
     return out

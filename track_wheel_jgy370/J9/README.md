@@ -9,6 +9,7 @@
 - **Motor enclosure:** the housing now closes over the motor with a pod styled on the Cat 320's final drive. See [Motor enclosure](#motor-enclosure).
 - **Chassis interface (revision F):** two plain 1.5 mm deep rectangular seats in the inner main plate receive the flat ends of the X1 arms at X ±63.5. Two screws pass either side of each arm's centre web, with external washers and nuts behind the plate. Use matching revision F X101, J901 and J909 parts.
 - **Spring guide (rev B):** the tension spring is fully contained in a Ø16.4 axial pocket in the main web. An integral Ø15.6 piston on the yoke enters the pocket, retaining the original 25.8 mm spring length and 4.2 mm recoil.
+- **Chain joint (J910 revision B, 2026-11-14):** each joint is an M3 × 60 partly threaded screw with a nyloc nut, seated on bosses of the link, and an 18 mm sleeve between the inner ears. It replaces the grooved pin with two E-clips. See [Pre-print review](#pre-print-review-2026-11-14).
 
 J9 replaces J8's machined side plates, axles, spacer stacks and bearing carrier with the core parts only:
 - the JGY-370 gear motor;
@@ -137,7 +138,7 @@ The housing (J909) now has a closed motor pod, printed in one piece with the inb
   - A rim on the inner wall (part of J901) fills the 5.5 mm gap between the skirt and the wall around the pod.
   - The only opening is the cable port.
 - **Fitting.** The pod's cavity has no undercut toward the frame, so the housing slides straight on over the motor. The build checks this path at six positions.
-- **Fastening.** Four M3 × 8 button heads go through the skirt into heat-set inserts in four standoffs on the inner wall. Each screw engages 5.5 mm of its 5.7 mm insert.
+- **Fastening.** Four M3 × 8 button heads go through the skirt into heat-set inserts in four standoffs on the inner wall. Each screw engages 5.5 mm of its 5.7 mm insert. The insert bores are 7 mm deep, which leaves 1.3 mm below the insert for displaced plastic and the screw tip.
 - **Printing.**
   - The flat skirt face goes on the bed and the pod rises 27 mm.
   - Supports are needed only inside the pod. They come out through its open side.
@@ -159,7 +160,7 @@ Two faults in the previous housing came to light during this redesign. Both are 
    - One **M3 × 50** screw clamps the plug and sprocket onto the motor shaft. It replaces the concept's M3 × 30.
 2. **Idler axle.**
    - An M8 bolt through slots in both walls would clamp the walls and stop the idler from recoiling.
-   - J9 uses a plain **Ø8 × 55 steel pin** carried by the U-yoke arms. Its ends run in shallow tracks in the groove floors, so the walls keep it in place and nothing sits outside them.
+   - J9 uses a plain **Ø8 × 55 ground steel rod** (h6 or g6, so that it slides into the 608 bores) carried by the U-yoke arms. Its ends run in shallow tracks in the groove floors, so the walls keep it in place and nothing sits outside them.
    - Two printed spacers (J907) locate the idler between the arms.
 3. **Motor face.**
    - The JGY-370 has four Ø7 × 2 mm screw bosses and a Ø13.2 × 1.6 mm boss on its output face.
@@ -182,7 +183,7 @@ Two faults in the previous housing came to light during this redesign. Both are 
 | Wheel part | one roller, Ø22 tread / Ø26 flanges × 46, Ø8 centre bore, 2 × 624ZZ, M4 bolt |
 | Main walls / inside gap / original web | Inner plate 10 thick, 8.5 behind the 1.5-deep support seats, with mechanism recesses; outer wall 6 / 48 / 18 × 102 |
 | Spring (R5 part, kept) | 25.8 fitted, 77 N; 21.6 and 104 N at the recoil stop; max 118 N, solid 17.0 |
-| Chain | unchanged: 34 × 20 mm links, Ø3 pins, Ø6 bushings, 12-tooth sprocket form |
+| Chain | 34 × 20 mm links (J910 revision B), M3 × 60 screws with nyloc nuts on seats 50 apart, Ø6 × Ø3.2 × 18 sleeves; unchanged 12-tooth sprocket form |
 | Motor | JGY-370-1260 12 V 200:1: 30 rpm no load, 22 rpm at 6 kgf·cm rated, 20 kgf·cm stall; 88–120 mm/s track speed |
 | Drive hub | Ø32 / Ø6 flange coupling, Ø32 × 14; shaft engagement 8.6; 3 × M3 × 20 into the sprocket; 1 M3 set screw on the D-flat |
 | Reverse pull the idler holds | 38.7 N before it moves; 51.9 N at its recoil stop |
@@ -204,6 +205,26 @@ Changes since the concept:
   - At Ø8 the shoulder bears only on the outer ring, and still reaches well inside SKF's Ø11.2 limit for backing it.
   - The seats, tread and flanges are unchanged. Each roller is about 0.8 cm³ (1 g) lighter.
 
+## Pre-print review (2026-11-14)
+
+A review of every print file before the first print (mesh health, sections, fitting routes, real slices) found three faults in the inherited R4 link, and a few smaller points on the frame. All are nominal-CAD findings; nothing had been printed.
+
+- **Faults found in the earlier shoe.**
+  - The grooved pin could slide 5.2 mm either way. From 3.5 mm of drift an E-clip sat under a roller flange, whose tip passes 2.0 mm above the pin axis.
+  - Neighbouring links were 0.045 mm apart where a link's Ø8 plate end passed the next shoe plate.
+  - The sprocket had 0.2 mm a side between the inner ears, while the chain can arrive up to 0.9 mm off-centre.
+- **J910 revision B.**
+  - Seat bosses outside both outer plates (|Y| 21 to 25), cut off 0.8 mm above the joint axis, so the roller flanges pass 1.2 mm over them. An M3 × 60 screw's head sits on one and a nyloc nut on the other, so the screw cannot slide. M3 × 50 is too short: the seats are 50 mm apart before the nut starts.
+  - R4.6 reliefs round both joint axes, in the plate ends and in the shoe plate: 0.6 mm between neighbouring links.
+  - Inner ears 4.5 mm thick, 18.4 mm apart: a stock Ø6 × Ø3.2 × 18 sleeve has 0.2 mm a side, and the 17 mm sprocket 0.7 mm a side. The sprocket is unchanged.
+  - Lead-in chamfers on the ears (for the teeth) and on the rails (for the roller flanges); the outer grousers moved to the plate edges, so the underside bridges 6.4 mm between ribs.
+- **J901 and J908.**
+  - A Ø3.2 lock-pin hole through the outer wall and a Ø3.2 × 8 hole in each end of the yoke crossbar line up only at the recoil stop. A spare M3 × 60 screw pushed in holds the idler back while the chain is closed.
+  - Insert bores 7 mm deep (were 5.7, the insert's own length); roller bosses Ø6.2 (were Ø5.6); 0.5 mm of side room in the yoke grooves (was 0.2), because the inner wall's groove floor prints on supports.
+- **Buying.** The idler axle is a ground h6 or g6 rod, not an m6 dowel pin (a press fit in the 608 bores). The M4 × 70 roller screws should be the partly threaded kind. The spring has a metric equivalent in [BOM.md](BOM.md).
+- **Print notes.** J901 needs supports standing on the part itself, under the whole inner wall; J906 needs supports everywhere. Sliced totals are in [TRACK_KIT.md](TRACK_KIT.md).
+- **New check.** `validation.json` now has a `chain_joint` block: neighbouring links through the articulation range, the screw heads, nuts and seat bosses against the roller and idler flanges with the chain pushed 0.9 mm to either side, and the sprocket between the ears.
+
 ## Open items: check before relying on them
 
 1. **Coupling set screw on the D-flat.**
@@ -215,6 +236,7 @@ Changes since the concept:
    - the 6800ZZ, 624ZZ and 608 press fits;
    - the Ø9.95 plug in the 6800ZZ;
    - the Ø32.4 coupling recess in the sprocket. The seller gives no tolerance for the Ø32 flange.
+   - four J910 shoes joined with the real screws, sleeves and nuts: every joint must swing under its own weight, and the sprocket teeth must enter between the ears without help.
 4. **Roller bolts.** The rollers float 0.3 mm between small wall bosses. Tighten the nyloc nuts only until snug; clamping the walls would preload the bearings.
 5. **Chassis.**
    - [X1](../X1/README.md) seats the flat ends of two straight arms per track at X ±63.5 in shallow main-plate recesses. Each arm has one screw on each side of its centre web. Fit the road/support rollers and their axles, motor and housing first. Hold both tracks at their final spacing and lower bare X101 vertically into the seats before fastening the joints, with the rear sprocket and chain removed; see the current X1 assembly guide.
@@ -229,11 +251,12 @@ Changes since the concept:
    - At its rated 0.2 A the motor's winding loss is about 0.4 W, which is harmless.
    - A held stall is not: about 9 W at the suggested 1.0 A limit (winding resistance 12 V ÷ 1.3 A ≈ 9.2 Ω). The motor driver should cut the current when the track stalls.
    - On the first bench runs, check the can's temperature; four screws take the housing off. If it runs hot, vent slots can go on the underside of the tube.
-8. **Not checked.** Loads, wear, print tolerances and powered running. The vehicle mass is not specified, so no load rating is claimed.
+8. **Chain joints.** The nyloc nuts are backed off 1/6 turn, not tightened: a clamped joint would not swing. Check after the first runs that none has moved. The printed Ø3.2 eyes turn on the steel screw shank; their wear is not known.
+9. **Not checked.** Loads, wear, print tolerances and powered running. The vehicle mass is not specified, so no load rating is claimed.
 
 ## Current verification
 
-The revision F `validation.json` is a fresh full run of the `build_j9.py` trial block on the delivered STEP parts (`source/check_revf_track.py`): static interference, drive rotation, idler travel and stop, spring at recoil, chain phases, assembly routes and tool access, with every candidate pair computed. It also checks the clearances of the thickened main-plate seats, and probes the modelled flange coupling against the seller drawing's values (outline, flange, boss, bore, six holes, set screw on the shaft flat). The checked source and exported files are bound by SHA-256. Exact counts and minimum clearances are in the report.
+The revision F `validation.json` is a fresh full run of the `build_j9.py` trial block on the delivered STEP parts (`source/check_revf_track.py`): static interference, drive rotation, idler travel and stop, spring at recoil, chain phases, assembly routes and tool access, with every candidate pair computed. Since 2026-11-14 it also checks the chain joints (`chain_joint`; see [Pre-print review](#pre-print-review-2026-11-14)). It also checks the clearances of the thickened main-plate seats, and probes the modelled flange coupling against the seller drawing's values (outline, flange, boss, bore, six holes, set screw on the shaft flat). The checked source and exported files are bound by SHA-256. Exact counts and minimum clearances are in the report.
 
 `spring_guide_validation.json` checks the complete spring envelope at eleven positions through the 4.2 mm stroke, spring insertion and roller clearance. `browser_validation.json` checks the offline viewer and records its current HTML, scene and screenshots.
 
@@ -246,10 +269,10 @@ These are nominal geometry checks. Printed fit, strength, wear, spring friction 
 - `J9_layout.pdf`: side-view layout drawn from the CAD; `J9_spring_guide_detail.pdf`: the enclosed spring guide. Use the STEP and viewer for the recessed support seats and external mounting fasteners.
 - `3D_preview.html` — offline 3D viewer. It has views, show/hide toggles, an exploded view, click-to-identify and a "Run track" animation.
 - `images/` — screenshots from the viewer (including `J9_pod.png`, the motor pod), the retained `J9_drive_section.png` reference for the unchanged drivetrain.
-- `step/` — one STEP per printed part, plus `JGY370_track_J9.step` (the full coloured assembly, 277 solids).
+- `step/` — one STEP per printed part, plus `JGY370_track_J9.step` (the full coloured assembly, 242 solids).
 - `stl/` — print-oriented STL files for each printed part.
 - `BOM.md`, `ASSEMBLY.md`, `validation.json`, `browser_validation.json`.
-- `TRACK_KIT.md`, `track_kit.csv` — print list and standard parts for two tracks; `install_animation.html` — offline installation animation (left, mirrored right, or both on X101). Built by `source/build_track_kit.py` (`--package` also writes `output/track_print_kit.zip`), which cross-checks the list against the STL files and the CAD scene (`track_kit_report.json`); `source/check_track_kit.cjs` checks the animation in Chromium, including that no bushing, pin, E-clip or link passes through another (sections of the CAD shoe), and the fitting order of each joint (`track_kit_browser.json`, `images/kit_*.png`).
+- `TRACK_KIT.md`, `track_kit.csv` — print list and standard parts for two tracks; `install_animation.html` — offline installation animation (left, mirrored right, or both on X101). Built by `source/build_track_kit.py` (`--package` also writes `output/track_print_kit.zip`), which cross-checks the list against the STL files and the CAD scene (`track_kit_report.json`); `source/check_track_kit.cjs` checks the animation in Chromium, including that no sleeve, screw, nut or link passes through another (sections of the CAD shoe), and the fitting order of each joint (`track_kit_browser.json`, `images/kit_*.png`).
 - `parts_showcase.html` — offline parts showcase: every part to print or buy in 3D, on the print bed or as fitted, with a section cut, its dimensions drawn on the model and its material, settings and place in the track. Built by `source/build_parts_showcase.py` from the kit lists (build it after `build_track_kit.py`, before `--package`), which checks every drawn dimension against the STL or CAD mesh and each print file against the CAD scene (`parts_showcase_report.json`); `source/check_parts_showcase.cjs` checks the page in Chromium against `track_kit.csv` and `TRACK_KIT.md` (`parts_showcase_browser.json`, `images/showcase_*.png`).
 - `source/` — the source scripts:
   - `j9_design.py`: layout and the exact chain solver;

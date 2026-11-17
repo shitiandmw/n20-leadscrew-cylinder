@@ -2,46 +2,46 @@
  "revision": "J9 revision F straight-arm seats on the main plate",
  "validation_method": "fresh full run of the build_j9 trial block on the delivered STEP parts",
  "source_sha256": {
-  "track_wheel_jgy370/J9/source/check_revf_track.py": "1ebe405b1e30717f6e2cdda86632dbb4b65be6d7790d990a739fed5f4314360a",
+  "track_wheel_jgy370/J9/source/check_revf_track.py": "04ec5b0d62b9b0feb43ee0211d454e5c7927441a2af04693d5cb40fa77f14a89",
   "track_wheel_jgy370/X1/source/mount_checks.py": "890ee2cd17b47136c21b8d96ce4c015f4cdeb4cecb3ca4b7276e362563d4dba0",
-  "track_wheel_jgy370/J9/source/build_j9.py": "5fc2d99a3351ee995ef88677c2be2e44de7215cded02bda09c62704160f1cc27",
+  "track_wheel_jgy370/J9/source/build_j9.py": "4a2dfd6f6913d6483cd49a14e892c9ffc3510e8e586943541f0f6aa35cfe6de4",
   "track_wheel_jgy370/J9/source/check_spring_guide.py": "3b11934eb8a1bceed8e6aee2c98aff4fb2c47d2a0805d34ea4232d70115db2d3",
-  "track_wheel_jgy370/J9/source/j9_parts.py": "1d2ea54e86a5f50fc5fd65e6abbafbee38670723a3a3bc75abbc5b6677271a98",
-  "track_wheel_jgy370/J9/source/j9_design.py": "71aa351135099c8b50a835788710ac2e6ea0f4d7d56612a6006ee309db6b3838",
+  "track_wheel_jgy370/J9/source/j9_parts.py": "9da75813be6cc2501a7d058fd64aae0214a0c594f9af6a5489b434d04331fc44",
+  "track_wheel_jgy370/J9/source/j9_design.py": "111806211c935f9aa53cedbb721b3a4f2dd8f183eef5ae88903e102b9563b97b",
   "track_wheel_jgy370/J9/source/j9_mounts.py": "d18f32025d34729409c6a9d046674dacd05e27033de9c9136c229bc9b0564ff3",
   "track_wheel/source/tw_parts.py": "0bb01b2c7013a2f2296e3f7176afe62635e563270b250936c40febc0deb9b3e4",
   "track_wheel/source/tw_checks.py": "ef1d681112803d7fc33e45528b61bcd6d6d887fc91654308d01f9ba3591b5067",
   "track_wheel_jgy370/X1/source/x1_parts.py": "0b77d36a20ea1cbd402639453f9035d8462df5845023dcf6594439b7fac0fc47",
-  "track_wheel_jgy370/X1/source/refresh_revf.py": "ed0d1ed5828358e9bd9b68f5a7df322e50c65842b800603be91122f7d081eb13"
+  "track_wheel_jgy370/X1/source/refresh_revf.py": "27d728dff51f16193ce7edc80e0cc80fa6ea23fccaab695fb6cf55293d901136"
  },
  "exported_step_sha256": {
-  "track_wheel_jgy370/J9/step/J901_H_frame.step": "da84e2569c93645bcdd0cad831674c71ec21781eda9e4cad0582ce98dc328ec0",
+  "track_wheel_jgy370/J9/step/J901_H_frame.step": "46218bf1d4fda9a21095d5f470391f1109e10a6bada805b1f5c6c6ac8c38c8c0",
   "track_wheel_jgy370/J9/step/J902_sprocket.step": "ef4f843dddea59d6203b9afb5c144f5f116f8a9bbb52270f85af92fb90fa9d4e",
   "track_wheel_jgy370/J9/step/J903_journal_plug.step": "ae085b913e73b525c661903b4b2a77479fca665dc2c3ece6180d71731c1bccc7",
   "track_wheel_jgy370/J9/step/J904_roller.step": "15cf25acb07b5696c4c17f3d4d173ae2c4164099a60da7a826ef77346f0f1b54",
   "track_wheel_jgy370/J9/step/J906_idler_wheel.step": "d332d152e3b538746ee50d57b74d0d986a1ac5d07c7e7087ef364cf097538f78",
   "track_wheel_jgy370/J9/step/J907_idler_spacer.step": "1632ae7190410803eab38df071a871b0f5dda68fbe35dff0c80728624418b100",
-  "track_wheel_jgy370/J9/step/J908_U_yoke.step": "3ab7207adb42dc2eb1b08c4dc9a470fafd4a43527277ddad2c02f078ea9db60d",
+  "track_wheel_jgy370/J9/step/J908_U_yoke.step": "79b97f642596644b48a4b73175efc60628b71f423c76cf94c4b77071361f946e",
   "track_wheel_jgy370/J9/step/J909_housing.step": "605d619f8ad5ca0b2f2b5a52d0f9e5e642103f753afd154f1dbe320f43369542",
-  "track_wheel_jgy370/J9/step/J910_track_shoe_70.step": "bfdd6be84982c9587e819f48636e910a1f060fb86ed50a069aebd7de7ddf68ad"
+  "track_wheel_jgy370/J9/step/J910_track_shoe_70.step": "75912dfde141365a49b3215af73a8667cdaa7dd30f3887a865ee2b6ff0f2b4b8"
  },
  "exported_stl_sha256": {
-  "track_wheel_jgy370/J9/stl/J901_H_frame.stl": "8a71deed2cff2f0928fd3e93f9cc35b4ce34d392d982fdcccc6b322f9842a64f",
+  "track_wheel_jgy370/J9/stl/J901_H_frame.stl": "790876c122845174be58b969175a843d4f8bc66f49999e3a55f3258d536fc8f0",
   "track_wheel_jgy370/J9/stl/J902_sprocket.stl": "31781b05cbdc39a4816ac98a2b516f99b25ccfce15a12d920928b6c7ce91c54a",
   "track_wheel_jgy370/J9/stl/J903_journal_plug.stl": "94c799f809fb7143f05fc0695e654d22c795f7bf20e2418470405238a65648df",
   "track_wheel_jgy370/J9/stl/J904_roller.stl": "8424eaa741ad7e669ddff7cf0cc125143b9bb0142c84ad93cd59b2c4f9a11fe2",
   "track_wheel_jgy370/J9/stl/J906_idler_wheel.stl": "cada29045e180706575728612a309623efdc10fd6a338187c00bc1a9e03f9207",
   "track_wheel_jgy370/J9/stl/J907_idler_spacer.stl": "07548f9ff62d3e50e5c552cc508fae678ed3e5dbc5dc8d0f01bcad6223144c0e",
-  "track_wheel_jgy370/J9/stl/J908_U_yoke.stl": "e884035bd5213f6de53b15cbb08c8cfc125db70c9cf484985ef1a5b89d2f9f61",
+  "track_wheel_jgy370/J9/stl/J908_U_yoke.stl": "b91b187dd99b02ed26b0af7f0a941bd696c16be71754827d14b93ac9b83274ac",
   "track_wheel_jgy370/J9/stl/J909_housing.stl": "708c3887fc32aeaf62c1c24c66c5865b5dba6dd56343fae9814da6d15f467359",
-  "track_wheel_jgy370/J9/stl/J910_track_shoe_70.stl": "76f3f5eac4827140094b7047ec1a1e31a116592d81c70f92a67b4e813ce3840a"
+  "track_wheel_jgy370/J9/stl/J910_track_shoe_70.stl": "b55a0da72ce3e6a86fd62f1ed78b90282f2ff3a5beb4f2bba5eb226f6d5462ff"
  },
  "trial_block_ast_sha256": "3af51baf49018abc5a27203fc33598d4f35278fde2e27c206934eb294e0c0597",
  "static": {
   "case_index": 0,
-  "pairs_tested": 438,
+  "pairs_tested": 452,
   "hits": [],
-  "seconds": 261.3
+  "seconds": 272.2
  },
  "drive_rotation_no_chain": [
   {
@@ -49,42 +49,42 @@
    "case_index": 1,
    "pairs_tested": 20,
    "hits": [],
-   "seconds": 21.2
+   "seconds": 19.7
   },
   {
    "angle_deg": 5,
    "case_index": 2,
    "pairs_tested": 20,
    "hits": [],
-   "seconds": 20.0
+   "seconds": 20.7
   },
   {
    "angle_deg": 10,
    "case_index": 3,
    "pairs_tested": 20,
    "hits": [],
-   "seconds": 20.8
+   "seconds": 21.9
   },
   {
    "angle_deg": 15,
    "case_index": 4,
    "pairs_tested": 20,
    "hits": [],
-   "seconds": 20.3
+   "seconds": 22.7
   },
   {
    "angle_deg": 20,
    "case_index": 5,
    "pairs_tested": 20,
    "hits": [],
-   "seconds": 20.6
+   "seconds": 24.3
   },
   {
    "angle_deg": 25,
    "case_index": 6,
    "pairs_tested": 20,
    "hits": [],
-   "seconds": 22.0
+   "seconds": 23.7
   }
  ],
  "idler_travel": [
@@ -93,14 +93,14 @@
    "case_index": 7,
    "pairs_tested": 11,
    "hits": [],
-   "seconds": 20.3
+   "seconds": 20.4
   },
   {
    "idler_x": 105.699,
    "case_index": 8,
    "pairs_tested": 12,
    "hits": [],
-   "seconds": 19.7
+   "seconds": 21.9
   },
   {
    "idler_x": 105.399,
@@ -114,29 +114,29 @@
   "case_index": 10,
   "pairs_tested": 2,
   "hits": [],
-  "seconds": 10.8
+  "seconds": 12.3
  },
  "chain_phases_vs_fixed_parts": [
   {
    "fraction_of_pitch": 0.25,
    "case_index": 11,
-   "pairs_tested": 22,
+   "pairs_tested": 18,
    "hits": [],
-   "seconds": 29.0
+   "seconds": 23.4
   },
   {
    "fraction_of_pitch": 0.5,
    "case_index": 12,
-   "pairs_tested": 22,
+   "pairs_tested": 20,
    "hits": [],
-   "seconds": 28.3
+   "seconds": 28.7
   },
   {
    "fraction_of_pitch": 0.75,
    "case_index": 13,
-   "pairs_tested": 22,
+   "pairs_tested": 18,
    "hits": [],
-   "seconds": 27.2
+   "seconds": 27.9
   }
  ],
  "assembly_and_access": {
@@ -145,25 +145,25 @@
     "case_index": 14,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 3.3
+    "seconds": 5.2
    },
    {
     "case_index": 15,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 3.5
+    "seconds": 6.9
    },
    {
     "case_index": 16,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 3.2
+    "seconds": 8.4
    },
    {
     "case_index": 17,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 3.3
+    "seconds": 8.6
    }
   ],
   "sprocket_radial_entry": [
@@ -172,63 +172,63 @@
     "case_index": 18,
     "pairs_tested": 0,
     "hits": [],
-    "seconds": 1.7
+    "seconds": 1.9
    },
    {
     "dx": -110,
     "case_index": 19,
     "pairs_tested": 0,
     "hits": [],
-    "seconds": 1.7
+    "seconds": 3.9
    },
    {
     "dx": -80,
     "case_index": 20,
     "pairs_tested": 0,
     "hits": [],
-    "seconds": 1.7
+    "seconds": 3.1
    },
    {
     "dx": -60,
     "case_index": 21,
     "pairs_tested": 1,
     "hits": [],
-    "seconds": 3.7
+    "seconds": 8.7
    },
    {
     "dx": -40,
     "case_index": 22,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 6.4
+    "seconds": 10.8
    },
    {
     "dx": -25,
     "case_index": 23,
     "pairs_tested": 6,
     "hits": [],
-    "seconds": 10.0
+    "seconds": 22.3
    },
    {
     "dx": -12,
     "case_index": 24,
     "pairs_tested": 6,
     "hits": [],
-    "seconds": 11.2
+    "seconds": 16.2
    },
    {
     "dx": -5,
     "case_index": 25,
     "pairs_tested": 6,
     "hits": [],
-    "seconds": 11.7
+    "seconds": 20.8
    },
    {
     "dx": 0,
     "case_index": 26,
     "pairs_tested": 6,
     "hits": [],
-    "seconds": 12.1
+    "seconds": 21.2
    }
   ],
   "sprocket_slide_onto_shaft": [
@@ -237,35 +237,35 @@
     "case_index": 27,
     "pairs_tested": 6,
     "hits": [],
-    "seconds": 11.4
+    "seconds": 20.8
    },
    {
     "dy": 7,
     "case_index": 28,
     "pairs_tested": 7,
     "hits": [],
-    "seconds": 11.9
+    "seconds": 28.4
    },
    {
     "dy": 4,
     "case_index": 29,
     "pairs_tested": 8,
     "hits": [],
-    "seconds": 11.8
+    "seconds": 22.3
    },
    {
     "dy": 2,
     "case_index": 30,
     "pairs_tested": 8,
     "hits": [],
-    "seconds": 12.4
+    "seconds": 16.5
    },
    {
     "dy": 0,
     "case_index": 31,
     "pairs_tested": 11,
     "hits": [],
-    "seconds": 12.8
+    "seconds": 13.3
    }
   ],
   "plug_insertion": [
@@ -274,35 +274,35 @@
     "case_index": 32,
     "pairs_tested": 4,
     "hits": [],
-    "seconds": 2.9
+    "seconds": 3.0
    },
    {
     "dy": 20,
     "case_index": 33,
     "pairs_tested": 9,
     "hits": [],
-    "seconds": 4.9
+    "seconds": 5.7
    },
    {
     "dy": 10,
     "case_index": 34,
     "pairs_tested": 10,
     "hits": [],
-    "seconds": 5.1
+    "seconds": 5.6
    },
    {
     "dy": 3,
     "case_index": 35,
     "pairs_tested": 13,
     "hits": [],
-    "seconds": 6.2
+    "seconds": 7.0
    },
    {
     "dy": 0,
     "case_index": 36,
     "pairs_tested": 13,
     "hits": [],
-    "seconds": 6.4
+    "seconds": 7.7
    }
   ],
   "yoke_insertion": [
@@ -311,7 +311,7 @@
     "case_index": 37,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 3.7
+    "seconds": 4.1
    },
    {
     "dx": 40,
@@ -325,21 +325,21 @@
     "case_index": 39,
     "pairs_tested": 11,
     "hits": [],
-    "seconds": 15.3
+    "seconds": 16.1
    },
    {
     "dx": 8,
     "case_index": 40,
     "pairs_tested": 11,
     "hits": [],
-    "seconds": 18.6
+    "seconds": 21.2
    },
    {
     "dx": 0,
     "case_index": 41,
     "pairs_tested": 11,
     "hits": [],
-    "seconds": 17.9
+    "seconds": 20.3
    }
   ],
   "housing_screw_driver": [
@@ -347,13 +347,13 @@
     "case_index": 42,
     "pairs_tested": 1,
     "hits": [],
-    "seconds": 3.6
+    "seconds": 3.7
    },
    {
     "case_index": 43,
     "pairs_tested": 1,
     "hits": [],
-    "seconds": 3.5
+    "seconds": 3.9
    },
    {
     "case_index": 44,
@@ -365,7 +365,7 @@
     "case_index": 45,
     "pairs_tested": 1,
     "hits": [],
-    "seconds": 3.6
+    "seconds": 3.8
    }
   ],
   "roller_bolt_through_skirt": [
@@ -373,43 +373,43 @@
     "case_index": 46,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 5.0
+    "seconds": 5.3
    },
    {
     "case_index": 47,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 4.7
+    "seconds": 5.1
    },
    {
     "case_index": 48,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 4.6
+    "seconds": 5.4
    },
    {
     "case_index": 49,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 4.8
+    "seconds": 5.1
    },
    {
     "case_index": 50,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 4.9
+    "seconds": 5.5
    },
    {
     "case_index": 51,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 4.7
+    "seconds": 5.0
    },
    {
     "case_index": 52,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 4.7
+    "seconds": 5.3
    }
   ],
   "nyloc_socket": [
@@ -417,25 +417,25 @@
     "case_index": 53,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 2.9
+    "seconds": 3.3
    },
    {
     "case_index": 54,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 3.0
+    "seconds": 3.3
    },
    {
     "case_index": 55,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 2.9
+    "seconds": 3.0
    },
    {
     "case_index": 56,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 2.9
+    "seconds": 3.0
    },
    {
     "case_index": 57,
@@ -447,7 +447,7 @@
     "case_index": 58,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 3.0
+    "seconds": 3.3
    },
    {
     "case_index": 59,
@@ -460,14 +460,14 @@
    "case_index": 60,
    "pairs_tested": 1,
    "hits": [],
-   "seconds": 3.3
+   "seconds": 2.8
   },
   "hub_set_screw_key": [
    {
     "case_index": 61,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 2.2
+    "seconds": 2.3
    }
   ],
   "housing_fitting": [
@@ -476,7 +476,7 @@
     "case_index": 62,
     "pairs_tested": 0,
     "hits": [],
-    "seconds": 3.7
+    "seconds": 2.7
    },
    {
     "dy": 25,
@@ -490,28 +490,28 @@
     "case_index": 64,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 5.5
+    "seconds": 5.3
    },
    {
     "dy": 8,
     "case_index": 65,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 5.2
+    "seconds": 5.3
    },
    {
     "dy": 4,
     "case_index": 66,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 5.2
+    "seconds": 5.4
    },
    {
     "dy": 1.5,
     "case_index": 67,
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 5.2
+    "seconds": 6.3
    }
   ]
  },
@@ -670,7 +670,7 @@
       -35.5,
       61.120508075689
      ],
-     "seconds": 81.901
+     "seconds": 95.895
     }
    ],
    "method": "OCC BRepExtrema_DistShapeShape, SetMultiThread(True) before Perform; fresh non-overlap check and conservative component AABB pruning"
@@ -693,7 +693,7 @@
       -30.0,
       60.32050807568877
      ],
-     "seconds": 0.421
+     "seconds": 0.604
     },
     {
      "part": "JGY370_motor_can",
@@ -709,7 +709,7 @@
       -34.57499999999474,
       52.66373137366595
      ],
-     "seconds": 0.22
+     "seconds": 0.38
     },
     {
      "part": "JGY370_terminal_space",
@@ -725,243 +725,147 @@
       -31.200000000000003,
       44.32050807568877
      ],
-     "seconds": 0.182
+     "seconds": 0.3
     }
    ],
    "method": "OCC BRepExtrema_DistShapeShape, SetMultiThread(True) before Perform; fresh non-overlap check and conservative component AABB pruning"
   },
   "added_main_plate_to_chain": {
-   "mm": 4.74243,
-   "part": "pin_clip_12_0",
+   "mm": 3.88107,
+   "part": "track_nut_12",
    "trials": [
     {
      "part": "shoe_01",
-     "mm": 9.983415750237768,
+     "mm": 9.317942019172106,
      "aabb_lower_bound_mm": 0.0,
      "point_on_first_mm": [
-      -124.5,
+      -121.04043627643351,
       -30.000100000000003,
-      69.435244785437
+      71.13569072575838
      ],
      "point_on_second_mm": [
-      -126.6602540378446,
-      -21.0,
-      73.17691453623966
+      -123.93012701892218,
+      -25.0,
+      78.44819582835
      ],
-     "seconds": 1.4
+     "seconds": 2.304
     },
     {
      "part": "shoe_02",
-     "mm": 9.983415750255793,
+     "mm": 9.317942019174984,
      "aabb_lower_bound_mm": 0.0,
      "point_on_first_mm": [
-      -135.1147367097,
+      -132.96888960928683,
       -30.000100000000003,
-      58.820508075689
+      62.0229193195499
      ],
      "point_on_second_mm": [
-      -138.85640646053872,
-      -21.0,
-      60.98076211355442
+      -139.12768775266122,
+      -25.0,
+      66.91088913245535
      ],
-     "seconds": 1.298
+     "seconds": 2.699
     },
     {
      "part": "shoe_04",
-     "mm": 9.983415750255904,
+     "mm": 9.317942019166278,
      "aabb_lower_bound_mm": 0.0,
      "point_on_first_mm": [
-      -135.1147367097,
+      -136.81518265007605,
       -30.000100000000003,
-      29.820508075689
+      33.28007179925271
      ],
      "point_on_second_mm": [
-      -138.85640646053895,
-      -21.0,
-      27.660254037823456
+      -144.12768775266125,
+      -25.0,
+      30.390381056766582
      ],
-     "seconds": 1.221
+     "seconds": 2.41
     },
     {
      "part": "shoe_05",
-     "mm": 9.983415750237572,
+     "mm": 9.317942019172671,
      "aabb_lower_bound_mm": 0.0,
      "point_on_first_mm": [
-      -124.5,
+      -127.70241124386284,
       -30.000100000000003,
-      19.20577136594
+      21.351618466399778
      ],
      "point_on_second_mm": [
-      -126.66025403784437,
-      -21.0,
-      15.464101615137732
+      -132.5903810567666,
+      -25.0,
+      15.192820323027549
      ],
-     "seconds": 1.281
+     "seconds": 2.594
     },
     {
      "part": "shoe_18",
-     "mm": 11.601423783720461,
+     "mm": 11.957101811422056,
      "aabb_lower_bound_mm": 0.0,
      "point_on_first_mm": [
-      122.89889799949,
+      119.84866724099,
       -30.000100000000003,
-      21.803847577293
+      20.299640230395
      ],
      "point_on_second_mm": [
-      126.57635168451267,
-      -21.0,
-      15.473952776114395
+      123.92137643647686,
+      -25.0,
+      10.230661954139293
      ],
-     "seconds": 1.298
+     "seconds": 2.698
     },
     {
      "part": "shoe_19",
-     "mm": 11.601423783720143,
+     "mm": 11.957101811422408,
      "aabb_lower_bound_mm": 0.0,
      "point_on_first_mm": [
-      132.41555849789,
+      130.52608484707,
       -30.000100000000003,
-      31.320508075689
+      28.492710921462
      ],
      "point_on_second_mm": [
-      138.7652742109492,
-      -21.0,
-      27.67738521709687
+      139.087643610716,
+      -25.0,
+      21.80907454181375
      ],
-     "seconds": 1.098
+     "seconds": 2.502
     },
     {
      "part": "shoe_21",
-     "mm": 11.601423783719985,
+     "mm": 11.95710181142365,
      "aabb_lower_bound_mm": 0.0,
      "point_on_first_mm": [
-      132.41555849789,
+      133.91976584479,
       -30.000100000000003,
-      57.320508075689
+      54.270277317181
      ],
      "point_on_second_mm": [
-      138.74545329906795,
-      -21.0,
-      60.997961760711306
+      143.98874412104783,
+      -25.0,
+      58.34298651266727
      ],
-     "seconds": 1.3
+     "seconds": 2.405
     },
     {
      "part": "shoe_22",
-     "mm": 11.601423783720731,
+     "mm": 11.957101811424849,
      "aabb_lower_bound_mm": 0.0,
      "point_on_first_mm": [
-      122.89889799949,
+      125.72669515372,
       -30.000100000000003,
-      66.837168574084
+      64.947694923261
      ],
      "point_on_second_mm": [
-      126.5420208580826,
-      -21.0,
-      73.18688428714401
+      132.41033153337338,
+      -25.0,
+      73.50925368690639
      ],
-     "seconds": 1.403
+     "seconds": 2.785
     },
     {
-     "part": "shoe_23",
-     "mm": 9.700122787823213,
-     "aabb_lower_bound_mm": 0.47278768780942926,
-     "point_on_first_mm": [
-      101.38668525640111,
-      -30.000100000000003,
-      74.0
-     ],
-     "point_on_second_mm": [
-      101.38668525640111,
-      -21.0,
-      77.61809094535325
-     ],
-     "seconds": 1.293
-    },
-    {
-     "part": "shoe_24",
-     "mm": 9.698524537171933,
-     "aabb_lower_bound_mm": 0.47278768780942926,
-     "point_on_first_mm": [
-      99.79788744986706,
-      -30.000100000000003,
-      74.0
-     ],
-     "point_on_second_mm": [
-      99.79788744986709,
-      -21.0,
-      77.61380383918745
-     ],
-     "seconds": 1.322
-    },
-    {
-     "part": "shoe_00",
-     "mm": 9.37959307869148,
-     "aabb_lower_bound_mm": 0.49999999999951683,
-     "point_on_first_mm": [
-      -103.0,
-      -30.000100000000003,
-      75.0
-     ],
-     "point_on_second_mm": [
-      -103.0,
-      -21.0,
-      77.64101615137754
-     ],
-     "seconds": 1.401
-    },
-    {
-     "part": "shoe_33",
-     "mm": 9.74536126133149,
-     "aabb_lower_bound_mm": 0.49999999999951683,
-     "point_on_first_mm": [
-      -98.19612033507286,
-      -30.000100000000003,
-      74.0
-     ],
-     "point_on_second_mm": [
-      -98.19612033507286,
-      -21.0,
-      77.73768191582168
-     ],
-     "seconds": 1.185
-    },
-    {
-     "part": "shoe_25",
-     "mm": 10.185127817820485,
-     "aabb_lower_bound_mm": 1.6271101740605758,
-     "point_on_first_mm": [
-      79.83122674764314,
-      -30.000100000000003,
-      74.0
-     ],
-     "point_on_second_mm": [
-      79.83122674764311,
-      -21.0,
-      78.7681263254386
-     ],
-     "seconds": 1.002
-    },
-    {
-     "part": "shoe_32",
-     "mm": 10.238023718661434,
-     "aabb_lower_bound_mm": 1.642413334669783,
-     "point_on_first_mm": [
-      -78.22877469843986,
-      -30.000100000000003,
-      74.0
-     ],
-     "point_on_second_mm": [
-      -78.22877469843986,
-      -21.0,
-      78.88009525049195
-     ],
-     "seconds": 0.898
-    },
-    {
-     "part": "track_pin_02",
-     "mm": 8.379242620448078,
-     "aabb_lower_bound_mm": 2.0001000000000033,
+     "part": "track_screw_02",
+     "mm": 8.137033051569444,
+     "aabb_lower_bound_mm": 0.0,
      "point_on_first_mm": [
       -130.5060966544,
       -30.000100000000003,
@@ -969,15 +873,15 @@
      ],
      "point_on_second_mm": [
       -136.25984790390814,
-      -28.0,
+      -30.000100000000003,
       70.58035597959852
      ],
-     "seconds": 0.209
+     "seconds": 0.201
     },
     {
-     "part": "track_pin_05",
-     "mm": 8.37924262044843,
-     "aabb_lower_bound_mm": 2.0001000000000033,
+     "part": "track_screw_05",
+     "mm": 8.137033051569809,
+     "aabb_lower_bound_mm": 0.0,
      "point_on_first_mm": [
       -130.5060966544,
       -30.000100000000003,
@@ -985,15 +889,15 @@
      ],
      "point_on_second_mm": [
       -136.25984790390822,
-      -28.0,
+      -30.000100000000003,
       18.06066017177906
      ],
-     "seconds": 0.188
+     "seconds": 0.204
     },
     {
-     "part": "track_pin_19",
-     "mm": 11.315493598506558,
-     "aabb_lower_bound_mm": 2.0001000000000033,
+     "part": "track_screw_19",
+     "mm": 11.137324425904225,
+     "aabb_lower_bound_mm": 0.0,
      "point_on_first_mm": [
       128.28367431034,
       -30.000100000000003,
@@ -1001,15 +905,15 @@
      ],
      "point_on_second_mm": [
       136.22387364677598,
-      -28.0,
+      -30.000100000000003,
       18.12591551440748
      ],
-     "seconds": 0.133
+     "seconds": 0.211
     },
     {
-     "part": "track_pin_22",
-     "mm": 11.315493598506134,
-     "aabb_lower_bound_mm": 2.0001000000000033,
+     "part": "track_screw_22",
+     "mm": 11.137324425903795,
+     "aabb_lower_bound_mm": 0.0,
      "point_on_first_mm": [
       128.28367431034,
       -30.000100000000003,
@@ -1017,367 +921,175 @@
      ],
      "point_on_second_mm": [
       136.09349056077863,
-      -28.0,
+      -30.000100000000003,
       70.64548372296738
-     ],
-     "seconds": 0.166
-    },
-    {
-     "part": "shoe_17",
-     "mm": 11.601423783718174,
-     "aabb_lower_bound_mm": 2.4727876878097064,
-     "point_on_first_mm": [
-      109.89889799949,
-      -30.000100000000003,
-      18.320508075689
-     ],
-     "point_on_second_mm": [
-      109.91871891137103,
-      -21.0,
-      10.999931532077571
-     ],
-     "seconds": 0.918
-    },
-    {
-     "part": "shoe_06",
-     "mm": 9.983415750237688,
-     "aabb_lower_bound_mm": 2.499999999999794,
-     "point_on_first_mm": [
-      -110.0,
-      -30.000100000000003,
-      15.320508075689
-     ],
-     "point_on_second_mm": [
-      -110.0,
-      -21.0,
-      10.999999999999996
-     ],
-     "seconds": 1.078
-    },
-    {
-     "part": "shoe_07",
-     "mm": 10.619695929466838,
-     "aabb_lower_bound_mm": 2.499999999999794,
-     "point_on_first_mm": [
-      -102.494247692,
-      -30.000100000000003,
-      16.308659113306
-     ],
-     "point_on_second_mm": [
-      -101.03527618039965,
-      -21.0,
-      10.863703305159063
-     ],
-     "seconds": 0.823
-    },
-    {
-     "part": "shoe_08",
-     "mm": 9.509203429209881,
-     "aabb_lower_bound_mm": 2.499999999999794,
-     "point_on_first_mm": [
-      -60.61505985709758,
-      -30.000100000000003,
-      13.914780847367235
-     ],
-     "point_on_second_mm": [
-      -61.577973383806,
-      -21.0,
-      11.0
-     ],
-     "seconds": 0.784
-    },
-    {
-     "part": "shoe_09",
-     "mm": 9.340867197964013,
-     "aabb_lower_bound_mm": 2.499999999999794,
-     "point_on_first_mm": [
-      -58.0,
-      -30.000100000000003,
-      13.5
-     ],
-     "point_on_second_mm": [
-      -58.0,
-      -21.0,
-      11.0
-     ],
-     "seconds": 0.799
-    },
-    {
-     "part": "shoe_10",
-     "mm": 9.340867197964013,
-     "aabb_lower_bound_mm": 2.499999999999794,
-     "point_on_first_mm": [
-      -29.0,
-      -30.000100000000003,
-      13.5
-     ],
-     "point_on_second_mm": [
-      -29.0,
-      -21.0,
-      11.0
-     ],
-     "seconds": 0.808
-    },
-    {
-     "part": "shoe_11",
-     "mm": 9.371748360405311,
-     "aabb_lower_bound_mm": 2.499999999999794,
-     "point_on_first_mm": [
-      -1.247209032871,
-      -30.000100000000003,
-      13.591999665299
-     ],
-     "point_on_second_mm": [
-      -1.5779733838060004,
-      -21.0,
-      11.0
-     ],
-     "seconds": 0.889
-    },
-    {
-     "part": "shoe_12",
-     "mm": 9.340867197964013,
-     "aabb_lower_bound_mm": 2.499999999999794,
-     "point_on_first_mm": [
-      0.0,
-      -30.000100000000003,
-      13.5
-     ],
-     "point_on_second_mm": [
-      0.0,
-      -21.0,
-      11.0
-     ],
-     "seconds": 0.799
-    },
-    {
-     "part": "shoe_13",
-     "mm": 9.340867197964013,
-     "aabb_lower_bound_mm": 2.499999999999794,
-     "point_on_first_mm": [
-      29.0,
-      -30.000100000000003,
-      13.5
-     ],
-     "point_on_second_mm": [
-      29.0,
-      -21.0,
-      11.0
-     ],
-     "seconds": 0.904
-    },
-    {
-     "part": "shoe_14",
-     "mm": 9.340867197964013,
-     "aabb_lower_bound_mm": 2.499999999999794,
-     "point_on_first_mm": [
-      58.0,
-      -30.000100000000003,
-      13.5
-     ],
-     "point_on_second_mm": [
-      58.0,
-      -21.0,
-      11.0
-     ],
-     "seconds": 0.824
-    },
-    {
-     "part": "shoe_15",
-     "mm": 9.377781311923183,
-     "aabb_lower_bound_mm": 2.499999999999794,
-     "point_on_first_mm": [
-      59.187857266757646,
-      -30.000100000000003,
-      13.58467932315499
-     ],
-     "point_on_second_mm": [
-      59.51035729920413,
-      -21.0,
-      10.969918138394963
-     ],
-     "seconds": 0.878
-    },
-    {
-     "part": "shoe_16",
-     "mm": 12.91616641684317,
-     "aabb_lower_bound_mm": 2.499999999999794,
-     "point_on_first_mm": [
-      101.54147190161,
-      -30.000100000000003,
-      19.700324708816
-     ],
-     "point_on_second_mm": [
-      98.42739764946029,
-      -21.0,
-      10.975183079611034
-     ],
-     "seconds": 1.018
-    },
-    {
-     "part": "shoe_26",
-     "mm": 10.558345520758996,
-     "aabb_lower_bound_mm": 2.7814326603117365,
-     "point_on_first_mm": [
-      38.52129737521131,
-      -30.000100000000003,
-      76.18897534867901
-     ],
-     "point_on_second_mm": [
-      41.242383803524675,
-      -21.0,
-      80.99236464951444
-     ],
-     "seconds": 0.977
-    },
-    {
-     "part": "shoe_31",
-     "mm": 10.188385589284554,
-     "aabb_lower_bound_mm": 2.7848266693400774,
-     "point_on_first_mm": [
-      -37.34538033271173,
-      -30.000100000000003,
-      76.73606922531427
-     ],
-     "point_on_second_mm": [
-      -38.84323612850496,
-      -21.0,
-      81.2701434330164
-     ],
-     "seconds": 0.917
-    },
-    {
-     "part": "pin_clip_02_0",
-     "mm": 7.368232334666528,
-     "aabb_lower_bound_mm": 3.2001000000000026,
-     "point_on_first_mm": [
-      -130.5060966544,
-      -30.000100000000003,
-      64.826604730099
-     ],
-     "point_on_second_mm": [
-      -135.19918773212754,
-      -26.8,
-      69.51969580781949
      ],
      "seconds": 0.185
     },
     {
-     "part": "pin_clip_05_0",
-     "mm": 7.3682323346668355,
-     "aabb_lower_bound_mm": 3.2001000000000026,
-     "point_on_first_mm": [
-      -130.5060966544,
-      -30.000100000000003,
-      23.814411421279
-     ],
-     "point_on_second_mm": [
-      -135.19918773212763,
-      -26.8,
-      19.12132034355812
-     ],
-     "seconds": 0.205
-    },
-    {
-     "part": "pin_clip_19_0",
-     "mm": 10.154735944382315,
-     "aabb_lower_bound_mm": 3.2001000000000026,
-     "point_on_first_mm": [
-      128.28367431034,
-      -30.000100000000003,
-      25.935731764839
-     ],
-     "point_on_second_mm": [
-      135.15446967242897,
-      -26.8,
-      19.177759200346994
-     ],
-     "seconds": 0.201
-    },
-    {
-     "part": "pin_clip_22_0",
-     "mm": 10.154735944381915,
-     "aabb_lower_bound_mm": 3.2001000000000026,
-     "point_on_first_mm": [
-      128.28367431034,
-      -30.000100000000003,
-      62.705284386539
-     ],
-     "point_on_second_mm": [
-      135.04164687483814,
-      -26.8,
-      69.57607974862135
-     ],
-     "seconds": 0.191
-    },
-    {
-     "part": "pin_clip_24_0",
-     "mm": 5.614964459059462,
-     "aabb_lower_bound_mm": 3.522746596529909,
-     "point_on_first_mm": [
-      99.79788744986709,
-      -30.000100000000003,
-      74.0
-     ],
-     "point_on_second_mm": [
-      99.79788744986709,
-      -26.8,
-      78.61380383918745
-     ],
-     "seconds": 0.111
-    },
-    {
-     "part": "pin_clip_00_0",
-     "mm": 5.166269557833014,
-     "aabb_lower_bound_mm": 3.534209955562709,
-     "point_on_first_mm": [
-      -101.91459913242292,
-      -30.000100000000003,
-      74.84992272086895
-     ],
-     "point_on_second_mm": [
-      -100.8140506506828,
-      -26.8,
-      78.75357411072584
-     ],
-     "seconds": 0.191
-    },
-    {
-     "part": "pin_clip_01_0",
-     "mm": 7.368232334677293,
-     "aabb_lower_bound_mm": 3.534209955562709,
-     "point_on_first_mm": [
-      -117.5057523079,
-      -30.000100000000003,
-      72.332357038072
-     ],
-     "point_on_second_mm": [
-      -119.22354286467119,
-      -26.8,
-      78.74323867251603
-     ],
-     "seconds": 0.113
-    },
-    {
-     "part": "pin_clip_23_0",
-     "mm": 10.044807884341155,
-     "aabb_lower_bound_mm": 3.54572726928995,
+     "part": "shoe_23",
+     "mm": 9.79820699908395,
+     "aabb_lower_bound_mm": 0.47278768780942926,
      "point_on_first_mm": [
       109.89889799949,
       -30.000100000000003,
       74.0
      ],
      "point_on_second_mm": [
-      117.42613923235557,
-      -26.8,
-      79.83079452952775
+      114.79999850983022,
+      -25.0,
+      80.85442004654227
      ],
-     "seconds": 0.113
+     "seconds": 2.307
     },
     {
-     "part": "track_pin_24",
-     "mm": 6.432650883894079,
-     "aabb_lower_bound_mm": 3.5829968806561006,
+     "part": "shoe_24",
+     "mm": 8.271341793707494,
+     "aabb_lower_bound_mm": 0.47278768780942926,
+     "point_on_first_mm": [
+      103.66436499743233,
+      -30.000100000000003,
+      74.0
+     ],
+     "point_on_second_mm": [
+      103.66436499743233,
+      -25.0,
+      80.58893732390378
+     ],
+     "seconds": 2.402
+    },
+    {
+     "part": "shoe_00",
+     "mm": 7.688853600547563,
+     "aabb_lower_bound_mm": 0.4999999999994742,
+     "point_on_first_mm": [
+      -103.0,
+      -30.000100000000003,
+      75.0
+     ],
+     "point_on_second_mm": [
+      -103.00000000000001,
+      -25.0,
+      80.84101615137753
+     ],
+     "seconds": 2.388
+    },
+    {
+     "part": "shoe_33",
+     "mm": 9.180285322218836,
+     "aabb_lower_bound_mm": 0.49999999999951683,
+     "point_on_first_mm": [
+      -84.97879423913842,
+      -30.000100000000003,
+      74.0
+     ],
+     "point_on_second_mm": [
+      -84.97879423913842,
+      -25.0,
+      81.69913232691493
+     ],
+     "seconds": 1.895
+    },
+    {
+     "part": "track_nut_02",
+     "mm": 6.657916372537559,
+     "aabb_lower_bound_mm": 1.0001000000000033,
+     "point_on_first_mm": [
+      -131.00282171730888,
+      -30.000100000000003,
+      64.31335247700441
+     ],
+     "point_on_second_mm": [
+      -135.7327948354173,
+      -29.0,
+      68.89101615137754
+     ],
+     "seconds": 0.405
+    },
+    {
+     "part": "track_nut_05",
+     "mm": 6.657916372518107,
+     "aabb_lower_bound_mm": 1.0001000000000033,
+     "point_on_first_mm": [
+      -131.00282171732303,
+      -30.000100000000003,
+      24.32766367435946
+     ],
+     "point_on_second_mm": [
+      -135.7327948354173,
+      -29.0,
+      19.75
+     ],
+     "seconds": 0.414
+    },
+    {
+     "part": "track_nut_19",
+     "mm": 9.635584570126001,
+     "aabb_lower_bound_mm": 1.0001000000000033,
+     "point_on_first_mm": [
+      128.81900678909383,
+      -30.000100000000003,
+      26.48887599164148
+     ],
+     "point_on_second_mm": [
+      135.7055643808515,
+      -29.0,
+      19.824071828467968
+     ],
+     "seconds": 0.502
+    },
+    {
+     "part": "track_nut_22",
+     "mm": 9.632179806555866,
+     "aabb_lower_bound_mm": 1.0001000000000033,
+     "point_on_first_mm": [
+      128.67352330581437,
+      -30.000100000000003,
+      62.30246421452894
+     ],
+     "point_on_second_mm": [
+      135.55762100644768,
+      -29.0,
+      68.9648876973134
+     ],
+     "seconds": 0.612
+    },
+    {
+     "part": "shoe_25",
+     "mm": 9.217324584583126,
+     "aabb_lower_bound_mm": 1.6271101740605758,
+     "point_on_first_mm": [
+      83.69770429520835,
+      -30.000100000000003,
+      74.0
+     ],
+     "point_on_second_mm": [
+      83.69770429520835,
+      -25.0,
+      81.74325981015492
+     ],
+     "seconds": 2.073
+    },
+    {
+     "part": "shoe_32",
+     "mm": 10.157456851786087,
+     "aabb_lower_bound_mm": 1.642413334669783,
+     "point_on_first_mm": [
+      -65.01144860250542,
+      -30.000100000000003,
+      74.0
+     ],
+     "point_on_second_mm": [
+      -65.01144860250542,
+      -25.0,
+      82.8415456615852
+     ],
+     "seconds": 1.902
+    },
+    {
+     "part": "track_screw_24",
+     "mm": 6.1138038391874545,
+     "aabb_lower_bound_mm": 1.7227876878094293,
      "point_on_first_mm": [
       99.79788744986709,
       -30.000100000000003,
@@ -1385,31 +1097,31 @@
      ],
      "point_on_second_mm": [
       99.79788744986709,
-      -28.0,
+      -30.000100000000003,
       80.11380383918745
      ],
-     "seconds": 0.175
+     "seconds": 0.101
     },
     {
-     "part": "track_pin_00",
-     "mm": 5.904876839272929,
-     "aabb_lower_bound_mm": 3.605606746443255,
+     "part": "track_screw_00",
+     "mm": 5.555823114263255,
+     "aabb_lower_bound_mm": 1.7499999999995168,
      "point_on_first_mm": [
       -101.91459913242292,
-      -30.000100000000003,
+      -34.0,
       74.84992272086895
      ],
      "point_on_second_mm": [
       -100.40702532534141,
-      -28.0,
+      -34.0,
       80.19729513105169
      ],
-     "seconds": 0.2
+     "seconds": 0.302
     },
     {
-     "part": "track_pin_01",
-     "mm": 8.37924262045969,
-     "aabb_lower_bound_mm": 3.605606746443255,
+     "part": "track_screw_01",
+     "mm": 8.137033051581403,
+     "aabb_lower_bound_mm": 1.7499999999995168,
      "point_on_first_mm": [
       -117.5057523079,
       -30.000100000000003,
@@ -1417,15 +1129,15 @@
      ],
      "point_on_second_mm": [
       -119.61177143233559,
-      -28.0,
+      -30.000100000000003,
       80.19212741194679
      ],
-     "seconds": 0.125
+     "seconds": 0.214
     },
     {
-     "part": "track_pin_23",
-     "mm": 11.201437366576332,
-     "aabb_lower_bound_mm": 3.6280515475492945,
+     "part": "track_screw_23",
+     "mm": 11.021424548003425,
+     "aabb_lower_bound_mm": 1.7769387211628214,
      "point_on_first_mm": [
       109.89889799949,
       -30.000100000000003,
@@ -1433,47 +1145,303 @@
      ],
      "point_on_second_mm": [
       118.61197668686398,
-      -28.0,
+      -30.000100000000003,
       80.7493747010343
      ],
-     "seconds": 0.187
+     "seconds": 0.182
     },
     {
-     "part": "shoe_30",
-     "mm": 9.84925154991289,
-     "aabb_lower_bound_mm": 3.9272400040103577,
+     "part": "track_nut_24",
+     "mm": 4.9655601694164,
+     "aabb_lower_bound_mm": 1.9920334904985322,
      "point_on_first_mm": [
+      101.38560069013855,
+      -30.000100000000003,
+      74.0
+     ],
+     "point_on_second_mm": [
+      101.38560069013856,
+      -29.0,
+      78.86380383918745
+     ],
+     "seconds": 0.294
+    },
+    {
+     "part": "track_nut_00",
+     "mm": 4.139043296199477,
+     "aabb_lower_bound_mm": 2.0156140528380715,
+     "point_on_first_mm": [
+      -102.29530136679439,
+      -30.000100000000003,
+      74.93743569298067
+     ],
+     "point_on_second_mm": [
+      -101.58771324027147,
+      -29.0,
+      78.89101615137754
+     ],
+     "seconds": 0.108
+    },
+    {
+     "part": "track_nut_01",
+     "mm": 6.657916372528621,
+     "aabb_lower_bound_mm": 2.0156140528380715,
+     "point_on_first_mm": [
+      -116.81290028679935,
+      -30.000100000000003,
+      72.50590743469967
+     ],
+     "point_on_second_mm": [
+      -118.41228675972853,
+      -29.0,
+      78.89101615137754
+     ],
+     "seconds": 0.293
+    },
+    {
+     "part": "track_nut_23",
+     "mm": 9.635584570125467,
+     "aabb_lower_bound_mm": 2.0390466470308546,
+     "point_on_first_mm": [
+      115.88148998042745,
+      -30.000100000000003,
+      69.62161897186685
+     ],
+     "point_on_second_mm": [
+      118.21010090110093,
+      -29.0,
+      78.91795487254085
+     ],
+     "seconds": 0.324
+    },
+    {
+     "part": "shoe_17",
+     "mm": 11.95710181142147,
+     "aabb_lower_bound_mm": 2.4727876878097064,
+     "point_on_first_mm": [
+      106.50521700177,
+      -30.000100000000003,
+      18.54294167997
+     ],
+     "point_on_second_mm": [
+      104.9977974891665,
+      -25.0,
+      7.786596104835256
+     ],
+     "seconds": 2.396
+    },
+    {
+     "part": "shoe_08",
+     "mm": 10.029862980160422,
+     "aabb_lower_bound_mm": 2.4999999999997566,
+     "point_on_first_mm": [
+      -61.500916501334004,
+      -30.000100000000003,
+      14.257002387546443
+     ],
+     "point_on_second_mm": [
+      -63.294829282376,
+      -21.0,
+      10.21
+     ],
+     "seconds": 2.486
+    },
+    {
+     "part": "shoe_09",
+     "mm": 7.582281979061445,
+     "aabb_lower_bound_mm": 2.4999999999997566,
+     "point_on_first_mm": [
+      -58.0,
+      -30.000100000000003,
+      13.5
+     ],
+     "point_on_second_mm": [
+      -57.99999999999999,
+      -25.0,
+      7.800000000000008
+     ],
+     "seconds": 2.292
+    },
+    {
+     "part": "shoe_10",
+     "mm": 8.53421178320256,
+     "aabb_lower_bound_mm": 2.4999999999997566,
+     "point_on_first_mm": [
+      -32.2528091751,
+      -30.000100000000003,
+      14.147023973654
+     ],
+     "point_on_second_mm": [
       -35.0,
-      -30.000100000000003,
-      77.141016151378
+      -25.0,
+      7.8
      ],
-     "point_on_second_mm": [
-      -35.05834591159573,
-      -21.0,
-      81.14133511841818
-     ],
-     "seconds": 0.982
+     "seconds": 2.206
     },
     {
-     "part": "shoe_27",
-     "mm": 9.850698104096406,
-     "aabb_lower_bound_mm": 3.935755146562869,
+     "part": "shoe_11",
+     "mm": 8.26549905635865,
+     "aabb_lower_bound_mm": 2.4999999999997566,
      "point_on_first_mm": [
-      35.0,
+      -26.13643624616,
       -30.000100000000003,
-      77.141016151378
+      13.996875445944
      ],
      "point_on_second_mm": [
-      35.05669296699443,
-      -21.0,
-      81.14491912666871
+      -23.91918358845,
+      -25.0,
+      7.8
      ],
-     "seconds": 1.133
+     "seconds": 1.91
     },
     {
-     "part": "pin_clip_25_0",
-     "mm": 6.596356669876018,
-     "aabb_lower_bound_mm": 4.140331855860421,
+     "part": "shoe_12",
+     "mm": 7.63312032652835,
+     "aabb_lower_bound_mm": 2.4999999999997566,
+     "point_on_first_mm": [
+      -0.833145692801,
+      -30.000100000000003,
+      13.540929823286
+     ],
+     "point_on_second_mm": [
+      -1.3856406460499997,
+      -25.0,
+      7.8
+     ],
+     "seconds": 2.285
+    },
+    {
+     "part": "shoe_13",
+     "mm": 8.007897064085276,
+     "aabb_lower_bound_mm": 2.4999999999997566,
+     "point_on_first_mm": [
+      26.66829662085219,
+      -30.000100000000003,
+      13.828449366448947
+     ],
+     "point_on_second_mm": [
+      25.0,
+      -25.0,
+      7.8
+     ],
+     "seconds": 2.119
+    },
+    {
+     "part": "shoe_14",
+     "mm": 8.906026965265202,
+     "aabb_lower_bound_mm": 2.4999999999997566,
+     "point_on_first_mm": [
+      32.76719871665024,
+      -30.000100000000003,
+      14.383027728035032
+     ],
+     "point_on_second_mm": [
+      36.08081641155,
+      -25.0,
+      7.8
+     ],
+     "seconds": 2.482
+    },
+    {
+     "part": "shoe_15",
+     "mm": 7.582281979061449,
+     "aabb_lower_bound_mm": 2.4999999999997566,
+     "point_on_first_mm": [
+      58.0,
+      -30.000100000000003,
+      13.5
+     ],
+     "point_on_second_mm": [
+      58.00000000000001,
+      -25.0,
+      7.8000000000000025
+     ],
+     "seconds": 2.305
+    },
+    {
+     "part": "shoe_07",
+     "mm": 9.453896028874926,
+     "aabb_lower_bound_mm": 2.4999999999997584,
+     "point_on_first_mm": [
+      -105.2760312715,
+      -30.000100000000003,
+      15.707851445227
+     ],
+     "point_on_second_mm": [
+      -103.91918358845,
+      -25.0,
+      7.799999999999992
+     ],
+     "seconds": 2.201
+    },
+    {
+     "part": "shoe_06",
+     "mm": 9.317942019154746,
+     "aabb_lower_bound_mm": 2.499999999999762,
+     "point_on_first_mm": [
+      -113.84629304078396,
+      -30.000100000000003,
+      15.577660555371779
+     ],
+     "point_on_second_mm": [
+      -115.0,
+      -25.0,
+      7.799999999999998
+     ],
+     "seconds": 2.215
+    },
+    {
+     "part": "shoe_16",
+     "mm": 13.639606181925092,
+     "aabb_lower_bound_mm": 2.499999999999794,
+     "point_on_first_mm": [
+      100.93324753332108,
+      -30.000100000000003,
+      19.917950867632563
+     ],
+     "point_on_second_mm": [
+      97.73380832411476,
+      -20.21,
+      10.97611730093035
+     ],
+     "seconds": 2.981
+    },
+    {
+     "part": "shoe_26",
+     "mm": 10.206271147256427,
+     "aabb_lower_bound_mm": 2.7814326603117365,
+     "point_on_first_mm": [
+      63.73104359298438,
+      -30.000100000000003,
+      74.0
+     ],
+     "point_on_second_mm": [
+      63.73104359298438,
+      -25.0,
+      82.89758229640609
+     ],
+     "seconds": 2.196
+    },
+    {
+     "part": "shoe_31",
+     "mm": 8.93045218414206,
+     "aabb_lower_bound_mm": 2.7848266693400774,
+     "point_on_first_mm": [
+      -35.595144004250315,
+      -30.000100000000003,
+      77.11402002938605
+     ],
+     "point_on_second_mm": [
+      -36.139481890514105,
+      -25.0,
+      84.49342870954638
+     ],
+     "seconds": 2.026
+    },
+    {
+     "part": "track_screw_25",
+     "mm": 7.268126325438601,
+     "aabb_lower_bound_mm": 2.877110174060576,
      "point_on_first_mm": [
       79.83122674764311,
       -30.000100000000003,
@@ -1481,95 +1449,15 @@
      ],
      "point_on_second_mm": [
       79.83122674764311,
-      -26.8,
-      79.7681263254386
-     ],
-     "seconds": 0.173
-    },
-    {
-     "part": "pin_clip_33_0",
-     "mm": 6.609742553994625,
-     "aabb_lower_bound_mm": 4.15005882382898,
-     "point_on_first_mm": [
-      -80.032654363367,
       -30.000100000000003,
-      74.0
-     ],
-     "point_on_second_mm": [
-      -80.032654363367,
-      -26.8,
-      79.78342948604782
-     ],
-     "seconds": 0.117
-    },
-    {
-     "part": "shoe_28",
-     "mm": 11.62628017288305,
-     "aabb_lower_bound_mm": 4.218915278219228,
-     "point_on_first_mm": [
-      19.899909935158888,
-      -30.000100000000003,
-      74.0
-     ],
-     "point_on_second_mm": [
-      19.899909935158874,
-      -21.0,
-      81.35993142959725
-     ],
-     "seconds": 1.097
-    },
-    {
-     "part": "shoe_29",
-     "mm": 11.62628017288305,
-     "aabb_lower_bound_mm": 4.218915278219228,
-     "point_on_first_mm": [
-      -0.10009006484112604,
-      -30.000100000000003,
-      74.0
-     ],
-     "point_on_second_mm": [
-      -0.10009006484112604,
-      -21.0,
-      81.35993142959725
-     ],
-     "seconds": 1.008
-    },
-    {
-     "part": "shoe_03",
-     "mm": 9.983415750237585,
-     "aabb_lower_bound_mm": 4.320508075688764,
-     "point_on_first_mm": [
-      -139.0,
-      -30.000100000000003,
-      44.320508075689
-     ],
-     "point_on_second_mm": [
-      -143.32050807568876,
-      -21.0,
-      44.320508075689
-     ],
-     "seconds": 1.189
-    },
-    {
-     "part": "track_pin_25",
-     "mm": 7.538306195196215,
-     "aabb_lower_bound_mm": 4.586222672181796,
-     "point_on_first_mm": [
-      79.83122674764311,
-      -30.000100000000003,
-      74.0
-     ],
-     "point_on_second_mm": [
-      79.83122674764311,
-      -28.0,
       81.2681263254386
      ],
-     "seconds": 0.184
+     "seconds": 0.183
     },
     {
-     "part": "track_pin_33",
-     "mm": 7.55306196772083,
-     "aabb_lower_bound_mm": 4.599998722309623,
+     "part": "track_screw_33",
+     "mm": 7.283429486047822,
+     "aabb_lower_bound_mm": 2.892413334669797,
      "point_on_first_mm": [
       -80.032654363367,
       -30.000100000000003,
@@ -1577,47 +1465,79 @@
      ],
      "point_on_second_mm": [
       -80.032654363367,
-      -28.0,
+      -30.000100000000003,
       81.28342948604782
      ],
-     "seconds": 0.2
+     "seconds": 0.111
     },
     {
-     "part": "pin_clip_18_0",
-     "mm": 10.15473594437718,
-     "aabb_lower_bound_mm": 4.72238227323908,
+     "part": "track_nut_25",
+     "mm": 6.10065934788504,
+     "aabb_lower_bound_mm": 3.0459748790301737,
+     "point_on_first_mm": [
+      81.41893998791457,
+      -30.000100000000003,
+      74.0
+     ],
+     "point_on_second_mm": [
+      81.41893998791458,
+      -29.0,
+      80.0181263254386
+     ],
+     "seconds": 0.384
+    },
+    {
+     "part": "track_nut_33",
+     "mm": 6.115755993588307,
+     "aabb_lower_bound_mm": 3.0604337778451707,
+     "point_on_first_mm": [
+      -78.44494112309553,
+      -30.000100000000003,
+      74.0
+     ],
+     "point_on_second_mm": [
+      -78.44494112309553,
+      -29.0,
+      80.03342948604782
+     ],
+     "seconds": 0.297
+    },
+    {
+     "part": "track_screw_18",
+     "mm": 11.137324425898813,
+     "aabb_lower_bound_mm": 3.7227876878097064,
      "point_on_first_mm": [
       116.62819317216,
       -30.000100000000003,
       19.206436592173
      ],
      "point_on_second_mm": [
-      119.19949021768448,
-      -26.8,
-      9.91846299220498
+      119.59969938340706,
+      -30.000100000000003,
+      8.472837652197533
      ],
-     "seconds": 0.198
+     "seconds": 0.113
     },
     {
-     "part": "pin_clip_06_0",
-     "mm": 7.368232334677694,
-     "aabb_lower_bound_mm": 4.742429758045824,
+     "part": "track_screw_06",
+     "mm": 8.137033051581854,
+     "aabb_lower_bound_mm": 3.749999999999794,
      "point_on_first_mm": [
       -117.5057523079,
       -30.000100000000003,
       16.308659113306
      ],
      "point_on_second_mm": [
-      -119.22354286467122,
-      -26.8,
-      9.89777747886152
+      -119.61177143233562,
+      -30.000100000000003,
+      8.44888873943076
      ],
-     "seconds": 0.114
+     "seconds": 0.213
     },
     {
-     "part": "pin_clip_08_0",
-     "mm": 15.357613840106758,
-     "aabb_lower_bound_mm": 4.742429758045824,
+     "part": "track_screw_08",
+     "mm": 16.520508075689,
+     "aabb_lower_bound_mm": 3.749999999999794,
      "point_on_first_mm": [
       -80.0,
       -30.000100000000003,
@@ -1625,154 +1545,362 @@
      ],
      "point_on_second_mm": [
       -80.0,
-      -26.8,
-      10.0
+      -30.000100000000003,
+      8.5
      ],
-     "seconds": 0.199
+     "seconds": 0.198
     },
     {
-     "part": "pin_clip_09_0",
-     "mm": 4.842599627801011,
-     "aabb_lower_bound_mm": 4.742429758045824,
+     "part": "track_screw_09",
+     "mm": 5.134574410461075,
+     "aabb_lower_bound_mm": 3.749999999999794,
      "point_on_first_mm": [
       -59.18785726675766,
       -30.000100000000003,
       13.584679323155122
      ],
      "point_on_second_mm": [
-      -59.632767974403095,
-      -26.8,
-      9.977438603796221
+      -59.81638398720155,
+      -30.000100000000003,
+      8.488719301898112
      ],
-     "seconds": 0.113
+     "seconds": 0.18
     },
     {
-     "part": "pin_clip_10_0",
-     "mm": 7.789039435876215,
-     "aabb_lower_bound_mm": 4.742429758045824,
+     "part": "track_screw_10",
+     "mm": 8.60130236813184,
+     "aabb_lower_bound_mm": 3.749999999999794,
      "point_on_first_mm": [
       -34.06344408818,
       -30.000100000000003,
       15.172735982415
      ],
      "point_on_second_mm": [
-      -38.23689390868578,
-      -26.8,
-      9.427232356156019
+      -39.11844695434289,
+      -30.000100000000003,
+      8.21361617807801
      ],
-     "seconds": 0.196
+     "seconds": 0.315
     },
     {
-     "part": "pin_clip_11_0",
-     "mm": 6.793745658644269,
-     "aabb_lower_bound_mm": 4.742429758045824,
+     "part": "track_screw_11",
+     "mm": 7.492857420659018,
+     "aabb_lower_bound_mm": 3.749999999999794,
      "point_on_first_mm": [
       -24.63012667435,
       -30.000100000000003,
       14.709306814998
      ],
      "point_on_second_mm": [
-      -21.544601384554376,
-      -26.8,
-      9.571809977979072
+      -20.772300692277188,
+      -30.000100000000003,
+      8.285904988989536
      ],
-     "seconds": 0.192
+     "seconds": 0.185
     },
     {
-     "part": "pin_clip_12_0",
-     "mm": 4.742429758045976,
-     "aabb_lower_bound_mm": 4.742429758045824,
+     "part": "track_screw_12",
+     "mm": 5.0,
+     "aabb_lower_bound_mm": 3.749999999999794,
      "point_on_first_mm": [
       0.0,
       -30.000100000000003,
       13.5
      ],
      "point_on_second_mm": [
-      1.8369701987210297e-16,
-      -26.8,
-      10.0
+      9.184850993605148e-17,
+      -30.000100000000003,
+      8.5
      ],
-     "seconds": 0.102
+     "seconds": 0.098
     },
     {
-     "part": "pin_clip_13_0",
-     "mm": 6.7937456586479055,
-     "aabb_lower_bound_mm": 4.742429758045824,
+     "part": "track_screw_13",
+     "mm": 7.492857420663138,
+     "aabb_lower_bound_mm": 3.749999999999794,
      "point_on_first_mm": [
       24.630126674358,
       -30.000100000000003,
       14.709306814998
      ],
      "point_on_second_mm": [
-      21.544601384556337,
-      -26.8,
-      9.571809977977892
+      20.77230069227817,
+      -30.000100000000003,
+      8.285904988988946
      ],
-     "seconds": 0.192
+     "seconds": 0.21
     },
     {
-     "part": "pin_clip_14_0",
-     "mm": 7.789039435872996,
-     "aabb_lower_bound_mm": 4.742429758045824,
+     "part": "track_screw_14",
+     "mm": 8.601302368128312,
+     "aabb_lower_bound_mm": 3.749999999999794,
      "point_on_first_mm": [
       34.063444088186,
       -30.000100000000003,
       15.172735982415
      ],
      "point_on_second_mm": [
-      38.236893908686945,
-      -26.8,
-      9.427232356156866
+      39.118446954343476,
+      -30.000100000000003,
+      8.213616178078432
      ],
-     "seconds": 0.097
+     "seconds": 0.104
     },
     {
-     "part": "pin_clip_15_0",
-     "mm": 4.842599627800915,
-     "aabb_lower_bound_mm": 4.742429758045824,
+     "part": "track_screw_15",
+     "mm": 5.134574410460947,
+     "aabb_lower_bound_mm": 3.749999999999794,
      "point_on_first_mm": [
       59.187857266757675,
       -30.000100000000003,
       13.584679323154994
      ],
      "point_on_second_mm": [
-      59.632767974403095,
-      -26.8,
-      9.977438603796221
+      59.81638398720155,
+      -30.000100000000003,
+      8.488719301898112
      ],
-     "seconds": 0.029
+     "seconds": 0.111
     },
     {
-     "part": "pin_clip_16_0",
-     "mm": 15.462373148139145,
-     "aabb_lower_bound_mm": 4.742429758045824,
+     "part": "track_screw_16",
+     "mm": 16.627602036089343,
+     "aabb_lower_bound_mm": 3.749999999999794,
      "point_on_first_mm": [
       65.067491704572,
       -30.000100000000003,
       17.277653019333
      ],
      "point_on_second_mm": [
-      77.528767191761,
-      -26.8,
-      8.700884595580552
+      78.7643835958805,
+      -30.000100000000003,
+      7.850442297790276
      ],
-     "seconds": 0.18
+     "seconds": 0.176
     },
     {
-     "part": "pin_clip_07_0",
-     "mm": 7.368232334654383,
-     "aabb_lower_bound_mm": 4.742429758045829,
+     "part": "track_screw_07",
+     "mm": 8.137033051555974,
+     "aabb_lower_bound_mm": 3.749999999999801,
      "point_on_first_mm": [
       -102.494247692,
       -30.000100000000003,
       16.308659113306
      ],
      "point_on_second_mm": [
-      -100.77645713529975,
-      -26.8,
-      9.897777478869298
+      -100.38822856764988,
+      -30.000100000000003,
+      8.448888739434645
      ],
-     "seconds": 0.118
+     "seconds": 0.223
+    },
+    {
+     "part": "track_screw_17",
+     "mm": 11.137324425897061,
+     "aabb_lower_bound_mm": 3.7769387211630985,
+     "point_on_first_mm": [
+      103.16960282683,
+      -30.000100000000003,
+      19.206436592173
+     ],
+     "point_on_second_mm": [
+      100.37620322328503,
+      -30.000100000000003,
+      8.425114130498915
+     ],
+     "seconds": 0.175
+    },
+    {
+     "part": "track_nut_18",
+     "mm": 9.632179806550951,
+     "aabb_lower_bound_mm": 3.854782507289814,
+     "point_on_first_mm": [
+      116.08441617231878,
+      -30.000100000000003,
+      19.070227544461037
+     ],
+     "point_on_second_mm": [
+      118.41219530885816,
+      -29.0,
+      9.777212312190088
+     ],
+     "seconds": 0.302
+    },
+    {
+     "part": "track_nut_06",
+     "mm": 6.657916372534171,
+     "aabb_lower_bound_mm": 3.881069441532638,
+     "point_on_first_mm": [
+      -116.812900286798,
+      -30.000100000000003,
+      16.135108716683327
+     ],
+     "point_on_second_mm": [
+      -118.41228675972853,
+      -29.0,
+      9.75
+     ],
+     "seconds": 0.222
+    },
+    {
+     "part": "track_nut_08",
+     "mm": 15.303222435150158,
+     "aabb_lower_bound_mm": 3.881069441532638,
+     "point_on_first_mm": [
+      -78.41228675972853,
+      -30.000100000000003,
+      25.020508075689005
+     ],
+     "point_on_second_mm": [
+      -78.41228675972853,
+      -29.0,
+      9.75
+     ],
+     "seconds": 0.581
+    },
+    {
+     "part": "track_nut_09",
+     "mm": 3.889755166787949,
+     "aabb_lower_bound_mm": 3.881069441532638,
+     "point_on_first_mm": [
+      -58.32003656163555,
+      -30.000100000000003,
+      13.507856456612645
+     ],
+     "point_on_second_mm": [
+      -58.41228675972853,
+      -29.0,
+      9.75
+     ],
+     "seconds": 0.119
+    },
+    {
+     "part": "track_nut_10",
+     "mm": 7.022122569420865,
+     "aabb_lower_bound_mm": 3.881069441532638,
+     "point_on_first_mm": [
+      -34.13609502092332,
+      -30.000100000000003,
+      15.229433326808891
+     ],
+     "point_on_second_mm": [
+      -38.41228675972853,
+      -29.0,
+      9.75
+     ],
+     "seconds": 0.476
+    },
+    {
+     "part": "track_nut_11",
+     "mm": 5.903490797752387,
+     "aabb_lower_bound_mm": 3.881069441532638,
+     "point_on_first_mm": [
+      -24.63012667435,
+      -30.000100000000003,
+      14.709306814998
+     ],
+     "point_on_second_mm": [
+      -21.58771324027147,
+      -29.0,
+      9.75
+     ],
+     "seconds": 0.206
+    },
+    {
+     "part": "track_nut_12",
+     "mm": 3.881069441532837,
+     "aabb_lower_bound_mm": 3.881069441532638,
+     "point_on_first_mm": [
+      0.0,
+      -30.000100000000003,
+      13.5
+     ],
+     "point_on_second_mm": [
+      -4.440892098500626e-16,
+      -29.0,
+      9.75
+     ],
+     "seconds": 0.111
+    },
+    {
+     "part": "track_nut_13",
+     "mm": 5.903490797756509,
+     "aabb_lower_bound_mm": 3.881069441532638,
+     "point_on_first_mm": [
+      24.630126674358,
+      -30.000100000000003,
+      14.709306814998
+     ],
+     "point_on_second_mm": [
+      21.587713240271473,
+      -29.0,
+      9.75
+     ],
+     "seconds": 0.291
+    },
+    {
+     "part": "track_nut_14",
+     "mm": 7.02212256941721,
+     "aabb_lower_bound_mm": 3.881069441532638,
+     "point_on_first_mm": [
+      34.136095020925595,
+      -30.000100000000003,
+      15.229433326805982
+     ],
+     "point_on_second_mm": [
+      38.41228675972853,
+      -29.0,
+      9.75
+     ],
+     "seconds": 0.296
+    },
+    {
+     "part": "track_nut_15",
+     "mm": 3.889755166787909,
+     "aabb_lower_bound_mm": 3.881069441532638,
+     "point_on_first_mm": [
+      58.320036561635575,
+      -30.000100000000003,
+      13.507856456612604
+     ],
+     "point_on_second_mm": [
+      58.41228675972853,
+      -29.0,
+      9.75
+     ],
+     "seconds": 0.295
+    },
+    {
+     "part": "track_nut_16",
+     "mm": 15.338605358839933,
+     "aabb_lower_bound_mm": 3.881069441532638,
+     "point_on_first_mm": [
+      65.290693185002,
+      -30.000100000000003,
+      17.630126674358
+     ],
+     "point_on_second_mm": [
+      78.41228675972853,
+      -29.0,
+      9.75
+     ],
+     "seconds": 0.41
+    },
+    {
+     "part": "track_nut_07",
+     "mm": 6.657916372505081,
+     "aabb_lower_bound_mm": 3.8810694415326448,
+     "point_on_first_mm": [
+      -103.18709971319484,
+      -30.000100000000003,
+      16.135108716654784
+     ],
+     "point_on_second_mm": [
+      -101.58771324027148,
+      -29.0,
+      9.749999999999993
+     ],
+     "seconds": 0.414
     }
    ],
    "method": "OCC BRepExtrema_DistShapeShape, SetMultiThread(True) before Perform; fresh non-overlap check and conservative component AABB pruning"
@@ -1818,6 +1946,109 @@
   ],
   "pass": true
  },
+ "chain_joint": {
+  "neighbouring_links": [
+   {
+    "bend_deg": -5.0,
+    "mm": 0.3
+   },
+   {
+    "bend_deg": 0.0,
+    "mm": 0.3
+   },
+   {
+    "bend_deg": 10.0,
+    "mm": 0.3
+   },
+   {
+    "bend_deg": 20.0,
+    "mm": 0.3
+   },
+   {
+    "bend_deg": 30.0,
+    "mm": 0.3
+   }
+  ],
+  "min_neighbour_mm": 0.3,
+  "seats": {
+   "head_seat_at_abs_y": 25.0,
+   "nut_seat_at_abs_y": 25.0
+  },
+  "side_play_mm": 0.9,
+  "head_and_nut_to_guide_flanges": {
+   "cases": 102,
+   "min_mm": 1.1,
+   "worst": {
+    "part": "head at pin 09",
+    "wheel": "J904_roller_road0",
+    "chain_offset_mm": -0.9,
+    "mm": 1.1
+   }
+  },
+  "screw_shank_under_guide_flanges": {
+   "cases": 51,
+   "min_mm": 0.5,
+   "worst": {
+    "part": "shank at pin 12",
+    "wheel": "J904_roller_road2",
+    "chain_offset_mm": -0.9,
+    "mm": 0.5
+   },
+   "note": "the \u00d83 shank passes under the flanges as the \u00d83 pin did"
+  },
+  "seat_boss_to_guide_flanges": {
+   "cases": 68,
+   "min_mm": 1.2,
+   "worst": {
+    "link": 9,
+    "side": "inboard",
+    "wheel": "J904_roller_road0",
+    "chain_offset_mm": -0.9,
+    "mm": 1.2
+   }
+  },
+  "sprocket_side_clearance_mm": 0.7,
+  "sprocket_at_flange_play": [
+   {
+    "link": 1,
+    "chain_offset_mm": -0.6,
+    "overlap_mm3": 0
+   },
+   {
+    "link": 1,
+    "chain_offset_mm": 0.6,
+    "overlap_mm3": 0
+   },
+   {
+    "link": 3,
+    "chain_offset_mm": -0.6,
+    "overlap_mm3": 0
+   },
+   {
+    "link": 3,
+    "chain_offset_mm": 0.6,
+    "overlap_mm3": 0
+   },
+   {
+    "link": 5,
+    "chain_offset_mm": -0.6,
+    "overlap_mm3": 0
+   },
+   {
+    "link": 5,
+    "chain_offset_mm": 0.6,
+    "overlap_mm3": 0
+   }
+  ],
+  "limits": {
+   "min_neighbour_mm": 0.25,
+   "min_head_nut_to_flange_mm": 0.8,
+   "min_shank_to_flange_mm": 0.3,
+   "min_boss_to_flange_mm": 0.6,
+   "min_sprocket_side_mm": 0.5
+  },
+  "pass": true
+ },
  "stop_test": {
   "case_index": 9,
   "pairs_tested": 12,
@@ -1828,11 +2059,11 @@
     "volume_mm3": 28.8
    }
   ],
-  "seconds": 23.7
+  "seconds": 22.1
  },
  "stop_pass": true,
  "case_count": 68,
- "pairs_tested": 878,
+ "pairs_tested": 882,
  "failure_cases": [],
  "overlap_tolerance_mm3": 0.01,
  "reused_checkpoint_cases": 0,
@@ -1859,6 +2090,6 @@
   "spring_solid": 17.018
  },
  "scope": "Nominal CAD validation. Every candidate pair of every trial is computed fresh on the delivered revision F parts. Full spring envelopes are checked at eleven positions. Not a strength, print-tolerance, fatigue or powered test.",
- "elapsed_s": 1237.1,
+ "elapsed_s": 1797.11,
  "pass": true
 }

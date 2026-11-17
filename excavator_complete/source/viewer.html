@@ -103,7 +103,7 @@ function buildTrack(side){const outer=new THREE.Group();root.add(outer);const g=
  for(const q of modGeo){const m=new THREE.Mesh(q.g,q.m);const mir=side<0&&['J901_H_frame','J909_housing'].includes(q.p.name)?', mirrored print':'';m.userData={name:`${q.p.name} (${label} track${mir})`,sys:'track'};(groups[q.p.group]?groups[q.p.group].i:g).add(m);meshes.push(m)}
  const chain=new THREE.Group();g.add(chain);const shoes=[],pins=[];
  for(let j=0;j<V.pins.length;j++){const s=new THREE.Mesh(linkGeo[0].g,linkGeo[0].m);s.userData={name:`J910 track shoe 70 (${label} track, link ${j})`,sys:'track'};chain.add(s);shoes.push(s);meshes.push(s);
-  const q=new THREE.Mesh(linkGeo[1].g,linkGeo[1].m);q.userData={name:`track pin, bushing and clips (${label} track)`,sys:'track'};chain.add(q);pins.push(q);meshes.push(q)}
+  const q=new THREE.Mesh(linkGeo[1].g,linkGeo[1].m);q.userData={name:`track screw, sleeve and nut (${label} track)`,sys:'track'};chain.add(q);pins.push(q);meshes.push(q)}
  tracks.push({side,outer,g,groups,shoes,pins})}
 buildTrack(1);buildTrack(-1);
 for(const p of D.parts){const m=new THREE.Mesh(geometry(p),mat(p.color,p.kind,p.sys==='arm'));   // R12 colours are sRGB (as its own viewer); X1's are used as given

@@ -180,7 +180,7 @@
      ],
      "parts": [
       "J910_track_shoe_70",
-      "pin, bushing, 2 clips"
+      "screw, sleeve, nut"
      ]
     },
     {
@@ -226,7 +226,7 @@
      "parts": [
       "J906_idler_wheel",
       "J910_track_shoe_70",
-      "pin, bushing, 2 clips"
+      "screw, sleeve, nut"
      ]
     },
     {
@@ -238,7 +238,7 @@
      "parts": [
       "J906_idler_wheel",
       "J910_track_shoe_70",
-      "pin, bushing, 2 clips"
+      "screw, sleeve, nut"
      ]
     }
    ]
@@ -255,7 +255,7 @@
      ],
      "parts": [
       "J910_track_shoe_70",
-      "pin, bushing, 2 clips"
+      "screw, sleeve, nut"
      ]
     },
     {
@@ -310,7 +310,7 @@
      "parts": [
       "J902_sprocket",
       "J910_track_shoe_70",
-      "pin, bushing, 2 clips"
+      "screw, sleeve, nut"
      ]
     },
     {
@@ -358,7 +358,7 @@
       "J901_H_frame",
       "J902_sprocket",
       "J910_track_shoe_70",
-      "pin, bushing, 2 clips"
+      "screw, sleeve, nut"
      ]
     },
     {
@@ -369,7 +369,7 @@
      ],
      "parts": [
       "J910_track_shoe_70",
-      "pin, bushing, 2 clips"
+      "screw, sleeve, nut"
      ]
     }
    ]
@@ -520,5 +520,5 @@
   "note": "The body's shot pocket was sized to put the upper CG on the swing axis with the 1.64 kg ARM60 stretched forward. R12 with B01X is lighter, so the upper CG moves rearward (upper_cg_mm_by_waypoint, shot_trim_estimate). The machine stays inside its footprint in every case here."
  },
  "status": "PASS",
- "seconds": 295.0
+ "seconds": 302.2
 }

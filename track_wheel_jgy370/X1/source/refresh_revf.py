@@ -3,8 +3,12 @@
 Unchanged assembly components keep their original B-reps, names, placements and
 colours. Previous joint hardware is replaced by x1_parts.mount_hardware().
 STEP exports are checked before replacing existing files.
-Run after exporting X101, the left/right J901/J909 parts, J902, J904 and J906.
-J904 (the roller) is placed at the seven roller stations of each track and J906 (the idler wheel) at the idler.
+Run after exporting X101, the left/right J901/J909 parts, J902, J904, J906, J908 and J910.
+J904 (the roller) is placed at the seven roller stations of each track, J906 (the idler wheel) at the idler and J908
+(the yoke) in its modelled place.
+The chain is replaced as one group, like the drive hub: the delivered J910 export at every link pose and the joint
+hardware of j9_parts.chain() (M3 x 60 screw, nyloc nut and sleeve since 2026-11-14). Every component of an earlier chain
+(shoes, grooved pins, bushings and E-clips) is removed, in the J9 assembly, both tracks of the X1 chassis and both scenes.
 J902 (the sprocket) and the bought drive-hub group around it (j9_parts.drive_hub_hardware(): coupling, sprocket
 screws, set screw) are replaced as one group, because the hub's part names change with the hub: any earlier hub's
 components (the Pololu #1999 hub, its M3 x 25 screws and two set screws until 2026-11-12) are removed and the
@@ -55,6 +59,13 @@ def drive_hub(name):
     base = name[2:] if name.startswith(('L_', 'R_')) else name
     return base == 'J902_sprocket' or base.startswith(('Pololu_1999_hub', 'flange_coupling_', 'hub_screw_',
                                                        'hub_set_screw_'))
+
+
+def chain_part(name):
+    """The track chain by component name (L_/R_ prefixes in the X1 chassis): shoes and joint hardware. The names of the
+    earlier joint (track_pin_, pin_clip_) match too, so that its components are replaced rather than left in place."""
+    base = name[2:] if name.startswith(('L_', 'R_')) else name
+    return base.startswith(('shoe_', 'track_bushing_', 'track_pin_', 'pin_clip_', 'track_screw_', 'track_nut_'))
 
 
 def components_from_assembly(assembly):
@@ -189,8 +200,9 @@ def mesh(shape):
                 triangles=[list(t) for t in triangles])
 
 
-def refresh_step(path, replacements, hardware=None, drive=None):
-    """drive: the current drive-hub group {name: dict(shape=, color=)}; every older drive-hub component is removed."""
+def refresh_step(path, replacements, hardware=None, drive=None, chain=None):
+    """drive: the current drive-hub group {name: dict(shape=, color=)}; every older drive-hub component is removed.
+    chain: the current track chain, in the same form; every older chain component is removed."""
     before_hash = sha(path)
     print('Read', path.name, flush=True)
     assembly = cached_assembly(path)
@@ -199,15 +211,18 @@ def refresh_step(path, replacements, hardware=None, drive=None):
     signatures = {name: signature(row['shape']) for name, row in before.items()}
     assert replacements.keys() <= before.keys(), (path, replacements.keys() - before.keys())
     drive = drive or {}
-    assert not set(drive) & set(replacements)
+    chain = chain or {}
+    assert not set(drive) & set(replacements) and not set(chain) & (set(replacements) | set(drive))
     old_drive = sorted(n for n in before if drive and drive_hub(n))
-    drive_current = (set(old_drive) == set(drive) and
-                     all(signature_matches(signatures[n], signature(row['shape'])) and
-                         before[n]['color'] == color_key(cq.Color(*row['color'])) for n, row in drive.items()))
+    old_chain = sorted(n for n in before if chain and chain_part(n))
+    group_current = lambda old, group: (set(old) == set(group) and
+                                        all(signature_matches(signatures[n], signature(row['shape'])) and
+                                            before[n]['color'] == color_key(cq.Color(*row['color'])) for n, row in group.items()))
+    drive_current, chain_current = group_current(old_drive, drive), group_current(old_chain, chain)
     # A full J9 build may already have produced and checked this exact assembly.
     # Preserve its bytes so its own export hashes remain meaningful.
-    if hardware is None and drive_current and all(signature_matches(signatures[n], signature(s))
-                                                  for n, s in replacements.items()):
+    if hardware is None and drive_current and chain_current and all(signature_matches(signatures[n], signature(s))
+                                                                    for n, s in replacements.items()):
         compound = assembly.toCompound()
         assert compound.isValid()
         assert sha(path) == before_hash
@@ -223,7 +238,7 @@ def refresh_step(path, replacements, hardware=None, drive=None):
         removed = [name for name in before if name.startswith(('clamp_', 'mount_'))]
         for name in removed:
             assembly.remove(name)
-    for name in old_drive:
+    for name in old_drive + old_chain:
         assembly.remove(name)
     for name, replacement in replacements.items():
         nodes = [node for key, node in assembly.traverse() if key == name and node.obj is not None]
@@ -239,9 +254,12 @@ def refresh_step(path, replacements, hardware=None, drive=None):
     for name, row in drive.items():
         assert drive_hub(name), name
         assembly.add(row['shape'], name=name, color=cq.Color(*row['color']))
+    for name, row in chain.items():
+        assert chain_part(name), name
+        assembly.add(row['shape'], name=name, color=cq.Color(*row['color']))
     after = components_from_assembly(assembly)
-    unchanged = set(before) - set(replacements) - set(removed) - set(old_drive)
-    assert set(after) == unchanged | set(replacements) | set(hardware or {}) | set(drive)
+    unchanged = set(before) - set(replacements) - set(removed) - set(old_drive) - set(old_chain)
+    assert set(after) == unchanged | set(replacements) | set(hardware or {}) | set(drive) | set(chain)
     assert all(before[n]['raw'].wrapped.IsSame(after[n]['raw'].wrapped) for n in unchanged)
     after_meta = component_metadata(after)
     assert all(before_meta[n] == after_meta[n] for n in unchanged | set(replacements))
@@ -275,7 +293,12 @@ def refresh_step(path, replacements, hardware=None, drive=None):
     return dict(file=str(path.relative_to(REPO)), before_sha256=before_hash, sha256=sha(path),
                 components=len(checked), solids=len(compound.Solids()), replaced=sorted(replacements),
                 removed=removed, added=sorted(hardware or {}),
-                drive_hub_removed=old_drive, drive_hub_added=sorted(drive), unchanged_components=len(unchanged),
+                drive_hub_removed=old_drive, drive_hub_added=sorted(drive),
+                chain_components_removed=len(old_chain), chain_components_added=len(chain),
+                chain_kinds_removed=sorted({n.lstrip('LR_').rsplit('_', 1)[0] if not n.lstrip('LR_').startswith('pin_clip') else 'pin_clip'
+                                            for n in old_chain}),
+                chain_kinds_added=sorted({n.lstrip('LR_').rsplit('_', 1)[0] for n in chain}),
+                unchanged_components=len(unchanged),
                 names_placements_colors_preserved=True, unchanged_BRep_identity=True,
                 intentional_hardware_relocations=relocations,
                 roundtrip_valid=True, **{'pass': True})
@@ -287,7 +310,14 @@ def drive_rows(drive):
                  **mesh(_solid(row['shape']))) for name, row in drive.items()]
 
 
-def refresh_scenes(frame, left_frame, left_housing, hardware, track_y, track_hardware, drive):
+def link_rows(p9, shoe, joint):
+    """The scene's 'link' list: the shoe in the link frame and the bought parts of one joint in the pin frame."""
+    return [dict(name='J910_track_shoe_70', color=list(p9.RUBBER), **mesh(shoe)),
+            dict(name=p9.LINK_HARDWARE_NAME, color=list(p9.STEEL),
+                 **mesh(cq.Compound.makeCompound([joint[k] for k in ('screw', 'nut', 'sleeve')])))]
+
+
+def refresh_scenes(frame, left_frame, left_housing, hardware, track_y, track_hardware, drive, link):
     track_path = J9 / 'source/j9_scene.json.gz'
     path = ROOT / 'source/x1_scene.json.gz'
     track = json.loads(gzip.decompress(track_path.read_bytes()))
@@ -302,6 +332,7 @@ def refresh_scenes(frame, left_frame, left_housing, hardware, track_y, track_har
     first = next(i for i, row in enumerate(track['unit']) if drive_hub(row['name']))
     kept = [row for row in track['unit'] if not drive_hub(row['name'])]
     track['unit'] = kept[:first] + drive_rows(drive) + kept[first:]
+    track['link'] = link
     track['config']['revision'] = 'J9 / X1 revision F mounting stations'
     track_path.write_bytes(gzip.compress(json.dumps(track, separators=(',', ':')).encode(), mtime=0))
     data.update(module=track['unit'], link=track['link'], j9=track['config'])
@@ -321,13 +352,15 @@ def refresh_scenes(frame, left_frame, left_housing, hardware, track_y, track_har
     return [dict(file=str(p.relative_to(REPO)), sha256=sha(p)) for p in (track_path, path)]
 
 
-def verify_step(path, expected, hardware, drive=None):
-    """Confirm an existing assembly already holds the current parts and joint hardware (and drive-hub group)."""
+def verify_step(path, expected, hardware, drive=None, chain=None):
+    """Confirm an existing assembly already holds the current parts and joint hardware (and drive-hub group and chain)."""
     print('Verify', path.name, flush=True)
     rows = components_from_assembly(cached_assembly(path))
-    expected = {**expected, **{n: _solid(row['shape']) for n, row in (drive or {}).items()}}
+    groups = {**(drive or {}), **(chain or {})}
+    expected = {**expected, **{n: _solid(row['shape']) for n, row in groups.items()}}
     stale_drive = sorted(n for n in rows if drive is not None and drive_hub(n) and n not in drive)
-    drive_colours = sorted(n for n, row in (drive or {}).items()
+    stale_drive += sorted(n for n in rows if chain is not None and chain_part(n) and n not in chain)
+    drive_colours = sorted(n for n, row in groups.items()
                            if n in rows and rows[n]['color'] != color_key(cq.Color(*row['color'])))
     missing = sorted(set(expected) - set(rows))
     mismatched = sorted(n for n, shape in expected.items()
@@ -344,7 +377,8 @@ def verify_step(path, expected, hardware, drive=None):
     return dict(file=str(path.relative_to(REPO)), sha256=sha(path), components=len(rows),
                 solids=len(compound.Solids()), checked_current_parts=sorted(expected),
                 missing=missing, signature_mismatches=mismatched,
-                stale_drive_hub_components=stale_drive, drive_hub_colour_mismatches=drive_colours,
+                stale_drive_hub_or_chain_components=stale_drive, drive_hub_or_chain_colour_mismatches=drive_colours,
+                chain_components_checked=len(chain or {}),
                 mount_hardware_count=len(mounts), mount_hardware_names_match=hardware_names_match,
                 mount_hardware_mismatches=hardware_mismatched, obsolete_clamp_components=obsolete,
                 **{'pass': bool(ok)})
@@ -354,7 +388,7 @@ def _solid(shape):
     return shape.val() if isinstance(shape, cq.Workplane) else shape
 
 
-def verify_scenes(frame, left_frame, left_housing, hardware, track_hardware, drive):
+def verify_scenes(frame, left_frame, left_housing, hardware, track_hardware, drive, link):
     """Confirm both offline scenes hold meshes of the current parts and hardware."""
     track_path = J9 / 'source/j9_scene.json.gz'
     path = ROOT / 'source/x1_scene.json.gz'
@@ -371,6 +405,8 @@ def verify_scenes(frame, left_frame, left_housing, hardware, track_hardware, dri
             problems.append(f"j9_scene:{want['name']}")
     problems += [f"j9_scene:stale {row['name']}" for row in track['unit']
                  if drive_hub(row['name']) and row['name'] not in drive]
+    if track['link'] != link:
+        problems.append('j9_scene:link (shoe and joint hardware) differs from the current parts')
     if data['module'] != track['unit'] or data['link'] != track['link']:
         problems.append('x1_scene:module copy differs from j9_scene')
     expected = {'X101_X_frame': frame, **{n: row['shape'] for n, row in hardware.items()}}
@@ -407,9 +443,12 @@ def main():
              'J909_housing_right': ROOT/'step/J909_housing_right.step',
              'J904_roller': J9/'step/J904_roller.step',
              'J906_idler_wheel': J9/'step/J906_idler_wheel.step',
-             'J902_sprocket': J9/'step/J902_sprocket.step'}
+             'J902_sprocket': J9/'step/J902_sprocket.step',
+             'J908_U_yoke': J9/'step/J908_U_yoke.step',
+             'J910_track_shoe_70': J9/'step/J910_track_shoe_70.step'}
     assert not (args.scenes_only and args.preview_only), 'Choose only one scene refresh mode'
-    needed = ({'X101_X_frame', 'J901_H_frame', 'J909_housing', 'J904_roller', 'J906_idler_wheel', 'J902_sprocket'}
+    needed = ({'X101_X_frame', 'J901_H_frame', 'J909_housing', 'J904_roller', 'J906_idler_wheel', 'J902_sprocket',
+               'J908_U_yoke', 'J910_track_shoe_70'}
               if args.scenes_only or args.preview_only
               else set(paths))
     parts = {name: part(p) for name, p in paths.items() if name in needed}
@@ -430,6 +469,7 @@ def main():
     for x, z, station in p9.ROLLERS:
         track_hardware[f'J904_roller_{station}'] = parts['J904_roller'].translate((x, 0, z))
     track_hardware['J906_idler_wheel'] = parts['J906_idler_wheel'].translate((p9.IDLER_X, 0, p9.AXLE_Z))
+    track_hardware['J908_U_yoke'] = parts['J908_U_yoke']          # modelled in place, as J9.unit() adds it
     # The drive-hub group: the delivered J902 export (modelled in place, as J9.unit() adds it) and the bought hub parts
     # from the same source function J9.unit() uses. The right track of the X1 chassis carries mirrored copies.
     # The modelled hardware is STEP-normalised (see step_normalised) so that the assembly round-trip check holds.
@@ -445,9 +485,29 @@ def main():
                 if row['kind'] == 'hardware':
                     shape = step_normalised(shape)
             crawler_drive[tag+'_'+name] = dict(row, shape=shape.translate((0, side*X.TRACK_Y, 0)))
+    # The chain: the delivered J910 export at every link pose (as J9.chain() places it) and the joint hardware from the same
+    # source function, STEP-normalised. The right track carries mirrored copies: mirrored placed shoes, and joint hardware
+    # placed from mirrored, re-normalised parts (translation is exact; a mirror is not).
+    joint = {k: step_normalised(_solid(v)) for k, v in p9.chain_hardware().items()}
+    joint_right = {k: step_normalised(v.mirror('XZ')) for k, v in joint.items()}
+
+    def chain_group(joint_parts):
+        placed = p9.chain({'J910_track_shoe_70': dict(shape=cq.Workplane(obj=parts['J910_track_shoe_70']))},
+                          hardware={k: cq.Workplane(obj=v) for k, v in joint_parts.items()})
+        return {name: dict(shape=_solid(shape), color=color, kind='printed' if name.startswith('shoe_') else 'hardware',
+                           source='J910_track_shoe_70' if name.startswith('shoe_') else None)
+                for name, (shape, color) in placed.items()}
+    chain = chain_group(joint)
+    chain_right = {name: dict(row, shape=chain[name]['shape'].mirror('XZ')) if name.startswith('shoe_') else row
+                   for name, row in chain_group(joint_right).items()}
+    crawler_chain = {}
+    for side, tag, group in ((1, 'L', chain), (-1, 'R', chain_right)):
+        for name, row in group.items():
+            crawler_chain[tag+'_'+name] = dict(row, shape=row['shape'].translate((0, side*X.TRACK_Y, 0)))
+    link = link_rows(p9, parts['J910_track_shoe_70'], joint)
     if args.preview_only:
         refresh_scenes(parts['X101_X_frame'], parts['J901_H_frame'], parts['J909_housing'], hardware,
-                       X.TRACK_Y, track_hardware, drive)
+                       X.TRACK_Y, track_hardware, drive, link)
         print('Preview scenes prepared; complete assembly validation remains pending', flush=True)
         return
     inputs = {str(p.relative_to(REPO)): sha(p) for p in paths.values()}
@@ -464,12 +524,12 @@ def main():
                 p = shape if side > 0 else shape.mirror('XZ')
                 crawler[tag+'_'+name] = p.translate((0, side*X.TRACK_Y, 0))
         reports = [verify_step(J9/'step/JGY370_track_J9.step',
-                               {**{n: parts[n] for n in ('J901_H_frame', 'J909_housing')}, **track_hardware}, {}, drive),
-                   verify_step(ROOT/'step/X1_crawler_chassis.step', crawler, hardware, crawler_drive),
+                               {**{n: parts[n] for n in ('J901_H_frame', 'J909_housing')}, **track_hardware}, {}, drive, chain),
+                   verify_step(ROOT/'step/X1_crawler_chassis.step', crawler, hardware, crawler_drive, crawler_chain),
                    verify_step(ROOT/'step/X1_turntable_assembly.step',
                                {'X101_X_frame': parts['X101_X_frame']}, hardware)]
         scenes, problems = verify_scenes(parts['X101_X_frame'], parts['J901_H_frame'], parts['J909_housing'],
-                                         hardware, track_hardware, drive)
+                                         hardware, track_hardware, drive, link)
         assert all(sha(REPO/name) == value for name, value in inputs.items()), 'Inputs changed during verification'
         ok = all(r['pass'] for r in reports) and not problems
         report = dict(revision='F', mode='verified existing assemblies and scenes; no CAD written',
@@ -489,7 +549,7 @@ def main():
     else:
         reports = [refresh_step(J9/'step/JGY370_track_J9.step',
                                {**{n: parts[n] for n in ('J901_H_frame', 'J909_housing')}, **track_hardware},
-                               drive=drive)]
+                               drive=drive, chain=chain)]
         replacements = {'X101_X_frame': parts['X101_X_frame']}
         for side, tag in ((1, 'L'), (-1, 'R')):
             for name in ('J901_H_frame', 'J909_housing'):
@@ -498,11 +558,11 @@ def main():
             for name, shape in track_hardware.items():
                 p = shape if side > 0 else shape.mirror('XZ')
                 replacements[tag+'_'+name] = p.translate((0, side*X.TRACK_Y, 0))
-        reports.append(refresh_step(ROOT/'step/X1_crawler_chassis.step', replacements, hardware, crawler_drive))
+        reports.append(refresh_step(ROOT/'step/X1_crawler_chassis.step', replacements, hardware, crawler_drive, crawler_chain))
         reports.append(refresh_step(ROOT/'step/X1_turntable_assembly.step',
                                     {'X101_X_frame': parts['X101_X_frame']}, hardware))
     scenes = refresh_scenes(parts['X101_X_frame'], parts['J901_H_frame'], parts['J909_housing'], hardware,
-                            X.TRACK_Y, track_hardware, drive)
+                            X.TRACK_Y, track_hardware, drive, link)
     assert all(sha(REPO/name) == value for name, value in inputs.items())
     report = dict(revision='F', inputs=inputs, assemblies=reports, scenes=scenes,
                   seconds=round(time.time()-started, 1), **{'pass': True})
