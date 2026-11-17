@@ -265,9 +265,17 @@ def main():
     _, _, u1, _ = courtyard_bbox(fps["J101"])
     check("XT30 on the front edge (SPEC C1)", abs(u1 - LY.W) < 0.05, round(u1, 2), LY.W)
     inboard = ["J102", "J104", "J105", "J106", "J107", "J103", "J108", "J109"]
-    vmax = {r: round(courtyard_bbox(fps[r])[3], 2) for r in inboard}
-    check("Track, actuator, swing, lamp and expansion connectors on the inboard edge", all(abs(v - LY.H) < 0.05 for v in vmax.values()),
-          vmax, LY.H, "tracks XH-4 moved here from the front edge (DESIGN.md, PCB layout)")
+    # top entry since 2026-11-14: each header on the pin row of rev B's side-entry one (same pads, so the copper did not
+    # change), its courtyard in the strip along the inboard edge; the plugs go on from above
+    pin_v = {r: round(fps[r]["y"] - LY.ORIGIN[1], 3) for r in inboard}
+    want_v = {r: LY.PH_PIN_V if r in ("J108", "J109") else LY.XH_PIN_V for r in inboard}
+    edge_gap = {r: round(LY.H - courtyard_bbox(fps[r])[3], 2) for r in inboard}
+    check("Track, actuator, swing, lamp and expansion connectors along the inboard edge, top entry",
+          all(fps[r]["lib"].endswith("_Vertical") for r in inboard) and all(abs(pin_v[r] - want_v[r]) < 1e-3 for r in inboard)
+          and all(0.0 <= g <= 6.0 for g in edge_gap.values()), edge_gap,
+          f"top-entry footprints, pin rows at v {LY.XH_PIN_V:.2f} (XH) / {LY.PH_PIN_V:.2f} (PH), courtyard 0-6 mm from the edge",
+          "top entry since 2026-11-14 on the pin rows of rev B's side-entry headers; tracks XH-4 moved here from the front "
+          "edge (DESIGN.md, PCB layout)")
     order = sorted(inboard, key=lambda r: -fps[r]["x"])
     check("Inboard connectors front to rear: tracks, boom L, boom R, stick, bucket, swing, lamps, expansion",
           order == inboard, order, inboard)
@@ -322,11 +330,14 @@ def main():
             continue
         u0, v0, u1, v1 = courtyard_bbox(fps[ref])
         (xa, ya), (xb, yb) = LY.machine(u0, v0), LY.machine(u1, v1)
+        at = LY.machine(fps[ref]["x"] - LY.ORIGIN[0], fps[ref]["y"] - LY.ORIGIN[1])
         parts.append(dict(ref=ref, value=nl.info(ref)["value"], x=[round(xa, 2), round(xb, 2)],
-                          y=[round(min(ya, yb), 2), round(max(ya, yb), 2)], z=[top, round(top + h, 2)]))
+                          y=[round(min(ya, yb), 2), round(max(ya, yb), 2)], z=[top, round(top + h, 2)],
+                          at=[round(at[0], 3), round(at[1], 3)], rot=fps[ref]["rot"]))
     (BOARD / f"{STEM}_parts.json").write_text(json.dumps(dict(
         note="Courtyard boxes of the placed parts in X1 machine coordinates (mm), from the board; heights from "
-             "netlist.py. Written by check_pcb.py for x1_body.py.", board=bb, parts=parts), indent=1) + "\n")
+             "netlist.py; 'at' is the footprint origin (pin 1 of the JST headers) and 'rot' its KiCad rotation. Written "
+             "by check_pcb.py for x1_body.py.", board=bb, parts=parts), indent=1) + "\n")
 
     report = dict(board=f"{NL.TITLE} rev {NL.REV}", all_pass=all(c["ok"] for c in checks),
                   drc=dict(errors=len(errors), warnings=dict(warn), unconnected=len(drc.get("unconnected_items", [])),

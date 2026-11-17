@@ -299,143 +299,143 @@
  "screenshots": [
   {
    "file": "images/complete_iso.png",
-   "bytes": 324830,
-   "seconds": 127.118
+   "bytes": 324791,
+   "seconds": 142.812
   },
   {
    "file": "images/complete_side_dig.png",
-   "bytes": 203503,
-   "seconds": 10.978
+   "bytes": 203335,
+   "seconds": 13.381
   },
   {
    "file": "images/complete_dump_left.png",
-   "bytes": 349951,
-   "seconds": 14.609
+   "bytes": 350018,
+   "seconds": 16.308
   },
   {
    "file": "images/complete_front.png",
-   "bytes": 180569,
-   "seconds": 12.305
+   "bytes": 180505,
+   "seconds": 13.59
   },
   {
    "file": "images/complete_rear.png",
-   "bytes": 344543,
-   "seconds": 24.078
+   "bytes": 344532,
+   "seconds": 14.7
   },
   {
    "file": "images/complete_top.png",
-   "bytes": 178580,
-   "seconds": 20.526
+   "bytes": 178002,
+   "seconds": 12.118
   },
   {
    "file": "images/arm_mount.png",
-   "bytes": 326517,
-   "seconds": 28.397
+   "bytes": 326786,
+   "seconds": 14.195
   },
   {
    "file": "images/inside_body.png",
-   "bytes": 375392,
-   "seconds": 17.993
+   "bytes": 373966,
+   "seconds": 15.201
   },
   {
    "file": "images/harness.png",
-   "bytes": 421045,
-   "seconds": 15.906
+   "bytes": 420489,
+   "seconds": 17.385
   },
   {
    "file": "images/harness_boom_down.png",
-   "bytes": 387291,
-   "seconds": 16.097
+   "bytes": 386684,
+   "seconds": 16.596
   },
   {
    "file": "images/connectors_board_plugs.png",
-   "bytes": 457189,
-   "seconds": 11.706
+   "bytes": 465130,
+   "seconds": 10.107
   },
   {
    "file": "images/battery_pack.png",
-   "bytes": 374870,
-   "seconds": 11.503
+   "bytes": 376019,
+   "seconds": 10.712
   },
   {
    "file": "images/joint_feed_xt30.png",
-   "bytes": 300310,
-   "seconds": 4.495
+   "bytes": 300071,
+   "seconds": 4.698
   },
   {
    "file": "images/joint_sm_left_track.png",
-   "bytes": 131114,
-   "seconds": 1.283
+   "bytes": 130972,
+   "seconds": 1.181
   },
   {
    "file": "images/toolbox_switch_fuse_jack.png",
-   "bytes": 195170,
-   "seconds": 3.997
+   "bytes": 195013,
+   "seconds": 4.202
   },
   {
    "file": "images/standard_parts_bearings.png",
-   "bytes": 332905,
-   "seconds": 14.101
+   "bytes": 332848,
+   "seconds": 14.602
   },
   {
    "file": "images/standard_parts_all.png",
-   "bytes": 231272,
-   "seconds": 6.601
+   "bytes": 230979,
+   "seconds": 12.707
   },
   {
    "file": "images/install_plugs.png",
-   "bytes": 455532,
-   "seconds": 9.524
+   "bytes": 428812,
+   "seconds": 9.485
   },
   {
    "file": "images/install_pack.png",
-   "bytes": 280556,
-   "seconds": 8.1
+   "bytes": 281128,
+   "seconds": 3.415
   },
   {
    "file": "images/install_cells.png",
-   "bytes": 268248,
-   "seconds": 8.186
+   "bytes": 270302,
+   "seconds": 7.295
   },
   {
    "file": "images/install_hatch.png",
-   "bytes": 475819,
-   "seconds": 14.594
+   "bytes": 475560,
+   "seconds": 14.291
   },
   {
    "file": "images/install_right_parts.png",
-   "bytes": 405034,
-   "seconds": 15.011
+   "bytes": 405248,
+   "seconds": 14.908
   },
   {
    "file": "images/cab.png",
-   "bytes": 343350,
-   "seconds": 15.184
+   "bytes": 342717,
+   "seconds": 15.205
   },
   {
    "file": "images/exploded.png",
-   "bytes": 216182,
-   "seconds": 11.716
+   "bytes": 215908,
+   "seconds": 12.787
   },
   {
    "file": "images/assembly_step2_xframe.png",
-   "bytes": 256786,
-   "seconds": 9.005
+   "bytes": 256655,
+   "seconds": 9.71
   },
   {
    "file": "images/assembly_step5_arm.png",
-   "bytes": 305694,
-   "seconds": 11.502
+   "bytes": 305655,
+   "seconds": 7.409
   },
   {
    "file": "images/connectors_gallery.png",
-   "bytes": 373782,
-   "seconds": 2.157
+   "bytes": 365287,
+   "seconds": 1.973
   }
  ],
- "sha256": "24f221e78036aa53ec32eb3d5c133f9cca4c25828237e4115977ab03db9774dc",
- "size_mb": 21.1,
- "load_s": 8.305,
+ "sha256": "8ed39a0bf57781f2e80faa25c1293968dd2555882adc82b6eeaf272ce5bbdfc1",
+ "size_mb": 20.9,
+ "load_s": 9.498,
  "meshes": 770,
  "timeline": {
   "shown_s": 48.135,

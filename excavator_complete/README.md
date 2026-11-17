@@ -29,7 +29,7 @@ It is rendered from the same page. Its provenance is in `video_validation.json`.
 | **Arm mount (new)** | **B01X issue 3**, described below | this folder |
 | **Harness (new)** | `source/harness.py`: 4 drive cables (loops at O and E, troughs and slots in B01X), slip ring, swing, battery, lamps; 15 × **W01** clamps | this folder, [WIRING.md](WIRING.md) |
 
-The meshes are read from those folders when the demonstration is built, so a rebuild there flows through here. One exception for now: X1's body scene was last built with the main board rev A's STEP. Rev B keeps its outline, holes, connectors and part positions and only drops the 6 V buck and its sense (16 small parts), so the board shown has those parts too until X1's body is rebuilt (X1/BODY.md). Nothing has been printed, assembled or run under power.
+The meshes are read from those folders when the demonstration is built, so a rebuild there flows through here. X1's body scene was rebuilt on 2026-11-14 with the main board rev B's STEP, which has top-entry motor and lamp headers since that day (X1/controller/main_board/DESIGN.md). Nothing has been printed, assembled or run under power.
 
 ## What changed: R12 replaces the ARM60
 
@@ -133,9 +133,9 @@ The method is FCL mesh-mesh collision and distance on the viewer meshes. Their c
   - These figures are in `integration_check.json`, under `balance.upper_cg_mm_by_waypoint` and `shot_trim_estimate`.
 - The masses come from the subsystem mass files. The ARM60's centre of mass is estimated from its meshes at uniform density, so these figures are estimates. Nothing has been weighed.
 
-**Also checked on the whole machine** (2026-11-07; the integration, wiring and assembly checks re-run on 2026-11-10 after the 12 V drive update and on 2026-11-11 after the V6 end caps moved to M1 heat-set inserts, and on 2026-11-12 after the V6 rear-cap hook and the rebase onto main's J9 track-kit update, all PASS):
+**Also checked on the whole machine** (2026-11-07; the integration, wiring and assembly checks re-run on 2026-11-10 after the 12 V drive update and on 2026-11-11 after the V6 end caps moved to M1 heat-set inserts, and on 2026-11-12 after the V6 rear-cap hook and the rebase onto main's J9 track-kit update, and on 2026-11-14 after the V6 front cap's third screw, and on 2026-11-15 after the main board's top-entry headers with X1's body rebuilt around rev B, and again that day after the V6 rod-eye screw and the rebase onto main's Ø32 sprocket couplings, all PASS):
 - [wiring_check.json](wiring_check.json), PASS: every cable of [WIRING.md](WIRING.md) as a tube against every part, the four arm cables over the same 447 poses; loops never taut and bent on R ≥ 9; see WIRING.md 3.
-- [assembly_check.json](assembly_check.json), PASS: pin O from either side with the body on, the arm unit lowered onto T101 with the body on, the hex key on the four M6 bolts, each body half out and up past the R12 arm, the hatch at every dig pose; see ASSEMBLY.md 1.
+- [assembly_check.json](assembly_check.json), PASS: pin O from either side with the body on, the arm unit lowered onto T101 with the body on, the hex key on the four M6 bolts, each body half out and up past the R12 arm, the hatch at every dig pose, the board's mated plugs (18.7 mm from the T101 rib, each one's straight-down path clear); see ASSEMBLY.md 1.
 - [CONTROL_CHECK.md](CONTROL_CHECK.md): the main board's rules and calculations re-run, the DRV8876 and ESP32-S3 datasheets read against the netlist, the firmware tests re-run; one protection rule (S4) fixed.
 
 **Not checked:** loads and digging forces, swing dynamics with R12 (the R3 swing simulation used the ARM60), print fit, the real cables' sag and wear, and anything on real parts.

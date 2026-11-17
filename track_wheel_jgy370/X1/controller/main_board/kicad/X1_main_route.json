@@ -1,9 +1,16 @@
 {
- "dsn_sha256": "da2d5b54b49ec791cece5b36ecae363f3abaeac17ea8ea68e4b914ab0ee5bb48",
+ "dsn_sha256": "943984cb3c1ddd1099804d05ac87708355f241756ab4f52de52ec6cbae1d564b",
  "session": "X1_main.ses",
  "routed_by": "ghcr.io/freerouting/freerouting:2.1.0, 40 min (rev A); for rev B the wiring of the removed 6 V buck and 6 V sense nets was filtered out of that session and the rest imported with --ses",
  "note": "build_pcb.py imports these sessions while the DSNs it exports still have these hashes",
- "repair_dsn_sha256": "0820277ddbb7770bd0c8ee66645b9f51068fa3c3373bcaa18730c5bdcc1ee03a",
+ "repair_dsn_sha256": "82f86fab69db26f06522bfa04a4ed3eed03f555d7e33e3853db64e4dcb5f54ce",
  "repair_session": "X1_main_repair.ses",
- "repair_routed_by": "ghcr.io/freerouting/freerouting:2.1.0, 6 min"
+ "repair_routed_by": "ghcr.io/freerouting/freerouting:2.1.0, 6 min",
+ "kept": [
+  {
+   "reason": "2026-11-14: J102-J109 swapped for JST top-entry headers (B2B/B4B-XH-A, B3B/B4B-PH-K-S), whose KiCad footprints have the same pads; the DSNs differ only in the footprint names and outline graphics, so both sessions were imported unchanged",
+   "dsn_sha256_before": "da2d5b54b49ec791cece5b36ecae363f3abaeac17ea8ea68e4b914ab0ee5bb48",
+   "repair_dsn_sha256_before": "0820277ddbb7770bd0c8ee66645b9f51068fa3c3373bcaa18730c5bdcc1ee03a"
+  }
+ ]
 }

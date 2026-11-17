@@ -12,20 +12,20 @@ Every connector is named by its model number here; the full catalogue (maker, co
 
 | # | Cable | From | To | Wire | Connector at the board / joint |
 |---|---|---|---|---|---|
-| 1 | Boom drive L | V6-U60 boom L rear cap (its own 3 mm sleeve) | J104 | 2 × 28 AWG PTFE in the sleeve | JST S2B-XH-A header ← XHP-2 housing, 2 × SXH-001T-P0.6 |
+| 1 | Boom drive L | V6-U60 boom L rear cap (its own 3 mm sleeve) | J104 | 2 × 28 AWG PTFE in the sleeve | JST B2B-XH-A top-entry header ← XHP-2 housing, 2 × SXH-001T-P0.6 |
 | 2 | Boom drive R | V6 boom R | J105 | same | same |
 | 3 | Stick drive | V6 stick (on the boom top) | J106 | same | same |
 | 4 | Bucket drive | V6 bucket (on the stick) | J107 | same | same |
-| 5 | Swing motor | JGY-370 tabs behind T101 | J103 | 2 × 26 AWG silicone, 100 nF across the tabs | S2B-XH-A ← XHP-2 |
-| 6 | Tracks | slip-ring rotor leads | J102 | the ring's 6 leads, 4 used | JST S4B-XH-A ← XHP-4, 4 × SXH-001T-P0.6 |
+| 5 | Swing motor | JGY-370 tabs behind T101 | J103 | 2 × 26 AWG silicone, 100 nF across the tabs | B2B-XH-A ← XHP-2 |
+| 6 | Tracks | slip-ring rotor leads | J102 | the ring's 6 leads, 4 used | JST B4B-XH-A ← XHP-4, 4 × SXH-001T-P0.6 |
 | 7 | Track motors (lower) | each JGY-370 in its pod | the slip-ring stator leads, beside the ring | 2 × 26 AWG silicone, 100 nF across the tabs | JST SM 2-pin: SMR-02V-B (pins, stator) ← SMP-02V-BC (sockets, motor), two joints |
 | 8 | 12 V link | main switch KCD1-101 (toolbox) | J101 on the board's front edge | 2 × 20 AWG silicone | Amass XT30PW-M (board) ← XT30U-F (cable) |
 | 9 | Battery feed | 5 A MINI fuse in the Littelfuse MINI FHM holder (toolbox) | the feed socket hanging in the hood cavity | 2 × 20 AWG silicone | Amass XT30U-M (feed) |
 | 10 | Battery hatch lead | HX-3S-01 BMS on the hatch | that socket | the hatch's own 150 mm lead, 20 AWG | Amass XT30U-F (hatch lead) |
 | 11 | Charge jack | 5.5 × 2.1 metal panel jack (DC-022B pattern, M8) | fuse (battery side of the switch) and GND | 2 × 22 AWG | solder lugs |
-| 12 | Toolbox lamp | J108 pins 1, 3 | LED in the B103 toolbox front | 2 × 26 AWG | JST S3B-PH-K-S ← PHR-3, 3 × SPH-002T-P0.5S; SM joint in the right bay (SMR-02V-B on the board side, SMP-02V-BC on the lamp side) |
+| 12 | Toolbox lamp | J108 pins 1, 3 | LED in the B103 toolbox front | 2 × 26 AWG | JST B3B-PH-K-S ← PHR-3, 3 × SPH-002T-P0.5S; SM joint in the right bay (SMR-02V-B on the board side, SMP-02V-BC on the lamp side) |
 | 13 | Roof lamps | J108 pins 1, 2 | 2 LEDs in the B102 cab roof | 2 × 0.2 mm enamelled wire inside the cab shell, spliced to 26 AWG | the same PHR-3 |
-| 14 | Expansion | J109 | — | — | JST S4B-PH-K-S, not fitted (PHR-4 when used) |
+| 14 | Expansion | J109 | — | — | JST B4B-PH-K-S, not fitted (PHR-4 when used) |
 | 15 | USB service | J201 through the B102 slot | — | — | Korean Hroparts TYPE-C-31-M-12 |
 
 The cut lengths, the pins of every plug and the notes are in [wiring/harness.csv](wiring/harness.csv) (routed length + service slack, rounded up to 10 mm). Connector pin assignments:
@@ -53,7 +53,7 @@ The V6 sleeve leaves each drive's rear cap sideways on its board side: 7 mm ahea
 
 T101 has two full-width bulkheads under the plate (X −38..−30 and 30..38) and the plate covers X −21..111, so the space under the plate is three closed compartments and a cable can only leave through the 9 mm gap behind the plate's rear edge. The hood's inboard front wall stands in that gap (X −25..−23), which is why body B1 rev B **issue 2** raises that wall's bottom edge to Z 156 over |Y| 38–56 on each half (`x1_body.py HARNESS_NOTCH`).
 
-Each side's **slot** (8 × 7 at vehicle X 0..8, |Y| 36..43) takes the post cable and the trough cable down into the middle compartment. They run rearward on T101's floor, rise at X −24.5 through the notch, bend back over T101's rear bulkhead at Z 149, cross the left rib at X −36 and −32 (two cables at Z 142, two at 146.5, between the hood wall at −25 and the front body sleeve at −40; the right side's pair first crosses over the hub well at Z 144–149), descend to the bay run (Y 76, Z 122, above the mated plugs) and turn down into their plugs. The last 25 mm are the bare wires in the 3 mm gap between the T101 rib (Y 69) and the plug ends (Y 72).
+Each side's **slot** (8 × 7 at vehicle X 0..8, |Y| 36..43) takes the post cable and the trough cable down into the middle compartment. They run rearward on T101's floor, rise at X −24.5 through the notch, bend back over T101's rear bulkhead at Z 149, cross the left rib at X −36 and −32 (two cables at Z 142, two at 146.5, between the hood wall at −25 and the front body sleeve at −40; the right side's pair first crosses over the hub well at Z 144–149), descend to the bay run (Y 78, Z 130, beside the rib and above the mated plugs, whose wires end at Z 125.3) and, each at its own plug, turn outboard over it and come straight down onto it: the board's inboard headers are top entry since 2026-11-14. The last 15–16 mm are the bare wires out of the sleeve (plus the 4 mm drawn with the plug).
 
 ### 2.3 The upper's other cables
 
@@ -85,7 +85,7 @@ Method: every cable as a tube of its radius (the 3 mm sleeve at Ø3.5; the plug 
 | Bucket loop at O | 447 | 10.8 mm (right half) | as the stick loop |
 | Boom L / R drops into the troughs | 447 | 8.2 mm (pin A spacers) | R 9 then ≥ 7.7; 20 mm slide |
 | Post to slot, both sides | 447 | 10.7 mm (T101) | |
-| Fixed cables (upper and lower), 15 runs | carry pose | ≥ 1.1 mm (plug tails to the rib) | holes they use are excluded by name |
+| Fixed cables (upper and lower), 15 runs | carry pose | ≥ 1.6 mm (the 12 V link to T101); the plug tails ≥ 9.7 mm (1.1 mm to the rib with the side-entry headers before 2026-11-14) | holes they use are excluded by name |
 
 Space probes: 26 mm of clear height under each slot; the middle compartment floor (X −28..8, |Y| 38–54, Z 111–135) and the rise gap through the notch (X −29..−22, |Y| 39–55, Z 110–154) are empty; so is the crossing over the hub well (X −38..−28, Z 139–149).
 

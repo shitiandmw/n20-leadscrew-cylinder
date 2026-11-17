@@ -3,9 +3,8 @@
 Every builder returns a list of (sub-name, shape, colour) in the part's local frame, so a caller can place the
 pieces (place()) and keep the colours for the viewer and the STEP export. Frames are chosen for mating:
 
-  XH / PH housings      mating axis +Y (the housing is pushed in +Y into a side-entry header whose face is at y = 0);
-                        pins along X at the pitch, centred; the board surface is z = 0 (the housing floats above it as
-                        in the mated position).
+  XH / PH housings      mated on a top-entry header (pushed down, -Z): board top z = 0, pins along X at the pitch,
+                        centred, the pin row at y = 0; the wires leave the top. The headers use the same frame.
   XT30U-F / XT30U-M     one mated frame: the male's mouth is x = 0, the male body and wires at -X, the female's nose
                         inside it and her body and wires at +X; the two contacts along Y at 5.0 pitch.
   SM plug / receptacle  one mated frame: the receptacle's mouth is x = 0, its body and wires at -X; the plug sits in
@@ -18,9 +17,10 @@ pieces (place()) and keep the colours for the viewer and the STEP export. Frames
   Mini blade holder     body centred, leads along Y.
 
 Sources (dimensions in mm):
-  JST XH catalogue eXH.pdf: housing XHP-2/-4 (B 7.3 / 12.3 wide, 5.7 + 0.25 lock, 7.5 long); side-entry headers
-      S2B-XH-A / S4B-XH-A (B 7.4 / 12.4); contacts SXH-001T-P0.6.
-  JST PH catalogue ePH.pdf: housing PHR-3/-4 (B 7.8 / 9.8, 4.5 x 6.85); side-entry headers S3B/S4B-PH-K-S (7.9 / 9.9).
+  JST XH catalogue eXH.pdf: housing XHP-2/-4 (B 7.3 / 12.3 wide, 5.7 + 0.25 lock, 7.5 long); top-entry headers
+      B2B-XH-A / B4B-XH-A (B 7.4 / 12.4, 5.75 deep, 7.0 tall, 9.8 mated); contacts SXH-001T-P0.6.
+  JST PH catalogue ePH.pdf: housing PHR-3/-4 (B 7.8 / 9.8, 4.5 x 6.85); top-entry headers B3B/B4B-PH-K-S (B 7.9 / 9.9,
+      4.5 deep, 6.0 tall, 8.0 mated).
   JST SM catalogue eSM.pdf: SMR-02V-B receptacle 7.5 x 8 x 18.2 (10.2 front), SMP-02V-BC plug 7.4 x 5.5 x 11.7;
       contacts SYM-001T-P0.6 (pin) and SHF-001T-0.8BS (socket).
   Amass drawings XT30U-F (10.2 x 5.2, 12.4 long, 3.0 solder tail), XT30U-M (13.7 long), XT30PW-M (on the board).
@@ -87,72 +87,72 @@ def place(parts, origin=(0, 0, 0), rot=None, prefix=''):
 
 
 # ------------------------------------------------------------------ JST XH (2.5 mm)
-def xh_housing(n, wire_len=6.0, wire_colours=None, lock_up=True):
-    """XHP-n housing in the mated position of a side-entry header whose mating face is y = 0 and board z = 0: the
-    housing's leading face is 6.0 inside the header (the header body is 7.0 deep), so 1.5 of its 7.5 length and the
-    0.25 lock rib stand proud of the header face. The two (or four) wires leave the rear in -Y."""
-    pitch, B, H, L = 2.5, 2.5 * (n - 1) + 4.8, 5.7, 7.5
-    y0 = -1.5                                        # rear face
-    z0 = 0.25                                        # floats 0.25 above the board inside the 6.1 header
-    body = box(-B / 2, B / 2, y0, y0 + L, z0, z0 + H).edges('|Y').chamfer(0.4)
-    # pin windows at the front, wire holes at the rear (Ø1.6, where the crimped contacts sit)
+# The X1 main board's JST headers are top entry since 2026-11-14 (side-entry S*B before). Frame of the headers and of
+# the housings mated on them: board top z = 0, pins along X at the pitch, centred, the pin row at y = 0; the header's
+# far side from the pin row (3.4 XH, 2.8 PH) toward -y.
+XH_TOP = dict(header_h=7.0, near=2.35, far=3.4, mated=9.8)        # eXH.pdf p.2 and p.5 (B2B-XH-A)
+PH_TOP = dict(header_h=6.0, near=1.7, far=2.8, mated=8.0)         # ePH.pdf p.1 and p.3 (B*B-PH-K-S)
+
+
+def xh_housing(n, wire_len=6.0, wire_colours=None):
+    """XHP-n housing pushed down onto a top-entry B{n}B-XH-A header: B x 5.7 (+ 0.25 latch ramp) x 7.5 long, its top 9.8
+    above the board (the mated height), so its leading face is 2.3 above the board inside the 7.0 header. Centred on the
+    header body; the latch ramp is drawn on the -y face. The wires leave the top (+Z) over the pins."""
+    pitch, B, T, L, top = 2.5, 2.5 * (n - 1) + 4.8, 5.7, 7.5, XH_TOP['mated']
+    yc = (XH_TOP['near'] - XH_TOP['far']) / 2                     # -0.525: the header body's centre
+    body = box(-B / 2, B / 2, yc - T / 2, yc + T / 2, top - L, top).edges('|Z').chamfer(0.4)
     for i in range(n):
         x = (i - (n - 1) / 2) * pitch
-        body = body.cut(box(x - .45, x + .45, y0 + L - 1.5, y0 + L + .1, z0 + 1.2, z0 + 4.5))
-        body = body.cut(cyl('y', .8, y0 - .1, y0 + 2.0, x, z0 + H / 2))
-    # lock: the XH housing has a ramped latch on its top face, offset to the lock side
-    lock = box(-B / 2 + 1.0, B / 2 - 1.0, y0 + 1.6, y0 + 5.0, z0 + H - .01, z0 + H + .25) if lock_up else None
-    parts = [('housing', body.union(lock) if lock is not None else body, NYLON_WHITE)]
+        body = body.cut(cyl('z', .8, top - 2.0, top + .1, x, 0.0))                     # wire holes over the contacts
+    lock = box(-B / 2 + 1.0, B / 2 - 1.0, yc - T / 2 - .25, yc - T / 2 + .01, top - 5.0, top - 1.6)
+    parts = [('housing', body.union(lock), NYLON_WHITE)]
     cols = wire_colours or ([RED, BLACK_WIRE] + [(.9, .5, .1), (.5, .2, .6)])[:n]
     for i in range(n):
         x = (i - (n - 1) / 2) * pitch
-        parts.append((f'wire_{i + 1}', cyl('y', .45, y0 - wire_len, y0 + .5, x, z0 + H / 2), cols[i]))
+        parts.append((f'wire_{i + 1}', cyl('z', .45, top - .5, top + wire_len, x, 0.0), cols[i]))
     return parts
 
 
 def xh_header(n):
-    """S{n}B-XH-A side-entry header for a stand-alone model (the board carries KiCad's own model): 6.1 high, 7.0 deep
-    body, pins 2.5 pitch bent down 3.4 behind the body. Mating face at y = 0, board at z = 0."""
-    pitch, B = 2.5, 2.5 * (n - 1) + 4.9
-    body = box(-B / 2, B / 2, 0.0, 7.0, 0.0, 6.1)
-    body = body.cut(box(-B / 2 + .8, B / 2 - .8, -.1, 6.0, .8, 5.3))                    # cavity for the 5.7 housing
-    body = body.cut(box(-B / 2 + 1.5, B / 2 - 1.5, -.1, 2.0, 5.2, 6.2))                 # latch window
-    pins = []
-    for i in range(n):
-        x = (i - (n - 1) / 2) * pitch
-        pins.append(box(x - .32, x + .32, 2.0, 7.0 + 3.4, 2.7, 3.34))                     # horizontal post
-        pins.append(box(x - .32, x + .32, 7.0 + 3.4 - .64, 7.0 + 3.4, -3.4, 3.34))        # down into the board
+    """B{n}B-XH-A top-entry header for a stand-alone model (the board carries KiCad's own model): body B x 5.75, 7.0
+    tall, open at the top; the pin row 2.35 from its +y face and 3.4 from its -y face, where the latch window is; square
+    0.64 posts from 3.4 below the board."""
+    pitch, B, h = 2.5, 2.5 * (n - 1) + 4.9, XH_TOP['header_h']
+    y0, y1 = -XH_TOP['far'], XH_TOP['near']
+    body = box(-B / 2, B / 2, y0, y1, 0.0, h)
+    body = body.cut(box(-B / 2 + .8, B / 2 - .8, y0 + .8, y1 - .8, 1.5, h + .1))       # cavity for the housing
+    body = body.cut(box(-B / 2 + 1.5, B / 2 - 1.5, y0 - .1, y0 + .9, 3.0, h - 1.0))     # latch window
+    pins = [box(x - .32, x + .32, -.32, .32, -3.4, h - 1.0) for x in ((i - (n - 1) / 2) * pitch for i in range(n))]
     return [('header', body, NYLON_WHITE), ('pins', union_all(pins), TIN)]
 
 
 # ------------------------------------------------------------------ JST PH (2.0 mm)
 def ph_housing(n, wire_len=6.0, wire_colours=None):
-    """PHR-n housing mated into a side-entry S{n}B-PH-K-S header (face y = 0, board z = 0): 4.5 high, 6.85 long, of
-    which 1.5 stands proud of the header face."""
-    pitch, B, H, L = 2.0, 2.0 * (n - 1) + 3.8, 4.5, 6.85
-    y0, z0 = -1.5, 0.2
-    body = box(-B / 2, B / 2, y0, y0 + L, z0, z0 + H).edges('|Y').chamfer(0.3)
+    """PHR-n housing pushed down onto a top-entry B{n}B-PH-K-S header: B x 4.5 x 6.85 long, its top 8.0 above the board
+    (the mated height). Centred on the header body; latch ramp on the -y face; the wires leave the top."""
+    pitch, B, T, L, top = 2.0, 2.0 * (n - 1) + 3.8, 4.5, 6.85, PH_TOP['mated']
+    yc = (PH_TOP['near'] - PH_TOP['far']) / 2                     # -0.55
+    body = box(-B / 2, B / 2, yc - T / 2, yc + T / 2, top - L, top).edges('|Z').chamfer(0.3)
     for i in range(n):
         x = (i - (n - 1) / 2) * pitch
-        body = body.cut(box(x - .35, x + .35, y0 + L - 1.2, y0 + L + .1, z0 + 1.0, z0 + 3.5))
-        body = body.cut(cyl('y', .65, y0 - .1, y0 + 1.6, x, z0 + H / 2))
-    lock = box(-B / 2 + .8, B / 2 - .8, y0 + 1.2, y0 + 4.2, z0 + H - .01, z0 + H + .3)
+        body = body.cut(cyl('z', .65, top - 1.6, top + .1, x, 0.0))
+    lock = box(-B / 2 + .8, B / 2 - .8, yc - T / 2 - .3, yc - T / 2 + .01, top - 4.2, top - 1.2)
     parts = [('housing', body.union(lock), NYLON_WHITE)]
     cols = wire_colours or ([RED, (.9, .5, .1), BLACK_WIRE, (.5, .2, .6)])[:n]
     for i in range(n):
         x = (i - (n - 1) / 2) * pitch
-        parts.append((f'wire_{i + 1}', cyl('y', .4, y0 - wire_len, y0 + .5, x, z0 + H / 2), cols[i]))
+        parts.append((f'wire_{i + 1}', cyl('z', .4, top - .5, top + wire_len, x, 0.0), cols[i]))
     return parts
 
 
 def ph_header(n):
-    pitch, B = 2.0, 2.0 * (n - 1) + 3.9
-    body = box(-B / 2, B / 2, 0.0, 6.0, 0.0, 4.9).cut(box(-B / 2 + .6, B / 2 - .6, -.1, 5.0, .6, 4.3))
-    pins = []
-    for i in range(n):
-        x = (i - (n - 1) / 2) * pitch
-        pins.append(box(x - .25, x + .25, 1.5, 6.0 + 1.6, 2.2, 2.7))
-        pins.append(box(x - .25, x + .25, 6.0 + 1.6 - .5, 6.0 + 1.6, -3.0, 2.7))
+    """B{n}B-PH-K-S top-entry header (stand-alone model): body B x 4.5, 6.0 tall, open at the top; the pin row 1.7 from
+    its +y face; 0.5 square posts from 3.0 below the board."""
+    pitch, B, h = 2.0, 2.0 * (n - 1) + 3.9, PH_TOP['header_h']
+    y0, y1 = -PH_TOP['far'], PH_TOP['near']
+    body = box(-B / 2, B / 2, y0, y1, 0.0, h).cut(box(-B / 2 + .6, B / 2 - .6, y0 + .6, y1 - .6, 1.0, h + .1))
+    body = body.cut(box(-B / 2 + 1.2, B / 2 - 1.2, y0 - .1, y0 + .7, 2.5, h - 1.0))     # latch window
+    pins = [box(x - .25, x + .25, -.25, .25, -3.0, h - 1.0) for x in ((i - (n - 1) / 2) * pitch for i in range(n))]
     return [('header', body, NYLON_WHITE), ('pins', union_all(pins), TIN)]
 
 
@@ -379,8 +379,8 @@ def fuse_holder_mini(lead_len=15.0):
     return [('body', body.union(cover).union(strap), CLEAR_BLACK), ('leads', leads, RED)]
 
 
-ALL = dict(XHP_2=lambda: xh_housing(2), XHP_4=lambda: xh_housing(4), S2B_XH_A=lambda: xh_header(2), S4B_XH_A=lambda: xh_header(4),
-           PHR_3=lambda: ph_housing(3), PHR_4=lambda: ph_housing(4), S3B_PH_K_S=lambda: ph_header(3), S4B_PH_K_S=lambda: ph_header(4),
+ALL = dict(XHP_2=lambda: xh_housing(2), XHP_4=lambda: xh_housing(4), B2B_XH_A=lambda: xh_header(2), B4B_XH_A=lambda: xh_header(4),
+           PHR_3=lambda: ph_housing(3), PHR_4=lambda: ph_housing(4), B3B_PH_K_S=lambda: ph_header(3), B4B_PH_K_S=lambda: ph_header(4),
            XT30U_F=xt30u_f, XT30U_M=xt30u_m, SMR_02V_B=sm_receptacle, SMP_02V_BC=sm_plug,
            Keystone_1043=keystone_1043, INR18650_35E=cell_18650, HX_3S_01=bms_hx3s01, KCD1_101=kcd1_101,
            DC_jack_5521=dc_jack_5521, Mini_FHM_fuse_holder=fuse_holder_mini)

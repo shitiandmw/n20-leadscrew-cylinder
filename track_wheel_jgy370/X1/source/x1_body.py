@@ -93,8 +93,7 @@ BOARD = dict(x=(-136.0, -40.0), y=(84.0, 148.0), z=(110.0, 111.6))
 # top (spec C1 B4: the slot moves down from Z 123.3, where a devkit on headers had it); plug overmolds to 14.4 x 8.4
 USB = dict(x=-98.0, z=113.2, slot=(15.0, 9.0), r=3.0)
 MAIN_BOARD_PARTS = X.ROOT / 'controller' / 'main_board' / 'X1_main_board_B_parts.json'   # written by check_pcb.py
-PLUG_DEPTH = dict(XH=12.0, PH=10.0)    # mated JST plug and lead bend beyond a side-entry header's face (check envelope)
-HEADER_FACE_Y = BOARD['y'][0] + 0.54   # 84.54: mating faces of the side-entry headers (KiCad's JST models, board_step.py)
+PLUG_LEAD_BEND = 10.0                  # check envelope of each mated JST plug: up to its top and this much above it (wires, bend)
 BOARD_TOP_Z = BOARD['z'][0] + 1.51     # 111.51: the board top in the KiCad STEP
 SWITCH = dict(c=(34.5, -104.5), cut=(19.0, 13.0), bezel=(21.2, 15.1), depth=18.9)   # KCD1-101 (Finglai drawing)
 JACK = dict(y=-141.0, z=150.0, hole_r=4.1)             # 5.5 x 2.1 metal panel jack, M8 thread, 8 mm hole (DC-022B pattern)
@@ -681,10 +680,12 @@ def board_kg():
 
 
 def main_board():
-    """The main board rev A as KiCad exported it (board_step.py: the PCB and every part's 3D model, in colour groups)
-    and the mated harness plugs of its inboard side-entry headers (stdparts: JST XHP-2 / XHP-4 / PHR-3 drawn from the
-    JST catalogue), each with 4 mm of its wires. J109 (expansion) stays empty. The interference checks use the parts'
-    courtyard boxes (X1_main_board_B_parts.json) and the old 12 / 10 mm plug envelopes, not the detailed solids."""
+    """The main board rev B as KiCad exported it (board_step.py: the PCB and every part's 3D model, in colour groups)
+    and the mated harness plugs of its inboard headers, top entry since 2026-11-14 (stdparts: JST XHP-2 / XHP-4 / PHR-3
+    drawn from the JST catalogue, pushed down onto B2B/B4B-XH-A and B3B-PH-K-S), each with 4 mm of its wires going up.
+    J109 (expansion) stays empty. The interference checks use the parts' courtyard boxes (X1_main_board_B_parts.json)
+    and, for each plug, a box over its header's courtyard up to the plug top (9.8 XH / 8.0 PH above the board) and
+    PLUG_LEAD_BEND above it, not the detailed solids."""
     import json
     d = json.loads(MAIN_BOARD_PARTS.read_text())
     assert d['board'] == dict(x=list(BOARD['x']), y=list(BOARD['y']), z=list(BOARD['z'])), 'main board outline moved'
@@ -697,13 +698,15 @@ def main_board():
     plugs, env, wires = [], [], {}
     for p in d['parts']:
         kind = p['value'][:2] if p['value'].startswith(('XH ', 'PH ')) else None      # JST XH / PH headers
-        if kind and abs(p['y'][0] - BOARD['y'][0]) < 0.5 and p['ref'] != 'J109':     # side-entry, face on the inboard edge
-            n = int(p['value'].split()[1][0])
-            xc = sum(p['x']) / 2
+        if kind and p['ref'] != 'J109':                                                   # top entry; J109 not fitted
+            n, pitch = int(p['value'].split()[1][0]), (2.5 if kind == 'XH' else 2.0)
+            assert p['rot'] == 0, (p['ref'], p['rot'])                                     # pins along +X from pin 1
+            xc, y_pins = p['at'][0] + pitch * (n - 1) / 2, p['at'][1]
             parts = SP.xh_housing(n, wire_len=4.0) if kind == 'XH' else SP.ph_housing(n, wire_len=4.0)
-            for nm, s, c in SP.place(parts, (xc, HEADER_FACE_Y, BOARD_TOP_Z)):
+            for nm, s, c in SP.place(parts, (xc, y_pins, BOARD_TOP_Z)):
                 (plugs if nm == 'housing' else wires.setdefault(c, [])).append(s)
-            env.append(box(*p['x'], BOARD['y'][0] - PLUG_DEPTH[kind], BOARD['y'][0], *p['z']))
+            top = BOARD_TOP_Z + (SP.XH_TOP if kind == 'XH' else SP.PH_TOP)['mated']
+            env.append(box(*p['x'], *p['y'], BOARD_TOP_Z, top + PLUG_LEAD_BEND))
     e['board_plugs'] = (_union(plugs), SP.NYLON_WHITE, .002 * len(plugs), _union(env))
     cname = {SP.RED: 'red', SP.BLACK_WIRE: 'black', (.9, .5, .1): 'orange', (.5, .2, .6): 'purple'}
     for c, lst in wires.items():

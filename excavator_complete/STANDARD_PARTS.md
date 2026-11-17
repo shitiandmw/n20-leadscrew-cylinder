@@ -228,7 +228,7 @@ Every place that takes a bought standard component: bearings and the slewing rin
 | Part | Designation | Subsystem | Position X, Y, Z |
 |---|---|---|---|
 | battery lead XT30 | Amass XT30U-F on the hatch lead (CONNECTORS.md FEED) | electronics | -100.0, -42.0, 165.0 |
-| board plugs | 7 mated JST plugs: 5 x XHP-2, XHP-4, PHR-3 (CONNECTORS.md J102-J108) | electronics | -81.5, 84.7, 114.6 |
+| board plugs | 7 mated JST plugs: 5 x XHP-2, XHP-4, PHR-3 (CONNECTORS.md J102-J108) | electronics | -81.5, 93.1, 119.8 |
 | charge jack | 5.5 x 2.1 panel jack (DC-022B) | electronics | 61.2, -141.0, 150.0 |
 | feed socket XT30 | Amass XT30U-M on the feed (CONNECTORS.md FEED) | electronics | -100.0, -42.0, 159.9 |
 | fuse holder 5A | Littelfuse MINI FHM holder + 5 A | electronics | 30.0, -129.4, 146.7 |

@@ -277,12 +277,34 @@
   },
   "clear": true
  },
- "inboard_plugs_vs_rib": {
-  "plug_wire_end_y": 79.0,
+ "inboard_plugs": {
   "rib_outer_face_y": 69.0,
-  "gap_mm": 10.04,
-  "note": "a mated XHP-2 housing is 7.5 long and needs about 12 mm with its wire bend: it cannot be mated with the half on the machine. Mate the plugs with the half standing beside the machine (BODY.md slack), or fit top-entry headers (B2B-XH-A / B4B-XH-A, DESIGN.md alternatives) on a rev B board."
+  "gap_to_rib_mm": 18.69,
+  "lift_path": [
+   {
+    "dz": 2.0,
+    "overlaps": [],
+    "gap_mm": 6.055
+   },
+   {
+    "dz": 5.0,
+    "overlaps": [],
+    "gap_mm": 7.067
+   },
+   {
+    "dz": 14.0,
+    "overlaps": [],
+    "gap_mm": 2.054
+   },
+   {
+    "dz": 30.0,
+    "overlaps": [],
+    "gap_mm": 1.8
+   }
+  ],
+  "clear": true,
+  "note": "top-entry headers: each plug goes on straight down. The left half's hood covers the board (Z 199 over J102, Z 217 over the rest), so the plugs are mated with the half standing beside the machine (BODY.md slack), as before."
  },
  "status": "PASS",
- "seconds": 648.4
+ "seconds": 679.8
 }

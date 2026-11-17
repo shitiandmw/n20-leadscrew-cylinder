@@ -12,7 +12,8 @@ The body is one printed square tube, 17.3 x 14.7 mm, printed front end down:
     Ø4.8 hole for the gearbox bushing and the M4 leadscrew;
   - the board slot on +X, separated from the bore by an integral 1 mm PETG partition;
   - solid +X corners with two M1 heat-set inserts at each end face for the end-cap screws, each
-    insert placed where its corner is thickest (rear and front positions differ).
+    insert placed where its corner is thickest (rear and front positions differ), and a third front
+    insert on the motor side, in the corner thickened by the key rib.
 """
 import math
 
@@ -26,15 +27,22 @@ BODY_R = 1.5                  # outer corner radius
 WALL_Z = (0.0, 2.0)           # motor wall
 WALL_HOLE_D = 4.8             # the Ø4 bushing and the M4 thread pass the wall with 0.4 mm all round
 MOTOR_SCREWS = ((0.0, 4.5), (0.0, -4.5))   # M1.6 holes in the gearbox front face
-# End caps: 2 x M1 x 8 pan-head screws each, into brass heat-set inserts pressed into the body's end faces.
-# The PETG round a 2.0 mm knurl, measured on the body section (2026-11-11):
+# End caps: M1 x 8 pan-head screws into brass heat-set inserts pressed into the body's end faces, two in the rear
+# face and three in the front face. The PETG round a 2.0 mm knurl, measured on the body section (2026-11-11):
 #   rear end, behind the motor wall: no board groove there, only the wire channel (|y| <= OPEN_Y), so the
 #     corner is 4.1 mm tall; at (7.45, +-5.30) the knurl has 1.05 mm all round (the section's largest circle);
 #   front end: the board groove (|y| <= SLOT_Y) runs out to the front face; the largest circle is at
-#     (6.85, +-5.65), 0.70 mm round the knurl, between the groove's inner corner, the side face and the bore.
-# Insert makers ask for at least 1.5x, ideally 2x, the knurl diameter: front 1.70x, rear 2.05x.
+#     (6.85, +-5.65), 0.70 mm round the knurl, between the groove's inner corner, the side face and the bore;
+#   front end, motor side (2026-11-14): the bore's key rib (CARRIER_KEY) makes its (-X, -Y) corner the one thick
+#     spot on the motor side. At (-5.76, -5.56) the knurl has 0.78 mm all round: 1.79 mm from both side faces and
+#     from the rib's face, the section's largest circle with the rib at 2.5 mm. The rear cap hooks onto the
+#     motor-side wall (REAR_HOOK), but the front cap is threaded onto the rod and can only go on straight; with
+#     both its screws on +X, a push on its spigot tipped it about the body's +X edge and each screw carried about
+#     1.9x the push. The third screw puts the push inside the screws' triangle: 0.52x at most
+#     (images/front_cap_screws.png).
+# Insert makers ask for at least 1.5x, ideally 2x, the knurl diameter: front 1.70x and 1.78x, rear 2.05x.
 REAR_INSERTS = ((7.45, 5.30), (7.45, -5.30))
-FRONT_INSERTS = ((6.85, 5.65), (6.85, -5.65))
+FRONT_INSERTS = ((6.85, 5.65), (6.85, -5.65), (-5.76, -5.56))
 INSERT = dict(name="M1 x 1.8 x 2", thread="M1 x 0.25", od=2.0, length=1.8, bore=0.8,
               hole=1.7, hole_depth=3.5, recess=0.1)
 #   bought as "M1 x 1.8 x 2" (thread x length x knurl diameter), pressed in with a soldering iron until its
@@ -145,7 +153,8 @@ CLAMP_X0 = 5.4                # cable clamp plate from here to the +X face, besi
 CLAMP_T = 3.0                 # clamp plate thickness; it sits CLAMP_POCKET deep in the rear cap
 CLAMP_POCKET = 1.0             # leaves 1.7 mm of cap over the groove
 CLAMP_SQUEEZE = 0.4           # the 3.0 mm sleeve is held in a 2.6 mm high groove, plus ridges
-CARRIER_KEY = 2.0             # corner rib in the bore (-X, -Y): the rod only fits magnet-to-board
+CARRIER_KEY = 2.5             # corner rib in the bore (-X, -Y): the rod only fits magnet-to-board. 2.0 until
+                              # 2026-11-14; 2.5 gives the third front insert its 0.78 mm (FRONT_INSERTS)
 
 VARIANTS = {                  # in order of screw length
     "S": dict(screw_length=55.0, stroke=40.0),

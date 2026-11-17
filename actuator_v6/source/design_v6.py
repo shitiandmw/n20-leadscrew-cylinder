@@ -8,9 +8,9 @@ Printed: 01 body, 02 front cap, 03 rear cap, 04 rod (carrier + rod, one part), 0
 06 cable clamp.
 Load path: the motor is screwed (2 x M1.6, countersunk) to the wall inside the body; its M4
 leadscrew drives a thin brass M4 nut held in the carrier; each end cap has 2 x M1 screws into brass
-heat-set inserts in the solid corners on the board side, and the rear cap also hooks onto the end of the
-motor-side wall (layout.REAR_HOOK), so a pull does not tip it about its screwed side; the rod eye is held by one
-M2 cross screw.
+heat-set inserts in the solid corners on the board side, the rear cap also hooks onto the end of the
+motor-side wall (layout.REAR_HOOK) and the front cap has a third screw in the motor-side corner by the key rib,
+so neither cap tips about its board side under load; the rod eye is held by one M2 cross screw.
 Cable: the two cable wires leave through a slot in the rear cap (a knot inside stops them) and
 run out sideways in a 3 mm sleeve, which the clamp plate grips under the two rear-cap screws.
 """
@@ -135,6 +135,18 @@ def key_cut(clear, z0, z1):
             .extrude(z1 - z0).translate((0, 0, z0)))
 
 
+def rib_mouth(z_face, depth):
+    """The key rib's side of its face (x + y < c) near the body's front face, the face set back 45 degrees by
+    `depth` at the front face: what the bore's lead-in leaves of the rib. The rib then reaches the front face,
+    so the third front insert keeps its wall there, and its edge takes the first layer's squash like the bore's."""
+    c0 = -L.BORE_X - L.BORE_Y + L.CARRIER_KEY
+    tri = lambda c, z: cq.Wire.makePolygon([cq.Vector(-20, -20, z), cq.Vector(-20, c + 20, z),
+                                            cq.Vector(c + 20, -20, z)], close=True)
+    za, zb = z_face - depth - 0.01, z_face + 0.02
+    ca, cb = c0 + 0.01 * math.sqrt(2), c0 - (depth + 0.02) * math.sqrt(2)
+    return cq.Workplane(obj=cq.Solid.makeLoft([tri(ca, za), tri(cb, zb)], True))
+
+
 # ---- printed parts -----------------------------------------------------------------------
 def make_body(d, insert_holes=True):
     z0, z1 = d["body_z"]
@@ -158,9 +170,11 @@ def make_body(d, insert_holes=True):
     b = b.cut(box(sx0 - px + 0.02, 2 * L.OPEN_Y, z1 - w1 + 1,
                   x=(px + sx0) / 2 + 0.01, z=(w1 + z1 + 1) / 2))
     # The front end is on the bed: lead-ins take the first layer's squash at the bore mouth (the carrier passes it
-    # with 0.15 mm) and at the board slot (0.05 mm). The partition is chamfered on its bore side only, so it is
-    # 0.7 mm thick at the front face; the board ends 0.5 mm inside the body, behind the front cap's tongue.
-    b = b.cut(lead_in(-bx, bx, -by, by, L.BORE_R, z1, FRONT_LEAD_IN, facing=+1))
+    # with 0.15 mm, the key rib with 0.2 mm) and at the board slot (0.05 mm). The partition is chamfered on its bore
+    # side only, so it is 0.7 mm thick at the front face; the board ends 0.5 mm inside the body, behind the front
+    # cap's tongue. The bore's lead-in follows the key rib's face, so the rib runs out to the front face.
+    b = b.cut(lead_in(-bx, bx, -by, by, L.BORE_R, z1, FRONT_LEAD_IN, facing=+1)
+              .cut(rib_mouth(z1, FRONT_LEAD_IN)))
     b = b.cut(lead_in(sx0, sx1, -L.SLOT_Y, L.SLOT_Y, 0, z1, FRONT_LEAD_IN, facing=+1))
     # wire channel beside the motor, and the wire passage through the wall
     b = b.cut(box(sx1 - bx + 0.02, 2 * L.OPEN_Y, w0 - z0 + 1, x=(bx + sx1) / 2, z=(z0 - 1 + w0) / 2))
@@ -283,7 +297,9 @@ def make_rod(d):
     x0 = m["x"] - m["wx"] / 2
     part = part.cut(box(L.CARRIER_X + 0.5 - x0, m["wy"], m["l"] + 0.05, x=(x0 + L.CARRIER_X + 0.5) / 2, y=m["y"],
                         z=mz))
-    part = part.cut(x_hole(1.1, -5, 5, 0, d["rod_end_z"] - 4.5))                # rod-eye cross screw
+    # rod-eye cross screw: Ø1.7 through the solid rod, where the M2 × 10 cuts its own thread (about 7.9 mm, 20
+    # turns). Until 2026-11-15 this was Ø2.2 clearance and the screw gripped the eye's 1.45 mm far wall (3½ turns).
+    part = part.cut(x_hole(0.85, -5, 5, 0, d["rod_end_z"] - 4.5))
     return part
 
 
@@ -295,8 +311,7 @@ def make_rod_eye(d):
     e = e.cut(cylinder(L.ROD_D / 2 + 0.05, 9.0 + 0.01, s0 - 0.01))
     e = e.cut(pin_hole_y(d["eye_front_z"]))
     zc = re - 4.5
-    e = e.cut(x_hole(1.1, 0, 6, 0, zc))                                          # clearance, +X side
-    e = e.cut(x_hole(0.85, -6, 0.1, 0, zc))                                      # M2 pilot, -X side
+    e = e.cut(x_hole(1.1, -6, 6, 0, zc))                                         # M2 clearance through both walls
     e = e.cut(x_hole(2.0, 4.6, 6.5, 0, zc))                                      # head counterbore
     return e
 

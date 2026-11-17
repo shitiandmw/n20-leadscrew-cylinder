@@ -23,20 +23,22 @@ TYPES = {
                     note='the battery side of a joint is always the female: no live pin exposed'),
     'XT30U-M': dict(maker='Amass', model='XT30U-M', family='XT30 cable male', pins=2, rating='15 A, 500 V DC',
                     mates='XT30U-F', body='PA yellow, gold-flash brass pins, solder cups for 18 AWG', source='Amass spec XT30U-M V1.2 (TME XT30U-M.pdf): 10.2 x 5.2, 13.7 long', note=''),
-    'S2B-XH-A': dict(maker='JST', model='S2B-XH-A(LF)(SN)', family='XH 2.5 mm, side-entry header, 2 circuits', pins=2, rating='3 A, 250 V',
-                     mates='XHP-2 + 2 x SXH-001T-P0.6', body='PA 66 natural, tin-plated brass posts', source='LCSC C157931; JST eXH.pdf p.5 (B 7.4, 6.1 high, 7.0 deep)', note=''),
-    'S4B-XH-A': dict(maker='JST', model='S4B-XH-A(LF)(SN)', family='XH 2.5 mm, side-entry header, 4 circuits', pins=4, rating='3 A, 250 V',
-                     mates='XHP-4 + 4 x SXH-001T-P0.6', body='PA 66 natural, tin-plated brass posts', source='LCSC C157925; JST eXH.pdf p.5 (B 12.4)', note=''),
-    'XHP-2': dict(maker='JST', model='XHP-2', family='XH housing, 2 circuits', pins=2, rating='3 A', mates='S2B-XH-A (or B2B-XH-A)',
+    'B2B-XH-A': dict(maker='JST', model='B2B-XH-A(LF)(SN)', family='XH 2.5 mm, top-entry header, 2 circuits', pins=2, rating='3 A, 250 V',
+                     mates='XHP-2 + 2 x SXH-001T-P0.6', body='PA 66 natural, tin-plated brass posts', source='LCSC C158012; JST eXH.pdf p.5 (B 7.4, 7.0 high, 5.75 deep; 9.8 with the plug)',
+                     note='top entry since 2026-11-14 (S2B-XH-A side entry before, same pads)'),
+    'B4B-XH-A': dict(maker='JST', model='B4B-XH-A(LF)(SN)', family='XH 2.5 mm, top-entry header, 4 circuits', pins=4, rating='3 A, 250 V',
+                     mates='XHP-4 + 4 x SXH-001T-P0.6', body='PA 66 natural, tin-plated brass posts', source='LCSC C144395; JST eXH.pdf p.5 (B 12.4)', note='top entry (S4B-XH-A before)'),
+    'XHP-2': dict(maker='JST', model='XHP-2', family='XH housing, 2 circuits', pins=2, rating='3 A', mates='B2B-XH-A (or the side-entry S2B-XH-A)',
                   body='PA 6 natural (white), 7.3 x 5.7 x 7.5', source='JST eXH.pdf p.4', contacts='SXH-001T-P0.6 (AWG 28-22, insulation Ø0.9-1.9), crimp tool JST WC-110 or Engineer PA-09',
                   note='the V6 cable wires (28 AWG PTFE, Ø0.8) are under the insulation range: slip 1.2 mm heat-shrink over each wire end before crimping'),
-    'XHP-4': dict(maker='JST', model='XHP-4', family='XH housing, 4 circuits', pins=4, rating='3 A', mates='S4B-XH-A',
+    'XHP-4': dict(maker='JST', model='XHP-4', family='XH housing, 4 circuits', pins=4, rating='3 A', mates='B4B-XH-A',
                   body='PA 6 natural (white), 12.3 x 5.7 x 7.5', source='JST eXH.pdf p.4', contacts='SXH-001T-P0.6 x 4', note='the slip ring\'s own leads (about Ø1.0) crimp directly'),
-    'S3B-PH-K-S': dict(maker='JST', model='S3B-PH-K-S(LF)(SN)', family='PH 2.0 mm, side-entry header, 3 circuits', pins=3, rating='2 A, 100 V',
-                       mates='PHR-3 + 3 x SPH-002T-P0.5S', body='PA natural, tin-plated posts', source='LCSC C157929; JST ePH.pdf p.3 (B 7.9)', note=''),
-    'S4B-PH-K-S': dict(maker='JST', model='S4B-PH-K-S(LF)(SN)', family='PH 2.0 mm, side-entry header, 4 circuits', pins=4, rating='2 A, 100 V',
-                       mates='PHR-4 + 4 x SPH-002T-P0.5S', body='PA natural, tin-plated posts', source='LCSC C157926; JST ePH.pdf p.3 (B 9.9)', note='expansion port, not fitted'),
-    'PHR-3': dict(maker='JST', model='PHR-3', family='PH housing, 3 circuits', pins=3, rating='2 A', mates='S3B-PH-K-S',
+    'B3B-PH-K-S': dict(maker='JST', model='B3B-PH-K-S(LF)(SN)', family='PH 2.0 mm, top-entry header, 3 circuits', pins=3, rating='2 A, 100 V',
+                       mates='PHR-3 + 3 x SPH-002T-P0.5S', body='PA natural, tin-plated posts', source='LCSC C131339; JST ePH.pdf p.3 (B 7.9, 6.0 high, 4.5 deep; 8.0 with the plug)',
+                       note='top entry (S3B-PH-K-S before)'),
+    'B4B-PH-K-S': dict(maker='JST', model='B4B-PH-K-S(LF)(SN)', family='PH 2.0 mm, top-entry header, 4 circuits', pins=4, rating='2 A, 100 V',
+                       mates='PHR-4 + 4 x SPH-002T-P0.5S', body='PA natural, tin-plated posts', source='LCSC C131334; JST ePH.pdf p.3 (B 9.9)', note='expansion port, not fitted (S4B-PH-K-S before)'),
+    'PHR-3': dict(maker='JST', model='PHR-3', family='PH housing, 3 circuits', pins=3, rating='2 A', mates='B3B-PH-K-S',
                   body='PA natural (white), 7.8 x 4.5 x 6.85', source='JST ePH.pdf p.3', contacts='SPH-002T-P0.5S (AWG 32-24, insulation Ø0.5-1.5), crimp tool JST WC-240 or Engineer PA-09',
                   note='the roof lamps\' 0.2 mm enamelled wires are spliced to 26 AWG before the plug'),
     'SMR-02V-B': dict(maker='JST', model='SMR-02V-B', family='SM 2.5 mm wire-to-wire receptacle housing (pin contacts), 2 circuits', pins=2, rating='3 A, 250 V',
@@ -64,10 +66,11 @@ TYPES = {
 
 # ------------------------------------------------------------------ the joints (one row per place where two parts mate)
 # 'fixed' is the side that stays with the machine part named in 'on'; 'free' is the harness side that is pushed in along
-# 'mate_dir' by 'travel' mm at assembly step 'step' (build_viewer.py STEPS). 'pos' is the mating face / mouth plane (vehicle, mm).
+# 'mate_dir' by 'travel' mm at assembly step 'step' (build_viewer.py STEPS). 'pos' is the mating face / mouth plane (vehicle, mm):
+# for the top-entry board headers the centre of the header mouth, over the pin row.
 _xh = lambda j, n, circuit, step, plug: dict(
-    id=j, where='main board rev B, inboard edge (left bay)', circuit=circuit, fixed=f'S{n}B-XH-A', free=f'XHP-{n}', contacts=f'{n} x SXH-001T-P0.6',
-    on='main board', pos=(H.BOARD[j]['x'], H.HEADER_FACE_Y, H.PLUG_Z['XH']), mate_dir=(0, 1, 0), travel=14.0, step=step, drawn_by='x1_body.main_board (board_plugs*)',
+    id=j, where='main board rev B, inboard edge (left bay)', circuit=circuit, fixed=f'B{n}B-XH-A', free=f'XHP-{n}', contacts=f'{n} x SXH-001T-P0.6',
+    on='main board', pos=(H.BOARD[j]['x'], H.PIN_ROW_Y['XH'], H.HEADER_TOP_Z['XH']), mate_dir=(0, 0, -1), travel=14.0, step=step, drawn_by='x1_body.main_board (board_plugs*)',
     wire=plug, qty=1)
 
 JOINTS = [
@@ -80,11 +83,11 @@ JOINTS = [
     _xh('J105', 2, 'boom drive R', 'plugs', 'V6 cable'),
     _xh('J106', 2, 'stick drive', 'plugs', 'V6 cable'),
     _xh('J107', 2, 'bucket drive', 'plugs', 'V6 cable'),
-    dict(id='J108', where='main board rev B, inboard edge', circuit='lamps: +5 V, roof return, toolbox return', fixed='S3B-PH-K-S', free='PHR-3', contacts='3 x SPH-002T-P0.5S',
-         on='main board', pos=(H.BOARD['J108']['x'], H.HEADER_FACE_Y, H.PLUG_Z['PH']), mate_dir=(0, 1, 0), travel=14.0, step='plugs', drawn_by='x1_body.main_board (board_plugs*)',
+    dict(id='J108', where='main board rev B, inboard edge', circuit='lamps: +5 V, roof return, toolbox return', fixed='B3B-PH-K-S', free='PHR-3', contacts='3 x SPH-002T-P0.5S',
+         on='main board', pos=(H.BOARD['J108']['x'], H.PIN_ROW_Y['PH'], H.HEADER_TOP_Z['PH']), mate_dir=(0, 0, -1), travel=14.0, step='plugs', drawn_by='x1_body.main_board (board_plugs*)',
          wire='2 x 26 AWG silicone (toolbox lamp) + 26 AWG from the cab splice (roof lamps)', qty=1),
-    dict(id='J109', where='main board rev B, inboard edge', circuit='expansion UART (not fitted)', fixed='S4B-PH-K-S', free='(PHR-4 when used)', contacts='4 x SPH-002T-P0.5S',
-         on='main board', pos=(H.BOARD['J109']['x'], H.HEADER_FACE_Y, H.PLUG_Z['PH']), mate_dir=(0, 1, 0), travel=0.0, step=None, drawn_by='board STEP (header only)', wire='-', qty=0),
+    dict(id='J109', where='main board rev B, inboard edge', circuit='expansion UART (not fitted)', fixed='B4B-PH-K-S', free='(PHR-4 when used)', contacts='4 x SPH-002T-P0.5S',
+         on='main board', pos=(H.BOARD['J109']['x'], H.PIN_ROW_Y['PH'], H.HEADER_TOP_Z['PH']), mate_dir=(0, 0, -1), travel=0.0, step=None, drawn_by='board STEP (header only)', wire='-', qty=0),
     dict(id='J201', where='main board rev B, outboard edge, through the B102 slot', circuit='USB service port', fixed='TYPE-C-31-M-12', free='USB-C cable', contacts='-',
          on='main board', pos=(-98.0, 148.5, 113.2), mate_dir=(0, -1, 0), travel=0.0, step=None, drawn_by='board STEP', wire='-', qty=1),
     dict(id='FEED', where='hood cavity under the hatch, right of the centreline', circuit='battery pack -> fuse (the hatch lead)', fixed='XT30U-M (on the feed from the fuse)', free='XT30U-F (on the hatch lead)',

@@ -1,0 +1,151 @@
+{
+ "generator": "actuator_v6/source/slice_plates.py",
+ "slicer": "PrusaSlicer 2.9.2",
+ "image": "local/prusaslicer:trixie",
+ "profile": {
+  "bed_shape": "0x0,180x0,180x180,0x180",
+  "max_print_height": "180",
+  "nozzle_diameter": "0.4",
+  "filament_diameter": "1.75",
+  "filament_density": "1.27",
+  "filament_type": "PETG",
+  "temperature": "240",
+  "first_layer_temperature": "240",
+  "bed_temperature": "80",
+  "first_layer_bed_temperature": "80",
+  "first_layer_height": "0.2",
+  "layer_height": "0.2",
+  "perimeters": "3",
+  "fill_density": "25%",
+  "fill_pattern": "gyroid",
+  "gcode_flavor": "marlin2",
+  "gcode_label_objects": "firmware",
+  "gcode_comments": "0",
+  "skirts": "1",
+  "skirt_distance": "3"
+ },
+ "note": "Generic setup: a 0.4 mm nozzle with PrusaSlicer default speeds. Each object prints with its own settings from the 3MF. The times are for comparing plates; your printer profile gives its own.",
+ "plates": [
+  {
+   "n": 1,
+   "file": "print_plates/V6-U60_x4/plate1_fit_test.3mf",
+   "sha256_3mf": "4a9bbc3f69476aab73b2e55f9bb07a68b651cd5de20d074ae005505c6df65aa1",
+   "filament_g": 6.97,
+   "filament_m": 2.28,
+   "filament_cm3": 5.49,
+   "time_normal": "1h 18m 51s",
+   "time_normal_s": 4731,
+   "time_first_layer": "1m 21s",
+   "layers": 191,
+   "top_z": 18.04,
+   "layer_steps_mm": [
+    0.04,
+    0.08,
+    0.12,
+    0.16,
+    0.2
+   ],
+   "objects": [
+    "03_rear_cap",
+    "08_fit_body_wall",
+    "09_fit_carrier",
+    "10_fit_insert_rear",
+    "11_fit_insert_front"
+   ],
+   "instances": 5,
+   "warnings": [
+    [
+     "Detected print stability issues:",
+     "08_fit_body_wall",
+     "Floating bridge anchors, Loose extrusions",
+     "Consider enabling supports."
+    ]
+   ]
+  },
+  {
+   "n": 2,
+   "file": "print_plates/V6-U60_x4/plate2_bodies_x4.3mf",
+   "sha256_3mf": "7fcb6e025b93cf5af9523124b28be51e34b89d33e2d6d76f4bd3b560ae31dcb7",
+   "filament_g": 61.25,
+   "filament_m": 20.05,
+   "filament_cm3": 48.23,
+   "time_normal": "10h 58m 40s",
+   "time_normal_s": 39520,
+   "time_first_layer": "3m 17s",
+   "layers": 547,
+   "top_z": 108.12,
+   "layer_steps_mm": [
+    0.12,
+    0.2
+   ],
+   "objects": [
+    "01_body"
+   ],
+   "instances": 4,
+   "warnings": [
+    [
+     "Detected print stability issues:",
+     "01_body",
+     "Floating bridge anchors",
+     "Consider enabling supports."
+    ]
+   ]
+  },
+  {
+   "n": 3,
+   "file": "print_plates/V6-U60_x4/plate3_rods_eyes_clamps_x4.3mf",
+   "sha256_3mf": "48dee45fe90b89098d2691df8c9f8dce95406b8ff99cb56ce81a8cc0c6aeb452",
+   "filament_g": 23.98,
+   "filament_m": 7.85,
+   "filament_cm3": 18.88,
+   "time_normal": "5h 48m 39s",
+   "time_normal_s": 20919,
+   "time_first_layer": "2m 27s",
+   "layers": 575,
+   "top_z": 92.04,
+   "layer_steps_mm": [
+    0.16
+   ],
+   "objects": [
+    "04_rod",
+    "05_rod_eye",
+    "06_cable_clamp"
+   ],
+   "instances": 12,
+   "warnings": [
+    [
+     "Detected print stability issues:",
+     "06_cable_clamp",
+     "Loose extrusions",
+     "Consider enabling supports."
+    ]
+   ]
+  },
+  {
+   "n": 4,
+   "file": "print_plates/V6-U60_x4/plate4_caps_x4.3mf",
+   "sha256_3mf": "9c9ff73c3881bd2ff9fe44569a17d528cba1cc3facbaedb6bff3dce509c6e948",
+   "filament_g": 12.64,
+   "filament_m": 4.14,
+   "filament_cm3": 9.95,
+   "time_normal": "2h 10m 19s",
+   "time_normal_s": 7819,
+   "time_first_layer": "3m 12s",
+   "layers": 90,
+   "top_z": 14.44,
+   "layer_steps_mm": [
+    0.16
+   ],
+   "objects": [
+    "02_front_cap",
+    "03_rear_cap"
+   ],
+   "instances": 8,
+   "warnings": []
+  }
+ ],
+ "total": {
+  "filament_g": 104.8,
+  "time_normal_s": 72989
+ }
+}

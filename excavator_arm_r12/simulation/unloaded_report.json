@@ -3,7 +3,7 @@
  "payload_kg": 0.0,
  "timestep_s": 0.001,
  "simulated_s": 642.75,
- "wall_s": 564.5,
+ "wall_s": 517.6,
  "drive_model": {
   "F_stall_N": 158.0,
   "v_no_load_mm_s": 8.17,
@@ -19,14 +19,14 @@
   "bucket": 0.0
  },
  "peak_force_N": {
-  "boom_L": 27.68,
-  "boom_R": 27.68,
+  "boom_L": 27.69,
+  "boom_R": 27.69,
   "stick": 9.14,
   "bucket": 4.69
  },
  "max_push_N": {
-  "boom_L": 27.68,
-  "boom_R": 27.68,
+  "boom_L": 27.69,
+  "boom_R": 27.69,
   "stick": 4.63,
   "bucket": 4.69
  },
@@ -38,8 +38,8 @@
  },
  "time_at_force_clamp_s": 0.0,
  "max_stroke_tracking_error_mm": 0.0516,
- "max_pin_closure_error_mm": 0.01349,
- "max_tip_vs_kinematics_mm": 0.2692,
+ "max_pin_closure_error_mm": 0.0135,
+ "max_tip_vs_kinematics_mm": 0.2695,
  "final_strokes_mm": [
   45.0,
   45.0,

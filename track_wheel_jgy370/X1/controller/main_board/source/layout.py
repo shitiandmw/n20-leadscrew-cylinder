@@ -11,7 +11,7 @@ Floor plan (see DESIGN.md "PCB layout"):
   buck and the bulk capacitor at the rear corner, with the RESET button beside the USB-C;
 - under the module: only tracks (its bottom pads fan out straight down to the drivers);
 - front edge: XT30, with the reverse-polarity FET and TVS behind it;
-- inboard edge: tracks XH-4, boom L, boom R, stick, bucket, swing (XH-2), lamps PH-3, expansion PH-4;
+- inboard edge: tracks XH-4, boom L, boom R, stick, bucket, swing (XH-2), lamps PH-3, expansion PH-4, all top entry;
   each H-bridge sits directly behind its connector;
 - rear end of the driver row: the LEDs and the shared nFAULT/nSLEEP pull resistors and test pads;
 - rear-inboard corner: buzzer, lamp switches, expansion supply; BOOT button on the rear-edge strip.
@@ -28,7 +28,11 @@ X0, Y0 = -136.0, 148.0                  # machine X at u = 0, machine Y at v = 0
 HOLES = {"H1": (4.0, 4.0), "H2": (92.0, 4.0), "H3": (92.0, 60.0), "H4": (4.0, 60.0)}
 USB_U = -98.0 - X0                      # SPEC C3: USB-C on the outboard edge at machine X -98
 USB_OVERHANG = 0.5                      # receptacle face beyond the board edge
-EDGE_CONN_RECESS = 0.0                  # side-entry housings: courtyard flush with the inboard edge
+# Pin rows (v of pin 1) of the inboard connectors. Rev B first had side-entry headers with their courtyards flush with
+# the inboard edge (9.74 XH / 6.79 PH deep). The top-entry headers fitted since 2026-11-14 have the same pads and keep
+# these pin rows, so the copper did not change; their housings stand 6.3 (XH) and 4.0 (PH) mm in from the edge.
+XH_PIN_V = H - 9.74                     # 54.26
+PH_PIN_V = H - 6.79                     # 57.21
 MODULE_U = 66.5                         # module centre; antenna keep-out +/-22 clears the USB and boss H2
 DRV_ROW_V = 41.9                        # driver centre line
 CELL_PITCH = 9.0
@@ -118,9 +122,8 @@ def place_all():
     strap("USB_DN", 0.15, (USB_U - 0.25, pv), (USB_U - 0.25, bot), (USB_U + 0.75, bot), (USB_U + 0.75, pv))
     # ---- front edge: XT30 (rot 270: mating face toward +u; pins at the rear of the housing)
     put("J101", W - 13.64, 17.0, 270)
-    # ---- inboard edge, front to rear; side-entry, housing face at the edge
-    xh_v = H - 9.74 - EDGE_CONN_RECESS
-    ph_v = H - 6.79 - EDGE_CONN_RECESS
+    # ---- inboard edge, front to rear; top entry, on the pin rows of rev B's side-entry headers
+    xh_v, ph_v = XH_PIN_V, PH_PIN_V
     put("J102", 78.3, xh_v)                                            # tracks XH-4: pins 78.3 .. 85.8
     for i, ref in enumerate(("J104", "J105", "J106", "J107", "J103")):  # BL, BR, ST, BK, SW
         put(ref, 69.3 - 9.0 * i, xh_v)
@@ -285,12 +288,12 @@ def courtyard_box(ref):
     return min(us), min(vs), max(us), max(vs)
 
 
-COURTYARDS = {  # footprint -> (x0, y0, x1, y1), from pcbnew (probe in DESIGN.md)
+COURTYARDS = {  # footprint -> (x0, y0, x1, y1), from pcbnew: the box of footprint.GetCourtyard(F_CrtYd)
     "ESP32-S3-WROOM-1_X1": (-9.795, -13.045, 9.795, 13.495),
-    "JST_XH_S2B-XH-A_1x02_P2.50mm_Horizontal": (-3.0, -2.85, 5.5, 9.74),
-    "JST_XH_S4B-XH-A_1x04_P2.50mm_Horizontal": (-3.0, -2.85, 10.49, 9.74),
-    "JST_PH_S3B-PH-K_1x03_P2.00mm_Horizontal": (-2.5, -1.9, 6.5, 6.79),
-    "JST_PH_S4B-PH-K_1x04_P2.00mm_Horizontal": (-2.5, -1.9, 8.49, 6.79),
+    "JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical": (-2.995, -2.895, 5.495, 3.945),
+    "JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical": (-2.995, -2.895, 10.495, 3.945),
+    "JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical": (-2.495, -2.245, 6.495, 3.345),
+    "JST_PH_B4B-PH-K_1x04_P2.00mm_Vertical": (-2.495, -2.245, 8.495, 3.345),
     "AMASS_XT30PW-M_1x02_P2.50mm_Horizontal": (-9.7, -13.64, 4.7, 2.29),
     "USB_C_Receptacle_HRO_TYPE-C-31-M-12": (-5.37, -5.32, 5.37, 4.2),
     "HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.46x2.31mm_ThermalVias": (-3.94, -2.79, 3.94, 2.79),

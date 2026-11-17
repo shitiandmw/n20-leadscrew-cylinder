@@ -27,6 +27,44 @@ This folder holds the **partition revision**. It adds a continuous **1.00 mm pri
 |---|---|---|
 | ![V6-S](images/hero_S.png) | ![V6-U60](images/hero_U60.png) | ![V6-L](images/hero_L.png) |
 
+## Rod-eye screw threads into the rod, 15 November 2026
+
+- **Why:** the M2 × 10 cross screw used to cut its thread in the rod eye's far wall. That wall is only 1.45 mm thick (Ø11 eye on a Ø8.1 socket), so the screw held by 1.35 mm of thread, about 3½ turns in printed PETG, and stripped easily when tightened.
+- **Now:** the Ø1.7 mm hole goes straight through the solid Ø8 rod, and the screw cuts about 7.9 mm of thread there (about 20 turns). Both eye walls have Ø2.2 mm clearance holes and bear on the screw like a pin; the head still sits in the Ø4 counterbore, and the tip stops 0.1 mm short of the eye's outside. Same screw, outline and assembly step.
+- **Loads, unchanged:** the screw carries only pull (retracting under load); a push goes from the rod's end face onto the socket bottom. The thread only has to keep the screw in.
+- **Why no heat-set insert:** an M2 insert does not fit the eye's 1.45 mm wall (an M2 × 3 × 3.2 would stick 1.55 mm into the socket). One fits in the rod, but the melt it pushes up at the hole mouth would have to be trimmed flush, because the rod is a 0.05 mm sliding fit in the socket. The cut thread is ample for this screw.
+- **Checked in CAD** (`validation.json`, all three lengths): the screw's only overlap is its thread in `04_rod` (an intended overlap); it is clear of `05_rod_eye`.
+- **Changed prints:** `04_rod` (13 mm³ more PETG) and `05_rod_eye` (2 mm³ less), both on plate 3. Print them together: a rod printed before this change has a Ø2.2 hole, which leaves the screw nothing to grip in a new eye.
+- **Step 8.4 clarified:** keep B positive (W2 black to +) on until the rod stops by itself, 5–10 s depending on the length. The front Hall switch may see the magnet at the start, but it only stops extending.
+- **Pictures:** the 3D preview and its **Assembly ▶** animation carry the new captions. The assembly video `images/assembly_V6-S.mp4` was not re-recorded: its step 14 caption still says that the screw threads into the far wall.
+
+## Front cap held on the motor side too, 14 November 2026
+
+The front cap's two screws sat on the board side only, like the rear cap's before its hook. The front cap takes load only if the carrier runs past the front Hall stop into its spigot, for example if U2 does not switch. At the X1 board's 0.5 A limit that push is about 85 N. It tipped the cap about the body's board-side edge, and each screw carried about 1.9× the push: 158 N, above the inserts' estimated 100–150 N pull-out. Now **a third M1 screw holds the motor side**.
+
+![The front cap's third screw: why the rear cap's hook does not carry over, where the third insert fits, and the screw loads before and after](images/front_cap_screws.png)
+
+- **Why not a hook like the rear cap's:** the front cap is threaded onto the rod, and its spigot and board tongue sit in the body with 0.075–0.20 mm of play, so it can only go straight on. The body also prints front end down, so nothing may stand out of its front face.
+- **Where:** the key rib in the bore's motor-side corner makes that corner the only thick spot on the motor side. The rib grew from 2.0 to 2.5 mm, and the third insert sits at (−5.76, −5.56) with **0.78 mm of PETG round its knurl** (1.78× the knurl; the two board-side front inserts have 0.70 mm). The rod still goes in one way round only.
+- **The rib now reaches the front face:** the bore's 0.3 mm lead-in used to cut the rib off in its last 0.3 mm, which would have opened the new hole into the bore at the face. The lead-in now follows the rib's face with a 0.3 mm 45° chamfer of its own, and leaves 0.56 mm of wall round the hole at the face. `cap_inserts` now measures that wall at every insert hole; the board-side front ones have 0.47 mm there.
+- **Loads at a jam:** the push now sits inside the screws' triangle. The most loaded screw carries 0.52× the push: 44 N at 85 N, and 29 N at the 55 N rating (158 N and 102 N before). These are estimates, with a rigid cap on the body's face and the screws as equal springs.
+- **Checked in CAD** (`validation.json`, all three lengths; every check passes):
+  - `cap_inserts`: 0.78 mm of PETG round the new knurl and 0.56 mm of wall round its hole at the face; the screw runs through its whole insert and stops 0.5 mm short of the hole bottom, like the others;
+  - tool access: the soldering iron reaches the new insert, and the PH000 driver the new screw, without touching anything fitted before; the driver passes 0.71 mm from the cap and 2.76 mm from the rod;
+  - a rod turned 180° overlaps the bigger rib by 23 mm³ (13 mm³ before), so it still goes in one way round only;
+  - the assembly has no overlaps at any sampled travel position.
+- **Parts:** five inserts and five M1 × 8 per actuator, one more of each (`ASSEMBLY.md` steps 3 and 9).
+- **Changed prints:** `01_body` (the rib and the third hole, 0.1 g heavier), `02_front_cap` (the third screw hole and head pocket), `04_rod` (its carrier's corner keeps its 0.2 mm from the bigger rib), and fit samples 08, 09 and 11. Sample 11 now has the third hole and the rib: after pressing the inserts in, slide sample 09 through it. The outline, pins, strokes and lengths are unchanged, so the arms fit as before.
+- **Not compatible:** rods and front caps printed before this change jam on the bigger rib of a new body.
+- **Pictures:** the 3D preview and its **Assembly ▶** animation show the third insert and screw. The assembly video `images/assembly_V6-S.mp4` was not re-recorded (about 2 h of software rendering): it shows two front inserts and two front screws.
+
+## Parts showcase and print plates for four V6-U60, 14 November 2026
+
+For the R12 arm's four drives:
+- **`parts_showcase.html`:** every part to print and to buy, and the tools, in 3D. A printed part is shown on the print bed or as fitted, can be cut open, and has its dimensions drawn on the model, with its settings and its plate. The bought parts come from the CAD. "In the actuator" and "Cut open" show where each part sits. The page works offline.
+- **`print_plates/`:** the printed parts of four V6-U60 on four plates for a 180 × 180 mm bed, as PrusaSlicer 3MF files that carry each part's settings, and as STL. Plate 1 is the fit test. `print_plates/PRINT_PLATES.md` lists the plates, their settings and PrusaSlicer 2.9.2's estimate: 105 g of PETG and about 20 hours in all.
+- **Checks:** every dimension drawn in the showcase was checked against the part's mesh when the page was built (`parts_showcase_report.json`). A headless-browser run checked the page against `BOM.md`, `ASSEMBLY.md`, the plate files and the STL files (`parts_showcase_browser.json`). The plates hold exactly the released STL files, moved but not turned, at least 6 mm apart and 10 mm inside the bed (`print_plates/V6-U60_x4/plates.json`).
+
 ## Rear cap hooked on the motor side, 11 November 2026
 
 The rear cap's two screws sit on the board side only, so a pull used to tip the cap about the body's edge, and each screw carried 2.5–3.4× the pull (see the next section). Now **the end of the motor-side wall hooks the cap**. The structure is the user's own design.
@@ -155,6 +193,8 @@ The housing was reworked so that it is easier to print and assemble, and so that
 | Path | Contents |
 |---|---|
 | `3D_preview.html` | Offline 3D preview with the schematic linked to the board, the printed parts and the assembly animation. Open it in any WebGL browser. |
+| `parts_showcase.html` | Offline page of every part to print and to buy for four V6-U60, with dimensions, materials, print plates and where each part goes |
+| `print_plates/` | Print plates for four V6-U60 (3MF with each part's settings, and STL), `PRINT_PLATES.md`, and PrusaSlicer's estimates |
 | `stl/V6-S/`, `stl/V6-U60/`, `stl/V6-L/`, `stl/fit_samples/` | Print-ready STL files, oriented for printing |
 | `step/` | STEP file for each part, plus an assembly with the board and wires |
 | `BOM.md` | Printed parts, hardware and the board's parts list |
@@ -164,7 +204,7 @@ The housing was reworked so that it is easier to print and assemble, and so that
 | `electronics/pcb/actuator_v6_*_gerbers.zip` | Gerbers and drill file zipped for upload to the board maker |
 | `electronics/simulation/` | ngspice circuit simulations |
 | `images/` | Renders, board images, the magnet model plot and the assembly video `assembly_V6-S.mp4` |
-| `parameters.json`, `validation.json`, `viewer_check.json`, `magnet_trigger.json`, `wire_lengths_*.csv` | Design data and check results |
+| `parameters.json`, `validation.json`, `viewer_check.json`, `magnet_trigger.json`, `wire_lengths_*.csv`, `parts_showcase_report.json`, `parts_showcase_browser.json` | Design data and check results |
 | `source/` | Scripts that generate all of the above |
 | `SHA256SUMS.txt` | Checksums of the files above |
 
@@ -261,7 +301,7 @@ Open `3D_preview.html`; it works offline. Choose V6-S, V6-U60 or V6-L at the top
 1. **Fit samples:** print the shared fit samples before the full parts. Use ordinary unfilled PETG. Samples 10 and 11 try the M1 inserts in both end faces; sample 10, with a rear cap, also tries the hook.
 2. **Partition:** check the slicer's toolpaths to make sure the full 1 mm partition is kept.
 3. **Carrier fit:** check the 0.15 mm carrier guide clearance on your printer. The partition does not make up for an undersized bore or for excessive deformation.
-4. **Settings and assembly:** the print setup for each part is in `BOM.md` and `validation.json`. The assembly steps are in `ASSEMBLY.md`.
+4. **Settings and assembly:** the print setup for each part is in `BOM.md` and `validation.json`; the print plates for four V6-U60 are in `print_plates/PRINT_PLATES.md`. The assembly steps are in `ASSEMBLY.md`.
 
 `validation.json` records the CAD checks for all three lengths:
 - a solid-volume check that the whole partition exists;
@@ -269,9 +309,9 @@ Open `3D_preview.html`; it works offline. Choose V6-S, V6-U60 or V6-L at the top
 - interference checks of the assembly at sampled travel positions;
 - wire contacts, including both cable wires running out through the clamp inside the sleeve;
 - the cable clamp: the sleeve is squeezed by both halves;
-- the cap inserts (`cap_inserts`): the PETG round each insert's knurl on the body section, each hole open straight to its face, and each M1 screw through its whole insert and short of the hole bottom;
+- the cap inserts (`cap_inserts`): the PETG round each insert's knurl on the body section, the wall round each hole within 0.3 mm of its face, each hole open straight to its face, and each M1 screw through its whole insert and short of the hole bottom;
 - the rear-cap hook (`rear_hook`): the tooth catches the wall when the cap is pulled, the clearances round the tooth and the wall end, the cap's fitting path, the wall left at the notch, and the motor's way in from the rear;
-- the key: a rod turned 180° would overlap the key rib (13 mm³);
+- the key: a rod turned 180° would overlap the key rib (23 mm³; 13 mm³ before the rib grew on 14 November);
 - tool access: each screw's driver, swept in along the screw axis, against the parts fitted before it (`source/assembly.py` gives the order). No driver touches a part; the report gives the nearest parts and the shortest blade that keeps the handle clear;
 - watertight, single-solid STL checks.
 
@@ -299,7 +339,7 @@ The nine circuit simulations in `electronics/simulation/` (`results.json`, all p
   - **Blade length:** at least as long as the bore is deep, 57 / 77 / 102 mm for V6-S / U60 / L. The guide asks for 13 mm more. For a custom length, see `min_blade_len_mm` in `validation.json`.
   - **V6-S and V6-U60:** a Wera 350 PH 0 × 100 mm (item 05008706001) has a 3 mm blade and fits.
   - **V6-L: no suitable driver found.** In current catalogues (October 2026), 3 mm PH0 drivers stop at a 100 mm blade. The 150 mm ones, such as the PB Swiss PB 8190.0-150, have 4 mm blades. V6-L needs a change to the bore or a special driver before it is built.
-- **End-cap inserts:** the two front inserts have only 0.70 mm of PETG round their knurl (1.70× the knurl diameter, below the insert makers' preferred 2×), because the board groove runs out to the front face. Press them in slowly. The inserts' pull-out from printed PETG is not tested: about 100–150 N each is estimated.
+- **End-cap inserts:** the two front inserts on the board side have only 0.70 mm of PETG round their knurl (1.70× the knurl diameter, below the insert makers' preferred 2×), because the board groove runs out to the front face; the third, by the key rib, has 0.78 mm (1.78×). Press them in slowly. The inserts' pull-out from printed PETG is not tested: about 100–150 N each is estimated.
 - **Rear cap in pull:** the hook on the motor side and the two screws share the pull, about 0.58 and 0.21 each. These figures are estimates; the hook has not been pull-tested.
   - **At a jam at the X1's 0.5 A limit** (about 85 N, up to 2 s before its stall cut-out), the wall at the notch sees an estimated 16 MPa, about half of what printed PETG holds across its layers, and each screw about 18 N.
   - **Before the hook** each screw carried 2.5–3.4× the pull, so about 30 N was the safe pull. Caps and bodies printed before 11 November still have that limit.
@@ -325,6 +365,14 @@ blender -b -P source/render_v6.py -- --variant U60 --views hero,cutaway,internal
 blender -b -P source/render_v6.py -- --variant L --views hero,extended,board,cutaway
 ```
 
+- **The print plates and the parts showcase** (V6-U60, after the steps above; standard library only):
+  ```sh
+  python source/build_print_plates.py           # print_plates/, PRINT_PLATES.md
+  python source/slice_plates.py                 # optional: PrusaSlicer in Docker -> slicer_estimate.json; then rerun build_print_plates.py
+  python source/build_parts_showcase.py         # parts_showcase.html, parts_showcase_report.json
+  node source/check_parts_showcase.cjs          # needs Playwright (NODE_PATH) -> parts_showcase_browser.json, images/showcase_*.png
+  ```
+  The browser check takes about 10 minutes in software WebGL.
 - `pcb_export.py` and `build_v6.py` build all three lengths unless given one, for example `pcb_export.py U60` and `build_v6.py --variant U60`.
 - `build_v6.py` writes the meshes that `build_viewer.py` and `render_v6.py` use.
 - `pcb_export.py` also writes the Gerber upload zips.

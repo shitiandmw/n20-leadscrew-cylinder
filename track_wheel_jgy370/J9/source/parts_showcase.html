@@ -291,7 +291,7 @@ function placeLabels(){const W=stage.clientWidth,H=stage.clientHeight,top=$('too
  svg.insertAdjacentHTML('beforeend',s);
  for(const L of labels){L.el.onmouseenter=()=>setHover(L.d.n);L.el.onmouseleave=()=>setHover(0);L.el.onclick=()=>{const r=document.querySelector(`#info tr[data-n="${L.d.n}"]`);if(r)r.scrollIntoView({block:'nearest',behavior:'smooth'})}}}
 function setHover(n){if(S.hover===n)return;S.hover=n;for(const r of document.querySelectorAll('#info tr[data-n]'))r.classList.toggle('hot',String(r.dataset.n)===String(n));drawOverlay()}
-const fmt=(v,d=2)=>{const s=(+v).toFixed(d).replace(/\.?0+$/,'');return s==='-0'?'0':s};
+const fmt=(v,d=2)=>{let s=(+v).toFixed(d);if(d>0)s=s.replace(/0+$/,'').replace(/\.$/,'');return s==='-0'?'0':s};
 // ------------------------------------------------------------------ the axis triad (which way is which)
 function drawTriad(){const it=BYID[S.sel],ctx=itemView(it),bed=!ctx&&S.pose==='bed'&&it.model&&it.model.bed,right=S.side==='right'&&it.mirror,x1=ctx==='x1'||(!ctx&&(it.type==='joint'||it.id==='X101'));
  const names=bed?['X','Y','Z up (bed)']:x1?['X front','Y left','Z up']:['X front',right?'Y inboard':'Y outboard','Z up'];

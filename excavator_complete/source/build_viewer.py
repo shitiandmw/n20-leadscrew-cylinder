@@ -63,12 +63,12 @@ STEPS = [
         'bolts, the cables fed into T101 and up through the hood-wall notches.', ([470, -470, 430], [50, 0, 160])),
     _st('counterweight', 'Counterweight', 'Counterweight B101, its steel shot poured in during a print pause, with 2 x M4 x 12 from inside T101; the swing motor leads '
         'run up its channel.', ([-720, -520, 420], [-120, 0, 150])),
-    _st('left_parts', 'Left half on the bench', 'B102 with the main board rev B on its 4 bosses (the KiCad model: ESP32-S3-WROOM-1, 7 x DRV8876, the JST S2B/S4B-XH-A and '
-        'S3B/S4B-PH-K-S side-entry headers on the inboard edge, the Amass XT30PW-M on the front edge, the USB-C through the slot), the cab interior B104, operator B105, '
+    _st('left_parts', 'Left half on the bench', 'B102 with the main board rev B on its 4 bosses (the KiCad model: ESP32-S3-WROOM-1, 7 x DRV8876, the JST B2B/B4B-XH-A and '
+        'B3B/B4B-PH-K-S top-entry headers on the inboard edge, the Amass XT30PW-M on the front edge, the USB-C through the slot), the cab interior B104, operator B105, '
         'handrail B107, the two ledge magnets, the roof-lamp wires through the Ø2 hole in the cab\'s rear wall; the toolbox-lamp cable from J108 ends in the lamp joint\'s SMR-02V-B.', ([-260, 560, 440], [-90, 110, 150]), grp='left'),
-    _st('plugs', 'Plug the harness into the board', 'With the half standing beside the machine: the six XHP-2 (J103 swing, J104 boom L, J105 boom R, J106 stick, J107 bucket), '
-        'the XHP-4 of the slip ring (J102) and the PHR-3 of the lamps (J108) push into their side-entry headers along +Y until the lock clicks (pin 1 at the marked end); the '
-        '12 V link\'s Amass XT30U-F pushes onto the XT30PW-M on the front edge along -X. J109 (S4B-PH-K-S, expansion) stays empty. Coil the 150 mm slacks in the bay.',
+    _st('plugs', 'Plug the harness into the board', 'With the half standing beside the machine (its hood covers the board): the five XHP-2 (J103 swing, J104 boom L, J105 boom R, J106 stick, '
+        'J107 bucket), the XHP-4 of the slip ring (J102) and the PHR-3 of the lamps (J108) push down into their top-entry headers until the lock clicks (pin 1 at the marked '
+        'end); the 12 V link\'s Amass XT30U-F pushes onto the XT30PW-M on the front edge along -X. J109 (B4B-PH-K-S, expansion) stays empty. Coil the 150 mm slacks in the bay.',
         ([-30, 20, 250], [-85, 86, 116]), xray=True, grp='left'),
     _st('left', 'Left half onto T101', 'Lower it, slide it 10 mm inward onto its hook under the base plate, 2 x M3 x 12 down the sleeves into the rib inserts. Its lap goes '
         'under the right half\'s skin; the four arm cables pass through the notches as it slides in.', ([-320, 720, 520], [-60, 60, 150])),
@@ -141,7 +141,7 @@ def step_and_vectors(p):
     if n.startswith(('controller_PCB', 'board_parts')):
         return SID['left_parts'], [0, 0, 30], LX, 'left'
     if n.startswith('board_plugs'):
-        return SID['plugs'], [0, -14, 0], LX, 'left'
+        return SID['plugs'], [0, 0, 14], LX, 'left'                 # top-entry headers: the plugs come down onto them
     if n.startswith(('B104', 'B105', 'B107')):
         return SID['left_parts'], [0, 0, 40], LX, 'left'
     if n == 'B102_left_half':

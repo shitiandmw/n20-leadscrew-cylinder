@@ -12,7 +12,7 @@ The firmware changed with it:
 - the S4 stall cut-out now covers the actuators, using a 13 Ω stall estimate;
 - the boom thresholds are rescaled to the new motor's current.
 
-The battery budget is 4.45 A with the actuators at their own PTC's 0.35 A hold, and 5.04 A briefly with every channel at its limit (main_board/DESIGN.md). The three items in section 5 are still open: rev B changes neither the headers nor the 3.3 V supply, and its fuse margin is in item 3. The tables below are the rev A record.
+The battery budget is 4.45 A with the actuators at their own PTC's 0.35 A hold, and 5.04 A briefly with every channel at its limit (main_board/DESIGN.md). Item 1 of section 5, the headers, was resolved on 2026-11-14 with top-entry headers. Items 2 and 3 are still open: rev B does not change the 3.3 V supply, and its fuse margin is in item 3. The tables below are the rev A record.
 
 ## 1. What was re-run
 
@@ -56,7 +56,7 @@ The PDFs were read directly (text extracted with PyMuPDF), not from memory.
 
 ## 5. Flagged for a rev B board (not blocking)
 
-1. **Side-entry inboard headers sit 3 mm from the T101 rib.** A mated XH plug is 12 mm long and its wires leave toward the rib, so plugs can only be mated with the left half standing beside the machine (BODY.md's 150 mm slack is for this), and the wires bend 90° in 3 mm. DESIGN.md already lists top-entry alternatives (B2B-XH-A C158012, B4B-XH-A C144395, B3B-PH-K-S C131339, B4B-PH-K-S C131334) with the same pad pattern; use them on rev B so plugs go in from above with the half in place. The body's bay height allows it (plug top about Z 125 against the hood at 136.3).
+1. **Side-entry inboard headers sit 3 mm from the T101 rib.** *Adopted 2026-11-14: rev B now has the top-entry headers below on the same pads (main_board/DESIGN.md); the harness comes straight down onto the plugs (WIRING.md 2.2).* A mated XH plug with its lead bend reaches 12 mm out of the board edge, toward the rib, and the harness drops its wires into the 3 mm gap and turns them back into the plugs (1.1 mm to the rib in WIRING.md's check, whose rule is 1.0 mm). DESIGN.md lists top-entry alternatives (B2B-XH-A C158012, B4B-XH-A C144395, B3B-PH-K-S C131339, B4B-PH-K-S C131334); KiCad's footprints give them the same pads. With them the plugs go on from above and the cables drop straight onto them (XH plug tops at Z 121.4; the hood over the headers is at Z 199–217). They do not let the plugs go on with the left half in place: its hood covers the board, so plugging stays a job with the half beside the machine (BODY.md's 150 mm slack). *Corrected 2026-11-14:* this item said before that top entry allowed plugging with the half in place, under a hood at Z 136.3. That figure is the bottom edge of the hood's front wall, not the hood over the headers.
 2. **3.3 V LDO heat.** 600 mA from 4.6 V with 184 °C/W: fine at the assumed 0.15 A average, but a long Wi-Fi burst at 0.5 A would be 0.65 W. Bench item, as DESIGN.md says; a 3.3 V buck is the rev B fallback.
 3. **Fuse margin.** 4.33 A worst case against a 5 A fuse; the later 4G stick takes it to 5.5 A (spec P4). Review with that phase. Rev B, with the actuators on VBAT: 4.45 A with the actuators at their PTC's 0.35 A hold, 5.04 A for the moment every channel is at its limit, about 6.1 A with the 4G stick (spec P4, issue 5).
 

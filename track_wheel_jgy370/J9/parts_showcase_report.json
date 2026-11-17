@@ -5,7 +5,7 @@
   "track_wheel_jgy370/J9/source/j9_scene.json.gz": "dd618fd7a7fdfb67785a0e26f6a3f733d1daf74d38e7bd6c7284dba1f417bf86",
   "track_wheel_jgy370/X1/source/x1_scene.json.gz": "719ef833e722c4c36c0480d9f591df2b5a849981d7cc407a2388a62e453a9b23",
   "track_wheel_jgy370/J9/source/build_track_kit.py": "9d94e89697d13d19e2e6b8f0b74470e7c831c53b2aa7b6ef47e63bef0cbd58bf",
-  "track_wheel_jgy370/J9/source/parts_showcase.html": "e5485da1460552232715efd12df70dbca005d5734b7c0d6b09cd78c65d386538",
+  "track_wheel_jgy370/J9/source/parts_showcase.html": "e11a4a2b01de7e73f8c24e51a16b5ee59c57cc22226a7b4182a44c576df8393c",
   "track_wheel_jgy370/J9/source/build_parts_showcase.py": "e0b5596e8bc2d9680f8dc87390f41898a8ee07fe15d0684d090363a5b1e560a4"
  },
  "right_files_mirror_left": {
@@ -3003,7 +3003,7 @@
   "triangles": 155378
  },
  "outputs_sha256": {
-  "parts_showcase.html": "cf9e6e46f497fcd9186bc32405d69c841c8ef112ce629d41297b6e892cffd911"
+  "parts_showcase.html": "1ae65b9269cbf1b7163c79479f82f301546d4937b20f3a60caa61d693e6595be"
  },
  "pass": true
 }

@@ -1,6 +1,6 @@
 {
  "pass": true,
- "html_sha256": "9ceb32c948f151021bd5a7c6eb38806d10a3d32969792190e4431ec9d821ea1c",
+ "html_sha256": "bf33fefc0fbf45625b48053fcd14cf7952a2e6bf519bcc86736956263361eca4",
  "scene_sha256": "719ef833e722c4c36c0480d9f591df2b5a849981d7cc407a2388a62e453a9b23",
  "checker_sha256": "eb5fd962c88051aee85d3829ab36475bb064e5ba055546d5acfcaf78a92fa6f8",
  "views": {
@@ -28,7 +28,7 @@
   "frame": "97ee0500285a0cdd7640f4ba5f91fa54e4f0e909bbcc553d93b7c6e21308dbc5",
   "iso": "7d4755f7fcac102059f13115b43c4e2ee9113d0ca55f0e16713253665598c6eb",
   "rear": "9a1d1a842d753137dc02201c64a1e4b22b1262b3c543d15e2a0d633916ef5be4",
-  "front": "a024d3241656ca3542db2d89487fd3721ac7f4f1dbe6309faea80c2e36b63acf",
+  "front": "d3dee9232294c228eb72b2c031b0e0f80d87033223512614bd46dbe7d08e4155",
   "top": "b36a3af6e45884a6d6c213e95e757e224ac06fba2a70965d282c7fa09571503d",
   "seat": "d0caacd8cecaec0cbb9188869e882378b167ef23ef5d6c91c2bcac805357d146",
   "under": "683255de6abc42dc433cf07e4326c90be517a4d0b61ca9389ea23c64bb9c0159",
@@ -39,7 +39,7 @@
   "body": "2de2ddcdbd1acfd647e0c0ecb7663bba9615aadb2e142048c8b85e4556b86dea",
   "cab": "f23e309991b3c697a3124b1eae0b8fa25b8a0d4aa402366a29253c335b171883",
   "bodyright": "f71d7346000de136c23bf2a5603a0dc2550543d9427dd05f5eb7a7594f43dfaf",
-  "bodyin": "cc58fe0ca4a4970dc9cebc32c38902aa0bff6639cb9f16f9ecbe03db817b9e5a",
+  "bodyin": "7e631ca8a1bded0bdd301cb83aa08f71d107400cf5e78f3262928ca2f7b8def7",
   "service": "8fe03f5c81260c86ff7827201b0506f4d6de8ce74ec3c6e79828b0851813acba",
   "drive_swing30": "7233f0539f9e4f108feab4e2fb7116acd48f8a24240757229316a439736aad06"
  },
@@ -89,7 +89,7 @@
   "pinion_rel_deg": 119.99999999999999,
   "turntable_items": 105,
   "playback_swing": 85.431,
-  "playback_wait_ms": 7527
+  "playback_wait_ms": 15101
  },
  "body_check": {
   "items": 76,
@@ -97,7 +97,7 @@
   "service_pose": true,
   "hatch_lifted_in_service": true
  },
- "run_phase_after_start": 0.5967199999982128,
+ "run_phase_after_start": 0.5058799999999996,
  "errors": [],
  "network": []
 }

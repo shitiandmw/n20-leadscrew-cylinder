@@ -123,8 +123,8 @@ All checks run on the exact CAD solids:
 ## Swing simulation (`X1_turntable_simulation.pdf`)
 
 `simulate_swing.py` builds a MuJoCo model of the whole machine.
-- **Lower:** 4.48 kg, free on two track footprints.
-- **Upper:** 5.10 kg, tilting on the hub joint, with 0.154 kg·m² about the swing axis (body B1 rev B; re-run on 2026-11-07 on the revision F chassis with MuJoCo 4.0.0, which moved the knock cases by up to 3 %).
+- **Lower:** 4.63 kg, free on two track footprints.
+- **Upper:** 5.11 kg, tilting on the hub joint, with 0.154 kg·m² about the swing axis (body B1 rev B). Last re-run on 2026-11-14, with main board rev B in the body, the current track parts (the lower 26 g lighter) and MuJoCo 4.0.1: every peak tooth force moved by less than 1 %, the shake wobble by up to 1.2 % and the impact counts by up to 3. The 2026-11-07 re-run on the revision F chassis with MuJoCo 4.0.0 had moved the knock cases by up to 3 %.
   - 2.80 kg comes from the turntable CAD: the turntable, motor, hardware and the ARM60 stretched forward.
   - 2.30 kg is the body B1 rev B from its CAD ([BODY.md](BODY.md)): the seven prints, 0.73 kg of steel shot that puts the upper's CG on the swing axis (fore-aft and sideways), the battery, electronics and fixings. Rev A's body was 2.40 kg (upper 5.20 kg, 0.159 kg·m²); every peak tooth force below moved by less than 7 % with rev B, and the conclusions stand.
   - Until 2026-11-03 the simulation used placeholders here (R3's 1.8 kg counterweight and the 60 mm excavator's shells and electronics, 5.52 kg and 0.152 kg·m² in all). Every result below moved by a few per cent with the real body.
@@ -134,22 +134,22 @@ All checks run on the exact CAD solids:
 
 | Case | Peak tooth force | Lewis stress | Result |
 |---|---|---|---|
-| Stop from full speed, no ramp | 204 N | 40 MPa | bucket runs on 11.15 mm |
+| Stop from full speed, no ramp | 204 N | 40 MPa | bucket runs on 11.14 mm |
 | Stop with the 0.4 s ramp | 35 N | 7 MPa | bucket runs on 0.1 mm; swing 7.3 rpm |
-| Reverse, no ramp / ramped | 212 / 39 N | 41 / 8 MPa | |
-| Knock and shake at the bucket, R3 | 159 N | 31 MPa | 6.94 mm p-p wobble, 21 tooth impacts |
-| The same without drag pads | 197 N | 39 MPa | 8.71 mm, 34 impacts |
-| R2-like (0.3 mm backlash, no pads) | 185 N | 36 MPa | 9.61 mm, 25 impacts |
+| Reverse, no ramp / ramped | 211 / 39 N | 41 / 8 MPa | |
+| Knock and shake at the bucket, R3 | 159 N | 31 MPa | 7.02 mm p-p wobble, 21 tooth impacts |
+| The same without drag pads | 196 N | 38 MPa | 8.65 mm, 32 impacts |
+| R2-like (0.3 mm backlash, no pads) | 185 N | 36 MPa | 9.68 mm, 23 impacts |
 | 15° side slope, motor off | 0 N | — | holds: with the body the upper's CG is on the swing axis, so gravity does not turn it |
-| Into a rock at full speed, 0.6 A limit | 259 N | 51 MPa | held stall 79 N (15 MPa) |
-| The same without a current limit | 259 N | 51 MPa | held stall 139 N (27 MPa) |
+| Into a rock at full speed, 0.6 A limit | 259 N | 51 MPa | held stall 76 N (15 MPa) |
+| The same without a current limit | 260 N | 51 MPa | held stall 139 N (27 MPa) |
 
 Printed PETG yields at about 50 MPa (255 N on a pinion tooth, by Lewis).
 
 **What it means:**
 1. **The speed ramp is essential.** Without it a stop or a reversal puts about 80 % of the yield load on a tooth, because the self-locking worm stops the motor side at once. With the 0.4 s ramp the peak falls to about 14 %.
-2. **The drag pads help.** They cut the wobble when the bucket is shaken (6.9 against 8.7 mm) and the tooth impacts (21 against 34). They cannot stop a shake larger than their 0.19 N·m from moving the upper through the play.
-3. **Swinging into a rigid obstacle at full speed loads the pinion to about its yield.** The current limit does not help, because the impact comes from the upper's inertia. The limit does nearly halve the held stall (79 against 139 N).
+2. **The drag pads help.** They cut the wobble when the bucket is shaken (7.0 against 8.7 mm) and the tooth impacts (21 against 32). They cannot stop a shake larger than their 0.19 N·m from moving the upper through the play.
+3. **Swinging into a rigid obstacle at full speed loads the pinion to about its yield.** The current limit does not help, because the impact comes from the upper's inertia. The limit does nearly halve the held stall (76 against 139 N).
    - Swing slowly near obstacles.
    - Treat the pinion as the part that fails first: it is a 7.5 g print in front of the gearbox. Keep spares, or print it in a stronger filament (PC, nylon-CF) if it breaks.
 4. **The worm holds the upper on a 15° slope with the motor off.** The machine does not slide or tip in any case.

@@ -17,6 +17,11 @@ Writes kicad/X1_main.kicad_pcb and the board rules and net classes into kicad/X1
     python build_pcb.py --reroute        route again (--minutes N, default 40)
     python build_pcb.py --ses FILE       import a session routed elsewhere
     python build_pcb.py --no-route       placement only; --no-install leaves kicad/ untouched
+    python build_pcb.py --keep-routes REASON
+                                         import both saved sessions although the DSNs changed, and record the new
+                                         hashes with REASON: only for a change that keeps every pad where it was
+                                         (2026-11-14: the inboard headers' footprints, swapped for top-entry ones
+                                         with the same pads)
 """
 import argparse
 import fnmatch
@@ -48,7 +53,7 @@ KICAD = "kicad/kicad:9.0"
 # same design). Its command line ignores the pass limit, so the run is ended by the job timeout; the
 # patched jar then writes the session (freerouting_patch.py).
 FREEROUTING = freerouting_patch.FREEROUTING
-DATE = "2026-11-05"
+DATE = "2026-11-14"                     # top-entry inboard headers (rev B amended before ordering; 2026-11-05 before)
 SILK_REF = ("J", "U", "SW", "LS", "TP", "L", "Q101", "D102", "C101", "F40")
 CONN_LABELS = {  # bottom silkscreen, under each inboard connector (read from below): name, then pins
     "J102": ("TRACKS", "L 1-2  R 3-4"), "J104": ("BOOM L",), "J105": ("BOOM R",), "J106": ("STICK",),
@@ -219,6 +224,8 @@ def main():
                     "is skipped: kicad/X1_main.ses, the session the board was built from)")
     ap.add_argument("--reroute", action="store_true", help="route again even if kicad/X1_main.ses exists")
     ap.add_argument("--no-install", action="store_true", help="leave the result in the work folder only")
+    ap.add_argument("--keep-routes", metavar="REASON", help="import both saved sessions unchanged although the DSNs "
+                    "changed, and record REASON with the new hashes: only when every pad stays where it was")
     a = ap.parse_args()
     saved, record = KDIR / f"{PROJECT}.ses", KDIR / f"{PROJECT}_route.json"
     saved_repair = KDIR / f"{REPAIR}.ses"
@@ -239,7 +246,9 @@ def main():
     src = ["-v", f"{work}:/work", "-v", f"{HERE}:/src:ro", "-w", "/work", KICAD, "python3"]
     print(docker(src + ["/src/pcb_make.py", "place", "/work/config.json"]).stdout.strip())
     dsn_hash = hashlib.sha256((work / f"{PROJECT}.dsn").read_bytes()).hexdigest()
-    if reuse and json.loads(record.read_text())["dsn_sha256"] != dsn_hash:
+    if a.keep_routes and not reuse:
+        sys.exit("--keep-routes needs the saved sessions and their record, and no --ses / --reroute / --no-route")
+    if reuse and json.loads(record.read_text())["dsn_sha256"] != dsn_hash and not a.keep_routes:
         sys.exit(f"the placement changed since {saved.name} was routed (the DSN differs): run with --reroute")
     if not a.no_route:
         if a.ses:
@@ -252,7 +261,7 @@ def main():
         if rdsn.exists():
             repair_hash = dsn_fingerprint(rdsn)
             rec = json.loads(record.read_text()) if reuse else {}
-            if reuse and rec.get("repair_dsn_sha256") == repair_hash and saved_repair.exists():
+            if reuse and (rec.get("repair_dsn_sha256") == repair_hash or a.keep_routes) and saved_repair.exists():
                 shutil.copy(saved_repair, work / f"{REPAIR}.ses")
                 print(f"repair session: {saved_repair}")
             else:
@@ -267,6 +276,12 @@ def main():
     if not a.no_route:                                           # routing is slow and not repeatable: keep it
         if reuse:
             rec = json.loads(record.read_text())
+            if a.keep_routes:
+                rec.setdefault("kept", []).append(dict(reason=a.keep_routes, dsn_sha256_before=rec["dsn_sha256"],
+                                                       repair_dsn_sha256_before=rec.get("repair_dsn_sha256")))
+                rec["dsn_sha256"] = dsn_hash
+                if (work / f"{REPAIR}.dsn").exists():
+                    rec["repair_dsn_sha256"] = repair_hash
         else:
             shutil.copy(work / f"{PROJECT}.ses", saved)
             rec = dict(dsn_sha256=dsn_hash, session=saved.name,

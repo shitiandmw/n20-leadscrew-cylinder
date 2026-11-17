@@ -11,6 +11,8 @@ R12 is built on **real excavator geometry**: Cat 325 pin positions from a Caterp
   - The 3D clash check passes, and the closest gaps are unchanged (1.10 and 1.32 mm).
   - In the side view, the stick drive's body now clears the boom nose by 1.88 mm (3.05 mm before; 1.0 mm required).
   - The heavier barrels raise the boom drives' cycle peak to 38.5 N and their worst static hold to 39.6 N (38.3 and 39.4 N before). The other figures round the same or change by 0.1 N.
+- **V6 front cap's third screw, 2026-11-14:** each V6-U60 front cap is now held by three M1 screws, and the key rib inside the barrel grew from 2.0 to 2.5 mm (see `actuator_v6/README.md`). The outside is unchanged. The CAD, clash checks, simulations, drawings, viewer and video were rebuilt with the new solids. The barrel gains 0.09 g and the rod loses 0.01 g; every figure in this README rounds the same. The 3D clash check passes with no contact, and the closest gaps are unchanged (1.10 and 1.32 mm).
+- **V6 rod-eye screw, 2026-11-15:** the M2 × 10 cross screw of each V6-U60 rod eye now cuts its own thread in a Ø1.7 hole through the rod, and both eye walls have Ø2.2 clearance holes (see `actuator_v6/README.md`). The outside is unchanged. The CAD, clash checks, simulations, drawings, viewer and video were rebuilt with the new solids. The rod and eye together gain 0.01 g; every figure in this README rounds the same. The 3D clash check passes with no contact, and the closest gaps are unchanged (1.10 and 1.32 mm).
 
 ## Open these first
 

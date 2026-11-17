@@ -1,6 +1,6 @@
 {
  "pass": true,
- "html_sha256": "cf9e6e46f497fcd9186bc32405d69c841c8ef112ce629d41297b6e892cffd911",
+ "html_sha256": "1ae65b9269cbf1b7163c79479f82f301546d4937b20f3a60caa61d693e6595be",
  "checker_sha256": "bfabbebd1e8583bc7ea3a8f3bf65386d6961c087b958ea8d3d244a0d527a6ebb",
  "items": {
   "J901": {
@@ -458,7 +458,7 @@
    "model": false
   }
  },
- "load_seconds": 11.484,
+ "load_seconds": 11.979,
  "kit": {
   "csv_rows": 37,
   "kit_entries": 35,
@@ -504,7 +504,7 @@
   },
   "showcase_J906_cut": {
    "file": "images/showcase_J906_cut.png",
-   "sha256": "723d98ccc1b24177eab856af7c989fc64ebd6ceaf92352c5ece4e2866aa88e1e"
+   "sha256": "843de75f8d9f75745e687b410a9d6c55e04ebbc303dbdba340550038c736e37a"
   },
   "showcase_J904_track": {
    "file": "images/showcase_J904_track.png",

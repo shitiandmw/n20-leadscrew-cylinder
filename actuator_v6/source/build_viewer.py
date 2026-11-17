@@ -46,8 +46,9 @@ MECH_INFO = {
                "away from the board, a key rib in one bore corner so the rod only goes in with its magnet toward "
                "the board, and a 2.4 mm motor-side wall whose end reaches into the rear cap: the cap's tooth hooks "
                "into a notch inside it, so a pull cannot tip the cap about its screws.",
-    "02_front_cap": "Printed front cap. Rod guide; its spigot is the hard stop at the extend end. 2 × M1 × 8 into "
-                    "the front inserts.",
+    "02_front_cap": "Printed front cap. Rod guide; its spigot is the hard stop at the extend end. 3 × M1 × 8 into "
+                    "the front inserts: two on the board side and one in the motor-side corner by the key rib, so a "
+                    "push on the spigot cannot tip the cap about its board side.",
     "03_rear_cap": "Printed rear cap with the rear clevis (Ø3 pin). The cable wires pass a slot in it (a knot "
                    "inside stops them); its pocket holds the cable clamp. 2 × M1 × 8 through the clamp into the rear "
                    "inserts on the board side; on the motor side a 45° tooth in a second pocket hooks into the end of "
@@ -71,7 +72,7 @@ MECH_INFO = {
     "M1x8_front_cap": "M1 × 8 pan-head screw, A2-70 stainless, PH000: front cap to the body, into a heat-set insert.",
     "M1x8_rear_cap": "M1 × 8 pan-head screw, A2-70 stainless, PH000: cable clamp and rear cap to the body, into a "
                      "heat-set insert.",
-    "M2x10_rod_eye": "M2 × 10 pan-head screw through the rod eye and the rod.",
+    "M2x10_rod_eye": "M2 × 10 pan-head screw through the rod eye; it cuts its thread in the rod's Ø1.7 hole.",
     "PCB_board": "End-stop board: 2 layers, 0.8 mm FR4, 8 mm wide. It rests on the motor wall and is held "
                  "by the front-cap tongue.",
     "tool_PH1": f"{AS.DRIVERS['PH1']['note']}, for the M2 rod-eye screw (DIN 7985 M2 takes PH1).",

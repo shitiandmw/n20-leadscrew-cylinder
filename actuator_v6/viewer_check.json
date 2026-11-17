@@ -1,5 +1,5 @@
 {
- "checked": "2026-11-12",
+ "checked": "2026-11-16",
  "variants": {
   "S": {
    "printed_labels": 6,
@@ -21,7 +21,7 @@
     "rod_eye",
     "done"
    ],
-   "duration_s": 122.5,
+   "duration_s": 131.5,
    "insert_iron": [
     "tool_IRON_blade",
     "tool_IRON_handle"
@@ -76,7 +76,7 @@
     "rod_eye",
     "done"
    ],
-   "duration_s": 122.5,
+   "duration_s": 131.5,
    "insert_iron": [
     "tool_IRON_blade",
     "tool_IRON_handle"
@@ -131,7 +131,7 @@
     "rod_eye",
     "done"
    ],
-   "duration_s": 122.5,
+   "duration_s": 131.5,
    "insert_iron": [
     "tool_IRON_blade",
     "tool_IRON_handle"

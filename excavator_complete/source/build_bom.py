@@ -9,6 +9,7 @@ import common as K
 import harness as H
 
 ROWS = []   # (group, part, qty, spec, source, note)
+SHOT = json.loads((K.X1 / 'simulation' / 'body_mass_properties.json').read_text())['shot']   # X1 build_body.py mass stage
 
 
 def add(group, part, qty, spec, source, note=''):
@@ -37,7 +38,7 @@ add(P, 'T104_hub_adapter', 1, 'PETG, 100 %', 'X1/TURNTABLE.md')
 add(P, 'T105_pinion', 1, 'PETG or PA12, 100 %', 'X1/TURNTABLE.md', 'wears first: keep a spare')
 add(P, 'X103_ring_gear', 1, 'PETG or PA12, 100 %', 'X1/TURNTABLE.md')
 add(P, 'T106_rotor_dog_TPU', 1, 'TPU 95A', 'X1/TURNTABLE.md')
-add(P, 'B101_counterweight', 1, 'PETG, 4 walls, 15 %; pause at 24.9 mm to pour the shot', 'X1/BODY.md')
+add(P, 'B101_counterweight', 1, f"PETG, 4 walls, 15 %; pause at {SHOT['pause_height_above_bed_mm']:.1f} mm to pour the shot", 'X1/BODY.md')
 add(P, 'B102_left_half', 1, 'PETG, 3 walls; on its left face. Rev B issue 2: harness notch in the inboard hood wall', 'X1/BODY.md')
 add(P, 'B103_right_half', 1, 'PETG, 3 walls; tree supports under the rails and mirror. Rev B issue 2: harness notch', 'X1/BODY.md')
 add(P, 'B104_cab_interior', 1, 'PETG (dark grey), 3 walls, 15 %', 'X1/BODY.md')
@@ -95,7 +96,8 @@ add(B, 'Shim washer Ø6 / Ø11 x 0.4 steel', 6, 'O, E, H', 'R12 sheet 6')
 add(B, 'M4 thin hex nut, brass (ISO 4035), 7 AF x 2.2', 4, 'V6 rod carriers', 'actuator_v6/BOM.md')
 add(B, 'NdFeB block magnet N35 3 x 2 x 2, magnetised through 2 mm', 4, 'V6 carriers', 'actuator_v6/BOM.md')
 add(B, 'NdFeB disc magnet Ø6 x 2 (N42/N52)', 8, 'hatch and ledges', 'X1/BODY.md')
-add(B, 'Steel shot (about 4.5 g/cm3), poured', '735 g', 'counterweight pocket, 286 g left / 449 g right', 'X1/BODY.md')
+add(B, 'Steel shot (about 4.5 g/cm3), poured', f"{SHOT['kg'] * 1e3:.0f} g",
+    f"counterweight pocket, {SHOT['left_kg'] * 1e3:.0f} g left / {SHOT['right_kg'] * 1e3:.0f} g right", 'X1/BODY.md')
 add(B, 'Felt Ø8 x 3', 2, 'drag pads', 'X1/TURNTABLE.md')
 add(B, 'Spring Ø4.5 x 12, wire 0.5 (about 1.2 N/mm)', 2, 'drag pads', 'X1/TURNTABLE.md')
 add(B, 'Keystone 1043 single 18650 holder (THM, PC pins)', 3, '77.05 x 20.65 x 14.86, Keystone drawing rev C; snaps into the hatch sled', 'CONNECTORS.md, X1/BODY.md')
@@ -111,8 +113,8 @@ add(B, 'Thin CA glue / laminating epoxy', 1, 'shot lock, magnets, teeth, pads, c
 # ------------------------------------------------------------------ bought: screws, nuts, inserts
 S = 'Screws, nuts, washers, inserts'
 add(S, 'M1.6 x 4 countersunk, PH0 (DIN 965)', 8, 'V6 motor screws', 'actuator_v6/BOM.md')
-add(S, 'M1 x 8 pan head, A2-70 stainless, PH000', 16, 'V6 front caps (8), V6 cable clamps (8)', 'actuator_v6/BOM.md')
-add(S, 'M1 heat-set insert, 1.8 mm long x 2 mm knurl (M1 x 1.8 x 2)', 16, 'V6 bodies, both end faces', 'actuator_v6/BOM.md')
+add(S, 'M1 x 8 pan head, A2-70 stainless, PH000', 20, 'V6 front caps (12), V6 cable clamps (8)', 'actuator_v6/BOM.md')
+add(S, 'M1 heat-set insert, 1.8 mm long x 2 mm knurl (M1 x 1.8 x 2)', 20, 'V6 bodies: front faces (12), rear faces (8)', 'actuator_v6/BOM.md')
 add(S, 'M2 x 10 pan head', 4, 'V6 rod eyes', 'actuator_v6/BOM.md')
 add(S, 'M2.5 x 6 self-tapping', 4, 'main board to the bay bosses', 'X1/BODY.md')
 add(S, 'M3 x 6 socket (ISO 4762)', 8, 'track motors to the inner walls', 'J9/BOM.md')
@@ -146,9 +148,9 @@ add(S, 'M6 heat-set insert (Ø8 hole, 9 long)', 2, 'drag pads', 'X1/TURNTABLE.md
 
 # ------------------------------------------------------------------ harness
 W = 'Harness and electrical'
-add(W, 'JST XHP-2 housing + 2 x SXH-001T-P0.6 contacts', 5, 'boom L, boom R, stick, bucket, swing (mate the S2B-XH-A headers J103-J107)', 'CONNECTORS.md')
-add(W, 'JST XHP-4 housing + 4 x SXH-001T-P0.6 contacts', 1, 'tracks via the slip ring (mates S4B-XH-A J102)', 'CONNECTORS.md')
-add(W, 'JST PHR-3 housing + 3 x SPH-002T-P0.5S contacts', 1, 'lamps (mates S3B-PH-K-S J108)', 'CONNECTORS.md')
+add(W, 'JST XHP-2 housing + 2 x SXH-001T-P0.6 contacts', 5, 'boom L, boom R, stick, bucket, swing (mate the B2B-XH-A headers J103-J107)', 'CONNECTORS.md')
+add(W, 'JST XHP-4 housing + 4 x SXH-001T-P0.6 contacts', 1, 'tracks via the slip ring (mates B4B-XH-A J102)', 'CONNECTORS.md')
+add(W, 'JST PHR-3 housing + 3 x SPH-002T-P0.5S contacts', 1, 'lamps (mates B3B-PH-K-S J108)', 'CONNECTORS.md')
 add(W, 'Amass XT30U-F cable female', 2, 'hatch lead end; 12 V link end onto the board\'s XT30PW-M', 'CONNECTORS.md')
 add(W, 'Amass XT30U-M cable male', 1, 'feed socket hanging in the hood cavity (mates the hatch lead)', 'CONNECTORS.md')
 add(W, 'JST SMR-02V-B receptacle housing + 2 x SYM-001T-P0.6 pin contacts', 3, 'two track joints in the carbody (stator side), toolbox lamp joint in the right bay (board side)', 'CONNECTORS.md')

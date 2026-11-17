@@ -89,7 +89,7 @@ One machine: two J9 tracks on the X1 revision F frame, the R3 turntable, body B1
 | M4 thin hex nut, brass (ISO 4035), 7 AF x 2.2 | 4 | V6 rod carriers | actuator_v6/BOM.md |  |
 | NdFeB block magnet N35 3 x 2 x 2, magnetised through 2 mm | 4 | V6 carriers | actuator_v6/BOM.md |  |
 | NdFeB disc magnet Ø6 x 2 (N42/N52) | 8 | hatch and ledges | X1/BODY.md |  |
-| Steel shot (about 4.5 g/cm3), poured | 735 g | counterweight pocket, 286 g left / 449 g right | X1/BODY.md |  |
+| Steel shot (about 4.5 g/cm3), poured | 730 g | counterweight pocket, 282 g left / 448 g right | X1/BODY.md |  |
 | Felt Ø8 x 3 | 2 | drag pads | X1/TURNTABLE.md |  |
 | Spring Ø4.5 x 12, wire 0.5 (about 1.2 N/mm) | 2 | drag pads | X1/TURNTABLE.md |  |
 | Keystone 1043 single 18650 holder (THM, PC pins) | 3 | 77.05 x 20.65 x 14.86, Keystone drawing rev C; snaps into the hatch sled | CONNECTORS.md, X1/BODY.md |  |
@@ -104,13 +104,13 @@ One machine: two J9 tracks on the X1 revision F frame, the R3 turntable, body B1
 
 ## Screws, nuts, washers, inserts
 
-33 lines, 279 pieces.
+33 lines, 287 pieces.
 
 | Part | Qty | Specification | From | Note |
 |---|---|---|---|---|
 | M1.6 x 4 countersunk, PH0 (DIN 965) | 8 | V6 motor screws | actuator_v6/BOM.md |  |
-| M1 x 8 pan head, A2-70 stainless, PH000 | 16 | V6 front caps (8), V6 cable clamps (8) | actuator_v6/BOM.md |  |
-| M1 heat-set insert, 1.8 mm long x 2 mm knurl (M1 x 1.8 x 2) | 16 | V6 bodies, both end faces | actuator_v6/BOM.md |  |
+| M1 x 8 pan head, A2-70 stainless, PH000 | 20 | V6 front caps (12), V6 cable clamps (8) | actuator_v6/BOM.md |  |
+| M1 heat-set insert, 1.8 mm long x 2 mm knurl (M1 x 1.8 x 2) | 20 | V6 bodies: front faces (12), rear faces (8) | actuator_v6/BOM.md |  |
 | M2 x 10 pan head | 4 | V6 rod eyes | actuator_v6/BOM.md |  |
 | M2.5 x 6 self-tapping | 4 | main board to the bay bosses | X1/BODY.md |  |
 | M3 x 6 socket (ISO 4762) | 8 | track motors to the inner walls | J9/BOM.md |  |
@@ -148,9 +148,9 @@ One machine: two J9 tracks on the X1 revision F frame, the R3 turntable, body B1
 
 | Part | Qty | Specification | From | Note |
 |---|---|---|---|---|
-| JST XHP-2 housing + 2 x SXH-001T-P0.6 contacts | 5 | boom L, boom R, stick, bucket, swing (mate the S2B-XH-A headers J103-J107) | CONNECTORS.md |  |
-| JST XHP-4 housing + 4 x SXH-001T-P0.6 contacts | 1 | tracks via the slip ring (mates S4B-XH-A J102) | CONNECTORS.md |  |
-| JST PHR-3 housing + 3 x SPH-002T-P0.5S contacts | 1 | lamps (mates S3B-PH-K-S J108) | CONNECTORS.md |  |
+| JST XHP-2 housing + 2 x SXH-001T-P0.6 contacts | 5 | boom L, boom R, stick, bucket, swing (mate the B2B-XH-A headers J103-J107) | CONNECTORS.md |  |
+| JST XHP-4 housing + 4 x SXH-001T-P0.6 contacts | 1 | tracks via the slip ring (mates B4B-XH-A J102) | CONNECTORS.md |  |
+| JST PHR-3 housing + 3 x SPH-002T-P0.5S contacts | 1 | lamps (mates B3B-PH-K-S J108) | CONNECTORS.md |  |
 | Amass XT30U-F cable female | 2 | hatch lead end; 12 V link end onto the board's XT30PW-M | CONNECTORS.md |  |
 | Amass XT30U-M cable male | 1 | feed socket hanging in the hood cavity (mates the hatch lead) | CONNECTORS.md |  |
 | JST SMR-02V-B receptacle housing + 2 x SYM-001T-P0.6 pin contacts | 3 | two track joints in the carbody (stator side), toolbox lamp joint in the right bay (board side) | CONNECTORS.md |  |
@@ -176,8 +176,8 @@ One machine: two J9 tracks on the X1 revision F frame, the R3 turntable, body B1
 |---|---|---|
 | Printed | 44 | 187 |
 | Bought mechanical | 42 | 398 |
-| Screws, nuts, washers, inserts | 33 | 279 |
+| Screws, nuts, washers, inserts | 33 | 287 |
 | Harness and electrical | 21 | 43 |
-| **All** | 140 | 907 |
+| **All** | 140 | 915 |
 
 The printed count includes the 68 track shoes and the 18 W01 clamps. No custom-machined part anywhere in the machine.

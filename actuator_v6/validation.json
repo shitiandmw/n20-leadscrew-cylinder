@@ -28,6 +28,12 @@
         "heat-set insert: 2.0 mm knurl pressed into the 1.7 mm hole"
       ],
       [
+        "01_body",
+        "M1_insert_front_3",
+        1.2697,
+        "heat-set insert: 2.0 mm knurl pressed into the 1.7 mm hole"
+      ],
+      [
         "03_rear_cap",
         "cable_sleeve",
         2.3595,
@@ -76,10 +82,16 @@
         "M1 cap screw in its insert's thread"
       ],
       [
-        "05_rod_eye",
+        "M1_insert_front_3",
+        "M1x8_front_cap_3",
+        0.5089,
+        "M1 cap screw in its insert's thread"
+      ],
+      [
+        "04_rod",
         "M2x10_rod_eye",
-        1.2237,
-        "M2 thread in the 1.7 mm pilot of the rod eye"
+        6.8792,
+        "M2 thread cut into the 1.7 mm hole through the rod"
       ]
     ],
     "moving_assembly_interferences": [],
@@ -177,6 +189,7 @@
         ],
         "wall_round_knurl_mm": 1.05,
         "boss_to_knurl": 2.05,
+        "hole_wall_at_face_mm": 0.82,
         "hole_open_to_face": true,
         "screw_in_insert_mm": 1.802,
         "screw_tip_to_hole_bottom_mm": 0.5,
@@ -189,6 +202,7 @@
         ],
         "wall_round_knurl_mm": 1.05,
         "boss_to_knurl": 2.05,
+        "hole_wall_at_face_mm": 0.82,
         "hole_open_to_face": true,
         "screw_in_insert_mm": 1.802,
         "screw_tip_to_hole_bottom_mm": 0.5,
@@ -201,6 +215,7 @@
         ],
         "wall_round_knurl_mm": 0.7,
         "boss_to_knurl": 1.7,
+        "hole_wall_at_face_mm": 0.47,
         "hole_open_to_face": true,
         "screw_in_insert_mm": 1.802,
         "screw_tip_to_hole_bottom_mm": 0.5,
@@ -213,6 +228,20 @@
         ],
         "wall_round_knurl_mm": 0.7,
         "boss_to_knurl": 1.7,
+        "hole_wall_at_face_mm": 0.47,
+        "hole_open_to_face": true,
+        "screw_in_insert_mm": 1.802,
+        "screw_tip_to_hole_bottom_mm": 0.5,
+        "pass": true
+      },
+      "front_3": {
+        "at": [
+          -5.76,
+          -5.56
+        ],
+        "wall_round_knurl_mm": 0.782,
+        "boss_to_knurl": 1.78,
+        "hole_wall_at_face_mm": 0.56,
         "hole_open_to_face": true,
         "screw_in_insert_mm": 1.802,
         "screw_tip_to_hole_bottom_mm": 0.5,
@@ -248,7 +277,7 @@
       "motor_way_in_overlap_mm3": 0,
       "pass": true
     },
-    "carrier_key_blocks_wrong_way_mm3": 12.955,
+    "carrier_key_blocks_wrong_way_mm3": 22.66,
     "board_front_end_to_cap_tongue_mm": 0.1,
     "tool_access": {
       "M1_insert_rear_1": {
@@ -294,6 +323,20 @@
         ]
       },
       "M1_insert_front_2": {
+        "step": "3",
+        "tool": "IRON",
+        "blade_d_mm": 4.0,
+        "blade_len_mm": 45.0,
+        "min_blade_len_mm": 0.1,
+        "hits": [],
+        "nearest": [
+          {
+            "part": "01_body",
+            "mm": 0.409
+          }
+        ]
+      },
+      "M1_insert_front_3": {
         "step": "3",
         "tool": "IRON",
         "blade_d_mm": 4.0,
@@ -427,6 +470,24 @@
           }
         ]
       },
+      "M1x8_front_cap_3": {
+        "step": "9.2",
+        "tool": "PH000",
+        "blade_d_mm": 2.5,
+        "blade_len_mm": 40.0,
+        "min_blade_len_mm": 12.3,
+        "hits": [],
+        "nearest": [
+          {
+            "part": "02_front_cap",
+            "mm": 0.711
+          },
+          {
+            "part": "04_rod",
+            "mm": 2.756
+          }
+        ]
+      },
       "M2x10_rod_eye": {
         "step": "9.3",
         "tool": "PH1",
@@ -475,9 +536,9 @@
           14.7,
           88.1
         ],
-        "volume_mm3": 9607.8,
-        "mass_solid_g": 12.2,
-        "print_setup": "PETG, front end down (chamfered bore and board-slot mouths), 5 mm brim, 0.2 mm layers, 3 walls, 25 % gyroid, no supports. The motor wall bridges the carrier bore, so the motor seat is a top surface; the M1.6 countersinks (45\u00b0 cones) and the board rest are on the bridge's underside. The end of the motor-side wall stands 1.6 mm above the rear face, and the bevel of its notch prints as a 45\u00b0 overhang (0.12 mm layers for the last 2 mm make it 5 layers instead of 3). The four 1.7 mm insert holes run straight into the end faces."
+        "volume_mm3": 9664.6,
+        "mass_solid_g": 12.27,
+        "print_setup": "PETG, front end down (chamfered bore and board-slot mouths), 5 mm brim, 0.2 mm layers, 3 walls, 25 % gyroid, no supports. The motor wall bridges the carrier bore, so the motor seat is a top surface; the M1.6 countersinks (45\u00b0 cones) and the board rest are on the bridge's underside. The end of the motor-side wall stands 1.6 mm above the rear face, and the bevel of its notch prints as a 45\u00b0 overhang (0.12 mm layers for the last 2 mm make it 5 layers instead of 3). The five 1.7 mm insert holes run straight into the end faces."
       },
       "02_front_cap": {
         "file": "stl/V6-S/02_front_cap.stl",
@@ -490,8 +551,8 @@
           14.7,
           7.0
         ],
-        "volume_mm3": 1224.1,
-        "mass_solid_g": 1.55,
+        "volume_mm3": 1212.1,
+        "mass_solid_g": 1.54,
         "print_setup": "PETG, outer face down, 0.16 mm, 4 walls, 40 % gyroid, no supports."
       },
       "03_rear_cap": {
@@ -520,9 +581,9 @@
           12.0,
           72.0
         ],
-        "volume_mm3": 3030.8,
+        "volume_mm3": 3031.8,
         "mass_solid_g": 3.85,
-        "print_setup": "PETG, carrier down, 0.16 mm, 100 % infill, 3 mm brim; slow the last 20 mm of the L rod."
+        "print_setup": "PETG, carrier down, 0.16 mm, 100 % infill, 3 mm brim; slow the last 20 mm of the taller U60 and L rods."
       },
       "05_rod_eye": {
         "file": "stl/V6-S/05_rod_eye.stl",
@@ -535,7 +596,7 @@
           11.0,
           19.0
         ],
-        "volume_mm3": 854.2,
+        "volume_mm3": 851.9,
         "mass_solid_g": 1.08,
         "print_setup": "PETG, socket opening down, 0.16 mm, 100 % infill, no supports."
       },
@@ -565,8 +626,8 @@
           14.7,
           18.0
         ],
-        "volume_mm3": 2140.8,
-        "mass_solid_g": 2.72,
+        "volume_mm3": 2147.5,
+        "mass_solid_g": 2.73,
         "print_setup": "As 01_body, front end down. Checks the motor bay, the M1.6 countersinks, the board groove and the key rib."
       },
       "09_fit_carrier": {
@@ -580,8 +641,8 @@
           12.0,
           11.5
         ],
-        "volume_mm3": 936.7,
-        "mass_solid_g": 1.19,
+        "volume_mm3": 925.6,
+        "mass_solid_g": 1.18,
         "print_setup": "As 04_rod. Checks the nut slot, the magnet pocket and the slide in 08 (one way round only)."
       },
       "10_fit_insert_rear": {
@@ -610,9 +671,9 @@
           14.7,
           5.0
         ],
-        "volume_mm3": 530.5,
+        "volume_mm3": 528.8,
         "mass_solid_g": 0.67,
-        "print_setup": "As 01_body, front end down: the last 5 mm of the front end, with the bore and slot lead-ins. Press an M1 insert into each hole; they have 0.7 mm of wall."
+        "print_setup": "As 01_body, front end down: the last 5 mm of the front end, with the bore and slot lead-ins and the key rib. Press an M1 insert into each hole: the two on the board side have 0.7 mm of wall, the one by the key rib 0.8 mm."
       }
     },
     "all_meshes_pass": true
@@ -642,6 +703,12 @@
       [
         "01_body",
         "M1_insert_front_2",
+        1.2697,
+        "heat-set insert: 2.0 mm knurl pressed into the 1.7 mm hole"
+      ],
+      [
+        "01_body",
+        "M1_insert_front_3",
         1.2697,
         "heat-set insert: 2.0 mm knurl pressed into the 1.7 mm hole"
       ],
@@ -694,10 +761,16 @@
         "M1 cap screw in its insert's thread"
       ],
       [
-        "05_rod_eye",
+        "M1_insert_front_3",
+        "M1x8_front_cap_3",
+        0.5089,
+        "M1 cap screw in its insert's thread"
+      ],
+      [
+        "04_rod",
         "M2x10_rod_eye",
-        1.2237,
-        "M2 thread in the 1.7 mm pilot of the rod eye"
+        6.8792,
+        "M2 thread cut into the 1.7 mm hole through the rod"
       ]
     ],
     "moving_assembly_interferences": [],
@@ -795,6 +868,7 @@
         ],
         "wall_round_knurl_mm": 1.05,
         "boss_to_knurl": 2.05,
+        "hole_wall_at_face_mm": 0.82,
         "hole_open_to_face": true,
         "screw_in_insert_mm": 1.802,
         "screw_tip_to_hole_bottom_mm": 0.5,
@@ -807,6 +881,7 @@
         ],
         "wall_round_knurl_mm": 1.05,
         "boss_to_knurl": 2.05,
+        "hole_wall_at_face_mm": 0.82,
         "hole_open_to_face": true,
         "screw_in_insert_mm": 1.802,
         "screw_tip_to_hole_bottom_mm": 0.5,
@@ -819,6 +894,7 @@
         ],
         "wall_round_knurl_mm": 0.7,
         "boss_to_knurl": 1.7,
+        "hole_wall_at_face_mm": 0.47,
         "hole_open_to_face": true,
         "screw_in_insert_mm": 1.802,
         "screw_tip_to_hole_bottom_mm": 0.5,
@@ -831,6 +907,20 @@
         ],
         "wall_round_knurl_mm": 0.7,
         "boss_to_knurl": 1.7,
+        "hole_wall_at_face_mm": 0.47,
+        "hole_open_to_face": true,
+        "screw_in_insert_mm": 1.802,
+        "screw_tip_to_hole_bottom_mm": 0.5,
+        "pass": true
+      },
+      "front_3": {
+        "at": [
+          -5.76,
+          -5.56
+        ],
+        "wall_round_knurl_mm": 0.782,
+        "boss_to_knurl": 1.78,
+        "hole_wall_at_face_mm": 0.56,
         "hole_open_to_face": true,
         "screw_in_insert_mm": 1.802,
         "screw_tip_to_hole_bottom_mm": 0.5,
@@ -866,7 +956,7 @@
       "motor_way_in_overlap_mm3": 0,
       "pass": true
     },
-    "carrier_key_blocks_wrong_way_mm3": 12.955,
+    "carrier_key_blocks_wrong_way_mm3": 22.66,
     "board_front_end_to_cap_tongue_mm": 0.1,
     "tool_access": {
       "M1_insert_rear_1": {
@@ -912,6 +1002,20 @@
         ]
       },
       "M1_insert_front_2": {
+        "step": "3",
+        "tool": "IRON",
+        "blade_d_mm": 4.0,
+        "blade_len_mm": 45.0,
+        "min_blade_len_mm": 0.1,
+        "hits": [],
+        "nearest": [
+          {
+            "part": "01_body",
+            "mm": 0.409
+          }
+        ]
+      },
+      "M1_insert_front_3": {
         "step": "3",
         "tool": "IRON",
         "blade_d_mm": 4.0,
@@ -1045,6 +1149,24 @@
           }
         ]
       },
+      "M1x8_front_cap_3": {
+        "step": "9.2",
+        "tool": "PH000",
+        "blade_d_mm": 2.5,
+        "blade_len_mm": 40.0,
+        "min_blade_len_mm": 12.3,
+        "hits": [],
+        "nearest": [
+          {
+            "part": "02_front_cap",
+            "mm": 0.711
+          },
+          {
+            "part": "04_rod",
+            "mm": 2.756
+          }
+        ]
+      },
       "M2x10_rod_eye": {
         "step": "9.3",
         "tool": "PH1",
@@ -1093,9 +1215,9 @@
           14.7,
           108.1
         ],
-        "volume_mm3": 11825.3,
-        "mass_solid_g": 15.02,
-        "print_setup": "PETG, front end down (chamfered bore and board-slot mouths), 5 mm brim, 0.2 mm layers, 3 walls, 25 % gyroid, no supports. The motor wall bridges the carrier bore, so the motor seat is a top surface; the M1.6 countersinks (45\u00b0 cones) and the board rest are on the bridge's underside. The end of the motor-side wall stands 1.6 mm above the rear face, and the bevel of its notch prints as a 45\u00b0 overhang (0.12 mm layers for the last 2 mm make it 5 layers instead of 3). The four 1.7 mm insert holes run straight into the end faces."
+        "volume_mm3": 11904.6,
+        "mass_solid_g": 15.12,
+        "print_setup": "PETG, front end down (chamfered bore and board-slot mouths), 5 mm brim, 0.2 mm layers, 3 walls, 25 % gyroid, no supports. The motor wall bridges the carrier bore, so the motor seat is a top surface; the M1.6 countersinks (45\u00b0 cones) and the board rest are on the bridge's underside. The end of the motor-side wall stands 1.6 mm above the rear face, and the bevel of its notch prints as a 45\u00b0 overhang (0.12 mm layers for the last 2 mm make it 5 layers instead of 3). The five 1.7 mm insert holes run straight into the end faces."
       },
       "02_front_cap": {
         "file": "stl/V6-U60/02_front_cap.stl",
@@ -1108,8 +1230,8 @@
           14.7,
           7.0
         ],
-        "volume_mm3": 1224.1,
-        "mass_solid_g": 1.55,
+        "volume_mm3": 1212.1,
+        "mass_solid_g": 1.54,
         "print_setup": "PETG, outer face down, 0.16 mm, 4 walls, 40 % gyroid, no supports."
       },
       "03_rear_cap": {
@@ -1138,9 +1260,9 @@
           12.0,
           92.0
         ],
-        "volume_mm3": 3674.2,
+        "volume_mm3": 3675.2,
         "mass_solid_g": 4.67,
-        "print_setup": "PETG, carrier down, 0.16 mm, 100 % infill, 3 mm brim; slow the last 20 mm of the L rod."
+        "print_setup": "PETG, carrier down, 0.16 mm, 100 % infill, 3 mm brim; slow the last 20 mm of the taller U60 and L rods."
       },
       "05_rod_eye": {
         "file": "stl/V6-U60/05_rod_eye.stl",
@@ -1153,7 +1275,7 @@
           11.0,
           19.0
         ],
-        "volume_mm3": 854.2,
+        "volume_mm3": 851.9,
         "mass_solid_g": 1.08,
         "print_setup": "PETG, socket opening down, 0.16 mm, 100 % infill, no supports."
       },
@@ -1200,6 +1322,12 @@
       [
         "01_body",
         "M1_insert_front_2",
+        1.2697,
+        "heat-set insert: 2.0 mm knurl pressed into the 1.7 mm hole"
+      ],
+      [
+        "01_body",
+        "M1_insert_front_3",
         1.2697,
         "heat-set insert: 2.0 mm knurl pressed into the 1.7 mm hole"
       ],
@@ -1252,10 +1380,16 @@
         "M1 cap screw in its insert's thread"
       ],
       [
-        "05_rod_eye",
+        "M1_insert_front_3",
+        "M1x8_front_cap_3",
+        0.5089,
+        "M1 cap screw in its insert's thread"
+      ],
+      [
+        "04_rod",
         "M2x10_rod_eye",
-        1.2237,
-        "M2 thread in the 1.7 mm pilot of the rod eye"
+        6.8792,
+        "M2 thread cut into the 1.7 mm hole through the rod"
       ]
     ],
     "moving_assembly_interferences": [],
@@ -1353,6 +1487,7 @@
         ],
         "wall_round_knurl_mm": 1.05,
         "boss_to_knurl": 2.05,
+        "hole_wall_at_face_mm": 0.82,
         "hole_open_to_face": true,
         "screw_in_insert_mm": 1.802,
         "screw_tip_to_hole_bottom_mm": 0.5,
@@ -1365,6 +1500,7 @@
         ],
         "wall_round_knurl_mm": 1.05,
         "boss_to_knurl": 2.05,
+        "hole_wall_at_face_mm": 0.82,
         "hole_open_to_face": true,
         "screw_in_insert_mm": 1.802,
         "screw_tip_to_hole_bottom_mm": 0.5,
@@ -1377,6 +1513,7 @@
         ],
         "wall_round_knurl_mm": 0.7,
         "boss_to_knurl": 1.7,
+        "hole_wall_at_face_mm": 0.47,
         "hole_open_to_face": true,
         "screw_in_insert_mm": 1.802,
         "screw_tip_to_hole_bottom_mm": 0.5,
@@ -1389,6 +1526,20 @@
         ],
         "wall_round_knurl_mm": 0.7,
         "boss_to_knurl": 1.7,
+        "hole_wall_at_face_mm": 0.47,
+        "hole_open_to_face": true,
+        "screw_in_insert_mm": 1.802,
+        "screw_tip_to_hole_bottom_mm": 0.5,
+        "pass": true
+      },
+      "front_3": {
+        "at": [
+          -5.76,
+          -5.56
+        ],
+        "wall_round_knurl_mm": 0.782,
+        "boss_to_knurl": 1.78,
+        "hole_wall_at_face_mm": 0.56,
         "hole_open_to_face": true,
         "screw_in_insert_mm": 1.802,
         "screw_tip_to_hole_bottom_mm": 0.5,
@@ -1424,7 +1575,7 @@
       "motor_way_in_overlap_mm3": 0,
       "pass": true
     },
-    "carrier_key_blocks_wrong_way_mm3": 12.955,
+    "carrier_key_blocks_wrong_way_mm3": 22.66,
     "board_front_end_to_cap_tongue_mm": 0.1,
     "tool_access": {
       "M1_insert_rear_1": {
@@ -1470,6 +1621,20 @@
         ]
       },
       "M1_insert_front_2": {
+        "step": "3",
+        "tool": "IRON",
+        "blade_d_mm": 4.0,
+        "blade_len_mm": 45.0,
+        "min_blade_len_mm": 0.1,
+        "hits": [],
+        "nearest": [
+          {
+            "part": "01_body",
+            "mm": 0.409
+          }
+        ]
+      },
+      "M1_insert_front_3": {
         "step": "3",
         "tool": "IRON",
         "blade_d_mm": 4.0,
@@ -1603,6 +1768,24 @@
           }
         ]
       },
+      "M1x8_front_cap_3": {
+        "step": "9.2",
+        "tool": "PH000",
+        "blade_d_mm": 2.5,
+        "blade_len_mm": 40.0,
+        "min_blade_len_mm": 12.3,
+        "hits": [],
+        "nearest": [
+          {
+            "part": "02_front_cap",
+            "mm": 0.711
+          },
+          {
+            "part": "04_rod",
+            "mm": 2.756
+          }
+        ]
+      },
       "M2x10_rod_eye": {
         "step": "9.3",
         "tool": "PH1",
@@ -1651,9 +1834,9 @@
           14.7,
           133.1
         ],
-        "volume_mm3": 14597.1,
-        "mass_solid_g": 18.54,
-        "print_setup": "PETG, front end down (chamfered bore and board-slot mouths), 5 mm brim, 0.2 mm layers, 3 walls, 25 % gyroid, no supports. The motor wall bridges the carrier bore, so the motor seat is a top surface; the M1.6 countersinks (45\u00b0 cones) and the board rest are on the bridge's underside. The end of the motor-side wall stands 1.6 mm above the rear face, and the bevel of its notch prints as a 45\u00b0 overhang (0.12 mm layers for the last 2 mm make it 5 layers instead of 3). The four 1.7 mm insert holes run straight into the end faces."
+        "volume_mm3": 14704.5,
+        "mass_solid_g": 18.67,
+        "print_setup": "PETG, front end down (chamfered bore and board-slot mouths), 5 mm brim, 0.2 mm layers, 3 walls, 25 % gyroid, no supports. The motor wall bridges the carrier bore, so the motor seat is a top surface; the M1.6 countersinks (45\u00b0 cones) and the board rest are on the bridge's underside. The end of the motor-side wall stands 1.6 mm above the rear face, and the bevel of its notch prints as a 45\u00b0 overhang (0.12 mm layers for the last 2 mm make it 5 layers instead of 3). The five 1.7 mm insert holes run straight into the end faces."
       },
       "02_front_cap": {
         "file": "stl/V6-L/02_front_cap.stl",
@@ -1666,8 +1849,8 @@
           14.7,
           7.0
         ],
-        "volume_mm3": 1224.1,
-        "mass_solid_g": 1.55,
+        "volume_mm3": 1212.1,
+        "mass_solid_g": 1.54,
         "print_setup": "PETG, outer face down, 0.16 mm, 4 walls, 40 % gyroid, no supports."
       },
       "03_rear_cap": {
@@ -1696,9 +1879,9 @@
           12.0,
           117.0
         ],
-        "volume_mm3": 4478.5,
+        "volume_mm3": 4479.4,
         "mass_solid_g": 5.69,
-        "print_setup": "PETG, carrier down, 0.16 mm, 100 % infill, 3 mm brim; slow the last 20 mm of the L rod."
+        "print_setup": "PETG, carrier down, 0.16 mm, 100 % infill, 3 mm brim; slow the last 20 mm of the taller U60 and L rods."
       },
       "05_rod_eye": {
         "file": "stl/V6-L/05_rod_eye.stl",
@@ -1711,7 +1894,7 @@
           11.0,
           19.0
         ],
-        "volume_mm3": 854.2,
+        "volume_mm3": 851.9,
         "mass_solid_g": 1.08,
         "print_setup": "PETG, socket opening down, 0.16 mm, 100 % infill, no supports."
       },

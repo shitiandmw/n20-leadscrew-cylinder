@@ -310,7 +310,7 @@
    "name": "slip ring rotor leads",
    "to": "J102",
    "r_mm": 2.2,
-   "length_mm": 181.3,
+   "length_mm": 176.6,
    "clear_mm": 4.281,
    "closest": "hub_screw_M4x20_4",
    "hits": [],
@@ -337,7 +337,7 @@
    "name": "swing motor leads",
    "to": "J103",
    "r_mm": 1.3,
-   "length_mm": 183.8,
+   "length_mm": 179.5,
    "clear_mm": 6.964,
    "closest": "sleeve_screw_M3x12_0",
    "hits": [],
@@ -444,7 +444,7 @@
    "name": "toolbox lamp pair",
    "to": "J108",
    "r_mm": 1.3,
-   "length_mm": 425.4,
+   "length_mm": 421.2,
    "clear_mm": 3.731,
    "closest": "T101_centre_frame",
    "hits": [],
@@ -478,8 +478,8 @@
    "name": "roof lamps pair",
    "to": "J108",
    "r_mm": 0.5,
-   "length_mm": 347.0,
-   "clear_mm": 6.5,
+   "length_mm": 348.5,
+   "clear_mm": 8.81,
    "closest": "T101_centre_frame",
    "hits": [],
    "touches": {
@@ -608,7 +608,7 @@
    "name": "J104 cable in the trough and under the plate",
    "to": "J104",
    "r_mm": 1.75,
-   "length_mm": 219.3,
+   "length_mm": 215.0,
    "clear_mm": 2.331,
    "closest": "B102_left_half",
    "hits": [],
@@ -631,7 +631,7 @@
    "name": "J105 cable in the trough and under the plate",
    "to": "J105",
    "r_mm": 1.75,
-   "length_mm": 314.2,
+   "length_mm": 310.0,
    "clear_mm": 3.253,
    "closest": "B103_right_half",
    "hits": [],
@@ -654,7 +654,7 @@
    "name": "J106 cable under the plate",
    "to": "J106",
    "r_mm": 1.75,
-   "length_mm": 193.5,
+   "length_mm": 189.2,
    "clear_mm": 2.308,
    "closest": "B102_left_half",
    "hits": [],
@@ -675,7 +675,7 @@
    "name": "J107 cable under the plate",
    "to": "J107",
    "r_mm": 1.75,
-   "length_mm": 300.1,
+   "length_mm": 295.8,
    "clear_mm": 3.6,
    "closest": "B102_left_half",
    "hits": [],
@@ -696,8 +696,8 @@
    "name": "slip ring rotor leads (plug tail)",
    "to": "J102",
    "r_mm": 0.45,
-   "length_mm": 18.9,
-   "clear_mm": 6.722,
+   "length_mm": 16.4,
+   "clear_mm": 9.694,
    "closest": "B102_left_half",
    "hits": [],
    "touches": {
@@ -712,8 +712,8 @@
      "board_parts",
      "controller_PCB"
     ],
-    "nearest": "board_plugs_wires_orange",
-    "mm": 0.353,
+    "nearest": "board_plugs_wires_black",
+    "mm": 0.35,
     "overlaps": []
    }
   },
@@ -721,7 +721,7 @@
    "name": "swing motor leads (plug tail)",
    "to": "J103",
    "r_mm": 0.45,
-   "length_mm": 18.9,
+   "length_mm": 16.4,
    "clear_mm": 46.1,
    "closest": "ballast_steel_shot",
    "hits": [],
@@ -739,8 +739,8 @@
      "board_parts",
      "controller_PCB"
     ],
-    "nearest": "board_plugs_wires_black",
-    "mm": 0.353,
+    "nearest": "board_plugs_wires_red",
+    "mm": 0.35,
     "overlaps": []
    }
   },
@@ -748,9 +748,9 @@
    "name": "toolbox lamp pair (plug tail)",
    "to": "J108",
    "r_mm": 0.45,
-   "length_mm": 19.5,
-   "clear_mm": 1.072,
-   "closest": "T101_centre_frame",
+   "length_mm": 15.3,
+   "clear_mm": 9.97,
+   "closest": "B102_left_half",
    "hits": [],
    "touches": {
     "expected": [
@@ -765,16 +765,18 @@
      "controller_PCB"
     ],
     "nearest": "board_plugs_wires_orange",
-    "mm": 0.04,
-    "overlaps": []
+    "mm": 0.0,
+    "overlaps": [
+     "board_plugs_wires_orange"
+    ]
    }
   },
   {
    "name": "roof lamps pair (plug tail)",
    "to": "J108",
    "r_mm": 0.45,
-   "length_mm": 19.5,
-   "clear_mm": 1.072,
+   "length_mm": 15.3,
+   "clear_mm": 13.0,
    "closest": "T101_centre_frame",
    "hits": [],
    "touches": {
@@ -789,16 +791,18 @@
      "controller_PCB"
     ],
     "nearest": "board_plugs_wires_orange",
-    "mm": 0.04,
-    "overlaps": []
+    "mm": 0.0,
+    "overlaps": [
+     "board_plugs_wires_orange"
+    ]
    }
   },
   {
    "name": "J104 cable in the trough and under the plate (plug tail)",
    "to": "J104",
    "r_mm": 0.45,
-   "length_mm": 18.9,
-   "clear_mm": 6.722,
+   "length_mm": 16.4,
+   "clear_mm": 17.81,
    "closest": "B102_left_half",
    "hits": [],
    "touches": {
@@ -809,8 +813,8 @@
      "T101_centre_frame",
      "B01X_boom_foot_bracket"
     ],
-    "nearest": "board_plugs_wires_black",
-    "mm": 0.353,
+    "nearest": "board_plugs_wires_red",
+    "mm": 0.35,
     "overlaps": []
    }
   },
@@ -818,8 +822,8 @@
    "name": "J105 cable in the trough and under the plate (plug tail)",
    "to": "J105",
    "r_mm": 0.45,
-   "length_mm": 18.9,
-   "clear_mm": 6.722,
+   "length_mm": 16.4,
+   "clear_mm": 17.81,
    "closest": "B102_left_half",
    "hits": [],
    "touches": {
@@ -830,8 +834,8 @@
      "T101_centre_frame",
      "B01X_boom_foot_bracket"
     ],
-    "nearest": "board_plugs_wires_black",
-    "mm": 0.353,
+    "nearest": "board_plugs_wires_red",
+    "mm": 0.35,
     "overlaps": []
    }
   },
@@ -839,8 +843,8 @@
    "name": "J106 cable under the plate (plug tail)",
    "to": "J106",
    "r_mm": 0.45,
-   "length_mm": 18.9,
-   "clear_mm": 6.722,
+   "length_mm": 16.4,
+   "clear_mm": 17.81,
    "closest": "B102_left_half",
    "hits": [],
    "touches": {
@@ -851,8 +855,8 @@
      "T101_centre_frame",
      "B01X_boom_foot_bracket"
     ],
-    "nearest": "board_plugs_wires_black",
-    "mm": 0.353,
+    "nearest": "board_plugs_wires_red",
+    "mm": 0.35,
     "overlaps": []
    }
   },
@@ -860,8 +864,8 @@
    "name": "J107 cable under the plate (plug tail)",
    "to": "J107",
    "r_mm": 0.45,
-   "length_mm": 18.9,
-   "clear_mm": 6.722,
+   "length_mm": 16.4,
+   "clear_mm": 17.81,
    "closest": "B102_left_half",
    "hits": [],
    "touches": {
@@ -872,8 +876,8 @@
      "T101_centre_frame",
      "B01X_boom_foot_bracket"
     ],
-    "nearest": "board_plugs_wires_black",
-    "mm": 0.353,
+    "nearest": "board_plugs_wires_red",
+    "mm": 0.35,
     "overlaps": []
    }
   }
@@ -974,31 +978,52 @@
    "note": "two cables per X, stacked at Z 141 and 145"
   },
   "bay_over_plugs": {
-   "plug_top_z": 117.7,
-   "run_z": 122.0,
-   "run_y": 76.0,
-   "plug_face_y": 72.0,
-   "hood_underside_z": ">= 136.3 (hood front wall bottom) / 198.8"
+   "plug_top_z": {
+    "XH": 121.31,
+    "PH": 119.51
+   },
+   "plug_wire_top_z": {
+    "XH": 125.31,
+    "PH": 123.51
+   },
+   "pin_row_y": {
+    "XH": 93.74,
+    "PH": 90.79
+   },
+   "run_z": 130.0,
+   "run_y": 78.0,
+   "hood_underside_z": ">= 136.3 (hood front wall bottom) / 198.8",
+   "note": "top-entry headers: each lead leaves the bay run outboard over its plug and comes straight down onto it"
   }
  },
  "routed_lengths_mm": {
-  "stick": 606.2,
-  "bucket": 932.1,
-  "boom_L": 295.1,
-  "boom_R": 390.1,
-  "slip ring rotor leads": 200.2,
-  "swing motor leads": 202.7,
+  "stick": 599.4,
+  "bucket": 925.4,
+  "boom_L": 288.4,
+  "boom_R": 383.4,
+  "slip ring rotor leads": 193.1,
+  "swing motor leads": 196.0,
   "12 V link (switch to board)": 438.8,
   "battery feed (fuse to hatch socket)": 239.0,
   "battery hatch lead": 19.6,
-  "toolbox lamp pair": 444.9,
-  "roof lamps pair": 366.5,
+  "toolbox lamp pair": 436.5,
+  "roof lamps pair": 363.8,
   "left track motor leads": 181.3,
   "right track motor leads": 181.3,
   "slip ring stator leads": 36.1,
   "slip ring stator leads (right pair)": 36.1
  },
+ "board_plug_offsets_mm": {
+  "J102": 0.0,
+  "J103": 0.0,
+  "J104": 0.0,
+  "J105": 0.0,
+  "J106": 0.0,
+  "J107": 0.0,
+  "J108": 0.0,
+  "J109": 0.0
+ },
  "wire_list_rows": 14,
  "status": "PASS",
- "seconds": 58.5
+ "seconds": 60.9
 }

@@ -10,7 +10,13 @@ The requirements are in [../SPEC.md](../SPEC.md) (spec C1, issue 5).
 
 **Revision B (2026-11-10).** The arm's V6-U60 actuators now use the 12 V N20 gearmotor (1:50, 800 rpm) with an M4 leadscrew (actuator_v6 rev 6.2). Their four DRV8876s therefore run from VBAT like the other three. The 6 V buck (U111 and its 12 parts: C111–C117, L111, R111–R114) is gone, along with the 6 V sense (R131, R132, C131 on GPIO7): 16 parts, 148 to 132 assembled. C130 stays where it was, as VBAT bulk at the four actuator drivers. Every other part keeps its value and position. The board was rebuilt from rev A's routing session with the removed parts' tracks taken out, so nothing else moved (see Routing).
 
-**Status:** rev B's schematic and routed PCB are complete and checked, and its Gerbers, BOM, pick-and-place and board STEP are generated (2026-11-10). The X1 body has not yet been rebuilt around the rev B STEP (BODY.md).
+**Rev B amended on 2026-11-14: top-entry headers on the inboard edge.** J102–J109 were side-entry JST headers (S4B-XH-A, 5 × S2B-XH-A, S3B-PH-K-S, S4B-PH-K-S). Their mated plugs and lead bends pointed at the T101 rib and ended 3 mm from it in the X1 body, so the harness had to drop into that gap. They are now JST's top-entry headers on the same pins: B4B-XH-A (C144395), 5 × B2B-XH-A (C158012), B3B-PH-K-S (C131339) and B4B-PH-K-S (C131334).
+- KiCad 9's top-entry (`_Vertical`) footprints have the same pads as the side-entry ones: positions, sizes and drills.
+- The copper, drill files, solder mask, paste and pick-and-place file are unchanged. Every copper, mask and paste shape was compared with the 2026-11-10 Gerbers; the drill files and the CPL are byte-identical.
+- What changed: the four BOM lines, the footprints with their 3D models and front silkscreen outlines along the inboard edge, and the date on the back silkscreen (2026-11-05 → 2026-11-14).
+- Rev B had not been ordered, so it keeps its letter. A board made from the earlier files carries 2026-11-05 on its back and has side-entry headers.
+
+**Status:** rev B's schematic and routed PCB are complete and checked, and its Gerbers, BOM, pick-and-place and board STEP are generated (2026-11-10; regenerated on 2026-11-14 with the top-entry headers). The X1 body was rebuilt around the rev B STEP on 2026-11-14 and its checks pass (BODY.md). Nothing has been ordered.
 
 ## Files
 
@@ -60,7 +66,7 @@ Python 3 is needed; nothing outside the standard library is required. `KICAD_SYM
 
 For the PCB, also from `source/`:
 1. `python models_3d.py`, only if a project 3D model changes. It needs CadQuery.
-2. `python build_pcb.py`: footprints, placement, straps, fan-out, then the saved routing sessions (`kicad/X1_main.ses`, and `kicad/X1_main_repair.ses` for the boxed-in ground pads). With `--reroute` it routes again for 40 minutes (`--minutes`). It uses the Docker images `kicad/kicad:9.0`, `ghcr.io/freerouting/freerouting:2.1.0` and, once, `eclipse-temurin:21-jdk` to build the patched router.
+2. `python build_pcb.py`: footprints, placement, straps, fan-out, then the saved routing sessions (`kicad/X1_main.ses`, and `kicad/X1_main_repair.ses` for the boxed-in ground pads). With `--reroute` it routes again for 40 minutes (`--minutes`). With `--keep-routes REASON` it imports both saved sessions although the DSN changed, for a change that leaves every pad where it was (the footprint swap of 2026-11-14), and records the reason with the old hashes. It uses the Docker images `kicad/kicad:9.0`, `ghcr.io/freerouting/freerouting:2.1.0` and, once, `eclipse-temurin:21-jdk` to build the patched router.
 3. `python check_pcb.py`: DRC and the output files. It downloads the KiCad 3D models it needs once, into `/tmp/kicad-3d` (`KICAD9_3DMODEL_DIR` overrides).
 
 ## Block design
@@ -126,12 +132,12 @@ For the PCB, also from `source/`:
 - **Per-driver parts:** 100 nF + 10 µF on VM, 100 nF VCP–VM, 22 nF CPH–CPL (datasheet Table 1).
 
 ### Outputs (sheet 5)
-- **Motor connectors.** JST-XH, side entry (6.1 mm tall):
+- **Motor connectors.** JST-XH, top entry (B2B/B4B-XH-A: 7.0 mm tall, 9.8 mm with the XHP plug; side entry until 2026-11-14):
   - one 4-way for the tracks: 1-2 left, 3-4 right, matching the slip-ring plug;
   - five 2-way: swing, boom L, boom R, stick, bucket.
-- **Lamps.** JST-PH 3-way: 5 V common through a 0.5 A PTC, and two low-side AO3400A returns (PWM).
+- **Lamps.** JST-PH 3-way, top entry (B3B-PH-K-S: 6.0 mm tall, 8.0 mm with the PHR plug): 5 V common through a 0.5 A PTC, and two low-side AO3400A returns (PWM).
 - **Buzzer.** 5 V passive magnetic part (32 Ω, 2.7 kHz) driven directly on the low side, with a flyback diode. R420 is a 0 Ω link, so a resistor can lower the volume.
-- **Expansion.** JST-PH 4-way: 5 V through a 2 A PTC, GND, then TX (100 Ω) and RX (1k, which limits a 5 V source). It is reserved for the later serial link.
+- **Expansion.** JST-PH 4-way, top entry (B4B-PH-K-S): 5 V through a 2 A PTC, GND, then TX (100 Ω) and RX (1k, which limits a 5 V source). It is reserved for the later serial link.
 
 ## PCB layout
 
@@ -154,7 +160,7 @@ For the PCB, also from `source/`:
 - **Outboard edge.** USB-C at machine X −98 (SPEC C3), face 0.5 mm proud. The module is at the front end with its antenna over the edge: 15 mm from its side to the USB-C shell, 14 mm to the front boss screw. The copper keep-out is ±22 mm about the module's centre, on every layer.
 - **Front edge.** The XT30, with the reverse-polarity FET, TVS and gate parts behind it. A 1.5 mm VBAT_IN pour runs from the XT30 to the FET's drains, and a VBAT pour from its sources to four vias into In2.
 - **Rear-outboard corner.** The 5 V buck, with its input capacitors beside the IC, a short switch node on a pour, and the inductor and output capacitors on an output pour. Below it is the empty place of rev A's 6 V buck. The RESET button is beside the USB-C.
-- **Inboard edge.** The eight connectors in the SPEC C2 order. Each motor connector has its H-bridge cell 1.5 mm in front of the connector's centre:
+- **Inboard edge.** The eight connectors in the SPEC C2 order, top entry. Their pin rows are where the side-entry headers had them, 9.74 mm (XH) and 6.79 mm (PH) in from the edge, so the housings stand 6.3 mm and 4.0 mm in from it. Each motor connector has its H-bridge cell 1.5 mm in front of the connector's centre:
   - the driver's logic pins face the module and its outputs face the connector;
   - above it, the IPROPI resistor and the ADC filter;
   - below it, the VM, charge-pump and VCP capacitors.
@@ -230,6 +236,7 @@ Freerouting versions, on the same design:
 
 **The session is kept.** Routing takes 40 minutes and is not repeatable, so `build_pcb.py` saves the session as `kicad/X1_main.ses`. `kicad/X1_main_route.json` holds the SHA-256 of the DSN it was routed from. A plain `python build_pcb.py` re-imports that session while the placement still exports the same DSN; otherwise it stops and asks for `--reroute`. The repair session is kept the same way.
 - **Rev B** was not routed again. Its DSN differs from rev A's only by the removed 6 V parts, so rev A's session was imported with `--ses` after the wiring of the removed nets (the 6 V buck's and the 6 V sense's) had been taken out of it. The repair step then ran again (6 minutes) and `X1_main_route.json` now holds rev B's hashes.
+- **The top-entry headers (2026-11-14)** were not routed again either. Their footprints have the same pads, so the DSN differed from the routed one only in the footprint names and outline graphics: after taking those out, the two DSNs were identical. `build_pcb.py --keep-routes` imported both sessions unchanged. The result matched the 2026-11-10 board: in KiCad, every track, via, zone fill and pad net; in the Gerbers, every copper, mask and paste shape. `X1_main_route.json` keeps the reason and the earlier hashes under `kept`.
 - Everything else is repeatable. The fan-out visits the footprints in a fixed order, the order `place` builds them in. A saved board lists them by their random ids, and the order decides which of two neighbouring pads gets a new via and which shares it.
 - The repair DSN comes from a saved board, so from build to build it lists the same nets' pins and the same wires in another order, and joins different wire segments into one path. Its hash (`build_pcb.dsn_fingerprint`) is taken after sorting the pins, cutting every path into segments and sorting the lines.
 
@@ -246,8 +253,8 @@ Freerouting versions, on the same design:
 | Footprints and LCSC numbers in KiCad vs `netlist.py` | identical |
 | Netlist rules | every net has 2 or more pins; one use per GPIO; ADC1 only; enables avoid glitching pins; straps held low; driver mode pins; voltage ratings |
 | Electrical checks (`X1_main_board_B_design_checks.json`) | 51 checks, all pass: ITRIP vs spec, IPROPI current and voltage, VM, logic levels, PWM, buck output, start/stop, inductor peak and saturation, crossover and feed-forward, rail load, LDO headroom and heat, sense range, battery budget, FET loss, clamps, PTCs, part height |
-| KiCad 9 DRC on the routed board (`X1_main_board_B_pcb_checks.json`, 2026-11-10) | 0 errors, 0 unconnected items, schematic parity 0. Four accepted warnings: the outline silk of the USB-C and the module crosses the edge they overhang. |
-| Board against SPEC.md and the body | All pass: outline and holes on the `x1_body.py` bosses; USB-C at X −98 with its face at the edge; antenna at the edge; XT30 on the front edge; the inboard connectors in the spec's order; tallest part 10.5 mm (C101); motor tracks 0.4 mm and 5 V tracks 0.8 mm; plated rings at least 0.15 mm; Gerbers complete; the CPL lists all 132 assembled parts. |
+| KiCad 9 DRC on the routed board (`X1_main_board_B_pcb_checks.json`, 2026-11-14) | 0 errors, 0 unconnected items, schematic parity 0. Four accepted warnings: the outline silk of the USB-C and the module crosses the edge they overhang. |
+| Board against SPEC.md and the body | All pass: outline and holes on the `x1_body.py` bosses; USB-C at X −98 with its face at the edge; antenna at the edge; XT30 on the front edge; the inboard connectors in the spec's order, top entry on their pin rows, courtyards 3.5–5.8 mm in from the edge; tallest part 10.5 mm (C101); motor tracks 0.4 mm and 5 V tracks 0.8 mm; plated rings at least 0.15 mm; Gerbers complete; the CPL lists all 132 assembled parts. |
 
 **Worst-case battery current is 4.45 A, under the 5 A fuse.** It assumes:
 - tracks and swing at their limits;
@@ -261,7 +268,7 @@ Freerouting versions, on the same design:
 - **Track limit 1.034 A, not 1.0 A.** It uses a 2.4k Basic resistor instead of 2.49k Extended. The firmware's stall cut-out uses the real limit, from `x1_main_pins.h`.
 - **35 of 36 GPIO are used.** The spec's preliminary budget was 33. The extras are the UART0 test pads; UART0 is otherwise unused. (Rev A also sensed the 6 V rail on GPIO7.)
 - **The buzzer is a 5 V part** (XHXDZ SMD8530-32Ω) instead of the 3.6 V MLT-8530, so it needs no dropping resistor.
-- **Connector orientation.** Side-entry JST-XH/PH are entered in the BOM as the first choice (lower). SPEC B5 leaves the final choice to the CAD phase; top-entry part numbers are in the sources below.
+- **Connector orientation (SPEC B5, fixed 2026-11-14).** Top entry. Side entry was the first choice until the X1 body showed the plugs 3 mm from the T101 rib (see Revision B above).
 
 ## Bench items
 1. LDO temperature with the radio running (the 0.15 A average is assumed).
@@ -278,7 +285,7 @@ Freerouting versions, on the same design:
   - Espressif ESP32-S3 Series v2.2: Tables 2-1 and 2-2, Table 5-5 (ADC).
   - Diodes AP2112 DS39724: pin descriptions, θJA, dropout.
 - **LCSC / JLCPCB part numbers.** Each was confirmed on 2026-11-05 at `https://www.lcsc.com/product-detail/<C#>.html` and `https://jlcpcb.com/partdetail/<C#>`. Every LCSC number is in `source/netlist.py` and `BOM.md`.
-  - Top-entry alternatives: B2B-XH-A C158012, B4B-XH-A C144395, B3B-PH-K-S C131339, B4B-PH-K-S C131334.
+  - Inboard headers, top entry since 2026-11-14: B2B-XH-A C158012, B4B-XH-A C144395, B3B-PH-K-S C131339, B4B-PH-K-S C131334 (Extended parts; check stock when ordering). The side-entry ones they replaced: S2B-XH-A C157931, S4B-XH-A C157925, S3B-PH-K-S C157929, S4B-PH-K-S C157926.
   - Vertical XT30UPB-M: C428721.
   - Second-source inductor: TAI-TECH TMPA0605S-100MN-D, C2880077 (Isat 6.0 A).
   - Stock note: the genuine AOS AO4407A had about 510 in stock. UMW makes a same-named part with different specs; do not substitute it unchecked.

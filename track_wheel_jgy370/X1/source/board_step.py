@@ -7,7 +7,7 @@ machine frame puts the board at x1_body.BOARD: machine = STEP + (-136, 84, 110).
 
 groups() -> {group: (compound shape, colour, refs)} in the STEP frame; the group of a part follows its footprint:
   pcb          the PCB (KiCad's green)
-  jst          S2B/S4B-XH-A and S3B/S4B-PH-K-S headers (natural PA, white)
+  jst          B2B/B4B-XH-A and B3B/B4B-PH-K-S top-entry headers (natural PA, white)
   xt30         XT30PW-M housing (yellow) and xt30_pins (gold)
   usb          USB-C shell (steel) ; usb_tongue (black) goes with 'ics'
   module       ESP32-S3-WROOM-1 (shield can, steel)

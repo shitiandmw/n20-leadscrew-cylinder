@@ -417,7 +417,7 @@ def driver(sh, ch, b, X, Y):
 def io_sheet(page):
     sh = K.Sheet("io", NL.SHEETS["io"], page, ROOT_UUID)
     sh.text("Connectors, lamps, buzzer and expansion", 15, 12, size=2.5, bold=True)
-    sh.text("Motor connectors (JST-XH, side entry), OUT1/OUT2 of each driver. The tracks share one 4-way plug "
+    sh.text("Motor connectors (JST-XH, top entry), OUT1/OUT2 of each driver. The tracks share one 4-way plug "
             "from the slip ring (1-2 left, 3-4 right).", 15, 20)
     for i, r in enumerate(["J102", "J103", "J104", "J105", "J106", "J107"]):
         j = sh.place(r, (14 + i * 24) * G, 20 * G, mirror=True, side="l")

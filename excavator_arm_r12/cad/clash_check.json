@@ -122,7 +122,7 @@
  "closest_inplane": [
   {
    "pair": "B03_stick | stick_V6_rod_eye",
-   "gap_mm": 1.097,
+   "gap_mm": 1.096,
    "pose": [
     0.0,
     60.0,
@@ -452,5 +452,5 @@
   }
  ],
  "note": "Pairs are classed by where their closest points are (see check_cad.py). A pair is listed once, under the class of its overall closest points at its worst pose. The in-plane list therefore gives the side-view clearances that remain when no lateral face or pin fit is closer.",
- "seconds": 212.9
+ "seconds": 237.6
 }

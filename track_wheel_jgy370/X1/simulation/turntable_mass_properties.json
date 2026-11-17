@@ -1,27 +1,27 @@
 {
  "units": "kg, m, kg m^2 about the body centre; vehicle frame (X forward, Z up), swing 0",
  "upper": {
-  "mass_kg": 5.103112921521918,
+  "mass_kg": 5.106599773434643,
   "centre_m": [
-   0.0003171473092710914,
-   9.854479809514424e-07,
-   0.17857852280761036
+   0.0003168759672786117,
+   4.793513545494632e-07,
+   0.17852322463437562
   ],
   "inertia_kgm2": [
    [
-    0.06386558871176436,
-    -0.002037993039162788,
-    -0.04263971993316896
+    0.06387696130348919,
+    -0.0018508517829169554,
+    -0.0426742343597086
    ],
    [
-    -0.002037993039162788,
-    0.17150330656698,
-    -0.00033187147763482505
+    -0.0018508517829169554,
+    0.17156503159235648,
+    -0.0003040166668045688
    ],
    [
-    -0.04263971993316896,
-    -0.00033187147763482505,
-    0.15371225506073444
+    -0.0426742343597086,
+    -0.0003040166668045688,
+    0.15372732204072992
    ]
   ]
  },
@@ -76,31 +76,31 @@
   ]
  },
  "lower": {
-  "mass_kg": 4.654711884524176,
+  "mass_kg": 4.628957100410225,
   "centre_m": [
-   -0.0023879589724657216,
-   4.131101804811708e-08,
-   0.05142798296118264
+   -0.0026785161045533054,
+   4.1540866015315624e-08,
+   0.05149357578099628
   ],
   "inertia_kgm2": [
    [
-    0.10172870363040547,
-    -3.1683777028729265e-10,
-    -8.183729495903327e-05
+    0.10096796293800472,
+    -3.727092574934143e-10,
+    -9.177283029035818e-05
    ],
    [
-    -3.1683777028729265e-10,
-    0.03035298302836608,
-    7.356408457115382e-11
+    -3.727092574934143e-10,
+    0.03017138219179848,
+    8.617698432977771e-11
    ],
    [
-    -8.183729495903327e-05,
-    7.356408457115382e-11,
-    0.12588070950486685
+    -9.177283029035818e-05,
+    8.617698432977771e-11,
+    0.12496113616212687
    ]
   ]
  },
- "upper_inertia_about_swing_axis_kgm2": 0.15371276834911574,
+ "upper_inertia_about_swing_axis_kgm2": 0.1537278347975201,
  "pinion_inertia_about_its_axis_kgm2": 1.8752208190681663e-06,
  "assumptions": {
   "densities_kg_mm3": {
@@ -115,7 +115,7 @@
   "arm_kg": 1.6418,
   "arm_pose": "excavator_arm_60mm STEP as exported (stretched forward, bucket 440 mm from the swing axis)",
   "rest_of_upper": {
-   "kg": 2.3008989228309966,
+   "kg": 2.3043857747437215,
    "source": "simulation/body_mass_properties.json (build_body.py: body B1 CAD, shot sized for the CG on the swing axis)",
    "names": [
     "B101_counterweight",
@@ -126,27 +126,54 @@
     "B105_operator",
     "B106_battery_hatch",
     "B107_left_handrail",
-    "cell_18650_0",
     "holder_1043_0",
-    "cell_18650_1",
+    "holder_1043_0_contacts",
+    "cell_18650_0",
+    "cell_18650_0_ends",
+    "cell_18650_0_insulator",
     "holder_1043_1",
-    "cell_18650_2",
+    "holder_1043_1_contacts",
+    "cell_18650_1",
+    "cell_18650_1_ends",
+    "cell_18650_1_insulator",
     "holder_1043_2",
-    "battery_BMS_3S",
+    "holder_1043_2_contacts",
+    "cell_18650_2",
+    "cell_18650_2_ends",
+    "cell_18650_2_insulator",
+    "battery_BMS_HX3S01",
+    "battery_BMS_HX3S01_parts",
+    "battery_BMS_HX3S01_pads",
     "battery_lead_XT30",
+    "battery_lead_XT30_contacts",
+    "battery_lead_XT30_wire_pos",
+    "battery_lead_XT30_wire_neg",
+    "feed_socket_XT30",
+    "feed_socket_XT30_contacts",
+    "feed_socket_XT30_wire_pos",
+    "feed_socket_XT30_wire_neg",
+    "board_parts_passives",
+    "board_parts",
+    "board_parts_jst",
+    "board_parts_module",
+    "board_parts_usb",
+    "board_parts_xt30",
+    "board_parts_xt30_pins",
     "controller_PCB",
-    "ESP32_devboard",
-    "ESP32_USB_C",
-    "DRV8871_0",
-    "DRV8871_1",
-    "DRV8871_2",
-    "DRV8833_0",
-    "DRV8833_1",
-    "buck_6V",
-    "buck_5V",
+    "board_plugs",
+    "board_plugs_wires_red",
+    "board_plugs_wires_black",
+    "board_plugs_wires_orange",
+    "board_plugs_wires_purple",
     "main_switch",
-    "fuse_holder_5A",
+    "main_switch_rocker",
+    "main_switch_terminals",
     "charge_jack",
+    "charge_jack_nut_and_washer",
+    "charge_jack_body",
+    "charge_jack_lugs",
+    "fuse_holder_5A",
+    "fuse_holder_5A_leads",
     "rib_insert_M3_0",
     "sleeve_screw_M3x12_0",
     "rib_insert_M3_1",
@@ -200,42 +227,42 @@
   {
    "name": "L_J904_roller_road0",
    "body": "lower",
-   "mass_kg": 0.01977
+   "mass_kg": 0.01876
   },
   {
    "name": "L_J904_roller_road1",
    "body": "lower",
-   "mass_kg": 0.01977
+   "mass_kg": 0.01876
   },
   {
    "name": "L_J904_roller_road2",
    "body": "lower",
-   "mass_kg": 0.01977
+   "mass_kg": 0.01876
   },
   {
    "name": "L_J904_roller_road3",
    "body": "lower",
-   "mass_kg": 0.01977
+   "mass_kg": 0.01876
   },
   {
    "name": "L_J904_roller_road4",
    "body": "lower",
-   "mass_kg": 0.01977
+   "mass_kg": 0.01876
   },
   {
    "name": "L_J904_roller_support0",
    "body": "lower",
-   "mass_kg": 0.01977
+   "mass_kg": 0.01876
   },
   {
    "name": "L_J904_roller_support1",
    "body": "lower",
-   "mass_kg": 0.01977
+   "mass_kg": 0.01876
   },
   {
    "name": "L_J906_idler_wheel",
    "body": "lower",
-   "mass_kg": 0.17595
+   "mass_kg": 0.17011
   },
   {
    "name": "L_J907_idler_spacer_0",
@@ -1570,42 +1597,42 @@
   {
    "name": "R_J904_roller_road0",
    "body": "lower",
-   "mass_kg": 0.01977
+   "mass_kg": 0.01876
   },
   {
    "name": "R_J904_roller_road1",
    "body": "lower",
-   "mass_kg": 0.01977
+   "mass_kg": 0.01876
   },
   {
    "name": "R_J904_roller_road2",
    "body": "lower",
-   "mass_kg": 0.01977
+   "mass_kg": 0.01876
   },
   {
    "name": "R_J904_roller_road3",
    "body": "lower",
-   "mass_kg": 0.01977
+   "mass_kg": 0.01876
   },
   {
    "name": "R_J904_roller_road4",
    "body": "lower",
-   "mass_kg": 0.01977
+   "mass_kg": 0.01876
   },
   {
    "name": "R_J904_roller_support0",
    "body": "lower",
-   "mass_kg": 0.01977
+   "mass_kg": 0.01876
   },
   {
    "name": "R_J904_roller_support1",
    "body": "lower",
-   "mass_kg": 0.01977
+   "mass_kg": 0.01876
   },
   {
    "name": "R_J906_idler_wheel",
    "body": "lower",
-   "mass_kg": 0.17595
+   "mass_kg": 0.17011
   },
   {
    "name": "R_J907_idler_spacer_0",

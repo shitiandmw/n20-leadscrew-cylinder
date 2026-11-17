@@ -7,7 +7,7 @@
    "material": "PETG, 4 perimeters, 15 % gyroid; pause at the pocket rim and pour the shot",
    "print_orientation": "upright on its bottom face, turned 45° on the bed",
    "note": "Cat 320 counterweight. Steel-shot pocket (filled in a print pause), lead channel from the T101 window up to the hood, 2 x M4 inserts in the front face, rear lamp recesses, rear-view camera.",
-   "volume_mm3": 1177558.0,
+   "volume_mm3": 1177503.4,
    "print_bounds_mm": [
     231.5,
     231.5,
@@ -129,7 +129,7 @@
    "step_roundtrip": true
   }
  ],
- "assembly_solids": 348,
+ "assembly_solids": 332,
  "bed": {
   "B101_counterweight": {
    "bounds": [
@@ -190,19 +190,19 @@
  },
  "mass": {
   "shot": {
-   "kg": 0.7296904650632039,
-   "cm3": 162.153436680712,
-   "fill_z": 129.848,
+   "kg": 0.7299245220483563,
+   "cm3": 162.2054493440792,
+   "fill_z": 129.884,
    "pocket_area_mm2": 9100.403495846625,
    "pocket_floor_z": 108.0,
    "floors_z": [
-    116.06,
+    116.12,
     108.0
    ],
-   "left_kg": 0.2823366579892431,
-   "right_kg": 0.4473538070739607,
+   "left_kg": 0.28182307190300204,
+   "right_kg": 0.44810145014535435,
    "floors_note": "left and right pocket floors: the shot is deeper on the heavier-needing side, so it zeroes the lateral CG as well as the fore-aft one (rev B)",
-   "pause_height_above_bed_mm": 24.848000000000013,
+   "pause_height_above_bed_mm": 24.883999999999986,
    "density_kg_mm3": 4.5e-06,
    "note": "sized so the upper CG is on the swing axis with the arm stretched (as concept B1), sideways too"
   },
@@ -215,44 +215,44 @@
    "B106": 36.9,
    "B107": 1.2
   },
-  "body_kg": 2.3041527756860334,
+  "body_kg": 2.3043857747437215,
   "upper": {
-   "kg": 5.127905776670672,
+   "kg": 5.1281387757283605,
    "centre_mm": [
-    -5.859377438597765e-05,
-    -5.638426663467672e-05,
-    178.16711800842586
+    3.2515320184976476e-05,
+    0.00020523601949991552,
+    178.17558515766476
    ],
-   "inertia_about_swing_axis_kgm2": 0.15383620895983613,
+   "inertia_about_swing_axis_kgm2": 0.15385115368672234,
    "centre_arm_tucked_bound_mm": [
-    -42.551355858737,
-    0.0007494988901379505,
-    142.68657292270296
+    -42.5493314142553,
+    0.0010110825606448296,
+    142.69665214484667
    ]
   },
   "machine": {
-   "kg": 9.782617661194848,
-   "cg_x_arm_stretched_mm": -1.1362563535871473,
-   "cg_x_arm_tucked_bound_mm": -23.441026979078597
+   "kg": 9.782850660252537,
+   "cg_x_arm_stretched_mm": -1.1361815335665322,
+   "cg_x_arm_tucked_bound_mm": -23.440420924276093
   },
   "lateral": {
-   "upper_cg_y_mm": -5.638426663467672e-05,
+   "upper_cg_y_mm": 0.00020523601949991552,
    "limit_mm": 1.0,
    "hatch_with_battery_kg": 0.2226627742128166,
    "moments_kg_m_about_x": {
-    "counterweight": 0.00103,
+    "counterweight": 0.00104,
     "hatch": -0.00015,
-    "left": 0.05045,
+    "left": 0.05053,
     "right": -0.04037,
-    "shot": -0.01211,
+    "shot": -0.0122,
     "wiring_and_fixings": 0.00115,
-    "turntable_arm60_motor (rest of the upper)": -0.0
+    "turntable_arm60_motor (rest of the upper)": 0.0
    },
    "note": "Y + = machine left. The battery rides on the centreline in the hatch (rev B); the cab and controller (left) against the tank, toolbox and switch gear (right)."
   }
  },
  "static": {
-  "pairs_tested": 259,
+  "pairs_tested": 254,
   "hits": []
  },
  "swing_sweep": {
@@ -454,37 +454,37 @@
    {
     "slide": 2,
     "lift": 0,
-    "pairs_tested": 54,
+    "pairs_tested": 49,
     "hits": []
    },
    {
     "slide": 5,
     "lift": 0,
-    "pairs_tested": 52,
-    "hits": []
-   },
-   {
-    "slide": 10.0,
-    "lift": 0,
-    "pairs_tested": 48,
-    "hits": []
-   },
-   {
-    "slide": 10.0,
-    "lift": 5,
     "pairs_tested": 47,
     "hits": []
    },
    {
     "slide": 10.0,
+    "lift": 0,
+    "pairs_tested": 43,
+    "hits": []
+   },
+   {
+    "slide": 10.0,
+    "lift": 5,
+    "pairs_tested": 42,
+    "hits": []
+   },
+   {
+    "slide": 10.0,
     "lift": 20,
-    "pairs_tested": 18,
+    "pairs_tested": 13,
     "hits": []
    },
    {
     "slide": 10.0,
     "lift": 60,
-    "pairs_tested": 8,
+    "pairs_tested": 3,
     "hits": []
    }
   ],
@@ -635,7 +635,7 @@
   "grab rail to the ARM60 base": 13.5,
   "grab rail to the ARM60 arm (stretched)": 56.84,
   "main board parts to the left half (the PCB sits on its 4 bosses)": 2.923,
-  "main board mated plugs to the left half": 2.13,
+  "main board mated plugs to the left half": 4.172,
   "controller PCB edges to the left half walls": 4.0,
   "fuse holder to the right half": 2.0,
   "body tail radius (largest radius behind the axis)": 225.2,

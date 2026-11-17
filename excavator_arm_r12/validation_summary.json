@@ -12,14 +12,14 @@
    "side_link": 0.010134,
    "h_link": 0.007504,
    "bucket": 0.085396,
-   "boom_L_barrel": 0.053461,
-   "boom_L_rod": 0.006945,
-   "boom_R_barrel": 0.053461,
-   "boom_R_rod": 0.006945,
-   "stick_barrel": 0.053461,
-   "stick_rod": 0.006945,
-   "bucket_barrel": 0.053461,
-   "bucket_rod": 0.006945
+   "boom_L_barrel": 0.053547,
+   "boom_L_rod": 0.006943,
+   "boom_R_barrel": 0.053547,
+   "boom_R_rod": 0.006943,
+   "stick_barrel": 0.053547,
+   "stick_rod": 0.006943,
+   "bucket_barrel": 0.053547,
+   "bucket_rod": 0.006943
   }
  },
  "clash_3d": {
@@ -31,7 +31,7 @@
   "closest_inplane": [
    {
     "pair": "B03_stick | stick_V6_rod_eye",
-    "gap_mm": 1.097,
+    "gap_mm": 1.096,
     "pose": [
      0.0,
      60.0,
@@ -119,43 +119,43 @@
   "payload_150g": {
    "passed": true,
    "peak_force_N": {
-    "boom_L": 38.5,
-    "boom_R": 38.5,
+    "boom_L": 38.51,
+    "boom_R": 38.51,
     "stick": 16.92,
     "bucket": 14.01
    },
    "tracking_mm": 0.0673,
-   "closure_mm": 0.01822,
+   "closure_mm": 0.01824,
    "seconds_at_clamp": 0.0
   },
   "unloaded": {
    "passed": true,
    "peak_force_N": {
-    "boom_L": 27.68,
-    "boom_R": 27.68,
+    "boom_L": 27.69,
+    "boom_R": 27.69,
     "stick": 9.14,
     "bucket": 4.69
    },
    "tracking_mm": 0.0516,
-   "closure_mm": 0.01349,
+   "closure_mm": 0.0135,
    "seconds_at_clamp": 0.0
   }
  },
  "hold_mujoco_vs_virtual_work_max_diff_N": 0.02,
  "half_step_max_peak_difference_N": 0.0,
  "boom_sync_0p5mm": {
-  "boom_L": 24.2,
+  "boom_L": 24.21,
   "boom_R": 55.0,
   "stick": -18.27,
   "bucket": -4.69
  },
  "files": {
   "motion_json_sha256": "1414a63b57262c70ea201dde5d87ef2ed11f26dfeb26331cf61842cab7ce089b",
-  "preview_sha256": "0d85c625517c623d07d0b468733dca63304d0f6fd22334ed8efb741b54dceee8"
+  "preview_sha256": "1257d8730c2c424fa9499c33e5cd0b604ebb41deea91e8121730151dff2f1cfd"
  },
  "browser": {
   "status": "PASS",
-  "html_sha256": "0d85c625517c623d07d0b468733dca63304d0f6fd22334ed8efb741b54dceee8",
+  "html_sha256": "1257d8730c2c424fa9499c33e5cd0b604ebb41deea91e8121730151dff2f1cfd",
   "kinematics": {
    "cases": 125,
    "max_origin_error_mm": 0.0002743640173559012,
@@ -187,6 +187,6 @@
   "frames_decoded": 771,
   "chapters": 7,
   "size_mb": 7.05,
-  "html_sha256": "0d85c625517c623d07d0b468733dca63304d0f6fd22334ed8efb741b54dceee8"
+  "html_sha256": "1257d8730c2c424fa9499c33e5cd0b604ebb41deea91e8121730151dff2f1cfd"
  }
 }

@@ -2,18 +2,18 @@
   "variants": {
     "S": {
       "valid": true,
-      "solids": 186,
-      "bytes": 47393699
+      "solids": 188,
+      "bytes": 47452325
     },
     "U60": {
       "valid": true,
-      "solids": 186,
-      "bytes": 47558771
+      "solids": 188,
+      "bytes": 47617388
     },
     "L": {
       "valid": true,
-      "solids": 186,
-      "bytes": 47763876
+      "solids": 188,
+      "bytes": 47822548
     }
   },
   "passed": true

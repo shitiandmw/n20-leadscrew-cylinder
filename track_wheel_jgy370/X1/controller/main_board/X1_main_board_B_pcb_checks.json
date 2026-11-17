@@ -130,20 +130,20 @@
    "note": ""
   },
   {
-   "name": "Track, actuator, swing, lamp and expansion connectors on the inboard edge",
+   "name": "Track, actuator, swing, lamp and expansion connectors along the inboard edge, top entry",
    "ok": true,
    "value": {
-    "J102": 63.96,
-    "J104": 63.96,
-    "J105": 63.96,
-    "J106": 63.96,
-    "J107": 63.96,
-    "J103": 63.96,
-    "J108": 63.96,
-    "J109": 63.96
+    "J102": 5.84,
+    "J104": 5.84,
+    "J105": 5.84,
+    "J106": 5.84,
+    "J107": 5.84,
+    "J103": 5.84,
+    "J108": 3.49,
+    "J109": 3.49
    },
-   "limit": 64.0,
-   "note": "tracks XH-4 moved here from the front edge (DESIGN.md, PCB layout)"
+   "limit": "top-entry footprints, pin rows at v 54.26 (XH) / 57.21 (PH), courtyard 0-6 mm from the edge",
+   "note": "top entry since 2026-11-14 on the pin rows of rev B's side-entry headers; tracks XH-4 moved here from the front edge (DESIGN.md, PCB layout)"
   },
   {
    "name": "Inboard connectors front to rear: tracks, boom L, boom R, stick, bucket, swing, lamps, expansion",
@@ -211,7 +211,7 @@
    "ok": true,
    "value": 0.15,
    "limit": ">= 0.15",
-   "note": "HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.46x2.31mm_ThermalVias 0.15, USB_C_Receptacle_HRO_TYPE-C-31-M-12 0.2, ESP32-S3-WROOM-1_X1 0.2, AMASS_XT30PW-M_1x02_P2.50mm_Horizontal 0.2"
+   "note": "HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.46x2.31mm_ThermalVias 0.15, ESP32-S3-WROOM-1_X1 0.2, USB_C_Receptacle_HRO_TYPE-C-31-M-12 0.2, AMASS_XT30PW-M_1x02_P2.50mm_Horizontal 0.2"
   },
   {
    "name": "Routed",

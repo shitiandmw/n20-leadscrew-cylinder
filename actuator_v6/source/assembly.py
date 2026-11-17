@@ -164,15 +164,16 @@ def plan(d, access=None):
              text="01 body, printed standing on its front end. Everything goes into it in the order shown.",
              ops=[dict(op="show", items=["01_body"], t0=0.0)],
              cams=[cam(0.0, (1, 0, mid), (-0.55, 0.5, 0.42), zf - zr + 60)]),
-        dict(id="inserts", ref="3", title="Heat-set inserts", look="solid", dur=17.5,
-             text="Press the four M1 heat-set inserts (1.8 mm long, 2 mm across) into the holes in the end faces "
+        dict(id="inserts", ref="3", title="Heat-set inserts", look="solid", dur=21.5,
+             text="Press the five M1 heat-set inserts (1.8 mm long, 2 mm across) into the holes in the end faces "
                   "with the soldering iron at about 240 °C, your PETG print temperature + 10 °C: two in the rear face, "
-                  "two in the front face. Let each one sink in straight under light pressure until it sits 0.1 mm "
-                  "below the face. The front ones have 0.7 mm of wall: go slowly there.",
+                  "three in the front face. Let each one sink in straight under light pressure until it sits 0.1 mm "
+                  "below the face. The front ones have 0.7 to 0.8 mm of wall: go slowly there.",
              ops=[screw("M1_insert_rear_1", 0.5, 4.1), screw("M1_insert_rear_2", 4.4, 8.0),
-                  screw("M1_insert_front_1", 9.0, 12.6), screw("M1_insert_front_2", 12.9, 16.5)],
+                  screw("M1_insert_front_1", 9.0, 12.6), screw("M1_insert_front_2", 12.9, 16.5),
+                  screw("M1_insert_front_3", 16.8, 20.4)],
              cams=[cam(1.0, (7, 0, zr - 10), (0.55, 0.45, -0.7), 64), cam(8.2, (7, 0, zr - 10), (0.55, 0.45, -0.7), 64),
-                   cam(9.0, (7, 0, zf + 10), (0.55, 0.45, 0.7), 64), cam(16.5, (7, 0, zf + 10), (0.55, 0.45, 0.7), 64)]),
+                   cam(9.0, (1, 0, zf + 10), (0.55, 0.45, 0.7), 64), cam(20.4, (1, 0, zf + 10), (0.55, 0.45, 0.7), 64)]),
         dict(id="board", ref="4–5", title="Board and wires", look="ghost", dur=7.5,
              text="Thread the four wires into the board slot from the front, through the passage in the motor "
                   "wall and out at the rear. Slide the board in after them, parts facing the partition, until "
@@ -243,8 +244,8 @@ def plan(d, access=None):
                    cam(4.1, (0, 0, L.CARRIER_Z0 + bench + 6), (-0.75, 0.55, 0.3), 48)]),   # nut: the far side
         dict(id="rod", ref="8.3–8.4", title="Rod", look="half", dur=8.5,
              text="Slide the rod into the bore, magnet toward the board: the key rib in one corner only lets it in "
-                  "that way. When the nut touches the leadscrew, apply B+ for a moment: the nut picks up the thread "
-                  "and the carrier pulls itself in until U1 stops it at the retract end.",
+                  "that way. When the nut touches the leadscrew, apply B+ (black +, red −) and keep it on: the nut "
+                  "picks up the thread and the carrier pulls itself in until U1 stops it at the retract end.",
              ops=[dict(op="move", items=rod, **{"from": [0, 0, round(bench, 2)], "to": [0, 0, touch]}, t0=0.5, t1=3.4),
                   dict(op="drive", items=rod, **{"from": touch, "to": 0.0}, t0=4.0, t1=8.0)],
              cams=[cam(1.0, (0, 0, (zr + zf + touch) / 2 + 10), top, zf - zr + touch + 50)]),
@@ -253,13 +254,15 @@ def plan(d, access=None):
                   "front edge.",
              ops=[dict(op="move", items=["02_front_cap"], **{"from": [0, 0, 32]}, t0=0.5, t1=3.6)],
              cams=[cam(1.0, (2, 0, zf + 10), top, 90)]),
-        dict(id="front_screws", ref="9.2", title="Front screws", look="solid", dur=11.0,
-             text="Fix the front cap with 2 × M1 × 8 into the front inserts, PH000 driver, snug only.",
-             ops=[screw("M1x8_front_cap_1", 0.6, 5.4), screw("M1x8_front_cap_2", 5.8, 10.6)],
-             cams=[cam(1.0, (5, 0, zf + 22), (0.5, 0.5, 0.7), 124)]),
+        dict(id="front_screws", ref="9.2", title="Front screws", look="solid", dur=16.0,
+             text="Fix the front cap with 3 × M1 × 8 into the front inserts, PH000 driver, snug only: two on the board "
+                  "side and one in the corner on the motor side.",
+             ops=[screw("M1x8_front_cap_1", 0.6, 5.4), screw("M1x8_front_cap_2", 5.8, 10.6),
+                  screw("M1x8_front_cap_3", 11.0, 15.8)],
+             cams=[cam(1.0, (1, 0, zf + 22), (0.5, 0.5, 0.7), 124)]),
         dict(id="rod_eye", ref="9.3", title="Rod eye", look="solid", dur=8.0,
              text="Push the rod eye onto the rod, line up the cross holes and fit the M2 × 10 from the "
-                  "counterbored side. It threads into the pilot on the far side.",
+                  "counterbored side. It cuts its own thread in the Ø1.7 hole through the rod.",
              ops=[dict(op="move", items=["05_rod_eye"], **{"from": [0, 0, 26]}, t0=0.4, t1=2.4),
                   screw("M2x10_rod_eye", 2.8, 7.6)],
              cams=[cam(1.0, (6, 0, d["rod_end_z"] - 4), (0.55, 0.45, 0.7), 70)]),

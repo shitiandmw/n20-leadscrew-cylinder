@@ -1,0 +1,576 @@
+{
+ "pass": true,
+ "html_sha256": "e59f1e015fa69b4e31ada82a6332845760542fb39029fe519b8f69a5155a2d2b",
+ "checker_sha256": "ed642575e76e827af35085bf5c6b7058d3d16ed1e98590fe342d54c6e4ac2dd6",
+ "items": {
+  "01_body": {
+   "coverage": 0.0667,
+   "labels_key": 8,
+   "labels_all": 17,
+   "cut_face_px": [
+    2452,
+    6863,
+    1333
+   ],
+   "bed": {
+    "size": [
+     17.3,
+     14.7,
+     108.1
+    ],
+    "min_z": 0
+   },
+   "actuator": {
+    "whole": 1,
+    "cut": 1
+   }
+  },
+  "02_front_cap": {
+   "coverage": 0.1771,
+   "labels_key": 5,
+   "labels_all": 10,
+   "cut_face_px": [
+    8488,
+    17363,
+    53133
+   ],
+   "bed": {
+    "size": [
+     17.3,
+     14.7,
+     7
+    ],
+    "min_z": 0
+   },
+   "actuator": {
+    "whole": 1,
+    "cut": 1
+   }
+  },
+  "03_rear_cap": {
+   "coverage": 0.135,
+   "labels_key": 5,
+   "labels_all": 8,
+   "cut_face_px": [
+    15431,
+    31989,
+    11378
+   ],
+   "bed": {
+    "size": [
+     17.3,
+     14.7,
+     14.499
+    ],
+    "min_z": 0
+   },
+   "actuator": {
+    "whole": 1,
+    "cut": 1
+   }
+  },
+  "04_rod": {
+   "coverage": 0.0327,
+   "labels_key": 5,
+   "labels_all": 13,
+   "cut_face_px": [
+    4811,
+    7030,
+    556
+   ],
+   "bed": {
+    "size": [
+     10,
+     12,
+     92
+    ],
+    "min_z": 0
+   },
+   "actuator": {
+    "whole": 1,
+    "cut": 1
+   }
+  },
+  "05_rod_eye": {
+   "coverage": 0.1286,
+   "labels_key": 5,
+   "labels_all": 8,
+   "cut_face_px": [
+    13692,
+    28866,
+    23916
+   ],
+   "bed": {
+    "size": [
+     11,
+     10.997,
+     19
+    ],
+    "min_z": 0
+   },
+   "actuator": {
+    "whole": 1,
+    "cut": 1
+   }
+  },
+  "06_cable_clamp": {
+   "coverage": 0.0999,
+   "labels_key": 3,
+   "labels_all": 7,
+   "cut_face_px": [
+    14028,
+    5396,
+    37757
+   ],
+   "bed": {
+    "size": [
+     4.35,
+     14.7,
+     3
+    ],
+    "min_z": 0
+   },
+   "actuator": {
+    "whole": 1,
+    "cut": 1
+   }
+  },
+  "08_fit_body_wall": {
+   "coverage": 0.2227,
+   "labels_key": 5,
+   "labels_all": 9,
+   "cut_face_px": [
+    7505,
+    18744,
+    18694
+   ],
+   "bed": {
+    "size": [
+     17.3,
+     14.7,
+     18
+    ],
+    "min_z": 0
+   }
+  },
+  "09_fit_carrier": {
+   "coverage": 0.1935,
+   "labels_key": 3,
+   "labels_all": 7,
+   "cut_face_px": [
+    20958,
+    20833,
+    37705
+   ],
+   "bed": {
+    "size": [
+     10,
+     12,
+     11.5
+    ],
+    "min_z": 0
+   }
+  },
+  "10_fit_insert_rear": {
+   "coverage": 0.1459,
+   "labels_key": 4,
+   "labels_all": 5,
+   "cut_face_px": [
+    2353,
+    7343,
+    28088
+   ],
+   "bed": {
+    "size": [
+     17.3,
+     14.7,
+     6.6
+    ],
+    "min_z": 0
+   }
+  },
+  "11_fit_insert_front": {
+   "coverage": 0.1524,
+   "labels_key": 3,
+   "labels_all": 5,
+   "cut_face_px": [
+    2428,
+    7701,
+    30160
+   ],
+   "bed": {
+    "size": [
+     17.3,
+     14.7,
+     5
+    ],
+    "min_z": 0
+   }
+  },
+  "motor": {
+   "coverage": 0.0231,
+   "labels_key": 2,
+   "labels_all": 3,
+   "cut_face_px": [
+    16,
+    3897,
+    2761
+   ],
+   "actuator": {
+    "whole": 1,
+    "cut": 1
+   }
+  },
+  "nut": {
+   "coverage": 0.1064,
+   "labels_key": 2,
+   "labels_all": 2,
+   "cut_face_px": [
+    28091,
+    18052,
+    9915
+   ],
+   "actuator": {
+    "whole": 1,
+    "cut": 1
+   }
+  },
+  "magnet": {
+   "coverage": 0.2043,
+   "labels_key": 2,
+   "labels_all": 2,
+   "cut_face_px": [
+    34657,
+    47988,
+    50841
+   ],
+   "actuator": {
+    "whole": 1,
+    "cut": 1
+   }
+  },
+  "M1.6x4": {
+   "coverage": 0.0958,
+   "labels_key": 2,
+   "labels_all": 2,
+   "cut_face_px": [
+    5773,
+    41462,
+    28833
+   ],
+   "actuator": {
+    "whole": 2,
+    "cut": 2
+   }
+  },
+  "insert": {
+   "coverage": 0.1544,
+   "labels_key": 2,
+   "labels_all": 3,
+   "cut_face_px": [
+    16508,
+    36713,
+    25846
+   ],
+   "actuator": {
+    "whole": 5,
+    "cut": 5
+   }
+  },
+  "M1x8": {
+   "coverage": 0.0473,
+   "labels_key": 2,
+   "labels_all": 3,
+   "cut_face_px": [
+    912,
+    23063,
+    16024
+   ],
+   "actuator": {
+    "whole": 5,
+    "cut": 5
+   }
+  },
+  "M2x10": {
+   "coverage": 0.0689,
+   "labels_key": 1,
+   "labels_all": 2,
+   "cut_face_px": [
+    15939,
+    33351,
+    2714
+   ],
+   "actuator": {
+    "whole": 1,
+    "cut": 1
+   }
+  },
+  "pcba": {
+   "coverage": 0.0269,
+   "labels_key": 2,
+   "labels_all": 2,
+   "cut_face_px": [
+    72,
+    892,
+    688
+   ],
+   "actuator": {
+    "whole": 1,
+    "cut": 1
+   }
+  },
+  "wires": {
+   "coverage": 0.0165,
+   "cut_face_px": [
+    65,
+    0,
+    36
+   ],
+   "actuator": {
+    "whole": 4,
+    "cut": 4
+   }
+  },
+  "sleeve": {
+   "coverage": 0.0602,
+   "labels_key": 1,
+   "labels_all": 2,
+   "cut_face_px": [
+    752,
+    10547,
+    1134
+   ],
+   "actuator": {
+    "whole": 1,
+    "cut": 1
+   }
+  },
+  "pins": {
+   "model": false
+  },
+  "supply": {
+   "model": false
+  },
+  "iron": {
+   "coverage": 0.0242,
+   "cut_face_px": [
+    466,
+    12587,
+    8714
+   ]
+  },
+  "PH0": {
+   "coverage": 0.0211,
+   "cut_face_px": [
+    20,
+    11468,
+    7327
+   ]
+  },
+  "PH000": {
+   "coverage": 0.027,
+   "cut_face_px": [
+    681,
+    14913,
+    9478
+   ]
+  },
+  "PH1": {
+   "coverage": 0.0318,
+   "cut_face_px": [
+    1101,
+    17449,
+    11097
+   ]
+  },
+  "pliers": {
+   "model": false
+  },
+  "saw": {
+   "model": false
+  },
+  "file": {
+   "model": false
+  },
+  "plate1": {
+   "coverage": 0.0739,
+   "labels_key": 3,
+   "labels_all": 3,
+   "cut_face_px": [
+    168,
+    0,
+    5407
+   ],
+   "bed": {
+    "min": [
+     54.05,
+     70.3,
+     0
+    ],
+    "max": [
+     125.95,
+     109.7,
+     18
+    ]
+   }
+  },
+  "plate2": {
+   "coverage": 0.1666,
+   "labels_key": 3,
+   "labels_all": 3,
+   "cut_face_px": [
+    0,
+    0,
+    3814
+   ],
+   "bed": {
+    "min": [
+     62.7,
+     65.3,
+     0
+    ],
+    "max": [
+     117.3,
+     114.7,
+     108.1
+    ]
+   }
+  },
+  "plate3": {
+   "coverage": 0.0743,
+   "labels_key": 3,
+   "labels_all": 3,
+   "cut_face_px": [
+    0,
+    2313,
+    849
+   ],
+   "bed": {
+    "min": [
+     46,
+     58.152,
+     0
+    ],
+    "max": [
+     134,
+     118.848,
+     92
+    ]
+   }
+  },
+  "plate4": {
+   "coverage": 0.0694,
+   "labels_key": 3,
+   "labels_all": 3,
+   "cut_face_px": [
+    0,
+    0,
+    2845
+   ],
+   "bed": {
+    "min": [
+     40.4,
+     70.3,
+     0
+    ],
+    "max": [
+     139.6,
+     109.7,
+     14.499
+    ]
+   }
+  }
+ },
+ "load_seconds": 9.492,
+ "sources": {
+  "bom_printed": 10,
+  "bom_bought": 10,
+  "tools": 7,
+  "plates": 4,
+  "wires": 4,
+  "files": 28,
+  "page_items": 33
+ },
+ "overview_coverage": 0.0836,
+ "click_identify": {
+  "overview": "01_body",
+  "cut_view": "01_body"
+ },
+ "filters": {
+  "print": 10,
+  "buy": 10,
+  "plate": 4,
+  "tool": 9
+ },
+ "search_countersunk": [
+  "M1.6x4"
+ ],
+ "search_m1x8": [
+  "01_body",
+  "02_front_cap",
+  "03_rear_cap",
+  "08_fit_body_wall",
+  "10_fit_insert_rear",
+  "11_fit_insert_front",
+  "motor",
+  "insert",
+  "M1x8",
+  "PH0",
+  "plate1"
+ ],
+ "thumbnails": {
+  "n": 29,
+  "cards": 29
+ },
+ "screenshots": {
+  "showcase_overview": {
+   "file": "images/showcase_overview.png",
+   "sha256": "80fe9e3e1230a4401d465aa87a676e4d986421cc77e2192bb0ec76c70db439d0"
+  },
+  "showcase_01_body": {
+   "file": "images/showcase_01_body.png",
+   "sha256": "ddae1b42546956e969f9be994b15ea87ad36971ce34e6a2825fac9df6ae2dbf4"
+  },
+  "showcase_04_rod_all": {
+   "file": "images/showcase_04_rod_all.png",
+   "sha256": "4c271d1dc5b14f3e21e28976f32fbe35eb8828ee3717d31568c432966e492f53"
+  },
+  "showcase_01_body_cut": {
+   "file": "images/showcase_01_body_cut.png",
+   "sha256": "83e7c82085b0b093388bf1ef8feb7196a0fea02d335ce9346dcb61d87ab15f9b"
+  },
+  "showcase_02_front_cap_fitted": {
+   "file": "images/showcase_02_front_cap_fitted.png",
+   "sha256": "01cd6fcfb7e42ee6698c5bb00ccf404e251ea0347bde2f3b42a5111c93fd2214"
+  },
+  "showcase_insert_cut": {
+   "file": "images/showcase_insert_cut.png",
+   "sha256": "21589b64e1261e94e092f4bb4197c76eedf3a4f3127bb3d108ce1489bf058219"
+  },
+  "showcase_motor": {
+   "file": "images/showcase_motor.png",
+   "sha256": "f4c1f659da0d0b5ff61bb6fb68c520976960e1c23e0c3c05d2f0538ae7093d8d"
+  },
+  "showcase_plate1": {
+   "file": "images/showcase_plate1.png",
+   "sha256": "0bea0dfe82fc6d71e2a0362955c49b9d8dfabec469e9d5364f2e5e9c5ed89c5d"
+  },
+  "showcase_plate3": {
+   "file": "images/showcase_plate3.png",
+   "sha256": "f2723c9997307b33ae03dcfd398a83fcf95f47734cf39e8e20704d1d2bf236ce"
+  },
+  "showcase_phone": {
+   "file": "images/showcase_phone.png",
+   "sha256": "4ef10ec7364268ea9d27e6566cd17f61cd14bdbdc57b091260c6c6f9657f486b"
+  }
+ },
+ "phone": {
+  "sw": 390,
+  "iw": 390,
+  "list": "flex",
+  "labels": 7
+ },
+ "problems": [],
+ "errors": [],
+ "network": []
+}

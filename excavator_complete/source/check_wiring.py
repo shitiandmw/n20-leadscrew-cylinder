@@ -251,7 +251,9 @@ def space_checks():
     rep['crossing_over_hub_well'] = dict(x=(-38, -28), y=(-45, 45), z=(139, 149), parts_inside=sorted(hits), ok=not hits)
     # rib crossing gap between the hood front wall (X -25) and the front sleeve (X -50..-40)
     rep['rib_crossing'] = dict(x_band=(-40.0, -25.0), used_x=[H.X_ARM_L, H.X_ARM_R], cables=4, note='two cables per X, stacked at Z 141 and 145')
-    rep['bay_over_plugs'] = dict(plug_top_z=117.7, run_z=H.BAY_RUN['z'], run_y=H.BAY_RUN['y'], plug_face_y=72.0, hood_underside_z='>= 136.3 (hood front wall bottom) / 198.8')
+    rep['bay_over_plugs'] = dict(plug_top_z=H.PLUG_TOP_Z, plug_wire_top_z={k: round(v + H.PLUG_WIRE, 2) for k, v in H.PLUG_TOP_Z.items()}, pin_row_y=H.PIN_ROW_Y,
+                                 run_z=H.BAY_RUN['z'], run_y=H.BAY_RUN['y'], hood_underside_z='>= 136.3 (hood front wall bottom) / 198.8',
+                                 note='top-entry headers: each lead leaves the bay run outboard over its plug and comes straight down onto it')
     return rep
 
 
@@ -351,6 +353,7 @@ def main():
                'exit direction to vertical).' % len(res),
         rules=dict(clearance_mm=H.CLEAR, min_bend_radius_mm=H.MIN_BEND_R, loop_slack_min_mm=4.0),
         arm_cables=summary, static_cables=st, space=sp, routed_lengths_mm={k: round(v, 1) for k, v in per.items()},
+        board_plug_offsets_mm=H.check_board_positions(),   # harness plug positions against the board's part file (asserts < 0.01)
         wire_list_rows=len(rows), status='PASS' if (ok_arm and ok_static and ok_space) else 'FAIL', seconds=round(time.time() - t0, 1))
     (K.ROOT / 'wiring_check.json').write_text(json.dumps(rep, indent=1, default=float))
     print(rep['status'], rep['seconds'], 's')

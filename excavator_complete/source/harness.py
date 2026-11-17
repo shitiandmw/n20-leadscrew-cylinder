@@ -57,13 +57,18 @@ TIE_SLOT = (3.5, 1.6)
 SLOT_T = SLOTS['S3'][3]
 
 # ------------------------------------------------------------------ connectors on the main board (vehicle, swing 0)
-# From main_board/X1_main_board_B_parts.json and the board STEP (x1_body.main_board): the inboard JST headers face -Y with
-# their mating faces at Y 84.54; the mated housings (XHP-2/-4, PHR-3) stand 1.5 proud, to Y 83.04, and 4 mm of their
-# wires are drawn with them (stdparts.py), so a cable tube ends at Y 79.0. The XT30PW-M is on the front edge (X -40) and
-# mates from +X; the XT30U-F of the 12 V link is drawn by build_connectors.py at its mouth.
-PLUG_Z = dict(XH=114.65, PH=114.0, XT30=114.2)
-PLUG_WIRE_END_Y = 79.0
-HEADER_FACE_Y = 84.54
+# From main_board/X1_main_board_B_parts.json and the board STEP (x1_body.main_board): the inboard JST headers are top
+# entry since 2026-11-14 (side entry before), with their pin rows at Y 93.74 (XH) and 90.79 (PH). The mated housings
+# (XHP-2/-4, PHR-3) reach 9.8 / 8.0 above the board top (Z 111.51; JST catalogues), and 4 mm of their wires are drawn
+# going up with them (stdparts.py), so a cable tube ends 4 mm above its plug, coming straight down. The XT30PW-M is on the
+# front edge (X -40) and mates from +X; the XT30U-F of the 12 V link is drawn by build_connectors.py at its mouth.
+BOARD_TOP_Z = 111.51
+PIN_ROW_Y = dict(XH=93.74, PH=90.79)
+PLUG_TOP_Z = dict(XH=round(BOARD_TOP_Z + 9.8, 2), PH=round(BOARD_TOP_Z + 8.0, 2))
+HEADER_TOP_Z = dict(XH=round(BOARD_TOP_Z + 7.0, 2), PH=round(BOARD_TOP_Z + 6.0, 2))   # the header mouths (B2B-XH-A 7.0, B3B-PH-K-S 6.0 tall)
+PLUG_WIRE = 4.0
+BAY_RUN = dict(y=78.0, z=130.0)   # the cables run along the left bay beside the T101 rib (Y 61-69), above the XH plug tops
+                                  # (Z 121.3, their wires to 125.3); each branches outboard over its plug and comes down onto it
 BOARD = {
     'J101': dict(kind='XT30', pins=('VBAT_IN', 'GND'), end=(-25.0, 133.5, 114.2), tangent=(-1, 0, 0),
                  note='12 V in from the toolbox (battery, BMS, 5 A fuse, main switch)'),
@@ -78,17 +83,30 @@ BOARD = {
 }
 for _k, _c in BOARD.items():
     if 'x' in _c:
-        z = PLUG_Z['XH' if _c['kind'].startswith('XH') else 'PH']
-        _c['end'] = (_c['x'], PLUG_WIRE_END_Y, z)
-        _c['tangent'] = (0, 1, 0)
-        # the last 25 mm are the bare wires out of the sleeve: they drop from the bay run (above the plugs) into the gap
-        # between the T101 rib (Y 69) and the plug wires (Y 79), then turn into the plug
-        _c['approach'] = [(_c['x'], 76.0, 122.0), (_c['x'], 70.5, 118.5), (_c['x'], 70.5, z), _c['end']]
+        _kind = _c['kind'][:2]
+        _c['end'] = (_c['x'], PIN_ROW_Y[_kind], PLUG_TOP_Z[_kind] + PLUG_WIRE)
+        _c['tangent'] = (0, 0, -1)
+        # the last 15-16 mm are the bare wires out of the sleeve: off the bay run, outboard over their plug, straight down onto it
+        _c['approach'] = [(_c['x'], 82.0, BAY_RUN['z']), (_c['x'], PIN_ROW_Y[_kind], BAY_RUN['z']), _c['end']]
+
+
+def check_board_positions():
+    """BOARD's plug positions against the board's part file (check_pcb.py writes each header's pin 1 as 'at')."""
+    import json
+    d = json.loads((K.X1 / 'controller' / 'main_board' / 'X1_main_board_B_parts.json').read_text())
+    at = {p['ref']: p['at'] for p in d['parts'] if 'at' in p}
+    out = {}
+    for j, c in BOARD.items():
+        if 'x' in c:
+            pitch = 2.5 if c['kind'].startswith('XH') else 2.0
+            x, y = at[j][0] + pitch * (len(c['pins']) - 1) / 2, at[j][1]
+            out[j] = round(max(abs(x - c['x']), abs(y - PIN_ROW_Y[c['kind'][:2]])), 3)
+    assert max(out.values()) < 0.01, out
+    return out
 
 # ------------------------------------------------------------------ body features (vehicle, swing 0)
 RIB_TOP_Z = 136.0
 LEFT_RIB_Y, RIGHT_RIB_Y = 65.0, -65.0        # T101 rib centres (Y 61..69); the body sleeves sit on them at X -120 and -45
-BAY_RUN = dict(y=76.0, z=122.0)               # cables run along the left bay above the mated plugs (tops Z 117.7, ends Y 72); the T101 rib is at Y 61-69
 WIRE_R = 0.45                                 # a bare 28 AWG wire (the plug tails: the two wires lie side by side along X, one wire deep in Y)
 TOOLBOX_HOLE = (38.0, -122.0)                 # Ø12 in the deck (x1_body.py), Z 132-137
 LAMP2 = (58.5, -100.0, 143.0)                 # toolbox lamp (B103 front face)
@@ -111,10 +129,10 @@ X_ARM_L, X_ARM_R = -36.0, -32.0
 X_SLIP, X_LINK, X_LAMP2, X_SWING, X_FEED = -62.0, -58.0, -56.0, -131.0, -100.0
 
 
-def cross_rib(x, side=1, z_top=141.0):
+def cross_rib(x, side=1, z_top=141.0, z_land=124.0):
     """Points of a cable going over a T101 rib top (Y 61-69, Z 136) from the hood cavity into a bay (side +1 left):
-    level over the rib, 5 mm past its outer face, then down to the bay run."""
-    return [(x, side * 52.0, z_top), (x, side * 60.0, z_top), (x, side * 74.0, z_top), (x, side * 77.0, 124.0)]
+    level over the rib, 5 mm past its outer face, then down to z_land (the left bay's run: BAY_RUN['z'])."""
+    return [(x, side * 52.0, z_top), (x, side * 60.0, z_top), (x, side * 74.0, z_top), (x, side * 77.0, z_land)]
 
 
 RISE_X = -24.5                     # the cables rise out of T101 here, in the gap between the plate's rear edge (-21) and the rear bulkhead (-30), and
@@ -132,7 +150,7 @@ def under_plate(side, y_in, y_run, x_cross, z_cross, conn):
            (RISE_X, side * y_run, 118.0), (RISE_X, side * y_run, 143.0), (-29.0, side * y_run, 149.0), (x_cross - 2.0, side * y_run, z_cross + 4.0)]
     if side < 0:
         pts += [(x_cross, -36.0, z_cross + 2.0), (x_cross, 0.0, z_cross + 3.0), (x_cross, 36.0, z_cross + 2.0)]
-    pts += cross_rib(x_cross, 1, z_cross)
+    pts += cross_rib(x_cross, 1, z_cross, BAY_RUN['z'])
     c = BOARD[conn]
     pts += [(c['x'] + 4.0, BAY_RUN['y'], BAY_RUN['z'])] + c['approach']
     return pts
@@ -143,12 +161,12 @@ def static_cables():
     out = []
     # slip ring rotor leads: up the T104 hole and the hub well, out of the T101 lead slot, over the rib to J102
     pts = [ROTOR_TOP, (0, 0, 118.0), (-20.0, 0.0, 122.0), SLIP_SLOT, (-40.0, 0.0, 130.0), (-46.0, 12.0, 140.0),
-           (X_SLIP, 44.0, 142.0)] + cross_rib(X_SLIP, 1, 141.0) + [(BOARD['J102']['x'] - 4.0, BAY_RUN['y'], BAY_RUN['z'])] + BOARD['J102']['approach']
+           (X_SLIP, 44.0, 142.0)] + cross_rib(X_SLIP, 1, 141.0, BAY_RUN['z']) + [(BOARD['J102']['x'] - 4.0, BAY_RUN['y'], BAY_RUN['z'])] + BOARD['J102']['approach']
     out.append(dict(name='slip ring rotor leads', mover='upper', r=BUNDLE_R, pts=pts, to='J102',
                     wire='6 leads of the bought ring (4 used: rings 1-2 left track, 3-4 right track)', kind='lead'))
     # swing motor: can end -> window -> counterweight channel -> over the bulkhead through the notch -> rib -> J103
     pts = [(-137.4, 0.0, 122.2), WINDOW, (CW_CHANNEL['x'], 0.0, CW_CHANNEL['z'][0]), (CW_CHANNEL['x'], 0.0, CW_CHANNEL['z'][1]),
-           NOTCH, (-138.0, 0.0, 150.0), (-134.0, 30.0, 147.0)] + cross_rib(X_SWING, 1, 142.0) + \
+           NOTCH, (-138.0, 0.0, 150.0), (-134.0, 30.0, 147.0)] + cross_rib(X_SWING, 1, 142.0, BAY_RUN['z']) + \
           [(BOARD['J103']['x'] - 4.0, BAY_RUN['y'], BAY_RUN['z'])] + BOARD['J103']['approach']
     out.append(dict(name='swing motor leads', mover='upper', r=LEAD_R, pts=pts, to='J103', wire='2 x 26 AWG silicone', kind='lead'))
     # 12 V link: J101 (front edge, mates from +X) -> up and over the left rib -> across the hood -> right rib -> right bay
@@ -168,7 +186,7 @@ def static_cables():
     pts = [LAMP2, (50.0, -104.0, 143.0), (TOOLBOX_HOLE[0], TOOLBOX_HOLE[1] + 2, 140.0), (TOOLBOX_HOLE[0], TOOLBOX_HOLE[1] + 2, 118.0),
            (10.0, -118.0, 117.0), (SM_LAMP[0] + 14.0, SM_LAMP[1], SM_LAMP[2]), SM_LAMP, (SM_LAMP[0] - 22.0, SM_LAMP[1], SM_LAMP[2]),
            (-48.0, -112.0, 118.0), (X_LAMP2, -100.0, 118.0)] + cross_rib(X_LAMP2, -1, 141.0)[::-1] + [(X_LAMP2, 0.0, 144.0)] + \
-          cross_rib(X_LAMP2, 1, 141.0)[1:] + [(BOARD['J108']['x'] + 4.0, BAY_RUN['y'], BAY_RUN['z'])] + BOARD['J108']['approach']
+          cross_rib(X_LAMP2, 1, 141.0, BAY_RUN['z'])[1:] + [(BOARD['J108']['x'] + 4.0, BAY_RUN['y'], BAY_RUN['z'])] + BOARD['J108']['approach']
     out.append(dict(name='toolbox lamp pair', mover='upper', r=LEAD_R, pts=pts, to='J108', pins='1, 3', wire='2 x 26 AWG silicone; JST SM 2-pin inline in the right bay', kind='lead'))
     # lamp 1 (roof pair): J108 -> forward along the bay -> cab rear-left corner -> inside the cab shell to the roof
     pts = [ROOF_LAMPS[1], (74.0, 142.0, 251.0), ROOF_LAMPS[0], (74.0, 146.0, 251.0), (72.0, 150.6, 248.5), (-3.0, 150.6, 248.5),
@@ -201,7 +219,7 @@ def static_cables():
         pts = under_plate(side, POST['y'] + 1.0, y_run, x_cross, z_cross, conn)
         out.append(dict(name=f'{conn} cable under the plate', mover='upper', r=TUBE_R, pts=pts, to=conn,
                         wire='V6 cable (3 mm sleeve)', kind='sleeve', slot=cable))
-    # board-bound cables: the last 25 mm into each plug are bare wires (WIRE_R); split them off as 'plug tail' entries
+    # board-bound cables: the last 15-16 mm into each plug are bare wires (WIRE_R); split them off as 'plug tail' entries
     split = []
     for c in out:
         if c['to'] in BOARD and c['mover'] == 'upper' and c['to'] != 'J101':

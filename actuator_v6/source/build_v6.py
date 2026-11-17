@@ -40,13 +40,13 @@ PRINT_SETTINGS = {
                "25 % gyroid, no supports. The motor wall bridges the carrier bore, so the motor seat is a top "
                "surface; the M1.6 countersinks (45° cones) and the board rest are on the bridge's underside. The end "
                "of the motor-side wall stands 1.6 mm above the rear face, and the bevel of its notch prints as a 45° "
-               "overhang (0.12 mm layers for the last 2 mm make it 5 layers instead of 3). The four 1.7 mm insert "
+               "overhang (0.12 mm layers for the last 2 mm make it 5 layers instead of 3). The five 1.7 mm insert "
                "holes run straight into the end faces.",
     "02_front_cap": "PETG, outer face down, 0.16 mm, 4 walls, 40 % gyroid, no supports.",
     "03_rear_cap": "PETG, flat front face down (clevis up), 0.16 mm, 4 walls, 60 % gyroid, no supports. The pocket "
                    "for the end of the body's wall is bridged; the tooth's tip and the pocket's two ends are "
                    "chamfered 0.2 mm on the bed for the first layer (0.12 mm layers for the first 2 mm are optional).",
-    "04_rod": "PETG, carrier down, 0.16 mm, 100 % infill, 3 mm brim; slow the last 20 mm of the L rod.",
+    "04_rod": "PETG, carrier down, 0.16 mm, 100 % infill, 3 mm brim; slow the last 20 mm of the taller U60 and L rods.",
     "05_rod_eye": "PETG, socket opening down, 0.16 mm, 100 % infill, no supports.",
     "06_cable_clamp": "PETG, flat back down (groove up), 0.16 mm, 100 % infill, no supports.",
     "08_fit_body_wall": "As 01_body, front end down. Checks the motor bay, the M1.6 countersinks, the board "
@@ -56,7 +56,8 @@ PRINT_SETTINGS = {
                           "wall on top. Press an M1 insert into each hole, then try the rear cap: set it on 0.8 mm "
                           "toward the board side, slide it back, and its tooth must drop into the notch.",
     "11_fit_insert_front": "As 01_body, front end down: the last 5 mm of the front end, with the bore and slot "
-                           "lead-ins. Press an M1 insert into each hole; they have 0.7 mm of wall.",
+                           "lead-ins and the key rib. Press an M1 insert into each hole: the two on the board side "
+                           "have 0.7 mm of wall, the one by the key rib 0.8 mm.",
 }
 FLIP = ("01_", "02_", "03_", "08_", "10_", "11_")   # printed upside down (model +Z on the bed)
 
@@ -264,7 +265,7 @@ INTENDED = [("01_body", "M1_insert_", "heat-set insert: 2.0 mm knurl pressed int
             ("03_rear_cap", "cable_sleeve", "sleeve squeezed 0.4 mm in the clamp groove, ridges bite in"),
             ("06_cable_clamp", "cable_sleeve", "sleeve squeezed 0.4 mm in the clamp groove, ridges bite in"),
             ("motor_gearbox_frame", "M1.6x4_countersunk_", "M1.6 thread in the gearbox's tapped hole (modelled 1.4)"),
-            ("05_rod_eye", "M2x10_rod_eye", "M2 thread in the 1.7 mm pilot of the rod eye"),
+            ("04_rod", "M2x10_rod_eye", "M2 thread cut into the 1.7 mm hole through the rod"),
             ("M4_brass_nut", "motor_leadscrew_M4", "nut on the leadscrew thread")]
 
 
@@ -338,7 +339,8 @@ def tool_access(d):
 
 def cap_inserts(d):
     """The end-cap screws' heat-set inserts: the PETG round each 2.0 mm knurl (on the body section at the
-    insert's mid-length, the holes left out), the hole open straight to its face, each screw through its whole
+    insert's mid-length, the holes left out), the wall round the hole within 0.3 mm of the face (where the
+    face's chamfers and lead-ins take material), the hole open straight to its face, each screw through its whole
     insert and short of the hole bottom. Insert makers ask for a boss of at least 1.5x the knurl diameter."""
     p, hw, body = d["params"], d["hardware"], d["printed"]["01_body"]
     I = L.INSERT
@@ -346,19 +348,23 @@ def cap_inserts(d):
     out = {}
     for end, pts, face, sgn in (("rear", L.REAR_INSERTS, L.BODY_REAR_Z, 1), ("front", L.FRONT_INSERTS, p["body_z"][1], -1)):
         z_mid = face + sgn * (I["recess"] + I["length"] / 2)
-        edges = cq.Workplane(obj=cq.Compound.makeCompound(plain.section(z_mid).edges().vals()))
+        section = lambda z: cq.Workplane(obj=cq.Compound.makeCompound(plain.section(z).edges().vals()))
+        edges = section(z_mid)
+        near_face = [(face + sgn * dz, section(face + sgn * dz)) for dz in (0.02, 0.15, 0.29)]
         bottom = face + sgn * I["hole_depth"]
         for i, (x, y) in enumerate(pts, start=1):
             room = dist(cq.Workplane(obj=cq.Vertex.makeVertex(x, y, z_mid)), edges)
+            at_face = min(dist(cq.Workplane(obj=cq.Vertex.makeVertex(x, y, z)), e) for z, e in near_face)
             ins, scr = hw[f"M1_insert_{end}_{i}"].val().BoundingBox(), hw[f"M1x8_{end}_cap_{i}"].val().BoundingBox()
             tip = scr.zmax if sgn > 0 else scr.zmin
             in_insert = min(tip, ins.zmax) - ins.zmin if sgn > 0 else ins.zmax - max(tip, ins.zmin)
             lo, hi = sorted((bottom - sgn * 0.01, face - sgn * 5.0))
             probe = cylinder(I["hole"] / 2 - 0.02, hi - lo, lo).translate((x, y, 0))
             c = dict(at=[x, y], wall_round_knurl_mm=round(room - I["od"] / 2, 3),
-                     boss_to_knurl=round(2 * room / I["od"], 2), hole_open_to_face=overlap(probe, body) < 1e-6,
+                     boss_to_knurl=round(2 * room / I["od"], 2),
+                     hole_wall_at_face_mm=round(at_face - I["hole"] / 2, 3), hole_open_to_face=overlap(probe, body) < 1e-6,
                      screw_in_insert_mm=round(in_insert, 3), screw_tip_to_hole_bottom_mm=round(sgn * (bottom - tip), 3))
-            c["pass"] = (c["boss_to_knurl"] >= 1.5 and c["hole_open_to_face"]
+            c["pass"] = (c["boss_to_knurl"] >= 1.5 and c["hole_wall_at_face_mm"] >= 0.3 and c["hole_open_to_face"]
                          and c["screw_in_insert_mm"] >= I["length"] - 0.01 and c["screw_tip_to_hole_bottom_mm"] >= 0.3)
             out[f"{end}_{i}"] = c
     return out

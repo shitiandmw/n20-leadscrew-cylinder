@@ -20,7 +20,7 @@
     "stick": -18.29,
     "bucket": -4.69
    },
-   "boom_pair_sum_N": 79.25,
+   "boom_pair_sum_N": 79.26,
    "stroke_error_mm": [
     -0.0,
     -0.0,
@@ -42,18 +42,18 @@
     "bucket": 5.97
    },
    "virtual_work_N": {
-    "boom_each": 21.35,
+    "boom_each": 21.36,
     "stick": 27.56,
     "bucket": 5.98
    },
-   "boom_pair_sum_N": 42.69,
+   "boom_pair_sum_N": 42.71,
    "stroke_error_mm": [
     -0.0,
     -0.0,
     -0.0,
     -0.0
    ],
-   "residual_boom_moment_Nm": -0.0
+   "residual_boom_moment_Nm": 0.0
   },
   "bucket": {
    "strokes_mm": [
@@ -62,17 +62,17 @@
     60.0
    ],
    "mujoco_force_N": {
-    "boom_L": 27.83,
-    "boom_R": 27.83,
-    "stick": 4.82,
+    "boom_L": 27.84,
+    "boom_R": 27.84,
+    "stick": 4.81,
     "bucket": 16.62
    },
    "virtual_work_N": {
-    "boom_each": 27.83,
+    "boom_each": 27.84,
     "stick": 4.81,
     "bucket": 16.61
    },
-   "boom_pair_sum_N": 55.66,
+   "boom_pair_sum_N": 55.68,
    "stroke_error_mm": [
     -0.0,
     -0.0,

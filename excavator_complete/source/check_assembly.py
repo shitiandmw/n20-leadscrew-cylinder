@@ -9,7 +9,8 @@ swept against the CAD meshes with FCL.
   4. body halves   each half with its electronics slid 2/5/10 mm outboard then lifted 5/20/60 mm, hatch off, with the R12
                    arm (carry pose) and B01X in place (the body's own check did this against the ARM60)
   5. hatch         the battery hatch lifted 1..60 mm at every R12 dig-cycle waypoint
-  6. plugs         the mated JST plugs on the board's inboard edge against T101's rib: the gap a plug needs to slide in
+  6. plugs         the mated JST plugs on the board's inboard edge (top entry) against T101's rib, and their insertion path:
+                   each plug lifted 2..30 mm straight up from its header, against the left half's own parts
 Writes ../assembly_check.json. Run with the R12 interpreter from this folder.
 """
 import json
@@ -157,18 +158,25 @@ def main():
     rep['hatch_lift_vs_arm_poses'] = dict(results=res, clear=all(v['clear'] for v in res.values()))
     place(carry, 0.0)
 
-    # 6. the plug gap: the mated plugs (XHP / PHR housings 1.5 proud of the header faces at Y 84.54, their wires to Y 79) against the T101 rib (outer face Y 69)
-    gap = 1e9
-    for i, o in enumerate(OBJ):
-        if o['name'].startswith('board_plugs'):
-            _, g = probe(o['obj'], [IDX['T101_centre_frame']])
-            gap = min(gap, g)
-    rep['inboard_plugs_vs_rib'] = dict(plug_wire_end_y=79.0, rib_outer_face_y=69.0, gap_mm=round(gap, 3),
-                                       note='a mated XHP-2 housing is 7.5 long and needs about 12 mm with its wire bend: it cannot be mated with the half on the machine. Mate the plugs with the '
-                                            'half standing beside the machine (BODY.md slack), or fit top-entry headers (B2B-XH-A / B4B-XH-A, DESIGN.md alternatives) on a rev B board.')
+    # 6. the plugs: top-entry headers since 2026-11-14 (B2B/B4B-XH-A, B3B-PH-K-S). The mated XHP / PHR housings stand on the
+    #    board over the pin rows (Y 93.74 / 90.79) with their wires going up; against the T101 rib (outer face Y 69), and each
+    #    plug's way on: lifted straight up from its header, against the left half's own parts (B102 with its hood, the cab
+    #    parts). The half stands beside the machine for this, so T101 is not in that test.
+    plugs = [i for i, o in enumerate(OBJ) if o['name'].startswith('board_plugs')]
+    gap = min(probe(OBJ[i]['obj'], [IDX['T101_centre_frame']])[1] for i in plugs)
+    half = [i for i in body_left if not OBJ[i]['name'].startswith(('board_plugs', 'board_parts', 'controller_PCB'))]
+    path = []
+    for dz in (2.0, 5.0, 14.0, 30.0):
+        hits, g = hits_between(plugs, half, np.array([0, 0, dz]))
+        path.append(dict(dz=dz, overlaps=hits[:5], gap_mm=g))
+    rep['inboard_plugs'] = dict(rib_outer_face_y=69.0, gap_to_rib_mm=round(gap, 3), lift_path=path,
+                                clear=gap >= 1.0 and all(not p['overlaps'] for p in path),
+                                note='top-entry headers: each plug goes on straight down. The left half\'s hood covers the board (Z 199 over J102, Z 217 over the rest), so the '
+                                     'plugs are mated with the half standing beside the machine (BODY.md slack), as before.')
 
     rep['status'] = 'PASS' if (not rep['pin_O_insertion']['results']['from the right (tank side)']['overlaps'] and rep['arm_unit_vertical_path']['clear']
-                               and rep['m6_key_access']['clear'] and rep['body_halves_removal']['clear'] and rep['hatch_lift_vs_arm_poses']['clear']) else 'FAIL'
+                               and rep['m6_key_access']['clear'] and rep['body_halves_removal']['clear'] and rep['hatch_lift_vs_arm_poses']['clear']
+                               and rep['inboard_plugs']['clear']) else 'FAIL'
     rep['seconds'] = round(time.time() - t0, 1)
     (K.ROOT / 'assembly_check.json').write_text(json.dumps(rep, indent=1, default=float))
     print(json.dumps({k: (v if k in ('status', 'seconds') else {kk: vv for kk, vv in v.items() if kk in ('clear', 'verdict', 'gap_mm')}) for k, v in rep.items()}, indent=1))

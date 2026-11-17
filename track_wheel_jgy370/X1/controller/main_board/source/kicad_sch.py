@@ -23,7 +23,7 @@ from sexp import Sym as S
 SYMDIR = Path(os.environ.get("KICAD_SYMBOL_DIR", "/tmp/kicad-lib/symbols"))
 PROJECT = "X1_main"
 NS = uuid.UUID("6f1c3a52-6a3e-4c55-9a41-1d2a3b4c5d6e")
-DATE = "2026-11-05"
+DATE = "2026-11-14"                     # top-entry inboard headers (2026-11-05 before)
 G = 2.54
 POWER_SYMBOL = {"GND": "power:GND", "+3V3": "power:+3V3", "+5V": "power:+5V", "+6V": "power:+6V",
                 "VBUS": "power:VBUS", "VBAT": "X1_main:VBAT"}

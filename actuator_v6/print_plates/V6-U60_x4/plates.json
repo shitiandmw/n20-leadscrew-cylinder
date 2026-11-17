@@ -1,0 +1,1228 @@
+{
+ "generator": "actuator_v6/source/build_print_plates.py",
+ "variant": "V6-U60",
+ "actuators": 4,
+ "bed_mm": [
+  180.0,
+  180.0
+ ],
+ "inputs_sha256": {
+  "validation.json": "0d30fdf3a5b32ad7ba2734678e44ed6b28c12ed73e2e2a20a1bf302ecaa20b32",
+  "source/build_print_plates.py": "636b4372bf6ae82220b267bbdfc6049af27b22a7559f9fc4dd27cbdf497b65fc"
+ },
+ "parts": {
+  "01_body": {
+   "stl": "stl/V6-U60/01_body.stl",
+   "sha256": "c7ab28eb4e94ae39258a69372b96686b5dbb4c866c3a5e0cae4162082244de90",
+   "size_mm": [
+    17.3,
+    14.7,
+    108.1
+   ],
+   "volume_mm3": 11904.4,
+   "mass_solid_g": 15.12,
+   "triangles": 8394,
+   "print_setup": "PETG, front end down (chamfered bore and board-slot mouths), 5 mm brim, 0.2 mm layers, 3 walls, 25 % gyroid, no supports. The motor wall bridges the carrier bore, so the motor seat is a top surface; the M1.6 countersinks (45° cones) and the board rest are on the bridge's underside. The end of the motor-side wall stands 1.6 mm above the rear face, and the bevel of its notch prints as a 45° overhang (0.12 mm layers for the last 2 mm make it 5 layers instead of 3). The five 1.7 mm insert holes run straight into the end faces."
+  },
+  "02_front_cap": {
+   "stl": "stl/V6-U60/02_front_cap.stl",
+   "sha256": "6f4ecc68fdd4d20a700dcd1e7f2758cfc6ffe5f5a2fd4180edd3e56f8001c319",
+   "size_mm": [
+    17.3,
+    14.7,
+    7.0
+   ],
+   "volume_mm3": 1212.3,
+   "mass_solid_g": 1.54,
+   "triangles": 5374,
+   "print_setup": "PETG, outer face down, 0.16 mm, 4 walls, 40 % gyroid, no supports."
+  },
+  "03_rear_cap": {
+   "stl": "stl/V6-U60/03_rear_cap.stl",
+   "sha256": "9c1e133a7075354621796b5658a46dfe7b8d8e98c5b8815ddc8469a659350fe5",
+   "size_mm": [
+    17.3,
+    14.7,
+    14.5
+   ],
+   "volume_mm3": 1327.6,
+   "mass_solid_g": 1.69,
+   "triangles": 4984,
+   "print_setup": "PETG, flat front face down (clevis up), 0.16 mm, 4 walls, 60 % gyroid, no supports. The pocket for the end of the body's wall is bridged; the tooth's tip and the pocket's two ends are chamfered 0.2 mm on the bed for the first layer (0.12 mm layers for the first 2 mm are optional)."
+  },
+  "04_rod": {
+   "stl": "stl/V6-U60/04_rod.stl",
+   "sha256": "72ce948ff8949b9f763180acc962f4a74215171358022b060b856405bafa414c",
+   "size_mm": [
+    10.0,
+    12.0,
+    92.0
+   ],
+   "volume_mm3": 3674.2,
+   "mass_solid_g": 4.67,
+   "triangles": 3418,
+   "print_setup": "PETG, carrier down, 0.16 mm, 100 % infill, 3 mm brim; slow the last 20 mm of the taller U60 and L rods."
+  },
+  "05_rod_eye": {
+   "stl": "stl/V6-U60/05_rod_eye.stl",
+   "sha256": "63a026b8dfe31b56925f761cc56299a1f9e71f0758836ce5adacfca50b78598a",
+   "size_mm": [
+    11.0,
+    11.0,
+    19.0
+   ],
+   "volume_mm3": 851.6,
+   "mass_solid_g": 1.08,
+   "triangles": 5400,
+   "print_setup": "PETG, socket opening down, 0.16 mm, 100 % infill, no supports."
+  },
+  "06_cable_clamp": {
+   "stl": "stl/V6-U60/06_cable_clamp.stl",
+   "sha256": "4a1b42a7fa4d6638a3714dc9e010d8d176cf516bb4999722a8ba5e48c2b55972",
+   "size_mm": [
+    4.35,
+    14.7,
+    3.0
+   ],
+   "volume_mm3": 159.7,
+   "mass_solid_g": 0.2,
+   "triangles": 3968,
+   "print_setup": "PETG, flat back down (groove up), 0.16 mm, 100 % infill, no supports."
+  },
+  "08_fit_body_wall": {
+   "stl": "stl/fit_samples/08_fit_body_wall.stl",
+   "sha256": "dd63cfa54fd3132ef53a6638e7de4347ee46f8378fe77eb64274595cdd7b9357",
+   "size_mm": [
+    17.3,
+    14.7,
+    18.0
+   ],
+   "volume_mm3": 2147.5,
+   "mass_solid_g": 2.73,
+   "triangles": 4308,
+   "print_setup": "As 01_body, front end down. Checks the motor bay, the M1.6 countersinks, the board groove and the key rib."
+  },
+  "09_fit_carrier": {
+   "stl": "stl/fit_samples/09_fit_carrier.stl",
+   "sha256": "1d20e15b7606b39c204fb6df8ae73b1c1c7e1d7b77656994e7eb042d2838dce0",
+   "size_mm": [
+    10.0,
+    12.0,
+    11.5
+   ],
+   "volume_mm3": 925.6,
+   "mass_solid_g": 1.18,
+   "triangles": 2432,
+   "print_setup": "As 04_rod. Checks the nut slot, the magnet pocket and the slide in 08 (one way round only)."
+  },
+  "10_fit_insert_rear": {
+   "stl": "stl/fit_samples/10_fit_insert_rear.stl",
+   "sha256": "306af4cc61efbf4f07c5112f64024c96c00c981167129a2a5c2345271b343e41",
+   "size_mm": [
+    17.3,
+    14.7,
+    6.6
+   ],
+   "volume_mm3": 537.0,
+   "mass_solid_g": 0.68,
+   "triangles": 2744,
+   "print_setup": "As 01_body, front end down: the last 5 mm of the rear end with the end of the motor-side wall on top. Press an M1 insert into each hole, then try the rear cap: set it on 0.8 mm toward the board side, slide it back, and its tooth must drop into the notch."
+  },
+  "11_fit_insert_front": {
+   "stl": "stl/fit_samples/11_fit_insert_front.stl",
+   "sha256": "51e287e13f3d045fd27d0de08f5b93571569f8fcf916ca601a93548de94084d5",
+   "size_mm": [
+    17.3,
+    14.7,
+    5.0
+   ],
+   "volume_mm3": 528.8,
+   "mass_solid_g": 0.67,
+   "triangles": 3382,
+   "print_setup": "As 01_body, front end down: the last 5 mm of the front end, with the bore and slot lead-ins and the key rib. Press an M1 insert into each hole: the two on the board side have 0.7 mm of wall, the one by the key rib 0.8 mm."
+  }
+ },
+ "plates": [
+  {
+   "n": 1,
+   "key": "fit_test",
+   "title": "Fit test (print this first)",
+   "purpose": "The four fit samples and one rear cap: check the motor bay, the carrier in the bore, the nut and magnet seats, the board slot, the M1 insert holes and the rear-cap hook before printing the real parts (ASSEMBLY.md step 1).",
+   "once": true,
+   "files": {
+    "3mf": "print_plates/V6-U60_x4/plate1_fit_test.3mf",
+    "stl": "print_plates/V6-U60_x4/plate1_fit_test.stl"
+   },
+   "sha256": {
+    "3mf": "4a9bbc3f69476aab73b2e55f9bb07a68b651cd5de20d074ae005505c6df65aa1",
+    "stl": "54fca8dd12dfb8b7b5b9041c0d004b1462a068f1a1d5586722003e4719f8d652"
+   },
+   "size_bytes": {
+    "3mf": 172315,
+    "stl": 892584
+   },
+   "objects": [
+    {
+     "name": "08_fit_body_wall",
+     "file": "stl/fit_samples/08_fit_body_wall.stl",
+     "copies": 1,
+     "settings": "0.2 mm layers, 3 walls, 25 % gyroid, no brim; the last 2 mm at 0.12 mm layers, no supports",
+     "settings_as": "01_body",
+     "prusaslicer": {
+      "layer_height": "0.2",
+      "fill_density": "25%",
+      "brim_width": "0",
+      "support_material": "0",
+      "perimeters": "3",
+      "fill_pattern": "gyroid"
+     },
+     "layer_range": {
+      "min_z": 16.0,
+      "max_z": 18.0,
+      "layer_height": 0.12
+     }
+    },
+    {
+     "name": "10_fit_insert_rear",
+     "file": "stl/fit_samples/10_fit_insert_rear.stl",
+     "copies": 1,
+     "settings": "0.2 mm layers, 3 walls, 25 % gyroid, no brim; the last 2 mm at 0.12 mm layers, no supports",
+     "settings_as": "01_body",
+     "prusaslicer": {
+      "layer_height": "0.2",
+      "fill_density": "25%",
+      "brim_width": "0",
+      "support_material": "0",
+      "perimeters": "3",
+      "fill_pattern": "gyroid"
+     },
+     "layer_range": {
+      "min_z": 4.6,
+      "max_z": 6.6,
+      "layer_height": 0.12
+     }
+    },
+    {
+     "name": "11_fit_insert_front",
+     "file": "stl/fit_samples/11_fit_insert_front.stl",
+     "copies": 1,
+     "settings": "0.2 mm layers, 3 walls, 25 % gyroid, no brim; the last 2 mm at 0.12 mm layers, no supports",
+     "settings_as": "01_body",
+     "prusaslicer": {
+      "layer_height": "0.2",
+      "fill_density": "25%",
+      "brim_width": "0",
+      "support_material": "0",
+      "perimeters": "3",
+      "fill_pattern": "gyroid"
+     },
+     "layer_range": {
+      "min_z": 3.0,
+      "max_z": 5.0,
+      "layer_height": 0.12
+     }
+    },
+    {
+     "name": "09_fit_carrier",
+     "file": "stl/fit_samples/09_fit_carrier.stl",
+     "copies": 1,
+     "settings": "0.16 mm layers, 100 % infill, no brim, no supports",
+     "settings_as": "04_rod",
+     "prusaslicer": {
+      "layer_height": "0.16",
+      "fill_density": "100%",
+      "brim_width": "0",
+      "support_material": "0",
+      "fill_pattern": "rectilinear"
+     },
+     "layer_range": null
+    },
+    {
+     "name": "03_rear_cap",
+     "file": "stl/V6-U60/03_rear_cap.stl",
+     "copies": 1,
+     "settings": "0.16 mm layers, 4 walls, 60 % gyroid, no brim, no supports",
+     "settings_as": null,
+     "prusaslicer": {
+      "layer_height": "0.16",
+      "fill_density": "60%",
+      "brim_width": "0",
+      "support_material": "0",
+      "perimeters": "4",
+      "fill_pattern": "gyroid"
+     },
+     "layer_range": null
+    }
+   ],
+   "same_settings": false,
+   "settings_groups": [
+    {
+     "settings": "0.2 mm layers, 3 walls, 25 % gyroid, no brim; the last 2 mm at 0.12 mm layers, no supports",
+     "parts": [
+      "08_fit_body_wall",
+      "10_fit_insert_rear",
+      "11_fit_insert_front"
+     ]
+    },
+    {
+     "settings": "0.16 mm layers, 100 % infill, no brim, no supports",
+     "parts": [
+      "09_fit_carrier"
+     ]
+    },
+    {
+     "settings": "0.16 mm layers, 4 walls, 60 % gyroid, no brim, no supports",
+     "parts": [
+      "03_rear_cap"
+     ]
+    }
+   ],
+   "instances": [
+    {
+     "part": "08_fit_body_wall",
+     "copy": 1,
+     "translate_mm": [
+      62.7,
+      102.35,
+      0.0
+     ],
+     "outline_mm": [
+      54.05,
+      95.0,
+      71.35,
+      109.7
+     ],
+     "footprint_mm": [
+      54.05,
+      95.0,
+      71.35,
+      109.7
+     ]
+    },
+    {
+     "part": "10_fit_insert_rear",
+     "copy": 1,
+     "translate_mm": [
+      90.0,
+      102.35,
+      0.0
+     ],
+     "outline_mm": [
+      81.35,
+      95.0,
+      98.65,
+      109.7
+     ],
+     "footprint_mm": [
+      81.35,
+      95.0,
+      98.65,
+      109.7
+     ]
+    },
+    {
+     "part": "11_fit_insert_front",
+     "copy": 1,
+     "translate_mm": [
+      117.3,
+      102.35,
+      0.0
+     ],
+     "outline_mm": [
+      108.65,
+      95.0,
+      125.95,
+      109.7
+     ],
+     "footprint_mm": [
+      108.65,
+      95.0,
+      125.95,
+      109.7
+     ]
+    },
+    {
+     "part": "09_fit_carrier",
+     "copy": 1,
+     "translate_mm": [
+      76.35,
+      77.65,
+      0.0
+     ],
+     "outline_mm": [
+      71.35,
+      71.65,
+      81.35,
+      83.65
+     ],
+     "footprint_mm": [
+      71.35,
+      71.65,
+      81.35,
+      83.65
+     ]
+    },
+    {
+     "part": "03_rear_cap",
+     "copy": 1,
+     "translate_mm": [
+      100.0,
+      77.65,
+      0.0
+     ],
+     "outline_mm": [
+      91.35,
+      70.3,
+      108.65,
+      85.0
+     ],
+     "footprint_mm": [
+      91.35,
+      70.3,
+      108.65,
+      85.0
+     ]
+    }
+   ],
+   "pieces": 5,
+   "height_mm": 18.0,
+   "mass_solid_g": 6.9,
+   "layout": {
+    "footprint_mm": [
+     54.05,
+     70.3,
+     125.95,
+     109.7
+    ],
+    "size_mm": [
+     71.9,
+     39.4
+    ],
+    "min_edge_mm": 54.05,
+    "min_gap_mm": 10.0,
+    "bed_mm": [
+     180.0,
+     180.0
+    ],
+    "margin_mm": 10.0,
+    "gap_min_mm": 6.0
+   },
+   "read_back": {
+    "triangles": 17850,
+    "max_deviation_mm": 4.985351562680762e-06,
+    "objects": 5,
+    "instances": 5,
+    "prusaslicer_settings_objects": 5,
+    "layer_ranges": 3
+   },
+   "stl_same_triangles": true
+  },
+  {
+   "n": 2,
+   "key": "bodies",
+   "title": "Bodies, 4 off",
+   "purpose": "The barrels: tall parts with the 1 mm partition, printed front end down.",
+   "once": false,
+   "files": {
+    "3mf": "print_plates/V6-U60_x4/plate2_bodies_x4.3mf",
+    "stl": "print_plates/V6-U60_x4/plate2_bodies_x4.stl"
+   },
+   "sha256": {
+    "3mf": "7fcb6e025b93cf5af9523124b28be51e34b89d33e2d6d76f4bd3b560ae31dcb7",
+    "stl": "ee0bb4c930f063c933598639eae41d9320721a9879b9771bc50d0fe49f4736cb"
+   },
+   "size_bytes": {
+    "3mf": 82287,
+    "stl": 1678884
+   },
+   "objects": [
+    {
+     "name": "01_body",
+     "file": "stl/V6-U60/01_body.stl",
+     "copies": 4,
+     "settings": "0.2 mm layers, 3 walls, 25 % gyroid, 5 mm brim; the last 2 mm at 0.12 mm layers, no supports",
+     "settings_as": null,
+     "prusaslicer": {
+      "layer_height": "0.2",
+      "fill_density": "25%",
+      "brim_width": "5",
+      "support_material": "0",
+      "perimeters": "3",
+      "fill_pattern": "gyroid"
+     },
+     "layer_range": {
+      "min_z": 106.1,
+      "max_z": 108.1,
+      "layer_height": 0.12
+     }
+    }
+   ],
+   "same_settings": true,
+   "settings_groups": [
+    {
+     "settings": "0.2 mm layers, 3 walls, 25 % gyroid, 5 mm brim; the last 2 mm at 0.12 mm layers, no supports",
+     "parts": [
+      "01_body"
+     ]
+    }
+   ],
+   "instances": [
+    {
+     "part": "01_body",
+     "copy": 1,
+     "translate_mm": [
+      71.35,
+      107.35,
+      0.0
+     ],
+     "outline_mm": [
+      62.7,
+      100.0,
+      80.0,
+      114.7
+     ],
+     "footprint_mm": [
+      57.7,
+      95.0,
+      85.0,
+      119.7
+     ]
+    },
+    {
+     "part": "01_body",
+     "copy": 2,
+     "translate_mm": [
+      108.65,
+      107.35,
+      0.0
+     ],
+     "outline_mm": [
+      100.0,
+      100.0,
+      117.3,
+      114.7
+     ],
+     "footprint_mm": [
+      95.0,
+      95.0,
+      122.3,
+      119.7
+     ]
+    },
+    {
+     "part": "01_body",
+     "copy": 3,
+     "translate_mm": [
+      71.35,
+      72.65,
+      0.0
+     ],
+     "outline_mm": [
+      62.7,
+      65.3,
+      80.0,
+      80.0
+     ],
+     "footprint_mm": [
+      57.7,
+      60.3,
+      85.0,
+      85.0
+     ]
+    },
+    {
+     "part": "01_body",
+     "copy": 4,
+     "translate_mm": [
+      108.65,
+      72.65,
+      0.0
+     ],
+     "outline_mm": [
+      100.0,
+      65.3,
+      117.3,
+      80.0
+     ],
+     "footprint_mm": [
+      95.0,
+      60.3,
+      122.3,
+      85.0
+     ]
+    }
+   ],
+   "pieces": 4,
+   "height_mm": 108.1,
+   "mass_solid_g": 60.5,
+   "layout": {
+    "footprint_mm": [
+     57.7,
+     60.3,
+     122.3,
+     119.7
+    ],
+    "size_mm": [
+     64.6,
+     59.4
+    ],
+    "min_edge_mm": 57.7,
+    "min_gap_mm": 10.0,
+    "bed_mm": [
+     180.0,
+     180.0
+    ],
+    "margin_mm": 10.0,
+    "gap_min_mm": 6.0
+   },
+   "read_back": {
+    "triangles": 33576,
+    "max_deviation_mm": 4.570312499652118e-05,
+    "objects": 1,
+    "instances": 4,
+    "prusaslicer_settings_objects": 1,
+    "layer_ranges": 1
+   },
+   "stl_same_triangles": true
+  },
+  {
+   "n": 3,
+   "key": "rods_eyes_clamps",
+   "title": "Rods, rod eyes and cable clamps, 4 each",
+   "purpose": "The solid (100 % infill) parts at 0.16 mm.",
+   "once": false,
+   "files": {
+    "3mf": "print_plates/V6-U60_x4/plate3_rods_eyes_clamps_x4.3mf",
+    "stl": "print_plates/V6-U60_x4/plate3_rods_eyes_clamps_x4.stl"
+   },
+   "sha256": {
+    "3mf": "48dee45fe90b89098d2691df8c9f8dce95406b8ff99cb56ce81a8cc0c6aeb452",
+    "stl": "c402dc08f1f8c5424ad1dfd463f1c67884e21f4144e80523112e8c716a902f17"
+   },
+   "size_bytes": {
+    "3mf": 130093,
+    "stl": 2557284
+   },
+   "objects": [
+    {
+     "name": "04_rod",
+     "file": "stl/V6-U60/04_rod.stl",
+     "copies": 4,
+     "settings": "0.16 mm layers, 100 % infill, 3 mm brim, no supports",
+     "settings_as": null,
+     "prusaslicer": {
+      "layer_height": "0.16",
+      "fill_density": "100%",
+      "brim_width": "3",
+      "support_material": "0",
+      "fill_pattern": "rectilinear"
+     },
+     "layer_range": null
+    },
+    {
+     "name": "05_rod_eye",
+     "file": "stl/V6-U60/05_rod_eye.stl",
+     "copies": 4,
+     "settings": "0.16 mm layers, 100 % infill, no brim, no supports",
+     "settings_as": null,
+     "prusaslicer": {
+      "layer_height": "0.16",
+      "fill_density": "100%",
+      "brim_width": "0",
+      "support_material": "0",
+      "fill_pattern": "rectilinear"
+     },
+     "layer_range": null
+    },
+    {
+     "name": "06_cable_clamp",
+     "file": "stl/V6-U60/06_cable_clamp.stl",
+     "copies": 4,
+     "settings": "0.16 mm layers, 100 % infill, no brim, no supports",
+     "settings_as": null,
+     "prusaslicer": {
+      "layer_height": "0.16",
+      "fill_density": "100%",
+      "brim_width": "0",
+      "support_material": "0",
+      "fill_pattern": "rectilinear"
+     },
+     "layer_range": null
+    }
+   ],
+   "same_settings": false,
+   "settings_groups": [
+    {
+     "settings": "0.16 mm layers, 100 % infill, 3 mm brim, no supports",
+     "parts": [
+      "04_rod"
+     ]
+    },
+    {
+     "settings": "0.16 mm layers, 100 % infill, no brim, no supports",
+     "parts": [
+      "05_rod_eye",
+      "06_cable_clamp"
+     ]
+    }
+   ],
+   "instances": [
+    {
+     "part": "04_rod",
+     "copy": 1,
+     "translate_mm": [
+      51.0,
+      112.848,
+      0.0
+     ],
+     "outline_mm": [
+      46.0,
+      106.848,
+      56.0,
+      118.848
+     ],
+     "footprint_mm": [
+      43.0,
+      103.848,
+      59.0,
+      121.848
+     ]
+    },
+    {
+     "part": "04_rod",
+     "copy": 2,
+     "translate_mm": [
+      77.0,
+      112.848,
+      0.0
+     ],
+     "outline_mm": [
+      72.0,
+      106.848,
+      82.0,
+      118.848
+     ],
+     "footprint_mm": [
+      69.0,
+      103.848,
+      85.0,
+      121.848
+     ]
+    },
+    {
+     "part": "04_rod",
+     "copy": 3,
+     "translate_mm": [
+      103.0,
+      112.848,
+      0.0
+     ],
+     "outline_mm": [
+      98.0,
+      106.848,
+      108.0,
+      118.848
+     ],
+     "footprint_mm": [
+      95.0,
+      103.848,
+      111.0,
+      121.848
+     ]
+    },
+    {
+     "part": "04_rod",
+     "copy": 4,
+     "translate_mm": [
+      129.0,
+      112.848,
+      0.0
+     ],
+     "outline_mm": [
+      124.0,
+      106.848,
+      134.0,
+      118.848
+     ],
+     "footprint_mm": [
+      121.0,
+      103.848,
+      137.0,
+      121.848
+     ]
+    },
+    {
+     "part": "05_rod_eye",
+     "copy": 1,
+     "translate_mm": [
+      58.5,
+      88.35,
+      0.0
+     ],
+     "outline_mm": [
+      53.0,
+      82.852,
+      64.0,
+      93.848
+     ],
+     "footprint_mm": [
+      53.0,
+      82.852,
+      64.0,
+      93.848
+     ]
+    },
+    {
+     "part": "05_rod_eye",
+     "copy": 2,
+     "translate_mm": [
+      79.5,
+      88.35,
+      0.0
+     ],
+     "outline_mm": [
+      74.0,
+      82.852,
+      85.0,
+      93.848
+     ],
+     "footprint_mm": [
+      74.0,
+      82.852,
+      85.0,
+      93.848
+     ]
+    },
+    {
+     "part": "05_rod_eye",
+     "copy": 3,
+     "translate_mm": [
+      100.5,
+      88.35,
+      0.0
+     ],
+     "outline_mm": [
+      95.0,
+      82.852,
+      106.0,
+      93.848
+     ],
+     "footprint_mm": [
+      95.0,
+      82.852,
+      106.0,
+      93.848
+     ]
+    },
+    {
+     "part": "05_rod_eye",
+     "copy": 4,
+     "translate_mm": [
+      121.5,
+      88.35,
+      0.0
+     ],
+     "outline_mm": [
+      116.0,
+      82.852,
+      127.0,
+      93.848
+     ],
+     "footprint_mm": [
+      116.0,
+      82.852,
+      127.0,
+      93.848
+     ]
+    },
+    {
+     "part": "06_cable_clamp",
+     "copy": 1,
+     "translate_mm": [
+      68.475,
+      65.502,
+      0.0
+     ],
+     "outline_mm": [
+      66.3,
+      58.152,
+      70.65,
+      72.852
+     ],
+     "footprint_mm": [
+      66.3,
+      58.152,
+      70.65,
+      72.852
+     ]
+    },
+    {
+     "part": "06_cable_clamp",
+     "copy": 2,
+     "translate_mm": [
+      82.825,
+      65.502,
+      0.0
+     ],
+     "outline_mm": [
+      80.65,
+      58.152,
+      85.0,
+      72.852
+     ],
+     "footprint_mm": [
+      80.65,
+      58.152,
+      85.0,
+      72.852
+     ]
+    },
+    {
+     "part": "06_cable_clamp",
+     "copy": 3,
+     "translate_mm": [
+      97.175,
+      65.502,
+      0.0
+     ],
+     "outline_mm": [
+      95.0,
+      58.152,
+      99.35,
+      72.852
+     ],
+     "footprint_mm": [
+      95.0,
+      58.152,
+      99.35,
+      72.852
+     ]
+    },
+    {
+     "part": "06_cable_clamp",
+     "copy": 4,
+     "translate_mm": [
+      111.525,
+      65.502,
+      0.0
+     ],
+     "outline_mm": [
+      109.35,
+      58.152,
+      113.7,
+      72.852
+     ],
+     "footprint_mm": [
+      109.35,
+      58.152,
+      113.7,
+      72.852
+     ]
+    }
+   ],
+   "pieces": 12,
+   "height_mm": 92.0,
+   "mass_solid_g": 23.8,
+   "layout": {
+    "footprint_mm": [
+     43.0,
+     58.15,
+     137.0,
+     121.85
+    ],
+    "size_mm": [
+     94.0,
+     63.7
+    ],
+    "min_edge_mm": 43.0,
+    "min_gap_mm": 10.0,
+    "bed_mm": [
+     180.0,
+     180.0
+    ],
+    "margin_mm": 10.0,
+    "gap_min_mm": 6.0
+   },
+   "read_back": {
+    "triangles": 51144,
+    "max_deviation_mm": 7.676757803665168e-06,
+    "objects": 3,
+    "instances": 12,
+    "prusaslicer_settings_objects": 3,
+    "layer_ranges": 0
+   },
+   "stl_same_triangles": true
+  },
+  {
+   "n": 4,
+   "key": "caps",
+   "title": "Front and rear caps, 4 each",
+   "purpose": "The end caps at 0.16 mm and 4 walls.",
+   "once": false,
+   "files": {
+    "3mf": "print_plates/V6-U60_x4/plate4_caps_x4.3mf",
+    "stl": "print_plates/V6-U60_x4/plate4_caps_x4.stl"
+   },
+   "sha256": {
+    "3mf": "9c9ff73c3881bd2ff9fe44569a17d528cba1cc3facbaedb6bff3dce509c6e948",
+    "stl": "8dd63701fa7e67716fc43e32e5f234e3e0fc391b4cb25fd9ad2f6bac5bc29102"
+   },
+   "size_bytes": {
+    "3mf": 106164,
+    "stl": 2071684
+   },
+   "objects": [
+    {
+     "name": "02_front_cap",
+     "file": "stl/V6-U60/02_front_cap.stl",
+     "copies": 4,
+     "settings": "0.16 mm layers, 4 walls, 40 % gyroid, no brim, no supports",
+     "settings_as": null,
+     "prusaslicer": {
+      "layer_height": "0.16",
+      "fill_density": "40%",
+      "brim_width": "0",
+      "support_material": "0",
+      "perimeters": "4",
+      "fill_pattern": "gyroid"
+     },
+     "layer_range": null
+    },
+    {
+     "name": "03_rear_cap",
+     "file": "stl/V6-U60/03_rear_cap.stl",
+     "copies": 4,
+     "settings": "0.16 mm layers, 4 walls, 60 % gyroid, no brim, no supports",
+     "settings_as": null,
+     "prusaslicer": {
+      "layer_height": "0.16",
+      "fill_density": "60%",
+      "brim_width": "0",
+      "support_material": "0",
+      "perimeters": "4",
+      "fill_pattern": "gyroid"
+     },
+     "layer_range": null
+    }
+   ],
+   "same_settings": false,
+   "settings_groups": [
+    {
+     "settings": "0.16 mm layers, 4 walls, 40 % gyroid, no brim, no supports",
+     "parts": [
+      "02_front_cap"
+     ]
+    },
+    {
+     "settings": "0.16 mm layers, 4 walls, 60 % gyroid, no brim, no supports",
+     "parts": [
+      "03_rear_cap"
+     ]
+    }
+   ],
+   "instances": [
+    {
+     "part": "02_front_cap",
+     "copy": 1,
+     "translate_mm": [
+      49.05,
+      102.35,
+      0.0
+     ],
+     "outline_mm": [
+      40.4,
+      95.0,
+      57.7,
+      109.7
+     ],
+     "footprint_mm": [
+      40.4,
+      95.0,
+      57.7,
+      109.7
+     ]
+    },
+    {
+     "part": "02_front_cap",
+     "copy": 2,
+     "translate_mm": [
+      76.35,
+      102.35,
+      0.0
+     ],
+     "outline_mm": [
+      67.7,
+      95.0,
+      85.0,
+      109.7
+     ],
+     "footprint_mm": [
+      67.7,
+      95.0,
+      85.0,
+      109.7
+     ]
+    },
+    {
+     "part": "02_front_cap",
+     "copy": 3,
+     "translate_mm": [
+      103.65,
+      102.35,
+      0.0
+     ],
+     "outline_mm": [
+      95.0,
+      95.0,
+      112.3,
+      109.7
+     ],
+     "footprint_mm": [
+      95.0,
+      95.0,
+      112.3,
+      109.7
+     ]
+    },
+    {
+     "part": "02_front_cap",
+     "copy": 4,
+     "translate_mm": [
+      130.95,
+      102.35,
+      0.0
+     ],
+     "outline_mm": [
+      122.3,
+      95.0,
+      139.6,
+      109.7
+     ],
+     "footprint_mm": [
+      122.3,
+      95.0,
+      139.6,
+      109.7
+     ]
+    },
+    {
+     "part": "03_rear_cap",
+     "copy": 1,
+     "translate_mm": [
+      49.05,
+      77.65,
+      0.0
+     ],
+     "outline_mm": [
+      40.4,
+      70.3,
+      57.7,
+      85.0
+     ],
+     "footprint_mm": [
+      40.4,
+      70.3,
+      57.7,
+      85.0
+     ]
+    },
+    {
+     "part": "03_rear_cap",
+     "copy": 2,
+     "translate_mm": [
+      76.35,
+      77.65,
+      0.0
+     ],
+     "outline_mm": [
+      67.7,
+      70.3,
+      85.0,
+      85.0
+     ],
+     "footprint_mm": [
+      67.7,
+      70.3,
+      85.0,
+      85.0
+     ]
+    },
+    {
+     "part": "03_rear_cap",
+     "copy": 3,
+     "translate_mm": [
+      103.65,
+      77.65,
+      0.0
+     ],
+     "outline_mm": [
+      95.0,
+      70.3,
+      112.3,
+      85.0
+     ],
+     "footprint_mm": [
+      95.0,
+      70.3,
+      112.3,
+      85.0
+     ]
+    },
+    {
+     "part": "03_rear_cap",
+     "copy": 4,
+     "translate_mm": [
+      130.95,
+      77.65,
+      0.0
+     ],
+     "outline_mm": [
+      122.3,
+      70.3,
+      139.6,
+      85.0
+     ],
+     "footprint_mm": [
+      122.3,
+      70.3,
+      139.6,
+      85.0
+     ]
+    }
+   ],
+   "pieces": 8,
+   "height_mm": 14.5,
+   "mass_solid_g": 12.9,
+   "layout": {
+    "footprint_mm": [
+     40.4,
+     70.3,
+     139.6,
+     109.7
+    ],
+    "size_mm": [
+     99.2,
+     39.4
+    ],
+    "min_edge_mm": 40.4,
+    "min_gap_mm": 10.0,
+    "bed_mm": [
+     180.0,
+     180.0
+    ],
+    "margin_mm": 10.0,
+    "gap_min_mm": 6.0
+   },
+   "read_back": {
+    "triangles": 41432,
+    "max_deviation_mm": 7.882812496973202e-06,
+    "objects": 2,
+    "instances": 8,
+    "prusaslicer_settings_objects": 2,
+    "layer_ranges": 0
+   },
+   "stl_same_triangles": true
+  }
+ ],
+ "pass": true
+}

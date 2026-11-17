@@ -255,14 +255,14 @@
   "side_link": 0.010134,
   "h_link": 0.007504,
   "bucket": 0.085396,
-  "boom_L_barrel": 0.053461,
-  "boom_L_rod": 0.006945,
-  "boom_R_barrel": 0.053461,
-  "boom_R_rod": 0.006945,
-  "stick_barrel": 0.053461,
-  "stick_rod": 0.006945,
-  "bucket_barrel": 0.053461,
-  "bucket_rod": 0.006945
+  "boom_L_barrel": 0.053547,
+  "boom_L_rod": 0.006943,
+  "boom_R_barrel": 0.053547,
+  "boom_R_rod": 0.006943,
+  "stick_barrel": 0.053547,
+  "stick_rod": 0.006943,
+  "bucket_barrel": 0.053547,
+  "bucket_rod": 0.006943
  },
- "build_seconds": 250.4
+ "build_seconds": 214.6
 }

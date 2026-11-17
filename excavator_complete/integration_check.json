@@ -401,17 +401,17 @@
  "balance": {
   "method": "Static: CG of the whole machine projected on the ground against the track footprint (ground-run pins X -120..120, shoe outer edges |Y| 205). Positive margin = inside. Upper without the ARM60: the X1 turntable mass file minus the ARM60 (its masses there, centres from its meshes at uniform density). R12 bodies from R12 mass_properties.json with B01 replaced by B01X. Lower from the same file. No dynamics, slopes or digging forces.",
   "lower": {
-   "kg": 4.655,
+   "kg": 4.629,
    "cg_mm": [
-    -2.4,
+    -2.7,
     0.0,
-    51.4
+    51.5
    ]
   },
   "upper_with_arm60_as_in_X1": {
-   "kg": 5.125,
+   "kg": 5.128,
    "cg_mm": [
-    0.0,
+    -0.0,
     0.0,
     178.2
    ]
@@ -425,11 +425,11 @@
    ]
   },
   "r12_added": {
-   "kg": 1.0591,
+   "kg": 1.0595,
    "base_body_with_B01X_kg": 0.2114
   },
   "upper_with_r12_carry_pose": {
-   "kg": 4.542,
+   "kg": 4.546,
    "cg_mm": [
     -8.6,
     0.0,
@@ -448,29 +448,29 @@
     155.2
    ],
    "penetrate": [
-    -4.2,
+    -4.1,
     0.0,
     127.3
    ],
    "crowd the stick": [
-    -12.0,
+    -11.9,
     0.0,
     124.3
    ],
    "curl the bucket": [
-    -11.8,
+    -11.7,
     0.0,
     129.7
    ],
    "raise": [
-    -13.6,
+    -13.5,
     0.0,
-    172.7
+    172.6
    ],
    "dump": [
     -12.8,
     0.0,
-    180.7
+    180.6
    ]
   },
   "shot_trim_estimate": {
@@ -481,13 +481,13 @@
    "note": "Removing this much shot (uniformly, at the pocket centre) would put the upper CG back on the swing axis in that pose. Not applied: the body is unchanged in this folder."
   },
   "machine_carry_pose": {
-   "kg": 9.197,
+   "kg": 9.175,
    "cg_mm": [
-    -5.5,
+    -5.6,
     0.0,
-    107.3
+    107.5
    ],
-   "margin_mm": 114.5
+   "margin_mm": 114.4
   },
   "footprint_mm": {
    "x": [
@@ -500,7 +500,7 @@
    ]
   },
   "worst_static": {
-   "margin_mm": 106.5,
+   "margin_mm": 106.4,
    "strokes": [
     60.0,
     60.0,
@@ -509,16 +509,16 @@
    "swing_deg": 0,
    "payload": false,
    "cg_mm": [
-    -13.5,
+    -13.6,
     0.0,
-    114.5
+    114.7
    ]
   },
   "states": 2000,
-  "cycle_min_margin_mm": 111.2,
+  "cycle_min_margin_mm": 111.3,
   "all_inside": true,
   "note": "The body's shot pocket was sized to put the upper CG on the swing axis with the 1.64 kg ARM60 stretched forward. R12 with B01X is lighter, so the upper CG moves rearward (upper_cg_mm_by_waypoint, shot_trim_estimate). The machine stays inside its footprint in every case here."
  },
  "status": "PASS",
- "seconds": 285.0
+ "seconds": 295.0
 }

@@ -138,7 +138,7 @@ Coordinates are the X1 machine frame in mm: X forward, Y to the left, Z up.
 - **B2. Height:** components and mated plugs at most 20 mm above the board. The limit is Z 134; the board top is at Z 111.6, which leaves 22.4 mm.
 - **B3. Antenna:** keep copper away from the antenna end at the outboard edge. The steel shot sits at least 15 mm behind it. Check the range on the bench.
 - **B4. USB slot:** the B102 skirt slot moves from Z 123.3 (a devkit on headers) to the board connector's centre, about Z 113.2. This is a body CAD change, and the body checks are run again in the CAD phase.
-- **B5. Plug clearance:** the connector orientation (top or side entry) and plug clearance in the bay are fixed in the CAD phase.
+- **B5. Plug clearance:** the connector orientation (top or side entry) and plug clearance in the bay are fixed in the CAD phase. *Fixed 2026-11-14: top entry* (JST B2B/B4B-XH-A, B3B/B4B-PH-K-S; main_board/DESIGN.md). The side-entry headers' plugs ended 3 mm from the T101 rib; the top-entry plugs stand on the board and the harness comes straight down onto them (excavator_complete/WIRING.md).
 
 ## 4. Control scheme (decision D5)
 
@@ -251,7 +251,7 @@ Not designed or implemented in this phase. The only provisions are these:
    - Rev B (issue 5) keeps the DRV8876 too. The DRV8214 also could not take the 12.6 V actuator supply (11 V maximum); a ripple-counting driver for a later revision would need a higher-voltage part.
 3. The DRV8876 is an LCSC "extended" part, which carries a one-time fee at JLCPCB. Check its stock before ordering.
 4. Radio range from inside the PETG body, near the steel shot. Test on the bench.
-5. Connector orientation and plug clearance in the bay (B5). Fix in CAD.
+5. ~~Connector orientation and plug clearance in the bay (B5). Fix in CAD.~~ Fixed 2026-11-14: top entry (B5).
 6. Handle ergonomics and appearance: parked with the handle (section 7).
 
 ## 12. Next steps after sign-off

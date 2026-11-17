@@ -1,15 +1,15 @@
 # V6 assembly guide
 
-The same steps apply to V6-S, V6-U60 and V6-L; only the body, the rod, the motor's leadscrew length and the board length differ. Parts and wire lengths are in `BOM.md`. Most pictures are Blender renders of the exported CAD, made before rev 6.2, the M1 inserts and the rear-cap hook: they still show the M3 screw, the cylinder magnet, the earlier board parts, M2 cap screws and the thinner motor-side wall. Apart from the new step 3 and the way the rear cap goes on (step 7), the steps are the same. `3D_preview.html` shows every step's parts in 3D, and its **Assembly ▶** view plays the steps below as an animation. `images/assembly_V6-S.mp4` is a recording of it made before the rear-cap hook: the video and the two assembly-view pictures in step 6 show the thinner motor-side wall, and the video puts the rear cap straight on instead of the two moves in step 7.4. The 3D preview is current.
+The same steps apply to V6-S, V6-U60 and V6-L; only the body, the rod, the motor's leadscrew length and the board length differ. Parts and wire lengths are in `BOM.md`. Most pictures are Blender renders of the exported CAD, made before rev 6.2, the M1 inserts, the rear-cap hook and the front cap's third screw: they still show the M3 screw, the cylinder magnet, the earlier board parts, M2 cap screws, the thinner motor-side wall and two front-cap screws. Apart from the new step 3 and the way the rear cap goes on (step 7), the steps are the same. `3D_preview.html` shows every step's parts in 3D, and its **Assembly ▶** view plays the steps below as an animation. `images/assembly_V6-S.mp4` is a recording of it made before the rear-cap hook and the front cap's third screw: the video and the two assembly-view pictures in step 6 show the thinner motor-side wall, the video puts the rear cap straight on instead of the two moves in step 7.4, and it fits two front inserts and two front screws instead of three (steps 3 and 9). The 3D preview is current.
 
 ![V6-S, assembled](images/hero_S.png)
 
 ## What you need
 
 - **Tools:**
-  - a soldering iron with a fine conical tip, for the wires and the four heat-set inserts;
+  - a soldering iron with a fine conical tip, for the wires and the five heat-set inserts;
   - a **PH0 screwdriver with a long, thin blade**: 3 mm thick or less, and at least 70 mm long for V6-S, 90 mm for V6-U60, 115 mm for V6-L. It reaches the motor screws through the bore. A Wera 350 PH 0 × 100 mm (item 05008706001) suits V6-S and V6-U60; for V6-L, see Known limits in `README.md`.
-  - a PH000 precision screwdriver for the four M1 cap screws;
+  - a PH000 precision screwdriver for the five M1 cap screws;
   - a PH1 screwdriver for the M2 rod-eye screw;
   - small pliers.
 - **Power for testing:** a 12 V supply with a reversing switch (DPDT) or any H-bridge motor driver. A current limit of about 0.5 A is useful for the first test.
@@ -25,7 +25,7 @@ Print the fit samples in `stl/fit_samples/` first: `08_fit_body_wall.stl`, `09_f
 - **Nut:** the brass nut drops into the hex slot.
 - **Magnet:** it presses into its pocket.
 - **Board slot:** the bare board, or a 0.8 mm card, slides into the slot behind the partition.
-- **Insert holes:** press an M1 insert into each hole of samples 10 and 11 as in step 3. It should sink in under light pressure from the iron, and the faces around it must stay flat. If it needs force, open the 1.7 mm hole a little in the slicer; if it drops in loose, close it.
+- **Insert holes:** press an M1 insert into each hole of samples 10 and 11 as in step 3. It should sink in under light pressure from the iron, and the faces around it must stay flat. If it needs force, open the 1.7 mm hole a little in the slicer; if it drops in loose, close it. Then slide sample 09 through sample 11: the insert in the corner by the key rib must not have pushed the rib into the bore.
 - **Rear-cap hook:** set the rear cap on sample 10, 0.8 mm toward the board side, and slide it back as in step 7. The tooth must drop into the notch without force, and the cap must then sit flat on the rear face with its screw holes over the inserts. If it stops short, look at the tooth's tip and at the roof of the cap's pocket (a bridge) for first-layer squash or sag.
 
 If anything binds, adjust your slicer's hole or horizontal-expansion compensation first. The carrier has only 0.15 mm of clearance per side in the bore.
@@ -36,12 +36,12 @@ Print the six parts from `stl/V6-S/`, `stl/V6-U60/` or `stl/V6-L/`; the files ar
 
 ## 3. Heat-set inserts
 
-Do this first, while the body is still empty. You need the four **M1 heat-set inserts** (1.8 mm long, 2 mm across the knurl) and the soldering iron at about **240 °C**, your PETG print temperature + 10 °C.
+Do this first, while the body is still empty. You need the five **M1 heat-set inserts** (1.8 mm long, 2 mm across the knurl) and the soldering iron at about **240 °C**, your PETG print temperature + 10 °C.
 
 1. Stand the body on its front end. Set an insert on one of the two holes in the rear face, or pick it up on the tip of the iron.
 2. Press it in with the iron, straight along the hole and with light pressure. Let the heat do the work: it sinks in within a few seconds.
 3. Stop when its top is 0.1 mm below the face. Take the iron away and hold the insert down with a flat, cold tool for a few seconds while the plastic sets.
-4. Fit the second rear insert, then turn the body over and fit the two in the front face the same way. **The front ones have only 0.7 mm of wall:** go slowly there, so that the side faces do not bulge.
+4. Fit the second rear insert, then turn the body over and fit the three in the front face the same way: two on the board side and one in the corner by the key rib. **The front ones have only 0.7 to 0.8 mm of wall:** go slowly there, so that the side faces and the key rib do not bulge.
 5. Check that an M1 screw turns into each insert by hand.
 
 ## 4. Board and wires
@@ -106,15 +106,15 @@ Thread the four wires into the board slot from the front end of the body. Push t
 1. Press the **3 × 2 × 2 block magnet** into the pocket in the side of the carrier until it is flush, with its two 3 × 2 pole faces facing along the travel. Either pole may face forward.
 2. Slide the **thin brass M4 nut** into the hex slot.
 3. Insert the rod into the bore, carrier first, with the **magnet facing the board side**. The key rib in one corner of the bore admits the carrier only that way round; if it stops at the mouth, turn it 180°.
-4. Push the rod in until the nut touches the end of the leadscrew. Apply **B positive** (retract) for a moment while pressing the rod lightly.
-   - **Correct:** the nut picks up the thread, and the carrier pulls itself in until U1 stops it at the retract end.
+4. Push the rod in until the nut touches the end of the leadscrew. From here only the motor can move it: the leadscrew is self-locking. Apply **B positive** (retract: W2 black to +, W1 red to −) and keep it on, pressing the rod lightly until the nut catches.
+   - **Correct:** the nut picks up the thread within a turn; let go of the rod. The carrier pulls itself in until U1 stops it at the retract end, 5–10 s later depending on the length, and the supply current drops to about 3 mA. Then switch off. The front Hall switch U2 may see the magnet at the start, but it only stops extending, so it cannot block this.
    - **Wrong:** the screw turns but pushes the nut away instead of catching it. Then the motor is reversed: swap W3 and W4 at the motor terminals, and try again.
 
 ## 9. Front cap and rod eye
 
 1. Slide the front cap over the rod. Its tongue enters the board slot and holds the board's front edge, and its spigot enters the bore.
-2. Fix the cap with **2 × M1 × 8** into the front inserts. Snug is enough.
-3. Push the rod eye onto the rod, line up the cross holes, and fit the **M2 × 10** from the clearance side. It threads into the pilot on the far side.
+2. Fix the cap with **3 × M1 × 8** into the front inserts: two on the board side and one in the corner on the motor side. Snug is enough.
+3. Push the rod eye onto the rod until the rod's end touches the bottom of the socket, turn it until the cross holes line up, and drive the **M2 × 10** in from the counterbored side. It cuts its own thread in the Ø1.7 mm hole through the rod (an M2 tap can pre-cut it), and its tip ends in the far wall's clearance hole. Stop when the head sits in the counterbore.
 
 ![Internals: the housing hidden](images/internals_S.png)
 

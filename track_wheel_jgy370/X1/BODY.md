@@ -19,7 +19,7 @@ Every outline is copied from the real Caterpillar 320 (sources in `excavator_arm
 
 `x1_body.py` imports the concept script's numbers, so the drawings and the CAD cannot drift apart.
 
-**Status (2026-11-07):** rev B issue 2 is modelled (the harness notch in each half's inboard hood wall, see Wiring), and every check in `body_validation.json` passes. Nothing has been printed, assembled or powered.
+**Status (2026-11-14):** rev B issue 2 is modelled (the harness notch in each half's inboard hood wall, see Wiring). The body was rebuilt on 2026-11-14 around main board rev B with its top-entry headers, and every check in `body_validation.json` passes. Nothing has been printed, assembled or powered.
 
 ![Body B1 on X1](images/X1_body.png)
 
@@ -37,8 +37,8 @@ Every outline is copied from the real Caterpillar 320 (sources in `excavator_arm
    - The cells are now taken at the Samsung INR18650-35E datasheet maxima: Ø18.55 × 65.25 mm, 50 g each. Rev A used typical figures: Ø18.4 × 65 mm, 47 g.
    - In rev A the pack sat in the right bay, and the solid cab outweighed it: the upper's CG was 1.7 mm left of the swing axis.
    - **Now the battery is on the swing centreline**, under the hood top, in the hatch.
-   - The rest of the side imbalance is trimmed by the counterweight. Its shot pocket has a higher floor on the left (Z 116.0) than on the right (Z 108.0), so 449 g of shot sits on the right and 286 g on the left.
-   - The mass stage solves both balances together. **The upper's CG is now on the swing axis both ways: X 0.0, Y 0.0.** Before the trim it was 2.3 mm left: the cab, its interior and the controller are all on the left.
+   - The rest of the side imbalance is trimmed by the counterweight. Its shot pocket has a higher floor on the left (Z 116.1) than on the right (Z 108.0), so 448 g of shot sits on the right and 282 g on the left.
+   - The mass stage solves both balances together. **The upper's CG is now on the swing axis both ways: X 0.0, Y 0.0.** Before the trim it was 2.4 mm left: the cab, its interior and the controller are all on the left.
 2. **The battery is easy to get at.**
    - Lift the hatch off the hood top by hand. It is held by 4 magnet pairs, and a finger notch at its rear edge gives you a grip.
    - The three cells hang under the hatch in three Keystone 1043 spring holders (snapped into the hatch's sled), cells facing down. Turn the hatch over and pull the cells out of the springs or press new ones in. No tools, no soldering.
@@ -92,8 +92,8 @@ Every outline is copied from the real Caterpillar 320 (sources in `excavator_arm
 - **Edges:** the front face is the T101 rear face, X −145. The rear top edge is rounded R 8, and the bottom edge has a 45° chamfer for the bed.
 - **Shot pocket:**
   - Inset 3 mm from every face, up to Z 129.9. It leaves out the lead channel and the two insert bosses.
-  - **Rev B:** the pocket floor is Z 116.0 on the left and Z 108.0 on the right. This step trims the side balance.
-  - It holds **735 g of steel shot** (163 cm³ at 4.5 g/cm³ poured): 286 g on the left and 449 g on the right. That puts the upper's CG on the swing axis, fore-aft and sideways, with the arm stretched.
+  - **Rev B:** the pocket floor is Z 116.1 on the left and Z 108.0 on the right. This step trims the side balance.
+  - It holds **730 g of steel shot** (162 cm³ at 4.5 g/cm³ poured): 282 g on the left and 448 g on the right. That puts the upper's CG on the swing axis, fore-aft and sideways, with the arm stretched.
 - **Lead channel:**
   - X −165 to −145, |Y| < 12, Z 110 to 152, open in the front face.
   - It takes the swing motor's leads from the T101 Ø20 window, up and over the T101 rear bulkhead into the hood.
@@ -102,15 +102,15 @@ Every outline is copied from the real Caterpillar 320 (sources in `excavator_arm
 - **Rear-view camera (rev B, view 027):** a 10 × 6.5 housing at the top centre of the rear face, with two lens recesses.
 
 **Filling the shot (print pause):**
-1. Weigh out 735 g of steel shot.
+1. Weigh out 730 g of steel shot.
 2. In the slicer, add a pause at **24.9 mm** above the bed. That is the pocket rim, Z 129.9.
 3. When the printer pauses, pour the shot in and level it about 0.3 mm below the rim.
-   - The left side of the pocket is 9.3 mm shallower; the same level everywhere is right.
-   - About 449 g ends up on the right and 286 g on the left. The weight matters, not the level: if your shot is lighter or denser, weigh 735 g and spread it level.
+   - The left side of the pocket is 8.1 mm shallower; the same level everywhere is right.
+   - About 448 g ends up on the right and 282 g on the left. The weight matters, not the level: if your shot is lighter or denser, weigh 730 g and spread it level.
 4. Wick a few drops of thin CA or laminating epoxy into the top layer so no ball moves under the nozzle.
 5. Resume. The pocket ceiling prints over the shot.
 
-Copper shot (about 5.4 g/cm³) also works. Weigh the same 735 g, keep the same left/right split, and lock it with epoxy before resuming.
+Copper shot (about 5.4 g/cm³) also works. Weigh the same 730 g, keep the same left/right split, and lock it with epoxy before resuming.
 
 ### B102 left half
 - **Cab (rev B):**
@@ -218,7 +218,7 @@ Copper shot (about 5.4 g/cm³) also works. Weigh the same 735 g, keep the same l
 | M4 × 12 socket head screw (ISO 4762) | 2 | Counterweight, from inside T101 through the rear bulkhead |
 | M2.5 × 6 self-tapping screw | 4 | Controller board to the left bay bosses |
 | NdFeB disc magnet, Ø6 × 2 (N42 or N52) | 8 | 4 in the hatch, 4 in the halves' ledges, glued with CA |
-| Steel shot, poured (about 4.5 g/cm³), or copper shot | 735 g | Counterweight pocket |
+| Steel shot, poured (about 4.5 g/cm³), or copper shot | 730 g | Counterweight pocket |
 | Thin CA or laminating epoxy | a few g | Locks the shot's top layer; the magnets; B104, B105 and B107 if loose |
 | 18650 Li-ion cell, flat or button top, up to 65.3 mm long (unprotected cells are fine: the BMS protects them) | 3 | In the hatch (3S1P) |
 | Keystone 1043 single 18650 holder, THM (PC pins) | 3 | Snapped into the hatch sled, open side down |
@@ -230,7 +230,7 @@ Copper shot (about 5.4 g/cm³) also works. Weigh the same 735 g, keep the same l
 | 5.5 × 2.1 metal panel DC jack, M8 thread, Ø8 hole (DC-022B pattern) | 1 | Toolbox front; charge with a 12.6 V CC/CV Li-ion charger (3S) |
 | Wire (silicone, 20 and 26 AWG), heat-shrink | — | About 60 g in the model |
 
-The cell figures are the Samsung INR18650-35E datasheet maxima (Ø18.55, 65.25 long, 50 g). The holders follow the Keystone 1043 drawing (rev C), the connectors the JST and Amass drawings, the switch the Finglai KCD1 drawing (`source/stdparts.py` lists every source). The main board is the KiCad STEP (`source/board_step.py`: the PCB, every part's 3D model and the mated JST plugs of its inboard headers); its courtyard boxes (`X1_main_board_B_parts.json`) and the old plug envelopes remain the shapes the interference checks use. The body scene and checks were last built with rev A's STEP. Rev B (2026-11-10) keeps that board's outline, holes, connectors and every part position, and only removes 16 parts (the 6 V buck's 13 and the 6 V sense's 3), so the fit results stand until the next body rebuild. The fuse holder's body is the one envelope taken from photographs. Masses are assumptions, listed in `simulation/body_mass_properties.json`; the complete-machine catalogue is `excavator_complete/CONNECTORS.md`.
+The cell figures are the Samsung INR18650-35E datasheet maxima (Ø18.55, 65.25 long, 50 g). The holders follow the Keystone 1043 drawing (rev C), the connectors the JST and Amass drawings, the switch the Finglai KCD1 drawing (`source/stdparts.py` lists every source). The main board is the KiCad STEP (`source/board_step.py`: the PCB, every part's 3D model and the mated JST plugs of its inboard headers); its courtyard boxes (`X1_main_board_B_parts.json`) and, over each top-entry header, a box up to its mated plug's top and 10 mm above it (the wires' bend) are the shapes the interference checks use. The body scene and checks were rebuilt with rev B's STEP on 2026-11-14, after its inboard headers became top entry (`controller/main_board/DESIGN.md`). The fuse holder's body is the one envelope taken from photographs. Masses are assumptions, listed in `simulation/body_mass_properties.json`; the complete-machine catalogue is `excavator_complete/CONNECTORS.md`.
 
 ## Wiring
 
@@ -286,7 +286,7 @@ The complete harness, including the four arm cables, is routed and checked in `e
 
 All run on the exact CAD solids (`build_body.py`).
 
-- **Static fit:** no overlap among 192 candidate pairs (those whose boxes touch), at swing 0. They cover every body solid (prints, shot, battery and electronics, magnets, screws and inserts) against T101, the motor, the ARM60 (base and stretched arm) and each other.
+- **Static fit:** no overlap among 254 candidate pairs (those whose boxes touch), at swing 0. They cover every body solid (prints, shot, battery and electronics, magnets, screws and inserts) against T101, the motor, the ARM60 (base and stretched arm) and each other.
 - **Swing sweep:** the body turned every 15°. Its lowest point (the hook tongues, Z 100.5) is above every chassis and chassis-side turntable part (630 parts). Outside r 70 the chassis' highest point is the track top, Z 92.4: 8.1 mm below the body.
 - **Assembly paths:** 27 positions, all clear.
   - The hatch, with the battery, lifts 1, 3, 10, 30 and 60 mm with everything else in place.
@@ -312,15 +312,15 @@ All run on the exact CAD solids (`build_body.py`).
 | Hatch plate edges to the hood skin (side and front gaps) | 0.3 |
 | Battery sled (under the hatch) to the halves | 0.6 |
 | Battery (cells, holders, BMS, lead) to the halves | 1.1 |
-| Cells to T101 below | 57.1 |
+| Cells to T101 below | 56.6 |
 | Cab interior to the cab shell, above its floor plate | 0.3 |
 | Cab interior (right front pillar) to the ARM60 base | 3.3 |
 | Operator to the cab interior above the seat (hands to the joysticks) | 0.6 |
 | Operator to the cab shell | 5.0 |
 | B107 pegs to their pillar holes, radial (the handle stands 2.2 off the cab side) | 0.1 |
 | Grab rail to the ARM60 base / to the stretched arm | 13.5 / 56.8 |
-| Main board parts / its mated plugs to the left half / PCB edges to its walls | 1.6 / 2.7 / 4.0 |
-| Fuse holder to the right half | 3.9 |
+| Main board parts / its mated plugs (top entry) to the left half / PCB edges to its walls | 2.9 / 4.2 / 4.0 |
+| Fuse holder to the right half | 2.0 |
 | Body tail radius / front radius (largest) | 225.2 / 187.8 |
 | Body lowest point / chassis highest point outside r 70 | Z 100.5 / Z 92.4 (8.1 clear) |
 | Body top (the roof lamps) | Z 257.5 |
@@ -329,33 +329,33 @@ All run on the exact CAD solids (`build_body.py`).
 
 | | Rev B | Rev A |
 |---|---|---|
-| Prints (all seven) | 1231 g | 1309 g (three) |
-| Steel shot | 735 g (left 286, right 449) | 777 g |
+| Prints (all seven) | 1229 g | 1309 g (three) |
+| Steel shot | 730 g (left 282, right 448) | 777 g |
 | Battery set in the hatch (3 cells, holders, BMS, lead) | 182 g, on the centreline | 156 g (47 g cells, BMS, foam pad), in the right bay |
 | Electronics, magnets, screws, wiring (without the battery) | 160 g | 156 g |
 | Body total | 2.30 kg | 2.40 kg |
-| Upper (turntable, ARM60, body), arm stretched | 5.12 kg; **CG X 0.0, Y 0.0**, Z 178.2 | 5.22 kg; CG X 0.0, Y 1.7, Z 175.1 |
-| Upper CG with the arm tucked (bound: every arm part at the base) | X −42.6 | X −41.8 |
-| Whole machine CG: arm stretched / tucked bound | X −1.5 / −24.2 | X −1.5 / −23.9 |
+| Upper (turntable, ARM60, body), arm stretched | 5.13 kg; **CG X 0.0, Y 0.0**, Z 178.2 | 5.22 kg; CG X 0.0, Y 1.7, Z 175.1 |
+| Upper CG with the arm tucked (bound: every arm part at the base) | X −42.5 | X −41.8 |
+| Whole machine CG: arm stretched / tucked bound | X −1.1 / −23.4 | X −1.5 / −23.9 |
 | Upper inertia about the swing axis | 0.154 kg·m² | 0.159 kg·m² |
 
-- **Why the body got lighter:** B102 is 185 g lighter than in rev A (521 g). The cab is now a 2 mm shell instead of being solid with infill, and the hatch opening removes part of the hood top. B104, B105 and B107 add 65 g back, and less shot is needed (735 g against 777 g).
+- **Why the body got lighter:** B102 is 185 g lighter than in rev A (521 g). The cab is now a 2 mm shell instead of being solid with infill, and the hatch opening removes part of the hood top. B104, B105 and B107 add 65 g back, and less shot is needed (730 g against 777 g).
 - **The side balance**, as moments about the swing axis (kg·m, + = left; `lateral` in the mass file):
 
-| Group | What is in it | Moment (kg·m) | As a CG shift of the 5.12 kg upper (mm) |
+| Group | What is in it | Moment (kg·m) | As a CG shift of the 5.13 kg upper (mm) |
 |---|---|---|---|
-| Left half | B102, B104 cab interior, B105 operator, B107, the main board with its parts and mated plugs, 2 ledge magnets | +0.0496 | +9.7 |
-| Right half | B103 with the tank, the switch, fuse and charge jack, 2 ledge magnets | −0.0397 | −7.7 |
-| Steel shot | 286 g on the left, 449 g on the right | −0.0120 | −2.3 |
+| Left half | B102, B104 cab interior, B105 operator, B107, the main board with its parts and mated plugs, 2 ledge magnets | +0.0505 | +9.9 |
+| Right half | B103 with the tank, the switch, fuse and charge jack, 2 ledge magnets | −0.0404 | −7.9 |
+| Steel shot | 282 g on the left, 448 g on the right | −0.0122 | −2.4 |
 | Counterweight print | B101: there is more plastic on the left, where the pocket floor is higher | +0.0010 | +0.2 |
 | Wiring and fixings | 25 g of wiring in the left bay, 15 g in the right; screws and inserts | +0.0012 | +0.2 |
 | Hatch with the battery | B106, cells, holders, BMS, lead, 4 magnets: the BMS and the lead sit at opposite ends | −0.0001 | 0.0 |
 | Turntable, ARM60, motor | | 0.0000 | 0.0 |
 | **Upper** | | **0.0000** | **0.0** |
 
-With a level pocket floor, the same body would have its CG 2.3 mm left of the axis.
+With a level pocket floor, the same body would have its CG 2.4 mm left of the axis.
 
-**Swing simulation, re-run with this body** (`X1_turntable_simulation.pdf`): the upper is 5.10 kg with 0.154 kg·m² about the axis; the pinion's parts are a separate body in the model. Rev A gave 5.20 kg and 0.159 kg·m². A stop from full speed without the ramp peaks at 204 N on a pinion tooth (208 N with rev A), and 35 N with the 0.4 s ramp. A full-speed swing into a rock reaches 259 N (258 N before the 2026-11-07 re-run on the revision F chassis with MuJoCo 4.0), about PETG's yield, as before. The worm holds the upper on a 15° side slope with the motor off. The full table is in [TURNTABLE.md](TURNTABLE.md).
+**Swing simulation, re-run with this body** (`X1_turntable_simulation.pdf`; last on 2026-11-14 with main board rev B): the upper is 5.11 kg with 0.154 kg·m² about the axis; the pinion's parts are a separate body in the model. Rev A gave 5.20 kg and 0.159 kg·m². A stop from full speed without the ramp peaks at 204 N on a pinion tooth (208 N with rev A), and 35 N with the 0.4 s ramp. A full-speed swing into a rock reaches 259 N (258 N before the 2026-11-07 re-run on the revision F chassis with MuJoCo 4.0), about PETG's yield, as before. The worm holds the upper on a 15° side slope with the motor off. The full table is in [TURNTABLE.md](TURNTABLE.md).
 
 ## Changes from the concept (issue 2, sheet 5)
 

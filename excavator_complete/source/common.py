@@ -5,8 +5,8 @@ The machine is assembled from the current revision of every subsystem, read from
   lower   track_wheel_jgy370/X1  revision F X-frame, belly cover, THK RU66 seat     (x1_scene.json.gz)
           track_wheel_jgy370/J9  two J9 tracks (right = mirrored J901/J909 prints) (x1_scene.json.gz 'module')
   upper   track_wheel_jgy370/X1  R3 turntable (T101-T106, X103, swing motor)       (turntable_scene.json.gz)
-          track_wheel_jgy370/X1  body B1 rev B with the main board                  (body_scene.json.gz)
-                                 (the scene still carries rev A's board STEP: rev B only drops 16 parts, X1/BODY.md)
+          track_wheel_jgy370/X1  body B1 rev B with the main board rev B            (body_scene.json.gz)
+                                 (its STEP, with the top-entry headers and their mated plugs, since 2026-11-14)
   arm     excavator_arm_r12      R12 Rev. D4 (Cat 320 geometry, 4 x V6-U60)         (cad/scene.json.gz)
 The only new part is B01X, the R12 boom-foot bracket with the base plate that bolts to T101 (build_adapter.py).
 """

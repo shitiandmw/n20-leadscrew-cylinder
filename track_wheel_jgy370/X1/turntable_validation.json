@@ -127,7 +127,7 @@
  "static": {
   "pairs_tested": 305,
   "hits": [],
-  "seconds": 205.8
+  "seconds": 159.2
  },
  "gear_mesh": {
   "backlash_set_mm": 0.1,
@@ -318,25 +318,25 @@
     "dz": 30,
     "pairs_tested": 0,
     "hits": [],
-    "seconds": 6.3
+    "seconds": 5.8
    },
    {
     "dz": 10,
     "pairs_tested": 0,
     "hits": [],
-    "seconds": 7.4
+    "seconds": 5.6
    },
    {
     "dz": 3,
     "pairs_tested": 0,
     "hits": [],
-    "seconds": 7.7
+    "seconds": 5.7
    },
    {
     "dz": 1,
     "pairs_tested": 0,
     "hits": [],
-    "seconds": 7.0
+    "seconds": 5.9
    }
   ],
   "RU66_into_ring_gear_bore": [
@@ -344,25 +344,25 @@
     "dz": 30,
     "pairs_tested": 0,
     "hits": [],
-    "seconds": 8.0
+    "seconds": 6.4
    },
    {
     "dz": 10,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 13.3
+    "seconds": 9.5
    },
    {
     "dz": 3,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 15.2
+    "seconds": 9.4
    },
    {
     "dz": 1,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 12.1
+    "seconds": 9.0
    }
   ],
   "T104_and_T101_lowered_onto_the_bearing": [
@@ -370,31 +370,31 @@
     "dz": 40,
     "pairs_tested": 0,
     "hits": [],
-    "seconds": 6.5
+    "seconds": 5.7
    },
    {
     "dz": 15,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 6.8
+    "seconds": 6.3
    },
    {
     "dz": 5,
     "pairs_tested": 4,
     "hits": [],
-    "seconds": 9.7
+    "seconds": 7.8
    },
    {
     "dz": 2,
     "pairs_tested": 5,
     "hits": [],
-    "seconds": 11.4
+    "seconds": 8.0
    },
    {
     "dz": 1,
     "pairs_tested": 6,
     "hits": [],
-    "seconds": 10.9
+    "seconds": 8.2
    }
   ],
   "motor_on_slide_lowered_into_opening_at_the_rear_stop": [
@@ -402,37 +402,37 @@
     "dz": 40,
     "pairs_tested": 6,
     "hits": [],
-    "seconds": 15.0
+    "seconds": 13.3
    },
    {
     "dz": 15,
     "pairs_tested": 16,
     "hits": [],
-    "seconds": 26.8
+    "seconds": 22.4
    },
    {
     "dz": 5,
     "pairs_tested": 20,
     "hits": [],
-    "seconds": 22.1
+    "seconds": 16.8
    },
    {
     "dz": 2,
     "pairs_tested": 16,
     "hits": [],
-    "seconds": 18.6
+    "seconds": 14.9
    },
    {
     "dz": 1,
     "pairs_tested": 15,
     "hits": [],
-    "seconds": 17.4
+    "seconds": 14.6
    },
    {
     "dz": 0,
     "pairs_tested": 15,
     "hits": [],
-    "seconds": 19.7
+    "seconds": 15.2
    }
   ],
   "slide_pushed_in_to_mesh": [
@@ -440,31 +440,31 @@
     "dx": -1.8626261290272623,
     "pairs_tested": 15,
     "hits": [],
-    "seconds": 20.2
+    "seconds": 14.9
    },
    {
     "dx": -1.5,
     "pairs_tested": 15,
     "hits": [],
-    "seconds": 19.6
+    "seconds": 15.4
    },
    {
     "dx": -1.0,
     "pairs_tested": 15,
     "hits": [],
-    "seconds": 19.7
+    "seconds": 15.7
    },
    {
     "dx": -0.5,
     "pairs_tested": 15,
     "hits": [],
-    "seconds": 20.6
+    "seconds": 15.3
    },
    {
     "dx": -0.1,
     "pairs_tested": 15,
     "hits": [],
-    "seconds": 26.4
+    "seconds": 16.1
    }
   ],
   "plunger_dropped_in_from_the_top_before_the_insert": [
@@ -472,25 +472,25 @@
     "dz": 30,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 1.3
+    "seconds": 1.2
    },
    {
     "dz": 15,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 1.7
+    "seconds": 1.4
    },
    {
     "dz": 5,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 1.7
+    "seconds": 1.4
    },
    {
     "dz": 1,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 1.7
+    "seconds": 1.2
    }
   ],
   "spring_dropped_through_the_M6_insert": [
@@ -504,19 +504,19 @@
     "dz": 15,
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 2.4
+    "seconds": 1.3
    },
    {
     "dz": 5,
     "pairs_tested": 4,
     "hits": [],
-    "seconds": 2.5
+    "seconds": 1.4
    },
    {
     "dz": 1,
     "pairs_tested": 4,
     "hits": [],
-    "seconds": 2.4
+    "seconds": 1.3
    }
   ],
   "ARM60_lowered_onto_the_ribs": [
@@ -524,25 +524,25 @@
     "dz": 40,
     "pairs_tested": 0,
     "hits": [],
-    "seconds": 7.8
+    "seconds": 6.5
    },
    {
     "dz": 15,
     "pairs_tested": 0,
     "hits": [],
-    "seconds": 6.7
+    "seconds": 6.3
    },
    {
     "dz": 5,
     "pairs_tested": 0,
     "hits": [],
-    "seconds": 7.2
+    "seconds": 6.4
    },
    {
     "dz": 1,
     "pairs_tested": 0,
     "hits": [],
-    "seconds": 7.1
+    "seconds": 6.6
    }
   ]
  },
@@ -551,22 +551,12 @@
    {
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 7.0
+    "seconds": 6.6
    },
    {
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 7.3
-   },
-   {
-    "pairs_tested": 2,
-    "hits": [],
-    "seconds": 7.2
-   },
-   {
-    "pairs_tested": 2,
-    "hits": [],
-    "seconds": 7.4
+    "seconds": 6.9
    },
    {
     "pairs_tested": 2,
@@ -576,17 +566,27 @@
    {
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 7.6
-   },
-   {
-    "pairs_tested": 2,
-    "hits": [],
-    "seconds": 7.7
-   },
-   {
-    "pairs_tested": 2,
-    "hits": [],
     "seconds": 6.9
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 6.7
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 6.7
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 6.6
+   },
+   {
+    "pairs_tested": 2,
+    "hits": [],
+    "seconds": 6.7
    }
   ],
   "hub_screw_key_with_ARM60_fitted": [
@@ -599,7 +599,7 @@
       "volume_mm3": 176.9345
      }
     ],
-    "seconds": 26.2
+    "seconds": 21.5
    },
    {
     "pairs_tested": 4,
@@ -610,7 +610,7 @@
       "volume_mm3": 176.9345
      }
     ],
-    "seconds": 27.7
+    "seconds": 21.3
    },
    {
     "pairs_tested": 3,
@@ -621,7 +621,7 @@
       "volume_mm3": 111.0111
      }
     ],
-    "seconds": 10.1
+    "seconds": 7.8
    },
    {
     "pairs_tested": 3,
@@ -632,7 +632,7 @@
       "volume_mm3": 80.4248
      }
     ],
-    "seconds": 10.3
+    "seconds": 7.5
    },
    {
     "pairs_tested": 3,
@@ -643,7 +643,7 @@
       "volume_mm3": 0.7471
      }
     ],
-    "seconds": 10.2
+    "seconds": 7.7
    },
    {
     "pairs_tested": 3,
@@ -654,7 +654,7 @@
       "volume_mm3": 80.4248
      }
     ],
-    "seconds": 8.9
+    "seconds": 7.6
    },
    {
     "pairs_tested": 3,
@@ -665,7 +665,7 @@
       "volume_mm3": 111.0111
      }
     ],
-    "seconds": 9.2
+    "seconds": 7.2
    },
    {
     "pairs_tested": 4,
@@ -676,137 +676,137 @@
       "volume_mm3": 176.9345
      }
     ],
-    "seconds": 27.2
+    "seconds": 21.0
    }
   ],
   "RU66_nut_socket_from_below": [
    {
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 7.7
+    "seconds": 6.3
    },
    {
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 7.2
+    "seconds": 6.6
    },
    {
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 7.4
+    "seconds": 6.8
    },
    {
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 7.2
+    "seconds": 6.3
    },
    {
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 7.5
+    "seconds": 6.5
    },
    {
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 7.5
+    "seconds": 6.5
    },
    {
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 7.0
+    "seconds": 6.5
    },
    {
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 7.4
+    "seconds": 6.5
    }
   ],
   "ring_gear_screw_head_path_from_below": [
    {
     "pairs_tested": 1,
     "hits": [],
-    "seconds": 7.0
+    "seconds": 6.9
    },
    {
     "pairs_tested": 1,
     "hits": [],
-    "seconds": 7.6
+    "seconds": 6.6
    },
    {
     "pairs_tested": 1,
     "hits": [],
-    "seconds": 8.8
+    "seconds": 6.8
    },
    {
     "pairs_tested": 1,
     "hits": [],
-    "seconds": 7.7
+    "seconds": 6.6
    },
    {
     "pairs_tested": 1,
     "hits": [],
-    "seconds": 7.7
+    "seconds": 6.5
    },
    {
     "pairs_tested": 1,
     "hits": [],
-    "seconds": 7.9
+    "seconds": 6.5
    }
   ],
   "ring_gear_screw_key_from_below": [
    {
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 7.7
+    "seconds": 6.5
    },
    {
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 7.9
+    "seconds": 6.7
    },
    {
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 7.4
+    "seconds": 6.4
    },
    {
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 7.3
+    "seconds": 6.4
    },
    {
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 7.2
+    "seconds": 6.6
    },
    {
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 7.3
+    "seconds": 6.6
    }
   ],
   "slip_ring_screw_key_from_below": [
    {
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 7.8
+    "seconds": 6.8
    },
    {
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 7.4
+    "seconds": 6.5
    },
    {
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 7.4
+    "seconds": 6.6
    }
   ],
   "slide_clamp_key_from_above": [
    {
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 8.1
+    "seconds": 7.0
    },
    {
     "pairs_tested": 2,
@@ -816,58 +816,58 @@
    {
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 7.8
+    "seconds": 6.8
    },
    {
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 8.0
+    "seconds": 7.0
    }
   ],
   "drag_pad_set_screw_key_from_above": [
    {
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 7.9
+    "seconds": 7.3
    },
    {
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 7.7
+    "seconds": 6.9
    }
   ],
   "push_screw_key_short_arm_15": [
    {
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 8.6
+    "seconds": 6.8
    },
    {
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 8.3
+    "seconds": 6.9
    }
   ],
   "ARM60_bolt_key_from_above": [
    {
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 7.7
+    "seconds": 6.8
    },
    {
     "pairs_tested": 2,
     "hits": [],
-    "seconds": 8.0
+    "seconds": 6.7
    },
    {
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 23.8
+    "seconds": 20.2
    },
    {
     "pairs_tested": 3,
     "hits": [],
-    "seconds": 23.5
+    "seconds": 19.9
    }
   ]
  },
@@ -904,9 +904,9 @@
   "rear of the upper, largest radius (reserved tail swing R 189)": 162.8
  },
  "mass_summary": {
-  "upper_kg": 5.103,
+  "upper_kg": 5.107,
   "upper_cad_kg": 2.802,
-  "lower_kg": 4.655,
+  "lower_kg": 4.629,
   "upper_inertia_about_swing_axis_kgm2": 0.1537
  },
  "scope": "Nominal CAD with exact solid intersections: static fit, swing sweep every 15°, gear mesh through one tooth pitch, assembly paths in the R3 order, tool access and clearances. Not a print-tolerance, load or powered test (see simulate_swing.py for the dynamics).",

@@ -246,13 +246,13 @@ def write_standard_parts(rows):
 
 
 GALLERY = [  # stdparts builder key, title, subtitle
-    ('XHP_2', 'JST XHP-2 housing', 'XH 2.5 mm, 2 circuits, SXH-001T-P0.6 contacts; mates S2B-XH-A (J103-J107)'),
-    ('XHP_4', 'JST XHP-4 housing', 'XH 2.5 mm, 4 circuits; mates S4B-XH-A (J102, slip ring)'),
-    ('S2B_XH_A', 'JST S2B-XH-A header', 'XH side entry, 2 circuits, on the board (J103-J107)'),
-    ('S4B_XH_A', 'JST S4B-XH-A header', 'XH side entry, 4 circuits (J102)'),
-    ('PHR_3', 'JST PHR-3 housing', 'PH 2.0 mm, 3 circuits, SPH-002T-P0.5S contacts; mates S3B-PH-K-S (J108, lamps)'),
-    ('S3B_PH_K_S', 'JST S3B-PH-K-S header', 'PH side entry, 3 circuits (J108)'),
-    ('S4B_PH_K_S', 'JST S4B-PH-K-S header', 'PH side entry, 4 circuits (J109, expansion, not fitted)'),
+    ('XHP_2', 'JST XHP-2 housing', 'XH 2.5 mm, 2 circuits, SXH-001T-P0.6 contacts; mates B2B-XH-A (J103-J107)'),
+    ('XHP_4', 'JST XHP-4 housing', 'XH 2.5 mm, 4 circuits; mates B4B-XH-A (J102, slip ring)'),
+    ('B2B_XH_A', 'JST B2B-XH-A header', 'XH top entry, 2 circuits, on the board (J103-J107)'),
+    ('B4B_XH_A', 'JST B4B-XH-A header', 'XH top entry, 4 circuits (J102)'),
+    ('PHR_3', 'JST PHR-3 housing', 'PH 2.0 mm, 3 circuits, SPH-002T-P0.5S contacts; mates B3B-PH-K-S (J108, lamps)'),
+    ('B3B_PH_K_S', 'JST B3B-PH-K-S header', 'PH top entry, 3 circuits (J108)'),
+    ('B4B_PH_K_S', 'JST B4B-PH-K-S header', 'PH top entry, 4 circuits (J109, expansion, not fitted)'),
     ('XT30U_F', 'Amass XT30U-F', 'cable female, 15 A; hatch lead and 12 V link ends'),
     ('XT30U_M', 'Amass XT30U-M', 'cable male, 15 A; the feed socket in the hood cavity'),
     ('XT30U-F_and_XT30U-M_mated', 'XT30U-F in XT30U-M', 'the battery feed joint as plugged'),
